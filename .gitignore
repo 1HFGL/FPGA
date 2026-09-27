@@ -23,3 +23,6 @@ results/logs/
 *.swo
 Thumbs.db
 Desktop.ini
+
+# Gowin per-user UI state (local, machine specific)
+*.gprj.user
