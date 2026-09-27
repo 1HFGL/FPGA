@@ -26,3 +26,10 @@ Desktop.ini
 
 # Gowin per-user UI state (local, machine specific)
 *.gprj.user
+
+# ModelSim libraries and logs produced by the audio testbenches
+results/*_work/
+results/*.log
+
+# Gowin vendor demo project kept locally as reference (21 MB with build output)
+fpga_project/Documents/
