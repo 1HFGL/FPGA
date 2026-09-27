@@ -29,7 +29,21 @@ PLAN.md    学习、开发、风险和验收计划
 AGENTS.md  项目协作约定
 ```
 
-## 仿真
+## A 模块：单声部 DDS
+
+A 的相位累加器、正弦波 ROM 和单声部 DDS 已加入 `rtl/`，测试位于 `sim/`。
+接口、波表位置及交互式波形操作见 [A 模块说明](docs/a-dds.md)，实测仿真结论见 [验证记录](docs/a-dds-validation.md)。
+
+新的参数化批量入口支持 A 与现有 B 测试，替代下面旧练习入口用于本阶段验证：
+
+```powershell
+.\sim\run_tests.ps1 -Suite All -ModelSimBin '你的ModelSim安装目录\win64'
+python model/check_dds.py
+```
+
+`-Suite A` 仅运行 A，`-Suite B` 仅运行 B。也可以通过 `MODELSIM_BIN` 环境变量指定工具目录。
+模型使用 Python 3 标准库；仿真本身不依赖 Python。综合、上板及 A+B 联合仿真仍待完成。
+## 仿真（原有练习入口）
 
 当前 Windows 环境使用 ModelSim SE-64 10.6e。运行前请根据本机安装位置检查 [docs/vscode-verilog-setup.md](docs/vscode-verilog-setup.md) 和 `run_modelsim.ps1` 中的工具路径。
 

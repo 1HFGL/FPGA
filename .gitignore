@@ -33,3 +33,11 @@ results/*.log
 
 # Gowin vendor demo project kept locally as reference (21 MB with build output)
 fpga_project/Documents/
+
+# A-team simulator artifacts and machine-local mappings
+*.vvp
+*.vcd
+build/
+transcript
+modelsim.ini
+*.cr.mti
