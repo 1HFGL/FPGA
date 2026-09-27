@@ -1,0 +1,31 @@
+{
+    "files.associations": {
+        "*.v": "verilog",
+        "*.sv": "systemverilog",
+        "*.svh": "systemverilog"
+    },
+    "[verilog]": {
+        "editor.defaultFormatter": "bmpenuelas.systemverilog-formatter-vscode",
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "editor.detectIndentation": false
+    },
+    "[systemverilog]": {
+        "editor.defaultFormatter": "bmpenuelas.systemverilog-formatter-vscode",
+        "editor.formatOnSave": true,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "editor.detectIndentation": false
+    },
+    "systemverilogFormatter.veribleBuild": "win64",
+    "systemverilogFormatter.commandLineArguments": "--column_limit=100 --indentation_spaces=4 --port_declarations_indentation=indent --port_declarations_alignment=align --port_declarations_right_align_packed_dimensions=true --module_net_variable_alignment=flush-left --named_port_alignment=flush-left --assignment_statement_alignment=flush-left --case_items_alignment=flush-left --wrap_end_else_clauses=false --try_wrap_long_lines=true",
+    "FPGA_verilog.linting.path": "C:/Library/modelsim/win64/",
+    "FPGA_verilog.linting.linter": "modelsim",
+    "FPGA_verilog.linting.modelsim.work": "work",
+    "FPGA_verilog.linting.modelsim.arguments": "",
+    "FPGA_verilog.linting.modelsim.runAtFileLocation": false,
+    "verilog.linting.linter": "none",
+    "FPGA_verilog_ctags.choose": "internal",
+    "simpleAlign.width_always": 4
+}

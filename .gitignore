@@ -1,0 +1,25 @@
+# ModelSim / Questa generated libraries and databases
+work/
+sim/work/
+sim/archive/
+sim/transcript
+*.qdb
+*.qpg
+*.qtl
+*_vmake
+*_info
+*_lock
+
+# Simulation output and waveform databases
+results/waves/
+results/logs/
+*.wlf
+*.vstf
+
+# Editor and OS noise
+.vs/
+.idea/
+*.swp
+*.swo
+Thumbs.db
+Desktop.ini
