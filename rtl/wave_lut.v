@@ -17,7 +17,7 @@ module wave_lut #(
         $readmemh(ROM_FILE, rom);
     end
 
-    // Inputs are accepted at the rising edge; outputs update after that edge.
+    // 输出上升沿接受; 之后输出更新 .
     // Reset wins over read_en. While idle, sample holds and valid becomes 0.
     always @(posedge clk) begin
         if (rst) begin

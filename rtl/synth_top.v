@@ -1,6 +1,6 @@
 // B 的音频输出集成顶层。A 提供已混音、已限幅的 16 位补码样本；
 // C 的演奏事件需要由 A/C 后续接入，这里尚不是完整电子乐器。
-// 25 MHz 是 31004 原理图所示的时钟配置，不代表已实测本机频率。
+// 默认 25 MHz 仅供通用仿真；31004 板级顶层明确覆盖为 V22 的 50 MHz。
 module synth_top #(
     parameter integer AUDIO_CLK_HZ = 25000000,
     parameter integer SAMPLE_RATE_HZ = 48000,
@@ -14,6 +14,8 @@ module synth_top #(
     // A 必须在相邻两个 sample_request 之间返回单周期 sample_valid。
     input  wire signed [SAMPLE_BITS-1:0] sample_data,
     input  wire sample_valid,
+    // 同步释放后的音频域就绪信号；上游同步模块可据此保持复位。
+    output wire audio_ready,
     output wire sample_request,
     output wire sample_underrun,
     output wire i2s_bclk,
@@ -33,6 +35,7 @@ module synth_top #(
     end
 
     wire audio_rst_n = reset_release[1];
+    assign audio_ready = audio_rst_n;
     wire bclk_half_ce;
     wire frame_start;
 
