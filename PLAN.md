@@ -30,6 +30,7 @@
 | 板卡、音频器件和传感器 | 用户确认 NEO Dock 31004；已核对 PT8211-S、50MHz V22 和按键/音频引脚；时钟实测和传感器待验证 |
 | B 的 `sample_tick`、`i2s_tx`、`synth_top` | 模块/联合仿真通过；随 ABC 完成综合和布局布线，报告无 setup/hold 违例；未上板 |
 | A 的 `phase_acc`、`wave_lut`、`voice_dds` | 原回归及 Python 参考通过；ABC 实例化四路 DDS，综合识别四个 pROM；未上板 |
+| A 的 `adsr_env`、`sample_gain`、`voice_adsr` | 2026-09-30 新增；模块/单声部 ModelSim 与 Python 对照通过，新增 RTL 尚未高云综合、布局布线或上板 |
 | A+B 单音联合 | `single_tone_demo_top` 联合仿真通过；高云 EDA 工程可打开并综合，ROM 识别为 1 个 pROM；未做完整约束、布局布线或上板 |
 | C 的交互/声部分配 | GitHub Part_C 已合入远程 master；下载并接入 ABC，六项原 C 回归通过；压力/表情仅保留接口，demo 未接入 |
 | A+B+C demo | 两键演奏与自动四声部数字仿真通过；简单渐变包络与低音量混音，48kHz/50MHz 参数验证；不等于完整 ADSR 或比赛验收 |

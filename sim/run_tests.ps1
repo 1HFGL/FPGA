@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('A','B','C','AB','Demo','All')][string]$Suite = 'A',
+    [ValidateSet('A','ADSR','B','C','AB','Demo','All')][string]$Suite = 'A',
     [string]$ModelSimBin = $env:MODELSIM_BIN,
     [switch]$NegativeControl
 )
@@ -38,6 +38,10 @@ $markers = @{
 if ($Suite -in @('A','AB','Demo','All')) {
     $tests += @('tb_phase_acc','tb_wave_lut','tb_voice_dds')
     $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/voice_dds.v','sim/tb_phase_acc.v','sim/tb_wave_lut.v','sim/tb_voice_dds.v')
+}
+if ($Suite -in @('ADSR','All')) {
+    $tests += @('tb_adsr_env','tb_sample_gain','tb_voice_adsr')
+    $sources += @('rtl/adsr_env.v','rtl/sample_gain.v','rtl/voice_adsr.v','sim/tb_adsr_env.v','sim/tb_sample_gain.v','sim/tb_voice_adsr.v')
 }
 if ($Suite -in @('B','AB','Demo','All')) {
     $tests += @('sample_tick_tb','synth_top_tb')
