@@ -3,7 +3,7 @@
 保持整个仓库的相对目录结构，在 EDA 的 File → Open Project 打开本目录 `fpga_project.gprj`。
 
 - 器件：GW5AT-60B / GW5AT-LV60PG484AC1/I0 / Device Version B。
-- 默认顶层：`instrument_demo_top`，S2 与 S1 弹奏 C4/E4，S4 复位。
+- 默认顶层：`instrument_demo_top`，KEY1 与 KEY2 弹奏 C4/E4，KEY0 复位。
 - 自动四声部版：`instrument_demo_auto_top`，复位后播放一次约 1 秒。
 - 板卡：用户确认 NEO Dock 31004；V22 名义 50MHz，按键 BANK9 为 1.5V，音频为 3.3V。
 - 约束：`../boards/tang_mega_60k_31004/demo.cst` 与 `demo.sdc`。

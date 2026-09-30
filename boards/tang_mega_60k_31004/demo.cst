@@ -1,5 +1,6 @@
 // 仅用于 NEO Dock 31004，依据用户提供 Rev1.4 原理图和厂家全板 CST。
 // 不复制未使用接口；必须在 P&R IO 报告核对每一项均为 Constraint=Y。
+// KEY0=AA13 复位；KEY1=AB13=C4；KEY2=Y12=E4。名称按板上按键说明。
 IO_LOC "sys_clk" V22;
 IO_PORT "sys_clk" IO_TYPE=LVCMOS33;
 IO_LOC "sys_rst_n" AA13;

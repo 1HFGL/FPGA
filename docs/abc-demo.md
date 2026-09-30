@@ -10,8 +10,10 @@
 
 | 模式 | 顶层 / 输出文件 | 操作与预期 |
 |---|---|---|
-| 普通两键 | `instrument_demo_top` / `instrument_demo.fs` | S2 按住发 C4，S1 按住发 E4，可同时按；松开渐出 |
-| 自动四声部 | `instrument_demo_auto_top` / `instrument_demo_auto.fs` | 每次 S4 复位后，四路独立正弦播放一次约 1 秒，再释放静音；普通键不起作用 |
+| 普通两键 | `instrument_demo_top` / `instrument_demo.fs` | KEY1 按住发 C4，KEY2 按住发 E4，可同时按；松开渐出 |
+| 自动四声部 | `instrument_demo_auto_top` / `instrument_demo_auto.fs` | 每次 KEY0 复位后，四路独立正弦播放一次约 1 秒，再释放静音；普通键不起作用 |
+
+按键名称统一使用 KEY0/KEY1/KEY2。原理图编号仅供对照：KEY0=S4（USER_BUTTON0），KEY1=S2（USER_BUTTON1），KEY2=S1（USER_BUTTON2）。RTL 的 `sys_rst_n` 接 KEY0；`Key_in[0]` 接 KEY1，`Key_in[1]` 接 KEY2，不要把数组下标当成板上 KEY 编号。
 
 自动音符是 C 测试发生器原有的 MIDI 36/37/38/39，不是悦耳和弦预设；每路有独立相位/音高/包络。普通模式只有两个演奏键，不能据此宣称两维传感器或者四键演奏已经实现。
 
@@ -22,9 +24,9 @@
 | 信号 | FPGA 引脚 | 电平 / 用途 |
 |---|---|---|
 | sys_clk | V22 | 3.3V，SOM OSC 名义 50MHz |
-| sys_rst_n | AA13 | 1.5V，上拉，S4 低有效复位 |
-| Key_in[0] | AB13 | 1.5V，上拉，S2，C4 |
-| Key_in[1] | Y12 | 1.5V，上拉，S1，E4 |
+| sys_rst_n | AA13 | 1.5V，上拉，KEY0 低有效复位 |
+| Key_in[0] | AB13 | 1.5V，上拉，KEY1，C4 |
+| Key_in[1] | Y12 | 1.5V，上拉，KEY2，E4 |
 | HP_BCK | Y17 | 3.3V，DAC 位时钟 |
 | HP_WS | AB17 | 3.3V，DAC 声道选择 |
 | HP_DIN | AA16 | 3.3V，DAC 数据 |
@@ -81,8 +83,8 @@ python model/check_abc_demo.py
 1. 检查自己仍是 31004、供电和 DEBUG USB 数据连接正确。把音频负载/耳机先放下，不戴在耳朵上直接试听。
 2. 重新生成普通版；查看报告中以上 8 个引脚与 IO 电平均正确且 Constraint=Y，确认时序与告警没有新的变化。
 3. Programmer 选择匹配 GW5AT-60B 的 **SRAM Program** 与本轮 `instrument_demo.fs`。不要选旧 `fpga_project.fs`，不刷 Flash、不改调试器固件。
-4. 下载成功后按 S4 复位，松手应静音；低音量连接已确认的板载 3.5mm 耳机输出，分别按 S2/S1，再同时按，松手应很快静音。无声音时先核对时钟/功放/串行波形，不先加大增益。
-5. 普通版确认后再试自动版 `instrument_demo_auto.fs`；按 S4 后播放一次约 1 秒，之后静音。断电会丢失 SRAM 配置，这是正常的临时测试方式。
+4. 下载成功后按 KEY0 复位，松手应静音；低音量连接已确认的板载 3.5mm 耳机输出，分别按 KEY1/KEY2，再同时按，松手应很快静音。无声音时先核对时钟/功放/串行波形，不先加大增益。
+5. 普通版确认后再试自动版 `instrument_demo_auto.fs`；按 KEY0 后播放一次约 1 秒，之后静音。断电会丢失 SRAM 配置，这是正常的临时测试方式。
 6. 记录成功下载日志、实际操作/声音和板卡版本。助手未执行下载，现有截图也不作为本轮成功发声的证据。
 
 原理图的 J27/J28 为桥接扬声器端，**不能把任一端接到接地示波器的地夹**。数字测量先在正确公共地参考下测 BCK/WS/DIN；模拟输出测量须先核实负载与安全接法。

@@ -61,7 +61,7 @@ module tb_instrument_demo;
         if(dut.audio_ready!==1) $fatal(1,"late reset release");
         wait_frames(5);
         if(dut.voice_count!==0 || pa!==1) $fatal(1,"idle not muted");
-        // 短脉冲不能构成按下；再稳定按住 S2。
+        // 短脉冲不能构成按下；再稳定按住 KEY1。
         keys=2'b10; repeat(3) @(negedge clk); keys=2'b11;
         repeat(20) @(negedge clk);
         if(dut.voice_count!==0) $fatal(1,"bounce produced a note");

@@ -1,5 +1,6 @@
 // Tang Mega 60K NEO Dock 31004 板级 demo。
-// V22=50 MHz；AA13=S4 复位；AB13=S2(C4)，Y12=S1(E4)。
+// V22=50 MHz；AA13=KEY0 复位；AB13=KEY1(C4)，Y12=KEY2(E4)。
+// 原理图编号对应 KEY0=S4、KEY1=S2、KEY2=S1；只统一名称，不改引脚。
 // 所有处理共享 sys_clk；按键由 C 的两级同步/消抖模块接收。
 module instrument_demo_top #(
     parameter integer AUTO_TEST = 0,
@@ -7,8 +8,8 @@ module instrument_demo_top #(
     parameter integer TEST_HOLD_CYCLES = 50000000
 ) (
     input wire sys_clk,
-    input wire sys_rst_n,
-    input wire [1:0] Key_in,
+    input wire sys_rst_n, // 板上 KEY0，按下为 0。
+    input wire [1:0] Key_in, // [0]=板上 KEY1，[1]=板上 KEY2；不是 KEY0/KEY1。
     output wire HP_BCK,
     output wire HP_WS,
     output wire HP_DIN,
@@ -61,7 +62,7 @@ module instrument_demo_top #(
     );
 endmodule
 
-// 无额外外设的四声部试听：上电复位/按 S4 后启动一次，约 1 秒后释放。
+// 无额外外设的四声部试听：上电复位/按 KEY0 后启动一次，约 1 秒后释放。
 // 硬件实测前不宣称实际音质或复音验收已通过。
 module instrument_demo_auto_top (
     input wire sys_clk,
