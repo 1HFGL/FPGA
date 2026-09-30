@@ -9,11 +9,33 @@ proc a_run {root top} {
     set lib [file join $root results a_work]
     file mkdir [file dirname $lib]
     if {![file exists [file join $lib _info]]} { vlib $lib }
-    vlog -sv -work $lib [file join $root rtl phase_acc.v] [file join $root rtl wave_lut.v] [file join $root rtl voice_dds.v] [file join $root sim ${top}.v]
+    set sources {}
+    foreach name {phase_acc wave_lut voice_dds} {
+        lappend sources [file join $root rtl ${name}.v]
+    }
+    if {$top in {tb_adsr_env tb_sample_gain tb_voice_adsr}} {
+        foreach name {adsr_env sample_gain voice_adsr} {
+            lappend sources [file join $root rtl ${name}.v]
+        }
+    }
+    lappend sources [file join $root sim ${top}.v]
+    vlog -sv -work $lib {*}$sources
     file mkdir [file join $root results waves]
     vsim -lib $lib -voptargs=+acc -wlf [file join $root results waves ${top}.wlf] $top
     view wave
-    if {$top eq "tb_voice_dds"} {
+    if {$top eq "tb_voice_adsr"} {
+        add wave sim:/$top/clk sim:/$top/rst sim:/$top/sample_tick
+        add wave sim:/$top/gate sim:/$top/retrigger sim:/$top/voice_active
+        add wave -radix unsigned -format Analog-Step -height 140 sim:/$top/env_level
+        add wave -radix unsigned sim:/$top/dut/env_state
+        add wave -radix decimal -format Analog-Step -height 180 sim:/$top/sample
+        add wave sim:/$top/sample_valid
+    } elseif {$top eq "tb_adsr_env"} {
+        add wave sim:/$top/clk sim:/$top/rst sim:/$top/sample_tick
+        add wave sim:/$top/gate sim:/$top/retrigger sim:/$top/active
+        add wave -radix unsigned sim:/$top/state
+        add wave -radix unsigned -format Analog-Step -height 180 sim:/$top/env_level
+    } elseif {$top eq "tb_voice_dds"} {
         add wave sim:/$top/clk sim:/$top/rst sim:/$top/sample_tick
         add wave -radix unsigned sim:/$top/phase_inc
         add wave -radix hexadecimal sim:/$top/dut/phase

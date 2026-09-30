@@ -41,8 +41,19 @@ A 的相位累加器、正弦波 ROM 和单声部 DDS 已加入 `rtl/`，测试�
 python model/check_dds.py
 ```
 
-`-Suite A` 仅运行 A，`-Suite B` 仅运行 B。也可以通过 `MODELSIM_BIN` 环境变量指定工具目录。
-模型使用 Python 3 标准库；仿真本身不依赖 Python。综合、上板及 A+B 联合仿真仍待完成。
+`-Suite A` 运行 A 的六项测试（含 ADSR），`-Suite ADSR` 仅运行新增三项，`-Suite B` 仅运行 B。也可以通过 `MODELSIM_BIN` 环境变量指定工具目录。
+模型使用 Python 3 标准库；仿真本身不依赖 Python。旧 DDS 综合和旧版发声已有用户反馈，正式报告待补；新增 ADSR 的综合、布局布线、整机集成和上板验证尚未运行。
+## A 模块：ADSR 包络
+
+新增 `adsr_env`、`sample_gain` 和 `voice_adsr`，把按下、按住与松开转换为单声部音量包络。接口、默认参数、ModelSim 图形操作及本次验证记录见 [ADSR 说明](docs/a-adsr.md)。
+
+```powershell
+.\sim\run_tests.ps1 -Suite ADSR -ModelSimBin '你的ModelSim安装目录\win64'
+python model/check_adsr.py
+```
+
+2026-09-30 的 8 项 A/B 测试全部通过，新增声部的 44902 个样本与 RTL 测试平台、Python 模型一致。新声部比原 DDS 多一拍 `clk` 延迟；松开后仍须继续采样以完成释放。旧 `voice_dds` 接口保持。
+
 ## 仿真（原有练习入口）
 
 当前 Windows 环境使用 ModelSim SE-64 10.6e。运行前请根据本机安装位置检查 [docs/vscode-verilog-setup.md](docs/vscode-verilog-setup.md) 和 `run_modelsim.ps1` 中的工具路径。

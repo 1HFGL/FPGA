@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('A','B','All')][string]$Suite = 'A',
+    [ValidateSet('A','ADSR','B','All')][string]$Suite = 'A',
     [string]$ModelSimBin = $env:MODELSIM_BIN
 )
 $ErrorActionPreference = 'Stop'
@@ -19,6 +19,9 @@ $markers = @{
     tb_phase_acc = 'PASS: all 15 checks passed.'
     tb_wave_lut = 'PASS: all 1035 checks passed; all 1024 ROM addresses verified.'
     tb_voice_dds = 'PASS: voice_dds; 4810 valid samples matched; 1200025 clock checks passed.'
+    tb_adsr_env = 'PASS: adsr_env directed checks'
+    tb_sample_gain = 'PASS: sample_gain exhaustive checks'
+    tb_voice_adsr = 'PASS: voice_adsr sample and pipeline checks'
     sample_tick_tb = 'PASS sample_tick_tb'
     synth_top_tb = 'PASS synth_top_tb'
 }
@@ -26,10 +29,17 @@ if ($Suite -in @('A','All')) {
     $tests += @('tb_phase_acc','tb_wave_lut','tb_voice_dds')
     $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/voice_dds.v','sim/tb_phase_acc.v','sim/tb_wave_lut.v','sim/tb_voice_dds.v')
 }
+if ($Suite -in @('A','ADSR','All')) {
+    $tests += @('tb_adsr_env','tb_sample_gain','tb_voice_adsr')
+    $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/voice_dds.v',
+                  'rtl/adsr_env.v','rtl/sample_gain.v','rtl/voice_adsr.v',
+                  'sim/tb_adsr_env.v','sim/tb_sample_gain.v','sim/tb_voice_adsr.v')
+}
 if ($Suite -in @('B','All')) {
     $tests += @('sample_tick_tb','synth_top_tb')
     $sources += @('rtl/sample_tick.v','rtl/i2s_tx.v','rtl/synth_top.v','sim/sample_tick_tb.v','sim/synth_top_tb.v')
 }
+$sources = @($sources | Select-Object -Unique)
 Push-Location $root
 try {
     New-Item -ItemType Directory -Path 'results/logs','results/waves' -Force | Out-Null
@@ -51,6 +61,7 @@ quit -code 0 -f
         $log = "results/logs/$top.log"
         $extraArgs = @()
         if ($top -eq 'tb_voice_dds') { $extraArgs = @('+DDS_TRACE=results/logs/dds_trace.txt') }
+        if ($top -eq 'tb_voice_adsr') { $extraArgs = @('+ADSR_TRACE=results/logs/adsr_trace.txt') }
         & (Join-Path $ModelSimBin 'vsim.exe') -c -lib $lib -l $log -wlf "results/waves/$top.wlf" $top @extraArgs -do "do {$macro}"
         $exitCode = $LASTEXITCODE
         $logText = Get-Content -LiteralPath $log -Raw
