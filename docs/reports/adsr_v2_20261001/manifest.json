@@ -1,0 +1,36 @@
+{
+  "description": "Original Gowin reports copied after the 2026-10-01 23:20:59 run. Source hashes were captured before restoring the portable ROM_FILE default.",
+  "reports": {
+    "timing.html": {
+      "source": "build/a_dds_check/a_dds_check/impl/pnr/a_dds_check_tr_content.html",
+      "sha256": "d24dc70e356f855fa633ba30d97e9ef593de77147298d06d4543bf6b4bf10888"
+    },
+    "place_route.txt": {
+      "source": "build/a_dds_check/a_dds_check/impl/pnr/a_dds_check.rpt.txt",
+      "sha256": "e30689ef92017d5d23097126de67ae3b66dcd06e7c8b2f6ab08c9dcf893bbcdd"
+    },
+    "synthesis.log": {
+      "source": "build/a_dds_check/a_dds_check/impl/gwsynthesis/a_dds_check.log",
+      "sha256": "25b833b57af46f0325e94a9e4061790e3dc9341e31de63bff7726f3c6d4274fb"
+    },
+    "clock.sdc": {
+      "source": "build/a_dds_check/a_dds_check/adsr_check.sdc",
+      "sha256": "b22faef5c1d09beda449e3a877ad456f33a424441760b05adc41a11bf201cc90"
+    }
+  },
+  "synthesized_sources": {
+    "rtl/phase_acc.v": "0a5017fbb2e07c61631a57f792eafc2cf3639fc97e24868ac4e16a652ca5f2d8",
+    "rtl/wave_lut.v": "c98ec3c7f44a07f1c4848dae7c55bce47ad1491bbd8bfdf551b6eeca20320a89",
+    "rtl/voice_dds.v": "8a41871a446b6649a16f83465e101b2830f505abea10dab6614b74e6c6da0312",
+    "rtl/adsr_env.v": "f9cb38e6ad910c2ae64dd1383d45c0996a2cc05c69a77ff3fc5098bbf9d9d07a",
+    "rtl/sample_gain.v": "ead8ba21c976abae208b958608d270ee2850a317c5e2852f6c85da043027927a",
+    "rtl/voice_adsr.v": "7c433c0885cdbb257931ad8a0ed5865060b4d0aa79b62fc13c7ceb755469fcb4",
+    "rtl/rom/sine_1024.mem": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5"
+  },
+  "portable_rom_recheck": {
+    "log": "portable_synthesis.log",
+    "sha256": "80e581fc9a751e47fec2879cee4e326215bc0845f2edca5805cebf96cdf438e8",
+    "rtl_voice_adsr_sha256": "529206bc09bd271a46375e2909a5141e70a2a7c10372ab3bd3f69c793bceb5dc",
+    "scope": "Separate temporary project synthesis only, default ROM path relative, include_path set to repository root; no new place-and-route run."
+  }
+}

@@ -53,5 +53,9 @@ proc a_run {root top} {
         add wave -radix unsigned sim:/$top/wave_addr
     }
     run -all
-    if {$top eq "tb_voice_dds"} { wave zoom range 0ns 10000000ns } else { wave zoom full }
+    if {$top eq "tb_voice_dds"} {
+        wave zoom range 0ns 10000000ns
+    } elseif {$top eq "tb_adsr_env"} {
+        wave zoom range 0ns 350000ns
+    } else { wave zoom full }
 }
