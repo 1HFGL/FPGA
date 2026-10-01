@@ -1,111 +1,180 @@
 `timescale 1ns/1ps
+
+// 各组参数并行验证；default_case 的信号保留给 ModelSim 波形脚本。
 module tb_adsr_env;
-    reg clk = 0;
-    always #5 clk = ~clk;
-    reg rst = 1, sample_tick = 0, gate = 0, retrigger = 0;
-    wire [16:0] env_level, instant_level, clamped_level;
-    wire active;
+    reg clk=0;
+    always #5 clk=~clk;
+    wire rst, sample_tick, gate, retrigger, active;
+    wire [16:0] env_level;
     wire [2:0] state;
-    integer checks = 0;
-    adsr_env #(.ATTACK_STEP(17'd20000), .DECAY_STEP(17'd10000),
-               .SUSTAIN_LEVEL(17'd25000), .RELEASE_STEP(17'd12000)) dut (
-        .clk(clk), .rst(rst), .sample_tick(sample_tick), .gate(gate),
-        .retrigger(retrigger), .env_level(env_level), .active(active), .state(state)
-    );
-    adsr_env #(.ATTACK_STEP(17'd0), .DECAY_STEP(17'd0),
-               .SUSTAIN_LEVEL(17'd0), .RELEASE_STEP(17'd0)) instant (
-        .clk(clk), .rst(rst), .sample_tick(sample_tick), .gate(gate),
-        .retrigger(retrigger), .env_level(instant_level), .active(), .state()
-    );
-    adsr_env #(.ATTACK_STEP(17'd131071), .DECAY_STEP(17'd131071),
-               .SUSTAIN_LEVEL(17'd131071), .RELEASE_STEP(17'd131071)) clamped (
-        .clk(clk), .rst(rst), .sample_tick(sample_tick), .gate(gate),
-        .retrigger(retrigger), .env_level(clamped_level), .active(), .state()
-    );
+    wire [6:0] done;
+    wire [31:0] c0,c1,c2,c3,c4,c5,c6;
+    adsr_duration_case default_case (.clk(clk),.done(done[0]),.checks(c0),
+        .rst(rst),.sample_tick(sample_tick),.gate(gate),.retrigger(retrigger),
+        .env_level(env_level),.active(active),.state(state));
+    adsr_duration_case #(.A(7),.D(11),.S(25000),.R(13)) coprime (
+        .clk(clk),.done(done[1]),.checks(c1),.rst(),.sample_tick(),
+        .gate(),.retrigger(),.env_level(),.active(),.state());
+    adsr_duration_case #(.A(0),.D(0),.S(0),.R(0)) zero_time (
+        .clk(clk),.done(done[2]),.checks(c2),.rst(),.sample_tick(),
+        .gate(),.retrigger(),.env_level(),.active(),.state());
+    adsr_duration_case #(.A(1),.D(1),.S(65536),.R(1)) one_tick (
+        .clk(clk),.done(done[3]),.checks(c3),.rst(),.sample_tick(),
+        .gate(),.retrigger(),.env_level(),.active(),.state());
+    // 时长大于幅度分辨率，且从幅度 1 释放：不能因步长取整而卡住或提前结束。
+    adsr_duration_case #(.A(17),.D(65537),.S(1),.R(70001)) tiny_release (
+        .clk(clk),.done(done[4]),.checks(c4),.rst(),.sample_tick(),
+        .gate(),.retrigger(),.env_level(),.active(),.state());
+    adsr_duration_case #(.A(65537),.D(3),.S(0),.R(5)) slow_attack (
+        .clk(clk),.done(done[5]),.checks(c5),.rst(),.sample_tick(),
+        .gate(),.retrigger(),.env_level(),.active(),.state());
+    adsr_duration_case #(.A(3),.D(4),.S(131071),.R(7)) sustain_clamp (
+        .clk(clk),.done(done[6]),.checks(c6),.rst(),.sample_tick(),
+        .gate(),.retrigger(),.env_level(),.active(),.state());
+    initial begin
+        wait (&done);
+        $display("PASS: adsr_env duration checks (%0d checks, 7 parameter sets).",
+                 c0+c1+c2+c3+c4+c5+c6);
+        $stop;
+    end
+    initial begin #100000000; $fatal(1,"ADSR duration timeout"); end
+endmodule
+
+module adsr_duration_case #(
+    parameter integer A=96, D=24000, S=6554, R=5760
+) (
+    input wire clk,
+    output reg done=0,
+    output reg [31:0] checks=0,
+    output reg rst=1, sample_tick=0, gate=0, retrigger=0,
+    output wire [16:0] env_level,
+    output wire active,
+    output wire [2:0] state
+);
+    localparam integer AN=(A==0)?1:A, DN=(D==0)?1:D, RN=(R==0)?1:R;
+    localparam integer SN=(S>65536)?65536:S;
+    integer expected=0, expected_state=0, part;
+    adsr_env #(.ATTACK_SAMPLES(A),.DECAY_SAMPLES(D),
+               .SUSTAIN_LEVEL(S),.RELEASE_SAMPLES(R)) dut (
+        .clk(clk),.rst(rst),.sample_tick(sample_tick),.gate(gate),
+        .retrigger(retrigger),.env_level(env_level),.active(active),.state(state));
+
+    // 参考值用“起点 + 总距离 * 已走步数 / 总步数”直接计算。
+    // 乘积用 64 位，独立于 RTL 的余数累加算法；长时长测试不能溢出。
+    function integer line_level;
+        input integer start_level, end_level, age, duration;
+        reg [63:0] product;
+        begin
+            if (end_level>=start_level) begin
+                product=end_level-start_level;
+                product=product*age;
+                line_level=start_level+product/duration;
+            end else begin
+                product=start_level-end_level;
+                product=product*age;
+                line_level=start_level-product/duration;
+            end
+        end
+    endfunction
 
     task step;
-        input r, tick, g, trig;
-        input integer expected, expected_state;
+        input r,t,g,trig;
+        input integer level_value,state_value;
         begin
             @(negedge clk);
-            rst=r; sample_tick=tick; gate=g; retrigger=trig;
+            rst=r; sample_tick=t; gate=g; retrigger=trig;
             @(posedge clk); #1;
-            if (env_level !== expected || state !== expected_state ||
-                active !== (expected_state != 0))
-                $fatal(1, "ADSR check %0d: level=%0d state=%0d expected=%0d/%0d",
-                       checks, env_level, state, expected, expected_state);
-            if (instant_level > 65536 || clamped_level > 65536)
-                $fatal(1, "Envelope out of range");
+            if (env_level!==level_value || state!==state_value ||
+                active!==(state_value!=0))
+                $fatal(1,"ADSR A=%0d D=%0d S=%0d R=%0d check=%0d: got %0d/%0d expected %0d/%0d",
+                    A,D,S,R,checks,env_level,state,level_value,state_value);
+            expected=level_value; expected_state=state_value;
             checks=checks+1;
         end
     endtask
 
-    initial begin
-        // IDLE=0, ATTACK=1, DECAY=2, SUSTAIN=3, RELEASE=4.
-        step(1,1,1,1,0,0); // reset wins over all inputs
-        step(0,0,0,0,0,0);
-        step(0,1,1,0,20000,1);
-        if (instant_level !== 17'd65536 || clamped_level !== 17'd65536)
-            $fatal(1, "Immediate/saturated attack failed");
-        step(0,0,1,0,20000,1); // no tick: hold
-        step(0,1,1,0,40000,1);
-        if (instant_level !== 17'd0 || clamped_level !== 17'd65536)
-            $fatal(1, "Zero-time decay or sustain clamp failed");
-        step(0,1,1,0,60000,1);
-        step(0,1,1,0,65536,2); // clamp; never wrap
-        step(0,1,1,0,55536,2);
-        step(0,1,1,0,45536,2);
-        step(0,1,1,0,35536,2);
-        step(0,1,1,0,25536,2);
-        step(0,1,1,0,25000,3);
-        repeat(5) step(0,1,1,0,25000,3);
-        step(0,0,0,0,25000,3); // gate changes only affect audio ticks
-        step(0,1,0,0,13000,4);
-        if (instant_level !== 17'd0 || clamped_level !== 17'd0)
-            $fatal(1, "Immediate/saturated release failed");
-        step(0,1,0,0,1000,4);
-        step(0,1,0,0,0,0);
-        step(0,1,0,1,0,0); // low gate wins over retrigger
+    task reset_env;
+        begin step(1,0,1,1,0,0); end // 复位不依赖 sample_tick，也清掉待处理触发
+    endtask
 
-        step(0,1,1,0,20000,1);
-        step(0,1,0,0,8000,4); // release during attack
-        step(0,1,1,0,28000,1); // reattack from current level
-        step(0,1,1,0,48000,1);
-        step(0,1,1,0,65536,2);
-        step(0,1,1,0,55536,2);
-        step(0,0,1,1,55536,2); // one-clock retrigger between ticks
-        step(0,0,1,0,55536,2);
-        step(0,1,1,0,65536,2); // pending request consumed once
-        step(0,1,1,0,55536,2);
-        step(0,1,0,0,43536,4); // release during decay
-        step(1,0,1,1,0,0); // reset during release, no audio tick
-        step(0,1,1,0,20000,1);
-        step(1,1,1,0,0,0); // reset during attack
-        step(0,1,1,0,20000,1);
-        step(0,1,1,0,40000,1);
-        step(0,1,1,0,60000,1);
-        step(0,1,1,0,65536,2);
-        step(1,0,1,0,0,0); // reset during decay
-        step(0,1,1,0,20000,1);
-        step(0,1,1,0,40000,1);
-        step(0,1,1,0,60000,1);
-        step(0,1,1,0,65536,2);
-        step(0,1,1,0,55536,2);
-        step(0,1,1,0,45536,2);
-        step(0,1,1,0,35536,2);
-        step(0,1,1,0,25536,2);
-        step(0,1,1,0,25000,3);
-        step(0,1,1,1,45000,1); // sustain retrigger, no zero jump
-        step(0,1,1,0,65000,1);
-        step(0,1,1,0,65536,2);
-        step(0,1,1,0,55536,2);
-        step(0,1,1,0,45536,2);
-        step(0,1,1,0,35536,2);
-        step(0,1,1,0,25536,2);
-        step(0,1,1,0,25000,3);
-        step(1,0,1,0,0,0); // reset during sustain
-        $display("PASS: adsr_env directed checks (%0d).", checks);
-        $stop;
+    task attack;
+        input integer start_level, count;
+        input first_trigger;
+        integer k;
+        begin
+            for(k=1;k<=count;k=k+1) begin
+                step(0,1,1,(k==1)&&first_trigger,
+                     line_level(start_level,65536,k,AN),(k==AN)?2:1);
+                if(k==1) repeat(2) step(0,0,1,0,expected,expected_state);
+            end
+        end
+    endtask
+
+    task decay;
+        input integer count;
+        integer k;
+        begin
+            for(k=1;k<=count;k=k+1)
+                step(0,1,1,0,line_level(65536,SN,k,DN),(k==DN)?3:2);
+        end
+    endtask
+
+    task release_env;
+        input integer start_level, count;
+        integer k;
+        begin
+            if(start_level==0) step(0,1,0,1,0,0);
+            else for(k=1;k<=count;k=k+1) begin
+                // 故意同时拉高 retrigger：松键必须优先，释放不能每拍重启。
+                step(0,1,0,1,line_level(start_level,0,k,RN),(k==RN)?0:4);
+                if(k==1) repeat(2) step(0,0,0,0,expected,expected_state);
+            end
+        end
+    endtask
+
+    initial begin
+        step(1,1,1,1,0,0);
+        step(0,0,0,0,0,0);
+        // 完整 A/D/S/R：保持阶段不自动结束，松键后精确 RN 点归零。
+        attack(0,AN,0); decay(DN);
+        repeat(5) step(0,1,1,0,SN,3);
+        step(0,0,0,0,SN,3); // gate 改变但没有采样，包络应保持
+        release_env(SN,RN);
+        step(0,1,0,1,0,0);
+
+        // 提前松键：从起音中间、衰减中间释放，都使用完整 RN 点。
+        part=(AN/3<1)?1:AN/3;
+        attack(0,part,0);
+        release_env(expected,RN);
+        attack(0,AN,0);
+        part=(DN/3<1)?1:DN/3;
+        decay(part);
+        release_env(expected,RN);
+
+        // 释放中重新按下：从当前值开始，不能清零，也不能继续旧倒计时。
+        attack(0,AN,0);
+        release_env(65536,1);
+        attack(expected,AN,0); decay(DN);
+        // 单 clk 脉冲发生在两次采样之间，应只消费一次。
+        step(0,0,1,1,SN,3);
+        step(0,0,1,0,SN,3);
+        attack(SN,AN,0);
+        decay(1);
+        attack(expected,AN,1); // 衰减期间直接重触发
+        decay(DN);
+        attack(SN,AN,1); // 保持期间直接重触发
+        decay(DN);
+
+        // 各阶段同步复位，以及复位对待处理触发的清除。
+        reset_env(); attack(0,1,0); reset_env();
+        attack(0,AN,0); reset_env();
+        attack(0,AN,0); decay(DN); reset_env();
+        attack(0,AN,0); release_env(65536,1); reset_env();
+        step(0,0,1,1,0,0);
+        reset_env();
+        step(0,1,0,0,0,0);
+        attack(0,AN,0); decay(DN);
+        release_env(SN,RN);
+        @(negedge clk); sample_tick=0; retrigger=0; done=1;
     end
-    initial begin #100000; $fatal(1, "ADSR timeout"); end
 endmodule

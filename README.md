@@ -78,3 +78,14 @@ C整理候选模块和价格，B核对供电、电平、接口及接头，三人
 | 测试 | `sim/`、`tb/`、`model/` | 原 A/B/C 回归与新增集成检查 |
 
 旧 C 说明保留在 [docs/c-interaction.md](docs/c-interaction.md)，原 C 模块/测试仍保留。协作与赛题计划见 [PLAN.md](PLAN.md)。
+
+## A 模块：ADSR 包络
+
+`adsr_env`、`sample_gain` 和 `voice_adsr` 已升级为按采样点数控制的单声部包络，并补充中文注释。默认 48 kHz 下起音 2 ms、衰减 500 ms、保持约 10% 幅度、从当前非零幅度释放 120 ms。接口、默认参数、ModelSim 图形操作及本次验证记录见 [ADSR 说明](docs/a-adsr.md)。
+
+```powershell
+.\sim\run_tests.ps1 -Suite ADSR -ModelSimBin '你的ModelSim安装目录\win64'
+python model/check_adsr.py
+```
+
+2026-10-01 的 8 项 A/B 测试全部通过，包络覆盖 7 组参数、1614924 项检查，单声部的 47734 个样本与 RTL 测试平台、Python 模型一致。新声部比原 DDS 多一拍 `clk` 延迟；松开后仍须继续采样以完成释放。旧 `voice_dds` 接口保持。包络端口保持，但 `ATTACK_STEP/DECAY_STEP/RELEASE_STEP` 已换为 `ATTACK_SAMPLES/DECAY_SAMPLES/RELEASE_SAMPLES`；有显式参数覆盖的队友实例需要迁移。新版高云单模块综合、布局布线和 50 MHz 内部时序已通过：Setup +0.352 ns、Hold +0.247 ns、违例均为 0。整机约束与上板试听待验证；原始报告、参数迁移和交接说明见 [ADSR 验证记录](docs/a-adsr-validation.md)。

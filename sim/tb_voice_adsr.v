@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 module tb_voice_adsr;
-    // Accelerated functional simulation; four clocks per sample is NOT a
-    // proposed board clock. Envelope rates are defined per audio sample.
+    // 为加快仿真，每 4 个 clk 请求一个样本；这不是板上的时钟配置。
+    // 时长只由有效采样点计数决定。默认 48 kHz：A=96、D=24000、R=5760。
     reg clk=0;
     always #5 clk=~clk;
     reg rst=1, sample_tick=0, gate=0, retrigger=0;
@@ -21,11 +21,41 @@ module tb_voice_adsr;
     reg [2047:0] trace_path;
     real sine_value;
     integer sine_integer;
+    integer segment=0, segment_start=0, segment_age=0;
+    reg [63:0] ramp_product;
+
+    // 闭式直线参考模型：不复用 RTL 的商/余数分步实现。
+    task ramp;
+        input integer kind, endpoint, duration;
+        input restart_segment;
+        begin
+            if (restart_segment || segment!=kind) begin
+                segment=kind; segment_start=ref_level; segment_age=0;
+            end
+            segment_age=segment_age+1;
+            if(endpoint>=segment_start) begin
+                ramp_product=endpoint-segment_start;
+                ramp_product=ramp_product*segment_age;
+                ref_level=segment_start+ramp_product/duration;
+            end else begin
+                ramp_product=segment_start-endpoint;
+                ramp_product=ramp_product*segment_age;
+                ref_level=segment_start-ramp_product/duration;
+            end
+            ref_state=kind;
+            if(segment_age==duration) begin
+                if(kind==1) ref_state=2;
+                else if(kind==2) ref_state=3;
+                else ref_state=0;
+            end
+        end
+    endtask
 
     // Independent integer/sine reference, including every pipeline idle cycle.
     always @(posedge clk) begin
         if (rst) begin
             ref_level=0; ref_state=0; ref_gate=0; pending_trigger=0;
+            segment=0; segment_start=0; segment_age=0;
             ref_phase=0; pending_sample=0; pending_valid=0;
             expected_sample=0; expected_valid=0;
         end else begin
@@ -34,17 +64,13 @@ module tb_voice_adsr;
             pending_valid=sample_tick;
             if (sample_tick) begin
                 if (!gate) begin
-                    ref_level=(ref_level>3)?ref_level-3:0;
-                    ref_state=(ref_level==0)?0:4;
-                end else if (retrigger || pending_trigger || !ref_gate ||
-                             ref_state==0 || ref_state==1) begin
-                    ref_level=ref_level+137;
-                    if (ref_level>=65536) begin ref_level=65536; ref_state=2; end
-                    else ref_state=1;
-                end else if (ref_state==2) begin
-                    ref_level=ref_level-7;
-                    if (ref_level<=32768) begin ref_level=32768; ref_state=3; end
-                end
+                    if(ref_level==0) begin ref_state=0; segment=0; end
+                    else ramp(4,0,5760,0);
+                end else if (retrigger || pending_trigger || !ref_gate || ref_state==0)
+                    ramp(1,65536,96,1);
+                else if (ref_state==1) ramp(1,65536,96,0);
+                else if (ref_state==2) ramp(2,6554,24000,0);
+                else begin ref_level=6554; ref_state=3; segment=0; end
                 ref_gate=gate;
                 pending_trigger=0;
                 sine_value=32767.0*$sin(6.283185307179586*(ref_phase>>22)/1024.0);
@@ -92,11 +118,11 @@ module tb_voice_adsr;
         end
         cycle(1,1,1,1,32'hffffffff);
         repeat(10) audio_tick(0);
-        // Full attack (479 ticks), decay (4682), sustain, release (10923).
-        repeat(6000) audio_tick(1);
-        repeat(11000) audio_tick(0);
+        // 完整起音 96 点、衰减 24000 点，进入保持后松键释放 5760 点。
+        repeat(30000) audio_tick(1);
+        repeat(6000) audio_tick(0);
         if (voice_active!==0 || sample!==16'sd0) $fatal(1,"Release did not silence voice");
-        repeat(200) audio_tick(1);
+        repeat(32) audio_tick(1);
         repeat(100) audio_tick(0); // early release then reattack
         repeat(300) audio_tick(1);
         cycle(0,0,1,1,32'd78741067); // pending one-clock retrigger
@@ -111,7 +137,7 @@ module tb_voice_adsr;
             cycle((i%997)==0,random_state[31],random_state[27],
                   (random_state[23:20]==0),random_state);
         end
-        repeat(22000) cycle(0,1,0,0,32'd39370534);
+        repeat(6000) cycle(0,1,0,0,32'd39370534);
         repeat(4) cycle(0,0,0,0,32'd39370534);
         if (voice_active!==0 || sample!==16'sd0) $fatal(1,"Final release not silent");
         if (trace_fd!=0) $fclose(trace_fd);
@@ -119,5 +145,5 @@ module tb_voice_adsr;
                  clocks_checked,samples_checked);
         $stop;
     end
-    initial begin #2000000; $fatal(1,"Voice ADSR timeout"); end
+    initial begin #10000000; $fatal(1,"Voice ADSR timeout"); end
 endmodule
