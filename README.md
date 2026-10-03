@@ -52,7 +52,7 @@ python model/check_dds.py
 python model/check_adsr.py
 ```
 
-2026-10-01 的 8 项 A/B 测试全部通过，包络覆盖 7 组参数、1614924 项检查，单声部的 47734 个样本与 RTL 测试平台、Python 模型一致。新声部比原 DDS 多一拍 `clk` 延迟；松开后仍须继续采样以完成释放。旧 `voice_dds` 接口保持。包络端口保持，但 `ATTACK_STEP/DECAY_STEP/RELEASE_STEP` 已换为 `ATTACK_SAMPLES/DECAY_SAMPLES/RELEASE_SAMPLES`；有显式参数覆盖的队友实例需要迁移。新版高云单模块综合、布局布线和 50 MHz 内部时序已通过：Setup +0.352 ns、Hold +0.247 ns、违例均为 0。整机约束与上板试听待验证；原始报告、参数迁移和交接说明见 [ADSR 验证记录](docs/a-adsr-validation.md)。
+2026-10-03 优化包络关键路径后，8 项 A/B 测试全部通过，包络覆盖 10 组参数、1905232 项检查，单声部的 47734 个样本与 RTL 测试平台、Python 模型一致。新声部比原 DDS 多一拍 `clk` 延迟；松开后仍须继续采样以完成释放。本次时序优化保持接口、参数和输出延迟。旧 `ATTACK_STEP/DECAY_STEP/RELEASE_STEP` 参数已在 v2 换为 `ATTACK_SAMPLES/DECAY_SAMPLES/RELEASE_SAMPLES`，旧实例仍需迁移。相同器件和 50 MHz 约束下，高云重新综合、布局布线后 Setup 裕量从 +0.352 ns 提高到 **+8.265 ns**，Hold +0.247 ns，违例均为 0；整机约束与上板试听待验证。最新原始报告、改动原因与复现步骤见 [时序优化记录](docs/a-adsr-timing-20261003.md)，10 月 1 日记录保留在 [旧验证与交接记录](docs/a-adsr-validation.md)。
 
 ## 仿真（原有练习入口）
 

@@ -1,0 +1,28 @@
+Reading netlist file: "C:\Users\Nanji\AppData\Local\Temp\codex_adsr_timing_20261003\gowin_verify\impl\gwsynthesis\a_dds_check.vg"
+Parsing netlist file "C:\Users\Nanji\AppData\Local\Temp\codex_adsr_timing_20261003\gowin_verify\impl\gwsynthesis\a_dds_check.vg" completed
+Processing netlist completed
+Physical Constraint parsed completed
+Running placement......
+[10%] Placement Phase 0 completed
+[20%] Placement Phase 1 completed
+[30%] Placement Phase 2 completed
+[50%] Placement Phase 3 completed
+Running routing......
+[60%] Routing Phase 0 completed
+[70%] Routing Phase 1 completed
+[80%] Routing Phase 2 completed
+[90%] Routing Phase 3 completed
+Running timing analysis......
+[95%] Timing analysis completed
+Placement and routing completed
+Bitstream generation in progress......
+Bitstream generation completed
+Running power analysis......
+[100%] Power analysis completed
+Generate file "C:\Users\Nanji\AppData\Local\Temp\codex_adsr_timing_20261003\gowin_verify\impl\pnr\a_dds_check.power.html" completed
+Generate file "C:\Users\Nanji\AppData\Local\Temp\codex_adsr_timing_20261003\gowin_verify\impl\pnr\a_dds_check.pin.html" completed
+Generate file "C:\Users\Nanji\AppData\Local\Temp\codex_adsr_timing_20261003\gowin_verify\impl\pnr\a_dds_check.rpt.html" completed
+Generate file "C:\Users\Nanji\AppData\Local\Temp\codex_adsr_timing_20261003\gowin_verify\impl\pnr\a_dds_check.rpt.txt" completed
+Generate file "C:\Users\Nanji\AppData\Local\Temp\codex_adsr_timing_20261003\gowin_verify\impl\pnr\a_dds_check.tr.html" completed
+Sat Oct  3 14:50:32 2026
+

@@ -7,8 +7,8 @@ module tb_adsr_env;
     wire rst, sample_tick, gate, retrigger, active;
     wire [16:0] env_level;
     wire [2:0] state;
-    wire [6:0] done;
-    wire [31:0] c0,c1,c2,c3,c4,c5,c6;
+    wire [9:0] done;
+    wire [31:0] c0,c1,c2,c3,c4,c5,c6,c7,c8,c9;
     adsr_duration_case default_case (.clk(clk),.done(done[0]),.checks(c0),
         .rst(rst),.sample_tick(sample_tick),.gate(gate),.retrigger(retrigger),
         .env_level(env_level),.active(active),.state(state));
@@ -31,13 +31,96 @@ module tb_adsr_env;
     adsr_duration_case #(.A(3),.D(4),.S(131071),.R(7)) sustain_clamp (
         .clk(clk),.done(done[6]),.checks(c6),.rst(),.sample_tick(),
         .gate(),.retrigger(),.env_level(),.active(),.state());
+    // N 是 2 的幂时计数器必须多保留一位；完整阶段不能提前结束。
+    adsr_duration_case #(.A(256),.D(512),.S(16384),.R(1024)) power_of_two (
+        .clk(clk),.done(done[7]),.checks(c7),.rst(),.sample_tick(),
+        .gate(),.retrigger(),.env_level(),.active(),.state());
+    // 完整跑完 2^32 点不现实；检查开头 70000 点，跨越误差加法的进位。
+    adsr_wide_case wide_decay (.clk(clk),.done(done[8]),.checks(c8));
+    adsr_wide_case #(.A(32'hffffffff),.R(32'hffffffff)) wide_attack (
+        .clk(clk),.done(done[9]),.checks(c9));
     initial begin
         wait (&done);
-        $display("PASS: adsr_env duration checks (%0d checks, 7 parameter sets).",
-                 c0+c1+c2+c3+c4+c5+c6);
+        $display("PASS: adsr_env duration checks (%0d checks, 10 parameter sets).",
+                 c0+c1+c2+c3+c4+c5+c6+c7+c8+c9);
         $stop;
     end
     initial begin #100000000; $fatal(1,"ADSR duration timeout"); end
+endmodule
+
+// 32 位无符号时长边界。参考模型直接计算直线，独立于 RTL 的计数/余数。
+module adsr_wide_case #(
+    parameter [31:0] A=32'd1, D=32'hffffffff, R=32'h80000000
+) (
+    input wire clk,
+    output reg done=0,
+    output reg [31:0] checks=0
+);
+    reg rst=1, sample_tick=0, gate=0, retrigger=0;
+    wire [16:0] env_level;
+    wire [2:0] state;
+    wire active;
+    integer k, expected, saved_level;
+    adsr_env #(.ATTACK_SAMPLES(A),.DECAY_SAMPLES(D),
+               .SUSTAIN_LEVEL(17'd1),.RELEASE_SAMPLES(R)) dut (
+        .clk(clk),.rst(rst),.sample_tick(sample_tick),.gate(gate),
+        .retrigger(retrigger),.env_level(env_level),.active(active),.state(state));
+
+    function integer line_level;
+        input integer start_level, end_level, age;
+        input [31:0] duration;
+        reg [63:0] product;
+        begin
+            if (end_level>=start_level) begin
+                product=end_level-start_level;
+                product=product*age;
+                line_level=start_level+product/duration;
+            end else begin
+                product=start_level-end_level;
+                product=product*age;
+                line_level=start_level-product/duration;
+            end
+        end
+    endfunction
+
+    task step;
+        input r,t,g,trig;
+        input integer level_value,state_value;
+        begin
+            @(negedge clk);
+            rst=r; sample_tick=t; gate=g; retrigger=trig;
+            @(posedge clk); #1;
+            if (env_level!==level_value || state!==state_value ||
+                active!==(state_value!=0))
+                $fatal(1,"Wide ADSR A=%h D=%h R=%h check=%0d got %0d/%0d expected %0d/%0d",
+                    A,D,R,checks,env_level,state,level_value,state_value);
+            checks=checks+1;
+        end
+    endtask
+
+    initial begin
+        step(1,0,1,1,0,0);
+        for(k=1;k<=70000;k=k+1) begin
+            if (A==1) begin
+                expected=(k==1)?65536:line_level(65536,1,k-1,D);
+                step(0,1,1,0,expected,2);
+            end else begin
+                expected=line_level(0,65536,k,A);
+                step(0,1,1,0,expected,1);
+            end
+        end
+        saved_level=expected;
+        for(k=1;k<=70000;k=k+1) begin
+            expected=line_level(saved_level,0,k,R);
+            step(0,1,0,1,expected,4); // 松键仍优先于触发，释放不能重启
+        end
+        step(0,0,1,1,expected,4);
+        saved_level=expected;
+        expected=line_level(saved_level,65536,1,A);
+        step(0,1,1,0,expected,(A==1)?2:1);
+        step(1,0,0,0,0,0);
+        @(negedge clk); sample_tick=0; retrigger=0; done=1;
+    end
 endmodule
 
 module adsr_duration_case #(
