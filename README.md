@@ -97,7 +97,7 @@ python model/check_adsr.py
 
 2026-10-03 将团队 `master` 的 `e7dd27a` 合入 `feat/a-dds-core`，保留 A 的 `8032be8` 时序优化及原始证据。四声部 demo、音符查表、B/C 模块、板级工程及集成测试现已位于同一工作区。当前 `demo_voice_bank` 仍使用原来的简单渐变包络；完整 ADSR 已在单声部验证，四声部升级是下一项任务。
 
-批量脚本保留两边的入口：`-Suite A` 为 DDS 与 ADSR 共 6 项，`-Suite ADSR` 为 3 项；`B/C/AB/Demo/All` 保留团队测试。独立 ADSR 入口显式加入 DDS 依赖，并继续导出 Python 所需的 ADSR 轨迹。完整合并回归结果见 [合并验证记录](docs/a-master-merge-20261003.md)。
+合并时批量脚本保留两边的入口：`-Suite A` 为 DDS 与 ADSR 共 6 项，`-Suite ADSR` 为 3 项；`B/C/AB/Demo/All` 保留团队测试。独立 ADSR 入口显式加入 DDS 依赖，并继续导出 Python 所需的 ADSR 轨迹。当时的 17 项合并回归结果见 [合并验证记录](docs/a-master-merge-20261003.md)；新增四声部测试后的当前入口见下节。
 
 ```powershell
 .\sim\run_tests.ps1 -Suite All -ModelSimBin '你的ModelSim安装目录\win64'
@@ -105,3 +105,16 @@ python model/check_dds.py
 python model/check_adsr.py
 python model/check_abc_demo.py
 ```
+
+## A 模块：四声部内部 ADSR
+
+2026-10-03 新增 `voice_bank_adsr` 与 `sample_mixer4`，复用四路独立 `voice_adsr`，支持每声部触发、完整包络、增益快照、流水线尾音反馈和饱和混音。默认保留试听音量余量。现有团队演示代码和 B/C 顶层保持原状，本模块是下一次接口对接的独立实现。
+
+当前 `-Suite A` 为 8 项，`-Suite ADSR` 为单声部 3 项，`-Suite PolyADSR` 为四声部/混音器 2 项，`-Suite All` 为 19 项。四声部默认/边界配置共 41100 个样本与 Python 参考一致，完整回归通过。接口、R0~R4 输出时刻、波形操作与验证证据见 [四声部说明](docs/a-poly-adsr.md)。
+
+```powershell
+.\sim\run_tests.ps1 -Suite PolyADSR -ModelSimBin 'D:\modelsim1\win64'
+python model/check_poly_adsr.py
+```
+
+2026-10-03 已补跑四声部独立高云综合与布局布线：50 MHz 下裸核心 Setup/Hold +7.743/+0.247 ns，带同钟接口寄存器的验证外壳 +7.341/+0.247 ns，违例均为 0；四个 pROM、八个 DSP 保留。可移植工程和原始报告见 [四声部时序记录](docs/a-poly-adsr-timing-20261003.md)。尚未接入 C 的独立触发与 B 的输出缓存，实际板级 I/O、整机时序和上板待验证。

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+  <Template>FPGA</Template>
+  <Version>5</Version>
+  <Device name="GW5AT-60B" pn="GW5AT-LV60PG484AC1/I0">gw5at60b-002</Device>
+  <FileList>
+    <File path="C:/Users/Nanji/AppData/Local/Temp/codex_poly_adsr_timing_20261003/rtl/phase_acc.v" type="file.verilog" enable="1"/>
+    <File path="C:/Users/Nanji/AppData/Local/Temp/codex_poly_adsr_timing_20261003/rtl/wave_lut.v" type="file.verilog" enable="1"/>
+    <File path="C:/Users/Nanji/AppData/Local/Temp/codex_poly_adsr_timing_20261003/rtl/voice_dds.v" type="file.verilog" enable="1"/>
+    <File path="C:/Users/Nanji/AppData/Local/Temp/codex_poly_adsr_timing_20261003/rtl/adsr_env.v" type="file.verilog" enable="1"/>
+    <File path="C:/Users/Nanji/AppData/Local/Temp/codex_poly_adsr_timing_20261003/rtl/sample_gain.v" type="file.verilog" enable="1"/>
+    <File path="C:/Users/Nanji/AppData/Local/Temp/codex_poly_adsr_timing_20261003/rtl/voice_adsr.v" type="file.verilog" enable="1"/>
+    <File path="C:/Users/Nanji/AppData/Local/Temp/codex_poly_adsr_timing_20261003/rtl/note_phase_lut.v" type="file.verilog" enable="1"/>
+    <File path="C:/Users/Nanji/AppData/Local/Temp/codex_poly_adsr_timing_20261003/rtl/sample_mixer4.v" type="file.verilog" enable="1"/>
+    <File path="C:/Users/Nanji/AppData/Local/Temp/codex_poly_adsr_timing_20261003/rtl/voice_bank_adsr.v" type="file.verilog" enable="1"/>
+    <File path="clock.sdc" type="file.sdc" enable="1"/>
+  </FileList>
+</Project>

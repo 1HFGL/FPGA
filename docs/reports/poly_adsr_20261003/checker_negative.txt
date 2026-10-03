@@ -1,0 +1,2 @@
+PASS expected rejection corrupted_poly_trace.txt: corrupted_poly_trace.txt clock 6: actual=(1, 1, 0, 0, 15, 0, 0, 0, 0, 0), expected=(0, 1, 0, 0, 15, 0, 0, 0, 0, 0)
+PASS expected rejection truncated_poly_trace.txt: Incomplete trace: None, expected '# completed clocks=1000 samples=249 resets=2'

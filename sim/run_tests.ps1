@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('A','ADSR','B','C','AB','Demo','All')][string]$Suite = 'A',
+    [ValidateSet('A','ADSR','PolyADSR','B','C','AB','Demo','All')][string]$Suite = 'A',
     [string]$ModelSimBin = $env:MODELSIM_BIN,
     [switch]$NegativeControl
 )
@@ -26,6 +26,8 @@ $markers = @{
     tb_adsr_env = 'PASS: adsr_env duration checks'
     tb_sample_gain = 'PASS: sample_gain exhaustive checks'
     tb_voice_adsr = 'PASS: voice_adsr sample and pipeline checks'
+    tb_sample_mixer4 = 'PASS: sample_mixer4 signed boundaries, saturation, idle and reset.'
+    tb_voice_bank_adsr = 'PASS: voice_bank_adsr four independent envelopes, triggers, pipeline and mix.'
     sample_tick_tb = 'PASS sample_tick_tb'
     synth_top_tb = 'PASS synth_top_tb'
     tb_single_tone_ab = 'PASS tb_single_tone_ab:'
@@ -48,6 +50,13 @@ if ($Suite -in @('A','ADSR','All')) {
     $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/voice_dds.v',
                   'rtl/adsr_env.v','rtl/sample_gain.v','rtl/voice_adsr.v',
                   'sim/tb_adsr_env.v','sim/tb_sample_gain.v','sim/tb_voice_adsr.v')
+}
+if ($Suite -in @('A','PolyADSR','All')) {
+    $tests += @('tb_sample_mixer4','tb_voice_bank_adsr')
+    $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/voice_dds.v',
+                  'rtl/adsr_env.v','rtl/sample_gain.v','rtl/voice_adsr.v',
+                  'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_adsr.v',
+                  'sim/tb_sample_mixer4.sv','sim/tb_voice_bank_adsr.sv')
 }
 if ($Suite -in @('B','AB','Demo','All')) {
     $tests += @('sample_tick_tb','synth_top_tb')
@@ -75,7 +84,7 @@ try {
     New-Item -ItemType Directory -Path 'results/logs','results/waves' -Force | Out-Null
     # ROM 虽不由 vlog 直接编译，仍是功能输入；记录本次所有源码/波表哈希。
     $manifestInputs = @($sources) + @('sim/run_tests.ps1')
-    if ($Suite -in @('A','ADSR','AB','Demo','All')) { $manifestInputs += 'rtl/rom/sine_1024.mem' }
+    if ($Suite -in @('A','ADSR','PolyADSR','AB','Demo','All')) { $manifestInputs += 'rtl/rom/sine_1024.mem' }
     $manifestName = if ($NegativeControl) { "${Suite}_negative_sha256.txt" } else { "${Suite}_sha256.txt" }
     $manifestLines = @("suite=$Suite negative_control=$NegativeControl")
     foreach ($source in $manifestInputs) {
@@ -111,6 +120,10 @@ quit -code 0 -f
         $extraArgs = @()
         if ($top -eq 'tb_voice_dds') { $extraArgs = @('+DDS_TRACE=results/logs/dds_trace.txt') }
         if ($top -eq 'tb_voice_adsr') { $extraArgs = @('+ADSR_TRACE=results/logs/adsr_trace.txt') }
+        if ($top -eq 'tb_voice_bank_adsr') {
+            $extraArgs = @('+POLY_TRACE_DEFAULT=results/logs/poly_adsr_default_trace.txt',
+                           '+POLY_TRACE_BOUNDARY=results/logs/poly_adsr_boundary_trace.txt')
+        }
         & (Join-Path $ModelSimBin 'vsim.exe') -c -lib $lib -l $log -wlf "results/waves/$top.wlf" $top @extraArgs -do "do {$macro}"
         $exitCode = $LASTEXITCODE
         $logText = Get-Content -LiteralPath $log -Raw
