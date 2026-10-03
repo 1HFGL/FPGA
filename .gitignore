@@ -1,7 +1,5 @@
-# ModelSim / Questa generated libraries and databases
 work/
 sim/work/
-sim/archive/
 sim/transcript
 *.qdb
 *.qpg
@@ -9,35 +7,29 @@ sim/transcript
 *_vmake
 *_info
 *_lock
-
-# Simulation output and waveform databases
 results/waves/
 results/logs/
+results/*_work/
+results/*.log
 *.wlf
 *.vstf
-
-# Editor and OS noise
 .vs/
 .idea/
 *.swp
 *.swo
 Thumbs.db
 Desktop.ini
-
-# Gowin per-user UI state (local, machine specific)
 *.gprj.user
-
-# ModelSim libraries and logs produced by the audio testbenches
-results/*_work/
-results/*.log
-
-# Gowin vendor demo project kept locally as reference (21 MB with build output)
 fpga_project/Documents/
-
-# A-team simulator artifacts and machine-local mappings
+fpga_project/impl/gwsynthesis/
+fpga_project/impl/pnr/
+fpga_project/impl/temp/
+impl/
 *.vvp
 *.vcd
 build/
 transcript
 modelsim.ini
 *.cr.mti
+__pycache__/
+*.pyc

@@ -6,6 +6,7 @@ module synth_top_tb;
     reg audio_enable = 1'b0;
     reg signed [15:0] sample_data = 16'sd0;
     reg sample_valid = 1'b0;
+    wire audio_ready;
     wire sample_request;
     wire sample_underrun;
     wire i2s_bclk;
@@ -30,6 +31,7 @@ module synth_top_tb;
         .audio_enable(audio_enable),
         .sample_data(sample_data),
         .sample_valid(sample_valid),
+        .audio_ready(audio_ready),
         .sample_request(sample_request),
         .sample_underrun(sample_underrun),
         .i2s_bclk(i2s_bclk),
