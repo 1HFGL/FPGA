@@ -33,3 +33,6 @@ modelsim.ini
 *.cr.mti
 __pycache__/
 *.pyc
+
+# Generated RTL audition exports; curated evidence is kept under docs/reports/.
+results/audio/

@@ -110,7 +110,7 @@ python model/check_abc_demo.py
 
 2026-10-03 新增 `voice_bank_adsr` 与 `sample_mixer4`，复用四路独立 `voice_adsr`，支持每声部触发、完整包络、增益快照、流水线尾音反馈和饱和混音。默认保留试听音量余量。现有团队演示代码和 B/C 顶层保持原状，本模块是下一次接口对接的独立实现。
 
-当前 `-Suite A` 为 8 项，`-Suite ADSR` 为单声部 3 项，`-Suite PolyADSR` 为四声部/混音器 2 项，`-Suite All` 为 19 项。四声部默认/边界配置共 41100 个样本与 Python 参考一致，完整回归通过。接口、R0~R4 输出时刻、波形操作与验证证据见 [四声部说明](docs/a-poly-adsr.md)。
+2026-10-03 的 `-Suite A` 为 8 项，`-Suite ADSR` 为单声部 3 项，`-Suite PolyADSR` 为四声部/混音器 2 项，`-Suite All` 为 19 项。四声部默认/边界配置共 41100 个样本与 Python 参考一致，完整回归通过。接口、R0~R4 输出时刻、波形操作与验证证据见 [四声部说明](docs/a-poly-adsr.md)。
 
 ```powershell
 .\sim\run_tests.ps1 -Suite PolyADSR -ModelSimBin 'D:\modelsim1\win64'
@@ -118,3 +118,19 @@ python model/check_poly_adsr.py
 ```
 
 2026-10-03 已补跑四声部独立高云综合与布局布线：50 MHz 下裸核心 Setup/Hold +7.743/+0.247 ns，带同钟接口寄存器的验证外壳 +7.341/+0.247 ns，违例均为 0；四个 pROM、八个 DSP 保留。可移植工程和原始报告见 [四声部时序记录](docs/a-poly-adsr-timing-20261003.md)。尚未接入 C 的独立触发与 B 的输出缓存，实际板级 I/O、整机时序和上板待验证。
+
+
+## A 模块：柔和／明亮两种音色（2026-10-06）
+
+四声部核心 `voice_bank_adsr` 已接入两种单周期波表：柔和正弦、包含二／三／四次谐波的明亮音色。四路分别保存音色，新起音或重触发时更新，保持与尾音不会被外部选择变化改色。旧单声部模块仍可使用；四声部调用方须连接新增的 `voice_timbre[3:0]`，全零对应原来的柔和输出。C 的每路 4 位音色 ID 须逐槽解码，不能直接截取其 16 位总线。
+
+新增模块、数学依据、接口时刻、试听文件和实测软件验证结果见 [两种音色说明](docs/a-timbres.md)。本轮为 A 模块内部实现；B 的 I2S 缓存及 C 的音色选择／分配尚待对接，整机上板试听和时序仍待验证。
+
+```powershell
+.\sim\run_tests.ps1 -Suite Timbre -ModelSimBin 'D:\modelsim1\win64'
+python model/check_timbre_rom.py
+python model/check_timbre_bank.py
+python model/render_timbre_preview.py
+```
+
+当前入口：`Timbre` 为 3 项、`PolyADSR` 为 2 项、`ADSR` 为 3 项、`A` 为 11 项、`All` 为 22 项。原有测试继续保留。完整验证与时序证据放在 [2026-10-06 验证目录](docs/reports/timbres_20261006/)。

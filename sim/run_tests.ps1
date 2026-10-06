@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('A','ADSR','PolyADSR','B','C','AB','Demo','All')][string]$Suite = 'A',
+    [ValidateSet('A','ADSR','PolyADSR','Timbre','B','C','AB','Demo','All')][string]$Suite = 'A',
     [string]$ModelSimBin = $env:MODELSIM_BIN,
     [switch]$NegativeControl
 )
@@ -28,6 +28,9 @@ $markers = @{
     tb_voice_adsr = 'PASS: voice_adsr sample and pipeline checks'
     tb_sample_mixer4 = 'PASS: sample_mixer4 signed boundaries, saturation, idle and reset.'
     tb_voice_bank_adsr = 'PASS: voice_bank_adsr four independent envelopes, triggers, pipeline and mix.'
+    tb_wave_lut_timbre = 'PASS: two timbre ROMs, idle/reset, direct threshold and R1 pipeline.'
+    tb_timbre_bank = 'PASS: tb_timbre_bank'
+    tb_timbre_preview = 'PASS: two RTL timbre preview segments, 48000 samples each, tails silent.'
     sample_tick_tb = 'PASS sample_tick_tb'
     synth_top_tb = 'PASS synth_top_tb'
     tb_single_tone_ab = 'PASS tb_single_tone_ab:'
@@ -56,7 +59,15 @@ if ($Suite -in @('A','PolyADSR','All')) {
     $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/voice_dds.v',
                   'rtl/adsr_env.v','rtl/sample_gain.v','rtl/voice_adsr.v',
                   'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_adsr.v',
+                  'rtl/wave_lut_timbre.v','rtl/voice_timbre_adsr.v',
                   'sim/tb_sample_mixer4.sv','sim/tb_voice_bank_adsr.sv')
+}
+if ($Suite -in @('A','Timbre','All')) {
+    $tests += @('tb_wave_lut_timbre','tb_timbre_bank','tb_timbre_preview')
+    $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/wave_lut_timbre.v',
+                  'rtl/adsr_env.v','rtl/sample_gain.v','rtl/voice_timbre_adsr.v',
+                  'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_adsr.v',
+                  'sim/tb_wave_lut_timbre.sv','sim/tb_timbre_bank.sv','sim/tb_timbre_preview.sv')
 }
 if ($Suite -in @('B','AB','Demo','All')) {
     $tests += @('sample_tick_tb','synth_top_tb')
@@ -84,7 +95,8 @@ try {
     New-Item -ItemType Directory -Path 'results/logs','results/waves' -Force | Out-Null
     # ROM 虽不由 vlog 直接编译，仍是功能输入；记录本次所有源码/波表哈希。
     $manifestInputs = @($sources) + @('sim/run_tests.ps1')
-    if ($Suite -in @('A','ADSR','PolyADSR','AB','Demo','All')) { $manifestInputs += 'rtl/rom/sine_1024.mem' }
+    if ($Suite -in @('A','ADSR','PolyADSR','Timbre','AB','Demo','All')) { $manifestInputs += 'rtl/rom/sine_1024.mem' }
+    if ($Suite -in @('A','PolyADSR','Timbre','All')) { $manifestInputs += 'rtl/rom/bright_1024.mem' }
     $manifestName = if ($NegativeControl) { "${Suite}_negative_sha256.txt" } else { "${Suite}_sha256.txt" }
     $manifestLines = @("suite=$Suite negative_control=$NegativeControl")
     foreach ($source in $manifestInputs) {
@@ -123,6 +135,14 @@ quit -code 0 -f
         if ($top -eq 'tb_voice_bank_adsr') {
             $extraArgs = @('+POLY_TRACE_DEFAULT=results/logs/poly_adsr_default_trace.txt',
                            '+POLY_TRACE_BOUNDARY=results/logs/poly_adsr_boundary_trace.txt')
+        }
+        if ($top -eq 'tb_timbre_bank') {
+            $extraArgs = @('+TIMBRE_TRACE_SHORT=results/logs/timbre_bank_short_trace.txt',
+                           '+TIMBRE_TRACE_BOUNDARY=results/logs/timbre_bank_boundary_trace.txt',
+                           '+TIMBRE_TRACE_ZERO=results/logs/timbre_bank_zero_trace.txt')
+        }
+        if ($top -eq 'tb_timbre_preview') {
+            $extraArgs = @('+TIMBRE_PREVIEW=results/logs/timbre_preview.csv')
         }
         & (Join-Path $ModelSimBin 'vsim.exe') -c -lib $lib -l $log -wlf "results/waves/$top.wlf" $top @extraArgs -do "do {$macro}"
         $exitCode = $LASTEXITCODE
