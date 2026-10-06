@@ -91,7 +91,8 @@ module tb_voice_allocator;
         .note_on_count(note_on_count),
         .note_off_count(note_off_count),
         .steal_count(steal_count),
-        .steal_pulse(steal_pulse)
+        .steal_pulse(steal_pulse),
+        .voice_trigger()
     );
 
     task send_note_on;

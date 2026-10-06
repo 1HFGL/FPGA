@@ -22,6 +22,13 @@
         <File path="../rtl/note_phase_lut.v" type="file.verilog" enable="1"/>
         <File path="../rtl/demo_voice_bank.v" type="file.verilog" enable="1"/>
         <File path="../rtl/instrument_demo_top.v" type="file.verilog" enable="1"/>
+        <File path="../rtl/adsr_env.v" type="file.verilog" enable="1"/>
+        <File path="../rtl/sample_gain.v" type="file.verilog" enable="1"/>
+        <File path="../rtl/voice_adsr.v" type="file.verilog" enable="1"/>
+        <File path="../rtl/adsr_voice_bank.v" type="file.verilog" enable="1"/>
+        <File path="../rtl/sample_mixer4.v" type="file.verilog" enable="1"/>
+        <File path="../rtl/voice_bank_adsr.v" type="file.verilog" enable="1"/>
+        <File path="../rtl/instrument_adsr_top.v" type="file.verilog" enable="1"/>
         <File path="../boards/tang_mega_60k_31004/demo.cst" type="file.cst" enable="1"/>
         <File path="../boards/tang_mega_60k_31004/demo.sdc" type="file.sdc" enable="1"/>
     </FileList>

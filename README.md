@@ -1,6 +1,16 @@
-# FPGA 多音色电子乐器：团队方案与开发进度
+# 高云 FPGA 电子琴：当前集成进度
 
-### 器件清单与采购边界
+2026-10-06审查更新：已接入A的 `voice_bank_adsr`／`sample_mixer4` 和C触发／尾音反馈，修复时间戳回绕、过期松键、跨来源表情及同音接管继承表情四项问题。26项仿真、五个Python参考及负向检查通过；普通／自动版重新综合、布局布线并生成 `.fs`。普通版LUT 2251→2119，寄存器1147→965；50MHz下两版违例0/0，最差Setup分别+6.619/+5.669ns，8/8端口约束。**PR1014、完整DAC外部时序及长背压队列风险仍保留，新版未上板。** 本轮交付分支为 `codex/adsr-integration`，见 [代码审查与优化](docs/code-review-20261006.md)；接口见 [最新接入说明](docs/poly-integration.md)。
+
+现有硬件是板卡和耳机，没有音箱；当前试听不需要新增器件。KEY0复位、KEY1=C4、KEY2=E4，仍未实现13键、ADC旋钮、第二音色或外部实时变调。
+
+2026-10-02：已接入队友最新的完整ADSR，新增四声部 `instrument_adsr_top`；旧两键渐变demo保留。KEY0复位、KEY1=C4、KEY2=E4，新版仍不具备13键、ADC旋钮或第二音色。
+
+2026-10-02历史结果：20项仿真和当时的高云实现通过，最差建立裕量0.025ns；原两份ADSR位流已备份，新输出路径现在对应10月6日重新构建的版本。历史报告不作为当前版本证据。
+
+高云打开 `fpga_project/fpga_project.gprj`，核对顶层 `instrument_adsr_top`、输出名 `instrument_adsr`；新普通版下载文件为 `fpga_project/impl/pnr/instrument_adsr.fs`。接线沿用31004。构建、试听、证据与回退步骤见 [最新接入说明](docs/poly-integration.md)；[10月2日说明](docs/adsr-integration.md)保留作历史记录。
+
+## 器件清单与采购边界
 
 | 器件 | 数量 | 必须核对 |
 |---|---:|---|
@@ -9,10 +19,10 @@
 | ADS1115模块 | 1块 | 已焊排针，整板3.3V供电，I2C上拉不得接5V |
 | 面包板／免焊配线板 | 1套 | 电源、地及必要上拉分配 |
 | 杜邦线及匹配线缆 | 1套 | 覆盖全部模块与板卡连接 |
-| 电阻、电容 | 1小包 | 必要上拉、去耦 |
+| 零散电阻、电容 | 暂不采购 | 优先成品模块；确认板上已有合适上拉和去耦后可省，缺失时再补 |
 | 固定底板、绝缘固定件、标签 | 1套 | 黑白键布局、模块固定和线材拉力保护 |
 
-ADS1115只采集两个慢变化旋钮，不承担音频采样；双通道更新延迟需要验证。器件依据见 [TI官方数据手册](https://www.ti.com/lit/ds/symlink/ads1115.pdf)。不额外购买处理器、按键扩展芯片或外放音箱。
+ADS1115只采集两个慢变化旋钮，不承担音频采样；双通道更新延迟需要验证。器件依据见 [TI官方数据手册](https://www.ti.com/lit/ds/symlink/ads1115.pdf)。不额外购买处理器或按键扩展芯片；开发先用现有耳机，音箱尚未采购，不把耳机出声记录成已有外放设备。
 
 C整理候选模块和价格，B核对供电、电平、接口及接头，三人确认后采购。若合格器件超预算，暂停并重新评估，不擅自减键或要求焊接。
 
@@ -27,7 +37,7 @@ C整理候选模块和价格，B核对供电、电平、接口及接头，三人
 - 输入：各声部音符、触发、保持／释放、音色，以及整体音量和变调参数。
 - 输出：16位有符号混音样本、样本有效、各声部释放完成反馈。
 - 复用 `phase_acc`、`wave_lut`、`voice_dds` 和音符步长查表；四声部保持独立相位、音高和包络。
-- 实现完整 `adsr_envelope`、柔和／明亮两种波表、实时变调、音量平滑、宽位混音与饱和。模块可合理合并，不复制四份声部源码。
+- 完整 `adsr_env` 和扩位／饱和混音已随A最新四声部模块接入；后续实现柔和／明亮两种波表、实时变调与音量平滑。当前保留低音量试听范围，不复制四份声部源码。
 - 初始包络：起音2ms、衰减500ms、保持约峰值10%、释放120ms；松键从当前包络值开始释放。
 - 交付：RTL、波表生成依据／脚本、Python参考模型、逐样本对照与正常／边界／复位测试结果、输出延迟说明。
 - 第一项实验：单声部包络，检查正常松键及起音／衰减中提前松键，然后扩展四声部。
@@ -76,7 +86,8 @@ C整理候选模块和价格，B核对供电、电平、接口及接头，三人
 | A | `rtl/phase_acc.v`、`wave_lut.v`、`voice_dds.v` | 单声部实时正弦合成 |
 | B | `rtl/sample_tick.v`、`i2s_tx.v`、`synth_top.v` | 采样请求、板载 DAC 串行发送、功放控制 |
 | C | `rtl/interaction_top.v` 等 | 消抖、音符事件、分配及自动测试事件 |
-| 集成 | `rtl/demo_voice_bank.v`、`instrument_demo_top.v` | 四声部、渐变包络、低音量混音和板级连接 |
+| 当前集成 | `rtl/voice_bank_adsr.v`、`sample_mixer4.v`、`instrument_adsr_top.v` | A最新四声部、完整包络、饱和混音与B/C板级连接 |
+| 旧版回退 | `rtl/demo_voice_bank.v`、`instrument_demo_top.v`、`adsr_voice_bank.v` | 原渐变demo及旧ADSR bank，源码和测试保留 |
 | 测试 | `sim/`、`tb/`、`model/` | 原 A/B/C 回归与新增集成检查 |
 
 旧 C 说明保留在 [docs/c-interaction.md](docs/c-interaction.md)，原 C 模块/测试仍保留。协作与赛题计划见 [PLAN.md](PLAN.md)。
@@ -95,7 +106,7 @@ python model/check_adsr.py
 
 ## A 分支与团队 master 同步
 
-2026-10-03 将团队 `master` 的 `e7dd27a` 合入 `feat/a-dds-core`，保留 A 的 `8032be8` 时序优化及原始证据。四声部 demo、音符查表、B/C 模块、板级工程及集成测试现已位于同一工作区。当前 `demo_voice_bank` 仍使用原来的简单渐变包络；完整 ADSR 已在单声部验证，四声部升级是下一项任务。
+2026-10-03 将团队 `master` 的 `e7dd27a` 合入 `feat/a-dds-core`，保留 A 的 `8032be8` 时序优化及原始证据。四声部 demo、音符查表、B/C 模块、板级工程及集成测试位于同一工作区。当时 `demo_voice_bank` 仍使用简单渐变包络；现在该模块作为旧版保留，活动板级顶层已使用最新完整ADSR bank。
 
 合并时批量脚本保留两边的入口：`-Suite A` 为 DDS 与 ADSR 共 6 项，`-Suite ADSR` 为 3 项；`B/C/AB/Demo/All` 保留团队测试。独立 ADSR 入口显式加入 DDS 依赖，并继续导出 Python 所需的 ADSR 轨迹。当时的 17 项合并回归结果见 [合并验证记录](docs/a-master-merge-20261003.md)；新增四声部测试后的当前入口见下节。
 
@@ -108,13 +119,13 @@ python model/check_abc_demo.py
 
 ## A 模块：四声部内部 ADSR
 
-2026-10-03 新增 `voice_bank_adsr` 与 `sample_mixer4`，复用四路独立 `voice_adsr`，支持每声部触发、完整包络、增益快照、流水线尾音反馈和饱和混音。默认保留试听音量余量。现有团队演示代码和 B/C 顶层保持原状，本模块是下一次接口对接的独立实现。
+2026-10-03 新增 `voice_bank_adsr` 与 `sample_mixer4`，复用四路独立 `voice_adsr`，支持每声部触发、完整包络、增益快照、流水线尾音反馈和饱和混音。默认保留试听音量余量。2026-10-06已完成与C独立触发、尾音反馈及B输出缓存的板级接入；旧演示代码保留。
 
-当前 `-Suite A` 为 8 项，`-Suite ADSR` 为单声部 3 项，`-Suite PolyADSR` 为四声部/混音器 2 项，`-Suite All` 为 19 项。四声部默认/边界配置共 41100 个样本与 Python 参考一致，完整回归通过。接口、R0~R4 输出时刻、波形操作与验证证据见 [四声部说明](docs/a-poly-adsr.md)。
+当前 `-Suite A` 为8项，`-Suite ADSR` 为单声部3项，`-Suite PolyADSR` 为四声部/混音器2项，`-Suite ADSRDemo` 为17项，`-Suite All` 为22项。A四声部默认/边界配置共41100个样本与Python参考一致，新旧完整回归通过。接口、R0~R4输出时刻与独立证据见 [四声部说明](docs/a-poly-adsr.md)，整机证据见 [板级接入说明](docs/poly-integration.md)。
 
 ```powershell
-.\sim\run_tests.ps1 -Suite PolyADSR -ModelSimBin 'D:\modelsim1\win64'
+.\sim\run_tests.ps1 -Suite PolyADSR -ModelSimBin 'C:\Library\modelsim\win64'
 python model/check_poly_adsr.py
 ```
 
-2026-10-03 已补跑四声部独立高云综合与布局布线：50 MHz 下裸核心 Setup/Hold +7.743/+0.247 ns，带同钟接口寄存器的验证外壳 +7.341/+0.247 ns，违例均为 0；四个 pROM、八个 DSP 保留。可移植工程和原始报告见 [四声部时序记录](docs/a-poly-adsr-timing-20261003.md)。尚未接入 C 的独立触发与 B 的输出缓存，实际板级 I/O、整机时序和上板待验证。
+2026-10-03独立高云验证：裸核心Setup/Hold +7.743/+0.247ns，同钟接口外壳+7.341/+0.247ns，违例0/0；四个pROM、八个DSP保留。独立工程和原始报告见 [四声部时序记录](docs/a-poly-adsr-timing-20261003.md)。2026-10-06整机接入和高云实现结果见本文开头；完整外部DAC时序与新版本上板仍待验证。

@@ -112,7 +112,8 @@ module board_top #(
         .note_on_count            (note_on_count),
         .note_off_count           (note_off_count),
         .steal_count              (steal_count),
-        .steal_pulse              (steal_pulse)
+        .steal_pulse              (steal_pulse),
+        .voice_trigger            ()
     );
 
     assign led_value[0] = key_level[0];

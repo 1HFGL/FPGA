@@ -4,7 +4,7 @@ module voice_allocator #(
     parameter integer VOICES       = 32,
     parameter integer IDX_WIDTH    = 5,
     parameter integer COUNT_WIDTH  = 6,
-    parameter integer TIME_WIDTH   = 32,
+    parameter integer TIME_WIDTH   = 32, // 保留旧实例兼容；排序已不再依赖时钟时间戳。
     parameter integer SOURCE_WIDTH = 5,
     parameter integer BEND_WIDTH   = 16,
     parameter integer EXPR_WIDTH   = 8
@@ -21,7 +21,7 @@ module voice_allocator #(
     input  wire expr_valid,
     output wire expr_ready,
     input  wire [SOURCE_WIDTH-1:0] expr_source_id,
-    input  wire [6:0] expr_note,
+    input  wire [6:0] expr_note, // 兼容字段；表情只更新当前source_id所属声部。
     input  wire [BEND_WIDTH-1:0] expr_pitch_bend,
     input  wire [EXPR_WIDTH-1:0] expr_aftertouch,
     input  wire [EXPR_WIDTH-1:0] expr_vibrato_depth,
@@ -42,7 +42,9 @@ module voice_allocator #(
     output reg  [31:0] note_on_count,
     output reg  [31:0] note_off_count,
     output reg  [31:0] steal_count,
-    output reg  steal_pulse
+    output reg  steal_pulse,
+    // 成功应用 note-on 后输出一拍；同音重触发及抢占也必须通知包络。
+    output reg [VOICES-1:0] voice_trigger
 );
 
     localparam [1:0] S_IDLE      = 2'd0;
@@ -58,8 +60,21 @@ module voice_allocator #(
     reg [EXPR_WIDTH-1:0] aftertouch_mem [0:VOICES-1];
     reg [EXPR_WIDTH-1:0] vibrato_depth_mem [0:VOICES-1];
     reg [EXPR_WIDTH-1:0] vibrato_rate_mem [0:VOICES-1];
-    reg [TIME_WIDTH-1:0] age_mem [0:VOICES-1];
-    reg [TIME_WIDTH-1:0] time_counter;
+    function integer rank_bits;
+        input integer count;
+        integer value;
+        begin
+            value=count-1;
+            rank_bits=0;
+            while(value>0) begin rank_bits=rank_bits+1; value=value>>1; end
+            if(rank_bits==0) rank_bits=1;
+        end
+    endfunction
+    localparam integer AGE_WIDTH=rank_bits(VOICES);
+    // 所有槽（含空闲槽）保存 0..VOICES-1 的排列：0 最新，数值越大越旧。
+    // note-on 将目标移到最前，其前面的槽后移；持续演奏多久都不会回绕。
+    // 四声部每槽只需2位，32声部每槽5位；不再需要每拍运行的32位计数器。
+    reg [AGE_WIDTH-1:0] age_mem [0:VOICES-1];
 
     reg [1:0] state;
     reg op_expr;
@@ -71,7 +86,6 @@ module voice_allocator #(
     reg [6:0] latched_velocity;
     reg [3:0] latched_timbre;
     reg [SOURCE_WIDTH-1:0] latched_expr_source_id;
-    reg [6:0] latched_expr_note;
     reg [BEND_WIDTH-1:0] latched_pitch_bend;
     reg [EXPR_WIDTH-1:0] latched_aftertouch;
     reg [EXPR_WIDTH-1:0] latched_vibrato_depth;
@@ -87,17 +101,13 @@ module voice_allocator #(
     reg [IDX_WIDTH-1:0] release_idx;
     reg oldest_found;
     reg [IDX_WIDTH-1:0] oldest_idx;
-    reg [TIME_WIDTH-1:0] oldest_age;
+    reg [AGE_WIDTH-1:0] oldest_age;
 
     reg off_source_found;
     reg [IDX_WIDTH-1:0] off_source_idx;
-    reg off_note_found;
-    reg [IDX_WIDTH-1:0] off_note_idx;
 
     reg expr_source_found;
     reg [IDX_WIDTH-1:0] expr_source_idx;
-    reg expr_note_found;
-    reg [IDX_WIDTH-1:0] expr_note_idx;
 
     reg [IDX_WIDTH-1:0] target_idx;
     reg target_valid;
@@ -134,7 +144,8 @@ module voice_allocator #(
             target_idx = same_source_idx;
         end else if (same_note_found) begin
             target_valid = 1'b1;
-            target_is_same = 1'b1;
+            // 同音复用但所有者已改变，重新初始化表情，不能继承旧来源弯音。
+            target_is_same = 1'b0;
             target_idx = same_note_idx;
         end else if (free_found) begin
             target_valid = 1'b1;
@@ -150,19 +161,12 @@ module voice_allocator #(
     end
 
     always @* begin
-        off_target_valid = off_source_found | off_note_found;
-        if (off_source_found) begin
-            off_target_idx = off_source_idx;
-        end else begin
-            off_target_idx = off_note_idx;
-        end
-
-        expr_target_valid = expr_source_found | expr_note_found;
-        if (expr_source_found) begin
-            expr_target_idx = expr_source_idx;
-        end else begin
-            expr_target_idx = expr_note_idx;
-        end
+        // note-off 必须同时匹配来源和音符。按音符兜底会让被抢占的旧键
+        // 误关另一个来源接管的同音；表情也不得跨来源兜底。
+        off_target_valid = off_source_found;
+        off_target_idx = off_source_idx;
+        expr_target_valid = expr_source_found;
+        expr_target_idx = expr_source_idx;
     end
 
     genvar g;
@@ -184,12 +188,12 @@ module voice_allocator #(
             state <= S_IDLE;
             op_expr <= 1'b0;
             scan_idx <= {IDX_WIDTH{1'b0}};
-            time_counter <= {TIME_WIDTH{1'b0}};
             max_voice_count <= {COUNT_WIDTH{1'b0}};
             note_on_count <= 32'd0;
             note_off_count <= 32'd0;
             steal_count <= 32'd0;
             steal_pulse <= 1'b0;
+            voice_trigger <= {VOICES{1'b0}};
             voice_active <= {VOICES{1'b0}};
             voice_gate <= {VOICES{1'b0}};
             for (i = 0; i < VOICES; i = i + 1) begin
@@ -201,11 +205,11 @@ module voice_allocator #(
                 aftertouch_mem[i] <= {EXPR_WIDTH{1'b0}};
                 vibrato_depth_mem[i] <= {EXPR_WIDTH{1'b0}};
                 vibrato_rate_mem[i] <= {EXPR_WIDTH{1'b0}};
-                age_mem[i] <= {TIME_WIDTH{1'b0}};
+                age_mem[i] <= i;
             end
         end else begin
-            time_counter <= time_counter + 1'b1;
             steal_pulse <= 1'b0;
+            voice_trigger <= {VOICES{1'b0}};
 
             for (i = 0; i < VOICES; i = i + 1) begin
                 if (voice_active[i] && !voice_gate[i] && release_done[i]) begin
@@ -233,20 +237,17 @@ module voice_allocator #(
                         release_found <= 1'b0;
                         oldest_found <= 1'b0;
                         off_source_found <= 1'b0;
-                        off_note_found <= 1'b0;
-                        oldest_age <= {TIME_WIDTH{1'b1}};
+                        oldest_age <= {AGE_WIDTH{1'b0}};
                         state <= S_SCAN;
                     end else if (expr_valid) begin
                         op_expr <= 1'b1;
                         latched_expr_source_id <= expr_source_id;
-                        latched_expr_note <= expr_note;
                         latched_pitch_bend <= expr_pitch_bend;
                         latched_aftertouch <= expr_aftertouch;
                         latched_vibrato_depth <= expr_vibrato_depth;
                         latched_vibrato_rate <= expr_vibrato_rate;
                         scan_idx <= {IDX_WIDTH{1'b0}};
                         expr_source_found <= 1'b0;
-                        expr_note_found <= 1'b0;
                         state <= S_EXPR_SCAN;
                     end
                 end
@@ -260,8 +261,6 @@ module voice_allocator #(
                         if (note_mem[scan_idx] == latched_note) begin
                             same_note_found <= 1'b1;
                             same_note_idx <= scan_idx;
-                            off_note_found <= 1'b1;
-                            off_note_idx <= scan_idx;
                             if (source_id_mem[scan_idx] == latched_source_id) begin
                                 off_source_found <= 1'b1;
                                 off_source_idx <= scan_idx;
@@ -280,7 +279,7 @@ module voice_allocator #(
                     end
 
                     if (voice_active[scan_idx] && voice_gate[scan_idx]) begin
-                        if (!oldest_found || (age_mem[scan_idx] < oldest_age)) begin
+                        if (!oldest_found || (age_mem[scan_idx] > oldest_age)) begin
                             oldest_found <= 1'b1;
                             oldest_idx <= scan_idx;
                             oldest_age <= age_mem[scan_idx];
@@ -299,10 +298,6 @@ module voice_allocator #(
                         if (source_id_mem[scan_idx] == latched_expr_source_id) begin
                             expr_source_found <= 1'b1;
                             expr_source_idx <= scan_idx;
-                        end
-                        if (note_mem[scan_idx] == latched_expr_note) begin
-                            expr_note_found <= 1'b1;
-                            expr_note_idx <= scan_idx;
                         end
                     end
 
@@ -323,13 +318,19 @@ module voice_allocator #(
                         end
                     end else if (latched_event_type) begin
                         if (target_valid) begin
+                            voice_trigger[target_idx] <= 1'b1;
                             voice_active[target_idx] <= 1'b1;
                             voice_gate[target_idx] <= 1'b1;
                             source_id_mem[target_idx] <= latched_source_id;
                             note_mem[target_idx] <= latched_note;
                             velocity_mem[target_idx] <= latched_velocity;
                             timbre_mem[target_idx] <= latched_timbre;
-                            age_mem[target_idx] <= time_counter;
+                            // 空闲槽也参与排列，释放造成空洞时仍能保持唯一先后顺序。
+                            for (i = 0; i < VOICES; i = i + 1) begin
+                                if (i == target_idx) age_mem[i] <= {AGE_WIDTH{1'b0}};
+                                else if (age_mem[i] < age_mem[target_idx])
+                                    age_mem[i] <= age_mem[i] + 1'b1;
+                            end
                             if (!target_is_same) begin
                                 pitch_bend_mem[target_idx] <= {BEND_WIDTH{1'b0}};
                                 aftertouch_mem[target_idx] <= {EXPR_WIDTH{1'b0}};

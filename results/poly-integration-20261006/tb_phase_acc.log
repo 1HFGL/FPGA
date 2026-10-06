@@ -1,0 +1,40 @@
+# vsim -c -lib results/regression_work -l results/logs/tb_phase_acc.log -wlf results/waves/tb_phase_acc.wlf tb_phase_acc -do "do {results/logs/tb_phase_acc_run.do}" 
+# Start time: 11:41:48 on Oct 06,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_phase_acc(fast)
+# do {results/logs/tb_phase_acc_run.do}
+# CHECK 1: phase=00000000 addr=0
+# CHECK 2: phase=00000005 addr=0
+# CHECK 3: phase=0000000a addr=0
+# CHECK 4: phase=0000000f addr=0
+# CHECK 5: phase=0000000f addr=0
+# CHECK 6: phase=0000000f addr=0
+# CHECK 7: phase=00000014 addr=0
+# CHECK 8: phase=00000000 addr=0
+# CHECK 9: phase=40000000 addr=256
+# CHECK 10: phase=80000000 addr=512
+# CHECK 11: phase=c0000000 addr=768
+# CHECK 12: phase=00000000 addr=0
+# CHECK 13: phase=ffffffff addr=1023
+# CHECK 14: phase=00000000 addr=0
+# CHECK 15: phase=00000000 addr=0
+# PASS: all 15 checks passed.
+# ** Note: $stop    : sim/tb_phase_acc.v(84)
+#    Time: 156 ns  Iteration: 0  Instance: /tb_phase_acc
+# Break at sim/tb_phase_acc.v line 84
+# End time: 11:41:52 on Oct 06,2026, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0

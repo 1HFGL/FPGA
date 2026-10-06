@@ -45,7 +45,8 @@ module instrument_demo_top #(
         .test_busy(), .test_done(), .voice_source_id_flat(), .voice_timbre_flat(),
         .voice_pitch_bend_flat(), .voice_aftertouch_flat(),
         .voice_vibrato_depth_flat(), .voice_vibrato_rate_flat(),
-        .max_voice_count(), .note_on_count(), .note_off_count(), .steal_count(), .steal_pulse()
+        .max_voice_count(), .note_on_count(), .note_off_count(), .steal_count(), .steal_pulse(),
+        .voice_trigger() // 旧渐变 demo 保持不变；新 ADSR 顶层接入此信号。
     );
     demo_voice_bank u_bank (
         .clk(sys_clk), .rst_n(audio_ready), .sample_request(sample_request),

@@ -1,12 +1,12 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('A','ADSR','PolyADSR','B','C','AB','Demo','All')][string]$Suite = 'A',
+    [ValidateSet('A','ADSR','PolyADSR','B','C','AB','Demo','ADSRDemo','Review','All')][string]$Suite = 'A',
     [string]$ModelSimBin = $env:MODELSIM_BIN,
     [switch]$NegativeControl
 )
 $ErrorActionPreference = 'Stop'
-if ($NegativeControl -and $Suite -ne 'AB') {
-    throw 'NegativeControl is only supported with -Suite AB.'
+if ($NegativeControl -and $Suite -notin @('AB','ADSRDemo')) {
+    throw 'NegativeControl is only supported with -Suite AB or ADSRDemo.'
 }
 $root = Split-Path -Parent $PSScriptRoot
 if (-not $ModelSimBin) {
@@ -39,12 +39,19 @@ $markers = @{
     tb_voice_test_pattern = 'PASS: tb_voice_test_pattern'
     tb_demo_voice_bank = 'PASS tb_demo_voice_bank'
     tb_instrument_demo = 'PASS tb_instrument_demo'
+    tb_adsr_voice_bank = 'PASS tb_adsr_voice_bank'
+    tb_instrument_adsr = 'PASS tb_instrument_adsr'
+    tb_allocator_trigger = 'PASS tb_allocator_trigger'
+    tb_allocator_age = 'PASS tb_allocator_age:'
+    tb_allocator_owner = 'PASS tb_allocator_owner:'
+    tb_allocator_expression_owner = 'PASS tb_allocator_expression_owner:'
+    tb_allocator_expression_reset = 'PASS tb_allocator_expression_reset:'
 }
-if ($Suite -in @('A','AB','Demo','All')) {
-    $tests += @('tb_phase_acc','tb_wave_lut','tb_voice_dds')
+if ($Suite -in @('A','ADSR','AB','Demo','ADSRDemo','All')) {
+    if ($Suite -ne 'ADSR') { $tests += @('tb_phase_acc','tb_wave_lut','tb_voice_dds') }
     $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/voice_dds.v','sim/tb_phase_acc.v','sim/tb_wave_lut.v','sim/tb_voice_dds.v')
 }
-if ($Suite -in @('A','ADSR','All')) {
+if ($Suite -in @('A','ADSR','ADSRDemo','All')) {
     $tests += @('tb_adsr_env','tb_sample_gain','tb_voice_adsr')
     # 单独运行 ADSR 时，也必须显式编译 voice_adsr 依赖的 DDS 模块。
     $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/voice_dds.v',
@@ -58,7 +65,7 @@ if ($Suite -in @('A','PolyADSR','All')) {
                   'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_adsr.v',
                   'sim/tb_sample_mixer4.sv','sim/tb_voice_bank_adsr.sv')
 }
-if ($Suite -in @('B','AB','Demo','All')) {
+if ($Suite -in @('B','AB','Demo','ADSRDemo','All')) {
     $tests += @('sample_tick_tb','synth_top_tb')
     $sources += @('rtl/sample_tick.v','rtl/i2s_tx.v','rtl/synth_top.v','sim/sample_tick_tb.v','sim/synth_top_tb.v')
 }
@@ -66,7 +73,7 @@ if ($Suite -in @('AB','All')) {
     $tests += 'tb_single_tone_ab'
     $sources += @('rtl/single_tone_demo_top.v','sim/tb_single_tone_ab.v')
 }
-if ($Suite -in @('C','Demo','All')) {
+if ($Suite -in @('C','Demo','ADSRDemo','All')) {
     $cModules = @('input_sync_debounce','touch_or_key_if','pressure_if','event_encoder','voice_allocator','reset_sync','voice_test_pattern','interaction_top','board_top','board_test_top')
     $cTests = @('tb_input_sync_debounce','tb_pressure_if','tb_event_encoder','tb_voice_allocator','tb_interaction_top','tb_voice_test_pattern')
     $sources += @($cModules | ForEach-Object { "rtl/$_.v" })
@@ -77,14 +84,25 @@ if ($Suite -in @('Demo','All')) {
     $sources += @('rtl/note_phase_lut.v','rtl/demo_voice_bank.v','rtl/instrument_demo_top.v','sim/tb_demo_voice_bank.sv','sim/tb_instrument_demo.sv')
     $tests += @('tb_demo_voice_bank','tb_instrument_demo')
 }
-# A/ADSR/All 共用 DDS 源码，只编译一次；保留团队 C/AB/Demo 的全部测试。
+if ($Suite -in @('ADSRDemo','All')) {
+    $sources += @('rtl/note_phase_lut.v','rtl/adsr_voice_bank.v','rtl/sample_mixer4.v',
+        'rtl/voice_bank_adsr.v','rtl/instrument_adsr_top.v',
+        'sim/tb_adsr_voice_bank.sv','sim/tb_instrument_adsr.sv','sim/tb_allocator_trigger.sv')
+    $tests += @('tb_adsr_voice_bank','tb_instrument_adsr','tb_allocator_trigger')
+}
+# 两套四声部测试都保留，共用 DDS 源码只编译一次。
+if ($Suite -in @('C','Demo','ADSRDemo','Review','All')) {
+    $sources += @('rtl/voice_allocator.v','sim/tb_allocator_review.sv')
+    $tests += @('tb_allocator_age','tb_allocator_owner','tb_allocator_expression_owner','tb_allocator_expression_reset')
+}
 $sources = @($sources | Select-Object -Unique)
+if ($NegativeControl -and $Suite -eq 'ADSRDemo') { $tests = @('tb_instrument_adsr') }
 Push-Location $root
 try {
     New-Item -ItemType Directory -Path 'results/logs','results/waves' -Force | Out-Null
     # ROM 虽不由 vlog 直接编译，仍是功能输入；记录本次所有源码/波表哈希。
     $manifestInputs = @($sources) + @('sim/run_tests.ps1')
-    if ($Suite -in @('A','ADSR','PolyADSR','AB','Demo','All')) { $manifestInputs += 'rtl/rom/sine_1024.mem' }
+    if ($Suite -in @('A','ADSR','PolyADSR','AB','Demo','ADSRDemo','All')) { $manifestInputs += 'rtl/rom/sine_1024.mem' }
     $manifestName = if ($NegativeControl) { "${Suite}_negative_sha256.txt" } else { "${Suite}_sha256.txt" }
     $manifestLines = @("suite=$Suite negative_control=$NegativeControl")
     foreach ($source in $manifestInputs) {
@@ -99,7 +117,9 @@ try {
         if ($LASTEXITCODE -ne 0) { throw 'vlib failed.' }
     }
     $compileArgs = @('-sv')
-    if ($NegativeControl) { $compileArgs += '+define+AB_NEGATIVE_CONTROL' }
+    if ($NegativeControl) {
+        $compileArgs += $(if ($Suite -eq 'AB') { '+define+AB_NEGATIVE_CONTROL' } else { '+define+ADSR_NEGATIVE_CONTROL' })
+    }
     & (Join-Path $ModelSimBin 'vlog.exe') @compileArgs -work $lib @sources
     if ($LASTEXITCODE -ne 0) { throw 'Compilation failed.' }
     foreach ($top in $tests) {
@@ -124,7 +144,9 @@ quit -code 0 -f
             $extraArgs = @('+POLY_TRACE_DEFAULT=results/logs/poly_adsr_default_trace.txt',
                            '+POLY_TRACE_BOUNDARY=results/logs/poly_adsr_boundary_trace.txt')
         }
-        & (Join-Path $ModelSimBin 'vsim.exe') -c -lib $lib -l $log -wlf "results/waves/$top.wlf" $top @extraArgs -do "do {$macro}"
+        # 负向对照保留独立波形，不能覆盖正常串行验证的波形。
+        $waveName = if ($NegativeControl) { "${top}_negative" } else { $top }
+        & (Join-Path $ModelSimBin 'vsim.exe') -c -lib $lib -l $log -wlf "results/waves/$waveName.wlf" $top @extraArgs -do "do {$macro}"
         $exitCode = $LASTEXITCODE
         $logText = Get-Content -LiteralPath $log -Raw
         if ($exitCode -ne 0 -or $logText -match '(?m)^# \*\* (Fatal|Error):|(?m)^#\s*FAIL' -or -not $logText.Contains($markers[$top])) {

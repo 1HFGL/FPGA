@@ -56,7 +56,8 @@ module interaction_top #(
     output wire [31:0] note_on_count,
     output wire [31:0] note_off_count,
     output wire [31:0] steal_count,
-    output wire steal_pulse
+    output wire steal_pulse,
+    output wire [VOICES-1:0] voice_trigger
 );
 
     wire event_ready_alloc;
@@ -195,7 +196,8 @@ module interaction_top #(
         .note_on_count           (note_on_count),
         .note_off_count          (note_off_count),
         .steal_count             (steal_count),
-        .steal_pulse             (steal_pulse)
+        .steal_pulse             (steal_pulse),
+        .voice_trigger           (voice_trigger)
     );
 
 endmodule
