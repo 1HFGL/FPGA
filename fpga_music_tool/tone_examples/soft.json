@@ -1,0 +1,33 @@
+{
+  "format": "fpga-tone-studio",
+  "version": 1,
+  "tone": {
+    "name": "柔和草稿",
+    "harmonics": [
+      255,
+      24,
+      40,
+      0,
+      12,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "attack_ms": 5,
+    "decay_ms": 300,
+    "sustain": 192,
+    "release_ms": 180,
+    "volume": 64,
+    "mode": 0,
+    "vibrato_cents": 0,
+    "vibrato_tenths_hz": 50
+  }
+}

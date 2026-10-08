@@ -2,6 +2,9 @@
 
 // 单声部连接：正弦 DDS 产生波形，ADSR 产生音量，乘法器将两者相乘。
 // 信号端口与 v1 一致；STEP 参数升级为以采样点为单位的 SAMPLES 参数。
+// DDS（直接数字合成）负责“多高的音”；ADSR（起音/衰减/保持/释放）负责
+// “这个音随时间多响”。二者相乘仍是实时合成，不是播放钢琴录音。
+// gate只控制包络，不重置DDS相位；松键后的请求也不能停，否则尾音会冻结。
 module voice_adsr #(
     parameter ROM_FILE = "rtl/rom/sine_1024.mem",
     parameter [31:0] ATTACK_SAMPLES  = 32'd96,

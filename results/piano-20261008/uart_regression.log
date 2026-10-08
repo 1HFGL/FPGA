@@ -1,0 +1,297 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 18:55:45 on Oct 08,2026
+vlog -sv -work results/uart-basic-20261008/normal_work rtl/adsr_env.v rtl/adsr_voice_bank.v rtl/board_test_top.v rtl/board_top.v rtl/demo_voice_bank.v rtl/event_encoder.v rtl/i2s_tx.v rtl/input_sync_debounce.v rtl/instrument_adsr_top.v rtl/instrument_demo_top.v rtl/instrument_uart_piano_top.v rtl/instrument_uart_top.v rtl/interaction_top.v rtl/note_phase_lut.v rtl/phase_acc.v rtl/pressure_if.v rtl/reset_sync.v rtl/sample_gain.v rtl/sample_mixer4.v rtl/sample_tick.v rtl/single_tone_demo_top.v rtl/synth_top.v rtl/touch_or_key_if.v rtl/uart_event_arbiter.v rtl/uart_fifo.v rtl/uart_line_rx.v rtl/uart_reply_tx.v rtl/uart_rx.v rtl/uart_synth_protocol.v rtl/uart_tx.v rtl/voice_adsr.v rtl/voice_allocator.v rtl/voice_bank_adsr.v rtl/voice_dds.v rtl/voice_test_pattern.v rtl/wave_lut.v sim/tb_uart_bytes.sv sim/tb_uart_flow.sv sim/tb_uart_instrument.sv sim/tb_uart_line.sv sim/tb_uart_piano_board.sv sim/tb_uart_protocol.sv sim/tb_uart_replies.sv 
+-- Compiling module adsr_env
+-- Compiling module adsr_voice_bank
+-- Compiling module board_test_top
+-- Compiling module board_top
+-- Compiling module demo_voice_bank
+-- Compiling module event_encoder
+-- Compiling module i2s_tx
+-- Compiling module input_sync_debounce
+-- Compiling module instrument_adsr_top
+-- Compiling module instrument_adsr_auto_top
+-- Compiling module instrument_demo_top
+-- Compiling module instrument_demo_auto_top
+-- Compiling module instrument_uart_piano_top
+-- Compiling module instrument_uart_top
+-- Compiling module interaction_top
+-- Compiling module note_phase_lut
+-- Compiling module phase_acc
+-- Compiling module pressure_if
+-- Compiling module reset_sync
+-- Compiling module sample_gain
+-- Compiling module sample_mixer4
+-- Compiling module sample_tick
+-- Compiling module single_tone_demo_top
+-- Compiling module synth_top
+-- Compiling module touch_or_key_if
+-- Compiling module uart_event_arbiter
+-- Compiling module uart_fifo
+-- Compiling module uart_line_rx
+-- Compiling module uart_reply_tx
+-- Compiling module uart_rx
+-- Compiling module uart_synth_protocol
+-- Compiling module uart_tx
+-- Compiling module voice_adsr
+-- Compiling module voice_allocator
+-- Compiling module voice_bank_adsr
+-- Compiling module voice_dds
+-- Compiling module voice_test_pattern
+-- Compiling module wave_lut
+-- Compiling module tb_uart_bytes
+-- Compiling module tb_uart_flow
+-- Compiling module tb_uart_instrument
+-- Compiling module tb_uart_instrument_115200
+-- Compiling module tb_uart_line
+-- Compiling module tb_uart_piano_board
+-- Compiling module tb_uart_protocol
+-- Compiling module tb_uart_replies
+
+Top level modules:
+	adsr_voice_bank
+	board_test_top
+	instrument_adsr_auto_top
+	instrument_demo_auto_top
+	single_tone_demo_top
+	tb_uart_bytes
+	tb_uart_flow
+	tb_uart_instrument_115200
+	tb_uart_line
+	tb_uart_piano_board
+	tb_uart_protocol
+	tb_uart_replies
+End time: 18:55:45 on Oct 08,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib results/uart-basic-20261008/normal_work -l results/uart-basic-20261008/tb_uart_bytes_normal.log -wlf results/uart-basic-20261008/tb_uart_bytes_normal.wlf tb_uart_bytes -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 18:55:46 on Oct 08,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_uart_bytes(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_bytes: 256 RX/TX values, phase, baud, framing, reset
+# ** Note: $finish    : sim/tb_uart_bytes.sv(67)
+#    Time: 45343960 ns  Iteration: 0  Instance: /tb_uart_bytes
+# End time: 18:55:48 on Oct 08,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_bytes
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib results/uart-basic-20261008/normal_work -l results/uart-basic-20261008/tb_uart_line_normal.log -wlf results/uart-basic-20261008/tb_uart_line_normal.wlf tb_uart_line -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 18:55:49 on Oct 08,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_uart_line(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_line: fragmentation, bounds, errors, timeout
+# ** Note: $finish    : sim/tb_uart_line.sv(43)
+#    Time: 51660 ns  Iteration: 1  Instance: /tb_uart_line
+# End time: 18:55:50 on Oct 08,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_line
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib results/uart-basic-20261008/normal_work -l results/uart-basic-20261008/tb_uart_protocol_normal.log -wlf results/uart-basic-20261008/tb_uart_protocol_normal.wlf tb_uart_protocol -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 18:55:51 on Oct 08,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_uart_protocol(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_protocol: real UART handshake, notes, decimal, overflow, watchdog
+# ** Note: $finish    : sim/tb_uart_protocol.sv(73)
+#    Time: 13132860 ns  Iteration: 1  Instance: /tb_uart_protocol
+# End time: 18:55:52 on Oct 08,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_protocol
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib results/uart-basic-20261008/normal_work -l results/uart-basic-20261008/tb_uart_flow_normal.log -wlf results/uart-basic-20261008/tb_uart_flow_normal.wlf tb_uart_flow -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 18:55:53 on Oct 08,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_uart_flow(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_flow: FIFO full/empty/stall/flush and arbiter fairness/cancel
+# ** Note: $finish    : sim/tb_uart_flow.sv(43)
+#    Time: 581 ns  Iteration: 0  Instance: /tb_uart_flow
+# End time: 18:55:54 on Oct 08,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_flow
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib results/uart-basic-20261008/normal_work -l results/uart-basic-20261008/tb_uart_replies_normal.log -wlf results/uart-basic-20261008/tb_uart_replies_normal.wlf tb_uart_replies -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 18:55:55 on Oct 08,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_uart_replies(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_replies: finite slots, HELLO priority, STATUS coalescing, decimal and stalls
+# ** Note: $finish    : sim/tb_uart_replies.sv(36)
+#    Time: 52580 ns  Iteration: 1  Instance: /tb_uart_replies
+# End time: 18:55:56 on Oct 08,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_replies
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib results/uart-basic-20261008/normal_work -l results/uart-basic-20261008/tb_uart_instrument_normal.log -wlf results/uart-basic-20261008/tb_uart_instrument_normal.wlf tb_uart_instrument -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 18:55:57 on Oct 08,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_uart_instrument(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_instrument: four notes, steal, sources, tail, watchdog, R4/serial/reset
+# ** Note: $finish    : sim/tb_uart_instrument.sv(94)
+#    Time: 7500960 ns  Iteration: 1  Instance: /tb_uart_instrument
+# End time: 18:55:58 on Oct 08,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_instrument
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib results/uart-basic-20261008/normal_work -l results/uart-basic-20261008/tb_uart_instrument_115200_normal.log -wlf results/uart-basic-20261008/tb_uart_instrument_115200_normal.wlf tb_uart_instrument_115200 -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 18:55:59 on Oct 08,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_uart_instrument_115200(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_instrument: four notes, steal, sources, tail, watchdog, R4/serial/reset
+# ** Note: $finish    : sim/tb_uart_instrument.sv(94)
+#    Time: 28917620 ns  Iteration: 1  Instance: /tb_uart_instrument_115200/test
+# PASS tb_uart_instrument_115200
+# End time: 18:56:01 on Oct 08,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_instrument_115200

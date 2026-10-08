@@ -1,0 +1,39 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 15:44:42 on Oct 07,2026
+vlog -sv "+define+ADSR_ARITH_NEGATIVE_CONTROL" -work results/regression_negative_work rtl/adsr_env.v sim/tb_adsr_arithmetic.sv 
+-- Compiling module adsr_env
+-- Compiling module tb_adsr_arithmetic
+
+Top level modules:
+	tb_adsr_arithmetic
+End time: 15:44:42 on Oct 07,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib results/regression_negative_work -l results/logs/tb_adsr_arithmetic_negative.log -wlf results/waves/tb_adsr_arithmetic_negative.wlf tb_adsr_arithmetic -do "do {results/logs/tb_adsr_arithmetic_run.do}" 
+# Start time: 15:44:43 on Oct 07,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_adsr_arithmetic(fast)
+# do {results/logs/tb_adsr_arithmetic_run.do}
+# ** Fatal: ADSR attack arithmetic level=0 q/r=683/64 expected=682/64 next=682
+#    Time: 21 ns  Scope: tb_adsr_arithmetic File: sim/tb_adsr_arithmetic.sv Line: 34
+# ** Note: $finish    : sim/tb_adsr_arithmetic.sv(34)
+#    Time: 21 ns  Iteration: 0  Instance: /tb_adsr_arithmetic
+# End time: 15:44:44 on Oct 07,2026, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0

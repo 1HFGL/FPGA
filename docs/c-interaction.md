@@ -2,6 +2,8 @@
 
 以下保留队友原始 README。32 声部分配测试不等于 32 路音频合成；旧本地路径和板级工程不是当前 demo 入口，以根目录 README 和 docs/abc-demo.md 为准。
 
+2026-10-07目录调整：历史C工程现位于 [归档工程](../fpga_project/legacy/c_interaction/tang_mega_60k_interaction.gprj)，其约束与原输出一并保留；下文原始绝对路径仅供追溯。当前发声工程见 [工程说明](../fpga_project/README.md)。
+
 # Tang Mega 60K C 部分：交互与声部管理
 
 本工程对应分工中的 **C：交互与声部管理**，目标是完成：

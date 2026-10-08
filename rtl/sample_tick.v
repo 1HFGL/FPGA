@@ -2,6 +2,11 @@
 // 全部状态使用 clk_audio；bclk_half_ce 是单周期时钟使能，不是新时钟。
 // 当输入时钟不能整除位时钟时，相位累加器保证长期平均采样率准确，
 // 但相邻 BCK 半周期可能相差一个 clk_audio 周期。
+// 作用：给串行发送器一个“现在该翻转BCK”的使能，并每帧请求一个新样本。
+// 板级参数：48000帧/秒 * 2声道 * 16位 = 平均1.536MHz BCK；
+// BCK每周期翻转两次，故每秒需3072000次半周期使能。
+// 50MHz不能整除3072000：用累加余数分摊成16/17个系统周期，不能只取整数16。
+// 这些是基于名义输入频率的数字设计值，尚不是实测采样率/时钟抖动结果。
 module sample_tick #(
     parameter integer AUDIO_CLK_HZ = 25000000,
     parameter integer SAMPLE_RATE_HZ = 48000,
@@ -24,6 +29,8 @@ module sample_tick #(
     reg [15:0] half_edge_index;
     wire [32:0] phase_sum = {1'b0, phase_acc} + {1'b0, HALF_EDGE_RATE_HZ};
 
+    // 每拍往“进度桶”加HALF_EDGE_RATE_HZ，达到SOURCE_RATE_HZ就发一次使能，
+    // 并只减去阈值、保留余数。33位中间和保留进位，避免先溢出再比较。
     // 合法参数：0 < HALF_EDGE_RATE_HZ <= AUDIO_CLK_HZ，
     // AUDIO_CLK_HZ < 2^31，且 4*SLOT_BITS <= 65536。
     assign bclk_half_ce = rst_n && (phase_sum >= {1'b0, SOURCE_RATE_HZ});

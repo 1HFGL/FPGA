@@ -1,6 +1,10 @@
 // B 的音频输出集成顶层。A 提供已混音、已限幅的 16 位补码样本；
-// C 的演奏事件需要由 A/C 后续接入，这里尚不是完整电子乐器。
+// 本模块只负责输出；当前整机由 instrument_adsr_top 连接 A/C，不在这里读按键。
 // 默认 25 MHz 仅供通用仿真；31004 板级顶层明确覆盖为 V22 的 50 MHz。
+// B部分建议阅读顺序：本文件 -> sample_tick.v -> i2s_tx.v。
+// 每个帧边界一边发送上次缓存的样本，一边发出下一样本请求。
+// 当前A在请求R0后的R3给出有效样本，发送器在R4缓存，在下一帧才上串行线。
+// 因此“计算用4拍”不等于“按键到耳机延迟”；还包含消抖、等帧和模拟电路。
 module synth_top #(
     parameter integer AUDIO_CLK_HZ = 25000000,
     parameter integer SAMPLE_RATE_HZ = 48000,
@@ -67,6 +71,8 @@ module synth_top #(
     );
 
     assign sample_request = frame_start;
+    // sounding由A判断是否仍有保持音/释放尾音；不能直接用按键电平代替，
+    // 否则松键会立刻关输出，ADSR的120ms释放尾音就听不到了。
     // 31004 原理图标明 PA_EN=1 关闭、PA_EN=0 开启。
     assign pa_en = ~(audio_rst_n & audio_enable);
 

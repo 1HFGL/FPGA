@@ -26,6 +26,7 @@ module allocator_review_case #(parameter integer MODE = 0)(output reg done = 0);
         .clk(clk), .rst_n(rst_n), .event_valid(event_valid), .event_ready(event_ready),
         .event_type(event_type), .event_source_id(source), .event_note(note),
         .event_velocity(7'd100), .event_timbre(4'd0), .release_done(4'b1111),
+        .cancel_valid(1'b0), .cancel_ready(), .cancel_mask(5'd0), .cancel_value(5'd0),
         .expr_valid(expr_valid), .expr_ready(expr_ready), .expr_source_id(expr_source),
         .expr_note(expr_note), .expr_pitch_bend(bend), .expr_aftertouch(8'd0),
         .expr_vibrato_depth(8'd0), .expr_vibrato_rate(8'd0),

@@ -1,6 +1,9 @@
 // MIDI 音符到 32 位相位步长：round(440*2^((note-69)/12)*2^32/48000)。
 // 只适用于本 demo 的平均 48 kHz 采样率；不是预录 PCM。
 // 全部 128 项由 model/check_abc_demo.py 使用数学参考公式验证。
+// 这是组合查表，没有时钟或一拍延迟；输出是DDS每个采样应前进的相位步长。
+// 例如note=60为C4约261.63Hz，note=64为E4约329.63Hz，note=69为A4=440Hz。
+// 改采样率必须重新计算这张表；仅改变50MHz系统时钟约束不能完成正确变调。
 module note_phase_lut (
     input wire [6:0] note,
     output reg [31:0] phase_inc

@@ -1,5 +1,11 @@
 `timescale 1ns/1ps
 
+// C部分总入口：这里只决定“哪个声部弹什么”，不计算音频样本。
+// 正常通路：touch_or_key_if -> event_encoder(事件队列) -> voice_allocator。
+// 自动通路：voice_test_pattern模拟按下/松开事件，共用同一个声部分配器。
+// 参数默认VOICES=32是通用分配器规模；当前板级顶层覆盖成4，不代表板上32复音。
+// key_n可来自异步按键；其他事件/反馈接口须与clk同步。rst_n由B统一复位提供。
+// pressure/expr是历史预留数字接口；当前顶层valid均为0，实际没有压力/旋钮输入。
 module interaction_top #(
     parameter integer KEY_COUNT       = 2,
     parameter integer VOICES          = 32,
@@ -78,6 +84,9 @@ module interaction_top #(
     wire [3:0] test_timbre;
     wire [6:0] default_pressure_velocity;
 
+    // 自动事件优先；即使test_enable已拉低，也让进行中的测试先结束。
+    // 板级自动版test_enable恒为1，所以测试完成后也不会切回真实按键。
+    // ready只回送给当前选中的生产者，避免未选中的事件误以为已被消费。
     assign test_select = test_enable | test_busy;
     assign normal_event_ready = event_ready_alloc && !test_select;
     assign test_event_ready = event_ready_alloc && test_select;
@@ -181,6 +190,9 @@ module interaction_top #(
         .expr_vibrato_depth      (expr_vibrato_depth),
         .expr_vibrato_rate       (expr_vibrato_rate),
         .release_done            (release_done),
+        .cancel_valid            (1'b0), .cancel_ready(),
+        .cancel_mask             ({SOURCE_WIDTH{1'b0}}),
+        .cancel_value            ({SOURCE_WIDTH{1'b0}}),
         .voice_active            (voice_active),
         .voice_gate              (voice_gate),
         .voice_source_id_flat    (voice_source_id_flat),

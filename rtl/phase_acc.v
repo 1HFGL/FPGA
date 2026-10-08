@@ -1,5 +1,8 @@
 `timescale 1ns/1ps
 
+// 把32位相位看成一圈：0到2^32-1覆盖0到2pi；每个音频采样前进phase_inc。
+// 输出频率约为phase_inc * Fs / 2^32，Fs是sample_tick平均频率而非clk频率。
+// 高10位把一圈分成1024格查表，低22位仍参与累加，保留细致的音高分辨率。
 module phase_acc (
     input  wire        clk,
     input  wire        rst,

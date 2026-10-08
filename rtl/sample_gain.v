@@ -1,6 +1,9 @@
 `timescale 1ns/1ps
 
 // 有符号 16 位音频乘无符号 Q1.16 增益；计算结果寄存输出。
+// 例：gain=32768为0.5倍，sample_in=-1000得到-500；gain=0为静音。
+// 接受条件：上升沿in_valid=1且rst=0；该沿之后sample_out/out_valid一起更新。
+// 下游寄存器在下一个上升沿才读到它们；不能把valid提前一拍传过去。
 module sample_gain (
     input  wire               clk,
     input  wire               rst,

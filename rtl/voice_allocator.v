@@ -1,5 +1,11 @@
 `timescale 1ns/1ps
 
+// 声部分配器相当于“安排演奏席位”：输入按下/松开事件，输出每个席位的音符和gate。
+// source_id是按键/输入来源，note是音高；二者不同，松键须匹配来源和音符。
+// gate=1表示继续按住；active=1表示席位仍占用（含gate=0后的释放尾音）。
+// note-off先放下gate，等A返回release_done才正常回收；满员时允许策略性抢占。
+// 握手在clk上升沿valid && ready时发生；忙于扫描时ready=0，上游必须保存事件。
+// 表情与普通事件同时有效时，普通事件优先。全部输出与clk同域，复位低有效。
 module voice_allocator #(
     parameter integer VOICES       = 32,
     parameter integer IDX_WIDTH    = 5,
@@ -7,7 +13,9 @@ module voice_allocator #(
     parameter integer TIME_WIDTH   = 32, // 保留旧实例兼容；排序已不再依赖时钟时间戳。
     parameter integer SOURCE_WIDTH = 5,
     parameter integer BEND_WIDTH   = 16,
-    parameter integer EXPR_WIDTH   = 8
+    parameter integer EXPR_WIDTH   = 8,
+    parameter integer MERGE_SAME_NOTE = 1,
+    parameter integer ENABLE_CANCEL = 0
 ) (
     input  wire clk,
     input  wire rst_n,
@@ -27,6 +35,11 @@ module voice_allocator #(
     input  wire [EXPR_WIDTH-1:0] expr_vibrato_depth,
     input  wire [EXPR_WIDTH-1:0] expr_vibrato_rate,
     input  wire [VOICES-1:0] release_done,
+    // 仅ENABLE_CANCEL=1启用；IDLE沿valid&&ready原子清指定来源gate。
+    // 不清active/包络，真实release_done负责回收。外部仲裁控制采样边界。
+    input wire cancel_valid,
+    output wire cancel_ready,
+    input wire [SOURCE_WIDTH-1:0] cancel_mask,cancel_value,
     output reg  [VOICES-1:0] voice_active,
     output reg  [VOICES-1:0] voice_gate,
     output wire [VOICES*SOURCE_WIDTH-1:0] voice_source_id_flat,
@@ -47,6 +60,8 @@ module voice_allocator #(
     output reg [VOICES-1:0] voice_trigger
 );
 
+    // IDLE锁存一条事件 -> 每拍SCAN一个声部 -> APPLY统一更新。
+    // 分多拍搜索可避免一次堆出所有比较/优先选择，但不支持每拍接收一条事件。
     localparam [1:0] S_IDLE      = 2'd0;
     localparam [1:0] S_SCAN      = 2'd1;
     localparam [1:0] S_EXPR_SCAN = 2'd2;
@@ -123,8 +138,10 @@ module voice_allocator #(
     reg expr_target_valid;
 
     assign voice_count = active_count;
-    assign event_ready = (state == S_IDLE);
-    assign expr_ready = (state == S_IDLE) && !event_valid;
+    wire cancel_request=(ENABLE_CANCEL!=0) && cancel_valid;
+    assign cancel_ready=(state==S_IDLE);
+    assign event_ready = (state == S_IDLE) && !cancel_request;
+    assign expr_ready = (state == S_IDLE) && !event_valid && !cancel_request;
 
     always @* begin
         active_count = {COUNT_WIDTH{1'b0}};
@@ -138,11 +155,13 @@ module voice_allocator #(
         target_is_same = 1'b0;
         target_is_steal = 1'b0;
         target_idx = {IDX_WIDTH{1'b0}};
+        // note-on优先级：同来源 -> 同音 -> 空闲 -> 松开中的尾音 -> 最老按住音。
+        // 同音可能复用已有席位，因此同音按键数量不能直接当独立复音数。
         if (same_source_found) begin
             target_valid = 1'b1;
             target_is_same = 1'b1;
             target_idx = same_source_idx;
-        end else if (same_note_found) begin
+        end else if (MERGE_SAME_NOTE!=0 && same_note_found) begin
             target_valid = 1'b1;
             // 同音复用但所有者已改变，重新初始化表情，不能继承旧来源弯音。
             target_is_same = 1'b0;
@@ -172,6 +191,8 @@ module voice_allocator #(
     genvar g;
     generate
         for (g = 0; g < VOICES; g = g + 1) begin : g_flat_out
+            // +:为“从低位起取指定宽度”：第g路音符占[g*7 +: 7]。
+            // 这些assign只是把数组铺平成接口总线，不额外增加采样延迟。
             assign voice_source_id_flat[g*SOURCE_WIDTH +: SOURCE_WIDTH] = source_id_mem[g];
             assign voice_note_flat[g*7 +: 7] = note_mem[g];
             assign voice_velocity_flat[g*7 +: 7] = velocity_mem[g];
@@ -223,7 +244,12 @@ module voice_allocator #(
 
             case (state)
                 S_IDLE: begin
-                    if (event_valid) begin
+                    if(cancel_request) begin
+                        for(i=0;i<VOICES;i=i+1) begin
+                            if((source_id_mem[i] & cancel_mask)==cancel_value)
+                                voice_gate[i]<=1'b0;
+                        end
+                    end else if (event_valid) begin
                         op_expr <= 1'b0;
                         latched_event_type <= event_type;
                         latched_source_id <= event_source_id;
@@ -309,6 +335,8 @@ module voice_allocator #(
                 end
 
                 S_APPLY: begin
+                    // 本沿修改寄存器，沿后voice_trigger才变高；A在后续上升沿读取。
+                    // trigger只持续一拍，gate持续到对应松键；两者不可互换。
                     if (op_expr) begin
                         if (expr_target_valid) begin
                             pitch_bend_mem[expr_target_idx] <= latched_pitch_bend;

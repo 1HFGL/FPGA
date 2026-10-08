@@ -1,12 +1,12 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('A','ADSR','PolyADSR','B','C','AB','Demo','ADSRDemo','Review','All')][string]$Suite = 'A',
+    [ValidateSet('A','ADSR','ADSRMath','PolyADSR','B','C','AB','Demo','ADSRDemo','Review','All')][string]$Suite = 'A',
     [string]$ModelSimBin = $env:MODELSIM_BIN,
     [switch]$NegativeControl
 )
 $ErrorActionPreference = 'Stop'
-if ($NegativeControl -and $Suite -notin @('AB','ADSRDemo')) {
-    throw 'NegativeControl is only supported with -Suite AB or ADSRDemo.'
+if ($NegativeControl -and $Suite -notin @('AB','ADSRDemo','ADSRMath')) {
+    throw 'NegativeControl is only supported with -Suite AB, ADSRDemo or ADSRMath.'
 }
 $root = Split-Path -Parent $PSScriptRoot
 if (-not $ModelSimBin) {
@@ -24,6 +24,7 @@ $markers = @{
     tb_wave_lut = 'PASS: all 1035 checks passed; all 1024 ROM addresses verified.'
     tb_voice_dds = 'PASS: voice_dds; 4810 valid samples matched; 1200025 clock checks passed.'
     tb_adsr_env = 'PASS: adsr_env duration checks'
+    tb_adsr_arithmetic = 'PASS: adsr arithmetic exhaustive checks'
     tb_sample_gain = 'PASS: sample_gain exhaustive checks'
     tb_voice_adsr = 'PASS: voice_adsr sample and pipeline checks'
     tb_sample_mixer4 = 'PASS: sample_mixer4 signed boundaries, saturation, idle and reset.'
@@ -57,6 +58,10 @@ if ($Suite -in @('A','ADSR','ADSRDemo','All')) {
     $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/voice_dds.v',
                   'rtl/adsr_env.v','rtl/sample_gain.v','rtl/voice_adsr.v',
                   'sim/tb_adsr_env.v','sim/tb_sample_gain.v','sim/tb_voice_adsr.v')
+}
+if ($Suite -in @('A','ADSR','ADSRMath','ADSRDemo','All')) {
+    $sources += @('rtl/adsr_env.v','sim/tb_adsr_arithmetic.sv')
+    $tests += 'tb_adsr_arithmetic'
 }
 if ($Suite -in @('A','PolyADSR','All')) {
     $tests += @('tb_sample_mixer4','tb_voice_bank_adsr')
@@ -118,7 +123,9 @@ try {
     }
     $compileArgs = @('-sv')
     if ($NegativeControl) {
-        $compileArgs += $(if ($Suite -eq 'AB') { '+define+AB_NEGATIVE_CONTROL' } else { '+define+ADSR_NEGATIVE_CONTROL' })
+        $compileArgs += $(if ($Suite -eq 'AB') { '+define+AB_NEGATIVE_CONTROL' }
+            elseif ($Suite -eq 'ADSRMath') { '+define+ADSR_ARITH_NEGATIVE_CONTROL' }
+            else { '+define+ADSR_NEGATIVE_CONTROL' })
     }
     & (Join-Path $ModelSimBin 'vlog.exe') @compileArgs -work $lib @sources
     if ($LASTEXITCODE -ne 0) { throw 'Compilation failed.' }

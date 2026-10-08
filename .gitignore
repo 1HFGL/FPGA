@@ -33,3 +33,32 @@ modelsim.ini
 *.cr.mti
 __pycache__/
 *.pyc
+.venv-studio/
+results/uart-basic-20261008/*_work/
+results/uart-basic-20261008/work/
+results/uart-basic-20261008/negative_work/
+results/uart-basic-20261008/legacy_rebuild/
+results/uart-basic-20261008/invalid_rebuild_missing_rom/*.fs
+results/uart-basic-20261008/source_mutation_arbiter.v
+fpga_project/uart_piano/impl/
+results/piano-20261008/work/
+results/piano-20261008/negative_work/
+
+# ---- 高云（Gowin）编译/布局布线产物 ----
+**/impl/pnr/
+**/impl/gwsynthesis/
+**/impl/temp/
+*.pr
+*.fs
+*.bin
+*.binx
+*.vg
+*.timing_paths
+
+# ---- results 下的 ModelSim 工作库与优化缓存 ----
+results/**/work/
+results/**/*_work/
+results/**/@_opt*/
+*.qpg
+*.qdb
+*.qtl

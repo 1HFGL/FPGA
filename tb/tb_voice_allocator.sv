@@ -76,6 +76,7 @@ module tb_voice_allocator;
         .expr_vibrato_depth(expr_vibrato_depth),
         .expr_vibrato_rate(expr_vibrato_rate),
         .release_done(release_done),
+        .cancel_valid(1'b0), .cancel_ready(), .cancel_mask(6'd0), .cancel_value(6'd0),
         .voice_active(voice_active),
         .voice_gate(voice_gate),
         .voice_source_id_flat(voice_source_id_flat),

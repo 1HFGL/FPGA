@@ -1,9 +1,21 @@
 // 板级接入 A 的 voice_bank_adsr 与 sample_mixer4；旧 demo 和旧 bank 保留。
 // 31004：V22=50MHz，KEY0复位，KEY1=C4，KEY2=E4；不新增引脚或外设。
+// 阅读入口：这里负责接线，不在顶层直接计算波形。
+// C(u_c)：按键 -> 消抖 -> 音符事件 -> 给四个声部安排音符/按住状态。
+// A(u_bank)：音符 -> 正弦波 -> ADSR响度曲线 -> 四路相加 -> 16位样本。
+// B(u_b)：产生采样请求，把样本串行送到板载DAC（数字转模拟转换器）。
+// 反馈方向：B的sample_request催A算下一点；A的release_done通知C可回收声部。
+// 所有内部逻辑共用50MHz时钟。48kHz是“每秒算多少个声音点”，不是另一根时钟。
+// 普通版无按键时静音；内部虽有四个声部，目前只有两个物理演奏键。
+// 本版只有正弦音色和固定增益，没有接入13键、旋钮、压力或钢琴/鼓音色。
 module instrument_adsr_top #(
+    // 0=普通按键版；1=上电/复位后自动触发一次四低音测试，不循环播放。
     parameter integer AUTO_TEST = 0,
+    // 250000 / 50MHz = 5ms；这是输入稳定判定时间，不是整机延迟实测值。
     parameter integer DEBOUNCE_CYCLES = 250000,
     parameter integer TEST_HOLD_CYCLES = 50000000,
+    // A/D/R单位为48kHz采样点：2ms起音、500ms衰减、120ms释放。
+    // S=6554/65536约10%峰值幅度；不是10%主观响度。按住也会先变轻。
     parameter [31:0] ATTACK_SAMPLES = 32'd96,
     parameter [31:0] DECAY_SAMPLES = 32'd24000,
     parameter [16:0] SUSTAIN_LEVEL = 17'd6554,
@@ -23,6 +35,9 @@ module instrument_adsr_top #(
     wire [5:0] voice_count;
     wire signed [15:0] sample_data;
     wire sample_valid, sounding, sample_clipped;
+    // audio_ready是B同步释放后的复位信号；A/C不能各自提前启动。
+    // *_flat将多路字段拼在一根总线上：voice_note_flat[6:0]属于声部0。
+    // velocity固定100，只是数字音量系数，不是检测到的按键力度。
     interaction_top #(
         .KEY_COUNT(2), .VOICES(4), .DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),
         .TEST_HOLD_CYCLES(TEST_HOLD_CYCLES)
@@ -67,6 +82,9 @@ module instrument_adsr_top #(
     );
 endmodule
 
+// 自动版仅换参数，不另写一套合成链路。自动测试期间不响应KEY1/KEY2；
+// 四音为MIDI 36/37/38/39（C2/C#2/D2/D#2），约1秒后松开并淡出。
+// 测试结束仍保持自动模式；再次按KEY0复位可重播，不是按键版的切换开关。
 module instrument_adsr_auto_top (
     input wire sys_clk, input wire sys_rst_n, input wire [1:0] Key_in,
     output wire HP_BCK, output wire HP_WS, output wire HP_DIN, output wire PA_EN

@@ -1,5 +1,8 @@
 `timescale 1ns/1ps
 
+// 多键外壳：每个输入独立实例化一套同步/消抖电路，支持同时按多个键。
+// 名字含touch但这里只接收数字电平，不会测量电容触摸或模拟压力。
+// 当前板级raw_key[0]/[1]分别来自KEY1/KEY2；KEY0单独走全局复位。
 module touch_or_key_if #(
     parameter integer KEY_COUNT       = 2,
     parameter integer ACTIVE_LOW      = 1,

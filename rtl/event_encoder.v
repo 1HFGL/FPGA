@@ -1,5 +1,11 @@
 `timescale 1ns/1ps
 
+// 将多个按键的单拍边沿变成有顺序的事件：1=按下(note-on)，0=松开(note-off)。
+// FIFO（先进先出队列）供声部分配器逐条读取；仅event_valid && event_ready时出队。
+// 接收端未ready时保持队头不动；event_valid=0时字段值没有意义，不能当作新事件。
+// pending_on/off每键各只有一位，不是无限事件队列：长期堵塞可能合并重复边沿，
+// 不保证极端背压下全保序/不丢事件；当前两键人手操作验证不等于消除了这个限制。
+// 当前默认MAX_EVENTS=64、PTR_WIDTH=6，指针靠自然回绕，不能随意改为非2的幂深度。
 module event_encoder #(
     parameter integer KEY_COUNT    = 2,
     parameter integer MAX_EVENTS   = 64,
@@ -23,6 +29,8 @@ module event_encoder #(
 
     localparam integer EVENT_WIDTH = SOURCE_WIDTH + 19;
 
+    // 队列条目打包顺序：类型1位 + 来源编号 + 音符7位 + 增益7位 + 音色4位。
+    // pending先收下同拍的多键变化，再每个clk至多搬一条进FIFO。
     reg pending_on  [0:KEY_COUNT-1];
     reg pending_off [0:KEY_COUNT-1];
     reg [EVENT_WIDTH-1:0] fifo_mem [0:MAX_EVENTS-1];
@@ -47,6 +55,8 @@ module event_encoder #(
     function [6:0] key_to_note;
         input integer key_index;
         begin
+            // 当前2键选C4/E4；前4键是C/E/G/C，不是13键连续半音布局。
+            // 因此以后只把KEY_COUNT改成13还不够，必须同时修改映射与板级引脚。
             case (key_index)
                 0: key_to_note = 7'd60;
                 1: key_to_note = 7'd64;
@@ -69,6 +79,8 @@ module event_encoder #(
     assign do_write = (has_on | has_off) & (fifo_count < MAX_EVENTS);
 
     always @* begin
+        // 按下事件优先于松开，同类事件编号小的键优先。
+        // 下方循环从大到小赋值，后遇到的小编号会覆盖早先候选，不是反过来。
         has_on      = 1'b0;
         has_off     = 1'b0;
         on_idx      = 0;
@@ -128,6 +140,8 @@ module event_encoder #(
             end
 
             if (do_write) begin
+                // 入队时清pending；同键同类型新边沿恰好同拍到达也会被该清除覆盖。
+                // 当前只说明既有边界行为，注释改动不声称修复长期背压问题。
                 fifo_mem[wr_ptr] <= wr_data;
                 wr_ptr <= wr_ptr + 1'b1;
                 if (sel_is_on) begin

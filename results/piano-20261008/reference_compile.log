@@ -1,0 +1,9 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 18:50:54 on Oct 08,2026
+vlog -sv -work results/piano-20261008/work sim/tb_piano_tone.sv 
+-- Compiling module tb_piano_tone
+
+Top level modules:
+	tb_piano_tone
+End time: 18:50:54 on Oct 08,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

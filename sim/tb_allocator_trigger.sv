@@ -26,6 +26,7 @@ module tb_allocator_trigger;
         .clk(clk), .rst_n(rst_n), .event_valid(event_valid), .event_ready(ready),
         .event_type(event_type), .event_source_id(source), .event_note(note),
         .event_velocity(7'd100), .event_timbre(4'd0), .release_done(done),
+        .cancel_valid(1'b0), .cancel_ready(), .cancel_mask(5'd0), .cancel_value(5'd0),
         .expr_valid(1'b0), .expr_ready(), .expr_source_id(5'd0), .expr_note(7'd0),
         .expr_pitch_bend(16'd0), .expr_aftertouch(8'd0),
         .expr_vibrato_depth(8'd0), .expr_vibrato_rate(8'd0),

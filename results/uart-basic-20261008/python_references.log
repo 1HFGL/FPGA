@@ -1,0 +1,6 @@
+PASS Python reference: 1024 ROM entries, 4810 RTL samples, 6 reset records.
+PASS Python ADSR reference: 162085 clocks, 47734 samples, 14 resets, all 5 states; A/D/R = 96/24000/5760 samples.
+PASS Python ABC reference: 128 notes, 745 mixed samples, 2 resets
+PASS Python ADSR mix: 61097 samples, four independent envelopes, 2 resets
+PASS Python poly ADSR default: 149703 clocks, 38379 samples, 7 resets, clips +0/-0.
+PASS Python poly ADSR boundary: 7013 clocks, 2721 samples, 8 resets, clips +308/-317.

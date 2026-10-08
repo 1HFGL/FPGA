@@ -1,0 +1,16 @@
+{
+  "format": "fpga-tone-studio",
+  "version": 1,
+  "tone": {
+    "name": "钢琴感 v1（固定混音÷32）",
+    "harmonics": [255, 95, 48, 26, 15, 9, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+    "attack_ms": 2,
+    "decay_ms": 1200,
+    "sustain": 0,
+    "release_ms": 180,
+    "volume": 8,
+    "mode": 0,
+    "vibrato_cents": 0,
+    "vibrato_tenths_hz": 50
+  }
+}

@@ -7,8 +7,8 @@ module tb_adsr_env;
     wire rst, sample_tick, gate, retrigger, active;
     wire [16:0] env_level;
     wire [2:0] state;
-    wire [9:0] done;
-    wire [31:0] c0,c1,c2,c3,c4,c5,c6,c7,c8,c9;
+    wire [11:0] done;
+    wire [31:0] c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11;
     adsr_duration_case default_case (.clk(clk),.done(done[0]),.checks(c0),
         .rst(rst),.sample_tick(sample_tick),.gate(gate),.retrigger(retrigger),
         .env_level(env_level),.active(active),.state(state));
@@ -39,10 +39,17 @@ module tb_adsr_env;
     adsr_wide_case wide_decay (.clk(clk),.done(done[8]),.checks(c8));
     adsr_wide_case #(.A(32'hffffffff),.R(32'hffffffff)) wide_attack (
         .clk(clk),.done(done[9]),.checks(c9));
+    // 特化的起音/释放分支分别单独启用，覆盖缩短 COUNT_W 后的余数连接。
+    adsr_duration_case #(.A(96),.D(1),.S(0),.R(1)) fast_attack_only (
+        .clk(clk),.done(done[10]),.checks(c10),.rst(),.sample_tick(),
+        .gate(),.retrigger(),.env_level(),.active(),.state());
+    adsr_duration_case #(.A(1),.D(1),.S(1),.R(5760)) fast_release_only (
+        .clk(clk),.done(done[11]),.checks(c11),.rst(),.sample_tick(),
+        .gate(),.retrigger(),.env_level(),.active(),.state());
     initial begin
         wait (&done);
-        $display("PASS: adsr_env duration checks (%0d checks, 10 parameter sets).",
-                 c0+c1+c2+c3+c4+c5+c6+c7+c8+c9);
+        $display("PASS: adsr_env duration checks (%0d checks, 12 parameter sets).",
+                 c0+c1+c2+c3+c4+c5+c6+c7+c8+c9+c10+c11);
         $stop;
     end
     initial begin #100000000; $fatal(1,"ADSR duration timeout"); end

@@ -1,5 +1,10 @@
 `timescale 1ns/1ps
 
+// 自动测试事件源，不是歌曲播放器：按顺序开N个不同音符，保持，再逐个松开。
+// 仅test_enable的上升沿启动一次；一直拉高不会循环。复位后可重新启动。
+// NOTE_BASE=36、test_voices=4时为C2/C#2/D2/D#2，是相邻半音，听感可能不和谐。
+// HOLD_CYCLES使用系统clk计数（50MHz下50000000为约1秒），不是音频采样点。
+// 末尾test_done表示“松键事件已发送”，不表示A的120ms尾音已经播放完毕。
 module voice_test_pattern #(
     parameter integer SOURCE_WIDTH = 5,
     parameter integer NOTE_BASE    = 36,
@@ -65,6 +70,7 @@ module voice_test_pattern #(
                 end
 
                 T_ON: begin
+                    // valid置1后等待ready，不先推进idx；背压期间事件字段保持不变。
                     if (!test_event_valid) begin
                         if (idx < count_reg) begin
                             test_event_valid <= 1'b1;
