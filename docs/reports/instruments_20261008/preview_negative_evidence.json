@@ -1,0 +1,23 @@
+[
+  {
+    "case": "one_lsb",
+    "rejected": true,
+    "exit_code": 1,
+    "reason": "ValueError: Line 103, probe/guitar[101]: actual -609, expected -610",
+    "artifacts_written": false
+  },
+  {
+    "case": "index_gap",
+    "rejected": true,
+    "exit_code": 1,
+    "reason": "ValueError: Line 103: unordered, missing, duplicate or extra index 102 in ('probe', 0)",
+    "artifacts_written": false
+  },
+  {
+    "case": "truncated",
+    "rejected": true,
+    "exit_code": 1,
+    "reason": "ValueError: melody/strings incomplete: 119993/120000",
+    "artifacts_written": false
+  }
+]

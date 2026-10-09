@@ -1,0 +1,38 @@
+COMMAND: python model/check_instrument_roms.py
+PASS guitar: 1024 exact samples, DC=0, range=-20464..20464, max quantization error=0.499624860 LSB
+  H1..H8 amplitude=16383.472358, 8191.786285, 4095.864465, 0.006034, 2047.985650, 1023.949982, 1023.970187, 0.029410
+  H1..H8/H1=1.000000, 0.500003, 0.250000, 0.000000, 0.125003, 0.062499, 0.062500, 0.000002
+PASS strings: 1024 exact samples, DC=0, range=-18563..18563, max quantization error=0.499138021 LSB
+  H1..H8 amplitude=16383.510062, 6143.797838, 3071.931487, 2047.964406, 2047.951931, 1023.981181, 1023.940002, 1024.013725
+  H1..H8/H1=1.000000, 0.374999, 0.187501, 0.125002, 0.125001, 0.062501, 0.062498, 0.062503
+PASS two instrument preset ROMs: independent equations, 2048 samples, matched fundamental, distinct harmonics.
+
+COMMAND: python model/check_instrument_bank.py
+PASS Python instrument bank short: 11784 clocks, 4551 samples, 10 resets, clips +0/-0; coverage={'guitar': 2155, 'strings': 2170, 'deferred': 867, 'replaced': 1639, 'override': 830, 'held': 2256, 'tail': 2676, 'fallback': 3602, 'mixed': 1015, 'discarded': 1659, 'zero_sustain_hold': 246}.
+PASS Python instrument bank boundary: 11496 clocks, 4479 samples, 10 resets, clips +332/-206; coverage={'guitar': 2155, 'strings': 2170, 'deferred': 867, 'replaced': 1639, 'override': 830, 'held': 2256, 'tail': 1320, 'fallback': 2910, 'mixed': 1015, 'discarded': 1659, 'zero_sustain_hold': 0}.
+PASS Python instrument bank zero: 11784 clocks, 4551 samples, 10 resets, clips +0/-0; coverage={'guitar': 2155, 'strings': 2170, 'deferred': 867, 'replaced': 1639, 'override': 830, 'held': 2256, 'tail': 2668, 'fallback': 2460, 'mixed': 1015, 'discarded': 1659, 'zero_sustain_hold': 1166}.
+PASS Python instrument bank extreme: 12631 clocks, 4760 samples, 12 resets, clips +0/-0; coverage={'guitar': 2159, 'strings': 2174, 'deferred': 867, 'replaced': 1639, 'override': 830, 'held': 2256, 'tail': 1234, 'fallback': 2598, 'mixed': 1015, 'discarded': 1659, 'zero_sustain_hold': 0}.
+
+COMMAND: python model/render_instrument_preview.py --capture results/logs/instrument_preview.csv --out-dir results/audio --report results/logs/instrument_preview_report.json
+PASS probe/guitar: 96000 bit-exact RTL samples, request metadata, completed release silence.
+PASS probe/strings: 96000 bit-exact RTL samples, request metadata, completed release silence.
+PASS melody/guitar: 120000 bit-exact RTL samples, request metadata, completed release silence.
+PASS melody/strings: 120000 bit-exact RTL samples, request metadata, completed release silence.
+PASS guitar brightness: Hann-window H2/H1 0.448934 early -> 0.031216 late.
+PASS strings sustain: H2/H1=0.187439, held/late RMS=1.000000.
+PASS preview normalization: common melody RMS target 2000.000000; guitar gain x8.441861, strings gain x7.917686; peak <= 28000.
+PASS instrument preview WAVs: 432000 exact RTL samples; mono PCM16 / 48000 Hz; no clipping.
+Scope: mathematical and simulated audio evidence only; hardware and subjective listening remain separate checks.
+
+COMMAND: python model/check_instrument_timing.py
+PASS: 50 MHz setup +8.184 ns, hold +0.226 ns; setup/hold violations 0/0.
+PASS: one active 20 ns clock, no false-path/multicycle exceptions, timing-driven and hold correction enabled.
+Scope: registered module timing only; board I/O and integrated top still need verification.
+Report: C:\Users\Nanji\Documents\GitHub\FPGA\results\logs\instrument_timing_audit.json
+
+COMMAND: python model/check_instrument_netlist.py
+PASS: 12 physical pROMs, 12288 exact mapped words (4 half-sine + 4 guitar + 4 strings).
+PASS: 128 selector LUT bits, 1024 truth cases, 4 independent event register pairs and brightness/amplitude datapaths.
+Resolved: 4 NL0002 u_strings warnings remove hierarchy only; all strings ROM data remains.
+Report: C:\Users\Nanji\Documents\GitHub\FPGA\results\logs\instrument_netlist_audit.json
+

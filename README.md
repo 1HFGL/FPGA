@@ -133,4 +133,31 @@ python model/check_timbre_bank.py
 python model/render_timbre_preview.py
 ```
 
-当前入口：`Timbre` 为 3 项、`PolyADSR` 为 2 项、`ADSR` 为 3 项、`A` 为 11 项、`All` 为 22 项。原有测试继续保留。完整验证与时序证据放在 [2026-10-06 验证目录](docs/reports/timbres_20261006/)。
+2026-10-06 当时入口：`Timbre` 为 3 项、`PolyADSR` 为 2 项、`ADSR` 为 3 项、`A` 为 11 项、`All` 为 22 项。原有测试继续保留。完整验证与时序证据放在 [2026-10-06 验证目录](docs/reports/timbres_20261006/)。
+
+
+## A 模块：拨弦／弦乐两套乐器预设（2026-10-08）
+
+新增独立核心 `voice_bank_instruments`：0 为吉他拨弦感（快速起音、持续衰减、亮度变暗），1 为弦乐持续感（较缓起音、保持发声、保留松键尾音）。每路分别锁存预设、推进相位和完整 ADSR；这是实时单周期波表合成，未使用录音回放。原柔和／明亮核心保留供对照。
+
+完整 25 项 ModelSim 回归通过；新核心 18341 个边界测试样本与独立 Python 模型一致，432000 个仿真试听样本逐点核对通过。50 MHz 独立注册接口外壳的 Gowin Setup/Hold 为 **+8.184/+0.226 ns**，违例 0/0；12 个 ROM、20 个 DSP，ROM 内容与选择通路已审计。
+
+本轮没有自动替换 B/C 板级工程，没有推送、烧录或宣称实物音色验收通过。新核心在 R4 输出，较旧核心增加一拍；B/C 必须按新的每声部乐器位和 valid 接口接入。使用说明、参数及协作约定见 [两套乐器预设](docs/a-instruments.md)，原始记录与试听见 [验证报告](docs/reports/instruments_20261008/README.md)。
+
+```powershell
+.\sim\run_tests.ps1 -Suite Instruments -ModelSimBin 'D:\modelsim1\win64'
+python model/check_instrument_roms.py
+python model/check_instrument_bank.py
+python model/render_instrument_preview.py --capture results/logs/instrument_preview.csv --out-dir results/audio
+```
+
+当前入口：`Instruments` 3 项、`A` 14 项、`All` 25 项。图形波形脚本为 `sim/run_instruments.tcl`，独立高云工程为 `fpga_project/instruments_check/instruments_check.gprj`；该时序外壳没有板级引脚约束，不能直接烧录。
+
+
+## 两套乐器的板载按键试听（2026-10-09）
+
+已新增可生成下载文件的 `fpga_project/instruments_board/instruments_board.gprj`，顶层为 `instrument_presets_top`，面向已确认的 Tang Mega 60K + NEO Dock 31004。KEY0复位，KEY1弹奏固定C4，KEY2切换下次起音的拨弦／弦乐；使用板载耳机口，不需要外接琴键。该试听入口只启用一条声部，不代替团队完整C分配器。
+
+原有25项回归与新增板级用例均通过，最终边界扩展用例核对1534个串行字和768次R4/R5样本交接，故意翻转串行位的负控被拒绝。高云50MHz板级工程Setup +5.885ns、Hold +0.216ns，8管脚全部Constraint=Y；保留PR1014时钟路由提示，外部DAC实际余量及上板试听仍需实测。
+
+当前 `All` 为26项，`PresetsBoard` 为1项。下载文件路径、具体烧录操作、按键用法及限制见 [板载试听说明](docs/instruments-board.md)。源码保留，生成的.fs在新工程impl/pnr内；昨天的instruments_check独立时序外壳仍不可烧录到板上。

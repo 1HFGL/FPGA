@@ -1,0 +1,89 @@
+Reading D:/modelsim1/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  source sim/run_instruments.tcl
+# Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+# Start time: 22:26:07 on Oct 08,2026
+# vlog -sv -work results/instrument_work rtl/phase_acc.v rtl/wave_lut.v rtl/instrument_wave.v rtl/instrument_env.v rtl/sample_gain.v rtl/voice_instrument.v rtl/note_phase_lut.v rtl/sample_mixer4.v rtl/voice_bank_instruments.v sim/tb_instrument_bank.sv 
+# -- Compiling module phase_acc
+# -- Compiling module wave_lut
+# -- Compiling module instrument_wave
+# -- Compiling module instrument_env
+# -- Compiling module sample_gain
+# -- Compiling module voice_instrument
+# -- Compiling module note_phase_lut
+# -- Compiling module sample_mixer4
+# -- Compiling module voice_bank_instruments
+# -- Compiling module instrument_bank_case
+# -- Compiling module tb_instrument_bank
+# 
+# Top level modules:
+# 	tb_instrument_bank
+# End time: 22:26:08 on Oct 08,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" -onfinish stop -lib results/instrument_work -l results/logs/tb_instrument_bank_gui.log -wlf results/waves/tb_instrument_bank_gui.wlf tb_instrument_bank "+INSTRUMENT_TRACE_SHORT=results/logs/instrument_bank_gui_short_trace.txt" "+INSTRUMENT_TRACE_BOUNDARY=results/logs/instrument_bank_gui_boundary_trace.txt" "+INSTRUMENT_TRACE_ZERO=results/logs/instrument_bank_gui_zero_trace.txt" "+INSTRUMENT_TRACE_EXTREME=results/logs/instrument_bank_gui_extreme_trace.txt" 
+# Start time: 22:26:08 on Oct 08,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vopt-143) Recognized 4 FSMs in module "instrument_bank_case(fast__1)".
+# ** Note: (vopt-143) Recognized 4 FSMs in module "instrument_bank_case(fast)".
+# ** Note: (vopt-143) Recognized 4 FSMs in module "instrument_bank_case(fast__3)".
+# ** Note: (vopt-143) Recognized 4 FSMs in module "instrument_bank_case(fast__2)".
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_instrument_bank(fast)
+# Loading work.instrument_bank_case(fast)
+# Loading work.voice_bank_instruments(fast)
+# Loading work.note_phase_lut(fast)
+# Loading work.voice_instrument(fast)
+# Loading work.instrument_env(fast)
+# Loading work.phase_acc(fast)
+# Loading work.instrument_wave(fast)
+# Loading work.wave_lut(fast)
+# Loading work.wave_lut(fast__1)
+# Loading work.wave_lut(fast__2)
+# Loading work.sample_gain(fast)
+# Loading work.sample_mixer4(fast)
+# Loading work.instrument_bank_case(fast__1)
+# Loading work.voice_bank_instruments(fast__1)
+# Loading work.voice_instrument(fast__1)
+# Loading work.instrument_env(fast__1)
+# Loading work.sample_mixer4(fast__1)
+# Loading work.instrument_bank_case(fast__2)
+# Loading work.voice_bank_instruments(fast__2)
+# Loading work.voice_instrument(fast__2)
+# Loading work.instrument_env(fast__2)
+# Loading work.instrument_bank_case(fast__3)
+# Loading work.voice_bank_instruments(fast__3)
+# Loading work.voice_instrument(fast__3)
+# Loading work.instrument_env(fast__3)
+# instrument coverage guitar=2155 strings=2170 deferred=867 replaced=1639 override=830 held=2256 tail=1320 fallback=2910 mixed=1015 discarded=1659
+# instrument case=1 verified 11496 clocks, 4479 samples, 10 resets, 538 clips
+# instrument coverage guitar=2155 strings=2170 deferred=867 replaced=1639 override=830 held=2256 tail=2676 fallback=3602 mixed=1015 discarded=1659
+# instrument case=0 verified 11784 clocks, 4551 samples, 10 resets, 0 clips
+# instrument coverage guitar=2155 strings=2170 deferred=867 replaced=1639 override=830 held=2256 tail=2668 fallback=2460 mixed=1015 discarded=1659
+# instrument case=2 verified 11784 clocks, 4551 samples, 10 resets, 0 clips
+# instrument coverage guitar=2159 strings=2174 deferred=867 replaced=1639 override=830 held=2256 tail=1234 fallback=2598 mixed=1015 discarded=1659
+# instrument case=3 verified 12631 clocks, 4760 samples, 12 resets, 0 clips
+# PASS: tb_instrument_bank mixed voices, per-note instrument snapshots, pending triggers, high-note fallback and R4 pipeline.
+# ** Note: $finish    : sim/tb_instrument_bank.sv(355)
+#    Time: 252615 ns  Iteration: 0  Instance: /tb_instrument_bank
+# Break in Module tb_instrument_bank at sim/tb_instrument_bank.sv line 355
+# Stopped at sim/tb_instrument_bank.sv line 355
+#  quit -code 0 -f
+# End time: 22:26:13 on Oct 08,2026, Elapsed time: 0:00:05
+# Errors: 0, Warnings: 0

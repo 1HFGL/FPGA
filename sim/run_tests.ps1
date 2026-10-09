@@ -1,12 +1,12 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('A','ADSR','PolyADSR','Timbre','B','C','AB','Demo','All')][string]$Suite = 'A',
+    [ValidateSet('A','ADSR','PolyADSR','Timbre','Instruments','PresetsBoard','B','C','AB','Demo','All')][string]$Suite = 'A',
     [string]$ModelSimBin = $env:MODELSIM_BIN,
     [switch]$NegativeControl
 )
 $ErrorActionPreference = 'Stop'
-if ($NegativeControl -and $Suite -ne 'AB') {
-    throw 'NegativeControl is only supported with -Suite AB.'
+if ($NegativeControl -and $Suite -notin @('AB','PresetsBoard')) {
+    throw 'NegativeControl is only supported with -Suite AB or PresetsBoard.'
 }
 $root = Split-Path -Parent $PSScriptRoot
 if (-not $ModelSimBin) {
@@ -31,6 +31,10 @@ $markers = @{
     tb_wave_lut_timbre = 'PASS: two timbre ROMs, idle/reset, direct threshold and R1 pipeline.'
     tb_timbre_bank = 'PASS: tb_timbre_bank'
     tb_timbre_preview = 'PASS: two RTL timbre preview segments, 48000 samples each, tails silent.'
+    tb_instrument_wave = 'PASS: instrument ROMs, direct threshold and R2 pipeline.'
+    tb_instrument_bank = 'PASS: tb_instrument_bank'
+    tb_instrument_preview = 'PASS: instrument RTL preview, 432000 samples, four silent tails.'
+    tb_instrument_presets = 'PASS: tb_instrument_presets'
     sample_tick_tb = 'PASS sample_tick_tb'
     synth_top_tb = 'PASS synth_top_tb'
     tb_single_tone_ab = 'PASS tb_single_tone_ab:'
@@ -69,6 +73,22 @@ if ($Suite -in @('A','Timbre','All')) {
                   'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_adsr.v',
                   'sim/tb_wave_lut_timbre.sv','sim/tb_timbre_bank.sv','sim/tb_timbre_preview.sv')
 }
+if ($Suite -in @('A','Instruments','All')) {
+    $tests += @('tb_instrument_wave','tb_instrument_bank','tb_instrument_preview')
+    $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/instrument_wave.v',
+                  'rtl/instrument_env.v','rtl/sample_gain.v','rtl/voice_instrument.v',
+                  'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_instruments.v',
+                  'sim/tb_instrument_wave.sv','sim/tb_instrument_bank.sv','sim/tb_instrument_preview.sv')
+}
+if ($Suite -in @('PresetsBoard','All')) {
+    $tests += 'tb_instrument_presets'
+    $sources += @('rtl/instrument_presets_top.v','rtl/input_sync_debounce.v',
+                  'rtl/synth_top.v','rtl/sample_tick.v','rtl/i2s_tx.v',
+                  'rtl/phase_acc.v','rtl/wave_lut.v','rtl/instrument_wave.v',
+                  'rtl/instrument_env.v','rtl/sample_gain.v','rtl/voice_instrument.v',
+                  'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_instruments.v',
+                  'sim/tb_instrument_presets.sv')
+}
 if ($Suite -in @('B','AB','Demo','All')) {
     $tests += @('sample_tick_tb','synth_top_tb')
     $sources += @('rtl/sample_tick.v','rtl/i2s_tx.v','rtl/synth_top.v','sim/sample_tick_tb.v','sim/synth_top_tb.v')
@@ -95,8 +115,9 @@ try {
     New-Item -ItemType Directory -Path 'results/logs','results/waves' -Force | Out-Null
     # ROM 虽不由 vlog 直接编译，仍是功能输入；记录本次所有源码/波表哈希。
     $manifestInputs = @($sources) + @('sim/run_tests.ps1')
-    if ($Suite -in @('A','ADSR','PolyADSR','Timbre','AB','Demo','All')) { $manifestInputs += 'rtl/rom/sine_1024.mem' }
+    if ($Suite -in @('A','ADSR','PolyADSR','Timbre','Instruments','PresetsBoard','AB','Demo','All')) { $manifestInputs += 'rtl/rom/sine_1024.mem' }
     if ($Suite -in @('A','PolyADSR','Timbre','All')) { $manifestInputs += 'rtl/rom/bright_1024.mem' }
+    if ($Suite -in @('A','Instruments','PresetsBoard','All')) { $manifestInputs += @('rtl/rom/guitar_1024.mem','rtl/rom/strings_1024.mem') }
     $manifestName = if ($NegativeControl) { "${Suite}_negative_sha256.txt" } else { "${Suite}_sha256.txt" }
     $manifestLines = @("suite=$Suite negative_control=$NegativeControl")
     foreach ($source in $manifestInputs) {
@@ -111,7 +132,9 @@ try {
         if ($LASTEXITCODE -ne 0) { throw 'vlib failed.' }
     }
     $compileArgs = @('-sv')
-    if ($NegativeControl) { $compileArgs += '+define+AB_NEGATIVE_CONTROL' }
+    if ($NegativeControl) {
+        $compileArgs += if ($Suite -eq 'PresetsBoard') { '+define+PRESETS_BOARD_NEGATIVE_CONTROL' } else { '+define+AB_NEGATIVE_CONTROL' }
+    }
     & (Join-Path $ModelSimBin 'vlog.exe') @compileArgs -work $lib @sources
     if ($LASTEXITCODE -ne 0) { throw 'Compilation failed.' }
     foreach ($top in $tests) {
@@ -143,6 +166,15 @@ quit -code 0 -f
         }
         if ($top -eq 'tb_timbre_preview') {
             $extraArgs = @('+TIMBRE_PREVIEW=results/logs/timbre_preview.csv')
+        }
+        if ($top -eq 'tb_instrument_bank') {
+            $extraArgs = @('+INSTRUMENT_TRACE_SHORT=results/logs/instrument_bank_short_trace.txt',
+                           '+INSTRUMENT_TRACE_BOUNDARY=results/logs/instrument_bank_boundary_trace.txt',
+                           '+INSTRUMENT_TRACE_ZERO=results/logs/instrument_bank_zero_trace.txt',
+                           '+INSTRUMENT_TRACE_EXTREME=results/logs/instrument_bank_extreme_trace.txt')
+        }
+        if ($top -eq 'tb_instrument_preview') {
+            $extraArgs = @('+INSTRUMENT_PREVIEW=results/logs/instrument_preview.csv')
         }
         & (Join-Path $ModelSimBin 'vsim.exe') -c -lib $lib -l $log -wlf "results/waves/$top.wlf" $top @extraArgs -do "do {$macro}"
         $exitCode = $LASTEXITCODE
