@@ -65,3 +65,6 @@ results/**/@_opt*/
 
 # Generated RTL audition exports; curated evidence is kept under docs/reports/.
 results/audio/
+
+# 10月11日复核的可重建工作文件；文本证据另存 docs/reports/。
+results/sync-review-20261011/
