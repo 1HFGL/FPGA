@@ -15,7 +15,8 @@ module voice_bank_adsr #(
     parameter [31:0] DECAY_SAMPLES   = 32'd24000,
     parameter [16:0] SUSTAIN_LEVEL   = 17'd6554,
     parameter [31:0] RELEASE_SAMPLES = 32'd5760,
-    parameter integer MIX_SHIFT = 5
+    parameter integer MIX_SHIFT = 5,
+    parameter BRIGHT_ROM_FILE = "rtl/rom/bright_1024.mem"
 ) (
     input  wire               clk,
     input  wire               rst_n, // 低有效同步复位，需来自统一复位逻辑
@@ -30,7 +31,8 @@ module voice_bank_adsr #(
     output wire               sounding,
     output wire signed [15:0] sample_data,
     output wire               sample_valid,
-    output wire               sample_clipped
+    output wire               sample_clipped,
+    input  wire [3:0]         voice_timbre // 各路新触发音色，0柔和/1明亮；必须连接
 );
     wire rst = ~rst_n;
     wire [3:0] adsr_active, gain_valid;
@@ -60,14 +62,15 @@ module voice_bank_adsr #(
         note_phase_lut u_note (
             .note(voice_note_flat[v*7 +: 7]), .phase_inc(phase_inc)
         );
-        voice_adsr #(
+        voice_timbre_adsr #(
+            .BRIGHT_ROM_FILE(BRIGHT_ROM_FILE),
             .ROM_FILE(ROM_FILE), .ATTACK_SAMPLES(ATTACK_SAMPLES),
             .DECAY_SAMPLES(DECAY_SAMPLES), .SUSTAIN_LEVEL(SUSTAIN_LEVEL),
             .RELEASE_SAMPLES(RELEASE_SAMPLES)
         ) u_voice (
             .clk(clk), .rst(rst), .sample_tick(sample_request),
             .phase_inc(phase_inc), .gate(voice_gate[v]),
-            .retrigger(voice_retrigger[v]),
+            .retrigger(voice_retrigger[v]), .timbre(voice_timbre[v]),
             .sample(adsr_sample), .sample_valid(adsr_valid),
             .env_level(env_level_flat[v*17 +: 17]), .voice_active(adsr_active[v])
         );

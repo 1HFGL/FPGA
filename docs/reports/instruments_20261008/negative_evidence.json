@@ -1,0 +1,27 @@
+[
+  {
+    "case": "one_bit",
+    "exit_code": 1,
+    "reason": "ValueError: guitar address 73: actual 19545, expected 19544"
+  },
+  {
+    "case": "missing_entry",
+    "exit_code": 1,
+    "reason": "ValueError: C:\\Users\\Nanji\\AppData\\Local\\Temp\\codex_instruments_20261008_waveforms\\negative_roms\\rtl\\rom\\guitar_1024.mem: expected 1024 samples, got 1023"
+  },
+  {
+    "case": "invalid_word",
+    "exit_code": 1,
+    "reason": "ValueError: C:\\Users\\Nanji\\AppData\\Local\\Temp\\codex_instruments_20261008_waveforms\\negative_roms\\rtl\\rom\\guitar_1024.mem: invalid signed-16 word at address 51: '12345'"
+  },
+  {
+    "case": "wrong_preset",
+    "exit_code": 1,
+    "reason": "ValueError: guitar address 1: actual 477, expected 421"
+  },
+  {
+    "case": "generator_isolation",
+    "legacy_roms_unchanged": true,
+    "check_mode_read_only": true
+  }
+]

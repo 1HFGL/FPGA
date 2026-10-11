@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "netlist": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\fpga_project\\instruments_check\\impl\\gwsynthesis\\instruments_check.vg",
+  "netlist_sha256": "da408a74f689afc55ca3b4a3c90277631458cc7a593b2b8a59d0e6d2d7e5433a",
+  "scope": "Synthesis structural/content audit; not post-route simulation",
+  "roms": [
+    {
+      "voice": 0,
+      "kind": "base",
+      "module": "wave_lut",
+      "instance": "rom_rom_0_0_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 0,
+      "kind": "guitar",
+      "module": "wave_lut_0",
+      "instance": "rom_rom_0_0_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 0,
+      "kind": "strings",
+      "module": "wave_lut_0",
+      "instance": "rom_rom_0_1_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 1,
+      "kind": "base",
+      "module": "wave_lut_1",
+      "instance": "rom_rom_0_0_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 1,
+      "kind": "guitar",
+      "module": "wave_lut_2",
+      "instance": "rom_rom_0_0_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 1,
+      "kind": "strings",
+      "module": "wave_lut_2",
+      "instance": "rom_rom_0_1_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 2,
+      "kind": "base",
+      "module": "wave_lut_3",
+      "instance": "rom_rom_0_0_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 2,
+      "kind": "guitar",
+      "module": "wave_lut_4",
+      "instance": "rom_rom_0_0_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 2,
+      "kind": "strings",
+      "module": "wave_lut_4",
+      "instance": "rom_rom_0_1_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 3,
+      "kind": "base",
+      "module": "wave_lut_5",
+      "instance": "rom_rom_0_0_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 3,
+      "kind": "guitar",
+      "module": "wave_lut_6",
+      "instance": "rom_rom_0_0_s",
+      "verified_words": 1024
+    },
+    {
+      "voice": 3,
+      "kind": "strings",
+      "module": "wave_lut_6",
+      "instance": "rom_rom_0_1_s",
+      "verified_words": 1024
+    }
+  ],
+  "verified_rom_words": 12288,
+  "selector_lut_bits": 128,
+  "selector_truth_cases": 1024,
+  "independent_event_register_pairs": 4,
+  "brightness_datapath_connections": 4,
+  "amplitude_datapath_connections": 4,
+  "warnings": [
+    "WARN  (NL0002) : The module \"wave_lut\" instantiated to \"u_strings\" is swept in optimizing(\"C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\instrument_wave.v\":27)",
+    "WARN  (NL0002) : The module \"wave_lut\" instantiated to \"u_strings\" is swept in optimizing(\"C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\instrument_wave.v\":27)",
+    "WARN  (NL0002) : The module \"wave_lut\" instantiated to \"u_strings\" is swept in optimizing(\"C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\instrument_wave.v\":27)",
+    "WARN  (NL0002) : The module \"wave_lut\" instantiated to \"u_strings\" is swept in optimizing(\"C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\instrument_wave.v\":27)"
+  ],
+  "conclusion": "12 physical pROMs remain. Sine tables are optimized to exact signed half-sine in 15 bits; guitar/strings tables retain exact full words. Only the four u_strings wrapper hierarchies were removed."
+}

@@ -1,0 +1,257 @@
+{
+  "source": "Actual RTL simulation CSV; not a physical board or DAC recording",
+  "capture_sha256": "1c33b71830ccfd8fce7b910b661d70c960085fa31d4df1c878e35e79d26c8fd8",
+  "bit_exact_checked_samples": 432000,
+  "sample_rate_hz": 48000,
+  "probe_note": 69,
+  "melody_notes": [
+    60,
+    62,
+    64,
+    67,
+    72
+  ],
+  "params": {
+    "0": {
+      "attack": 64,
+      "decay": 32768,
+      "sustain": 0,
+      "release": 4096,
+      "tone_samples": 8192
+    },
+    "1": {
+      "attack": 1024,
+      "decay": 8192,
+      "sustain": 49152,
+      "release": 8192,
+      "tone_samples": 2048
+    }
+  },
+  "requested_melody_rms": 2000,
+  "achieved_target_melody_rms": 2000,
+  "preview_peak_limit": 28000,
+  "preview_gain_policy": "one fixed playback gain per preset, shared across probe/melody; not FPGA logic",
+  "spectral_scope": "Hann-window measurements of actual RTL output; early windows have ADSR and brightness modulation; ratios demonstrate trends, not stationary ROM spectra or subjective realism",
+  "spectra": {
+    "guitar": {
+      "early": {
+        "first": 256,
+        "stop_exclusive": 1536,
+        "window": "Hann, weighted mean removed",
+        "harmonic_amplitudes": [
+          498.9844505870713,
+          224.01085535896533,
+          111.98945618869054,
+          0.03122603948816555,
+          55.97490156505613,
+          28.000693621159396,
+          28.001304816536816,
+          0.009828711703452831
+        ],
+        "harmonic_ratios": [
+          1.0,
+          0.4489335391020889,
+          0.22443476155806324,
+          6.257918348242536e-05,
+          0.11217764701725645,
+          0.056115363090404276,
+          0.056116587969008605,
+          1.969743083554815e-05
+        ],
+        "raw_rms": 395.3399792820731
+      },
+      "late": {
+        "first": 20000,
+        "stop_exclusive": 29600,
+        "window": "Hann, weighted mean removed",
+        "harmonic_amplitudes": [
+          125.48841437358776,
+          3.9171837358936474,
+          1.9574128721428357,
+          0.0038759597861361982,
+          0.9807870398453139,
+          0.4911360363866006,
+          0.49737384542716456,
+          0.005318452743271459
+        ],
+        "harmonic_ratios": [
+          1.0,
+          0.031215501091853136,
+          0.015598355289720062,
+          3.0886993078079665e-05,
+          0.007815757691586113,
+          0.003913795857874611,
+          0.003963504104422325,
+          4.2382022036218053e-05
+        ],
+        "raw_rms": 93.85045229423955
+      }
+    },
+    "strings": {
+      "early": {
+        "first": 256,
+        "stop_exclusive": 1536,
+        "window": "Hann, weighted mean removed",
+        "harmonic_amplitudes": [
+          425.6317369156084,
+          47.22630349479079,
+          23.688791993166497,
+          15.777523932556315,
+          15.791831043066766,
+          7.903084336977525,
+          7.875922691776288,
+          7.888051465439162
+        ],
+        "harmonic_ratios": [
+          1.0,
+          0.11095578501035162,
+          0.05565560539453702,
+          0.03706848565121116,
+          0.037102099475720886,
+          0.018567892503148792,
+          0.01850407760673607,
+          0.018532573540217832
+        ],
+        "raw_rms": 295.9540293694276
+      },
+      "late": {
+        "first": 20000,
+        "stop_exclusive": 29600,
+        "window": "Hann, weighted mean removed",
+        "harmonic_amplitudes": [
+          383.98421636956067,
+          71.97350692937704,
+          36.008375869268335,
+          23.98788726667158,
+          24.013283837233516,
+          12.004724596074746,
+          12.01211085150389,
+          12.00758834766127
+        ],
+        "harmonic_ratios": [
+          1.0,
+          0.18743871196025166,
+          0.09377566663993432,
+          0.0624710241828918,
+          0.0625371638039472,
+          0.031263588669282576,
+          0.03128282450011692,
+          0.03127104666225323
+        ],
+        "raw_rms": 278.842852995494
+      },
+      "held": {
+        "first": 50000,
+        "stop_exclusive": 59600,
+        "window": "Hann, weighted mean removed",
+        "harmonic_amplitudes": [
+          383.98421636956067,
+          71.97350692937704,
+          36.008375869268335,
+          23.98788726667158,
+          24.013283837233516,
+          12.004724596074746,
+          12.01211085150389,
+          12.00758834766127
+        ],
+        "harmonic_ratios": [
+          1.0,
+          0.18743871196025166,
+          0.09377566663993432,
+          0.0624710241828918,
+          0.0625371638039472,
+          0.031263588669282576,
+          0.03128282450011692,
+          0.03127104666225323
+        ],
+        "raw_rms": 278.842852995494
+      }
+    }
+  },
+  "clips": {
+    "probe/guitar": {
+      "file": "instrument_guitar_probe.wav",
+      "samples": 96000,
+      "duration_seconds": 2.0,
+      "raw": {
+        "minimum": -638,
+        "maximum": 635,
+        "peak": 638,
+        "rms": 126.84462555130195,
+        "mean": -0.18265625
+      },
+      "preview": {
+        "minimum": -5386,
+        "maximum": 5361,
+        "peak": 5386,
+        "rms": 1070.804572535297,
+        "mean": -1.5418125
+      },
+      "playback_gain": 8.441860953614732,
+      "wav_sha256": "27c2081ca23f04ea90f8796448758cd4ade581d4ffa20c75cc3d0efbb880e693"
+    },
+    "probe/strings": {
+      "file": "instrument_strings_probe.wav",
+      "samples": 96000,
+      "duration_seconds": 2.0,
+      "raw": {
+        "minimum": -495,
+        "maximum": 494,
+        "peak": 495,
+        "rms": 250.20712636400532,
+        "mean": -0.41985416666666664
+      },
+      "preview": {
+        "minimum": -3919,
+        "maximum": 3911,
+        "peak": 3919,
+        "rms": 1981.0567618724147,
+        "mean": -3.32578125
+      },
+      "playback_gain": 7.917686004037722,
+      "wav_sha256": "d4ffec5e8ba3432de626ce97e67f408f7788b667cb6388f5fd53918875b94bb1"
+    },
+    "melody/guitar": {
+      "file": "instrument_guitar_melody.wav",
+      "samples": 120000,
+      "duration_seconds": 2.5,
+      "raw": {
+        "minimum": -635,
+        "maximum": 638,
+        "peak": 638,
+        "rms": 236.91458684161543,
+        "mean": -0.21874166666666667
+      },
+      "preview": {
+        "minimum": -5361,
+        "maximum": 5386,
+        "peak": 5386,
+        "rms": 2000.000333291639,
+        "mean": -1.8465
+      },
+      "playback_gain": 8.441860953614732,
+      "wav_sha256": "ab55a4d50e0c205c748e6544a1bd82c4c11655ce5521b43c19da7a47e7ec28f5"
+    },
+    "melody/strings": {
+      "file": "instrument_strings_melody.wav",
+      "samples": 120000,
+      "duration_seconds": 2.5,
+      "raw": {
+        "minimum": -495,
+        "maximum": 494,
+        "peak": 495,
+        "rms": 252.59905469604064,
+        "mean": -0.47778333333333334
+      },
+      "preview": {
+        "minimum": -3919,
+        "maximum": 3911,
+        "peak": 3919,
+        "rms": 1999.9983143617897,
+        "mean": -3.7837833333333335
+      },
+      "playback_gain": 7.917686004037722,
+      "wav_sha256": "f9a694f7fc1c095cc4b1a91fa754f7c2cf69922def1974f454f1aa222efefe71"
+    }
+  }
+}

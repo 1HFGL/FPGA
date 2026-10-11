@@ -1,0 +1,109 @@
+{
+  "status": "PASS",
+  "created_time": "Thu Oct  8 22:35:28 2026",
+  "tool": "V1.9.12.03 (64-bit)",
+  "device": "GW5AT-LV60PG484AC1/I0",
+  "physical_constraints": "---",
+  "paths_analyzed": 3946,
+  "endpoints_analyzed": 4052,
+  "setup_violated_endpoints": 0,
+  "hold_violated_endpoints": 0,
+  "scope": "Default four-voice instruments core with same-clock registered inputs/outputs; excludes board I/O timing and B/C integration.",
+  "setup": {
+    "slack_ns": 8.184,
+    "from": "u_bank/g_voice[2].u_voice/guitar_product_0_s/DOUT[15]",
+    "to": "u_bank/g_voice[2].u_voice/n682_s/B[16]",
+    "data_delay_ns": 9.234
+  },
+  "hold": {
+    "slack_ns": 0.226,
+    "from": "u_bank/g_voice[2].u_voice/u_phase/phase_27_s0/Q",
+    "to": "u_bank/g_voice[2].u_voice/u_wave/u_sine/rom_rom_0_0_s/AD[9]",
+    "data_delay_ns": 0.431
+  },
+  "clock": [
+    "1",
+    "sys_clk",
+    "Base",
+    "20.000",
+    "50.000",
+    "0.000",
+    "10.000",
+    "",
+    "",
+    "clk"
+  ],
+  "fmax": [
+    "1",
+    "sys_clk",
+    "50.000(MHz)",
+    "84.630(MHz)",
+    "7",
+    "TOP"
+  ],
+  "min_pulse": [
+    "1",
+    "7.122",
+    "8.022",
+    "0.900",
+    "Low Pulse Width",
+    "sys_clk",
+    "u_bank/g_voice[2].u_voice/u_wave/u_guitar/rom_rom_0_1_s"
+  ],
+  "tns": [
+    [
+      "sys_clk",
+      "Setup",
+      "0.000",
+      "0"
+    ],
+    [
+      "sys_clk",
+      "Hold",
+      "0.000",
+      "0"
+    ]
+  ],
+  "active_sdc": [
+    [
+      "TC_CLOCK",
+      "Actived",
+      "create_clock -name sys_clk -period 20.000 [get_ports {clk}]"
+    ]
+  ],
+  "no_timing_exceptions": true,
+  "resource_summary": "--------------------------------------------------------------------------------\n  Resources                   | Usage                               | Utilization\n  --------------------------------------------------------------------------------\n  Logic                       | 3248/59904                          |  6%\n    --LUT,ALU,ROM16           | 3248(2622 LUT, 626 ALU, 0 ROM16)    | -\n    --SSRAM(RAM16)            | 0                                   | -\n  Register                    | 1043/60780                          |  2%\n    --Logic Register as Latch | 0/59904                             |  0%\n    --Logic Register as FF    | 811/59904                           |  2%\n    --I/O Register as Latch   | 0/876                               |  0%\n    --I/O Register as FF      | 232/876                             |  27%\n  CLS                         | 1973/29952                          |  7%\n  I/O Port                    | 238/297                             |  81%\n  I/O Buf                     | 238                                 | -\n    --Input Buf               | 71                                  | -\n    --Output Buf              | 167                                 | -\n    --Inout Buf               | 0                                   | -\n  BSRAM                       | 12/118                              | 11%\n    --pROM                    | 12\n  DSP                         | 20/118                              | 17%\n    --MULTALU27X18            | 20\n  ================================================================================",
+  "warnings": {
+    "synthesis": [
+      "WARN  (NL0002) : The module \"wave_lut\" instantiated to \"u_strings\" is swept in optimizing(\"C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\instrument_wave.v\":27)",
+      "WARN  (NL0002) : The module \"wave_lut\" instantiated to \"u_strings\" is swept in optimizing(\"C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\instrument_wave.v\":27)",
+      "WARN  (NL0002) : The module \"wave_lut\" instantiated to \"u_strings\" is swept in optimizing(\"C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\instrument_wave.v\":27)",
+      "WARN  (NL0002) : The module \"wave_lut\" instantiated to \"u_strings\" is swept in optimizing(\"C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\instrument_wave.v\":27)"
+    ],
+    "pnr": []
+  },
+  "settings": {
+    "hold_correction": true,
+    "timing_driven": true
+  },
+  "source_sha256": {
+    "rtl\\phase_acc.v": "0a5017fbb2e07c61631a57f792eafc2cf3639fc97e24868ac4e16a652ca5f2d8",
+    "rtl\\wave_lut.v": "e94c57bdc67aff4a2fc226cc96b806c96217c2d3e9efe4809282d0305d1440a9",
+    "rtl\\sample_gain.v": "ead8ba21c976abae208b958608d270ee2850a317c5e2852f6c85da043027927a",
+    "rtl\\note_phase_lut.v": "d5a4a1738755e02a8d0a738969cba2e45066f766f66fda330f6dccb9d755bb00",
+    "rtl\\sample_mixer4.v": "e251d5c23e13aef3bb0b4188996e25572642f309c3e28a035bced1e9b8546509",
+    "rtl\\instrument_env.v": "2ba8aa9b9d822d447179e8927156c856450194259305d98be3ee2008009a9d82",
+    "rtl\\instrument_wave.v": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27",
+    "rtl\\voice_instrument.v": "d90ec6adce1c997621bd339ad18ccad58b970252079f7a04c4f1f6c434cf6a0d",
+    "rtl\\voice_bank_instruments.v": "14281c0a5e5af3ef87e0104295abd9670abd87d29f5468915b4881a9e7c3cd40",
+    "fpga_project\\instruments_check\\voice_bank_instruments_timing_top.v": "f22aaad3616dc80c9a2e801ffc445c6e376a227876beb6f7372a9db7c2b6c780",
+    "fpga_project\\instruments_check\\clock.sdc": "69258773d8675905a8a69aefecd970ba3d1e3e51f293f82a08de0374e282c331",
+    "fpga_project\\instruments_check\\process_config.json": "0770d934cfe34615a4b3b207ea6de3b3861b29447deed08f36f8c41ed89f1363",
+    "fpga_project\\instruments_check\\run.tcl": "e7b1845adbf986848ee1b588288ef3347b59a262c47dad7e527bd91626ab575e",
+    "fpga_project\\instruments_check\\instruments_check.gprj": "5210dd093cb110fa671303f749f5f3d63b3de46cd06ce31209eec616421a59ea",
+    "rtl\\rom\\sine_1024.mem": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5",
+    "rtl\\rom\\guitar_1024.mem": "e5c79a48664801c669aad792883aaa0cd65b196652593f3f77f44b795973f1a0",
+    "rtl\\rom\\strings_1024.mem": "f07ef598d4aae186c5729d89669dc888a186f74414d9cf597be5f94f894b09b3"
+  },
+  "no_source_newer_than_report": true
+}

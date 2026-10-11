@@ -1,0 +1,79 @@
+{
+  "netlist": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\fpga_project\\poly_adsr_check\\impl\\gwsynthesis\\poly_adsr_check.vg",
+  "netlist_sha256": "f5b810fae96bbafd190bf8bccd28b3a383ddb06670cc57b1a9a6eb506805e722",
+  "status": "PASS",
+  "scope": "Synthesis-netlist structural/content audit; not post-route simulation",
+  "roms": [
+    {
+      "voice": 0,
+      "kind": "soft",
+      "module": "wave_lut",
+      "instance": "rom_rom_0_0_s",
+      "words": 1024,
+      "source_match": true
+    },
+    {
+      "voice": 0,
+      "kind": "bright",
+      "module": "wave_lut",
+      "instance": "rom_rom_0_1_s",
+      "words": 1024,
+      "source_match": true
+    },
+    {
+      "voice": 1,
+      "kind": "soft",
+      "module": "wave_lut_0",
+      "instance": "rom_rom_0_0_s",
+      "words": 1024,
+      "source_match": true
+    },
+    {
+      "voice": 1,
+      "kind": "bright",
+      "module": "wave_lut_0",
+      "instance": "rom_rom_0_1_s",
+      "words": 1024,
+      "source_match": true
+    },
+    {
+      "voice": 2,
+      "kind": "soft",
+      "module": "wave_lut_1",
+      "instance": "rom_rom_0_0_s",
+      "words": 1024,
+      "source_match": true
+    },
+    {
+      "voice": 2,
+      "kind": "bright",
+      "module": "wave_lut_1",
+      "instance": "rom_rom_0_1_s",
+      "words": 1024,
+      "source_match": true
+    },
+    {
+      "voice": 3,
+      "kind": "soft",
+      "module": "wave_lut_2",
+      "instance": "rom_rom_0_0_s",
+      "words": 1024,
+      "source_match": true
+    },
+    {
+      "voice": 3,
+      "kind": "bright",
+      "module": "wave_lut_2",
+      "instance": "rom_rom_0_1_s",
+      "words": 1024,
+      "source_match": true
+    }
+  ],
+  "total_rom_words_verified": 8192,
+  "selected_data_mux_bits_verified": 64,
+  "mux_truth_table_combinations_verified": 512,
+  "independent_dynamic_selector_registers_verified": 4,
+  "connections_to_adsr_multiplier_verified": 4,
+  "bright_hierarchy_warning_count": 4,
+  "conclusion": "Both physical pROMs were placed under each u_soft module; only u_bright hierarchy was removed. All bright data and selector paths remain."
+}

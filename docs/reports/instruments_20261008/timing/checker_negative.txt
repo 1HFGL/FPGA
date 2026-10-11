@@ -1,0 +1,3 @@
+PASS negative rom_word: rejected (exit=1); AssertionError: (0, 'base', 'ROM contents mismatch')
+PASS negative selector: rejected (exit=1); AssertionError: ('full_sample_Z_15_s', {'base_sample[14]': 0, 'full_sample_Z_15_3': 0, 'allow_harmonics': 0})
+PASS negative truncated: rejected (exit=1); KeyError: 'voice_instrument_1'

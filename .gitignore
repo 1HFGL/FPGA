@@ -62,3 +62,6 @@ results/**/@_opt*/
 *.qpg
 *.qdb
 *.qtl
+
+# Generated RTL audition exports; curated evidence is kept under docs/reports/.
+results/audio/

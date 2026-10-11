@@ -18,7 +18,7 @@ module poly_adsr_case #(
     ) dut (
         .clk(clk),.rst_n(rst_n),.sample_request(request),
         .voice_gate(gates),.voice_retrigger(triggers),
-        .voice_note_flat(notes),.voice_velocity_flat(velocities),
+        .voice_note_flat(notes),.voice_velocity_flat(velocities),.voice_timbre(4'b0000),
         .release_done(released),.voice_active(active),.env_level_flat(levels),
         .sounding(sounding),.sample_data(sample),.sample_valid(valid),.sample_clipped(clipped)
     );

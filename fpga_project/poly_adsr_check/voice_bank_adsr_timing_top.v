@@ -9,6 +9,7 @@ module voice_bank_adsr_timing_top (
     input wire rst_n,
     input wire sample_request,
     input wire [3:0] voice_gate, voice_retrigger,
+    input wire [3:0] voice_timbre,
     input wire [27:0] voice_note_flat, voice_velocity_flat,
     output reg [3:0] release_done, voice_active,
     output reg [67:0] env_level_flat,
@@ -18,6 +19,7 @@ module voice_bank_adsr_timing_top (
 );
     reg rst_n_q, sample_request_q;
     reg [3:0] gate_q, retrigger_q;
+    reg [3:0] timbre_q;
     reg [27:0] note_q, velocity_q;
     wire [3:0] done_core, active_core;
     wire [67:0] env_core;
@@ -30,6 +32,7 @@ module voice_bank_adsr_timing_top (
         sample_request_q <= sample_request;
         gate_q <= voice_gate;
         retrigger_q <= voice_retrigger;
+        timbre_q <= voice_timbre;
         note_q <= voice_note_flat;
         velocity_q <= voice_velocity_flat;
         release_done <= done_core;
@@ -43,7 +46,7 @@ module voice_bank_adsr_timing_top (
 
     voice_bank_adsr u_bank (
         .clk(clk), .rst_n(rst_n_q), .sample_request(sample_request_q),
-        .voice_gate(gate_q), .voice_retrigger(retrigger_q),
+        .voice_gate(gate_q), .voice_retrigger(retrigger_q), .voice_timbre(timbre_q),
         .voice_note_flat(note_q), .voice_velocity_flat(velocity_q),
         .release_done(done_core), .voice_active(active_core),
         .env_level_flat(env_core), .sounding(sounding_core),
