@@ -13,12 +13,12 @@ catch {quit -sim}
 file mkdir results/logs results/waves
 set poly_library results/poly_adsr_work
 if {![file exists $poly_library/_info]} { vlib $poly_library }
-vlog -sv -work $poly_library \
+vlog -vlog01compat -pedanticerrors -work $poly_library \
     rtl/phase_acc.v rtl/wave_lut.v rtl/voice_dds.v \
     rtl/adsr_env.v rtl/sample_gain.v rtl/voice_adsr.v \
     rtl/note_phase_lut.v rtl/sample_mixer4.v rtl/voice_bank_adsr.v \
     rtl/wave_lut_timbre.v rtl/voice_timbre_adsr.v \
-    sim/tb_voice_bank_adsr.sv
+    sim/tb_voice_bank_adsr.v
 vsim -voptargs=+acc -onfinish stop -lib $poly_library \
     -l results/logs/tb_voice_bank_adsr_gui.log \
     -wlf results/waves/tb_voice_bank_adsr_gui.wlf tb_voice_bank_adsr \

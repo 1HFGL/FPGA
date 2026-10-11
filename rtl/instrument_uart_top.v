@@ -57,10 +57,12 @@ module instrument_uart_top #(
         .voice_count(voice_count),.max_voice_count(max_voice_count),.steal_count(steal_count),
         .note_on_count(),.note_off_count(),.steal_pulse());
     // 保留R0请求 -> R3混音有效 -> R4缓存 -> 下一音频帧输出，不改变A/B合同。
-    voice_bank_adsr #(.ROM_FILE(ROM_FILE),.ATTACK_SAMPLES(ATTACK_SAMPLES),.DECAY_SAMPLES(DECAY_SAMPLES),
+    // 当前上位机只选固定预设；明确接零，避免合并新音色接口后出现悬空/Z。
+    // 两个表使用同一路径；常量选色允许综合裁剪未使用的明亮分支。
+    voice_bank_adsr #(.ROM_FILE(ROM_FILE),.BRIGHT_ROM_FILE(ROM_FILE),.ATTACK_SAMPLES(ATTACK_SAMPLES),.DECAY_SAMPLES(DECAY_SAMPLES),
         .SUSTAIN_LEVEL(SUSTAIN_LEVEL),.RELEASE_SAMPLES(RELEASE_SAMPLES),.MIX_SHIFT(5)) u_bank(
         .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),.voice_gate(voice_gate),
-        .voice_retrigger(voice_trigger),.voice_note_flat(voice_note_flat),.voice_velocity_flat(voice_velocity_flat),
+        .voice_retrigger(voice_trigger),.voice_timbre(4'b0000),.voice_note_flat(voice_note_flat),.voice_velocity_flat(voice_velocity_flat),
         .release_done(release_done),.sounding(sounding),.sample_data(sample_data),.sample_valid(sample_valid),
         .env_level_flat(),.voice_active(),.sample_clipped(sample_clipped));
     synth_top #(.AUDIO_CLK_HZ(50000000),.SAMPLE_RATE_HZ(48000)) u_b(

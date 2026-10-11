@@ -83,9 +83,9 @@ module tb_voice_adsr;
         if ($signed(sample) !== expected_sample || sample_valid !== expected_valid ||
             env_level !== ref_level || dut.env_state !== ref_state ||
             voice_active !== ((ref_state!=0) || (expected_valid && expected_sample!=0)))
-            $fatal(1,"Voice mismatch at clock %0d: sample %0d/%0d valid %b/%b env %0d/%0d",
+            begin $display("FAIL: Voice mismatch at clock %0d: sample %0d/%0d valid %b/%b env %0d/%0d",
                    clocks_checked,$signed(sample),expected_sample,sample_valid,expected_valid,
-                   env_level,ref_level);
+                   env_level,ref_level); $finish; end
         if (trace_fd!=0)
             $fwrite(trace_fd,"%0d %0d %0d %0d %0d %0d %0d %0d %0d %0d\n",
                     rst,sample_tick,gate,retrigger,phase_inc,$signed(sample),
@@ -114,14 +114,14 @@ module tb_voice_adsr;
     initial begin
         if ($value$plusargs("ADSR_TRACE=%s",trace_path)) begin
             trace_fd=$fopen(trace_path,"w");
-            if (trace_fd==0) $fatal(1,"Cannot open ADSR trace");
+            if (trace_fd==0) begin $display("FAIL: Cannot open ADSR trace"); $finish; end
         end
         cycle(1,1,1,1,32'hffffffff);
         repeat(10) audio_tick(0);
         // 完整起音 96 点、衰减 24000 点，进入保持后松键释放 5760 点。
         repeat(30000) audio_tick(1);
         repeat(6000) audio_tick(0);
-        if (voice_active!==0 || sample!==16'sd0) $fatal(1,"Release did not silence voice");
+        if (voice_active!==0 || sample!==16'sd0) begin $display("FAIL: Release did not silence voice"); $finish; end
         repeat(32) audio_tick(1);
         repeat(100) audio_tick(0); // early release then reattack
         repeat(300) audio_tick(1);
@@ -139,11 +139,11 @@ module tb_voice_adsr;
         end
         repeat(6000) cycle(0,1,0,0,32'd39370534);
         repeat(4) cycle(0,0,0,0,32'd39370534);
-        if (voice_active!==0 || sample!==16'sd0) $fatal(1,"Final release not silent");
+        if (voice_active!==0 || sample!==16'sd0) begin $display("FAIL: Final release not silent"); $finish; end
         if (trace_fd!=0) $fclose(trace_fd);
         $display("PASS: voice_adsr sample and pipeline checks (%0d clocks, %0d samples).",
                  clocks_checked,samples_checked);
         $stop;
     end
-    initial begin #10000000; $fatal(1,"Voice ADSR timeout"); end
+    initial begin #10000000; begin $display("FAIL: Voice ADSR timeout"); $finish; end end
 endmodule

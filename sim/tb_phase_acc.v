@@ -41,7 +41,7 @@ module tb_phase_acc;
                 (wave_addr !== expected_phase[31:22])) begin
                 $display("FAIL at %0t: phase=%h expected=%h addr=%d",
                          $time, phase, expected_phase, wave_addr);
-                $fatal(1, "Phase accumulator check failed.");
+                begin $display("FAIL: Phase accumulator check failed."); $finish; end
             end
             checks = checks + 1;
             $display("CHECK %0d: phase=%h addr=%0d",
@@ -87,7 +87,7 @@ module tb_phase_acc;
     // 测试异常时避免无限运行。
     initial begin
         #1000;
-        $fatal(1, "Simulation timed out.");
+        begin $display("FAIL: Simulation timed out."); $finish; end
     end
 
 endmodule

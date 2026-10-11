@@ -23,8 +23,8 @@
 |---|---|
 | `rtl/voice_bank_adsr.v` | 四路声部、参数快照、释放完成反馈 |
 | `rtl/sample_mixer4.v` | 四路混音、缩放、饱和 |
-| `sim/tb_voice_bank_adsr.sv` | 数学参考、逐时钟流水线/反馈检查与轨迹导出 |
-| `sim/tb_sample_mixer4.sv` | 有符号极值、相消、舍入、饱和与复位测试 |
+| `sim/tb_voice_bank_adsr.v` | 数学参考、逐时钟流水线/反馈检查与轨迹导出 |
+| `sim/tb_sample_mixer4.v` | 有符号极值、相消、舍入、饱和与复位测试 |
 | `model/check_poly_adsr.py` | Python 闭式包络、独立正弦和整数流水线参考 |
 | `sim/run_poly_adsr.tcl` | ModelSim 波形入口 |
 
@@ -91,7 +91,7 @@
 python model/check_poly_adsr.py
 ```
 
-完整回归使用 `-Suite All`；`-Suite A` 当前为 11 项（含新增 3 项音色测试），`-Suite ADSR` 仍为单声部 3 项。需要使用机器上实际可用的 Python。
+2026-10-11完整回归使用 `-Suite All`（34项）；`-Suite A`为15项，`-Suite ADSR`为4项（含算术穷举）。UART和钢琴使用各自入口；测试已经迁为Verilog-2001。需要使用机器上实际可用的Python。
 
 在 ModelSim 的 Transcript 中查看波形：
 

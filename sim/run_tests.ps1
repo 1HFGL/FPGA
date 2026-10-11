@@ -67,7 +67,7 @@ if ($Suite -in @('A','ADSR','ADSRDemo','All')) {
                   'sim/tb_adsr_env.v','sim/tb_sample_gain.v','sim/tb_voice_adsr.v')
 }
 if ($Suite -in @('A','ADSR','ADSRMath','ADSRDemo','All')) {
-    $sources += @('rtl/adsr_env.v','sim/tb_adsr_arithmetic.sv')
+    $sources += @('rtl/adsr_env.v','sim/tb_adsr_arithmetic.v')
     $tests += 'tb_adsr_arithmetic'
 }
 if ($Suite -in @('A','PolyADSR','All')) {
@@ -76,21 +76,21 @@ if ($Suite -in @('A','PolyADSR','All')) {
                   'rtl/adsr_env.v','rtl/sample_gain.v','rtl/voice_adsr.v',
                   'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_adsr.v',
                   'rtl/wave_lut_timbre.v','rtl/voice_timbre_adsr.v',
-                  'sim/tb_sample_mixer4.sv','sim/tb_voice_bank_adsr.sv')
+                  'sim/tb_sample_mixer4.v','sim/tb_voice_bank_adsr.v')
 }
 if ($Suite -in @('A','Timbre','All')) {
     $tests += @('tb_wave_lut_timbre','tb_timbre_bank','tb_timbre_preview')
     $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/wave_lut_timbre.v',
                   'rtl/adsr_env.v','rtl/sample_gain.v','rtl/voice_timbre_adsr.v',
                   'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_adsr.v',
-                  'sim/tb_wave_lut_timbre.sv','sim/tb_timbre_bank.sv','sim/tb_timbre_preview.sv')
+                  'sim/tb_wave_lut_timbre.v','sim/tb_timbre_bank.v','sim/tb_timbre_preview.v')
 }
 if ($Suite -in @('A','Instruments','All')) {
     $tests += @('tb_instrument_wave','tb_instrument_bank','tb_instrument_preview')
     $sources += @('rtl/phase_acc.v','rtl/wave_lut.v','rtl/instrument_wave.v',
                   'rtl/instrument_env.v','rtl/sample_gain.v','rtl/voice_instrument.v',
                   'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_instruments.v',
-                  'sim/tb_instrument_wave.sv','sim/tb_instrument_bank.sv','sim/tb_instrument_preview.sv')
+                  'sim/tb_instrument_wave.v','sim/tb_instrument_bank.v','sim/tb_instrument_preview.v')
 }
 if ($Suite -in @('PresetsBoard','All')) {
     $tests += 'tb_instrument_presets'
@@ -99,7 +99,7 @@ if ($Suite -in @('PresetsBoard','All')) {
                   'rtl/phase_acc.v','rtl/wave_lut.v','rtl/instrument_wave.v',
                   'rtl/instrument_env.v','rtl/sample_gain.v','rtl/voice_instrument.v',
                   'rtl/note_phase_lut.v','rtl/sample_mixer4.v','rtl/voice_bank_instruments.v',
-                  'sim/tb_instrument_presets.sv')
+                  'sim/tb_instrument_presets.v')
 }
 if ($Suite -in @('B','AB','Demo','ADSRDemo','All')) {
     $tests += @('sample_tick_tb','synth_top_tb')
@@ -113,22 +113,22 @@ if ($Suite -in @('C','Demo','ADSRDemo','All')) {
     $cModules = @('input_sync_debounce','touch_or_key_if','pressure_if','event_encoder','voice_allocator','reset_sync','voice_test_pattern','interaction_top','board_top','board_test_top')
     $cTests = @('tb_input_sync_debounce','tb_pressure_if','tb_event_encoder','tb_voice_allocator','tb_interaction_top','tb_voice_test_pattern')
     $sources += @($cModules | ForEach-Object { "rtl/$_.v" })
-    $sources += @($cTests | ForEach-Object { "tb/$_.sv" })
+    $sources += @($cTests | ForEach-Object { "tb/$_.v" })
     $tests += $cTests
 }
 if ($Suite -in @('Demo','All')) {
-    $sources += @('rtl/note_phase_lut.v','rtl/demo_voice_bank.v','rtl/instrument_demo_top.v','sim/tb_demo_voice_bank.sv','sim/tb_instrument_demo.sv')
+    $sources += @('rtl/note_phase_lut.v','rtl/demo_voice_bank.v','rtl/instrument_demo_top.v','sim/tb_demo_voice_bank.v','sim/tb_instrument_demo.v')
     $tests += @('tb_demo_voice_bank','tb_instrument_demo')
 }
 if ($Suite -in @('ADSRDemo','All')) {
     $sources += @('rtl/note_phase_lut.v','rtl/adsr_voice_bank.v','rtl/sample_mixer4.v',
-        'rtl/voice_bank_adsr.v','rtl/instrument_adsr_top.v',
-        'sim/tb_adsr_voice_bank.sv','sim/tb_instrument_adsr.sv','sim/tb_allocator_trigger.sv')
+        'rtl/voice_bank_adsr.v','rtl/wave_lut_timbre.v','rtl/voice_timbre_adsr.v','rtl/instrument_adsr_top.v',
+        'sim/tb_adsr_voice_bank.v','sim/tb_instrument_adsr.v','sim/tb_allocator_trigger.v')
     $tests += @('tb_adsr_voice_bank','tb_instrument_adsr','tb_allocator_trigger')
 }
 # 两套四声部测试都保留，共用 DDS 源码只编译一次。
 if ($Suite -in @('C','Demo','ADSRDemo','Review','All')) {
-    $sources += @('rtl/voice_allocator.v','sim/tb_allocator_review.sv')
+    $sources += @('rtl/voice_allocator.v','sim/tb_allocator_review.v')
     $tests += @('tb_allocator_age','tb_allocator_owner','tb_allocator_expression_owner','tb_allocator_expression_reset')
 }
 $sources = @($sources | Select-Object -Unique)
@@ -154,7 +154,7 @@ try {
         & (Join-Path $ModelSimBin 'vlib.exe') $lib
         if ($LASTEXITCODE -ne 0) { throw 'vlib failed.' }
     }
-    $compileArgs = @('-sv')
+    $compileArgs = @('-vlog01compat','-pedanticerrors')
     if ($NegativeControl) {
         $compileArgs += $(if ($Suite -eq 'AB') { '+define+AB_NEGATIVE_CONTROL' }
             elseif ($Suite -eq 'ADSRMath') { '+define+ADSR_ARITH_NEGATIVE_CONTROL' }

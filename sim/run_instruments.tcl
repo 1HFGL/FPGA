@@ -11,11 +11,11 @@ catch {quit -sim}
 file mkdir results/logs results/waves
 set instrument_library results/instrument_work
 if {![file exists $instrument_library/_info]} { vlib $instrument_library }
-vlog -sv -work $instrument_library \
+vlog -vlog01compat -pedanticerrors -work $instrument_library \
     rtl/phase_acc.v rtl/wave_lut.v rtl/instrument_wave.v \
     rtl/instrument_env.v rtl/sample_gain.v rtl/voice_instrument.v \
     rtl/note_phase_lut.v rtl/sample_mixer4.v rtl/voice_bank_instruments.v \
-    sim/tb_instrument_bank.sv
+    sim/tb_instrument_bank.v
 vsim -voptargs=+acc -onfinish stop -lib $instrument_library \
     -l results/logs/tb_instrument_bank_gui.log \
     -wlf results/waves/tb_instrument_bank_gui.wlf tb_instrument_bank \

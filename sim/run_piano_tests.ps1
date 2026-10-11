@@ -1,12 +1,13 @@
 [CmdletBinding()]
-param([string]$ModelSimBin='C:\Library\modelsim\win64', [switch]$NegativeControl)
+param([string]$ModelSimBin='C:\Library\modelsim\win64', [switch]$NegativeControl,
+      [string]$OutputDirectory='results/sync-review-20261011/piano')
 $ErrorActionPreference='Stop'
 $root=Split-Path -Parent $PSScriptRoot
-$out=Join-Path $root 'results/piano-20261008'
+$out=Join-Path $root $OutputDirectory
 New-Item -ItemType Directory -Path $out -Force | Out-Null
 $tag=if($NegativeControl){'negative'}else{'normal'}
 # ModelSim10.6e的-lib传相对库目录；含盘符的绝对路径会被vopt误读为模块名。
-$lib='results/piano-20261008/'+$(if($NegativeControl){'negative_work'}else{'work'})
+$lib=$OutputDirectory+'/'+$(if($NegativeControl){'negative_work'}else{'work'})
 Push-Location $root
 try {
     if(-not(Test-Path "$lib/_info")){
@@ -14,13 +15,13 @@ try {
         if($LASTEXITCODE -ne 0){throw 'vlib failed'}
     }
     $sources=@(Get-ChildItem rtl -Filter '*.v' | ForEach-Object {$_.FullName})
-    $sources+=@('sim/tb_piano_tone.sv','sim/tb_uart_piano_board.sv')
+    $sources+=@('sim/tb_piano_tone.v','sim/tb_uart_piano_board.v')
     $manifest=@("ModelSim=$(& "$ModelSimBin/vsim.exe" -version)")
     foreach($file in ($sources+@('rtl/rom/piano_1024.mem','rtl/rom/sine_1024.mem',$PSCommandPath))){
         $manifest+="$((Get-FileHash -LiteralPath $file).Hash)  $file"
     }
     $manifest | Set-Content "$out/${tag}_sim_inputs.txt" -Encoding utf8
-    $argsList=@('-sv','-work',$lib)
+    $argsList=@('-vlog01compat','-pedanticerrors','-work',$lib)
     if($NegativeControl){$argsList+='+define+PIANO_NEGATIVE_CONTROL'}
     & "$ModelSimBin/vlog.exe" @argsList @sources *> "$out/${tag}_compile.log"
     if($LASTEXITCODE -ne 0){throw "compile failed: $out/${tag}_compile.log"}

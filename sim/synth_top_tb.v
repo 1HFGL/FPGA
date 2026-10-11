@@ -87,9 +87,9 @@ module synth_top_tb;
         if (rst_n && dut.audio_rst_n) begin
             if (bit_count == 0) begin
                 if (i2s_lrclk !== (word_index % 2))
-                    $fatal(1, "wrong WS: word=%0d WS=%b", word_index, i2s_lrclk);
+                    begin $display("FAIL: wrong WS: word=%0d WS=%b", word_index, i2s_lrclk); $finish; end
                 if (sample_underrun !== expected_underrun(word_index / 2))
-                    $fatal(1, "wrong underrun status: frame=%0d", word_index / 2);
+                    begin $display("FAIL: wrong underrun status: frame=%0d", word_index / 2); $finish; end
             end
             // 可选负向验证：故意翻转一个观察位，检查测试平台能否报错。
 `ifdef AUDIO_NEGATIVE_CONTROL
@@ -101,9 +101,9 @@ module synth_top_tb;
             bit_count = bit_count + 1;
             if (bit_count == 16) begin
                 if (received_word !== expected_sample(word_index / 2))
-                    $fatal(1, "wrong serial sample: frame=%0d channel=%0d expected=%h actual=%h",
+                    begin $display("FAIL: wrong serial sample: frame=%0d channel=%0d expected=%h actual=%h",
                            word_index / 2, word_index % 2,
-                           expected_sample(word_index / 2), received_word);
+                           expected_sample(word_index / 2), received_word); $finish; end
                 bit_count = 0;
                 word_index = word_index + 1;
             end
@@ -112,19 +112,19 @@ module synth_top_tb;
 
     initial begin
         #20000;
-        $fatal(1, "simulation timeout");
+        begin $display("FAIL: simulation timeout"); $finish; end
     end
 
     initial begin
         repeat (3) @(negedge clk_in);
         if (pa_en !== 1'b1)
-            $fatal(1, "amplifier not off during reset");
+            begin $display("FAIL: amplifier not off during reset"); $finish; end
         rst_n = 1'b1;
         repeat (4) @(negedge clk_in);
         audio_enable = 1'b1;
         #1;
         if (pa_en !== 1'b0)
-            $fatal(1, "amplifier did not enable");
+            begin $display("FAIL: amplifier did not enable"); $finish; end
 
         wait (word_index >= 12); // 检查六帧：正常、缺样本、正负满幅。
         repeat (5) @(posedge i2s_bclk);
@@ -132,7 +132,7 @@ module synth_top_tb;
         rst_n = 1'b0; // 在串行字中间复位。
         #1;
         if (pa_en !== 1'b1 || i2s_bclk !== 1'b1 || i2s_sdata !== 1'b0)
-            $fatal(1, "unsafe outputs after mid-word reset");
+            begin $display("FAIL: unsafe outputs after mid-word reset"); $finish; end
         word_index = 0;
         bit_count = 0;
         received_word = 16'd0;

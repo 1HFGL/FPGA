@@ -11,11 +11,11 @@ catch {quit -sim}
 file mkdir results/logs results/waves
 set timbre_library results/timbre_work
 if {![file exists $timbre_library/_info]} { vlib $timbre_library }
-vlog -sv -work $timbre_library \
+vlog -vlog01compat -pedanticerrors -work $timbre_library \
     rtl/phase_acc.v rtl/wave_lut.v rtl/wave_lut_timbre.v \
     rtl/adsr_env.v rtl/sample_gain.v rtl/voice_timbre_adsr.v \
     rtl/note_phase_lut.v rtl/sample_mixer4.v rtl/voice_bank_adsr.v \
-    sim/tb_timbre_bank.sv
+    sim/tb_timbre_bank.v
 vsim -voptargs=+acc -onfinish stop -lib $timbre_library \
     -l results/logs/tb_timbre_bank_gui.log \
     -wlf results/waves/tb_timbre_bank_gui.wlf tb_timbre_bank \

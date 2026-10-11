@@ -382,10 +382,10 @@ rtl/board_top.v
 rtl/reset_sync.v
 rtl/voice_test_pattern.v
 rtl/board_test_top.v
-tb/tb_event_encoder.sv
-tb/tb_voice_allocator.sv
-tb/tb_interaction_top.sv
-tb/tb_voice_test_pattern.sv
+tb/tb_event_encoder.v
+tb/tb_voice_allocator.v
+tb/tb_interaction_top.v
+tb/tb_voice_test_pattern.v
 ```
 
 主要变化：

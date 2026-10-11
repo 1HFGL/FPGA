@@ -38,7 +38,7 @@ module tb_wave_lut;
                 (sample_valid !== expected_valid)) begin
                 $display("FAIL: addr=%0d sample=%0d expected=%0d valid=%b expected_valid=%b",
                          addr, sample, expected_sample, sample_valid, expected_valid);
-                $fatal(1, "wave_lut check failed");
+                begin $display("FAIL: wave_lut check failed"); $finish; end
             end
             checks = checks + 1;
         end
@@ -81,6 +81,6 @@ module tb_wave_lut;
 
     initial begin
         #20000;
-        $fatal(1, "Simulation timed out");
+        begin $display("FAIL: Simulation timed out"); $finish; end
     end
 endmodule

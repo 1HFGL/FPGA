@@ -36,7 +36,7 @@ module tb_voice_dds;
     initial clk = 1'b0;
     always #41.666666667 clk = ~clk;
 
-    // Independent model: mathematical sine, quantized address, 32-bit wrap.
+    // Independent model: mathematical sine, quantized address, 32-reg wrap.
     // Check every clock, including idle clocks, not only valid samples.
     always @(posedge clk) begin
         if (rst) begin
@@ -62,7 +62,7 @@ module tb_voice_dds;
         if ((sample !== expected_sample) || (sample_valid !== expected_valid)) begin
             $display("FAIL: time=%0t sample=%0d expected=%0d valid=%b expected_valid=%b",
                      $time, sample, expected_sample, sample_valid, expected_valid);
-            $fatal(1, "DDS sample or valid mismatch");
+            begin $display("FAIL: DDS sample or valid mismatch"); $finish; end
         end
         if (sample_valid)
             outputs = outputs + 1;
@@ -119,12 +119,12 @@ module tb_voice_dds;
                 sample_tick = 1'b0;
             end
             if (crossings < 2)
-                $fatal(1, "Not enough positive zero crossings");
+                begin $display("FAIL: Not enough positive zero crossings"); $finish; end
             measured_hz = 1.0 * FS_HZ * (crossings - 1) / (last_crossing - first_crossing);
             // Crossing locations are quantized to sample indices.
             if ((measured_hz < target_hz * 0.99) ||
                 (measured_hz > target_hz * 1.01))
-                $fatal(1, "Frequency outside 1 percent tolerance");
+                begin $display("FAIL: Frequency outside 1 percent tolerance"); $finish; end
             $display("Tone %0d Hz: %0d samples, estimated frequency %.3f Hz, PASS",
                      target_hz, TONE_SAMPLES, measured_hz);
         end
@@ -140,7 +140,7 @@ module tb_voice_dds;
         trace_fd = 0;
         if ($value$plusargs("DDS_TRACE=%s", trace_path)) begin
             trace_fd = $fopen(trace_path, "w");
-            if (trace_fd == 0) $fatal(1, "Cannot open DDS trace file");
+            if (trace_fd == 0) begin $display("FAIL: Cannot open DDS trace file"); $finish; end
         end
 
         step(1, 0, 32'h40000000);
@@ -163,7 +163,7 @@ module tb_voice_dds;
         step(0, 1, INC_440);
         step(0, 0, INC_440);
         if (requests != outputs)
-            $fatal(1, "Sample count mismatch");
+            begin $display("FAIL: Sample count mismatch"); $finish; end
         $display("PASS: voice_dds; %0d valid samples matched; %0d clock checks passed.",
                  outputs, clocks_checked);
         if (trace_fd != 0) $fclose(trace_fd);
@@ -172,6 +172,6 @@ module tb_voice_dds;
 
     initial begin
         #120000000;
-        $fatal(1, "DDS simulation timed out");
+        begin $display("FAIL: DDS simulation timed out"); $finish; end
     end
 endmodule

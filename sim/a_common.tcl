@@ -19,7 +19,7 @@ proc a_run {root top} {
         }
     }
     lappend sources [file join $root sim ${top}.v]
-    vlog -sv -work $lib {*}$sources
+    vlog -vlog01compat -pedanticerrors -work $lib {*}$sources
     file mkdir [file join $root results waves]
     vsim -lib $lib -voptargs=+acc -wlf [file join $root results waves ${top}.wlf] $top
     view wave

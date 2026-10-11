@@ -52,7 +52,7 @@ module tb_adsr_env;
                  c0+c1+c2+c3+c4+c5+c6+c7+c8+c9+c10+c11);
         $stop;
     end
-    initial begin #100000000; $fatal(1,"ADSR duration timeout"); end
+    initial begin #100000000; begin $display("FAIL: ADSR duration timeout"); $finish; end end
 endmodule
 
 // 32 位无符号时长边界。参考模型直接计算直线，独立于 RTL 的计数/余数。
@@ -99,8 +99,8 @@ module adsr_wide_case #(
             @(posedge clk); #1;
             if (env_level!==level_value || state!==state_value ||
                 active!==(state_value!=0))
-                $fatal(1,"Wide ADSR A=%h D=%h R=%h check=%0d got %0d/%0d expected %0d/%0d",
-                    A,D,R,checks,env_level,state,level_value,state_value);
+                begin $display("FAIL: Wide ADSR A=%h D=%h R=%h check=%0d got %0d/%0d expected %0d/%0d",
+                    A,D,R,checks,env_level,state,level_value,state_value); $finish; end
             checks=checks+1;
         end
     endtask
@@ -176,8 +176,8 @@ module adsr_duration_case #(
             @(posedge clk); #1;
             if (env_level!==level_value || state!==state_value ||
                 active!==(state_value!=0))
-                $fatal(1,"ADSR A=%0d D=%0d S=%0d R=%0d check=%0d: got %0d/%0d expected %0d/%0d",
-                    A,D,S,R,checks,env_level,state,level_value,state_value);
+                begin $display("FAIL: ADSR A=%0d D=%0d S=%0d R=%0d check=%0d: got %0d/%0d expected %0d/%0d",
+                    A,D,S,R,checks,env_level,state,level_value,state_value); $finish; end
             expected=level_value; expected_state=state_value;
             checks=checks+1;
         end

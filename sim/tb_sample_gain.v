@@ -31,8 +31,8 @@ module tb_sample_gain;
             end else expected=last_sample;
             @(posedge clk); #1;
             if ($signed(sample_out) !== expected || out_valid !== (valid && !r))
-                $fatal(1,"Gain mismatch: input=%0d gain=%0d actual=%0d expected=%0d",
-                       value, coefficient, $signed(sample_out), expected);
+                begin $display("FAIL: Gain mismatch: input=%0d gain=%0d actual=%0d expected=%0d",
+                       value, coefficient, $signed(sample_out), expected); $finish; end
             last_sample=expected;
             checks=checks+1;
         end
@@ -51,5 +51,5 @@ module tb_sample_gain;
         $display("PASS: sample_gain exhaustive checks (%0d).",checks);
         $stop;
     end
-    initial begin #10000000; $fatal(1,"Gain timeout"); end
+    initial begin #10000000; begin $display("FAIL: Gain timeout"); $finish; end end
 endmodule

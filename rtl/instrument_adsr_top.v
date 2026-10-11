@@ -68,7 +68,7 @@ module instrument_adsr_top #(
         .MIX_SHIFT(5)
     ) u_bank (
         .clk(sys_clk), .rst_n(audio_ready), .sample_request(sample_request),
-        .voice_gate(voice_gate), .voice_retrigger(voice_trigger),
+        .voice_gate(voice_gate), .voice_retrigger(voice_trigger), .voice_timbre(4'b0000),
         .voice_note_flat(voice_note_flat), .voice_velocity_flat(voice_velocity_flat),
         .release_done(release_done), .sounding(sounding),
         .sample_data(sample_data), .sample_valid(sample_valid), .env_level_flat(),

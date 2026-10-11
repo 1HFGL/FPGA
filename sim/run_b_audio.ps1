@@ -22,10 +22,10 @@ try {
         if ($LASTEXITCODE -ne 0) { throw '创建仿真库失败' }
     }
 
-    # RTL 按普通 Verilog 编译；测试平台使用 SystemVerilog 的 $fatal。
+    # RTL 与测试平台都按 Verilog-2001 编译；失败用 FAIL 日志加 finish。
     & $vlog -nologo -work $workLib 'rtl/sample_tick.v' 'rtl/i2s_tx.v' 'rtl/synth_top.v'
     if ($LASTEXITCODE -ne 0) { throw 'RTL 编译失败' }
-    & $vlog -nologo -sv -work $workLib 'sim/sample_tick_tb.v' 'sim/synth_top_tb.v'
+    & $vlog -nologo -vlog01compat -pedanticerrors -work $workLib 'sim/sample_tick_tb.v' 'sim/synth_top_tb.v'
     if ($LASTEXITCODE -ne 0) { throw '测试平台编译失败' }
 
     # 顺序运行，避免两个 vsim 进程同时改写同一仿真库的优化缓存。
@@ -34,9 +34,9 @@ try {
         & $vsim -c -lib $workLib -l $logPath $top -do 'run -all; quit -f'
         $simExit = $LASTEXITCODE
         $logText = Get-Content -Raw -LiteralPath $logPath
-        # 该版 ModelSim 遇到 $fatal 时仍可能返回 0，因此还要检查日志。
+        # finish 可能返回 0，必须同时检查失败日志和成功标记。
         if ($simExit -ne 0 -or
-            $logText -match '(?m)^# \*\* (Fatal|Error):' -or
+            $logText -match '(?m)^# \*\* (Fatal|Error):|(?m)^#\s*FAIL' -or
             $logText -notmatch "PASS $top") {
             throw "$top 仿真失败，详见 $logPath"
         }

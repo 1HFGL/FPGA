@@ -89,7 +89,7 @@ python model/check_instrument_bank.py
 python model/render_instrument_preview.py --capture results/logs/instrument_preview.csv --out-dir results/audio --report results/logs/instrument_preview_report.json
 ```
 
-`-Suite Instruments` 为 3 个测试平台，`A` 为 14 个，`All` 为 25 个。旧的 22 项保留。ModelSim 图形界面用 `source {仓库完整路径/sim/run_instruments.tcl}`，显示包络、亮度、已采纳乐器和混音输出。
+2026-10-11集成后，`-Suite Instruments` 为3个测试平台，`A`为15个，`All`为34个；UART和钢琴另有独立入口。全部有效测试使用Verilog-2001。ModelSim图形界面用 `source {仓库完整路径/sim/run_instruments.tcl}`，显示包络、亮度、已采纳乐器和混音输出。历史验证数量见下文，不与本次结果混用。
 
 试听取自实际 RTL：两个 A4 长音各 2 秒，以及相同 C4/D4/E4/G4/C5 旋律各 2.5 秒，共 432000 点。Python 使用独立公式逐样本核对后才写 WAV，不用 Python 合成音频替代 RTL。为比较音色，每个预设使用一个固定播放增益，使两段旋律 RMS 对齐；该增益同时用于对应长音，不改变 FPGA 的音量逻辑。报告保存原始样本幅度、播放增益与峰值，WAV 是仿真试听，不是板卡录音。
 

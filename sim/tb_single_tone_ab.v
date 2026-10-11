@@ -72,35 +72,35 @@ module tb_single_tone_ab;
             valid_at_edge = dut.sample_valid;
             data_at_edge = dut.sample_data;
             if (!dut.audio_ready && request_at_edge !== 1'b0)
-                $fatal(1, "request while audio reset is active");
+                begin $display("FAIL: request while audio reset is active"); $finish; end
             if (valid_at_edge !== previous_request)
-                $fatal(1, "sample_valid not held for exactly one cycle: t=%0t", $time);
+                begin $display("FAIL: sample_valid not held for exactly one cycle: t=%0t", $time); $finish; end
             if (valid_at_edge && data_at_edge !== previous_sample)
-                $fatal(1, "sample changed before B accepted it: t=%0t", $time);
+                begin $display("FAIL: sample changed before B accepted it: t=%0t", $time); $finish; end
 
             if (request_at_edge) begin
                 expected_now = quarter_sine(reference_phase[31:22]);
                 if (^expected_now === 1'bx)
-                    $fatal(1, "unexpected reference address %0d", reference_phase[31:22]);
+                    begin $display("FAIL: unexpected reference address %0d", reference_phase[31:22]); $finish; end
                 expected_frame[request_count + 1] = expected_now;
                 reference_phase = reference_phase + phase_inc;
                 request_count = request_count + 1;
                 if (request_count > 30)
-                    $fatal(1, "test reference array exceeded");
+                    begin $display("FAIL: test reference array exceeded"); $finish; end
                 previous_sample = expected_now;
             end
             previous_request = request_at_edge;
 
             #1; // NBA 更新完成后检查：A 沿后有效，B 下一沿才取到它。
             if (dut.sample_valid !== request_at_edge)
-                $fatal(1, "A valid timing wrong after request: t=%0t", $time);
+                begin $display("FAIL: A valid timing wrong after request: t=%0t", $time); $finish; end
             if (request_at_edge && dut.sample_data !== expected_now)
-                $fatal(1, "A DDS sample mismatch: request=%0d expected=%h actual=%h",
-                       request_count, expected_now, dut.sample_data);
+                begin $display("FAIL: A DDS sample mismatch: request=%0d expected=%h actual=%h",
+                       request_count, expected_now, dut.sample_data); $finish; end
             if (valid_at_edge &&
                 (dut.u_synth_top.u_i2s_tx.pending_valid !== 1'b1 ||
                  dut.u_synth_top.u_i2s_tx.pending_sample !== data_at_edge))
-                $fatal(1, "B did not buffer A sample on following clock: t=%0t", $time);
+                begin $display("FAIL: B did not buffer A sample on following clock: t=%0t", $time); $finish; end
         end
     end
 
@@ -113,10 +113,10 @@ module tb_single_tone_ab;
         end else if (dut.audio_ready) begin
             if (bit_count == 0) begin
                 if (i2s_lrclk !== (word_index % 2))
-                    $fatal(1, "wrong channel: word=%0d WS=%b", word_index, i2s_lrclk);
+                    begin $display("FAIL: wrong channel: word=%0d WS=%b", word_index, i2s_lrclk); $finish; end
                 if (sample_underrun !== (word_index < 2))
-                    $fatal(1, "wrong underrun: frame=%0d flag=%b", word_index / 2,
-                           sample_underrun);
+                    begin $display("FAIL: wrong underrun: frame=%0d flag=%b", word_index / 2,
+                           sample_underrun); $finish; end
             end
             observed_bit = i2s_sdata;
 `ifdef AB_NEGATIVE_CONTROL
@@ -128,9 +128,9 @@ module tb_single_tone_ab;
             bit_count = bit_count + 1;
             if (bit_count == 16) begin
                 if (received_word !== expected_frame[word_index / 2])
-                    $fatal(1, "serial mismatch: frame=%0d channel=%0d expected=%h actual=%h",
+                    begin $display("FAIL: serial mismatch: frame=%0d channel=%0d expected=%h actual=%h",
                            word_index / 2, word_index % 2,
-                           expected_frame[word_index / 2], received_word);
+                           expected_frame[word_index / 2], received_word); $finish; end
                 bit_count = 0;
                 word_index = word_index + 1;
             end
@@ -139,25 +139,25 @@ module tb_single_tone_ab;
 
     initial begin
         #50000;
-        $fatal(1, "A+B joint simulation timed out");
+        begin $display("FAIL: A+B joint simulation timed out"); $finish; end
     end
 
     initial begin
         repeat (3) @(negedge clk_in);
         if (pa_en !== 1'b1 || dut.audio_ready !== 1'b0)
-            $fatal(1, "reset did not keep audio disabled");
+            begin $display("FAIL: reset did not keep audio disabled"); $finish; end
         rst_n = 1'b1;
         @(posedge clk_in); #1;
         if (dut.audio_ready !== 1'b0)
-            $fatal(1, "audio reset released before first clock completed");
+            begin $display("FAIL: audio reset released before first clock completed"); $finish; end
         @(posedge clk_in); #1;
         if (dut.audio_ready !== 1'b1 || pa_en !== 1'b1)
-            $fatal(1, "audio reset did not release after second clock");
+            begin $display("FAIL: audio reset did not release after second clock"); $finish; end
         @(negedge clk_in);
         audio_enable = 1'b1;
         #1;
         if (pa_en !== 1'b0)
-            $fatal(1, "amplifier did not enable");
+            begin $display("FAIL: amplifier did not enable"); $finish; end
 
         wait (word_index >= 12); // 先检查六帧 1/4 周期增量。
         @(negedge clk_in);
@@ -169,24 +169,24 @@ module tb_single_tone_ab;
         #1;
         if (pa_en !== 1'b1 || dut.audio_ready !== 1'b0 ||
             i2s_bclk !== 1'b1 || i2s_sdata !== 1'b0)
-            $fatal(1, "unsafe output immediately after reset assertion");
+            begin $display("FAIL: unsafe output immediately after reset assertion"); $finish; end
         repeat (3) @(negedge clk_in);
         #1;
         if (dut.sample_valid !== 1'b0 || dut.sample_data !== 16'sd0 ||
             dut.u_voice_dds.u_phase_acc.phase !== 32'd0)
-            $fatal(1, "A synchronous state not cleared during reset");
+            begin $display("FAIL: A synchronous state not cleared during reset"); $finish; end
         phase_inc = 32'h40000000;
         rst_n = 1'b1;
         @(posedge clk_in); #1;
         if (dut.audio_ready !== 1'b0)
-            $fatal(1, "restart released audio reset too early");
+            begin $display("FAIL: restart released audio reset too early"); $finish; end
         @(posedge clk_in); #1;
         if (dut.audio_ready !== 1'b1)
-            $fatal(1, "restart did not release audio reset");
+            begin $display("FAIL: restart did not release audio reset"); $finish; end
         wait (word_index >= 12); // 复位后必须重新经历首帧静音和正弦序列。
 
         if (request_count < 6)
-            $fatal(1, "too few A+B requests after reset");
+            begin $display("FAIL: too few A+B requests after reset"); $finish; end
         $display("PASS tb_single_tone_ab: request/valid, next-frame serial, pitch, reset");
         $finish;
     end

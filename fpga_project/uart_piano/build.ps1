@@ -1,8 +1,9 @@
 [CmdletBinding()]
-param([string]$Gowin='D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe')
+param([string]$Gowin='D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe',
+      [string]$EvidenceDirectory='results/sync-review-20261011/build-piano')
 $ErrorActionPreference='Stop'
 $root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
-$evidence=Join-Path $root 'results/piano-20261008'
+$evidence=Join-Path $root $EvidenceDirectory
 if(-not(Test-Path -LiteralPath $Gowin)){throw "Missing Gowin: $Gowin"}
 New-Item -ItemType Directory -Path $evidence -Force | Out-Null
 $projectPath=Join-Path $PSScriptRoot 'uart_piano.gprj'
