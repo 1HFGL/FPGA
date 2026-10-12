@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 
 module board_top #(
-    parameter integer DEBOUNCE_CYCLES  = 250000, // 5 ms at 50 MHz
+    parameter integer DEBOUNCE_CYCLES  = 100000, // 2 ms at 50 MHz
     parameter integer LED_ACTIVE_LOW   = 0,
     parameter integer TEST_MODE        = 0,
     parameter integer TEST_VOICES      = 32,

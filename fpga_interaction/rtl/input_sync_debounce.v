@@ -2,7 +2,7 @@
 
 module input_sync_debounce #(
     parameter integer ACTIVE_LOW      = 1,
-    parameter integer DEBOUNCE_CYCLES = 250000, // 5 ms at 50 MHz
+    parameter integer DEBOUNCE_CYCLES = 100000, // 2 ms at 50 MHz
     parameter integer CNT_WIDTH       = 32
 ) (
     input  wire clk,

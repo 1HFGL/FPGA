@@ -54,6 +54,7 @@ if ($LASTEXITCODE -ne 0) {
 
 $tests = @(
     "tb_input_sync_debounce",
+    "tb_input_sync_debounce_2ms",
     "tb_pressure_if",
     "tb_adc_knob_if",
     "tb_event_encoder",

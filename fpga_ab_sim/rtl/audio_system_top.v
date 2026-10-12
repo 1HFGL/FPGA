@@ -6,7 +6,7 @@ module audio_system_top #(
     parameter integer CLK_HZ           = 50000000,
     parameter integer SAMPLE_RATE      = 48000,
     parameter integer I2S_BCLK_DIV     = 4,
-    parameter integer DEBOUNCE_CYCLES  = 250000, // 5 ms at 50 MHz
+    parameter integer DEBOUNCE_CYCLES  = CLK_HZ / 500, // 2 ms
     parameter integer TEST_HOLD_CYCLES = 50000000,
     parameter integer MAX_EVENTS       = 64
 ) (

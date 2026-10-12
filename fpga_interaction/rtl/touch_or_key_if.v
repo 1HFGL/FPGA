@@ -3,7 +3,7 @@
 module touch_or_key_if #(
     parameter integer KEY_COUNT       = 2,
     parameter integer ACTIVE_LOW      = 1,
-    parameter integer DEBOUNCE_CYCLES = 250000 // 5 ms at 50 MHz
+    parameter integer DEBOUNCE_CYCLES = 100000 // 2 ms at 50 MHz
 ) (
     input  wire clk,
     input  wire rst_n,
