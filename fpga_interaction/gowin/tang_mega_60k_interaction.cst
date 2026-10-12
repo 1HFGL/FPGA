@@ -1,0 +1,31 @@
+// Tang Mega 60K C-part board constraints
+// Source pins verified against Sipeed official tang_mega_60K_pins.cst.
+// LEDs[4:7] are not used because these locations are CPU-dedicated
+// pins on GW5AT-60B/PBGA484A device version B by default.
+
+// System
+IO_LOC  "sys_clk" V22;
+IO_PORT "sys_clk" IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+
+IO_LOC  "sys_rst_n" AA13;
+IO_PORT "sys_rst_n" IO_TYPE=LVCMOS15 PULL_MODE=UP BANK_VCCIO=1.5;
+
+// User keys, active low
+IO_LOC  "Key_in[1]" Y12;
+IO_PORT "Key_in[1]" IO_TYPE=LVCMOS15 PULL_MODE=UP BANK_VCCIO=1.5;
+
+IO_LOC  "Key_in[0]" AB13;
+IO_PORT "Key_in[0]" IO_TYPE=LVCMOS15 PULL_MODE=UP BANK_VCCIO=1.5;
+
+// LEDs[3:0]
+IO_LOC  "LEDs[0]" T18;
+IO_PORT "LEDs[0]" IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+
+IO_LOC  "LEDs[1]" R18;
+IO_PORT "LEDs[1]" IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+
+IO_LOC  "LEDs[2]" R17;
+IO_PORT "LEDs[2]" IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+
+IO_LOC  "LEDs[3]" P16;
+IO_PORT "LEDs[3]" IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;

@@ -3,10 +3,10 @@
 // 一个机械按键的输入清理：先用两级寄存器同步，再要求新电平持续稳定才接受。
 // 两级同步降低异步输入亚稳态传播风险；它不能代替消抖，也不保证物理上零风险。
 // 输出level统一为1=按下，与ACTIVE_LOW无关；press/release只各持续一个clk周期。
-// 默认250000周期在板级50MHz时为约5ms，还需加同步和边沿检测的少数时钟周期。
+// 默认100000周期在板级50MHz时为约2ms，还需加同步和边沿检测的少数时钟周期。
 module input_sync_debounce #(
     parameter integer ACTIVE_LOW      = 1,
-    parameter integer DEBOUNCE_CYCLES = 250000,
+    parameter integer DEBOUNCE_CYCLES = 100000,
     parameter integer CNT_WIDTH       = 32
 ) (
     input  wire clk,

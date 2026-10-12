@@ -11,8 +11,8 @@
 module instrument_adsr_top #(
     // 0=普通按键版；1=上电/复位后自动触发一次四低音测试，不循环播放。
     parameter integer AUTO_TEST = 0,
-    // 250000 / 50MHz = 5ms；这是输入稳定判定时间，不是整机延迟实测值。
-    parameter integer DEBOUNCE_CYCLES = 250000,
+    // 100000 / 50MHz = 2ms；这是输入稳定判定时间，不是整机延迟实测值。
+    parameter integer DEBOUNCE_CYCLES = 100000,
     parameter integer TEST_HOLD_CYCLES = 50000000,
     // A/D/R单位为48kHz采样点：2ms起音、500ms衰减、120ms释放。
     // S=6554/65536约10%峰值幅度；不是10%主观响度。按住也会先变轻。

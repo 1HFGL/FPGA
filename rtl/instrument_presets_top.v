@@ -4,7 +4,7 @@
 // 只驱动第0声部，便于同音高比较两套预设，不代表四键演奏接口。
 // 所有逻辑使用V22的50MHz时钟；PT8211-S串行格式沿用已验证的B模块。
 module instrument_presets_top #(
-    parameter integer DEBOUNCE_CYCLES=250000,
+    parameter integer DEBOUNCE_CYCLES=100000,
     parameter [31:0] G_ATTACK=64, G_DECAY=32768, G_RELEASE=4096,
     parameter [16:0] G_SUSTAIN=0,
     parameter [31:0] S_ATTACK=1024, S_DECAY=8192, S_RELEASE=8192,

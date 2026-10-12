@@ -3,7 +3,7 @@
 // 48kHz下：96点=2ms；57600点=1200ms；8640点=180ms；保持电平为0。
 // 本版为线性衰减、固定谐波比例的合成近似；没有真实钢琴的分音独立衰减。
 module instrument_uart_piano_top #(
-    parameter integer DEBOUNCE_CYCLES=250000,
+    parameter integer DEBOUNCE_CYCLES=100000,
     parameter integer UART_CLKS_PER_BIT=434,
     parameter integer WATCHDOG_CYCLES=150000000,
     parameter ROM_FILE="../../rtl/rom/piano_1024.mem"

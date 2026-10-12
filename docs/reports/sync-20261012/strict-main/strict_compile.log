@@ -1,0 +1,151 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 23:03:25 on Oct 12,2026
+vlog -vlog01compat -pedanticerrors -work results/sync-review-20261011/strict_work D:\Project\fpga_contest\fpga_project\instruments_check\voice_bank_instruments_timing_top.v D:\Project\fpga_contest\fpga_project\poly_adsr_check\voice_bank_adsr_timing_top.v D:\Project\fpga_contest\rtl\adsr_env.v D:\Project\fpga_contest\rtl\adsr_voice_bank.v D:\Project\fpga_contest\rtl\board_test_top.v D:\Project\fpga_contest\rtl\board_top.v D:\Project\fpga_contest\rtl\demo_voice_bank.v D:\Project\fpga_contest\rtl\event_encoder.v D:\Project\fpga_contest\rtl\i2s_tx.v D:\Project\fpga_contest\rtl\input_sync_debounce.v D:\Project\fpga_contest\rtl\instrument_adsr_top.v D:\Project\fpga_contest\rtl\instrument_demo_top.v D:\Project\fpga_contest\rtl\instrument_env.v D:\Project\fpga_contest\rtl\instrument_presets_top.v D:\Project\fpga_contest\rtl\instrument_uart_piano_top.v D:\Project\fpga_contest\rtl\instrument_uart_top.v D:\Project\fpga_contest\rtl\instrument_wave.v D:\Project\fpga_contest\rtl\interaction_top.v D:\Project\fpga_contest\rtl\note_phase_lut.v D:\Project\fpga_contest\rtl\phase_acc.v D:\Project\fpga_contest\rtl\pressure_if.v D:\Project\fpga_contest\rtl\reset_sync.v D:\Project\fpga_contest\rtl\sample_gain.v D:\Project\fpga_contest\rtl\sample_mixer4.v D:\Project\fpga_contest\rtl\sample_tick.v D:\Project\fpga_contest\rtl\single_tone_demo_top.v D:\Project\fpga_contest\rtl\synth_top.v D:\Project\fpga_contest\rtl\touch_or_key_if.v D:\Project\fpga_contest\rtl\uart_event_arbiter.v D:\Project\fpga_contest\rtl\uart_fifo.v D:\Project\fpga_contest\rtl\uart_line_rx.v D:\Project\fpga_contest\rtl\uart_reply_tx.v D:\Project\fpga_contest\rtl\uart_rx.v D:\Project\fpga_contest\rtl\uart_synth_protocol.v D:\Project\fpga_contest\rtl\uart_tx.v D:\Project\fpga_contest\rtl\voice_adsr.v D:\Project\fpga_contest\rtl\voice_allocator.v D:\Project\fpga_contest\rtl\voice_bank_adsr.v D:\Project\fpga_contest\rtl\voice_bank_instruments.v D:\Project\fpga_contest\rtl\voice_dds.v D:\Project\fpga_contest\rtl\voice_instrument.v D:\Project\fpga_contest\rtl\voice_test_pattern.v D:\Project\fpga_contest\rtl\voice_timbre_adsr.v D:\Project\fpga_contest\rtl\wave_lut_timbre.v D:\Project\fpga_contest\rtl\wave_lut.v D:\Project\fpga_contest\sim\sample_tick_tb.v D:\Project\fpga_contest\sim\synth_top_tb.v D:\Project\fpga_contest\sim\tb_adsr_arithmetic.v D:\Project\fpga_contest\sim\tb_adsr_env.v D:\Project\fpga_contest\sim\tb_adsr_voice_bank.v D:\Project\fpga_contest\sim\tb_allocator_review.v D:\Project\fpga_contest\sim\tb_allocator_trigger.v D:\Project\fpga_contest\sim\tb_demo_voice_bank.v D:\Project\fpga_contest\sim\tb_instrument_adsr.v D:\Project\fpga_contest\sim\tb_instrument_bank.v D:\Project\fpga_contest\sim\tb_instrument_demo.v D:\Project\fpga_contest\sim\tb_instrument_presets.v D:\Project\fpga_contest\sim\tb_instrument_preview.v D:\Project\fpga_contest\sim\tb_instrument_wave.v D:\Project\fpga_contest\sim\tb_phase_acc.v D:\Project\fpga_contest\sim\tb_piano_tone.v D:\Project\fpga_contest\sim\tb_sample_gain.v D:\Project\fpga_contest\sim\tb_sample_mixer4.v D:\Project\fpga_contest\sim\tb_single_tone_ab.v D:\Project\fpga_contest\sim\tb_timbre_bank.v D:\Project\fpga_contest\sim\tb_timbre_preview.v D:\Project\fpga_contest\sim\tb_uart_bytes.v D:\Project\fpga_contest\sim\tb_uart_flow.v D:\Project\fpga_contest\sim\tb_uart_instrument.v D:\Project\fpga_contest\sim\tb_uart_line.v D:\Project\fpga_contest\sim\tb_uart_piano_board.v D:\Project\fpga_contest\sim\tb_uart_protocol.v D:\Project\fpga_contest\sim\tb_uart_replies.v D:\Project\fpga_contest\sim\tb_voice_adsr.v D:\Project\fpga_contest\sim\tb_voice_bank_adsr.v D:\Project\fpga_contest\sim\tb_voice_dds.v D:\Project\fpga_contest\sim\tb_wave_lut_timbre.v D:\Project\fpga_contest\sim\tb_wave_lut.v D:\Project\fpga_contest\tb\tb_event_encoder.v D:\Project\fpga_contest\tb\tb_input_sync_debounce.v D:\Project\fpga_contest\tb\tb_interaction_top.v D:\Project\fpga_contest\tb\tb_pressure_if.v D:\Project\fpga_contest\tb\tb_voice_allocator.v D:\Project\fpga_contest\tb\tb_voice_test_pattern.v 
+-- Compiling module voice_bank_instruments_timing_top
+-- Compiling module voice_bank_adsr_timing_top
+-- Compiling module adsr_env
+-- Compiling module adsr_voice_bank
+-- Compiling module board_test_top
+-- Compiling module board_top
+-- Compiling module demo_voice_bank
+-- Compiling module event_encoder
+-- Compiling module i2s_tx
+-- Compiling module input_sync_debounce
+-- Compiling module instrument_adsr_top
+-- Compiling module instrument_adsr_auto_top
+-- Compiling module instrument_demo_top
+-- Compiling module instrument_demo_auto_top
+-- Compiling module instrument_env
+-- Compiling module instrument_presets_top
+-- Compiling module instrument_uart_piano_top
+-- Compiling module instrument_uart_top
+-- Compiling module instrument_wave
+-- Compiling module interaction_top
+-- Compiling module note_phase_lut
+-- Compiling module phase_acc
+-- Compiling module pressure_if
+-- Compiling module reset_sync
+-- Compiling module sample_gain
+-- Compiling module sample_mixer4
+-- Compiling module sample_tick
+-- Compiling module single_tone_demo_top
+-- Compiling module synth_top
+-- Compiling module touch_or_key_if
+-- Compiling module uart_event_arbiter
+-- Compiling module uart_fifo
+-- Compiling module uart_line_rx
+-- Compiling module uart_reply_tx
+-- Compiling module uart_rx
+-- Compiling module uart_synth_protocol
+-- Compiling module uart_tx
+-- Compiling module voice_adsr
+-- Compiling module voice_allocator
+-- Compiling module voice_bank_adsr
+-- Compiling module voice_bank_instruments
+-- Compiling module voice_dds
+-- Compiling module voice_instrument
+-- Compiling module voice_test_pattern
+-- Compiling module voice_timbre_adsr
+-- Compiling module wave_lut_timbre
+-- Compiling module wave_lut
+-- Compiling module sample_tick_tb
+-- Compiling module synth_top_tb
+-- Compiling module tb_adsr_arithmetic
+-- Compiling module tb_adsr_env
+-- Compiling module adsr_wide_case
+-- Compiling module adsr_duration_case
+-- Compiling module tb_adsr_voice_bank
+-- Compiling module allocator_review_case
+-- Compiling module tb_allocator_age
+-- Compiling module tb_allocator_owner
+-- Compiling module tb_allocator_expression_owner
+-- Compiling module tb_allocator_expression_reset
+-- Compiling module tb_allocator_trigger
+-- Compiling module tb_demo_voice_bank
+-- Compiling module tb_instrument_adsr
+-- Compiling module instrument_bank_case
+-- Compiling module tb_instrument_bank
+-- Compiling module tb_instrument_demo
+-- Compiling module tb_instrument_presets
+-- Compiling module tb_instrument_preview
+-- Compiling module tb_instrument_wave
+-- Compiling module tb_phase_acc
+-- Compiling module tb_piano_tone
+-- Compiling module tb_sample_gain
+-- Compiling module mixer4_case
+-- Compiling module tb_sample_mixer4
+-- Compiling module tb_single_tone_ab
+-- Compiling module timbre_bank_case
+-- Compiling module tb_timbre_bank
+-- Compiling module tb_timbre_preview
+-- Compiling module tb_uart_bytes
+-- Compiling module tb_uart_flow
+-- Compiling module tb_uart_instrument
+-- Compiling module tb_uart_instrument_115200
+-- Compiling module tb_uart_line
+-- Compiling module tb_uart_piano_board
+-- Compiling module tb_uart_protocol
+-- Compiling module tb_uart_replies
+-- Compiling module tb_voice_adsr
+-- Compiling module poly_adsr_case
+-- Compiling module tb_voice_bank_adsr
+-- Compiling module tb_voice_dds
+-- Compiling module tb_wave_lut_timbre
+-- Compiling module tb_wave_lut
+-- Compiling module tb_event_encoder
+-- Compiling module tb_input_sync_debounce
+-- Compiling module tb_interaction_top
+-- Compiling module tb_pressure_if
+-- Compiling module tb_voice_allocator
+-- Compiling module tb_voice_test_pattern
+
+Top level modules:
+	voice_bank_instruments_timing_top
+	voice_bank_adsr_timing_top
+	board_test_top
+	instrument_adsr_auto_top
+	instrument_demo_auto_top
+	sample_tick_tb
+	synth_top_tb
+	tb_adsr_arithmetic
+	tb_adsr_env
+	tb_adsr_voice_bank
+	tb_allocator_age
+	tb_allocator_owner
+	tb_allocator_expression_owner
+	tb_allocator_expression_reset
+	tb_allocator_trigger
+	tb_demo_voice_bank
+	tb_instrument_adsr
+	tb_instrument_bank
+	tb_instrument_demo
+	tb_instrument_presets
+	tb_instrument_preview
+	tb_instrument_wave
+	tb_phase_acc
+	tb_piano_tone
+	tb_sample_gain
+	tb_sample_mixer4
+	tb_single_tone_ab
+	tb_timbre_bank
+	tb_timbre_preview
+	tb_uart_bytes
+	tb_uart_flow
+	tb_uart_instrument_115200
+	tb_uart_line
+	tb_uart_piano_board
+	tb_uart_protocol
+	tb_uart_replies
+	tb_voice_adsr
+	tb_voice_bank_adsr
+	tb_voice_dds
+	tb_wave_lut_timbre
+	tb_wave_lut
+	tb_event_encoder
+	tb_input_sync_debounce
+	tb_interaction_top
+	tb_pressure_if
+	tb_voice_allocator
+	tb_voice_test_pattern
+End time: 23:03:25 on Oct 12,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

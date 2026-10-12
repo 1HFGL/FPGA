@@ -10,7 +10,7 @@ module interaction_top #(
     parameter integer KEY_COUNT       = 2,
     parameter integer VOICES          = 32,
     parameter integer ACTIVE_LOW      = 1,
-    parameter integer DEBOUNCE_CYCLES = 250000,
+    parameter integer DEBOUNCE_CYCLES = 100000,
     parameter integer MAX_EVENTS      = 64,
     parameter integer FIFO_PTR_WIDTH  = 6,
     parameter integer SOURCE_WIDTH    = 5,

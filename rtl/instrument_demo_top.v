@@ -4,7 +4,7 @@
 // 所有处理共享 sys_clk；按键由 C 的两级同步/消抖模块接收。
 module instrument_demo_top #(
     parameter integer AUTO_TEST = 0,
-    parameter integer DEBOUNCE_CYCLES = 250000,
+    parameter integer DEBOUNCE_CYCLES = 100000,
     parameter integer TEST_HOLD_CYCLES = 50000000
 ) (
     input wire sys_clk,

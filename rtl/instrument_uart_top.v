@@ -1,7 +1,7 @@
 // UART基础演奏独立板级顶层：KEY0复位、KEY1/2演奏、电脑共享四复音。
 // 全部内部模块50MHz同域，audio_ready统一异步断言/同步释放复位。
 module instrument_uart_top #(
-    parameter integer DEBOUNCE_CYCLES=250000,
+    parameter integer DEBOUNCE_CYCLES=100000,
     parameter integer UART_CLKS_PER_BIT=434,
     parameter integer WATCHDOG_CYCLES=150000000,
     parameter [31:0] ATTACK_SAMPLES=96,DECAY_SAMPLES=24000,RELEASE_SAMPLES=5760,

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW5AT-60B" pn="GW5AT-LV60PG484AC1/I0">gw5at60b-002</Device>
+    <FileList>
+        <File path="../../rtl/reset_sync.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/i2c_master.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/ads1115_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/adc_knob_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/ads1115_knob_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/board_knob_top.v" type="file.verilog" enable="1"/>
+        <File path="../../gowin/tang_mega_60k_knob.cst" type="file.cst" enable="1"/>
+        <File path="../../gowin/tang_mega_60k_knob.sdc" type="file.sdc" enable="1"/>
+    </FileList>
+</Project>
