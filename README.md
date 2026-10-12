@@ -89,3 +89,10 @@ python model/check_adsr.py
 ```
 
 2026-10-01 的 8 项 A/B 测试全部通过，包络覆盖 7 组参数、1614924 项检查，单声部的 47734 个样本与 RTL 测试平台、Python 模型一致。新声部比原 DDS 多一拍 `clk` 延迟；松开后仍须继续采样以完成释放。旧 `voice_dds` 接口保持。包络端口保持，但 `ATTACK_STEP/DECAY_STEP/RELEASE_STEP` 已换为 `ATTACK_SAMPLES/DECAY_SAMPLES/RELEASE_SAMPLES`；有显式参数覆盖的队友实例需要迁移。新版高云单模块综合、布局布线和 50 MHz 内部时序已通过：Setup +0.352 ns、Hold +0.247 ns、违例均为 0。整机约束与上板试听待验证；原始报告、参数迁移和交接说明见 [ADSR 验证记录](docs/a-adsr-validation.md)。
+
+
+## 2026-10-12：C 输入阶段成果分支
+
+已授权提交独立 C 工程：ADS1115 采集、映射和故障恢复；阶段一 C 12 项、联合仿真 2 项通过。根目录 ABC 演示保持原版本，硬件接线、统一接口与实物测量仍待完成，未勾选整机验收项。
+
+入口：[阶段成果说明](docs/c-input-stages-20261012.md)、[C 工程](fpga_interaction/README.md)。

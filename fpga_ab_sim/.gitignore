@@ -1,0 +1,4 @@
+sim/work/
+sim/transcript
+sim/vsim.wlf
+sim/*.vstf

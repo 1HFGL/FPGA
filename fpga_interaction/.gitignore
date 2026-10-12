@@ -1,0 +1,7 @@
+sim/work/
+sim/transcript
+sim/vsim.wlf
+sim/*.vstf
+impl/
+*.gprj.user
+verification/*/impl/
