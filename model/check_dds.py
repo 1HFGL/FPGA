@@ -12,7 +12,7 @@ def sine_sample(address):
 def main():
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--trace", type=Path, default=root / "results/logs/dds_trace.txt")
+    parser.add_argument("--trace", type=Path, default=root / "build/regression/logs/dds_trace.txt")
     args = parser.parse_args()
     words = (root / "rtl/rom/sine_1024.mem").read_text(encoding="ascii").split()
     if len(words) != 1024:

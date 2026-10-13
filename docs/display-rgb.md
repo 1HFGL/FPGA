@@ -12,12 +12,12 @@
 
 | 文件 | 职责 |
 |---|---|
-| `rtl/instrument_display.v` | 总入口、各域复位、状态快照、波形缩放、流水线对齐 |
-| `rtl/lcd_rgb_timing.v` | 像素计数、有效区、同步脉冲、帧边界 |
-| `rtl/display_cdc_latest.v` | 稳定数据字＋请求/确认翻转的跨时钟信箱 |
-| `rtl/display_wave_buffer.v` | 两页256×8位波形缓存，完整页在帧边界切换 |
-| `rtl/piano_display_renderer.v` | 按坐标绘制、黑白键覆盖优先级及状态条 |
-| `rtl/display_font24.v` | 中文/数字24×24点阵；来源和许可见 [字体说明](display-font/README.md) |
+| `rtl/display/instrument_display.v` | 总入口、各域复位、状态快照、波形缩放、流水线对齐 |
+| `rtl/display/lcd_rgb_timing.v` | 像素计数、有效区、同步脉冲、帧边界 |
+| `rtl/display/display_cdc_latest.v` | 稳定数据字＋请求/确认翻转的跨时钟信箱 |
+| `rtl/display/display_wave_buffer.v` | 两页256×8位波形缓存，完整页在帧边界切换 |
+| `rtl/display/piano_display_renderer.v` | 按坐标绘制、黑白键覆盖优先级及状态条 |
+| `rtl/display/display_font24.v` | 中文/数字24×24点阵；来源和许可见 [字体说明](display-font/README.md) |
 
 建议先读扫描计数，再读绘制器，最后看总入口和跨时钟传输。全部RTL及新增测试均为Verilog `.v`，中文注释说明接口、复位和有效时刻。
 
@@ -76,11 +76,11 @@ RAM不逐项清零以保留BSRAM推断；复位清除 `wave_ready/read_valid`，
 ## 4. 验证与复现
 
 ```powershell
-./sim/check_verilog.ps1
-./sim/run_display_tests.ps1
-./sim/run_display_tests.ps1 -NegativeControl
-./sim/run_tests.ps1 -Suite B -ModelSimBin C:/Library/modelsim/win64
-./fpga_project/display_rgb/build.ps1
+./verification/scripts/check_verilog.ps1
+./verification/scripts/run_display_tests.ps1
+./verification/scripts/run_display_tests.ps1 -NegativeControl
+./verification/scripts/run_tests.ps1 -Suite B -ModelSimBin C:/Library/modelsim/win64
+./projects/display/build.ps1
 ```
 
 六项新自检覆盖：同步极性/肩宽、跨域原子性/忙碌/停钟、双页一致性、13键/中文/参数边界、增益饱和/停钟复位、完整800×480帧及帧中状态变化。负向对照将生成目录中的RTL副本缩短一拍HSYNC，要求原检查器拒绝。队友tb及其独立脚本未修改。
@@ -88,11 +88,11 @@ RAM不逐项清零以保留BSRAM推断；复位清除 `wave_ready/read_valid`，
 预览来自RTL输出的384000个有效RGB像素，不是软件重新绘图：
 
 ```powershell
-python sim/render_display_frame.py results/display-20261013/piano_frame.hex results/display-20261013/piano.png
-python sim/render_display_frame.py results/display-20261013/guitar_frame.hex results/display-20261013/guitar.png
+python verification/scripts/render_display_frame.py build/regression/display/piano_frame.hex build/regression/display/piano.png
+python verification/scripts/render_display_frame.py build/regression/display/guitar_frame.hex build/regression/display/guitar.png
 ```
 
-在高云EDA打开 `fpga_project/display_rgb/display_rgb.gprj`，顶层为 `instrument_display`。只有综合检查，无CST/板级SDC，不生成可下载文件。[本轮证据与预览](reports/display-20261013/README.md)。
+在高云EDA打开 `projects/display/display_rgb.gprj`，顶层为 `instrument_display`。只有综合检查，无CST/板级SDC，不生成可下载文件。[本轮证据与预览](reports/display-20261013/README.md)。
 
 ## 5. 接入与学习下一步
 

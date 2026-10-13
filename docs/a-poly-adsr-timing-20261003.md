@@ -1,5 +1,7 @@
 # 四声部 ADSR：50 MHz 综合与布局布线验证
 
+> 2026-10-13路径维护：本页功能状态、资源／时序数字、日志与哈希仍对应原记录日期，不代表当前版本的新验收。可复用的主工程命令已改用新目录；新运行结果写入 `build/`，不覆盖历史证据。当前工程及完整验证入口见 [目录迁移说明](repository-layout.md) 与 [README](../README.md)。
+
 日期：2026-10-03。A 分支 `feat/a-dds-core`，基础提交 `57e17d6`，包含此前尚未提交的四声部实现。实际使用 Gowin V1.9.12.03 (64-bit)、GW5AT-LV60PG484AC1/I0 和 **20 ns / 50 MHz** 时钟约束。
 
 **四声部核心及同钟接口路径均通过本次独立实现时序检查。** 较完整的同钟接口验证结果为 Setup **+7.341 ns**、Hold **+0.247 ns**，违例均为 0。没有放宽时钟周期或添加 false/multicycle path；核心 RTL、默认参数和 R3 输出延迟未修改。
@@ -34,17 +36,17 @@
 
 ## 可重复运行的工程
 
-独立工程放在 [fpga_project/poly_adsr_check](../fpga_project/poly_adsr_check/)，与团队原来的工程分开。包含九份 RTL 引用、验证外壳、20 ns SDC、设置文件和执行脚本。所有 RTL 路径相对仓库，ROM 搜索路径由脚本定位；队友不需修改代码中的 ROM 参数为个人绝对路径。
+独立工程放在 [projects/checks/poly_adsr_check](../projects/checks/poly_adsr_check/)，与团队原来的工程分开。包含九份 RTL 引用、验证外壳、20 ns SDC、设置文件和执行脚本。所有 RTL 路径相对仓库，ROM 搜索路径由脚本定位；队友不需修改代码中的 ROM 参数为个人绝对路径。
 
 在本机仓库根目录的 PowerShell 中执行（队友按实际工具安装路径调整）：
 
 ```powershell
-& 'C:\Gowin\Gowin_V1.9.12.03_x64\IDE\bin\gw_sh.exe' '.\fpga_project\poly_adsr_check\run.tcl'
+& 'C:\Gowin\Gowin_V1.9.12.03_x64\IDE\bin\gw_sh.exe' '.\projects\checks\poly_adsr_check\run.tcl'
 ```
 
-已在仓库根目录按此命令实际复现，报告时间为 Sat Oct  3 20:29:11 2026；Setup/Hold、违例、脉宽和 Fmax 与上表一致。此工程的本机 `impl/` 已有最新结果，另存 [仓库工程复现报告](reports/poly_adsr_timing_20261003/repository_reproduction/timing.html)。
+历史版本已在仓库根目录使用迁移前路径实际复现，报告时间为 Sat Oct  3 20:29:11 2026；Setup/Hold、违例、脉宽和 Fmax 与上表一致。此工程的本机 `impl/` 已有最新结果，另存 [仓库工程复现报告](reports/poly_adsr_timing_20261003/repository_reproduction/timing.html)。
 
-运行后可在高云软件打开 `fpga_project/poly_adsr_check/poly_adsr_check.gprj`，查看 Process → Place & Route → Timing Analysis Report。该工程的顶层是 **voice_bank_adsr_timing_top**；团队原工程的顶层保持原状。重新运行产生的 `impl/` 报告属于本次本机结果，布局可能略有差异，应以新报告为准。
+运行后可在高云软件打开 `projects/checks/poly_adsr_check/poly_adsr_check.gprj`，查看 Process → Place & Route → Timing Analysis Report。该工程的顶层是 **voice_bank_adsr_timing_top**；团队原工程的顶层保持原状。重新运行产生的 `impl/` 报告属于本次本机结果，布局可能略有差异，应以新报告为准。
 
 脚本会把随工程保存的设置复制到该独立工程的生成目录，启用同单声部验证一致的 hold 修复及 timing-driven 布局，再进行综合/布局布线。验证外壳也实际通过 Verilog-2001 编译；旧音符查表仅有继承 timescale 的非功能警告。核心源码哈希与此前 19 项功能回归时一致，因此本轮未重复整套功能仿真；此前默认/边界共 41100 个样本对照证据见[功能验证目录](reports/poly_adsr_20261003/)。
 

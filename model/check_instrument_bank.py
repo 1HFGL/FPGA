@@ -185,7 +185,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in CONFIGURATIONS:
         parser.add_argument(f"--{name}-trace", type=Path,
-                            default=root / f"results/logs/instrument_bank_{name}_trace.txt")
+                            default=root / f"build/regression/logs/instrument_bank_{name}_trace.txt")
     args = parser.parse_args()
     for name in CONFIGURATIONS:
         check_trace(getattr(args, f"{name}_trace"), name)

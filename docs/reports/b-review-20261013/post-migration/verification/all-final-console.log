@@ -1,0 +1,1124 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 11:20:32 on Oct 13,2026
+vlog -vlog01compat -pedanticerrors -work build/regression/regression_work rtl/synth/phase_acc.v rtl/synth/wave_lut.v rtl/synth/voice_dds.v verification/tb/synth/tb_phase_acc.v verification/tb/synth/tb_wave_lut.v verification/tb/synth/tb_voice_dds.v rtl/synth/adsr_env.v rtl/synth/sample_gain.v rtl/synth/voice_adsr.v verification/tb/synth/tb_adsr_env.v verification/tb/synth/tb_sample_gain.v verification/tb/synth/tb_voice_adsr.v verification/tb/synth/tb_adsr_arithmetic.v rtl/control/note_phase_lut.v rtl/synth/sample_mixer4.v rtl/synth/voice_bank_adsr.v rtl/synth/wave_lut_timbre.v rtl/synth/voice_timbre_adsr.v verification/tb/synth/tb_sample_mixer4.v verification/tb/synth/tb_voice_bank_adsr.v verification/tb/synth/tb_wave_lut_timbre.v verification/tb/synth/tb_timbre_bank.v verification/tb/synth/tb_timbre_preview.v rtl/synth/instrument_wave.v rtl/synth/instrument_env.v rtl/synth/voice_instrument.v rtl/synth/voice_bank_instruments.v verification/tb/synth/tb_instrument_wave.v verification/tb/synth/tb_instrument_bank.v verification/tb/synth/tb_instrument_preview.v rtl/top/instrument_presets_top.v rtl/control/input_sync_debounce.v rtl/audio/synth_top.v rtl/audio/sample_tick.v rtl/audio/i2s_tx.v verification/tb/integration/tb_instrument_presets.v verification/tb/audio/sample_tick_tb.v verification/tb/audio/synth_top_tb.v rtl/top/single_tone_demo_top.v verification/tb/integration/tb_single_tone_ab.v rtl/control/touch_or_key_if.v rtl/control/pressure_if.v rtl/control/event_encoder.v rtl/control/voice_allocator.v rtl/common/reset_sync.v rtl/control/voice_test_pattern.v rtl/control/interaction_top.v rtl/top/board_top.v rtl/top/board_test_top.v verification/tb/control/tb_input_sync_debounce.v verification/tb/control/tb_pressure_if.v verification/tb/control/tb_event_encoder.v verification/tb/control/tb_voice_allocator.v verification/tb/integration/tb_interaction_top.v verification/tb/control/tb_voice_test_pattern.v rtl/synth/demo_voice_bank.v rtl/top/instrument_demo_top.v verification/tb/synth/tb_demo_voice_bank.v verification/tb/integration/tb_instrument_demo.v rtl/synth/adsr_voice_bank.v rtl/top/instrument_adsr_top.v verification/tb/synth/tb_adsr_voice_bank.v verification/tb/integration/tb_instrument_adsr.v verification/tb/control/tb_allocator_trigger.v verification/tb/control/tb_allocator_review.v 
+-- Compiling module phase_acc
+-- Compiling module wave_lut
+-- Compiling module voice_dds
+-- Compiling module tb_phase_acc
+-- Compiling module tb_wave_lut
+-- Compiling module tb_voice_dds
+-- Compiling module adsr_env
+-- Compiling module sample_gain
+-- Compiling module voice_adsr
+-- Compiling module tb_adsr_env
+-- Compiling module adsr_wide_case
+-- Compiling module adsr_duration_case
+-- Compiling module tb_sample_gain
+-- Compiling module tb_voice_adsr
+-- Compiling module tb_adsr_arithmetic
+-- Compiling module note_phase_lut
+-- Compiling module sample_mixer4
+-- Compiling module voice_bank_adsr
+-- Compiling module wave_lut_timbre
+-- Compiling module voice_timbre_adsr
+-- Compiling module mixer4_case
+-- Compiling module tb_sample_mixer4
+-- Compiling module poly_adsr_case
+-- Compiling module tb_voice_bank_adsr
+-- Compiling module tb_wave_lut_timbre
+-- Compiling module timbre_bank_case
+-- Compiling module tb_timbre_bank
+-- Compiling module tb_timbre_preview
+-- Compiling module instrument_wave
+-- Compiling module instrument_env
+-- Compiling module voice_instrument
+-- Compiling module voice_bank_instruments
+-- Compiling module tb_instrument_wave
+-- Compiling module instrument_bank_case
+-- Compiling module tb_instrument_bank
+-- Compiling module tb_instrument_preview
+-- Compiling module instrument_presets_top
+-- Compiling module input_sync_debounce
+-- Compiling module synth_top
+-- Compiling module sample_tick
+-- Compiling module i2s_tx
+-- Compiling module tb_instrument_presets
+-- Compiling module sample_tick_tb
+-- Compiling module synth_top_tb
+-- Compiling module single_tone_demo_top
+-- Compiling module tb_single_tone_ab
+-- Compiling module touch_or_key_if
+-- Compiling module pressure_if
+-- Compiling module event_encoder
+-- Compiling module voice_allocator
+-- Compiling module reset_sync
+-- Compiling module voice_test_pattern
+-- Compiling module interaction_top
+-- Compiling module board_top
+-- Compiling module board_test_top
+-- Compiling module tb_input_sync_debounce
+-- Compiling module tb_pressure_if
+-- Compiling module tb_event_encoder
+-- Compiling module tb_voice_allocator
+-- Compiling module tb_interaction_top
+-- Compiling module tb_voice_test_pattern
+-- Compiling module demo_voice_bank
+-- Compiling module instrument_demo_top
+-- Compiling module instrument_demo_auto_top
+-- Compiling module tb_demo_voice_bank
+-- Compiling module tb_instrument_demo
+-- Compiling module adsr_voice_bank
+-- Compiling module instrument_adsr_top
+-- Compiling module instrument_adsr_auto_top
+-- Compiling module tb_adsr_voice_bank
+-- Compiling module tb_instrument_adsr
+-- Compiling module tb_allocator_trigger
+-- Compiling module allocator_review_case
+-- Compiling module tb_allocator_age
+-- Compiling module tb_allocator_owner
+-- Compiling module tb_allocator_expression_owner
+-- Compiling module tb_allocator_expression_reset
+
+Top level modules:
+	tb_phase_acc
+	tb_wave_lut
+	tb_voice_dds
+	tb_adsr_env
+	tb_sample_gain
+	tb_voice_adsr
+	tb_adsr_arithmetic
+	tb_sample_mixer4
+	tb_voice_bank_adsr
+	tb_wave_lut_timbre
+	tb_timbre_bank
+	tb_timbre_preview
+	tb_instrument_wave
+	tb_instrument_bank
+	tb_instrument_preview
+	tb_instrument_presets
+	sample_tick_tb
+	synth_top_tb
+	tb_single_tone_ab
+	board_test_top
+	tb_input_sync_debounce
+	tb_pressure_if
+	tb_event_encoder
+	tb_voice_allocator
+	tb_interaction_top
+	tb_voice_test_pattern
+	instrument_demo_auto_top
+	tb_demo_voice_bank
+	tb_instrument_demo
+	instrument_adsr_auto_top
+	tb_adsr_voice_bank
+	tb_instrument_adsr
+	tb_allocator_trigger
+	tb_allocator_age
+	tb_allocator_owner
+	tb_allocator_expression_owner
+	tb_allocator_expression_reset
+End time: 11:20:32 on Oct 13,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_phase_acc.log -wlf build/regression/waves/tb_phase_acc.wlf tb_phase_acc -do "do {build/regression/logs/tb_phase_acc_run.do}" 
+# Start time: 11:20:33 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_phase_acc(fast)
+# do {build/regression/logs/tb_phase_acc_run.do}
+# CHECK 1: phase=00000000 addr=0
+# CHECK 2: phase=00000005 addr=0
+# CHECK 3: phase=0000000a addr=0
+# CHECK 4: phase=0000000f addr=0
+# CHECK 5: phase=0000000f addr=0
+# CHECK 6: phase=0000000f addr=0
+# CHECK 7: phase=00000014 addr=0
+# CHECK 8: phase=00000000 addr=0
+# CHECK 9: phase=40000000 addr=256
+# CHECK 10: phase=80000000 addr=512
+# CHECK 11: phase=c0000000 addr=768
+# CHECK 12: phase=00000000 addr=0
+# CHECK 13: phase=ffffffff addr=1023
+# CHECK 14: phase=00000000 addr=0
+# CHECK 15: phase=00000000 addr=0
+# PASS: all 15 checks passed.
+# ** Note: $stop    : verification/tb/synth/tb_phase_acc.v(84)
+#    Time: 156 ns  Iteration: 0  Instance: /tb_phase_acc
+# Break at verification/tb/synth/tb_phase_acc.v line 84
+# End time: 11:20:34 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_phase_acc
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_wave_lut.log -wlf build/regression/waves/tb_wave_lut.wlf tb_wave_lut -do "do {build/regression/logs/tb_wave_lut_run.do}" 
+# Start time: 11:20:35 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_wave_lut(fast)
+# do {build/regression/logs/tb_wave_lut_run.do}
+# Key-point, enable and reset checks passed.
+# PASS: all 1035 checks passed; all 1024 ROM addresses verified.
+# ** Note: $stop    : verification/tb/synth/tb_wave_lut.v(79)
+#    Time: 10356 ns  Iteration: 0  Instance: /tb_wave_lut
+# Break at verification/tb/synth/tb_wave_lut.v line 79
+# End time: 11:20:37 on Oct 13,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+VERIFIED tb_wave_lut
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_voice_dds.log -wlf build/regression/waves/tb_voice_dds.wlf tb_voice_dds "+DDS_TRACE=build/regression/logs/dds_trace.txt" -do "do {build/regression/logs/tb_voice_dds_run.do}" 
+# Start time: 11:20:38 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_voice_dds(fast)
+# do {build/regression/logs/tb_voice_dds_run.do}
+# Reset, old-phase order, wrap, idle and pitch-change checks passed.
+# Tone 440 Hz: 2400 samples, estimated frequency 440.165 Hz, PASS
+# Tone 880 Hz: 2400 samples, estimated frequency 879.965 Hz, PASS
+# PASS: voice_dds; 4810 valid samples matched; 1200025 clock checks passed.
+# ** Note: $stop    : verification/tb/synth/tb_voice_dds.v(170)
+#    Time: 100002044466683 fs  Iteration: 0  Instance: /tb_voice_dds
+# Break at verification/tb/synth/tb_voice_dds.v line 170
+# End time: 11:20:39 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_voice_dds
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_adsr_env.log -wlf build/regression/waves/tb_adsr_env.wlf tb_adsr_env -do "do {build/regression/logs/tb_adsr_env_run.do}" 
+# Start time: 11:20:40 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_adsr_env(fast)
+# do {build/regression/logs/tb_adsr_env_run.do}
+# PASS: adsr_env duration checks (1929506 checks, 12 parameter sets).
+# ** Note: $stop    : verification/tb/synth/tb_adsr_env.v(53)
+#    Time: 7428410 ns  Iteration: 2  Instance: /tb_adsr_env
+# Break at verification/tb/synth/tb_adsr_env.v line 53
+# End time: 11:20:43 on Oct 13,2026, Elapsed time: 0:00:03
+# Errors: 0, Warnings: 0
+VERIFIED tb_adsr_env
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_sample_gain.log -wlf build/regression/waves/tb_sample_gain.wlf tb_sample_gain -do "do {build/regression/logs/tb_sample_gain_run.do}" 
+# Start time: 11:20:44 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_sample_gain(fast)
+# do {build/regression/logs/tb_sample_gain_run.do}
+# PASS: sample_gain exhaustive checks (458757).
+# ** Note: $stop    : verification/tb/synth/tb_sample_gain.v(52)
+#    Time: 4587576 ns  Iteration: 0  Instance: /tb_sample_gain
+# Break at verification/tb/synth/tb_sample_gain.v line 52
+# End time: 11:20:45 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_sample_gain
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_voice_adsr.log -wlf build/regression/waves/tb_voice_adsr.wlf tb_voice_adsr "+ADSR_TRACE=build/regression/logs/adsr_trace.txt" -do "do {build/regression/logs/tb_voice_adsr_run.do}" 
+# Start time: 11:20:46 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_voice_adsr(fast)
+# do {build/regression/logs/tb_voice_adsr_run.do}
+# PASS: voice_adsr sample and pipeline checks (162085 clocks, 47734 samples).
+# ** Note: $stop    : verification/tb/synth/tb_voice_adsr.v(146)
+#    Time: 1620847 ns  Iteration: 0  Instance: /tb_voice_adsr
+# Break at verification/tb/synth/tb_voice_adsr.v line 146
+# End time: 11:20:48 on Oct 13,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+VERIFIED tb_voice_adsr
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_adsr_arithmetic.log -wlf build/regression/waves/tb_adsr_arithmetic.wlf tb_adsr_arithmetic -do "do {build/regression/logs/tb_adsr_arithmetic_run.do}" 
+# Start time: 11:20:49 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_adsr_arithmetic(fast)
+# do {build/regression/logs/tb_adsr_arithmetic_run.do}
+# PASS: adsr arithmetic exhaustive checks (131074 checks, 65537 levels, reset).
+# ** Note: $finish    : verification/tb/synth/tb_adsr_arithmetic.v(52)
+#    Time: 131106 ns  Iteration: 0  Instance: /tb_adsr_arithmetic
+# End time: 11:20:50 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_adsr_arithmetic
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_sample_mixer4.log -wlf build/regression/waves/tb_sample_mixer4.wlf tb_sample_mixer4 -do "do {build/regression/logs/tb_sample_mixer4_run.do}" 
+# Start time: 11:20:51 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_sample_mixer4(fast)
+# do {build/regression/logs/tb_sample_mixer4_run.do}
+# mixer SHIFT=0 verified 5025 clocks, clips +628/-6
+# mixer SHIFT=5 verified 5025 clocks, clips +0/-0
+# PASS: sample_mixer4 signed boundaries, saturation, idle and reset.
+# ** Note: $finish    : verification/tb/synth/tb_sample_mixer4.v(79)
+#    Time: 50250 ns  Iteration: 0  Instance: /tb_sample_mixer4
+# End time: 11:20:52 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_sample_mixer4
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_voice_bank_adsr.log -wlf build/regression/waves/tb_voice_bank_adsr.wlf tb_voice_bank_adsr "+POLY_TRACE_DEFAULT=build/regression/logs/poly_adsr_default_trace.txt" "+POLY_TRACE_BOUNDARY=build/regression/logs/poly_adsr_boundary_trace.txt" -do "do {build/regression/logs/tb_voice_bank_adsr_run.do}" 
+# Start time: 11:20:53 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_voice_bank_adsr(fast)
+# do {build/regression/logs/tb_voice_bank_adsr_run.do}
+# poly case=1 verified 7013 clocks, 2721 samples, 8 resets, 625 clips
+# poly case=0 verified 149703 clocks, 38379 samples, 7 resets, 0 clips
+# PASS: voice_bank_adsr four independent envelopes, triggers, pipeline and mix.
+# ** Note: $finish    : verification/tb/synth/tb_voice_bank_adsr.v(236)
+#    Time: 2994055 ns  Iteration: 0  Instance: /tb_voice_bank_adsr
+# End time: 11:20:54 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_voice_bank_adsr
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_wave_lut_timbre.log -wlf build/regression/waves/tb_wave_lut_timbre.wlf tb_wave_lut_timbre -do "do {build/regression/logs/tb_wave_lut_timbre_run.do}" 
+# Start time: 11:20:55 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_wave_lut_timbre(fast)
+# do {build/regression/logs/tb_wave_lut_timbre_run.do}
+# ROM addresses verified=2048, clock checks=2061, voice checks=3266, bright=411 fallback=409
+# PASS: two timbre ROMs, idle/reset, direct threshold and R1 pipeline.
+# ** Note: $finish    : verification/tb/synth/tb_wave_lut_timbre.v(85)
+#    Time: 65320 ns  Iteration: 1  Instance: /tb_wave_lut_timbre
+# End time: 11:20:56 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_wave_lut_timbre
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_timbre_bank.log -wlf build/regression/waves/tb_timbre_bank.wlf tb_timbre_bank "+TIMBRE_TRACE_SHORT=build/regression/logs/timbre_bank_short_trace.txt" "+TIMBRE_TRACE_BOUNDARY=build/regression/logs/timbre_bank_boundary_trace.txt" "+TIMBRE_TRACE_ZERO=build/regression/logs/timbre_bank_zero_trace.txt" -do "do {build/regression/logs/tb_timbre_bank_run.do}" 
+# Start time: 11:20:57 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_timbre_bank(fast)
+# do {build/regression/logs/tb_timbre_bank_run.do}
+# timbre coverage soft=2155 bright=2170 deferred=867 replaced=1639 override=830 held=2256 tail=1320 fallback=1747 mixed=1015 discarded=1659
+# timbre case=1 verified 11496 clocks, 4485 samples, 10 resets, 1131 clips
+# timbre coverage soft=2155 bright=2170 deferred=867 replaced=1639 override=830 held=2256 tail=2665 fallback=1920 mixed=1015 discarded=1659
+# timbre case=0 verified 11656 clocks, 4525 samples, 10 resets, 0 clips
+# timbre coverage soft=2155 bright=2170 deferred=867 replaced=1639 override=830 held=2256 tail=2635 fallback=808 mixed=1015 discarded=1659
+# timbre case=2 verified 11656 clocks, 4525 samples, 10 resets, 0 clips
+# PASS: tb_timbre_bank mixed voices, per-note timbre snapshots, pending triggers, high-note fallback and R3 pipeline.
+# ** Note: $finish    : verification/tb/synth/tb_timbre_bank.v(303)
+#    Time: 233115 ns  Iteration: 0  Instance: /tb_timbre_bank
+# End time: 11:20:59 on Oct 13,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+VERIFIED tb_timbre_bank
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_timbre_preview.log -wlf build/regression/waves/tb_timbre_preview.wlf tb_timbre_preview "+TIMBRE_PREVIEW=build/regression/logs/timbre_preview.csv" -do "do {build/regression/logs/tb_timbre_preview_run.do}" 
+# Start time: 11:20:59 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_timbre_preview(fast)
+# do {build/regression/logs/tb_timbre_preview_run.do}
+# PASS: two RTL timbre preview segments, 48000 samples each, tails silent.
+# ** Note: $finish    : verification/tb/synth/tb_timbre_preview.v(48)
+#    Time: 7680320 ns  Iteration: 1  Instance: /tb_timbre_preview
+# End time: 11:21:01 on Oct 13,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+VERIFIED tb_timbre_preview
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_instrument_wave.log -wlf build/regression/waves/tb_instrument_wave.wlf tb_instrument_wave -do "do {build/regression/logs/tb_instrument_wave_run.do}" 
+# Start time: 11:21:02 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_instrument_wave(fast)
+# do {build/regression/logs/tb_instrument_wave_run.do}
+# ROM checks=4108 voice clocks=5514 rich=598 guarded=598
+# PASS: instrument ROMs, direct threshold and R2 pipeline.
+# ** Note: $finish    : verification/tb/synth/tb_instrument_wave.v(92)
+#    Time: 110280 ns  Iteration: 1  Instance: /tb_instrument_wave
+# End time: 11:21:03 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_instrument_wave
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_instrument_bank.log -wlf build/regression/waves/tb_instrument_bank.wlf tb_instrument_bank "+INSTRUMENT_TRACE_SHORT=build/regression/logs/instrument_bank_short_trace.txt" "+INSTRUMENT_TRACE_BOUNDARY=build/regression/logs/instrument_bank_boundary_trace.txt" "+INSTRUMENT_TRACE_ZERO=build/regression/logs/instrument_bank_zero_trace.txt" "+INSTRUMENT_TRACE_EXTREME=build/regression/logs/instrument_bank_extreme_trace.txt" -do "do {build/regression/logs/tb_instrument_bank_run.do}" 
+# Start time: 11:21:04 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_instrument_bank(fast)
+# do {build/regression/logs/tb_instrument_bank_run.do}
+# instrument coverage guitar=2155 strings=2170 deferred=867 replaced=1639 override=830 held=2256 tail=1320 fallback=2910 mixed=1015 discarded=1659
+# instrument case=1 verified 11496 clocks, 4479 samples, 10 resets, 538 clips
+# instrument coverage guitar=2155 strings=2170 deferred=867 replaced=1639 override=830 held=2256 tail=2676 fallback=3602 mixed=1015 discarded=1659
+# instrument case=0 verified 11784 clocks, 4551 samples, 10 resets, 0 clips
+# instrument coverage guitar=2155 strings=2170 deferred=867 replaced=1639 override=830 held=2256 tail=2668 fallback=2460 mixed=1015 discarded=1659
+# instrument case=2 verified 11784 clocks, 4551 samples, 10 resets, 0 clips
+# instrument coverage guitar=2159 strings=2174 deferred=867 replaced=1639 override=830 held=2256 tail=1234 fallback=2598 mixed=1015 discarded=1659
+# instrument case=3 verified 12631 clocks, 4760 samples, 12 resets, 0 clips
+# PASS: tb_instrument_bank mixed voices, per-note instrument snapshots, pending triggers, high-note fallback and R4 pipeline.
+# ** Note: $finish    : verification/tb/synth/tb_instrument_bank.v(359)
+#    Time: 252615 ns  Iteration: 0  Instance: /tb_instrument_bank
+# End time: 11:21:06 on Oct 13,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+VERIFIED tb_instrument_bank
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_instrument_preview.log -wlf build/regression/waves/tb_instrument_preview.wlf tb_instrument_preview "+INSTRUMENT_PREVIEW=build/regression/logs/instrument_preview.csv" -do "do {build/regression/logs/tb_instrument_preview_run.do}" 
+# Start time: 11:21:07 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_instrument_preview(fast)
+# do {build/regression/logs/tb_instrument_preview_run.do}
+# PASS: instrument RTL preview, 432000 samples, four silent tails.
+# ** Note: $finish    : verification/tb/synth/tb_instrument_preview.v(60)
+#    Time: 51840720 ns  Iteration: 1  Instance: /tb_instrument_preview
+# End time: 11:21:11 on Oct 13,2026, Elapsed time: 0:00:04
+# Errors: 0, Warnings: 0
+VERIFIED tb_instrument_preview
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_instrument_presets.log -wlf build/regression/waves/tb_instrument_presets.wlf tb_instrument_presets -do "do {build/regression/logs/tb_instrument_presets_run.do}" 
+# Start time: 11:21:11 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_instrument_presets(fast)
+# do {build/regression/logs/tb_instrument_presets_run.do}
+# PASS: tb_instrument_presets 1534 serial words, 768 outputs, +270/-282 samples, 768 R5 captures; KEY1/KEY2, preset snapshots, R4, LSBJ, PA drain, reset.
+# ** Note: $finish    : verification/tb/integration/tb_instrument_presets.v(233)
+#    Time: 15980560 ns  Iteration: 1  Instance: /tb_instrument_presets
+# End time: 11:21:13 on Oct 13,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+VERIFIED tb_instrument_presets
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/sample_tick_tb.log -wlf build/regression/waves/sample_tick_tb.wlf sample_tick_tb -do "do {build/regression/logs/sample_tick_tb_run.do}" 
+# Start time: 11:21:14 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: verification/tb/audio/sample_tick_tb.v(19): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 5, found 4.
+# ** Warning: verification/tb/audio/sample_tick_tb.v(19): (vopt-2718) [TFMPC] - Missing connection for port 'sample_prepare'.
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.sample_tick_tb(fast)
+# do {build/regression/logs/sample_tick_tb_run.do}
+# PASS sample_tick_tb: 640 half-edges, 10 frames, reset
+# ** Note: $finish    : verification/tb/audio/sample_tick_tb.v(65)
+#    Time: 20050 ns  Iteration: 1  Instance: /sample_tick_tb
+# End time: 11:21:15 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 2
+VERIFIED sample_tick_tb
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/synth_top_tb.log -wlf build/regression/waves/synth_top_tb.wlf synth_top_tb -do "do {build/regression/logs/synth_top_tb_run.do}" 
+# Start time: 11:21:16 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: verification/tb/audio/synth_top_tb.v(28): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 13, found 12.
+# ** Warning: verification/tb/audio/synth_top_tb.v(28): (vopt-2718) [TFMPC] - Missing connection for port 'frame_start'.
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.synth_top_tb(fast)
+# do {build/regression/logs/synth_top_tb_run.do}
+# PASS synth_top_tb: serial data, channels, underrun, PA, reset
+# ** Note: $finish    : verification/tb/audio/synth_top_tb.v(144)
+#    Time: 8245 ns  Iteration: 3  Instance: /synth_top_tb
+# End time: 11:21:17 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 2
+VERIFIED synth_top_tb
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_single_tone_ab.log -wlf build/regression/waves/tb_single_tone_ab.wlf tb_single_tone_ab -do "do {build/regression/logs/tb_single_tone_ab_run.do}" 
+# Start time: 11:21:18 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_single_tone_ab(fast)
+# do {build/regression/logs/tb_single_tone_ab_run.do}
+# PASS tb_single_tone_ab: request/valid, next-frame serial, pitch, reset
+# ** Note: $finish    : verification/tb/integration/tb_single_tone_ab.v(191)
+#    Time: 17255 ns  Iteration: 3  Instance: /tb_single_tone_ab
+# End time: 11:21:19 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_single_tone_ab
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_input_sync_debounce.log -wlf build/regression/waves/tb_input_sync_debounce.wlf tb_input_sync_debounce -do "do {build/regression/logs/tb_input_sync_debounce_run.do}" 
+# Start time: 11:21:20 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_input_sync_debounce(fast)
+# do {build/regression/logs/tb_input_sync_debounce_run.do}
+# PASS: tb_input_sync_debounce press=1 release=1
+# ** Note: $finish    : verification/tb/control/tb_input_sync_debounce.v(93)
+#    Time: 415 ns  Iteration: 1  Instance: /tb_input_sync_debounce
+# End time: 11:21:21 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_input_sync_debounce
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_pressure_if.log -wlf build/regression/waves/tb_pressure_if.wlf tb_pressure_if -do "do {build/regression/logs/tb_pressure_if_run.do}" 
+# Start time: 11:21:22 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_pressure_if(fast)
+# do {build/regression/logs/tb_pressure_if_run.do}
+# PASS: tb_pressure_if filtered=4000 velocity=121
+# ** Note: $finish    : verification/tb/control/tb_pressure_if.v(58)
+#    Time: 2095 ns  Iteration: 1  Instance: /tb_pressure_if
+# End time: 11:21:23 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_pressure_if
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_event_encoder.log -wlf build/regression/waves/tb_event_encoder.wlf tb_event_encoder -do "do {build/regression/logs/tb_event_encoder_run.do}" 
+# Start time: 11:21:24 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_event_encoder(fast)
+# do {build/regression/logs/tb_event_encoder_run.do}
+# PASS: tb_event_encoder on=2 off=2
+# ** Note: $finish    : verification/tb/control/tb_event_encoder.v(126)
+#    Time: 255 ns  Iteration: 1  Instance: /tb_event_encoder
+# End time: 11:21:25 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_event_encoder
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_voice_allocator.log -wlf build/regression/waves/tb_voice_allocator.wlf tb_voice_allocator -do "do {build/regression/logs/tb_voice_allocator_run.do}" 
+# Start time: 11:21:26 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_voice_allocator(fast)
+# do {build/regression/logs/tb_voice_allocator_run.do}
+# PASS: tb_voice_allocator_32 voices=31 max=32 steal=1
+# ** Note: $finish    : verification/tb/control/tb_voice_allocator.v(268)
+#    Time: 12055 ns  Iteration: 2  Instance: /tb_voice_allocator
+# End time: 11:21:27 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_voice_allocator
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_interaction_top.log -wlf build/regression/waves/tb_interaction_top.wlf tb_interaction_top -do "do {build/regression/logs/tb_interaction_top_run.do}" 
+# Start time: 11:21:28 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_interaction_top(fast)
+# do {build/regression/logs/tb_interaction_top_run.do}
+# PASS: tb_interaction_top_32key key/LED path and voice allocation
+# ** Note: $finish    : verification/tb/integration/tb_interaction_top.v(169)
+#    Time: 2485 ns  Iteration: 1  Instance: /tb_interaction_top
+# End time: 11:21:29 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_interaction_top
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_voice_test_pattern.log -wlf build/regression/waves/tb_voice_test_pattern.wlf tb_voice_test_pattern -do "do {build/regression/logs/tb_voice_test_pattern_run.do}" 
+# Start time: 11:21:30 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_voice_test_pattern(fast)
+# do {build/regression/logs/tb_voice_test_pattern_run.do}
+# PASS: tb_voice_test_pattern on=4 off=4
+# ** Note: $finish    : verification/tb/control/tb_voice_test_pattern.v(91)
+#    Time: 925 ns  Iteration: 1  Instance: /tb_voice_test_pattern
+# End time: 11:21:31 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_voice_test_pattern
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_demo_voice_bank.log -wlf build/regression/waves/tb_demo_voice_bank.wlf tb_demo_voice_bank -do "do {build/regression/logs/tb_demo_voice_bank_run.do}" 
+# Start time: 11:21:32 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_demo_voice_bank(fast)
+# do {build/regression/logs/tb_demo_voice_bank_run.do}
+# PASS tb_demo_voice_bank: 745 samples, latency, velocity, release, reset
+# ** Note: $finish    : verification/tb/synth/tb_demo_voice_bank.v(74)
+#    Time: 119371 ns  Iteration: 0  Instance: /tb_demo_voice_bank
+# End time: 11:21:33 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_demo_voice_bank
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_instrument_demo.log -wlf build/regression/waves/tb_instrument_demo.wlf tb_instrument_demo -do "do {build/regression/logs/tb_instrument_demo_run.do}" 
+# Start time: 11:21:34 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_instrument_demo(fast)
+# do {build/regression/logs/tb_instrument_demo_run.do}
+# PASS tb_instrument_demo: keys, four voices, 50MHz/48k, serial, reset, release
+# ** Note: $finish    : verification/tb/integration/tb_instrument_demo.v(88)
+#    Time: 10584240 ns  Iteration: 1  Instance: /tb_instrument_demo
+# End time: 11:21:35 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_instrument_demo
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_adsr_voice_bank.log -wlf build/regression/waves/tb_adsr_voice_bank.wlf tb_adsr_voice_bank -do "do {build/regression/logs/tb_adsr_voice_bank_run.do}" 
+# Start time: 11:21:36 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_adsr_voice_bank(fast)
+# do {build/regression/logs/tb_adsr_voice_bank_run.do}
+# PASS tb_adsr_voice_bank: 61097 samples; stages, four voices, signed mix, retrigger, reset
+# ** Note: $finish    : verification/tb/synth/tb_adsr_voice_bank.v(104)
+#    Time: 9775731 ns  Iteration: 0  Instance: /tb_adsr_voice_bank
+# End time: 11:21:38 on Oct 13,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+VERIFIED tb_adsr_voice_bank
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_instrument_adsr.log -wlf build/regression/waves/tb_instrument_adsr.wlf tb_instrument_adsr -do "do {build/regression/logs/tb_instrument_adsr_run.do}" 
+# Start time: 11:21:39 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_instrument_adsr(fast)
+# Loading work.voice_bank_adsr(fast)
+# do {build/regression/logs/tb_instrument_adsr_run.do}
+# PASS tb_instrument_adsr: 50MHz/48kHz, R4 capture, LSBJ, keys, four voices, reset, release
+# ** Note: $finish    : verification/tb/integration/tb_instrument_adsr.v(129)
+#    Time: 4313400 ns  Iteration: 1  Instance: /tb_instrument_adsr
+# End time: 11:21:40 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_instrument_adsr
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_allocator_trigger.log -wlf build/regression/waves/tb_allocator_trigger.wlf tb_allocator_trigger -do "do {build/regression/logs/tb_allocator_trigger_run.do}" 
+# Start time: 11:21:41 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_allocator_trigger(fast)
+# do {build/regression/logs/tb_allocator_trigger_run.do}
+# PASS tb_allocator_trigger: four notes, steal, same-note retrigger, release feedback, reset
+# ** Note: $finish    : verification/tb/control/tb_allocator_trigger.v(74)
+#    Time: 9480 ns  Iteration: 1  Instance: /tb_allocator_trigger
+# End time: 11:21:42 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_allocator_trigger
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_allocator_age.log -wlf build/regression/waves/tb_allocator_age.wlf tb_allocator_age -do "do {build/regression/logs/tb_allocator_age_run.do}" 
+# Start time: 11:21:43 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_allocator_age(fast)
+# do {build/regression/logs/tb_allocator_age_run.do}
+# PASS tb_allocator_age: rollover, retrigger, free slots, 400 ordered allocations, reset
+# ** Note: $finish    : verification/tb/control/tb_allocator_review.v(156)
+#    Time: 997760 ns  Iteration: 2  Instance: /tb_allocator_age
+# End time: 11:21:44 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_allocator_age
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_allocator_owner.log -wlf build/regression/waves/tb_allocator_owner.wlf tb_allocator_owner -do "do {build/regression/logs/tb_allocator_owner_run.do}" 
+# Start time: 11:21:45 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_allocator_owner(fast)
+# do {build/regression/logs/tb_allocator_owner_run.do}
+# PASS tb_allocator_owner: stale note-off cannot stop a new owner, reset
+# ** Note: $finish    : verification/tb/control/tb_allocator_review.v(161)
+#    Time: 1740 ns  Iteration: 2  Instance: /tb_allocator_owner
+# End time: 11:21:46 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_allocator_owner
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_allocator_expression_owner.log -wlf build/regression/waves/tb_allocator_expression_owner.wlf tb_allocator_expression_owner -do "do {build/regression/logs/tb_allocator_expression_owner_run.do}" 
+# Start time: 11:21:47 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_allocator_expression_owner(fast)
+# do {build/regression/logs/tb_allocator_expression_owner_run.do}
+# PASS tb_allocator_expression_owner: stale expression cannot change a new owner, reset
+# ** Note: $finish    : verification/tb/control/tb_allocator_review.v(166)
+#    Time: 1180 ns  Iteration: 2  Instance: /tb_allocator_expression_owner
+# End time: 11:21:49 on Oct 13,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+VERIFIED tb_allocator_expression_owner
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_allocator_expression_reset.log -wlf build/regression/waves/tb_allocator_expression_reset.wlf tb_allocator_expression_reset -do "do {build/regression/logs/tb_allocator_expression_reset_run.do}" 
+# Start time: 11:21:50 on Oct 13,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_allocator_expression_reset(fast)
+# do {build/regression/logs/tb_allocator_expression_reset_run.do}
+# PASS tb_allocator_expression_reset: new owner clears old expression, same source preserves it
+# ** Note: $finish    : verification/tb/control/tb_allocator_review.v(171)
+#    Time: 1040 ns  Iteration: 2  Instance: /tb_allocator_expression_reset
+# End time: 11:21:51 on Oct 13,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_allocator_expression_reset
+PASS: suite All (34 testbenches).

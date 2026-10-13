@@ -1,5 +1,7 @@
 # 单声部 ADSR v2：验证与交接记录
 
+> 2026-10-13路径维护：本页功能状态、资源／时序数字、日志与哈希仍对应原记录日期，不代表当前版本的新验收。可复用的主工程命令已改用新目录；新运行结果写入 `build/`，不覆盖历史证据。当前工程及完整验证入口见 [目录迁移说明](repository-layout.md) 与 [README](../README.md)。
+
 日期：2026-10-01。此记录对应 `feat/a-dds-core` 分支本次单声部升级，面向 A/B/C 集成使用。
 
 后续更新：2026-10-03 在相同 50 MHz 约束下优化关键路径，Setup 裕量提高到 +8.265 ns；8 项回归与 Python 对照重新通过。最新结果见 [时序优化记录](a-adsr-timing-20261003.md)。本文其余内容保留为 10 月 1 日的历史证据。
@@ -28,7 +30,7 @@
 复现命令（在仓库根目录，替换为各自的工具路径）：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'D:\modelsim1\win64'
 python model/check_adsr.py
 python model/check_dds.py
 ```

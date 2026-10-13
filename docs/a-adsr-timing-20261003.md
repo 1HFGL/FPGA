@@ -1,5 +1,7 @@
 # 单声部 ADSR 时序优化记录
 
+> 2026-10-13路径维护：本页功能状态、资源／时序数字、日志与哈希仍对应原记录日期，不代表当前版本的新验收。可复用的主工程命令已改用新目录；新运行结果写入 `build/`，不覆盖历史证据。当前工程及完整验证入口见 [目录迁移说明](repository-layout.md) 与 [README](../README.md)。
+
 日期：2026-10-03。基于 `feat/a-dds-core` 的 `b7ee567` 修改；当前为本地工作区结果。
 
 组长指出原 Setup 裕量只有 0.352 ns，希望留出几 ns。优化 `rtl/adsr_env.v` 后，在相同器件、顶层、默认参数及 **20 ns / 50 MHz** 约束下重新运行高云综合和布局布线，最差 Setup 裕量提高到 **8.265 ns**。没有修改时钟周期，也没有添加 false path 或 multicycle path。
@@ -59,7 +61,7 @@ Setup 增加了 7.913 ns 裕量；这项是组长所说的长组合路径优化�
 在仓库根目录复现功能验证（按本机安装目录调整）：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'D:\modelsim1\win64'
 python model/check_adsr.py
 python model/check_dds.py
 ```

@@ -1,5 +1,7 @@
 # 2026-10-07 ADSR 等价优化试验
 
+> 2026-10-13路径维护：本页功能状态、资源／时序数字、日志与哈希仍对应原记录日期，不代表当前版本的新验收。可复用的主工程命令已改用新目录；新运行结果写入 `build/`，不覆盖历史证据。当前工程及完整验证入口见 [目录迁移说明](repository-layout.md) 与 [README](../README.md)。
+
 ## 结论
 
 三种候选均通过算术与包络测试，但没有取得适合当前四声部工程的资源／时序综合收益，因此**全部退出正式RTL，恢复 `d909b17` 的 `adsr_env.v`**。这次交付是更强的回归测试和可复现的取舍证据，不是已达成新一轮资源或时序优化。
@@ -51,18 +53,18 @@
 在仓库根目录运行，工具路径按本机安装修改：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite ADSRMath -ModelSimBin 'C:\Library\modelsim\win64'
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite ADSRMath -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
 # 用实际Python 3运行 check_dds.py、check_adsr.py、check_abc_demo.py、
 # check_poly_adsr.py、check_adsr_mix.py（均在model目录）。
-.\sim\run_tests.ps1 -Suite ADSRMath -NegativeControl -ModelSimBin 'C:\Library\modelsim\win64'
-.\sim\run_tests.ps1 -Suite ADSRDemo -NegativeControl -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite ADSRMath -NegativeControl -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite ADSRDemo -NegativeControl -ModelSimBin 'C:\Library\modelsim\win64'
 # 两个负向命令必须非零拒绝，且日志应是相应算术／串行故障，不是编译错误。
-Push-Location .\fpga_project
+Push-Location .\projects\examples\adsr
 & 'D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe' build_adsr_auto_demo.tcl
 & 'D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe' build_adsr_demo.tcl
 Pop-Location
-.\sim\save_adsr_evidence.ps1 -Destination 'results/自己的新证据目录'
+.\verification\scripts\save_adsr_evidence.ps1 -Destination 'build/regression/自己的新证据目录'
 ```
 
 三个候选源码及实现报告分别位于结果目录的 `factor_trial/`、`table_trial/`、`reciprocal_trial/`。它们只是实验快照，**不加入正式GPRJ，也不能用递归通配符与正式同名模块一起编译**。需要复现实验时，在独立工程副本内单独替换 `adsr_env.v`，保持其他源码和约束为 `d909b17`，运行上述测试／普通版构建。
@@ -73,4 +75,4 @@ Pop-Location
 
 若追求更明显的时序提升，再与A/B确认是否允许把包络初始化分多拍计算：真实48kHz采样有系统时钟间隙，但当前核心合同允许每拍请求。利用间隙意味着要明确最小请求间隔、触发暂存和有效信号对齐，不能直接加寄存器却声称接口毫无变化。
 
-完整记录见 [本轮证据目录](../results/adsr-opt-20261007/README.md)。未修改事件队列、时钟引脚或外部接口，也未勾选赛题实物验收。
+完整记录见 [本轮证据目录](reports/legacy/adsr-opt-20261007/README.md)。未修改事件队列、时钟引脚或外部接口，也未勾选赛题实物验收。

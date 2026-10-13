@@ -4,10 +4,10 @@
 
 ## 打开哪个工程、下载哪个文件
 
-在高云 EDA 的 **File → Open Project** 打开：
+在高云 EDA 的 **File → Open Project** 打开以下仓库相对路径（前面加上你实际的仓库目录）：
 
 ```text
-C:\Users\Nanji\Documents\GitHub\FPGA\fpga_project\instruments_board\instruments_board.gprj
+projects/examples/instruments_board/instruments_board.gprj
 ```
 
 顶层应为 `instrument_presets_top`，器件为 `GW5AT-60B / GW5AT-LV60PG484AC1/I0`。这次工程与昨天的 `instruments_check` 分开；后者是独立时序外壳，不能代替板级工程。
@@ -15,7 +15,7 @@ C:\Users\Nanji\Documents\GitHub\FPGA\fpga_project\instruments_board\instruments_
 已生成的下载文件位于：
 
 ```text
-C:\Users\Nanji\Documents\GitHub\FPGA\fpga_project\instruments_board\impl\pnr\instruments_board.fs
+projects/examples/instruments_board/impl/pnr/instruments_board.fs
 ```
 
 无需重新手动添加 RTL、波表或约束。其他电脑需要保留完整仓库相对目录，不能只拷贝 `.gprj`。高云进程配置使用本工程的 `process_config.json`；构建脚本会将其复制到工具的 `impl` 配置位置，并设置顶层及 ROM include path。
@@ -38,7 +38,7 @@ SRAM 下载是本轮临时试听方式，断电后需要重新下载；没有改
 
 ## 实现与范围
 
-新顶层位于 `rtl/instrument_presets_top.v`，复用原同步消抖、B 的 `synth_top/sample_tick/i2s_tx` 以及新 `voice_bank_instruments`。两键在同一50MHz时钟下处理，音频目标48kHz。KEY1只驱动第0声部，MIDI60、力度100；其余声部保持关闭。这是板载单键对比试听，不是13键或四键演奏版，也不替换团队的完整声部分配器。
+新顶层位于 `rtl/top/instrument_presets_top.v`，复用原同步消抖、B 的 `synth_top/sample_tick/i2s_tx` 以及新 `voice_bank_instruments`。两键在同一50MHz时钟下处理，音频目标48kHz。KEY1只驱动第0声部，MIDI60、力度100；其余声部保持关闭。这是板载单键对比试听，不是13键或四键演奏版，也不替换团队的完整声部分配器。
 
 按键消抖器的电平先于事件脉冲更新，因此顶层从事件统一注册 `play_gate/play_trigger`，避免同一次按键碰到采样边界时重复起音。新音采用当次事件的乐器快照。
 
@@ -64,8 +64,8 @@ SRAM 下载是本轮临时试听方式，断电后需要重新下载；没有改
 在仓库根目录运行：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite PresetsBoard -ModelSimBin 'D:\modelsim1\win64'
-& 'C:\Gowin\Gowin_V1.9.12.03_x64\IDE\bin\gw_sh.exe' fpga_project/instruments_board/run.tcl
+.\verification\scripts\run_tests.ps1 -Suite PresetsBoard -ModelSimBin 'D:\modelsim1\win64'
+& 'C:\Gowin\Gowin_V1.9.12.03_x64\IDE\bin\gw_sh.exe' projects/examples/instruments_board/run.tcl
 python model/check_presets_board.py
 ```
 

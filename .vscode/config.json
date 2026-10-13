@@ -1,8 +1,8 @@
 {
     "FPGA_Tree_TOP": {
         "filePaths": [
-            "D:\\Project\\fpga_contest\\rtl\\bcd_counter.v"
+            "D:\\Project\\fpga_contest\\rtl\\top\\instrument_uart_piano_top.v"
         ],
-        "fileName": "bcd_counter.v"
+        "fileName": "instrument_uart_piano_top.v"
     }
 }

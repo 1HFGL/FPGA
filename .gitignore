@@ -70,3 +70,11 @@ results/audio/
 results/sync-review-20261011/
 results/sync-review-20261012/
 results/display-20261013/
+
+# 重整后的输出：必要配置在工程根受版本控制，工具仍可在邻近impl输出。
+/build/
+/projects/legacy/Documents/
+/projects/**/impl/
+!/projects/examples/adsr/impl/
+/projects/examples/adsr/impl/*
+!/projects/examples/adsr/impl/fpga_project_process_config.json

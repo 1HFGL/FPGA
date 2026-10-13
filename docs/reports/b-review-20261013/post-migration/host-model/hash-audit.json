@@ -1,0 +1,129 @@
+{
+  "checkedUtc": "2026-10-13T03:30:20.3361725Z",
+  "manifest": "docs/reports/b-review-20261013/migration/migration-manifest.json",
+  "manifestGitHead": "4482f58ac5a1645fff94c5699db4247f8f29cd2e",
+  "assetCount": 12,
+  "assets": [
+    {
+      "path": "host/新音色.json",
+      "category": "preset",
+      "migration_sha256": "AB40AAB2C93176C5F8D8F0AB6E247E4DC891DDE613CC92AAFEA6ED619B107F26",
+      "current_sha256": "AB40AAB2C93176C5F8D8F0AB6E247E4DC891DDE613CC92AAFEA6ED619B107F26",
+      "match": true
+    },
+    {
+      "path": "host/studio_model.py",
+      "category": "model",
+      "migration_sha256": "9B77692DF0FB60B3443E3520403349E4490D522FE33305D4E8220E8FBFE9333E",
+      "current_sha256": "9B77692DF0FB60B3443E3520403349E4490D522FE33305D4E8220E8FBFE9333E",
+      "match": true
+    },
+    {
+      "path": "host/tone_examples/bright.json",
+      "category": "preset",
+      "migration_sha256": "387E8A33381C0B9635B46492D96F0FC39FBDF22D343984B5F4EDF12EE2D3E44C",
+      "current_sha256": "387E8A33381C0B9635B46492D96F0FC39FBDF22D343984B5F4EDF12EE2D3E44C",
+      "match": true
+    },
+    {
+      "path": "host/tone_examples/piano.json",
+      "category": "preset",
+      "migration_sha256": "E4C718AB85E74DE31C88290FE5013385917FE89EF2CF17DB780A0B1A3735C143",
+      "current_sha256": "E4C718AB85E74DE31C88290FE5013385917FE89EF2CF17DB780A0B1A3735C143",
+      "match": true
+    },
+    {
+      "path": "host/tone_examples/sine.json",
+      "category": "preset",
+      "migration_sha256": "C04F39D5D2F86E905094FBCA6524BEE4A28363FE29142415FBC7853A88CA08E2",
+      "current_sha256": "C04F39D5D2F86E905094FBCA6524BEE4A28363FE29142415FBC7853A88CA08E2",
+      "match": true
+    },
+    {
+      "path": "host/tone_examples/soft.json",
+      "category": "preset",
+      "migration_sha256": "FA38976DA6C165B8729FD0574A42BB3855F4F7F3AF68DB38C9C643B33E4D0952",
+      "current_sha256": "FA38976DA6C165B8729FD0574A42BB3855F4F7F3AF68DB38C9C643B33E4D0952",
+      "match": true
+    },
+    {
+      "path": "host/wavetable.py",
+      "category": "model",
+      "migration_sha256": "589FD471C751F0BC4B398A2883BE637945C8F01284934BC5B32C53FE97446161",
+      "current_sha256": "589FD471C751F0BC4B398A2883BE637945C8F01284934BC5B32C53FE97446161",
+      "match": true
+    },
+    {
+      "path": "rtl/rom/bright_1024.mem",
+      "category": "ROM",
+      "migration_sha256": "DD28109DA4C80DA45CB6975A1496EB23DF93BB26FB09E6CF35478D1C818AD6A4",
+      "current_sha256": "DD28109DA4C80DA45CB6975A1496EB23DF93BB26FB09E6CF35478D1C818AD6A4",
+      "match": true
+    },
+    {
+      "path": "rtl/rom/guitar_1024.mem",
+      "category": "ROM",
+      "migration_sha256": "E5C79A48664801C669AAD792883AAA0CD65B196652593F3F77F44B795973F1A0",
+      "current_sha256": "E5C79A48664801C669AAD792883AAA0CD65B196652593F3F77F44B795973F1A0",
+      "match": true
+    },
+    {
+      "path": "rtl/rom/piano_1024.mem",
+      "category": "ROM",
+      "migration_sha256": "B3ABCC11A9302601C994AFCE9161258DA1A80EF247E2D4F745275ECAF4826F1B",
+      "current_sha256": "B3ABCC11A9302601C994AFCE9161258DA1A80EF247E2D4F745275ECAF4826F1B",
+      "match": true
+    },
+    {
+      "path": "rtl/rom/sine_1024.mem",
+      "category": "ROM",
+      "migration_sha256": "39D6E76E2DCF7F8337257C5948D6F525A94FFE09F5CF481E9E75A1300082B3C5",
+      "current_sha256": "39D6E76E2DCF7F8337257C5948D6F525A94FFE09F5CF481E9E75A1300082B3C5",
+      "match": true
+    },
+    {
+      "path": "rtl/rom/strings_1024.mem",
+      "category": "ROM",
+      "migration_sha256": "F07EF598D4AAE186C5729D89669DC888A186F74414D9CF597BE5F94F894B09B3",
+      "current_sha256": "F07EF598D4AAE186C5729D89669DC888A186F74414D9CF597BE5F94F894B09B3",
+      "match": true
+    }
+  ],
+  "copiedLogs": [
+    {
+      "file": "syntax.log",
+      "bytes": 38,
+      "source_sha256": "378450256F54ED7C866082980E032840AE0D9639BD7BF2E0A766A0DA264D7E8D",
+      "archive_sha256": "378450256F54ED7C866082980E032840AE0D9639BD7BF2E0A766A0DA264D7E8D",
+      "match": true
+    },
+    {
+      "file": "host-unittest.log",
+      "bytes": 4086,
+      "source_sha256": "27A0D02550608C0BF0AB897571B808FA86C7CF99049AFBC00ED883BACE25C6D6",
+      "archive_sha256": "27A0D02550608C0BF0AB897571B808FA86C7CF99049AFBC00ED883BACE25C6D6",
+      "match": true
+    },
+    {
+      "file": "timbre-rom.log",
+      "bytes": 530,
+      "source_sha256": "E382A74482FB2215F9F7D0C128CD6F3C6DBAD5F06BBF3641AE254E268F74F555",
+      "archive_sha256": "E382A74482FB2215F9F7D0C128CD6F3C6DBAD5F06BBF3641AE254E268F74F555",
+      "match": true
+    },
+    {
+      "file": "instrument-rom.log",
+      "bytes": 739,
+      "source_sha256": "96FEB1E1C503F1FEC9C5B7E10DB3A69A29E37B9A04774398D68A3034E9CEE9B9",
+      "archive_sha256": "96FEB1E1C503F1FEC9C5B7E10DB3A69A29E37B9A04774398D68A3034E9CEE9B9",
+      "match": true
+    },
+    {
+      "file": "piano-preview.log",
+      "bytes": 119,
+      "source_sha256": "6F908F54457A9F1D32FE0AFC4FE8723BDA98D8B7F088FC961E39F2E5051270DD",
+      "archive_sha256": "6F908F54457A9F1D32FE0AFC4FE8723BDA98D8B7F088FC961E39F2E5051270DD",
+      "match": true
+    }
+  ]
+}

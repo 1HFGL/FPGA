@@ -16,8 +16,8 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--netlist', type=Path, default=ROOT / 'fpga_project/instruments_check/impl/gwsynthesis/instruments_check.vg')
-parser.add_argument('--report', type=Path, default=ROOT / 'results/logs/instrument_netlist_audit.json')
+parser.add_argument('--netlist', type=Path, default=ROOT / 'projects/checks/instruments_check/impl/gwsynthesis/instruments_check.vg')
+parser.add_argument('--report', type=Path, default=ROOT / 'build/regression/logs/instrument_netlist_audit.json')
 args = parser.parse_args()
 text = args.netlist.read_text(encoding='utf-8')
 modules = dict(re.findall(r'(?ms)^module\s+(\w+)\s*\((.*?)^endmodule[^\n]*', text))

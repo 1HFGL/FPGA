@@ -134,8 +134,8 @@ def check_trace(path, boundary=False):
 def main():
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--default-trace", type=Path, default=root / "results/logs/poly_adsr_default_trace.txt")
-    parser.add_argument("--boundary-trace", type=Path, default=root / "results/logs/poly_adsr_boundary_trace.txt")
+    parser.add_argument("--default-trace", type=Path, default=root / "build/regression/logs/poly_adsr_default_trace.txt")
+    parser.add_argument("--boundary-trace", type=Path, default=root / "build/regression/logs/poly_adsr_boundary_trace.txt")
     args = parser.parse_args()
     check_trace(args.default_trace)
     check_trace(args.boundary_trace, boundary=True)

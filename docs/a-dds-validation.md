@@ -1,5 +1,7 @@
 # A DDS 迁移验证记录
 
+> 2026-10-13路径维护：本页功能状态、资源／时序数字、日志与哈希仍对应原记录日期，不代表当前版本的新验收。可复用的主工程命令已改用新目录；新运行结果写入 `build/`，不覆盖历史证据。当前工程及完整验证入口见 [目录迁移说明](repository-layout.md) 与 [README](../README.md)。
+
 日期：2026-09-27。环境：Windows，ModelSim SE-64 10.6e；Python 3 标准库。
 分支：`feat/a-dds-core`。本记录对应此次整理后的代码；不是综合、时序或硬件测试报告。
 
@@ -8,7 +10,7 @@
 仓库根目录：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'D:\modelsim1\win64'
 python model/check_dds.py
 ```
 
@@ -35,7 +37,7 @@ ModelSim 路径按各自安装位置传入。记录时 Python 使用本机工具
 
 ## 证据位置和边界
 
-- 自动生成的运行日志：`results/logs/*.log`；DDS 采样记录：`results/logs/dds_trace.txt`。这些可再生成的文件已忽略，不上传。
+- 自动生成的运行日志：`build/regression/logs/*.log`；DDS 采样记录：`build/regression/logs/dds_trace.txt`。这些可再生成的文件已忽略，不上传。
 - 各测试都有正常、复位和边界检查，原检查条件没有放宽。
 - 本次是 A 子模块验证与 B 原测试回归，不是 A 和 B 实际连接后的联合仿真。
 - 尚未完成：Gowin 综合、布局布线及时序、板级引脚与 ROM 初始化确认、DAC 实物发声、整机延迟。

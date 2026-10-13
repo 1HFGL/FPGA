@@ -4,7 +4,7 @@
 
 ## 连接与前提
 
-- 入口：`rtl/single_tone_demo_top.v`；输入 `clk_in`、低有效 `rst_n`、`audio_enable` 和 32 位 `phase_inc`；输出 BCLK、LRCLK、DIN、低有效功放控制 `pa_en` 及欠载指示。
+- 入口：`rtl/top/single_tone_demo_top.v`；输入 `clk_in`、低有效 `rst_n`、`audio_enable` 和 32 位 `phase_inc`；输出 BCLK、LRCLK、DIN、低有效功放控制 `pa_en` 及欠载指示。
 - 全部 RTL 使用同一个 `clk_in`。B 的 `sample_request` 是单周期采样使能，不是派生时钟；它直连 A 的 `sample_tick`。A 的 `sample[15:0]` 和 `sample_valid` 直连 B 的样本输入。
 - `phase_inc` 必须由与 `clk_in` 同步的逻辑提供；不能把异步多位外部输入直接接进此端口。改变它后，A 在下一次采样请求使用新步长，并保持相位连续。
 - `audio_enable=0` 只关闭功放，数字串行输出仍在工作。当前 DDS 接近满幅，没有音量/包络，不应直接把本例当作安全的实物播放方案。
@@ -37,17 +37,17 @@
 在本机 ModelSim SE-64 10.6e 下运行：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
 ```
 
-2026-09-28 实测结果：6 个测试平台全部通过；编译及各项仿真均为 0 errors、0 warnings。其中 `sim/tb_single_tone_ab.v` 用独立四象限参考值检查 A 的相位/样本，重组 DAC 串行位并检查左右声道、首帧欠载、下一帧送样、实时变调、复位释放两拍和字中复位。日志、输入文件 SHA-256 清单和波形在 `results/logs/`、`results/waves/`（已忽略，不随仓库提交）；清单名为 `All_sha256.txt`。
+2026-09-28 实测结果：6 个测试平台全部通过；编译及各项仿真均为 0 errors、0 warnings。其中 `verification/tb/integration/tb_single_tone_ab.v` 用独立四象限参考值检查 A 的相位/样本，重组 DAC 串行位并检查左右声道、首帧欠载、下一帧送样、实时变调、复位释放两拍和字中复位。日志、输入文件 SHA-256 清单和波形在 `build/regression/logs/`、`build/regression/waves/`（已忽略，不随仓库提交）；清单名为 `All_sha256.txt`。
 
 检查测试是否能抓住错误：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite AB -NegativeControl -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite AB -NegativeControl -ModelSimBin 'C:\Library\modelsim\win64'
 ```
 
 这条命令**应失败**：测试平台故意翻转帧 1 右声道的一个观察位。实测脚本退出码为 1，日志报告 `expected=0000 actual=8000`。此版 ModelSim 自身遇 `$fatal` 可能仍退出 0，因此脚本同时检查日志 Fatal/Error 和 PASS 标记。负向编译使用独立工作库，不修改交付 RTL。
 
-单音顶层还已在 [高云工程](../fpga_project/README.md) 中通过 GowinSynthesis，识别 1 个 pROM。尚未执行：布局布线、完整约束/时序检查、ROM 板上初始化检查、真实 DAC 发声或端到端延迟测量。
+单音顶层还已在 [高云工程](../projects/README.md) 中通过 GowinSynthesis，识别 1 个 pROM。尚未执行：布局布线、完整约束/时序检查、ROM 板上初始化检查、真实 DAC 发声或端到端延迟测量。

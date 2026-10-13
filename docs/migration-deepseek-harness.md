@@ -1,5 +1,7 @@
 # FPGA 电子乐器项目迁移与 DeepSeek Harness 接手说明书
 
+> 历史说明（2026-10-02版本）：本文保留当时的目录、命令、功能范围和数值，不作为2026-10-13重整后的直接执行入口。当前主工程、工具入口与新输出目录请使用 [README](../README.md) 和 [目录迁移说明](repository-layout.md)；当前计划以 [PLAN](../PLAN.md) 为准。不要按本文旧命令重新创建 `fpga_project/`、`sim/` 或 `results/`，也不要将新结果写入历史证据目录。下方本地链接已修正到保存位置，原历史内容未据此变成新的验收结果。
+
 编写日期：2026-10-02。适用环境：Windows，使用 DeepSeek Harness 接手开发，现有板卡与音频硬件一并迁移。
 
 ## 1. 阅读方式与交付边界
@@ -413,8 +415,8 @@ README给出的初始ADSR目标为起音2ms、衰减500ms、保持约峰值10%�
 ## 11. 资料入口与本次实际检查
 
 - [项目计划与赛题来源](../PLAN.md)、[协作规范](../AGENTS.md)、[最新器件与分工](../README.md)。
-- [ABC demo接口、数值契约和上板说明](abc-demo.md)、[高云工程复现说明](../fpga_project/README.md)。
-- [历史数字验证证据](../results/abc-demo-20260930/README.md)、[A验证记录](a-dds-validation.md)、[原C交互说明](c-interaction.md)。
+- [ABC demo接口、数值契约和上板说明](abc-demo.md)、[高云工程复现说明](../projects/README.md)。
+- [历史数字验证证据](reports/legacy/abc-demo-20260930/README.md)、[A验证记录](a-dds-validation.md)、[原C交互说明](c-interaction.md)。
 - DeepSeek安装、配置与工作区使用的官方来源见第4节；资料核对日期为2026-10-02，后续执行核对所安装版本的说明。
 
 本次实际检查为仓库状态、现有文档、测试脚本参数、模型输入、工程配置及约束；生成后检查本说明书UTF-8、内部文件链接与文档变更范围。未执行本轮功能仿真、Python算法回归、综合、布局布线、下载或实物测量。

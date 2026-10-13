@@ -206,8 +206,8 @@ def write_wav(path, samples):
 def main():
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--capture", type=Path, default=root/"results/logs/instrument_preview.csv")
-    parser.add_argument("--out-dir", type=Path, default=root/"results/audio")
+    parser.add_argument("--capture", type=Path, default=root/"build/regression/logs/instrument_preview.csv")
+    parser.add_argument("--out-dir", type=Path, default=root/"build/audio")
     parser.add_argument("--report", type=Path)
     parser.add_argument("--target-rms", type=float, default=2000)
     parser.add_argument("--peak-limit", type=int, default=28000)

@@ -7,14 +7,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main():
-    source = (ROOT / "rtl/note_phase_lut.v").read_text(encoding="utf-8")
+    source = (ROOT / "rtl/control/note_phase_lut.v").read_text(encoding="utf-8")
     table = {int(n): int(v) for n, v in re.findall(r"7'd(\d+): phase_inc = 32'd(\d+)", source)}
     assert len(table) == 128
     for n in range(128):
         assert table[n] == round(440 * 2 ** ((n - 69) / 12) * 2**32 / 48000)
     phase, env = [0] * 4, [0] * 4
     samples = resets = positive = negative = 0
-    for line in (ROOT / "results/logs/abc_mix_trace.txt").read_text(encoding="ascii").splitlines():
+    for line in (ROOT / "build/regression/logs/abc_mix_trace.txt").read_text(encoding="ascii").splitlines():
         if line == "reset":
             phase, env = [0] * 4, [0] * 4
             resets += 1

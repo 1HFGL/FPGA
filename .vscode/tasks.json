@@ -10,7 +10,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",
-                "${workspaceFolder}/run_modelsim.ps1",
+                "${workspaceFolder}/verification/scripts/run_modelsim.ps1",
                 "-Mode",
                 "compile"
             ],
@@ -20,7 +20,7 @@
             "problemMatcher": []
         },
         {
-            "label": "ModelSim: 打开默认仿真",
+            "label": "ModelSim: 运行B音频自检",
             "type": "process",
             "command": "powershell.exe",
             "args": [
@@ -28,7 +28,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",
-                "${workspaceFolder}/run_modelsim.ps1",
+                "${workspaceFolder}/verification/scripts/run_modelsim.ps1",
                 "-Mode",
                 "run"
             ],

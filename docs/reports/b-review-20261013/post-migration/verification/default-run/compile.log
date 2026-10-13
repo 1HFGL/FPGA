@@ -1,0 +1,11 @@
+Start time: 11:16:49 on Oct 13,2026
+vlog -nologo -vlog01compat -pedanticerrors -work build/b-review-20261013/post-migration/default-run/work D:\Project\fpga_contest\rtl\audio\sample_tick.v D:\Project\fpga_contest\rtl\audio\i2s_tx.v D:\Project\fpga_contest\rtl\audio\synth_top.v D:\Project\fpga_contest\verification\tb\audio\synth_top_tb.v 
+-- Compiling module sample_tick
+-- Compiling module i2s_tx
+-- Compiling module synth_top
+-- Compiling module synth_top_tb
+
+Top level modules:
+	synth_top_tb
+End time: 11:16:49 on Oct 13,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

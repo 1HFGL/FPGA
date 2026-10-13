@@ -9,7 +9,7 @@
 可重复生成（Python需Pillow）：
 
 ```powershell
-python sim/generate_display_font.py C:/Windows/Fonts/NotoSansSC-VF.ttf rtl/display_font24.v
+python verification/scripts/generate_display_font.py C:/Windows/Fonts/NotoSansSC-VF.ttf rtl/display/display_font24.v
 ```
 
 字形编号0为空白，1起依次为：`电子钢琴吉他音量弯低中高区延开关实时波形1234567`。

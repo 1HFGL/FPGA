@@ -1,0 +1,5 @@
+controlled=D:\Project\fpga_contest\projects\uart_basic\process_config.json
+controlled_sha256=46DFE4C0F7128BDE99C0EA2F9AF2827EBF0B40385EF3EA757234D6688BA569BF
+effective=D:\Project\fpga_contest\projects\uart_basic\impl\uart_basic_process_config.json
+effective_sha256=46DFE4C0F7128BDE99C0EA2F9AF2827EBF0B40385EF3EA757234D6688BA569BF
+Legacy mode overrides top=instrument_adsr_top, output=instrument_adsr_check, include=D:\Project\fpga_contest

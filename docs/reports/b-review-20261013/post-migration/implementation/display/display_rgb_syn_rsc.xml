@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module name="instrument_display" Register="90" Lut="1870" T_Register="221(90)" T_Alu="16(0)" T_Lut="2064(1870)" T_Bsram="1(0)">
+ <SubModule name="u_status" Register="70" Lut="4" T_Register="70(70)" T_Lut="4(4)"/>
+ <SubModule name="u_sample" Register="25" Lut="3" T_Register="25(25)" T_Lut="3(3)"/>
+ <SubModule name="u_timing" Register="24" Lut="53" T_Register="24(24)" T_Lut="53(53)"/>
+ <SubModule name="u_wave" Register="12" Lut="18" Bsram="1" T_Register="12(12)" T_Lut="18(18)" T_Bsram="1(1)"/>
+ <SubModule name="u_renderer" Alu="4" Lut="110" T_Alu="16(4)" T_Lut="116(110)">
+  <SubModule name="u_font" Alu="12" Lut="6" T_Alu="12(12)" T_Lut="6(6)"/>
+ </SubModule>
+</Module>

@@ -1,0 +1,8 @@
+PASS soft: 1024 exact samples; DC=0; min/max=-32767/32767
+  H1..H4 amplitude=32766.958035, 0.000000, 0.022971, 0.000000
+  H1..H4 / H1=1.000000, 0.000000, 0.000001, 0.000000
+PASS bright: 1024 exact samples; DC=0; min/max=-24384/24384
+  H1..H4 amplitude=17475.755582, 8737.854624, 4368.908947, 2184.493694
+  H1..H4 / H1=1.000000, 0.499999, 0.249998, 0.125001
+PASS two timbres: soft is sinusoidal; bright contains harmonics 2, 3 and 4.
+Scope: mathematical ROM spectrum only; listening and board audio remain separate checks.

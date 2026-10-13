@@ -1,0 +1,50 @@
+# set audit_root [file normalize .]
+# rename file audit_native_file
+# proc file {sub args} {
+#     if {$sub eq "mkdir"} {return}
+#     if {$sub eq "copy"} {
+#         set src [lindex $args end-1]
+#         if {![audit_native_file isfile $src]} {error "missing controlled config: $src"}
+#         set ::config_restored 1
+#         return
+#     }
+#     return [uplevel 1 [linsert $args 0 audit_native_file $sub]]
+# }
+# proc open_project {path} {
+#     if {![file isfile $path]} {error "missing GPRJ: $path"}
+#     if {!$::config_restored} {error "open_project before controlled config restore"}
+#     set ::opened 1
+# }
+# proc set_option {option value} {
+#     if {$option eq "-include_path" && [file normalize $value] ne $::audit_root} {error "wrong ROM include root: $value"}
+# }
+# rename run audit_native_run
+# proc run {mode} {
+#     if {!$::opened || ($mode ne "all" && $mode ne "syn")} {error "invalid run stage"}
+#     set ::ran 1
+# }
+# proc exit {code} {if {$code != 0} {error "script exit $code"}}
+# set env(FPGA_LEGACY_PROJECT) [file join $audit_root projects examples adsr fpga_project.gprj]
+# foreach rel {
+# projects/piano/build_piano.tcl
+# projects/uart_basic/build_uart.tcl
+# projects/uart_basic/build_legacy.tcl
+# projects/display/synthesize.tcl
+# projects/examples/adsr/build_adsr_demo.tcl
+# projects/examples/adsr/build_adsr_auto_demo.tcl
+# projects/examples/adsr/build_demo.tcl
+# projects/examples/adsr/build_auto_demo.tcl
+# projects/examples/instruments_board/run.tcl
+# projects/checks/poly_adsr_check/run.tcl
+# projects/checks/instruments_check/run.tcl
+# } {
+#     cd $audit_root
+#     set config_restored 0
+#     set opened 0
+#     set ran 0
+#     if {[catch {source [file join $audit_root $rel]} result]} {puts "FAIL $rel: $result"; quit -code 1 -f}
+#     if {!$ran} {puts "FAIL $rel: no run stage"; quit -code 1 -f}
+#     puts "AUDIT $rel: config-before-open, GPRJ, working directory and include root checked"
+# }
+# puts {PASS 11 Tcl paths/config sequencing (Gowin commands mocked; no files copied and no implementation executed)}
+# quit -code 0 -f

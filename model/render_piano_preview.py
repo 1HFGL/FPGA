@@ -11,7 +11,7 @@ import sys
 import wave
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "fpga_music_tool"))
+sys.path.insert(0, str(ROOT / "host"))
 from studio_model import cycle_samples, load_tone
 
 FS = 48000
@@ -19,7 +19,7 @@ UNITY = 65536
 
 
 def load_wave():
-    tone = load_tone(ROOT / "fpga_music_tool/tone_examples/piano.json")
+    tone = load_tone(ROOT / "host/tone_examples/piano.json")
     expected = [round(x * 32767) for x in cycle_samples(tone)]
     words = [int(x, 16) for x in (ROOT / "rtl/rom/piano_1024.mem").read_text().splitlines()]
     actual = [x if x < 32768 else x - 65536 for x in words]
@@ -50,7 +50,7 @@ def note_samples(table, note, held_samples, velocity=100):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=ROOT / "results/piano-20261008/piano_preview.wav")
+    parser.add_argument("--output", type=Path, default=ROOT / "build/audio/piano_preview.wav")
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError(f"不覆盖已有试听：{args.output}")

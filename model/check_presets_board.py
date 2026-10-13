@@ -1,4 +1,4 @@
-"""Audit the Gowin 1.9.12.03 KEY1/KEY2 instrument audition build.
+"""Audit the Gowin KEY1/KEY2 instrument audition build.
 
 Checks mapped ROM contents, lane-0 preset switching, the declared timing
 constraints and all eight board pins. This is structural/content + STA review,
@@ -15,8 +15,8 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 p = argparse.ArgumentParser(description=__doc__)
-p.add_argument('--project', type=Path, default=ROOT / 'fpga_project/instruments_board')
-p.add_argument('--report', type=Path, default=ROOT / 'results/logs/presets_board_audit.json')
+p.add_argument('--project', type=Path, default=ROOT / 'projects/examples/instruments_board')
+p.add_argument('--report', type=Path, default=ROOT / 'build/regression/logs/presets_board_audit.json')
 a = p.parse_args()
 project = a.project.resolve()
 name = 'instruments_board'
@@ -33,6 +33,55 @@ def child(body, instance):
     m = re.search(r'\b(\w+)\s+' + re.escape(instance) + r'\s*\(', body)
     assert m, instance
     return m[1], modules[m[1]], block(body, m[1], instance)
+
+# Gowin can move a shared CE into another hierarchy and rename the net.
+# Resolve scalar connections through actual instance ports, rather than trust
+# one generated name such as error_acc_6_7. Unexpected topology still fails.
+instances = {}
+def collect_instances(name, path=(), ports=None):
+    assert path not in instances, path
+    instances[path] = (name, ports or {})
+    for kind, inst in re.findall(r'(?m)^\s*(\w+)\s+(\\\S+|\w+)\s*\(', modules[name]):
+        if kind in modules:
+            collect_instances(kind, path+(inst,), block(modules[name], kind, inst))
+
+def scalar_net(path, signal):
+    assert re.fullmatch(r'\w+', signal), ('expected scalar net', path, signal)
+    if signal in ('GND', 'VCC'):
+        return ('constant', signal)
+    ports = instances[path][1]
+    if path and signal in ports:
+        return scalar_net(path[:-1], ports[signal])
+    return path, signal
+
+collect_instances('instrument_presets_top')
+top = modules['instrument_presets_top']
+_, bank, bankpins = child(top, 'u_bank')
+bank_path = ('u_bank',)
+request_register = block(bank, 'DFFRE', 'request_d1_s0')
+clock_net = scalar_net((), block(top, 'IBUF', 'sys_clk_ibuf')['O'])
+sample_ce = scalar_net(bank_path, request_register['D'])
+assert sample_ce[0] != 'constant' and sample_ce != clock_net, 'Invalid sample request source'
+assert scalar_net(bank_path, request_register['CLK']) == clock_net
+assert request_register['Q'] == 'request_d1' and request_register['CE'] == 'VCC'
+_, output_body, _ = child(top, 'u_b')
+_, serial_body, _ = child(output_body, 'u_i2s_tx')
+serial_path = ('u_b', 'u_i2s_tx')
+active_registers = []
+for inst in re.findall(r'\bDFFCE\s+(\w+)\s*\(', serial_body):
+    pins = block(serial_body, 'DFFCE', inst)
+    if re.fullmatch(r'active_sample\[\d+\]', pins['Q']):
+        assert scalar_net(serial_path, pins['CE']) == sample_ce, ('DAC frame CE mismatch', inst)
+        assert scalar_net(serial_path, pins['CLK']) == clock_net
+        active_registers.append(inst)
+assert active_registers, 'Missing DAC whole-frame sample registers'
+
+def check_sample_ce(module, pins, label):
+    paths = [path for path, (name, _) in instances.items() if name == module]
+    assert paths, ('uninstantiated CE consumer', module)
+    for path in paths:
+        assert scalar_net(path, pins['CE']) == sample_ce, ('sample CE mismatch', label, path, pins['CE'])
+        assert scalar_net(path, pins['CLK']) == clock_net, ('sample clock mismatch', label, path)
 
 def table(kind):
     data = (ROOT / f'rtl/rom/{kind}_1024.mem').read_text(encoding='ascii').split()
@@ -54,7 +103,7 @@ for mod, body in modules.items():
         matches = [kind for kind in ('base','guitar','strings') if expected[kind] == data]
         assert len(matches) == 1, (mod, inst, 'unrecognized ROM')
         pins = block(body,'pROM',inst)
-        assert pins['CLK'] == 'sys_clk_d' and pins['CE'] == 'error_acc_6_7'
+        check_sample_ce(mod, pins, inst)
         assert pins['AD'] == '{addr[9:0],GND,GND,VCC,VCC}'
         roms.append({'module':mod,'instance':inst,'kind':matches[0],'words':len(data),'output':pins['DO']})
 assert len(roms) == 9
@@ -62,7 +111,6 @@ assert {k:sum(r['kind']==k for r in roms) for k in ('base','guitar','strings')} 
 
 # Follow the physical KEY2 input through the debouncer, toggling register,
 # bank/lane-0, event snapshot registers, and the registered ROM selection.
-top = modules['instrument_presets_top']
 keybuf = block(top,'IBUF','Key_in_1_ibuf')
 _,_,key = child(top,r'\g_key[1].u_key')
 select = block(top,'DFFRE','selected_instrument_s1')
@@ -79,10 +127,10 @@ active = block(sound,'DFFRE','active_instrument_s0')
 assert pending['D'] == 'selected_instrument' and active['D'] == 'event_instrument'
 event = block(sound,'LUT4','event_instrument_s1')
 assert event['F'] == active['D'] and pending['Q'] in event.values() and 'selected_instrument' in event.values()
-_,wave,wavepins = child(sound,'u_wave')
+wave_name,wave,wavepins = child(sound,'u_wave')
 wave_sel = block(wave,'DFFRE','selected_s0')
 assert wave_sel['D'] == wavepins['requested_instrument'] == 'requested_instrument'
-assert wave_sel['CLK'] == 'sys_clk_d' and wave_sel['CE'] == 'error_acc_6_7'
+check_sample_ce(wave_name, wave_sel, 'wave selected register')
 assert active['Q'] in block(sound,'LUT3','requested_instrument_s0').values()
 base_name,_,base_pins = child(wave,'u_sine')
 pair_name,_,pair_pins = child(wave,'u_guitar')
@@ -92,7 +140,8 @@ assert base_pins['base_sample'] == wavepins['base_sample'] == 'base_sample[14:0]
 for kind in ('guitar','strings'):
     assert pair_pins[kind+'_sample'] == kind+'_sample[15:0]'
 guard_register = block(bank,'DFFRE',r'\g_voice[0].velocity_d0_6_s0')
-assert guard_register['D'] == 'VCC' and guard_register['CE'] == 'error_acc_6_7'
+assert guard_register['D'] == 'VCC'
+check_sample_ce(instances[bank_path][0], guard_register, 'lane-0 velocity guard')
 truth_cases = 0
 guard_cases = 0
 for bit in range(16):
@@ -197,6 +246,7 @@ for path in [project/'process_config.json',project/'run.tcl',project/f'{name}.gp
 report_time=(project/f'impl/pnr/{name}_tr_content.html').stat().st_mtime_ns
 assert not [str(path) for path in source_paths if path.stat().st_mtime_ns>report_time], 'Source changed after report; rebuild Gowin first.'
 result={'status':'PASS','created_time':summary['Created Time'],'tool':summary['Tool Version'],'device':summary['Part Number'],'device_version':'B','timing':timing,'active_sdc':sdc,'pins':[dict(zip(pins[0],r)) for r in pins[1:]],'paths_analyzed':int(summary['Numbers of Paths Analyzed']),'endpoints_analyzed':int(summary['Numbers of Endpoints Analyzed']),'setup_violations':0,'hold_violations':0,'roms':roms,'rom_words_checked':sum(r['words'] for r in roms),'lane0_preset_lut_truth_cases':truth_cases,'lane0_base_full_lut_truth_cases':guard_cases,'lane0_dynamic_key2_event_and_audio_path_checked':True,'resource_summary':resources,'warnings':warnings,'source_sha256':source_hashes,'netlist_sha256':sha(netpath),'fs_sha256':sha(fs),'fs_bytes':fs.stat().st_size,'scope':'KEY1 C4 fixed-velocity single playable lane; KEY2 selects guitar/strings for next note. Three inactive lanes partially remain after optimization; retained ROMs do not prove playable polyphony. Timing covers internal 50 MHz logic and existing 20/0 ns register-to-pad budgets; async keys and external reset only are false-pathed. No external DAC setup/hold signoff, post-route simulation, or hardware download is claimed. PR1014 non-dedicated clock routing remains.'}
+result['sample_ce_connectivity']={'request_register':'u_bank/request_d1_s0.D','resolved_net':sample_ce,'roms_checked':len(roms),'dac_frame_registers_checked':len(active_registers),'wave_selector_and_velocity_guard_checked':True}
 a.report.parent.mkdir(parents=True,exist_ok=True)
 a.report.write_text(json.dumps(result,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
 print(f"PASS: setup {timing['setup']['slack_ns']:+.3f} ns; internal setup {timing['internal_setup_ns']:+.3f} ns; hold {timing['hold']['slack_ns']:+.3f} ns; MPW {timing['min_pulse_width_slack_ns']:+.3f} ns.")

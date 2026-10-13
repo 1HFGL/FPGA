@@ -1,0 +1,4 @@
+PASS: 12 physical pROMs, 12288 exact mapped words (4 half-sine + 4 guitar + 4 strings).
+PASS: 128 selector LUT bits, 1024 truth cases, 4 independent event register pairs and brightness/amplitude datapaths.
+Resolved: 4 NL0002 u_strings warnings remove hierarchy only; all strings ROM data remains.
+Report: D:\Project\fpga_contest\build\regression\logs\instrument_netlist_audit.json

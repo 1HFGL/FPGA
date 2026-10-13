@@ -108,8 +108,8 @@ def write_wav(path, samples):
 def main():
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--capture", type=Path, default=root / "results/logs/timbre_preview.csv")
-    parser.add_argument("--out-dir", type=Path, default=root / "results/audio")
+    parser.add_argument("--capture", type=Path, default=root / "build/regression/logs/timbre_preview.csv")
+    parser.add_argument("--out-dir", type=Path, default=root / "build/audio")
     parser.add_argument("--report", type=Path, help="optional JSON report path; default is inside output directory")
     args = parser.parse_args()
     parts = read_and_check_capture(args.capture)

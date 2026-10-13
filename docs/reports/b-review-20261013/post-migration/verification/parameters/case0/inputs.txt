@@ -1,0 +1,10 @@
+UTC=2026-10-13T03:17:16.1773509Z
+GitHEAD=4482f58ac5a1645fff94c5699db4247f8f29cd2e
+ModelSim=Model Technology ModelSim SE-64 vsim 10.6e Simulator 2018.06 Jun 23 2018
+Case=0 Name=valid_legacy
+Flags=-vlog01compat -pedanticerrors
+CD84EC1405FABE9896C33D0A17B55D7A1C71F7D11AB3B9B5EFAEB5BCBB54A922  D:\Project\fpga_contest\rtl\audio\sample_tick.v
+EEE20B0A822D12F13F9693C99E8B881FAFEF52C6CE65EC6D95D3470FC5A33BDD  D:\Project\fpga_contest\rtl\audio\synth_top.v
+35F7B26132F9A08651D061C236F020AEE21AAB1F61683E9C192E82AA4EC5AE25  D:\Project\fpga_contest\rtl\audio\i2s_tx.v
+E62526866073EE6B4C95FF2B790FBFDA1E65E8DF1B926C991CE6C1C6C8673F8A  D:\Project\fpga_contest\verification\tb\integration\tb_audio_parameters.v
+14A8BE2D2866B74C41657BE8C1216781D472181B1C1B9C17D66C03F062ED1C5C  D:\Project\fpga_contest\verification\scripts\check_audio_parameters.ps1

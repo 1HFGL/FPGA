@@ -21,12 +21,12 @@
 
 | 文件 | 作用 |
 |---|---|
-| `rtl/voice_bank_adsr.v` | 四路声部、参数快照、释放完成反馈 |
-| `rtl/sample_mixer4.v` | 四路混音、缩放、饱和 |
-| `sim/tb_voice_bank_adsr.v` | 数学参考、逐时钟流水线/反馈检查与轨迹导出 |
-| `sim/tb_sample_mixer4.v` | 有符号极值、相消、舍入、饱和与复位测试 |
+| `rtl/synth/voice_bank_adsr.v` | 四路声部、参数快照、释放完成反馈 |
+| `rtl/synth/sample_mixer4.v` | 四路混音、缩放、饱和 |
+| `verification/tb/synth/tb_voice_bank_adsr.v` | 数学参考、逐时钟流水线/反馈检查与轨迹导出 |
+| `verification/tb/synth/tb_sample_mixer4.v` | 有符号极值、相消、舍入、饱和与复位测试 |
 | `model/check_poly_adsr.py` | Python 闭式包络、独立正弦和整数流水线参考 |
-| `sim/run_poly_adsr.tcl` | ModelSim 波形入口 |
+| `verification/scripts/run_poly_adsr.tcl` | ModelSim 波形入口 |
 
 `voice_bank_adsr` 的全部控制都应位于 `clk` 域。`sample_request` 是时钟使能，不能接到时钟端口。`rst_n` 是低有效同步复位，须经过至少一个时钟边沿；未来接入统一复位逻辑。
 
@@ -78,7 +78,7 @@
 | 编译检查 | 新 RTL 通过 Verilog-2001 编译；旧音符表有继承 timescale 的非功能警告 |
 | 波形入口 | ModelSim 10.6e 实际执行 `source` 入口并完成测试、信号添加与结束检查 |
 
-证据保存在 [本次验证目录](reports/poly_adsr_20261003/)。大体积采样轨迹和波形放在忽略的 `results/logs/`、`results/waves/` 中，运行下面命令可以再生成。
+证据保存在 [本次验证目录](reports/poly_adsr_20261003/)。大体积采样轨迹和波形放在忽略的 `build/regression/logs/`、`build/regression/waves/` 中，运行下面命令可以再生成。
 
 测试平台为了加速，大部分每 4 个时钟请求一次，另外覆盖连续请求及随机停顿。波形横轴是加速仿真时间；板上包络时长取决于实际 48 kHz 请求，不能从这条加速波形读出整机声音时长。
 
@@ -87,7 +87,7 @@
 在仓库根目录的 PowerShell 中：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite PolyADSR -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite PolyADSR -ModelSimBin 'D:\modelsim1\win64'
 python model/check_poly_adsr.py
 ```
 
@@ -96,7 +96,7 @@ python model/check_poly_adsr.py
 在 ModelSim 的 Transcript 中查看波形：
 
 ```tcl
-source {C:/Users/Nanji/Documents/GitHub/FPGA/sim/run_poly_adsr.tcl}
+source {C:/Users/Nanji/Documents/GitHub/FPGA/verification/scripts/run_poly_adsr.tcl}
 ```
 
 预期看到 `PASS: voice_bank_adsr...`，Wave 中有四条包络、保持/触发信号、混音样本和释放反馈。脚本使用自己的目录定位仓库，运行新仿真；修改代码后重新执行即可。

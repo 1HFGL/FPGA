@@ -12,8 +12,8 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--project', type=Path, default=ROOT / 'fpga_project/instruments_check')
-parser.add_argument('--report', type=Path, default=ROOT / 'results/logs/instrument_timing_audit.json')
+parser.add_argument('--project', type=Path, default=ROOT / 'projects/checks/instruments_check')
+parser.add_argument('--report', type=Path, default=ROOT / 'build/regression/logs/instrument_timing_audit.json')
 args = parser.parse_args()
 project = args.project.resolve()
 name = 'instruments_check'

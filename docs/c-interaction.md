@@ -2,7 +2,7 @@
 
 以下保留队友原始 README。32 声部分配测试不等于 32 路音频合成；旧本地路径和板级工程不是当前 demo 入口，以根目录 README 和 docs/abc-demo.md 为准。
 
-2026-10-07目录调整：历史C工程现位于 [归档工程](../fpga_project/legacy/c_interaction/tang_mega_60k_interaction.gprj)，其约束与原输出一并保留；下文原始绝对路径仅供追溯。当前发声工程见 [工程说明](../fpga_project/README.md)。
+2026-10-07目录调整：历史C工程现位于 [归档工程](../projects/legacy/c_interaction/tang_mega_60k_interaction.gprj)，其约束与原输出一并保留；下文原始绝对路径仅供追溯。当前发声工程见 [工程说明](../projects/README.md)。
 
 # Tang Mega 60K C 部分：交互与声部管理
 
@@ -63,13 +63,13 @@ voice_allocator
 
 | 文件 | 功能 |
 |---|---|
-| `rtl/input_sync_debounce.v` | 两级同步、计数器去抖、按下/松开启边沿检测 |
-| `rtl/touch_or_key_if.v` | 多路按键同步去抖，当前板级使用 2 路 |
-| `rtl/pressure_if.v` | 压力数据一阶滤波、力度换算和有效判断 |
-| `rtl/event_encoder.v` | 将按下/松开状态编码为 note_on/note_off 事件 |
-| `rtl/voice_allocator.v` | 32 声部分配、释放、同音重触发和抢占 |
-| `rtl/interaction_top.v` | C 部分内部集成顶层，便于后续接 A 部分 |
-| `rtl/board_top.v` | Tang Mega 60K 板级测试顶层，连接按键和 LED |
+| `rtl/control/input_sync_debounce.v` | 两级同步、计数器去抖、按下/松开启边沿检测 |
+| `rtl/control/touch_or_key_if.v` | 多路按键同步去抖，当前板级使用 2 路 |
+| `rtl/control/pressure_if.v` | 压力数据一阶滤波、力度换算和有效判断 |
+| `rtl/control/event_encoder.v` | 将按下/松开状态编码为 note_on/note_off 事件 |
+| `rtl/control/voice_allocator.v` | 32 声部分配、释放、同音重触发和抢占 |
+| `rtl/control/interaction_top.v` | C 部分内部集成顶层，便于后续接 A 部分 |
+| `rtl/top/board_top.v` | Tang Mega 60K 板级测试顶层，连接按键和 LED |
 
 ## 3. 当前板级映射
 
@@ -133,13 +133,13 @@ LEDs[3] = 历史最大声部数达到 4
 双击或执行：
 
 ```text
-scripts/run_modelsim.bat
+verification/scripts/run_c_modelsim.bat
 ```
 
 它会调用：
 
 ```text
-scripts/run_modelsim.ps1
+verification/scripts/run_c_modelsim.ps1
 ```
 
 并依次编译和运行五套测试。
@@ -176,7 +176,7 @@ tb_voice_allocator
 tb_interaction_top
 ```
 
-完整五套测试推荐直接运行 `scripts/run_modelsim.bat`，它会为每个测试启动独立的 ModelSim 进程，避免 `$finish` 提前结束批量脚本。
+完整五套测试推荐直接运行 `verification/scripts/run_c_modelsim.bat`，它会为每个测试启动独立的 ModelSim 进程，避免 `$finish` 提前结束批量脚本。
 
 五套测试期望看到：
 
@@ -375,17 +375,17 @@ Undeclared symbol 'event_ready'
 新增和修改：
 
 ```text
-rtl/event_encoder.v
-rtl/voice_allocator.v
-rtl/interaction_top.v
-rtl/board_top.v
-rtl/reset_sync.v
-rtl/voice_test_pattern.v
-rtl/board_test_top.v
-tb/tb_event_encoder.v
-tb/tb_voice_allocator.v
-tb/tb_interaction_top.v
-tb/tb_voice_test_pattern.v
+rtl/control/event_encoder.v
+rtl/control/voice_allocator.v
+rtl/control/interaction_top.v
+rtl/top/board_top.v
+rtl/common/reset_sync.v
+rtl/control/voice_test_pattern.v
+rtl/top/board_test_top.v
+verification/tb/control/tb_event_encoder.v
+verification/tb/control/tb_voice_allocator.v
+verification/tb/integration/tb_interaction_top.v
+verification/tb/control/tb_voice_test_pattern.v
 ```
 
 主要变化：

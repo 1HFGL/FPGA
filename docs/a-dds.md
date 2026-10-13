@@ -7,13 +7,13 @@
 
 ## 文件布局
 
-- `rtl/phase_acc.v`、`rtl/wave_lut.v`、`rtl/voice_dds.v`：可综合设计源码。
+- `rtl/synth/phase_acc.v`、`rtl/synth/wave_lut.v`、`rtl/synth/voice_dds.v`：可综合设计源码。
 - `rtl/rom/sine_1024.mem`：必须提交的 ROM 初始化数据，不是仿真缓存。
-- `sim/tb_*.v`：A 的三个测试平台；原有 B 测试文件保持不变。
-- `sim/run_tests.ps1`：可配置工具目录的批量测试入口，支持 A、B、All。
-- `sim/run_phase_acc.do`、`sim/run_wave_lut.do`、`sim/run_voice_dds.do`：交互式波形入口，共用 `sim/a_common.tcl`。
+- `verification/tb/synth/tb_phase_acc.v`、`tb_wave_lut.v`、`tb_voice_dds.v`：A 的三个测试平台；B 的音频测试位于 `verification/tb/audio/`。
+- `verification/scripts/run_tests.ps1`：可配置工具目录的批量测试入口，支持 A、B、All。
+- `verification/scripts/run_phase_acc.do`、`verification/scripts/run_wave_lut.do`、`verification/scripts/run_voice_dds.do`：交互式波形入口，共用 `verification/scripts/a_common.tcl`。
 - `model/gen_sine.ps1`：生成波表；`model/check_dds.py`：Python 3 标准库参考核对。
-- `results/logs/`、`results/waves/`、`results/*_work/`：运行产物，不提交。
+- `build/regression/logs/`、`build/regression/waves/`、`docs/reports/legacy/*_work/`：运行产物，不提交。
 
 ## 接口与时序
 
@@ -49,7 +49,7 @@ ROM 在请求沿读取更新前的相位，因此复位后第一次输出为 0�
 从仓库根目录执行。`-ModelSimBin` 指向你自己的安装目录，也可以设置 `MODELSIM_BIN` 或将 vsim.exe 加入 PATH。
 
 ```powershell
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'D:\modelsim1\win64'
 ```
 
 其中 D 盘路径只是本机示例，组长可以传入自己的路径。仅验证 A 时使用 `-Suite A`，B 原有回归使用 `-Suite B`。
@@ -69,7 +69,7 @@ Python 不参与最终发声，且不需要第三方包。检查波表和 ModelS
 在 Transcript 使用 **source**，不是 **do**。这里使用标准 Tcl source，让脚本可靠获取自身路径，避免之前的 info script 路径问题。
 
 ```tcl
-source {C:/Users/Nanji/Documents/GitHub/FPGA/sim/run_voice_dds.do}
+source {C:/Users/Nanji/Documents/GitHub/FPGA/verification/scripts/run_voice_dds.do}
 ```
 
 此处改为你克隆仓库的实际位置即可；脚本内部不含个人路径。另外两个入口同样使用 source。
@@ -86,9 +86,9 @@ source {C:/Users/Nanji/Documents/GitHub/FPGA/sim/run_voice_dds.do}
 无论当前目录在哪里，默认写入仓库的 `rtl/rom/sine_1024.mem`；支持 `-OutputPath` 生成到其他位置用于比较。
 公式是 `round(32767 * sin(2*pi*k/1024))`，四舍五入采用半值远离零，负数保存为 16 位补码。
 RTL 默认 ROM_FILE 为 `rtl/rom/sine_1024.mem`，按仿真进程工作目录解析；提供的入口均固定到仓库根目录。
-现有 [高云工程](../fpga_project/README.md) 通过 Include Path `..` 找到波表；本机 GowinSynthesis 已识别 1 个 pROM。换工程或改变目录结构时仍须重新核对路径，板上初始化数据尚未验证。
+现有 [高云工程](../projects/README.md) 由构建脚本设置 ROM 路径。ADSR 示例工程的 Include Path 为仓库根目录（相对 `projects/examples/adsr/` 是 `../../..`），不要继续使用旧的一层 `..`。本机历史综合已识别 1 个 pROM；换工程或改变目录结构时仍须重新核对路径，板上初始化数据尚未验证。
 
 ## 现有限制
 
-原根目录 `run_modelsim.ps1` 仍是旧练习入口，默认引用本仓库未提供的 `rtl/dds_sine.v`；原 B 脚本也有其作者电脑的安装路径。此次 A/回归请使用上面的新入口，避免改变组长原有工作方式。
+2026-10-13目录迁移后，`verification/scripts/run_modelsim.ps1` 已修复为可自检的 B 音频基线入口，默认顶层是 `synth_top_tb`，不再引用缺失的旧 DDS。A 的 DDS 测试使用上面的 `run_tests.ps1 -Suite A`；交互式波形可使用 `run_voice_dds.do`。默认入口需要 GUI 时显式加 `-Gui`，人工波形会话不等于自动自检通过。
 测试记录见 `docs/a-dds-validation.md`。迁移保留桌面实验原件；后续团队开发以仓库内文件为准。

@@ -1,10 +1,12 @@
 # UART基础演奏版验证记录
 
+> 2026-10-13路径维护：本页功能状态、资源／时序数字、日志与哈希仍对应原记录日期，不代表当前版本的新验收。可复用的主工程命令已改用新目录；新运行结果写入 `build/`，不覆盖历史证据。当前工程及完整验证入口见 [目录迁移说明](repository-layout.md) 与 [README](../README.md)。
+
 日期：2026-10-08。目标：用户批准的电脑四复音基础演奏版；仅本地开发验证，没有烧录或推送。使用FPGA／Verilog开发方法明确接口、复位、来源取消及验证阶段，不将代码或工具退出码当作实物效果。
 
 ## 实际完成与来源
 
-新增7个UART/队列/仲裁模块和 `instrument_uart_top`，修改公共分配器的可选行为；旧RTL／测试实例显式禁用取消，旧默认同音策略保留。复用现有A正弦ADSR、四声部混音与B音频链路；不是PC播放PCM或外部DDS。新增独立EDA工程、构建检查脚本和上位机固定音色能力门控。详细接口见 [设计](superpowers/specs/2026-10-08-uart-basic-playback-design.md)，使用见 [UART工程说明](../fpga_project/uart_basic/README.md)。
+新增7个UART/队列/仲裁模块和 `instrument_uart_top`，修改公共分配器的可选行为；旧RTL／测试实例显式禁用取消，旧默认同音策略保留。复用现有A正弦ADSR、四声部混音与B音频链路；不是PC播放PCM或外部DDS。新增独立EDA工程、构建检查脚本和上位机固定音色能力门控。详细接口见 [设计](superpowers/specs/2026-10-08-uart-basic-playback-design.md)，使用见 [UART工程说明](../projects/uart_basic/README.md)。
 
 板卡／引脚依据为用户提供的NEO Dock31004 Rev1.4及核心板原理图；RX=V14、TX=U15、3.3V。网表核对RX原始输入仅接首级 `rx_meta`，再接 `rx_sync`；SDC仅排除异步输入起点，不排除两级之间的路径。没有模拟亚稳态、MTBF或正式CDC工具签核。
 

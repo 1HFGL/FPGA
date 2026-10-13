@@ -1,0 +1,2 @@
+PASS Python poly ADSR default: 149703 clocks, 38379 samples, 7 resets, clips +0/-0.
+PASS Python poly ADSR boundary: 7013 clocks, 2721 samples, 8 resets, clips +308/-317.

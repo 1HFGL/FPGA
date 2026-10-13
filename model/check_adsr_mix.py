@@ -10,7 +10,7 @@ def main():
     phases = [0] * 4
     count = resets = 0
     seen = [set() for _ in range(4)]
-    for line in (root / "results/logs/adsr_mix_trace.txt").read_text(encoding="ascii").splitlines():
+    for line in (root / "build/regression/logs/adsr_mix_trace.txt").read_text(encoding="ascii").splitlines():
         if line == "reset":
             envelopes = [Envelope() for _ in range(4)]
             phases = [0] * 4

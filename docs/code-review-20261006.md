@@ -1,5 +1,7 @@
 # 2026-10-06 代码审查、资源优化与时序复核
 
+> 2026-10-13路径维护：本页功能状态、资源／时序数字、日志与哈希仍对应原记录日期，不代表当前版本的新验收。可复用的主工程命令已改用新目录；新运行结果写入 `build/`，不覆盖历史证据。当前工程及完整验证入口见 [目录迁移说明](repository-layout.md) 与 [README](../README.md)。
+
 ## 结论与范围
 
 按用户要求审查当前 A/B/C 集成代码，本轮 GitHub 交付分支为 `codex/adsr-integration`，不覆盖队友的 `master`。保留并纳入此前未提交的 ADSR 集成成果，没有操作板卡。
@@ -29,7 +31,7 @@
 
 ## 实测资源与实现时序对比
 
-两次均使用 Gowin V1.9.12.04、GW5AT-LV60PG484AC1/I0、Device Version B、50MHz／20ns，同一 CST／SDC和四声部参数。前值取自当天审查前的 `results/poly-integration-20261006/`；后值取自 `results/code-review-20261006/`。这是工具实现结果，不是仪器测量。
+两次均使用 Gowin V1.9.12.04、GW5AT-LV60PG484AC1/I0、Device Version B、50MHz／20ns，同一 CST／SDC和四声部参数。前值取自当天审查前的 `docs/reports/legacy/poly-integration-20261006/`；后值取自 `docs/reports/legacy/code-review-20261006/`。这是工具实现结果，不是仪器测量。
 
 | 指标 | 普通版：前→后 | 自动版：前→后 |
 |---|---:|---:|
@@ -62,23 +64,23 @@
 在仓库根目录运行，其他电脑替换成自己的实际工具路径：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite Review -ModelSimBin 'C:\Library\modelsim\win64'
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite Review -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
 # 用实际Python 3逐个运行，均须成功：
 # model/check_dds.py、model/check_adsr.py、model/check_abc_demo.py、
 # model/check_poly_adsr.py、model/check_adsr_mix.py
-.\sim\run_tests.ps1 -Suite ADSRDemo -NegativeControl -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite ADSRDemo -NegativeControl -ModelSimBin 'C:\Library\modelsim\win64'
 # 上一条应非零退出，日志须为 intentional ADSR serial mutation，而非编译失败。
-Push-Location .\fpga_project
+Push-Location .\projects\examples\adsr
 & 'D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe' build_adsr_auto_demo.tcl
 & 'D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe' build_adsr_demo.tcl
 Pop-Location
-.\sim\save_adsr_evidence.ps1 -Destination 'results/自己的新证据目录'
+.\verification\scripts\save_adsr_evidence.ps1 -Destination 'build/regression/自己的新证据目录'
 ```
 
-复现修复前问题时单独编译，勿覆盖正式RTL或复用正常工作库：
+以下仅保留2026-10-06复现修复前问题的历史命令，不作为当前执行入口：旧 `.sv` 测试及 `results/` 路径已不适用。当前应运行上方严格Verilog的 `-Suite Review`；原基线和失败日志在 `docs/reports/legacy/code-review-20261006/` 中，仅供追溯，不覆盖正式RTL或正常工作库。
 
-```powershell
+```text
 & 'C:\Library\modelsim\win64\vlib.exe' results/review_baseline_work
 & 'C:\Library\modelsim\win64\vlog.exe' -sv -work results/review_baseline_work results/code-review-20261006/baseline/voice_allocator.v sim/tb_allocator_review.sv
 & 'C:\Library\modelsim\win64\vsim.exe' -c -lib results/review_baseline_work -wlf results/review_baseline_work/age.wlf tb_allocator_age -do 'do {sim/run_allocator_review.tcl}'
@@ -86,6 +88,6 @@ Pop-Location
 # tb_allocator_expression_reset，应分别出现对应Fatal且非零退出。
 ```
 
-实现脚本共用工程配置，必须串行。最终配置为 `instrument_adsr_top`／`instrument_adsr`，本机新普通文件是 `fpga_project/impl/pnr/instrument_adsr.fs`。大体积位流、波形、工作库和本机rollback不上传；源码、构建脚本、审查、原始报告和哈希上传。原10月2日／10月6日审查前记录保留为历史，不以其哈希验证当前源码。
+实现脚本共用工程配置，必须串行。最终配置为 `instrument_adsr_top`／`instrument_adsr`，本机新普通文件是 `projects/examples/adsr/impl/pnr/instrument_adsr.fs`。大体积位流、波形、工作库和本机rollback不上传；源码、构建脚本、审查、原始报告和哈希上传。原10月2日／10月6日审查前记录保留为历史，不以其哈希验证当前源码。
 
-本轮没有烧录、试听、示波器测量或连续实物演奏。下一最小实验仍是B用现有耳机低音量测试普通版的复位、单键／双键、长按、提前松键和尾音中重按，并记录真实结果。完整证据见 [本轮结果](../results/code-review-20261006/README.md)。
+本轮没有烧录、试听、示波器测量或连续实物演奏。下一最小实验仍是B用现有耳机低音量测试普通版的复位、单键／双键、长按、提前松键和尾音中重按，并记录真实结果。完整证据见 [本轮结果](reports/legacy/code-review-20261006/README.md)。

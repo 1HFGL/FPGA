@@ -1,0 +1,6 @@
+PASS tb_display_timing
+PASS tb_display_cdc
+PASS tb_display_wave
+PASS tb_display_renderer
+PASS tb_display_reset_gain
+PASS tb_instrument_display

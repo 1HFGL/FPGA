@@ -16,10 +16,10 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--netlist", type=Path,
-                    default=ROOT / "fpga_project/poly_adsr_check/impl/gwsynthesis/poly_adsr_check.vg",
+                    default=ROOT / "projects/checks/poly_adsr_check/impl/gwsynthesis/poly_adsr_check.vg",
                     help="Gowin synthesis .vg; matching .log must be in the same directory")
 parser.add_argument("--report", type=Path,
-                    default=ROOT / "results/logs/timbre_netlist_audit.json",
+                    default=ROOT / "build/regression/logs/timbre_netlist_audit.json",
                     help="JSON audit result (created only when every check passes)")
 args = parser.parse_args()
 NETLIST = args.netlist.resolve()

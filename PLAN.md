@@ -103,20 +103,20 @@ ADSR是起音、衰减、保持、释放的包络控制；声音从松键后继�
 
 | 入口                                                 | 当前事实                                                          |
 | ---------------------------------------------------- | ----------------------------------------------------------------- |
-| `rtl/instrument_uart_piano_top.v`                  | 固定钢琴感预设；复用UART四声部顶层，1024点单周期表                |
-| `rtl/instrument_uart_top.v`                        | `VOICES(4)`，两实体演奏键＋PC事件；`expr_valid=0`，弯音未接入 |
-| `rtl/voice_bank_adsr.v`、`sample_mixer4.v`       | 四声部合成与混音；扩16不是只改一个分配器参数                      |
-| `rtl/touch_or_key_if.v`                            | 数字按键同步／消抖外壳，不是多点触摸屏控制器驱动                  |
-| `rtl/pressure_if.v`                                | 接收数字数据的接口，不等于模拟传感器或旋钮ADC采集                 |
-| `rtl/sample_tick.v`、`synth_top.v`、`i2s_tx.v` | 采样节拍、缓存和板载DAC串行输出                                   |
-| `fpga_music_tool/`                                 | 电脑演奏、状态与音色草稿界面；固定预设固件不支持界面参数实时应用  |
+| `rtl/top/instrument_uart_piano_top.v`                  | 固定钢琴感预设；复用UART四声部顶层，1024点单周期表                |
+| `rtl/top/instrument_uart_top.v`                        | `VOICES(4)`，两实体演奏键＋PC事件；`expr_valid=0`，弯音未接入 |
+| `rtl/synth/voice_bank_adsr.v`、`sample_mixer4.v`       | 四声部合成与混音；扩16不是只改一个分配器参数                      |
+| `rtl/control/touch_or_key_if.v`                            | 数字按键同步／消抖外壳，不是多点触摸屏控制器驱动                  |
+| `rtl/control/pressure_if.v`                                | 接收数字数据的接口，不等于模拟传感器或旋钮ADC采集                 |
+| `rtl/audio/sample_tick.v`、`synth_top.v`、`i2s_tx.v` | 采样节拍、缓存和板载DAC串行输出                                   |
+| `host/`                                 | 电脑演奏、状态与音色草稿界面；固定预设固件不支持界面参数实时应用  |
 
 当前固定钢琴预设：48kHz配置下起音96点（2ms）、衰减57600点（1200ms）至0、释放8640点（180ms）。这组固定谐波比例和线性包络不是新方案的音质验收结果，不能直接作为最终音色参数。
 
 ### 4.2 验证状态分层
 
 - **已有反馈**：早期demo可通过耳机发出简单电子音。
-- **已有历史工具证据**：四声部、UART和固定钢琴候选有仿真、参考模型及Gowin实现记录，见 [钢琴工程说明](fpga_project/uart_piano/README.md) 与 [UART验证](docs/uart-basic-20261008.md)。
+- **已有历史工具证据**：四声部、UART和固定钢琴候选有仿真、参考模型及Gowin实现记录，见 [钢琴工程说明](projects/piano/README.md) 与 [UART验证](docs/uart-basic-20261008.md)。
 - **钢琴候选历史资源**：5142 LUT、2710寄存器、4 BSRAM、8 DSP；现有约束下Setup/Hold +6.237/+0.223ns。只适用于对应2026-10-08构建，不外推到16复音。
 - **仍待验证**：最新固件实际串口、音质、独立复音、外部DAC时序、整机延迟、稳定性。
 - **尚待接入主工程**：真实感音色升级、13键、16复音、显示驱动、旋钮、全局弯音、延音及八度；C独立目录已有旋钮采集修复。
@@ -150,15 +150,18 @@ PR1014非专用输入时钟路由告警和完整DAC外部建立／保持约束�
 - 状态整组跨域、帧边界更新；音频只提供副本，显示无反压。字形来源与OFL许可完整保留。
 - 96源严格Verilog编译、六项显示自检、一项同步脉冲错误负向检查、两项原B音频回归通过。独立显示综合2080逻辑（2064 LUT＋16 ALU）、221寄存器、1 BSRAM、0 DSP、0锁存器；不是合并整机的占用率。
 - 屏幕型号、引脚、PLL、CDC物理约束、外部时序、音频顶层接入和实物显示均待完成；没有生成显示位流、上板或推送。原音频RTL与队友tb未修改。
-- 入口：[显示接口说明](docs/display-rgb.md)、[显示EDA工程](fpga_project/display_rgb/display_rgb.gprj)、[验证及预览](docs/reports/display-20261013/README.md)。
+- 入口：[显示接口说明](docs/display-rgb.md)、[显示EDA工程](projects/display/display_rgb.gprj)、[验证及预览](docs/reports/display-20261013/README.md)。
 
 ### 4.6 2026-10-13 B通路修复与延迟优化
 
 - 已复现并修复尾音最后非零帧未发送完就关闭功放的问题，复位仍立即关闭；短释放/原180ms释放、旧/新请求模式均通过排空自检。
 - 主钢琴请求提前到下一帧前32/33个系统拍；通用默认保持兼容。真实2ms消抖与原包络的两模式各14工况，最大数字观测延迟从2.083210ms降至2.063030ms（约20.18µs）。这不是模拟输出或整机实测。
 - 同轮候选5927逻辑（5235 LUT＋692 ALU）、2710寄存器、4 BSRAM、8 DSP；现有约束setup/hold +5.891/+0.127ns，满足本轮预设门槛。PR1014和DAC完整外部时序仍待闭合。
-- 钢琴process配置已纳入版本和构建哈希。All34、UART7、钢琴2回归及新增边界/显示隔离仿真通过。目录重整、迁后干净复建和推送尚在进行。
-- 详细边界及证据：[B通路实施记录](docs/reports/b-review-20261013/implementation.md)。四个队友快照及其tb保持原字节，不据此宣称上游tb已重跑。
+- 钢琴process配置已纳入版本和构建哈希；迁后移走旧impl进行干净复建，仍为上述资源及时序结果。主钢琴、UART及7个例程/检查配置重新实现通过，显示工程仅综合通过。
+- 目录重整完成：主工程`projects/piano`、分类RTL、`verification`、`upstream`和`host`。迁移2636项清单中的1964个文件；删除0文件，2199个原字节保留项和四套快照文件集合最终核对通过；旧输出可恢复保留在`build`。
+- 迁后最终101文件严格Verilog编译，All34、UART7、钢琴2、显示6、PA4、28个延迟工况及边界/显示隔离通过。参数3合法、12非法拒绝；默认入口、空格路径及负向对照通过。C快照24个RTL仅编译，队友tb未改、未跑。
+- 原网表检查依赖综合器自动网名，已改为追踪实际采样使能连接；保持ROM/真值/引脚/时序门槛，6个误接副本均拒绝。上位机32单测通过。
+- 详细边界及证据：[B通路实施记录](docs/reports/b-review-20261013/implementation.md)、[迁后完成记录](docs/reports/b-review-20261013/completion.md)。用户确认最终合并至现有`master`，不新建`main`；Git推送状态以最终交付消息/远端提交为准。上述均不是最新固件的实物验收。
 
 ## 5. 分工与代码改造清单
 
@@ -289,7 +292,7 @@ PR1014非专用输入时钟路由告警和完整DAC外部建立／保持约束�
 
 每次实现保留：源码版本及改动、约束和波表来源、顶层／参数、器件与板卡版本、工具版本、测试命令与日志、资源／时序报告、位流哈希、下载记录及实测数据。区分“代码已写／仿真通过／综合通过／布局布线及时序检查／实物验证”。
 
-历史文档重写时未检测或安装新工具，也未运行构建；显示实现与验证见4.5节，10月12日同步见4.4节。实际执行前核对本机工具位置和版本，优先使用现有 [钢琴工程复现步骤](fpga_project/uart_piano/README.md)，不把文档里的旧报告当成本次运行结果。
+历史文档重写时未检测或安装新工具，也未运行构建；显示实现与验证见4.5节，10月12日同步见4.4节。实际执行前核对本机工具位置和版本，优先使用现有 [钢琴工程复现步骤](projects/piano/README.md)，不把文档里的旧报告当成本次运行结果。
 
 ## 9. 未定事项与下一次入口
 
@@ -309,12 +312,12 @@ PR1014非专用输入时钟路由告警和完整DAC外部建立／保持约束�
 
 - [README：工程入口与当前能力](README.md)
 - [项目助手规范](AGENTS.md)
-- [固定钢琴候选说明及历史证据](fpga_project/uart_piano/README.md)
-- [UART基础版](fpga_project/uart_basic/README.md)
+- [固定钢琴候选说明及历史证据](projects/piano/README.md)
+- [UART基础版](projects/uart_basic/README.md)
 - [四声部整机接口](docs/poly-integration.md)
 - [A包络说明](docs/a-adsr.md) ／ [四声部说明](docs/a-poly-adsr.md)
 - [C交互说明](docs/c-interaction.md)
-- [上位机说明](fpga_music_tool/STUDIO_README.md)
+- [上位机说明](host/STUDIO_README.md)
 - [实体键正式装配](docs/keyboard-assembly.md)
 - [旧README／PLAN原文快照](docs/history/2026-10-09-before-alignment.md)
 

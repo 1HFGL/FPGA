@@ -30,15 +30,15 @@ bright[k] = round_away(32767 * (8*sin(theta) + 4*sin(2*theta)
 | 文件 | 职责 |
 |---|---|
 | `rtl/rom/bright_1024.mem` | 新增的明亮单周期波表；原 `sine_1024.mem` 保留 |
-| `rtl/wave_lut_timbre.v` | 同拍读取两张同步 ROM，并同步保存本次选择位 |
-| `rtl/voice_timbre_adsr.v` | 单声部相位、音色锁存、触发快照、包络与音量乘法 |
-| `rtl/voice_bank_adsr.v` | 四路音色输入、原四声部增益／混音／释放反馈 |
+| `rtl/synth/wave_lut_timbre.v` | 同拍读取两张同步 ROM，并同步保存本次选择位 |
+| `rtl/synth/voice_timbre_adsr.v` | 单声部相位、音色锁存、触发快照、包络与音量乘法 |
+| `rtl/synth/voice_bank_adsr.v` | 四路音色输入、原四声部增益／混音／释放反馈 |
 | `model/gen_timbres.py` | 波表生成和只读重建检查 |
 | `model/check_timbre_rom.py` | 不导入生成器的独立数学及频谱检查 |
 | `model/check_timbre_bank.py` | 四声部真实 RTL 轨迹的独立参考检查 |
 | `model/check_timbre_netlist.py` | 检查高云综合网表的两种 ROM 内容与动态选择电路 |
 | `model/render_timbre_preview.py` | 验证真实 RTL 采样后打包两份 WAV 和 JSON 结果 |
-| `sim/run_timbres.tcl` | ModelSim 图形波形入口 |
+| `verification/scripts/run_timbres.tcl` | ModelSim 图形波形入口 |
 
 `wave_lut_timbre` 和 `voice_timbre_adsr` 的 `timbre` 为 1 位：0 柔和、1 明亮。两者保留 `ROM_FILE` 作为柔和表路径，新增 `BRIGHT_ROM_FILE` 为明亮表路径，默认分别为 `rtl/rom/sine_1024.mem`、`rtl/rom/bright_1024.mem`。
 
@@ -155,10 +155,10 @@ phase_inc >= 0x20000000 → 当前采样使用柔和正弦表
 
 **四条 `NL0002 u_bright is swept in optimizing` 警告已专项核查。** 本轮是综合器合并层级：每路 `u_soft` 层级下保留两个 pROM。独立网表检查器从 `INIT_RAM` 重建八个 ROM，8192 个初始化字全部与源文件一致，并对 64 个输出选择 LUT 穷举 512 种组合、检查四路动态选择寄存器及到 ADSR 乘法器的连接。明亮波形没有被优化成零或删除。布局布线日志无警告／错误。这是综合网表内容和连接核验，未运行布局布线后门级仿真。
 
-保存的工程为 `fpga_project/poly_adsr_check/poly_adsr_check.gprj`，已加入新模块。打开后应核对顶层 `voice_bank_adsr_timing_top`，综合搜索路径包含仓库根目录；命令行入口会自动设置路径：
+保存的工程为 `projects/checks/poly_adsr_check/poly_adsr_check.gprj`，已加入新模块。打开后应核对顶层 `voice_bank_adsr_timing_top`，综合搜索路径包含仓库根目录；命令行入口会自动设置路径：
 
 ```powershell
-& 'C:\Gowin\Gowin_V1.9.12.03_x64\IDE\bin\gw_sh.exe' ./fpga_project/poly_adsr_check/run.tcl
+& 'C:\Gowin\Gowin_V1.9.12.03_x64\IDE\bin\gw_sh.exe' ./projects/checks/poly_adsr_check/run.tcl
 python model/check_timbre_netlist.py
 ```
 
@@ -171,19 +171,19 @@ python model/check_timbre_netlist.py
 ```powershell
 python model/gen_timbres.py --check
 python model/check_timbre_rom.py
-.\sim\run_tests.ps1 -Suite Timbre -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite Timbre -ModelSimBin 'D:\modelsim1\win64'
 python model/check_timbre_bank.py
 python model/render_timbre_preview.py
 ```
 
 `python` 应指向本机可用的 Python 3；未加入环境变量时改用其完整路径。需要重建明亮表时运行 `python model/gen_timbres.py`，它只写明亮表并核对原正弦表。`--check` 不写文件。
 
-默认真实采样文件为 `results/logs/timbre_preview.csv`，表头为 `timbre,note,index,sample`。预览脚本先拒绝数据不符、缺失／重复样本或未完成尾音的输入，再生成 `results/audio/timbre_soft.wav`、`timbre_bright.wav` 和 JSON；可用 `--capture`、`--out-dir`、`--report` 显式指定路径。它不会在缺少 RTL 采样时用软件合成替代音频。
+默认真实采样文件为 `build/regression/logs/timbre_preview.csv`，表头为 `timbre,note,index,sample`。预览脚本先拒绝数据不符、缺失／重复样本或未完成尾音的输入，再生成 `docs/reports/legacy/audio/timbre_soft.wav`、`timbre_bright.wav` 和 JSON；可用 `--capture`、`--out-dir`、`--report` 显式指定路径。它不会在缺少 RTL 采样时用软件合成替代音频。
 
 完整回归使用 `-Suite All`；图形波形在 ModelSim Transcript 中输入：
 
 ```tcl
-source {C:/Users/Nanji/Documents/GitHub/FPGA/sim/run_timbres.tcl}
+source {C:/Users/Nanji/Documents/GitHub/FPGA/verification/scripts/run_timbres.tcl}
 ```
 
 ## 后续集成

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "D:\Project\fpga_contest\model\check_presets_board.py", line 133, in <module>
+    check_sample_ce(wave_name, wave_sel, 'wave selected register')
+  File "D:\Project\fpga_contest\model\check_presets_board.py", line 83, in check_sample_ce
+    assert scalar_net(path, pins['CE']) == sample_ce, ('sample CE mismatch', label, path, pins['CE'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('sample CE mismatch', 'wave selected register', ('u_bank', '\\g_voice[0].u_voice', 'u_wave'), 'VCC')

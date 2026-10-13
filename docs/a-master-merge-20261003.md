@@ -1,5 +1,7 @@
 # A 分支合入团队 master：2026-10-03
 
+> 2026-10-13路径维护：本页功能状态、资源／时序数字、日志与哈希仍对应原记录日期，不代表当前版本的新验收。可复用的主工程命令已改用新目录；新运行结果写入 `build/`，不覆盖历史证据。当前工程及完整验证入口见 [目录迁移说明](repository-layout.md) 与 [README](../README.md)。
+
 本次把团队现有集成代码合入本地 `feat/a-dds-core`，保留 A 已验证的单声部 ADSR 时序优化。这里只同步代码、解决冲突并验证功能；四声部完整 ADSR 尚未接入，也没有重新生成板级下载文件。
 
 ## 合并范围与冲突处理
@@ -15,7 +17,7 @@
 | `rtl/adsr_env.v`、`sim/tb_adsr_env.v` | 保留 A 时序优化及 10 组参数边界测试；master 的文件与优化前版本相同 |
 | `docs/a-adsr.md`、`docs/a-adsr-validation.md` | 保留 A 当前说明和历史验证记录 |
 | `README.md`、`PLAN.md` | 保留 master 的团队方案与集成记录，补回 A 最新优化结果及本次同步状态 |
-| `sim/run_tests.ps1` | 合并两边入口，保留 A/ADSR 和 B/C/AB/Demo/All；修复独立 ADSR 依赖，恢复 ADSR 轨迹导出 |
+| `verification/scripts/run_tests.ps1` | 合并两边入口，保留 A/ADSR 和 B/C/AB/Demo/All；修复独立 ADSR 依赖，恢复 ADSR 轨迹导出 |
 
 `-Suite A` 仍执行 DDS 与 ADSR 共 6 项；`-Suite ADSR` 执行 3 项。共享 DDS 源码去重编译，ROM 仍包含在源码哈希清单中。没有改变 ADSR 端口、默认参数、包络时长或流水线延迟，也没有放宽已有测试。
 
@@ -47,7 +49,7 @@ A2B80DC2C5B47C64B9FF538612412C44F919765D87EC7303467D78D6E45B41DC
 在仓库根目录执行：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'D:\modelsim1\win64'
 python model/check_dds.py
 python model/check_adsr.py
 python model/check_abc_demo.py
@@ -56,14 +58,14 @@ python model/check_abc_demo.py
 独立 ADSR：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite ADSR -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite ADSR -ModelSimBin 'D:\modelsim1\win64'
 python model/check_adsr.py
 ```
 
 AB 负向检查：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite AB -NegativeControl -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite AB -NegativeControl -ModelSimBin 'D:\modelsim1\win64'
 ```
 
 最后一条应在 `tb_single_tone_ab` 因串行不匹配报错，不能当成要求全部通过的普通回归。

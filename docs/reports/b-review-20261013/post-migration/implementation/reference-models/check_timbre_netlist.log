@@ -1,0 +1,5 @@
+PASS: 8 pROMs retain 8192/8192 exact source words (4 sine + 4 bright).
+PASS: 64 output LUT mux bits, 512 truth-table cases, 4 dynamic selector registers, 4 ADSR multiplier connections.
+Resolved: 4 NL0002 u_bright warnings remove module hierarchy; both pROMs live under each u_soft module.
+Netlist SHA256: 746feecb31e225a63505825f3c6ff3d81e6b0f7355f5e53e99a6bd23789f7d88
+Report: D:\Project\fpga_contest\build\regression\logs\timbre_netlist_audit.json

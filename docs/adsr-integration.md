@@ -28,17 +28,17 @@
 
 ## 构建、仿真与文件选择
 
-高云EDA打开 `fpga_project/fpga_project.gprj`，新普通顶层为 `instrument_adsr_top`、输出名为 `instrument_adsr`。若本机GUI缓存旧配置，请手工核对；自动顶层为 `instrument_adsr_auto_top`。
+高云EDA打开 `projects/examples/adsr/fpga_project.gprj`，新普通顶层为 `instrument_adsr_top`、输出名为 `instrument_adsr`。若本机GUI缓存旧配置，请手工核对；自动顶层为 `instrument_adsr_auto_top`。
 
 从仓库根目录执行，本机路径换成各自安装位置：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
 python model/check_dds.py
 python model/check_adsr.py
 python model/check_abc_demo.py
 python model/check_adsr_mix.py
-Push-Location .\fpga_project
+Push-Location .\projects\examples\adsr
 & 'D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe' build_adsr_demo.tcl
 # 可选自动版，勿与普通版同时运行，两个脚本共享工程配置。
 & 'D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe' build_adsr_auto_demo.tcl
@@ -50,14 +50,14 @@ Pop-Location
 负向检查故意翻转串行比较值，下面命令**必须非零失败**，不用于正常通过：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite ADSRDemo -NegativeControl -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite ADSRDemo -NegativeControl -ModelSimBin 'C:\Library\modelsim\win64'
 ```
 
 | 用途 | 下载文件 |
 |---|---|
-| 新普通ADSR版 | `fpga_project/impl/pnr/instrument_adsr.fs` |
-| 新自动四声部ADSR版 | `fpga_project/impl/pnr/instrument_adsr_auto.fs` |
-| 旧渐变回退版 | `fpga_project/impl/pnr/instrument_demo.fs`，用 `build_demo.tcl`重建 |
+| 新普通ADSR版 | `projects/examples/adsr/impl/pnr/instrument_adsr.fs` |
+| 新自动四声部ADSR版 | `projects/examples/adsr/impl/pnr/instrument_adsr_auto.fs` |
+| 旧渐变回退版 | `projects/examples/adsr/impl/pnr/instrument_demo.fs`，用 `build_demo.tcl`重建 |
 
 先核对31004、器件、8个引脚和下载文件身份，再由组员用匹配GW5AT-60B的SRAM Program下载。KEY0复位后应静音；低音量分别按KEY1／KEY2、同时按、长按、提前松键、释放中重按。先验证普通版，再试自动版。不刷Flash，不让助手自动操作硬件。
 
@@ -72,4 +72,4 @@ Pop-Location
 - 普通版最差Setup／Hold裕量+0.025／+0.123ns；自动版+0.067／+0.143ns。裕量很小，后续修改必须重跑时序，不视为硬件可靠性签核。
 - PR1014非专用输入时钟路由警告保留；NL0002对应各模式未用模块优化。外部DAC约束仍只是本地输出布线预算，不是完整外部接口时序验收。
 
-报告、源码／约束／下载文件身份与日志见 [本轮证据](../results/adsr-integration-20261002/README.md)。未执行下载或实物测量，不勾选比赛R1—R7。下一步先由用户试听新普通版，再推进第二音色和13键／旋钮，不扩展32复音。
+报告、源码／约束／下载文件身份与日志见 [本轮证据](../docs/reports/legacy/adsr-integration-20261002/README.md)。未执行下载或实物测量，不勾选比赛R1—R7。下一步先由用户试听新普通版，再推进第二音色和13键／旋钮，不扩展32复音。

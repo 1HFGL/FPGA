@@ -1,0 +1,7 @@
+Missing ModelSim tool: D:/missing-modelsim-bin/vlib.exe
+At D:\Project\fpga_contest\verification\scripts\run_modelsim.ps1:16 char:63
++ ... n/$name.exe")){throw "Missing ModelSim tool: $ModelSimBin/$name.exe"}
++                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Missing ModelSi...im-bin/vlib.exe:String) [], RuntimeException
+    + FullyQualifiedErrorId : Missing ModelSim tool: D:/missing-modelsim-bin/vlib.exe
+ 

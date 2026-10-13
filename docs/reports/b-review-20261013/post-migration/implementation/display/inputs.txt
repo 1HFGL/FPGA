@@ -1,0 +1,11 @@
+top=instrument_display; device=GW5AT-LV60PG484AC1/I0/B; synthesis only
+36E80910B3CC08B50C8339FAD1948670E7496E5953B670B446308611F083B3DA  D:\Project\fpga_contest\projects\display/display_rgb.gprj
+D5DD31805CB04315855374C18CEF0BF5CBA4A1FC7E675672F2489D468839209F  D:\Project\fpga_contest\projects\display/synthesize.tcl
+A4A1716062F35BF8645498E49C1286B28E93956F55DAB98035167F69BD311369  D:\Project\fpga_contest\projects\display\process_config.json
+017CCE4EF5064EA98A5F0641AA10AFD65200C6956B6D34B268E2855148E9285B  D:\Project\fpga_contest\projects\display\build.ps1
+C79288111CDED83C271B09973324003E649AD0A557CB328BE9E62A411A91FD47  D:\Project\fpga_contest\projects\display\..\..\rtl\display\display_cdc_latest.v
+439F779FFD44D54F459F182438009A40C78379002D86D3EEA1E0A7C1E96B5D9D  D:\Project\fpga_contest\projects\display\..\..\rtl\display\lcd_rgb_timing.v
+D1168885F767D017AB988503A0D280C5732874C8F4A9EAEFE493FC326ECC2030  D:\Project\fpga_contest\projects\display\..\..\rtl\display\display_wave_buffer.v
+553D5A5A341393E334177EEB1EDA896D28D7DF4DF35F7992EC2CE7B23B75FAC6  D:\Project\fpga_contest\projects\display\..\..\rtl\display\display_font24.v
+487833F0EEF941966879017E06CA5601F332093886E59B270851FA42D8F268E1  D:\Project\fpga_contest\projects\display\..\..\rtl\display\piano_display_renderer.v
+97744B152C3A4A2382B1EA6BCDFBD8F5FCB42B03BED35143EE382A11767AE00B  D:\Project\fpga_contest\projects\display\..\..\rtl\display\instrument_display.v

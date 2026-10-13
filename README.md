@@ -2,6 +2,8 @@
 
 更新日期：2026-10-13。当前阶段是把已有的四声部演示升级为更接近真实钢琴的桌面乐器，不代表完整赛题已经验收。
 
+本轮已修复尾音功放提前关闭，将主钢琴数字通路最大观测延迟减少约20.18µs，并完成目录重整与迁后回归。主工程入口现为`projects/piano/uart_piano.gprj`；高云重新实现5927逻辑、2710寄存器，现有约束setup/hold +5.891/+0.127ns。实物整机延迟仍待测，详见[B通路与迁移完成记录](docs/reports/b-review-20261013/completion.md)。
+
 新增 [800×480中文RGB显示核心](docs/display-rgb.md)：钢琴/吉他标题、13键高亮、音量/弯音/音区/延音、实时波形。六项显示仿真、负向检查及高云综合通过，[预览与证据](docs/reports/display-20261013/README.md)。屏幕型号与引脚未定，暂未接入主音频顶层，不能直接下载显示工程。
 
 已合入C的新分支 `origin/codex/c-input-stages-20261012`（`dbbc31f`、`288ca4d`）：ADS1115双旋钮修复及2ms按键消抖。主工程各层默认消抖同步为100000周期（50MHz下2ms）；保留主工程已修复的声部分配器。队友独立工程和tb原样保留，新工程不是根目录主钢琴顶层的替代品。本轮证据与未完成项见 [10月12日同步记录](docs/sync-20261012.md)。
@@ -47,7 +49,7 @@
 | 实物证据 | 用户曾确认早期demo耳机可发简单电子音；不能据此认定最新UART钢琴版已实物验收 |
 | 延迟与时序 | 整机延迟未测；PR1014和DAC外部时序模型仍有待解决事项 |
 
-2026-10-08的钢琴候选记录了功能仿真、综合、布局布线和位流生成通过：5142 LUT、2710寄存器、4 BSRAM、8 DSP；现有约束下Setup/Hold裕量+6.237/+0.223ns。**这些是旧版四声部的历史结果，不是16复音新方案的资源保证，也不是本次重写文档重新运行的测试。** 详见 [候选工程及验证说明](fpga_project/uart_piano/README.md)。
+2026-10-08的钢琴候选记录了功能仿真、综合、布局布线和位流生成通过：5142 LUT、2710寄存器、4 BSRAM、8 DSP；现有约束下Setup/Hold裕量+6.237/+0.223ns。**这些是旧版四声部的历史结果，不是16复音新方案的资源保证，也不是本次重写文档重新运行的测试。** 详见 [候选工程及验证说明](projects/piano/README.md)。
 
 板载PT8211-S实际采用LSBJ右对齐格式，不能因模块名为 `i2s_tx` 就认定为标准Philips I2S；与赛题接口要求的符合性仍需确认。
 
@@ -55,15 +57,29 @@
 
 | 用途 | 高云EDA工程 | 顶层／输出 |
 |---|---|---|
-| 当前固定钢琴感候选 | [uart_piano.gprj](fpga_project/uart_piano/uart_piano.gprj) | `instrument_uart_piano_top`／`instrument_uart_piano.fs` |
-| UART固定正弦基线 | [uart_basic.gprj](fpga_project/uart_basic/uart_basic.gprj) | `instrument_uart_top`／`instrument_uart.fs` |
-| 无UART的板上两键版 | [fpga_project.gprj](fpga_project/fpga_project.gprj) | `instrument_adsr_top`／`instrument_adsr.fs` |
-| 队友双乐器独立试听 | [instruments_board.gprj](fpga_project/instruments_board/instruments_board.gprj) | `instrument_presets_top`／`instruments_board.fs`；KEY2切换预设，不是主钢琴工程 |
-| 中文显示独立检查 | [display_rgb.gprj](fpga_project/display_rgb/display_rgb.gprj) | `instrument_display`；仅综合，无板级引脚/PLL/位流 |
+| 当前固定钢琴感候选 | [uart_piano.gprj](projects/piano/uart_piano.gprj) | `instrument_uart_piano_top`／`instrument_uart_piano.fs` |
+| UART固定正弦基线 | [uart_basic.gprj](projects/uart_basic/uart_basic.gprj) | `instrument_uart_top`／`instrument_uart.fs` |
+| 无UART的板上两键版 | [fpga_project.gprj](projects/examples/adsr/fpga_project.gprj) | `instrument_adsr_top`／`instrument_adsr.fs` |
+| 队友双乐器独立试听 | [instruments_board.gprj](projects/examples/instruments_board/instruments_board.gprj) | `instrument_presets_top`／`instruments_board.fs`；KEY2切换预设，不是主钢琴工程 |
+| 中文显示独立检查 | [display_rgb.gprj](projects/display/display_rgb.gprj) | `instrument_display`；仅综合，无板级引脚/PLL/位流 |
 
-各位流位于对应工程的 `impl/pnr/`，不能混用。具体构建、哈希核对及试听步骤分别见 [钢琴候选](fpga_project/uart_piano/README.md)、[UART基线](fpga_project/uart_basic/README.md)、[两键版](fpga_project/README.md)。
+各位流位于对应工程的 `impl/pnr/`，不能混用。具体构建、哈希核对及试听步骤分别见 [钢琴候选](projects/piano/README.md)、[UART基线](projects/uart_basic/README.md)、[两键版](projects/README.md)。
 
-`fpga_contest/`是仓库，`fpga_project/`是主EDA工程，公共RTL在 `rtl/`。新合入的 `fpga_interaction/` 是C独立工程，`fpga_a/`、`fpga_b/` 是其联合仿真依赖快照，`fpga_ab_sim/` 是独立验证外壳；有同名但不同接口的模块，必须分库／分工程使用，不要加入主工程同一源清单。
+`fpga_contest/`是仓库，当前主钢琴EDA入口在`projects/piano/`，旧两键例程在`projects/examples/adsr/`。公共RTL按职责分组，仿真入口统一在`verification/scripts/`。
+
+```text
+rtl/                 audio、display、synth、control、common、top、rom
+projects/            piano、uart_basic、display、examples、checks、legacy
+verification/        tb（按职责分类）、scripts（编译与验证入口）
+upstream/            四个队友工程原样快照，单独编译，不混入主工程
+host/                电脑上位机及预设
+model/               Python参考模型
+boards/              已核对的板级约束
+docs/                接口、资料、报告和历史记录
+build/               新输出和迁移前保留的旧输出，默认不提交
+```
+
+`upstream/fpga_interaction/`是C独立工程，`upstream/fpga_a/`、`upstream/fpga_b/`是其联合仿真依赖，`upstream/fpga_ab_sim/`是独立验证外壳；兄弟关系和所有字节均保留。同名模块可能接口不同，不能与主工程混编。旧报告中的路径保持历史原文，位置对应关系见[目录迁移说明](docs/repository-layout.md)。
 
 ## 4. 三人分工
 
@@ -101,7 +117,7 @@
 **后续建议**：先验证更真实的钢琴单音，同时完成13键与旋钮的接线／接口核对；再扩16复音和纯显示，最后在显示正常工作时验收整机延迟。延音／八度操作方式和显示屏型号待定。
 
 - [完整计划与决策状态](PLAN.md)
-- [上位机使用说明](fpga_music_tool/STUDIO_README.md)
+- [上位机使用说明](host/STUDIO_README.md)
 - [已有四声部板级接入](docs/poly-integration.md)
 - [已有代码审查记录](docs/code-review-20261006.md)
 - [改写前README／PLAN完整快照](docs/history/2026-10-09-before-alignment.md)

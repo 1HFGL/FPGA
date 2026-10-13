@@ -16,12 +16,12 @@ ADSR 控制一个音符的音量随时间变化：Attack 渐强，Decay 衰减�
 
 | 文件 | 作用 |
 | --- | --- |
-| `rtl/adsr_env.v` | 生成 0～65536 的包络电平 |
-| `rtl/sample_gain.v` | 有符号音频乘包络，输出寄存一拍 |
-| `rtl/voice_adsr.v` | 连接原有 `voice_dds`、包络和乘法 |
-| `sim/tb_adsr_env.v` | 包络阶段、边界和控制事件测试 |
-| `sim/tb_sample_gain.v` | 所有 16 位输入在七种增益下的检查 |
-| `sim/tb_voice_adsr.v` | 完整单声部逐周期样本/时序对照 |
+| `rtl/synth/adsr_env.v` | 生成 0～65536 的包络电平 |
+| `rtl/synth/sample_gain.v` | 有符号音频乘包络，输出寄存一拍 |
+| `rtl/synth/voice_adsr.v` | 连接原有 `voice_dds`、包络和乘法 |
+| `verification/tb/synth/tb_adsr_env.v` | 包络阶段、边界和控制事件测试 |
+| `verification/tb/synth/tb_sample_gain.v` | 所有 16 位输入在七种增益下的检查 |
+| `verification/tb/synth/tb_voice_adsr.v` | 完整单声部逐周期样本/时序对照 |
 | `model/check_adsr.py` | 用分段直线与整数模型独立复核 RTL 轨迹 |
 
 ```text
@@ -118,7 +118,7 @@ retrigger ───────┘
 在 Transcript 输入（按本机仓库位置调整路径）：
 
 ```tcl
-source {C:/Users/Nanji/Documents/GitHub/FPGA/sim/run_adsr_env.do}
+source {C:/Users/Nanji/Documents/GitHub/FPGA/verification/scripts/run_adsr_env.do}
 ```
 
 先看 `gate`、`env_level`、`state`。默认实例使用上表参数；另外九组参数并行检查边界。预期完成后显示 `PASS: adsr_env duration checks`。脚本先显示默认实例的第一个完整包络，使用 Zoom Full 可看后面的控制测试。
@@ -126,7 +126,7 @@ source {C:/Users/Nanji/Documents/GitHub/FPGA/sim/run_adsr_env.do}
 再看连接 DDS 后的声音样本：
 
 ```tcl
-source {C:/Users/Nanji/Documents/GitHub/FPGA/sim/run_voice_adsr.do}
+source {C:/Users/Nanji/Documents/GitHub/FPGA/verification/scripts/run_voice_adsr.do}
 ```
 
 波形中 `env_level` 是音量外轮廓，`sample` 是乘包络之后的正负音频样本；`sample_valid` 标出真实输出。测试使用加速的采样请求，横轴仿真纳秒不等于实际板上包络毫秒；上表的实际时长按 48 kHz 换算。脚本会编译、加载、添加信号并运行，无需另建 ModelSim 工程。使用 `source`，不要替换为 `do`。
@@ -136,7 +136,7 @@ source {C:/Users/Nanji/Documents/GitHub/FPGA/sim/run_voice_adsr.do}
 在仓库根目录的 PowerShell 运行：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite ADSR -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite ADSR -ModelSimBin 'D:\modelsim1\win64'
 python model/check_adsr.py
 ```
 
@@ -156,7 +156,7 @@ python model/check_adsr.py
 
 v1 的原有记录保留在 PLAN.md 的 2026-09-30 条目中，v2 首次交付记录见 [10 月 1 日验证](a-adsr-validation.md)；上表为 10 月 3 日时序优化后的实际结果。
 
-日志在 `results/logs/tb_adsr_env.log`、`tb_sample_gain.log`、`tb_voice_adsr.log`；逐周期轨迹为 `adsr_trace.txt`，波形在 `results/waves/`。这些生成文件已忽略，不作为源码提交。
+日志在 `build/regression/logs/tb_adsr_env.log`、`tb_sample_gain.log`、`tb_voice_adsr.log`；逐周期轨迹为 `adsr_trace.txt`，波形在 `build/regression/waves/`。这些生成文件已忽略，不作为源码提交。
 
 ## 高云验证进展
 

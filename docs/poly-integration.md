@@ -43,18 +43,18 @@ KEY0复位、KEY1=C4、KEY2=E4，可两键同时演奏。仍是单一正弦音�
 在仓库根目录运行（其他电脑替换为实际工具路径）：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
 # 使用真实Python 3运行 model/check_dds.py、check_adsr.py、check_abc_demo.py、
 # check_poly_adsr.py、check_adsr_mix.py；Windows Store别名不能代替Python。
-Push-Location .\fpga_project
+Push-Location .\projects\examples\adsr
 & 'D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe' build_adsr_auto_demo.tcl
 & 'D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe' build_adsr_demo.tcl
 Pop-Location
-.\sim\save_adsr_evidence.ps1 -Destination 'results/自己的新证据目录'
+.\verification\scripts\save_adsr_evidence.ps1 -Destination 'build/regression/自己的新证据目录'
 ```
 
 保存前需另运行 `-Suite ADSRDemo -NegativeControl`，必须非零拒绝。两个高云构建共用工程配置，不并行运行，最后普通版保留顶层 `instrument_adsr_top`、输出名 `instrument_adsr`。
 
-新普通文件为 `fpga_project/impl/pnr/instrument_adsr.fs`，新自动文件为 `instrument_adsr_auto.fs`，本轮已于10月6日重新生成。证据、报告及源码／位流哈希见 [本轮记录](../results/poly-integration-20261006/README.md)。原10月2日两份位流和改动前文件已备份到该目录的 `rollback/`（本机忽略，不上传）；旧渐变版 `instrument_demo.fs` 未改。
+新普通文件为 `projects/examples/adsr/impl/pnr/instrument_adsr.fs`，新自动文件为 `instrument_adsr_auto.fs`，本轮已于10月6日重新生成。证据、报告及源码／位流哈希见 [本轮记录](../docs/reports/legacy/poly-integration-20261006/README.md)。原10月2日两份位流和改动前文件已备份到该目录的 `rollback/`（本机忽略，不上传）；旧渐变版 `instrument_demo.fs` 未改。
 
 下一步由组员按现有31004接线和低音量耳机方案试听普通版，覆盖单键、双键、长按、提前松键、释放中重按和复位。新版本尚未上板，下载成功也不等于这些行为验证通过。

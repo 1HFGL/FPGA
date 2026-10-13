@@ -1,0 +1,4 @@
+PASS: setup +5.177 ns; internal setup +6.776 ns; hold +0.143 ns; MPW +6.809 ns.
+PASS: 8 constrained pins; 5 active expected SDC commands; 9 mapped ROMs / 9216 exact words; lane-0 KEY2 selection and 128 LUT truth cases.
+Retained warning: PR1014; external DAC timing and on-board listening are outside this audit.
+Report: D:\Project\fpga_contest\build\regression\logs\presets_board_audit.json

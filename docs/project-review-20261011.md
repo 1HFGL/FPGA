@@ -1,5 +1,7 @@
 # 2026-10-11：队友同步、Verilog统一与整机审查
 
+> 2026-10-13路径维护：本页功能状态、资源／时序数字、日志与哈希仍对应原记录日期，不代表当前版本的新验收。可复用的主工程命令已改用新目录；新运行结果写入 `build/`，不覆盖历史证据。当前工程及完整验证入口见 [目录迁移说明](repository-layout.md) 与 [README](../README.md)。
+
 ## 结论与同步范围
 
 保留当前四声部UART钢琴作为主工程，接收A的新音色模块和独立演示，不把它们误当成已经完成16复音钢琴。当前50MHz有时序和资源余量，先修接口、保测试，再做音色与16声部的最小改造；不立即引入复杂分时调度、DDR或新时钟域。
@@ -26,11 +28,11 @@
 
 | 当前入口 | 用途与区别 |
 |---|---|
-| `fpga_project/uart_piano/uart_piano.gprj` | 主工程；四声部固定钢琴感预设，电脑演奏及两个板键 |
-| `fpga_project/uart_basic/uart_basic.gprj` | 同一控制通路的固定正弦基线 |
-| `fpga_project/fpga_project.gprj` | 无UART的板键/自动ADSR演示 |
-| `fpga_project/instruments_board/instruments_board.gprj` | 新增独立演示；KEY1弹C4、KEY2切换下一音的拨弦/弦乐预设；不是UART多音色整合版 |
-| `fpga_project/instruments_check/` | 新四声部核心的时序检查外壳，无板级引脚约束，不可直接上板 |
+| `projects/piano/uart_piano.gprj` | 主工程；四声部固定钢琴感预设，电脑演奏及两个板键 |
+| `projects/uart_basic/uart_basic.gprj` | 同一控制通路的固定正弦基线 |
+| `projects/examples/adsr/fpga_project.gprj` | 无UART的板键/自动ADSR演示 |
+| `projects/examples/instruments_board/instruments_board.gprj` | 新增独立演示；KEY1弹C4、KEY2切换下一音的拨弦/弦乐预设；不是UART多音色整合版 |
+| `projects/checks/instruments_check/` | 新四声部核心的时序检查外壳，无板级引脚约束，不可直接上板 |
 
 旧`voice_bank_adsr`请求R0→混音有效R3→B缓存R4；新`voice_bank_instruments`多一拍音色插值，请求R0→混音有效R4→缓存R5。以后替换核心应依靠`sample_valid`握手，并更新联合测试，不能套用固定R3断言。
 
@@ -41,9 +43,9 @@
 | 优先级 | 位置 | 发现与处理 |
 |---|---|---|
 | P1，已修复 | `rtl/instrument_uart_top.v`、`instrument_adsr_top.v` | A新增`voice_timbre`后旧调用悬空。固定预设入口显式接0；UART将未使用明亮表绑定同一ROM路径，避免新默认路径破坏EDA构建。现有音色及R3合同不变。 |
-| P1，已修复 | 三个原板级`.gprj`、`sim/run_tests.ps1` | 公共核心新增依赖但旧工程源清单缺失；补入`wave_lut_timbre.v`、`voice_timbre_adsr.v`。保留双方的测试套件。 |
+| P1，已修复 | 三个原板级`.gprj`、`verification/scripts/run_tests.ps1` | 公共核心新增依赖但旧工程源清单缺失；补入`wave_lut_timbre.v`、`voice_timbre_adsr.v`。保留双方的测试套件。 |
 | P2，已修复 | `sim/`、`tb/` | 原测试依赖SV；迁为Verilog，失败仍输出FAIL并终止，由脚本检查。115200测试取消无条件`final PASS`，仅所有检查成功才报成功。两类故障注入确认不会误报通过。 |
-| P1，待硬件/约束核实 | `fpga_project/uart_basic/uart_basic.sdc` | 20ns到引脚预算不是DAC的完整源同步建立/保持模型；PR1014时钟普通布线警告仍存在。已有正裕量不能称为完整外部时序签核。不能凭猜测更换时钟引脚。 |
+| P1，待硬件/约束核实 | `projects/uart_basic/uart_basic.sdc` | 20ns到引脚预算不是DAC的完整源同步建立/保持模型；PR1014时钟普通布线警告仍存在。已有正裕量不能称为完整外部时序签核。不能凭猜测更换时钟引脚。 |
 | P1，≤5ms目标缺口 | `rtl/instrument_uart_piano_top.v` | 默认250000拍消抖=5ms，随后还有同步、事件、帧等待和模拟输出。当前实体键通路不能据此宣称≤5ms；更改需结合实物抖动与重复触发测试，不能直接删消抖。 |
 | P2，规划缺口 | `rtl/voice_bank_adsr.v`、`sample_mixer4.v`、`uart_reply_tx.v` | 核心/混音固定4路，握手能力字段也写4；分配器单独改成16并不构成16复音实现。 |
 

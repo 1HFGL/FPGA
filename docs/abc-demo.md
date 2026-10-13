@@ -55,14 +55,14 @@ SDC 只有一个 20ns 主时钟。BCK 是输出信号，不在 FPGA 内当时钟
 从仓库根目录执行，ModelSim 路径换成自己的安装目录：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
+.\verification\scripts\run_tests.ps1 -Suite All -ModelSimBin 'C:\Library\modelsim\win64'
 python model/check_dds.py
 python model/check_abc_demo.py
 ```
 
 若 `python` 是 Windows Store 别名，请使用真实 Python 3 可执行文件。两份 Python 模型只做开发验证，不参与最终发声。
 
-高云 EDA 打开 `fpga_project/fpga_project.gprj`；默认普通键版。构建两版的准确命令见 `fpga_project/README.md`。不能只拷贝 `.gprj`，必须保留 RTL、ROM、boards 和工程配置的相对目录。
+高云 EDA 打开 `projects/examples/adsr/fpga_project.gprj`；默认普通键版。构建两版的准确命令见 `projects/README.md`。不能只拷贝 `.gprj`，必须保留 RTL、ROM、boards 和工程配置的相对目录。
 
 ## 实际验证记录（2026-09-30）
 
@@ -76,7 +76,7 @@ python model/check_abc_demo.py
 - 普通版报告内部 Fmax 110.689MHz，自动版 94.232MHz，均按 50MHz 构建；不用于宣称实测性能。
 - `NL0002`：未使用压力/测试/按键模块按模式被优化，符合本 demo 范围；`PR1014`：V22 非专用时钟输入使用通用路由连接全局时钟，保留告警。报告显示核心使用一个 PRIMARY；完整硬件时钟可靠性与外部 DAC 时序尚未签核。
 
-证据存于 `results/abc-demo-20260930/`：源文件/约束/下载文件 SHA256、原始布局布线与时序报告、14 项日志和混音 trace。大体积 `.fs` 可在本机生成，不提交工具工作库；旧 A+B/C 工程文件仅作历史参考。
+证据存于 `docs/reports/legacy/abc-demo-20260930/`：源文件/约束/下载文件 SHA256、原始布局布线与时序报告、14 项日志和混音 trace。大体积 `.fs` 可在本机生成，不提交工具工作库；旧 A+B/C 工程文件仅作历史参考。
 
 ## 上板最小实验
 

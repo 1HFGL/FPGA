@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "D:\Project\fpga_contest\model\check_presets_board.py", line 64, in <module>
+    assert sample_ce[0] != 'constant' and sample_ce != clock_net, 'Invalid sample request source'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Invalid sample request source

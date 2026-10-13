@@ -35,14 +35,14 @@ Strings h=1..8: 16,6,3,2,2,1,1,1
 
 新模块的职责：
 
-- `rtl/instrument_env.v`：两个预设共用一个包络状态，从当前幅度重新起音或释放。
-- `rtl/instrument_wave.v`：同步读取正弦、拨弦、弦乐波表，并选择本声部的乐器。
-- `rtl/voice_instrument.v`：独立相位、事件锁存、亮度进程、ADSR 乘法。
-- `rtl/voice_bank_instruments.v`：四个独立声部、力度快照、饱和混音、释放反馈。
+- `rtl/synth/instrument_env.v`：两个预设共用一个包络状态，从当前幅度重新起音或释放。
+- `rtl/synth/instrument_wave.v`：同步读取正弦、拨弦、弦乐波表，并选择本声部的乐器。
+- `rtl/synth/voice_instrument.v`：独立相位、事件锁存、亮度进程、ADSR 乘法。
+- `rtl/synth/voice_bank_instruments.v`：四个独立声部、力度快照、饱和混音、释放反馈。
 
-依赖原有 `phase_acc.v`、`wave_lut.v`、`sample_gain.v`、`sample_mixer4.v`、`note_phase_lut.v`，以及 `rtl/rom/sine_1024.mem`、`guitar_1024.mem`、`strings_1024.mem`。不要把 `sim/` 或 `tb/` 的测试平台加入高云综合。
+依赖原有 `phase_acc.v`、`wave_lut.v`、`sample_gain.v`、`sample_mixer4.v`、`note_phase_lut.v`，以及 `rtl/rom/sine_1024.mem`、`guitar_1024.mem`、`strings_1024.mem`。不要把 `verification/tb/` 或 `upstream/` 中的测试平台加入高云综合。
 
-独立高云验证工程为 `fpga_project/instruments_check/instruments_check.gprj`。顶层是 `voice_bank_instruments_timing_top`，使用实际 GW5AT-LV60PG484AC1/I0 器件与 20 ns 时钟约束，在核心前后注册同步接口。工程脚本从自身路径定位仓库，避免绝对 ROM 路径。
+独立高云验证工程为 `projects/checks/instruments_check/instruments_check.gprj`。顶层是 `voice_bank_instruments_timing_top`，使用实际 GW5AT-LV60PG484AC1/I0 器件与 20 ns 时钟约束，在核心前后注册同步接口。工程脚本从自身路径定位仓库，避免绝对 ROM 路径。
 
 这个外壳用于验证模块间寄存器路径；没有板级 CST，**不能直接下载到板卡**。B 集成到实际顶层后，仍须重新跑整机综合、布局布线、约束覆盖与音频链路测试。
 
@@ -82,14 +82,14 @@ assign voice_instrument[3] = (voice_timbre_flat[15:12] == 4'd1);
 在仓库根目录 PowerShell 运行：
 
 ```powershell
-.\sim\run_tests.ps1 -Suite Instruments -ModelSimBin 'D:\modelsim1\win64'
+.\verification\scripts\run_tests.ps1 -Suite Instruments -ModelSimBin 'D:\modelsim1\win64'
 python model/gen_instrument_roms.py --check
 python model/check_instrument_roms.py
 python model/check_instrument_bank.py
-python model/render_instrument_preview.py --capture results/logs/instrument_preview.csv --out-dir results/audio --report results/logs/instrument_preview_report.json
+python model/render_instrument_preview.py --capture build/regression/logs/instrument_preview.csv --out-dir docs/reports/legacy/audio --report build/regression/logs/instrument_preview_report.json
 ```
 
-2026-10-11集成后，`-Suite Instruments` 为3个测试平台，`A`为15个，`All`为34个；UART和钢琴另有独立入口。全部有效测试使用Verilog-2001。ModelSim图形界面用 `source {仓库完整路径/sim/run_instruments.tcl}`，显示包络、亮度、已采纳乐器和混音输出。历史验证数量见下文，不与本次结果混用。
+2026-10-11集成后，`-Suite Instruments` 为3个测试平台，`A`为15个，`All`为34个；UART和钢琴另有独立入口。全部有效测试使用Verilog-2001。ModelSim图形界面用 `source {仓库完整路径/verification/scripts/run_instruments.tcl}`，显示包络、亮度、已采纳乐器和混音输出。历史验证数量见下文，不与本次结果混用。
 
 试听取自实际 RTL：两个 A4 长音各 2 秒，以及相同 C4/D4/E4/G4/C5 旋律各 2.5 秒，共 432000 点。Python 使用独立公式逐样本核对后才写 WAV，不用 Python 合成音频替代 RTL。为比较音色，每个预设使用一个固定播放增益，使两段旋律 RMS 对齐；该增益同时用于对应长音，不改变 FPGA 的音量逻辑。报告保存原始样本幅度、播放增益与峰值，WAV 是仿真试听，不是板卡录音。
 
