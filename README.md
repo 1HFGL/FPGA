@@ -1,6 +1,8 @@
 # 高云 FPGA 电子钢琴
 
-更新日期：2026-10-12。当前阶段是把已有的四声部演示升级为更接近真实钢琴的桌面乐器，不代表完整赛题已经验收。
+更新日期：2026-10-13。当前阶段是把已有的四声部演示升级为更接近真实钢琴的桌面乐器，不代表完整赛题已经验收。
+
+新增 [800×480中文RGB显示核心](docs/display-rgb.md)：钢琴/吉他标题、13键高亮、音量/弯音/音区/延音、实时波形。六项显示仿真、负向检查及高云综合通过，[预览与证据](docs/reports/display-20261013/README.md)。屏幕型号与引脚未定，暂未接入主音频顶层，不能直接下载显示工程。
 
 已合入C的新分支 `origin/codex/c-input-stages-20261012`（`dbbc31f`、`288ca4d`）：ADS1115双旋钮修复及2ms按键消抖。主工程各层默认消抖同步为100000周期（50MHz下2ms）；保留主工程已修复的声部分配器。队友独立工程和tb原样保留，新工程不是根目录主钢琴顶层的替代品。本轮证据与未完成项见 [10月12日同步记录](docs/sync-20261012.md)。
 
@@ -26,6 +28,8 @@
 
 本阶段不做触摸演奏、压力检测、触摸位置力度映射、第二音色、电子鼓、混响或频谱分析。第二音色只是延期，不是宣布单一钢琴音色已完成整个多音色赛题。
 
+2026-10-13用户已确定第二音色为吉他；本轮仅增加其中文显示状态，正式音色接入另行安排。
+
 实体键为正式演奏方案，保留和弦、两旋钮、八度、延音和屏幕反馈；触摸跟踪／滑奏记“不适用”。功能键数量和分配另行确认，不默认多买按钮。
 
 完整行为、职责、验收和未定事项见 [PLAN.md](PLAN.md)。
@@ -38,6 +42,7 @@
 | 演奏入口 | UART电脑演奏＋板上两个演奏键；KEY0复位、KEY1=C4、KEY2=E4 |
 | UART控制 | 已有握手、音符按下／松开、状态、PC来源取消和失联回收；不是可实时调音的固件 |
 | 合成与输出 | 相位、包络、混音在FPGA内完成；现有工程50MHz系统时钟、目标48kHz、16位输出 |
+| 独立显示核心 | 中文RGB800×480、13键/状态/波形，独立仿真与综合通过，板级接入待完成 |
 | 尚未接入主工程 | 13键、16复音、显示绘制、旋钮采集与全局弯音、延音和八度；C独立目录已有ADS1115采集修复 |
 | 实物证据 | 用户曾确认早期demo耳机可发简单电子音；不能据此认定最新UART钢琴版已实物验收 |
 | 延迟与时序 | 整机延迟未测；PR1014和DAC外部时序模型仍有待解决事项 |
@@ -54,6 +59,7 @@
 | UART固定正弦基线 | [uart_basic.gprj](fpga_project/uart_basic/uart_basic.gprj) | `instrument_uart_top`／`instrument_uart.fs` |
 | 无UART的板上两键版 | [fpga_project.gprj](fpga_project/fpga_project.gprj) | `instrument_adsr_top`／`instrument_adsr.fs` |
 | 队友双乐器独立试听 | [instruments_board.gprj](fpga_project/instruments_board/instruments_board.gprj) | `instrument_presets_top`／`instruments_board.fs`；KEY2切换预设，不是主钢琴工程 |
+| 中文显示独立检查 | [display_rgb.gprj](fpga_project/display_rgb/display_rgb.gprj) | `instrument_display`；仅综合，无板级引脚/PLL/位流 |
 
 各位流位于对应工程的 `impl/pnr/`，不能混用。具体构建、哈希核对及试听步骤分别见 [钢琴候选](fpga_project/uart_piano/README.md)、[UART基线](fpga_project/uart_basic/README.md)、[两键版](fpga_project/README.md)。
 

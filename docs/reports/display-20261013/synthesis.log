@@ -1,0 +1,40 @@
+*** GOWIN Tcl Command Line Console  *** 
+Open project D:/Project/fpga_contest/fpga_project/display_rgb/display_rgb.gprj finished
+GowinSynthesis start
+Running parser ...
+Analyzing Verilog file 'D:\Project\fpga_contest\rtl\display_cdc_latest.v'
+Analyzing Verilog file 'D:\Project\fpga_contest\rtl\lcd_rgb_timing.v'
+Analyzing Verilog file 'D:\Project\fpga_contest\rtl\display_wave_buffer.v'
+Analyzing Verilog file 'D:\Project\fpga_contest\rtl\display_font24.v'
+Analyzing Verilog file 'D:\Project\fpga_contest\rtl\piano_display_renderer.v'
+Analyzing Verilog file 'D:\Project\fpga_contest\rtl\instrument_display.v'
+Compiling module 'instrument_display'("D:\Project\fpga_contest\rtl\instrument_display.v":5)
+Compiling module 'display_cdc_latest(WIDTH=40)'("D:\Project\fpga_contest\rtl\display_cdc_latest.v":5)
+Compiling module 'display_cdc_latest'("D:\Project\fpga_contest\rtl\display_cdc_latest.v":5)
+Compiling module 'lcd_rgb_timing'("D:\Project\fpga_contest\rtl\lcd_rgb_timing.v":4)
+Compiling module 'display_wave_buffer'("D:\Project\fpga_contest\rtl\display_wave_buffer.v":5)
+Extracting RAM for identifier 'memory'("D:\Project\fpga_contest\rtl\display_wave_buffer.v":14)
+Compiling module 'piano_display_renderer'("D:\Project\fpga_contest\rtl\piano_display_renderer.v":4)
+Compiling module 'display_font24'("D:\Project\fpga_contest\rtl\display_font24.v":5)
+NOTE  (EX0101) : Current top module is "instrument_display"
+[5%] Running netlist conversion ...
+WARN  (CV0020) : Input pitch_bend[7:0] is unused("D:\Project\fpga_contest\rtl\instrument_display.v":14)
+Running device independent optimization ...
+[10%] Optimizing Phase 0 completed
+[15%] Optimizing Phase 1 completed
+[25%] Optimizing Phase 2 completed
+Running inference ...
+[30%] Inferring Phase 0 completed
+[40%] Inferring Phase 1 completed
+[50%] Inferring Phase 2 completed
+[55%] Inferring Phase 3 completed
+Running technical mapping ...
+[60%] Tech-Mapping Phase 0 completed
+[65%] Tech-Mapping Phase 1 completed
+[75%] Tech-Mapping Phase 2 completed
+[80%] Tech-Mapping Phase 3 completed
+[90%] Tech-Mapping Phase 4 completed
+[95%] Generate netlist file "D:\Project\fpga_contest\fpga_project\display_rgb\impl\gwsynthesis\display_rgb.vg" completed
+[100%] Generate report file "D:\Project\fpga_contest\fpga_project\display_rgb\impl\gwsynthesis\display_rgb_syn.rpt.html" completed
+GowinSynthesis finish
+PASS display RTL synthesis only; no board timing or hardware claim.
