@@ -1,16 +1,16 @@
 # 高云 FPGA 电子钢琴
 
-当前可运行的是 **四声部固定钢琴近似音色**：KEY1=C4、KEY2=E4，KEY0复位；支持UART电脑演奏。正式目标为13实体琴键＋两个旋钮＋纯显示屏、16复音，尚未全部接入。第二音色选吉他，不做触摸演奏。
+当前可运行的是 **四声部固定钢琴近似音色**：KEY1=C4、KEY2=E4，KEY0复位；支持UART电脑演奏。2026-10-13更新目标为13实体琴键＋13个屏幕虚拟琴键＋两个旋钮，共享16复音；实体与触摸两条演奏通路分别测量延迟。第二音色选吉他。触摸方案已确认，但驱动、屏幕型号及双入口集成尚未实现。
 
 ## 工程入口
 
 | 入口 | 用途 |
 | --- | --- |
 | [projects/piano/uart_piano.gprj](projects/piano/uart_piano.gprj) | **主工程**，顶层 `instrument_uart_piano_top` |
-| [projects/display/display_rgb.gprj](projects/display/display_rgb.gprj) | 800×480中文RGB显示，仅独立综合，未定屏幕/引脚 |
+| [projects/display/display_rgb.gprj](projects/display/display_rgb.gprj) | 800×480中文RGB显示核心，仅独立综合；触摸输入待新增，未定屏幕/引脚 |
 | [projects/examples/instruments_board](projects/examples/instruments_board/) | A的新吉他/弦乐试听，尚未合入主钢琴，不是钢琴旧版本 |
 | [projects/checks](projects/checks/) | 当前合成核心的独立时序检查，不用于下载 |
-| [upstream/fpga_interaction](upstream/fpga_interaction/) | 用户明确保留的C最新独立工程：按键、旋钮、声部分配 |
+| [upstream/fpga_interaction](upstream/fpga_interaction/) | 用户明确保留的C最新独立工程：按键、旋钮、声部分配，不代表已支持屏幕触摸 |
 | [host/README.md](host/README.md) | 电脑音色设计台与串口演奏 |
 
 ```text
@@ -42,7 +42,7 @@ build/               本次生成的日志和波形，不提交
 
 上板先用已确认的SRAM Program、低音量耳机测试，不自动写Flash。预期KEY1/KEY2能发声；按住时约1.202秒衰减至零，提前松键约180ms收尾。PC与板键共享四声部，满载会抢占；串口默认115200/8N1。PT8211-S使用LSBJ右对齐格式，不因模块名 `i2s_tx` 就称为标准Philips I2S，赛题接口口径尚需确认。
 
-显示工程没有PLL、CST或可下载位流，不能直接按主工程方式下载。
+显示工程没有PLL、CST或可下载位流，不能直接按主工程方式下载。显示刷新与触摸采集是两条不同通路；已有琴键图形不是触摸驱动。双入口均以整机≤10ms为基础目标、≤5ms优先争取，分别验证，不用实体键数据替触摸达标。
 
 ## 当前文档
 
