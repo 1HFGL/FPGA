@@ -32,7 +32,7 @@
         <File path="../../rtl/audio/i2s_tx.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/audio/sample_tick.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/audio/synth_top.v" type="file.verilog" enable="1"/>
-        <File path="../uart_basic/uart_basic.cst" type="file.cst" enable="1"/>
-        <File path="../uart_basic/uart_basic.sdc" type="file.sdc" enable="1"/>
+        <File path="../../boards/tang_mega_60k_31004/piano.cst" type="file.cst" enable="1"/>
+        <File path="../../boards/tang_mega_60k_31004/piano.sdc" type="file.sdc" enable="1"/>
     </FileList>
 </Project>

@@ -1,2 +1,0 @@
-PASS Python ADSR reference: 162085 clocks, 47734 samples, 14 resets, all 5 states; A/D/R = 96/24000/5760 samples.
-PASS Python reference: 1024 ROM entries, 4810 RTL samples, 6 reset records.

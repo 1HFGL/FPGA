@@ -1,3 +1,0 @@
-PASS negative one_lsb: ValueError: Line 103, probe/guitar[101]: actual -609, expected -610; no preview artifacts written.
-PASS negative index_gap: ValueError: Line 103: unordered, missing, duplicate or extra index 102 in ('probe', 0); no preview artifacts written.
-PASS negative truncated: ValueError: melody/strings incomplete: 119993/120000; no preview artifacts written.

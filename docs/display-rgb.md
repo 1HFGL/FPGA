@@ -92,7 +92,7 @@ python verification/scripts/render_display_frame.py build/regression/display/pia
 python verification/scripts/render_display_frame.py build/regression/display/guitar_frame.hex build/regression/display/guitar.png
 ```
 
-在高云EDA打开 `projects/display/display_rgb.gprj`，顶层为 `instrument_display`。只有综合检查，无CST/板级SDC，不生成可下载文件。[本轮证据与预览](reports/display-20261013/README.md)。
+在高云EDA打开 `projects/display/display_rgb.gprj`，顶层为 `instrument_display`。只有综合检查，无CST/板级SDC，不生成可下载文件。[验证方法与历史证据](verification.md)。
 
 ## 5. 接入与学习下一步
 

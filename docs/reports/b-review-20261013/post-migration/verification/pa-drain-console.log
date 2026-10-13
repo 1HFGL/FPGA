@@ -1,4 +1,0 @@
-PASS tb_uart_pa_drain lead=0 short=1
-PASS tb_uart_pa_drain lead=0 short=0
-PASS tb_uart_pa_drain lead=2 short=1
-PASS tb_uart_pa_drain lead=2 short=0

@@ -1,4 +1,0 @@
-PASS negative sample: rejected negative_sample.txt clock 26: actual=(164, 1, 0, 15, 0, 1, 8192, 8192, 8192, 8192, 10), expected=(165, 1, 0, 15, 0, 1, 8192, 8192, 8192, 8192, 10)
-PASS negative adopted: rejected negative_adopted.txt clock 26: actual=(165, 1, 0, 15, 0, 1, 8192, 8192, 8192, 8192, 11), expected=(165, 1, 0, 15, 0, 1, 8192, 8192, 8192, 8192, 10)
-PASS negative valid: rejected negative_valid.txt clock 26: actual=(165, 0, 0, 15, 0, 1, 8192, 8192, 8192, 8192, 10), expected=(165, 1, 0, 15, 0, 1, 8192, 8192, 8192, 8192, 10)
-PASS negative truncate: rejected Incomplete trace: None, expected '# completed clocks=999 samples=249 resets=2'

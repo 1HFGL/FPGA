@@ -1,9 +1,0 @@
-PASS probe/guitar: 96000 bit-exact RTL samples, request metadata, completed release silence.
-PASS probe/strings: 96000 bit-exact RTL samples, request metadata, completed release silence.
-PASS melody/guitar: 120000 bit-exact RTL samples, request metadata, completed release silence.
-PASS melody/strings: 120000 bit-exact RTL samples, request metadata, completed release silence.
-PASS guitar brightness: Hann-window H2/H1 0.448934 early -> 0.031216 late.
-PASS strings sustain: H2/H1=0.187439, held/late RMS=1.000000.
-PASS preview normalization: common melody RMS target 2000.000000; guitar gain x8.441861, strings gain x7.917686; peak <= 28000.
-PASS instrument preview WAVs: 432000 exact RTL samples; mono PCM16 / 48000 Hz; no clipping.
-Scope: mathematical and simulated audio evidence only; hardware and subjective listening remain separate checks.

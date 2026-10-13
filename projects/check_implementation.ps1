@@ -1,15 +1,11 @@
 ﻿[CmdletBinding()]
-param([ValidateSet('Examples','Checks','Instruments','All')][string]$Group='All',
+param([ValidateSet('Checks','Instruments','All')][string]$Group='All',
     [string]$Gowin='D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe',
     [string]$EvidenceDirectory='build/implementation-matrix')
 $ErrorActionPreference='Stop'
 $root=Split-Path -Parent $PSScriptRoot
 if(-not(Test-Path -LiteralPath $Gowin)){throw "Missing Gowin: $Gowin"}
 $jobs=@(@(
-    @('Examples','examples/adsr','build_demo.tcl','fpga_project.gprj','instrument_demo'),
-    @('Examples','examples/adsr','build_auto_demo.tcl','fpga_project.gprj','instrument_demo_auto'),
-    @('Examples','examples/adsr','build_adsr_auto_demo.tcl','fpga_project.gprj','instrument_adsr_auto'),
-    @('Examples','examples/adsr','build_adsr_demo.tcl','fpga_project.gprj','instrument_adsr'),
     @('Checks','checks/poly_adsr_check','run.tcl','poly_adsr_check.gprj','poly_adsr_check'),
     @('Checks','checks/instruments_check','run.tcl','instruments_check.gprj','instruments_check'),
     @('Instruments','examples/instruments_board','run.tcl','instruments_board.gprj','instruments_board')
@@ -19,12 +15,6 @@ if(-not $evidence.StartsWith($root+[IO.Path]::DirectorySeparatorChar,[StringComp
     throw 'EvidenceDirectory must be inside the repository'
 }
 New-Item -ItemType Directory -Path $evidence -Force | Out-Null
-# 四种旧演示共享一份工程，逐个执行；保全原受跟踪的impl配置并在最后恢复。
-$savedConfig=Join-Path $evidence 'adsr_impl_config_before.json'
-$adsrConfig=Join-Path $PSScriptRoot 'examples/adsr/impl/fpga_project_process_config.json'
-$restore=($Group -in @('All','Examples')) -and (Test-Path -LiteralPath $adsrConfig)
-if($restore){Copy-Item -LiteralPath $adsrConfig -Destination $savedConfig}
-try {
     foreach($job in $jobs){
         $dir=Join-Path $PSScriptRoot $job[1]; $name=$job[4]
         $out=Join-Path $evidence $name
@@ -81,6 +71,3 @@ try {
             Set-Content -LiteralPath "$out/artifact.txt" -Encoding utf8
         Write-Output "PASS implementation $name"
     }
-}finally{
-    if($restore){Copy-Item -LiteralPath $savedConfig -Destination $adsrConfig}
-}

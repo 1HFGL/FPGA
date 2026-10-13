@@ -1,7 +1,0 @@
-Missing Verilog source: D:\Project\fpga_contest\rtl\audio\definitely_missing.v
-At D:\Project\fpga_contest\verification\scripts\run_modelsim.ps1:32 char:48
-+ ... Test-Path -LiteralPath $path)){throw "Missing Verilog source: $path"}
-+                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : OperationStopped: (Missing Verilog...itely_missing.v:String) [], RuntimeException
-    + FullyQualifiedErrorId : Missing Verilog source: D:\Project\fpga_contest\rtl\audio\definitely_missing.v
- 

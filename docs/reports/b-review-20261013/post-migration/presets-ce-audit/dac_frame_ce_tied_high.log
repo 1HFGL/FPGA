@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "D:\Project\fpga_contest\model\check_presets_board.py", line 74, in <module>
-    assert scalar_net(serial_path, pins['CE']) == sample_ce, ('DAC frame CE mismatch', inst)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: ('DAC frame CE mismatch', 'active_sample_15_s0')

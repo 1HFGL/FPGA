@@ -1,5 +1,0 @@
-Exception: D:\Project\fpga_contest\projects\check_implementation.ps1:7
-Line |
-   7 |  … f(-not(Test-Path -LiteralPath $Gowin)){throw "Missing Gowin: $Gowin"}
-     |                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     | Missing Gowin: D:/Project/fpga_contest/build/nonexistent-gw_sh.exe

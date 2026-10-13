@@ -1,127 +1,55 @@
 # 高云 FPGA 电子钢琴
 
-更新日期：2026-10-13。当前阶段是把已有的四声部演示升级为更接近真实钢琴的桌面乐器，不代表完整赛题已经验收。
+当前可运行的是 **四声部固定钢琴近似音色**：KEY1=C4、KEY2=E4，KEY0复位；支持UART电脑演奏。正式目标为13实体琴键＋两个旋钮＋纯显示屏、16复音，尚未全部接入。第二音色选吉他，不做触摸演奏。
 
-本轮已修复尾音功放提前关闭，将主钢琴数字通路最大观测延迟减少约20.18µs，并完成目录重整与迁后回归。主工程入口现为`projects/piano/uart_piano.gprj`；高云重新实现5927逻辑、2710寄存器，现有约束setup/hold +5.891/+0.127ns。实物整机延迟仍待测，详见[B通路与迁移完成记录](docs/reports/b-review-20261013/completion.md)。
+## 工程入口
 
-新增 [800×480中文RGB显示核心](docs/display-rgb.md)：钢琴/吉他标题、13键高亮、音量/弯音/音区/延音、实时波形。六项显示仿真、负向检查及高云综合通过，[预览与证据](docs/reports/display-20261013/README.md)。屏幕型号与引脚未定，暂未接入主音频顶层，不能直接下载显示工程。
-
-已合入C的新分支 `origin/codex/c-input-stages-20261012`（`dbbc31f`、`288ca4d`）：ADS1115双旋钮修复及2ms按键消抖。主工程各层默认消抖同步为100000周期（50MHz下2ms）；保留主工程已修复的声部分配器。队友独立工程和tb原样保留，新工程不是根目录主钢琴顶层的替代品。本轮证据与未完成项见 [10月12日同步记录](docs/sync-20261012.md)。
-
-**先交付钢琴：13个实体琴键＋两个旋钮＋纯显示屏，目标16复音，整机延迟≤10ms，优先争取≤5ms。** 2026-10-12用户确认取消触摸演奏；屏幕只显示琴键、参数和波形。
-
-## 1. 已确认的本阶段目标
-
-| 项目 | 约定 |
-|---|---|
-| 演奏方式 | 一只手演奏旋律或三四音和弦，另一只手操作旋钮；桌面型，优先琴键大小和操作舒适 |
-| 琴键与音域 | 13个实体琴键；低／中／高三档覆盖C3～C6，显示对应琴键状态 |
-| 复音 | 16个同时发声的声部，包含延音尾音；32复音留作后续拓展 |
-| 钢琴音色 | 必须明显接近真实钢琴；以用户认可的Steinway Model B录音为参考，先验收不加混响的声音 |
-| 力度与旋钮 | 每音固定起音力度；旋钮1调总音量，旋钮2连续弯音±2半音，中间为原音高 |
-| 弯音范围 | 影响全部正在发声的音、延音尾音以及后续新音 |
-| 延音 | 默认关闭；改用实体功能键或上位机控制，具体分配待定；屏幕显示状态 |
-| 滑奏 | 触摸滑奏取消；实体琴键按下／松开独立产生音符事件 |
-| 八度切换 | 已有声音保持原音高，新触发的音使用新档位；弯音仍全局生效 |
-| 屏幕反馈 | 琴键高亮、音量／弯音／八度／延音状态、FPGA生成的简易实时波形 |
-| 上位机 | 保留电脑演奏和状态查看；音色先用固件预设，不要求实时调音协议 |
-| 输出与测量 | 现有耳机调音，现场用有线有源音箱；用户确认可借学校双通道示波器 |
-| 预算 | 先确定满足要求的硬件，再决定预算；不再把原200元作为硬上限 |
-
-本阶段不做触摸演奏、压力检测、触摸位置力度映射、第二音色、电子鼓、混响或频谱分析。第二音色只是延期，不是宣布单一钢琴音色已完成整个多音色赛题。
-
-2026-10-13用户已确定第二音色为吉他；本轮仅增加其中文显示状态，正式音色接入另行安排。
-
-实体键为正式演奏方案，保留和弦、两旋钮、八度、延音和屏幕反馈；触摸跟踪／滑奏记“不适用”。功能键数量和分配另行确认，不默认多买按钮。
-
-完整行为、职责、验收和未定事项见 [PLAN.md](PLAN.md)。
-
-## 2. 当前代码实际能做什么
-
-| 能力 | 当前事实，不是目标 |
-|---|---|
-| 固定钢琴感候选 | 原创1024点、8谐波单周期表＋线性ADSR；四声部，尚未达到本次真实感目标 |
-| 演奏入口 | UART电脑演奏＋板上两个演奏键；KEY0复位、KEY1=C4、KEY2=E4 |
-| UART控制 | 已有握手、音符按下／松开、状态、PC来源取消和失联回收；不是可实时调音的固件 |
-| 合成与输出 | 相位、包络、混音在FPGA内完成；现有工程50MHz系统时钟、目标48kHz、16位输出 |
-| 独立显示核心 | 中文RGB800×480、13键/状态/波形，独立仿真与综合通过，板级接入待完成 |
-| 尚未接入主工程 | 13键、16复音、显示绘制、旋钮采集与全局弯音、延音和八度；C独立目录已有ADS1115采集修复 |
-| 实物证据 | 用户曾确认早期demo耳机可发简单电子音；不能据此认定最新UART钢琴版已实物验收 |
-| 延迟与时序 | 整机延迟未测；PR1014和DAC外部时序模型仍有待解决事项 |
-
-2026-10-08的钢琴候选记录了功能仿真、综合、布局布线和位流生成通过：5142 LUT、2710寄存器、4 BSRAM、8 DSP；现有约束下Setup/Hold裕量+6.237/+0.223ns。**这些是旧版四声部的历史结果，不是16复音新方案的资源保证，也不是本次重写文档重新运行的测试。** 详见 [候选工程及验证说明](projects/piano/README.md)。
-
-板载PT8211-S实际采用LSBJ右对齐格式，不能因模块名为 `i2s_tx` 就认定为标准Philips I2S；与赛题接口要求的符合性仍需确认。
-
-## 3. 工程怎么打开
-
-| 用途 | 高云EDA工程 | 顶层／输出 |
-|---|---|---|
-| 当前固定钢琴感候选 | [uart_piano.gprj](projects/piano/uart_piano.gprj) | `instrument_uart_piano_top`／`instrument_uart_piano.fs` |
-| UART固定正弦基线 | [uart_basic.gprj](projects/uart_basic/uart_basic.gprj) | `instrument_uart_top`／`instrument_uart.fs` |
-| 无UART的板上两键版 | [fpga_project.gprj](projects/examples/adsr/fpga_project.gprj) | `instrument_adsr_top`／`instrument_adsr.fs` |
-| 队友双乐器独立试听 | [instruments_board.gprj](projects/examples/instruments_board/instruments_board.gprj) | `instrument_presets_top`／`instruments_board.fs`；KEY2切换预设，不是主钢琴工程 |
-| 中文显示独立检查 | [display_rgb.gprj](projects/display/display_rgb.gprj) | `instrument_display`；仅综合，无板级引脚/PLL/位流 |
-
-各位流位于对应工程的 `impl/pnr/`，不能混用。具体构建、哈希核对及试听步骤分别见 [钢琴候选](projects/piano/README.md)、[UART基线](projects/uart_basic/README.md)、[两键版](projects/README.md)。
-
-`fpga_contest/`是仓库，当前主钢琴EDA入口在`projects/piano/`，旧两键例程在`projects/examples/adsr/`。公共RTL按职责分组，仿真入口统一在`verification/scripts/`。
+| 入口 | 用途 |
+| --- | --- |
+| [projects/piano/uart_piano.gprj](projects/piano/uart_piano.gprj) | **主工程**，顶层 `instrument_uart_piano_top` |
+| [projects/display/display_rgb.gprj](projects/display/display_rgb.gprj) | 800×480中文RGB显示，仅独立综合，未定屏幕/引脚 |
+| [projects/examples/instruments_board](projects/examples/instruments_board/) | A的新吉他/弦乐试听，尚未合入主钢琴，不是钢琴旧版本 |
+| [projects/checks](projects/checks/) | 当前合成核心的独立时序检查，不用于下载 |
+| [upstream/fpga_interaction](upstream/fpga_interaction/) | 用户明确保留的C最新独立工程：按键、旋钮、声部分配 |
+| [host/README.md](host/README.md) | 电脑音色设计台与串口演奏 |
 
 ```text
-rtl/                 audio、display、synth、control、common、top、rom
-projects/            piano、uart_basic、display、examples、checks、legacy
-verification/        tb（按职责分类）、scripts（编译与验证入口）
-upstream/            四个队友工程原样快照，单独编译，不混入主工程
-host/                电脑上位机及预设
-model/               Python参考模型
-boards/              已核对的板级约束
-docs/                接口、资料、报告和历史记录
-build/               新输出和迁移前保留的旧输出，默认不提交
+rtl/                 当前公共源码：audio、control、synth、display、top、rom
+projects/            当前高云工程及必要process配置
+boards/              当前主钢琴的引脚与时序约束
+verification/        当前功能的Verilog测试与运行脚本
+upstream/            仅C正在开发的独立工程，不与主工程混编
+host/、model/        上位机、参考模型及波表生成/检查
+docs/                必要说明、原始赛题资料与许可证
+build/               本次生成的日志和波形，不提交
 ```
 
-`upstream/fpga_interaction/`是C独立工程，`upstream/fpga_a/`、`upstream/fpga_b/`是其联合仿真依赖，`upstream/fpga_ab_sim/`是独立验证外壳；兄弟关系和所有字节均保留。同名模块可能接口不同，不能与主工程混编。旧报告中的路径保持历史原文，位置对应关系见[目录迁移说明](docs/repository-layout.md)。
+旧 `adsr_voice_bank.v` 与 `demo_voice_bank.v` 已删除，**当前钢琴只用 `voice_bank_adsr.v`**。`adsr_env.v` 负责包络，`voice_timbre_adsr.v` 负责一个声部，`voice_bank_adsr.v` 组织四个声部；职责不同，不是三份旧版本。新吉他/弦乐算法暂作独立开发。
 
-## 4. 三人分工
+主工程与C工程仍有少量同名模块：它们是两个当前开发入口的不同接口实现，不能混编或直接互相覆盖；用户选择保留C独立工程。清理没有改C的RTL、TB或脚本。
 
-| 成员 | 已确认职责 | 主要交付 |
-|---|---|---|
-| A | 钢琴音色、16声部合成、参数平滑和混音 | RTL、波表／模型来源、逐样本参考、音色对比和资源评估 |
-| B（你） | 屏幕显示、音频输出、顶层集成、约束与时序 | 显示逻辑、音频合同、可构建工程、接线表和联合测试 |
-| C | 实体按键／旋钮采集、演奏事件、延音控制和声部分配 | 驱动、音符映射、来源跟踪、16声部分配及输入测试 |
+## 构建与上板
 
-公共接口和实物联调由三人共同完成，不把全部调试交给B。具体模块映射和边界见 [详细分工](PLAN.md#5-分工与代码改造清单)。
+本机工具：Gowin `D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe`；ModelSim `C:/Library/modelsim/win64`。换电脑请覆盖脚本的工具路径参数。
 
-## 5. 硬件状态与选型边界
+```powershell
+./verification/scripts/check_verilog.ps1
+./verification/scripts/run_piano_tests.ps1
+./projects/piano/build.ps1
+```
 
-- 已持有：Tang Mega 60K／NEO Dock 31004板卡、耳机。
-- 已确认购买：13个按键模块；具体到货、尺寸、接头和极性仍需核对。用于正式演奏与调试，见 [实体键装配](docs/keyboard-assembly.md)。
-- 待选：7寸纯显示屏，优先RGB接口；无需触摸功能或200Hz触摸报告率，仍需核对电源、电平、引脚和显示时序。
-- 两个实体旋钮是确定需求；此前讨论的B10K模块、ADS1115仅为候选，实物和采集性能未确认。
-- 有线有源音箱与示波器：当前PLAN记录为已有；具体接口、探头与接法仍需核对。
-- 优先已焊接头的成品模块。上拉、去耦、电平和供电未核对前，不把“无需额外电阻电容”当结论。
+器件为GW5AT-LV60PG484AC1/I0、Version B，现有引脚依据NEO Dock31004 Rev1.4。主工程引用[板级约束](boards/tang_mega_60k_31004/)，清理没有改变引脚/电压。位流在 `projects/piano/impl/pnr/instrument_uart_piano.fs`，身份以本次 `build/piano/artifact.txt` 为准，不能拿历史哈希替代。
 
-屏幕不承担演奏输入，画面刷新率不等于按键到声音的延迟。新增外设尚无已核对的引脚分配，不凭封装球位猜排针位置，不把5V信号直接接入FPGA。
+上板先用已确认的SRAM Program、低音量耳机测试，不自动写Flash。预期KEY1/KEY2能发声；按住时约1.202秒衰减至零，提前松键约180ms收尾。PC与板键共享四声部，满载会抢占；串口默认115200/8N1。PT8211-S使用LSBJ右对齐格式，不因模块名 `i2s_tx` 就称为标准Philips I2S，赛题接口口径尚需确认。
 
-## 6. 延迟怎么判定
+显示工程没有PLL、CST或可下载位流，不能直接按主工程方式下载。
 
-工程验收按规定工况下的**最坏情况上界**设计，实测报告最大观测值、最小值、分布和测量不确定度，不能只挑最小值或报告平均值。
+## 当前文档
 
-例如最小2ms、平均4ms、最大8ms，不能宣称达到≤5ms。有限次数测试的最大值也不等于已经证明理论最坏上界；仍需分析输入扫描相位、排队、满复音和显示负载。
+- [PLAN.md](PLAN.md)：目标、A/B/C分工、赛题要求及未完成项。
+- [docs/design.md](docs/design.md)：当前音频通路、位宽/有效时刻、音色依据。
+- [docs/display-rgb.md](docs/display-rgb.md)：显示接口与时序。
+- [docs/keyboard-assembly.md](docs/keyboard-assembly.md)：13键装配。
+- [docs/verification.md](docs/verification.md)：验证命令、结果边界及Git历史入口。
 
-如果实体键负责演奏、屏幕仅显示，画面更新慢不直接计入按键音频延迟；但屏幕刷新实际阻塞音频造成的等待必须计入。测量时屏幕需正常工作，不能关屏测得快值后宣称整机达标；本阶段测实体键通路，电脑控制另行记录。
-
-官方拓展还要求确定性延迟；具体测量起点、阈值和抖动容差需按官方口径确认。详细测试计划见 [延迟与验收](PLAN.md#8-验证与验收)。
-
-## 7. 下一步与资料入口
-
-**后续建议**：先验证更真实的钢琴单音，同时完成13键与旋钮的接线／接口核对；再扩16复音和纯显示，最后在显示正常工作时验收整机延迟。延音／八度操作方式和显示屏型号待定。
-
-- [完整计划与决策状态](PLAN.md)
-- [上位机使用说明](host/STUDIO_README.md)
-- [已有四声部板级接入](docs/poly-integration.md)
-- [已有代码审查记录](docs/code-review-20261006.md)
-- [改写前README／PLAN完整快照](docs/history/2026-10-09-before-alignment.md)
-- [高云官方赛题](https://www.gowinsemi.com.cn/university/match2026)
-- [真实钢琴参考录音](https://theremin.music.uiowa.edu/MISPiano.html)
-
-历史记录：2026-10-09仅重写计划文档并核对源码入口；没有修改RTL、约束或位流，没有运行功能回归、烧录、提交或推送GitHub，也没有新增实物验收结论。
+旧代码、旧报告、旧设计计划不再在当前目录复制保存；清理前完整版本为Git提交 `f513622`。原始PDF/用户资料、字体许可证和C最新工程保留。清理本身不增加功能，也不证明实物延迟达标。

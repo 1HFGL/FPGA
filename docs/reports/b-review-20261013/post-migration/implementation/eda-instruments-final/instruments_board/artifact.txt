@@ -1,3 +1,0 @@
-bitstream=D:\Project\fpga_contest\projects\examples\instruments_board\impl\pnr\instruments_board.fs
-sha256=36CD95807E83DFD986713D924C497AB629B3617A2C1E1E22A4F81293B997D877
-PASS existing constrained paths only; no programming; PR1014/external DAC timing may remain.

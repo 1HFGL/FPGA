@@ -1,80 +1,37 @@
-work/
-sim/work/
-sim/transcript
-*.qdb
-*.qpg
-*.qtl
-*_vmake
-*_info
-*_lock
-results/waves/
-results/logs/
-results/*_work/
-results/*.log
-*.wlf
-*.vstf
+# Local environments and editor files
+.venv*/
+__pycache__/
+*.pyc
 .vs/
 .idea/
 *.swp
 *.swo
 Thumbs.db
 Desktop.ini
-*.gprj.user
-fpga_project/Documents/
-fpga_project/impl/gwsynthesis/
-fpga_project/impl/pnr/
-fpga_project/impl/temp/
-impl/
+
+# Generated simulation output; historical evidence lives in Git
+/build/
+work/
+modelsim.ini
+transcript
+*.qdb
+*.qpg
+*.qtl
+*_vmake
+*_info
+*_lock
+*.wlf
+*.vstf
 *.vvp
 *.vcd
-build/
-transcript
-modelsim.ini
 *.cr.mti
-__pycache__/
-*.pyc
-.venv-studio/
-results/uart-basic-20261008/*_work/
-results/uart-basic-20261008/work/
-results/uart-basic-20261008/negative_work/
-results/uart-basic-20261008/legacy_rebuild/
-results/uart-basic-20261008/invalid_rebuild_missing_rom/*.fs
-results/uart-basic-20261008/source_mutation_arbiter.v
-fpga_project/uart_piano/impl/
-results/piano-20261008/work/
-results/piano-20261008/negative_work/
 
-# ---- 高云（Gowin）编译/布局布线产物 ----
-**/impl/pnr/
-**/impl/gwsynthesis/
-**/impl/temp/
+# Gowin output; project-root process_config.json remains tracked
+**/impl/
+*.gprj.user
 *.pr
 *.fs
 *.bin
 *.binx
 *.vg
 *.timing_paths
-
-# ---- results 下的 ModelSim 工作库与优化缓存 ----
-results/**/work/
-results/**/*_work/
-results/**/@_opt*/
-*.qpg
-*.qdb
-*.qtl
-
-# Generated RTL audition exports; curated evidence is kept under docs/reports/.
-results/audio/
-
-# 10月11日复核的可重建工作文件；文本证据另存 docs/reports/。
-results/sync-review-20261011/
-results/sync-review-20261012/
-results/display-20261013/
-
-# 重整后的输出：必要配置在工程根受版本控制，工具仍可在邻近impl输出。
-/build/
-/projects/legacy/Documents/
-/projects/**/impl/
-!/projects/examples/adsr/impl/
-/projects/examples/adsr/impl/*
-!/projects/examples/adsr/impl/fpga_project_process_config.json

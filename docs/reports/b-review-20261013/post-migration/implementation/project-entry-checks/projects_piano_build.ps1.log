@@ -1,5 +1,0 @@
-Exception: D:\Project\fpga_contest\projects\piano\build.ps1:9
-Line |
-   9 |  … f(-not(Test-Path -LiteralPath $Gowin)){throw "Missing Gowin: $Gowin"}
-     |                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     | Missing Gowin: D:/Project/fpga_contest/build/nonexistent-gw_sh.exe

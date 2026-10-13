@@ -1,4 +1,0 @@
-file=D:\Project\fpga_contest\fpga_project\uart_basic\impl\pnr\instrument_uart.fs
-sha256=80A1FC70F462B6E74152CE0966B1533D93E28628D3E73C3819C3BF28294578A4
-Executed: synthesis, place/route, bitstream; NOT programmed or physically verified.
-Known limitations: PR1014, DAC external timing, UART real COM/MTBF, contest compliance/latency.

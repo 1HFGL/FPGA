@@ -1,10 +1,8 @@
 # SYNTH/1 上位机接口合同
 
-**状态：PC和CONFIG模拟设备已实现；FPGA的UART基础版实现NOTES／STATUS与固定正弦，CONFIG仍未实现。** FPGA代码已仿真并生成位流，实际串口／上板未验证；使用见 [基础版说明](../projects/uart_basic/README.md)。此合同保留未来完整调参字段，不代表全部硬件功能完成，不修改旧控制台协议。
+当前主钢琴只实现NOTES/STATUS，握手为 `SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=4 SAMPLE_RATE=48000 FW=uart-piano-v1 TONE=FIXED_PIANO`。无CONFIG，APPLY返回UNSUPPORTED；固定释放180ms。使用见[上位机说明](README.md)与[主工程](../README.md)。
 
-基础版握手为 `SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=4 SAMPLE_RATE=48000 FW=uart-basic-v1 TONE=FIXED_SINE`。具备NOTES＋STATUS、无CONFIG且明确FIXED_SINE的设备可免APPLY演奏；APPLY返回UNSUPPORTED，不能伪造APPLIED。其PC来源、队列、PANIC与失联合同详见 [已批准设计](../docs/superpowers/specs/2026-10-08-uart-basic-playback-design.md)。
-
-2026-10-08固定钢琴感的握手为 `SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=4 SAMPLE_RATE=48000 FW=uart-piano-v1 TONE=FIXED_PIANO`。上位机固定音色白名单为FIXED_SINE／FIXED_PIANO；任意未知TONE不能绕过配置确认。钢琴感版没有CONFIG，APPLY仍拒绝，没有APPLIED；声部／事件合同不变，固定释放时长改为180ms。实际使用见 [钢琴感说明](../projects/piano/README.md)。
+以下CONFIG字段是PC与模拟设备已实现的未来协议，不是当前FPGA能力。上位机仍兼容FIXED_SINE设备，但旧正弦板级工程已从当前仓库移除、可从Git恢复。实际串口与听音需上板验证。
 
 ## 传输与握手
 
@@ -54,4 +52,4 @@ STATUS VOICE_COUNT=0 MAX_VOICE_COUNT=4 STEAL_COUNT=0 SAMPLE_RATE=48000
 
 ## FPGA 接入前需要明确
 
-本次未给出未经核实的 UART 引脚。接入需要查实际板卡/原理图、同步异步 RX 输入、以系统时钟使能实现 UART 时序、确认缓冲及队列容量，再实现完整行解析与参数提交。现有 ADSR 编译参数不能直接当作运行时寄存器；谐波合成、颤音和上述发声模式需分别开发与验证。软件生成的波表是单周期参考，不是预录 PCM。
+当前UART引脚见主工程CST（RX=V14、TX=U15），基础命令接入已存在。若扩展CONFIG，仍需验证整行解析、原子参数提交和硬件定点规则。现有 ADSR 编译参数不能直接当作运行时寄存器；谐波合成、颤音和上述发声模式需分别开发与验证。软件生成的波表是单周期参考，不是预录 PCM。

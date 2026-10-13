@@ -16,11 +16,8 @@ foreach group {control common top audio synth display} {
 }
 foreach relative_test {
     verification/tb/control/tb_input_sync_debounce.v
-    verification/tb/control/tb_pressure_if.v
     verification/tb/control/tb_event_encoder.v
     verification/tb/control/tb_voice_allocator.v
-    verification/tb/control/tb_voice_test_pattern.v
-    verification/tb/integration/tb_interaction_top.v
 } {lappend compile_sources [file join $compile_root $relative_test]}
 vlog -vlog01compat -pedanticerrors -work $compile_lib {*}$compile_sources
 puts "PASS compile_all: active C sources compiled in strict Verilog-2001; no upstream TB executed."

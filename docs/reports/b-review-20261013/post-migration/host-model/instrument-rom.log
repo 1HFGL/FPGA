@@ -1,7 +1,0 @@
-PASS guitar: 1024 exact samples, DC=0, range=-20464..20464, max quantization error=0.499624860 LSB
-  H1..H8 amplitude=16383.472358, 8191.786285, 4095.864465, 0.006034, 2047.985650, 1023.949982, 1023.970187, 0.029410
-  H1..H8/H1=1.000000, 0.500003, 0.250000, 0.000000, 0.125003, 0.062499, 0.062500, 0.000002
-PASS strings: 1024 exact samples, DC=0, range=-18563..18563, max quantization error=0.499138021 LSB
-  H1..H8 amplitude=16383.510062, 6143.797838, 3071.931487, 2047.964406, 2047.951931, 1023.981181, 1023.940002, 1024.013725
-  H1..H8/H1=1.000000, 0.374999, 0.187501, 0.125002, 0.125001, 0.062501, 0.062498, 0.062503
-PASS two instrument preset ROMs: independent equations, 2048 samples, matched fundamental, distinct harmonics.

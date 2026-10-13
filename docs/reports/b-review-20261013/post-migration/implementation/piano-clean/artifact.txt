@@ -1,4 +1,0 @@
-file=D:\Project\fpga_contest\projects\piano\impl\pnr\instrument_uart_piano.fs
-sha256=8143150D2EA4DDB1E2937775B01FF2C8676D528F9221BFF1A0F3E26855B70420
-Executed: synthesis, place/route, bitstream; NOT programmed or physically verified.
-Candidate only: PR1014 and complete DAC external timing remain unresolved; real COM/audio/latency unverified.

@@ -1,3 +1,0 @@
-bitstream=D:\Project\fpga_contest\projects\checks\poly_adsr_check\impl\pnr\poly_adsr_check.fs
-sha256=F655A244B0597E201B0922C25256ECDD94CE19862B4CB5F374560114BA47E2A6
-PASS existing constrained paths only; no programming; PR1014/external DAC timing may remain.

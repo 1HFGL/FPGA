@@ -1,12 +1,12 @@
 ﻿[CmdletBinding()]
 param(
-    [ValidateSet('A','ADSR','ADSRMath','PolyADSR','Timbre','Instruments','PresetsBoard','B','C','AB','Demo','ADSRDemo','Review','All')][string]$Suite = 'A',
+    [ValidateSet('A','ADSR','ADSRMath','PolyADSR','Timbre','Instruments','PresetsBoard','B','C','AB','Review','All')][string]$Suite = 'A',
     [string]$ModelSimBin = $env:MODELSIM_BIN,
     [switch]$NegativeControl
 )
 $ErrorActionPreference = 'Stop'
-if ($NegativeControl -and $Suite -notin @('AB','ADSRDemo','ADSRMath','PresetsBoard')) {
-    throw 'NegativeControl requires AB, ADSRDemo, ADSRMath or PresetsBoard.'
+if ($NegativeControl -and $Suite -notin @('AB','ADSRMath','PresetsBoard')) {
+    throw 'NegativeControl requires AB, ADSRMath or PresetsBoard.'
 }
 $root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 if (-not $ModelSimBin) {
@@ -40,43 +40,37 @@ $markers = @{
     synth_top_tb = 'PASS synth_top_tb'
     tb_single_tone_ab = 'PASS tb_single_tone_ab:'
     tb_input_sync_debounce = 'PASS: tb_input_sync_debounce'
-    tb_pressure_if = 'PASS: tb_pressure_if'
     tb_event_encoder = 'PASS: tb_event_encoder'
     tb_voice_allocator = 'PASS: tb_voice_allocator_32'
-    tb_interaction_top = 'PASS: tb_interaction_top_32key'
-    tb_voice_test_pattern = 'PASS: tb_voice_test_pattern'
-    tb_demo_voice_bank = 'PASS tb_demo_voice_bank'
-    tb_instrument_demo = 'PASS tb_instrument_demo'
-    tb_adsr_voice_bank = 'PASS tb_adsr_voice_bank'
-    tb_instrument_adsr = 'PASS tb_instrument_adsr'
     tb_allocator_trigger = 'PASS tb_allocator_trigger'
     tb_allocator_age = 'PASS tb_allocator_age:'
     tb_allocator_owner = 'PASS tb_allocator_owner:'
     tb_allocator_expression_owner = 'PASS tb_allocator_expression_owner:'
     tb_allocator_expression_reset = 'PASS tb_allocator_expression_reset:'
 }
-if ($Suite -in @('A','ADSR','AB','Demo','ADSRDemo','All')) {
+if ($Suite -in @('A','ADSR','AB','All')) {
     if ($Suite -ne 'ADSR') { $tests += @('tb_phase_acc','tb_wave_lut','tb_voice_dds') }
     $sources += @('rtl/synth/phase_acc.v','rtl/synth/wave_lut.v','rtl/synth/voice_dds.v','verification/tb/synth/tb_phase_acc.v','verification/tb/synth/tb_wave_lut.v','verification/tb/synth/tb_voice_dds.v')
 }
-if ($Suite -in @('A','ADSR','ADSRDemo','All')) {
+if ($Suite -in @('A','ADSR','All')) {
     $tests += @('tb_adsr_env','tb_sample_gain','tb_voice_adsr')
     # 单独运行 ADSR 时，也必须显式编译 voice_adsr 依赖的 DDS 模块。
     $sources += @('rtl/synth/phase_acc.v','rtl/synth/wave_lut.v','rtl/synth/voice_dds.v',
                   'rtl/synth/adsr_env.v','rtl/synth/sample_gain.v','rtl/synth/voice_adsr.v',
                   'verification/tb/synth/tb_adsr_env.v','verification/tb/synth/tb_sample_gain.v','verification/tb/synth/tb_voice_adsr.v')
 }
-if ($Suite -in @('A','ADSR','ADSRMath','ADSRDemo','All')) {
+if ($Suite -in @('A','ADSR','ADSRMath','All')) {
     $sources += @('rtl/synth/adsr_env.v','verification/tb/synth/tb_adsr_arithmetic.v')
     $tests += 'tb_adsr_arithmetic'
 }
 if ($Suite -in @('A','PolyADSR','All')) {
-    $tests += @('tb_sample_mixer4','tb_voice_bank_adsr')
+    $tests += @('tb_sample_mixer4','tb_voice_bank_adsr','tb_allocator_trigger')
     $sources += @('rtl/synth/phase_acc.v','rtl/synth/wave_lut.v','rtl/synth/voice_dds.v',
                   'rtl/synth/adsr_env.v','rtl/synth/sample_gain.v','rtl/synth/voice_adsr.v',
                   'rtl/control/note_phase_lut.v','rtl/synth/sample_mixer4.v','rtl/synth/voice_bank_adsr.v',
                   'rtl/synth/wave_lut_timbre.v','rtl/synth/voice_timbre_adsr.v',
-                  'verification/tb/synth/tb_sample_mixer4.v','verification/tb/synth/tb_voice_bank_adsr.v')
+                  'verification/tb/synth/tb_sample_mixer4.v','verification/tb/synth/tb_voice_bank_adsr.v',
+                  'rtl/control/voice_allocator.v','verification/tb/control/tb_allocator_trigger.v')
 }
 if ($Suite -in @('A','Timbre','All')) {
     $tests += @('tb_wave_lut_timbre','tb_timbre_bank','tb_timbre_preview')
@@ -101,17 +95,17 @@ if ($Suite -in @('PresetsBoard','All')) {
                   'rtl/control/note_phase_lut.v','rtl/synth/sample_mixer4.v','rtl/synth/voice_bank_instruments.v',
                   'verification/tb/integration/tb_instrument_presets.v')
 }
-if ($Suite -in @('B','AB','Demo','ADSRDemo','All')) {
+if ($Suite -in @('B','AB','All')) {
     $tests += @('sample_tick_tb','synth_top_tb')
     $sources += @('rtl/audio/sample_tick.v','rtl/audio/i2s_tx.v','rtl/audio/synth_top.v','verification/tb/audio/sample_tick_tb.v','verification/tb/audio/synth_top_tb.v')
 }
 if ($Suite -in @('AB','All')) {
     $tests += 'tb_single_tone_ab'
-    $sources += @('rtl/top/single_tone_demo_top.v','verification/tb/integration/tb_single_tone_ab.v')
+    $sources += @('verification/tb/integration/single_tone_demo_top.v','verification/tb/integration/tb_single_tone_ab.v')
 }
-if ($Suite -in @('C','Demo','ADSRDemo','All')) {
-    $cModules = @('input_sync_debounce','touch_or_key_if','pressure_if','event_encoder','voice_allocator','reset_sync','voice_test_pattern','interaction_top','board_top','board_test_top')
-    $cTests = @('tb_input_sync_debounce','tb_pressure_if','tb_event_encoder','tb_voice_allocator','tb_interaction_top','tb_voice_test_pattern')
+if ($Suite -in @('C','All')) {
+    $cModules = @('input_sync_debounce','touch_or_key_if','event_encoder','voice_allocator')
+    $cTests = @('tb_input_sync_debounce','tb_event_encoder','tb_voice_allocator')
     foreach($name in $cModules){
         $found=@(Get-ChildItem -LiteralPath "$root/rtl" -Filter "$name.v" -Recurse)
         if($found.Count -ne 1){throw "Expected one active RTL module: $name"}
@@ -124,30 +118,19 @@ if ($Suite -in @('C','Demo','ADSRDemo','All')) {
     }
     $tests += $cTests
 }
-if ($Suite -in @('Demo','All')) {
-    $sources += @('rtl/control/note_phase_lut.v','rtl/synth/demo_voice_bank.v','rtl/top/instrument_demo_top.v','verification/tb/synth/tb_demo_voice_bank.v','verification/tb/integration/tb_instrument_demo.v')
-    $tests += @('tb_demo_voice_bank','tb_instrument_demo')
-}
-if ($Suite -in @('ADSRDemo','All')) {
-    $sources += @('rtl/control/note_phase_lut.v','rtl/synth/adsr_voice_bank.v','rtl/synth/sample_mixer4.v',
-        'rtl/synth/voice_bank_adsr.v','rtl/synth/wave_lut_timbre.v','rtl/synth/voice_timbre_adsr.v','rtl/top/instrument_adsr_top.v',
-        'verification/tb/synth/tb_adsr_voice_bank.v','verification/tb/integration/tb_instrument_adsr.v','verification/tb/control/tb_allocator_trigger.v')
-    $tests += @('tb_adsr_voice_bank','tb_instrument_adsr','tb_allocator_trigger')
-}
-# 两套四声部测试都保留，共用 DDS 源码只编译一次。
-if ($Suite -in @('C','Demo','ADSRDemo','Review','All')) {
+# 仅保留当前声部分配器回归；已退役实现的专用测试随旧实现删除。
+if ($Suite -in @('C','Review','All')) {
     $sources += @('rtl/control/voice_allocator.v','verification/tb/control/tb_allocator_review.v')
     $tests += @('tb_allocator_age','tb_allocator_owner','tb_allocator_expression_owner','tb_allocator_expression_reset')
 }
 $sources = @($sources | Select-Object -Unique)
-if ($NegativeControl -and $Suite -eq 'ADSRDemo') { $tests = @('tb_instrument_adsr') }
 Push-Location $root
 try {
     New-Item -ItemType Directory -Path 'build/regression/logs','build/regression/waves' -Force | Out-Null
     # ROM 虽不由 vlog 直接编译，仍是功能输入；记录本次所有源码/波表哈希。
     $manifestInputs = @($sources) + @('verification/scripts/run_tests.ps1')
-    if ($Suite -in @('A','ADSR','PolyADSR','Timbre','Instruments','PresetsBoard','AB','Demo','ADSRDemo','All')) { $manifestInputs += 'rtl/rom/sine_1024.mem' }
-    if ($Suite -in @('A','PolyADSR','Timbre','ADSRDemo','All')) { $manifestInputs += 'rtl/rom/bright_1024.mem' }
+    if ($Suite -in @('A','ADSR','PolyADSR','Timbre','Instruments','PresetsBoard','AB','All')) { $manifestInputs += 'rtl/rom/sine_1024.mem' }
+    if ($Suite -in @('A','PolyADSR','Timbre','All')) { $manifestInputs += 'rtl/rom/bright_1024.mem' }
     if ($Suite -in @('A','Instruments','PresetsBoard','All')) { $manifestInputs += @('rtl/rom/guitar_1024.mem','rtl/rom/strings_1024.mem') }
     $manifestName = if ($NegativeControl) { "${Suite}_negative_sha256.txt" } else { "${Suite}_sha256.txt" }
     $manifestLines = @("suite=$Suite negative_control=$NegativeControl")
@@ -166,8 +149,7 @@ try {
     if ($NegativeControl) {
         $compileArgs += $(if ($Suite -eq 'AB') { '+define+AB_NEGATIVE_CONTROL' }
             elseif ($Suite -eq 'ADSRMath') { '+define+ADSR_ARITH_NEGATIVE_CONTROL' }
-            elseif ($Suite -eq 'PresetsBoard') { '+define+PRESETS_BOARD_NEGATIVE_CONTROL' }
-            else { '+define+ADSR_NEGATIVE_CONTROL' })
+            else { '+define+PRESETS_BOARD_NEGATIVE_CONTROL' })
     }
     & (Join-Path $ModelSimBin 'vlog.exe') @compileArgs -work $lib @sources
     if ($LASTEXITCODE -ne 0) { throw 'Compilation failed.' }

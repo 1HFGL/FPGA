@@ -45,7 +45,7 @@
 
 ## 技术实现约定
 
-- 2026-10-11用户确认：RTL与有效测试平台只使用Verilog（`.v`），不使用SystemVerilog；ModelSim用`-vlog01compat -pedanticerrors`检查，不用`-sv`掩盖语法依赖。先运行`verification/scripts/check_verilog.ps1`。历史报告保留原貌，不把旧`.sv`路径当当前主工程入口。2026-10-12用户要求不要修改队友tb：`upstream/fpga_interaction/tb/`、`upstream/fpga_ab_sim/tb/`及其独立脚本原样保留；不为符合语言约定改写上游测试。本次主工程验证保持Verilog-only，独立快照RTL另行严格编译，不能据此宣称上游tb已重跑。
+- 2026-10-11用户确认：RTL与有效测试平台只使用Verilog（`.v`），不使用SystemVerilog；ModelSim用`-vlog01compat -pedanticerrors`检查，不用`-sv`掩盖语法依赖。先运行`verification/scripts/check_verilog.ps1`。历史报告保留原貌，不把旧`.sv`路径当当前主工程入口。2026-10-12用户要求不要修改队友tb：当前保留的`upstream/fpga_interaction/tb/`及其独立脚本原样保留；不为符合语言约定改写上游测试。本次主工程验证保持Verilog-only，独立快照RTL另行严格编译，不能据此宣称上游tb已重跑。
 
 - 默认从单周期波表、单音、简单包络开始。Python用于参考模型和测试，不在最终发声链路中。
 - 48kHz、16位输出是暂定起点，不是已经确认的硬件参数，也不是赛题强制值。
@@ -72,7 +72,7 @@
 
 - 保留原始PDF、用户资料和现有成果，不自动清理、改名、覆盖或批量转换。
 - 使用UTF-8 Markdown；代码目录和信号尽量使用清晰英文命名，正文可中文。
-- 2026-10-13已按批准计划迁移：主工程`projects/piano/`，RTL按职责分组，主验证在`verification/`，四套队友原字节快照在`upstream/`，上位机在`host/`；新输出统一`build/`，Gowin邻近工程`impl/`为例外。历史报告在`docs/reports/legacy/`，旧路径说明见`docs/repository-layout.md`。
+- 2026-10-13用户追加清理：当前主工程`projects/piano/`，公共RTL按职责分组，验证`verification/`，C最新独立工程仅保留`upstream/fpga_interaction/`，上位机`host/`。旧A/B快照、旧演示、历史文档/报告不再在工作区备份，直接查Git提交`f513622`；必要当前说明集中在README、PLAN和docs。不得再次制造同功能旧版本副本。新输出写`build/`，Gowin邻近`impl/`为例外。
 - 不虚构构建命令。先检测Gowin、Python和仿真器的实际位置及版本，再给可执行命令或准确GUI步骤。
 - 发现问题先缩小复现范围、观察证据，一次改变一个主要因素，保留稳定版本。
 - 购买、借板申请、报名、对外发送消息、公开仓库或上传作品，都需要用户明确授权。

@@ -9,13 +9,13 @@ foreach($tool in @('vlib','vlog')) {
 New-Item -ItemType Directory -Path $out -Force | Out-Null
 Push-Location $out
 try {
-    # C提交自带不同接口版本的A/B快照；隔离编译，绝不覆盖主工程同名模块。
+    # 只编译C最新独立工程；旧A/B快照已删除，历史联合仿真从Git恢复。
     # 队友tb按用户要求原样保留，本入口只检查其Verilog RTL，不启用-sv。
     if(-not(Test-Path 'work/_info')) {
         & "$ModelSimBin/vlib.exe" work
         if($LASTEXITCODE -ne 0){throw 'vlib failed'}
     }
-    $sources=@(Get-ChildItem -Path "$root/upstream/fpga_interaction/rtl/*.v","$root/upstream/fpga_a/rtl/*.v","$root/upstream/fpga_b/rtl/*.v","$root/upstream/fpga_ab_sim/rtl/*.v" | Sort-Object FullName | ForEach-Object {$_.FullName})
+    $sources=@(Get-ChildItem -LiteralPath "$root/upstream/fpga_interaction/rtl" -Filter '*.v' | Sort-Object FullName | ForEach-Object {$_.FullName})
     $manifest=@("ModelSim=$(& "$ModelSimBin/vlog.exe" -version)",'flags=-vlog01compat -pedanticerrors; RTL only')
     foreach($file in $sources){$manifest+="$((Get-FileHash -LiteralPath $file).Hash)  $file"}
     $manifest | Set-Content 'inputs.txt' -Encoding utf8

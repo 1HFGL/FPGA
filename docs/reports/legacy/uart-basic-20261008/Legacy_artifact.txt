@@ -1,4 +1,0 @@
-file=D:\Project\fpga_contest\results\uart-basic-20261008\legacy_rebuild\impl\pnr\instrument_adsr_check.fs
-sha256=7E0E0A6E1CE746105E1DD1CC3A0CD277762B3F4DEC5B856C9FBDFC347B66FFF3
-Executed: synthesis, place/route, bitstream; NOT programmed or physically verified.
-Known limitations: PR1014, DAC external timing, UART real COM/MTBF, contest compliance/latency.

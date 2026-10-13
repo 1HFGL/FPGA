@@ -1,5 +1,0 @@
-PASS negative sample: rejected at record 200: negative_sample.txt clock 200: actual=(193, 0, 0, 15, 0, 1, 0, 40000, 0, 40000, 10, 4096, 32768, 4096, 32768), expected=(192, 0, 0, 15, 0, 1, 0, 40000, 0, 40000, 10, 4096, 32768, 4096, 32768)
-PASS negative preset: rejected at record 300: negative_preset.txt clock 300: actual=(-305, 0, 0, 15, 0, 1, 0, 40000, 0, 40000, 11, 4096, 32768, 4096, 32768), expected=(-305, 0, 0, 15, 0, 1, 0, 40000, 0, 40000, 10, 4096, 32768, 4096, 32768)
-PASS negative brightness: rejected at record 400: negative_brightness.txt clock 400: actual=(12, 0, 0, 15, 0, 1, 0, 40000, 0, 40000, 10, 4096, 32768, 4096, 32769), expected=(12, 0, 0, 15, 0, 1, 0, 40000, 0, 40000, 10, 4096, 32768, 4096, 32768)
-PASS negative valid: rejected at record 500: negative_valid.txt clock 500: actual=(-89, 1, 0, 15, 0, 1, 0, 40000, 0, 40000, 10, 4096, 32768, 4096, 32768), expected=(-89, 0, 0, 15, 0, 1, 0, 40000, 0, 40000, 10, 4096, 32768, 4096, 32768)
-PASS negative truncation: Incomplete trace: None, expected '# completed clocks=11784 samples=4551 resets=10'

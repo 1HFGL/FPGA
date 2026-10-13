@@ -1,4 +1,0 @@
-PASS: 50 MHz setup +7.842 ns, hold +0.226 ns; setup/hold violations 0/0.
-PASS: one active 20 ns clock, no false-path/multicycle exceptions, timing-driven and hold correction enabled.
-Scope: registered module timing only; board I/O and integrated top still need verification.
-Report: D:\Project\fpga_contest\build\regression\logs\instrument_timing_audit.json
