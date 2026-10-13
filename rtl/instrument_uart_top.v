@@ -24,6 +24,17 @@ module instrument_uart_top #(
     wire [5:0] voice_count,max_voice_count;
     wire signed [15:0] sample_data;
     wire sample_valid,sounding,sample_clipped;
+    wire output_frame_start;
+    reg [1:0] pa_drain_frames;
+    // A静音时，B还可能在发送上一非零样本。再留三个真实输出帧边界，
+    // 让待发/活动帧与左右DAC的零字排完；不增加新音启动等待。
+    // 每个系统拍都可重装，避免很短的触发落在两个帧边界之间而漏记。
+    always @(posedge sys_clk) begin
+        if(!audio_ready) pa_drain_frames<=2'd0;
+        else if(sounding) pa_drain_frames<=2'd3;
+        else if(output_frame_start && pa_drain_frames!=0)
+            pa_drain_frames<=pa_drain_frames-2'd1;
+    end
     touch_or_key_if #(.KEY_COUNT(2),.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES)) u_keys(
         .clk(sys_clk),.rst_n(audio_ready),.raw_key(Key_in),.key_level(),
         .key_press(key_press),.key_release(key_release));
@@ -66,7 +77,8 @@ module instrument_uart_top #(
         .release_done(release_done),.sounding(sounding),.sample_data(sample_data),.sample_valid(sample_valid),
         .env_level_flat(),.voice_active(),.sample_clipped(sample_clipped));
     synth_top #(.AUDIO_CLK_HZ(50000000),.SAMPLE_RATE_HZ(48000)) u_b(
-        .clk_in(sys_clk),.rst_n(sys_rst_n),.audio_enable(sounding),.sample_data(sample_data),.sample_valid(sample_valid),
+        .clk_in(sys_clk),.rst_n(sys_rst_n),.audio_enable(sounding || pa_drain_frames!=0),.sample_data(sample_data),.sample_valid(sample_valid),
         .audio_ready(audio_ready),.sample_request(sample_request),.sample_underrun(sample_underrun),
-        .i2s_bclk(HP_BCK),.i2s_lrclk(HP_WS),.i2s_sdata(HP_DIN),.pa_en(PA_EN));
+        .i2s_bclk(HP_BCK),.i2s_lrclk(HP_WS),.i2s_sdata(HP_DIN),.pa_en(PA_EN),
+        .frame_start(output_frame_start));
 endmodule

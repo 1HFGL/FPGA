@@ -25,7 +25,9 @@ module synth_top #(
     output wire i2s_bclk,
     output wire i2s_lrclk,
     output wire i2s_sdata,
-    output wire pa_en
+    output wire pa_en,
+    // 真正发送帧边界；不得把它与可配置的样本准备事件混为一谈。
+    output wire frame_start
 );
 
     // 异步拉低复位；释放时经过 clk_in 两个上升沿。
@@ -41,7 +43,6 @@ module synth_top #(
     wire audio_rst_n = reset_release[1];
     assign audio_ready = audio_rst_n;
     wire bclk_half_ce;
-    wire frame_start;
 
     sample_tick #(
         .AUDIO_CLK_HZ(AUDIO_CLK_HZ),
