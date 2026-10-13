@@ -10,13 +10,16 @@
 module sample_tick #(
     parameter integer AUDIO_CLK_HZ = 25000000,
     parameter integer SAMPLE_RATE_HZ = 48000,
-    parameter integer SLOT_BITS = 16
+    parameter integer SLOT_BITS = 16,
+    // 0沿用帧起点请求；2表示在下一帧前两个半位时钟准备样本。
+    parameter integer REQUEST_LEAD_HALF_EDGES = 0
 ) (
     input  wire clk_audio,
     input  wire rst_n,
     output wire bclk_half_ce,
     // 每帧右声道时隙开始时置位；同步的样本生成模块在该边沿看到请求。
-    output wire frame_start
+    output wire frame_start,
+    output wire sample_prepare
 );
 
     // 两个声道 × 每声道位数 × 每位两个 BCK 半周期。
@@ -24,6 +27,8 @@ module sample_tick #(
     localparam [31:0] HALF_EDGE_RATE_HZ =
         SAMPLE_RATE_HZ * HALF_EDGES_PER_FRAME;
     localparam [31:0] SOURCE_RATE_HZ = AUDIO_CLK_HZ;
+    localparam integer REQUEST_EDGE_INDEX = (REQUEST_LEAD_HALF_EDGES==0) ?
+        0 : HALF_EDGES_PER_FRAME-REQUEST_LEAD_HALF_EDGES;
 
     reg [31:0] phase_acc;
     reg [15:0] half_edge_index;
@@ -35,6 +40,19 @@ module sample_tick #(
     // AUDIO_CLK_HZ < 2^31，且 4*SLOT_BITS <= 65536。
     assign bclk_half_ce = rst_n && (phase_sum >= {1'b0, SOURCE_RATE_HZ});
     assign frame_start = bclk_half_ce && (half_edge_index == 16'd0);
+    assign sample_prepare = bclk_half_ce && (half_edge_index == REQUEST_EDGE_INDEX);
+
+    // 仅供验证入口拒绝非法配置；不综合运行期检查硬件。
+    // 先以64位计算频率，不能让非法参数乘积先溢出32位再通过检查。
+    // synthesis translate_off
+    initial begin
+        if(AUDIO_CLK_HZ<=0 || SAMPLE_RATE_HZ<=0 || SLOT_BITS<1 || SLOT_BITS>16384 ||
+           (64'd4*SLOT_BITS*SAMPLE_RATE_HZ)>AUDIO_CLK_HZ ||
+           REQUEST_LEAD_HALF_EDGES<0 || REQUEST_LEAD_HALF_EDGES>=HALF_EDGES_PER_FRAME) begin
+            $display("FAIL sample_tick invalid timing parameters"); $finish;
+        end
+    end
+    // synthesis translate_on
 
     always @(posedge clk_audio or negedge rst_n) begin
         if (!rst_n) begin

@@ -7,7 +7,8 @@ module instrument_uart_top #(
     parameter [31:0] ATTACK_SAMPLES=96,DECAY_SAMPLES=24000,RELEASE_SAMPLES=5760,
     parameter [16:0] SUSTAIN_LEVEL=6554,
     parameter ROM_FILE="../../rtl/rom/sine_1024.mem",
-    parameter integer FIXED_PIANO=0
+    parameter integer FIXED_PIANO=0,
+    parameter integer REQUEST_LEAD_HALF_EDGES=0
 )(
     input wire sys_clk,sys_rst_n,input wire [1:0] Key_in,
     input wire uart_rx,output wire uart_tx,
@@ -67,7 +68,7 @@ module instrument_uart_top #(
         .voice_timbre_flat(),.voice_pitch_bend_flat(),.voice_aftertouch_flat(),.voice_vibrato_depth_flat(),.voice_vibrato_rate_flat(),
         .voice_count(voice_count),.max_voice_count(max_voice_count),.steal_count(steal_count),
         .note_on_count(),.note_off_count(),.steal_pulse());
-    // 保留R0请求 -> R3混音有效 -> R4缓存 -> 下一音频帧输出，不改变A/B合同。
+    // R0请求 -> R3混音有效 -> R4缓存；请求和真正发送帧边界分别控制。
     // 当前上位机只选固定预设；明确接零，避免合并新音色接口后出现悬空/Z。
     // 两个表使用同一路径；常量选色允许综合裁剪未使用的明亮分支。
     voice_bank_adsr #(.ROM_FILE(ROM_FILE),.BRIGHT_ROM_FILE(ROM_FILE),.ATTACK_SAMPLES(ATTACK_SAMPLES),.DECAY_SAMPLES(DECAY_SAMPLES),
@@ -76,7 +77,8 @@ module instrument_uart_top #(
         .voice_retrigger(voice_trigger),.voice_timbre(4'b0000),.voice_note_flat(voice_note_flat),.voice_velocity_flat(voice_velocity_flat),
         .release_done(release_done),.sounding(sounding),.sample_data(sample_data),.sample_valid(sample_valid),
         .env_level_flat(),.voice_active(),.sample_clipped(sample_clipped));
-    synth_top #(.AUDIO_CLK_HZ(50000000),.SAMPLE_RATE_HZ(48000)) u_b(
+    synth_top #(.AUDIO_CLK_HZ(50000000),.SAMPLE_RATE_HZ(48000),
+        .REQUEST_LEAD_HALF_EDGES(REQUEST_LEAD_HALF_EDGES),.MAX_SAMPLE_LATENCY_CYCLES(4)) u_b(
         .clk_in(sys_clk),.rst_n(sys_rst_n),.audio_enable(sounding || pa_drain_frames!=0),.sample_data(sample_data),.sample_valid(sample_valid),
         .audio_ready(audio_ready),.sample_request(sample_request),.sample_underrun(sample_underrun),
         .i2s_bclk(HP_BCK),.i2s_lrclk(HP_WS),.i2s_sdata(HP_DIN),.pa_en(PA_EN),

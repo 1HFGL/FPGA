@@ -27,13 +27,15 @@ try {
     $manifest | Set-Content "$OutputDirectory/inputs.txt" -Encoding utf8
     & "$ModelSimBin/vlog.exe" -vlog01compat -pedanticerrors -work $lib @sources *> "$OutputDirectory/compile.log"
     if($LASTEXITCODE -ne 0){throw 'PA test compile failed'}
-    foreach($short in @(1,0)) {
-        $log="$OutputDirectory/pa_short_$short.log"
-        & "$ModelSimBin/vsim.exe" -c -lib $lib -l $log -wlf "$OutputDirectory/pa_short_$short.wlf" `
-            tb_uart_pa_drain "-gSHORT_TAIL=$short" -do 'run -all; quit -code 0 -f' *> "$OutputDirectory/console_$short.log"
+    foreach($lead in @(0,2)) { foreach($short in @(1,0)) {
+        $tag="lead${lead}_short${short}"
+        $log="$OutputDirectory/pa_$tag.log"
+        & "$ModelSimBin/vsim.exe" -c -lib $lib -l $log -wlf "$OutputDirectory/pa_$tag.wlf" `
+            tb_uart_pa_drain "-gSHORT_TAIL=$short" "-gREQUEST_LEAD_HALF_EDGES=$lead" `
+            -do 'run -all; quit -code 0 -f' *> "$OutputDirectory/console_$tag.log"
         $code=$LASTEXITCODE; $body=Get-Content -LiteralPath $log -Raw
         if($code -ne 0 -or $body -match '\bFAIL\b|\*\* (Error|Fatal):' -or
             -not $body.Contains("PASS tb_uart_pa_drain short=$short")) {throw "PA_DRAIN failed: $log"}
-        Write-Output "PASS tb_uart_pa_drain short=$short"
-    }
+        Write-Output "PASS tb_uart_pa_drain lead=$lead short=$short"
+    } }
 } finally {Pop-Location}

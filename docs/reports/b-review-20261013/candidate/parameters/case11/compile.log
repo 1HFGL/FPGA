@@ -1,0 +1,12 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 10:59:34 on Oct 13,2026
+vlog -vlog01compat -pedanticerrors -work build/b-review-20261013/parameters-agent-final/case11/work D:\Project\fpga_contest\rtl\sample_tick.v D:\Project\fpga_contest\rtl\synth_top.v D:\Project\fpga_contest\rtl\i2s_tx.v D:\Project\fpga_contest\sim\tb_audio_parameters.v 
+-- Compiling module sample_tick
+-- Compiling module synth_top
+-- Compiling module i2s_tx
+-- Compiling module tb_audio_parameters
+
+Top level modules:
+	tb_audio_parameters
+End time: 10:59:34 on Oct 13,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

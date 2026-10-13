@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$Gowin='D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe',
       [string]$EvidenceDirectory='results/sync-review-20261011/build-piano')
 $ErrorActionPreference='Stop'
@@ -7,8 +7,14 @@ $evidence=Join-Path $root $EvidenceDirectory
 if(-not(Test-Path -LiteralPath $Gowin)){throw "Missing Gowin: $Gowin"}
 New-Item -ItemType Directory -Path $evidence -Force | Out-Null
 $projectPath=Join-Path $PSScriptRoot 'uart_piano.gprj'
+$processConfigPath=Join-Path $PSScriptRoot 'process_config.json'
+$effectiveConfigPath=Join-Path $PSScriptRoot 'impl/uart_piano_process_config.json'
+if(-not(Test-Path -LiteralPath $processConfigPath -PathType Leaf)){
+    throw "Missing controlled process configuration: $processConfigPath"
+}
+$expectedConfigHash=(Get-FileHash -LiteralPath $processConfigPath).Hash
 [xml]$project=Get-Content -LiteralPath $projectPath -Raw
-$inputs=@($projectPath,$PSCommandPath,(Join-Path $PSScriptRoot 'build_piano.tcl'),
+$inputs=@($projectPath,$PSCommandPath,$processConfigPath,(Join-Path $PSScriptRoot 'build_piano.tcl'),
     (Join-Path $root 'rtl/rom/piano_1024.mem'),
     (Join-Path $root 'fpga_music_tool/tone_examples/piano.json'),
     (Join-Path $root 'fpga_music_tool/studio_model.py'))
@@ -25,6 +31,18 @@ try {
     & $Gowin 'build_piano.tcl' 2>&1 | Tee-Object "$evidence/build.log"
     if($LASTEXITCODE -ne 0){throw 'Gowin build failed'}
 }finally{Pop-Location}
+# 记录工具实际留下的配置；不能只给受控输入做哈希，却仍采用旧impl选项。
+if(-not(Test-Path -LiteralPath $effectiveConfigPath -PathType Leaf)){
+    throw "Missing effective process configuration: $effectiveConfigPath"
+}
+$effectiveConfigHash=(Get-FileHash -LiteralPath $effectiveConfigPath).Hash
+Copy-Item -LiteralPath $effectiveConfigPath -Destination (Join-Path $evidence 'effective_process_config.json')
+@("controlled=$processConfigPath","controlled_sha256=$expectedConfigHash",
+  "effective=$effectiveConfigPath","effective_sha256=$effectiveConfigHash") |
+    Set-Content (Join-Path $evidence 'process_config_hashes.txt') -Encoding utf8
+if($effectiveConfigHash -ne $expectedConfigHash){
+    throw 'Effective process configuration differs from controlled input; inspect process_config_hashes.txt'
+}
 $log=Get-Content "$evidence/build.log" -Raw
 if($log -match 'ERROR|EX3988|EX3791|EX3073'){throw 'Unresolved error/ROM/width/interface warning; do not program'}
 $base=Join-Path $PSScriptRoot 'impl/pnr/instrument_uart_piano'

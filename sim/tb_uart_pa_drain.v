@@ -3,6 +3,7 @@
 // 同时观察发送器待发/活动帧及两个DAC已锁存字，不能只等尾音最终归零。
 module tb_uart_pa_drain;
     parameter integer SHORT_TAIL=0;
+    parameter integer REQUEST_LEAD_HALF_EDGES=0;
     reg clk=0, rst_n=0;
     reg [1:0] keys=3;
     wire bck,ws,din,pa;
@@ -13,7 +14,8 @@ module tb_uart_pa_drain;
     instrument_uart_top #(
         .DEBOUNCE_CYCLES(100000),.ROM_FILE("rtl/rom/piano_1024.mem"),
         .ATTACK_SAMPLES(96),.DECAY_SAMPLES(57600),.SUSTAIN_LEVEL(0),
-        .RELEASE_SAMPLES(SHORT_TAIL ? 13 : 8640)
+        .RELEASE_SAMPLES(SHORT_TAIL ? 13 : 8640),
+        .REQUEST_LEAD_HALF_EDGES(REQUEST_LEAD_HALF_EDGES)
     ) dut(.sys_clk(clk),.sys_rst_n(rst_n),.Key_in(keys),.uart_rx(1'b1),.uart_tx(),
         .HP_BCK(bck),.HP_WS(ws),.HP_DIN(din),.PA_EN(pa));
 

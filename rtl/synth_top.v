@@ -2,14 +2,17 @@
 // 本模块只负责输出；当前整机由 instrument_adsr_top 连接 A/C，不在这里读按键。
 // 默认 25 MHz 仅供通用仿真；31004 板级顶层明确覆盖为 V22 的 50 MHz。
 // B部分建议阅读顺序：本文件 -> sample_tick.v -> i2s_tx.v。
-// 每个帧边界一边发送上次缓存的样本，一边发出下一样本请求。
+// 默认在帧边界发送旧缓存并请求下一样本；可提前到下一帧前的最后一位周期请求。
 // 当前A在请求R0后的R3给出有效样本，发送器在R4缓存，在下一帧才上串行线。
 // 因此“计算用4拍”不等于“按键到耳机延迟”；还包含消抖、等帧和模拟电路。
 module synth_top #(
     parameter integer AUDIO_CLK_HZ = 25000000,
     parameter integer SAMPLE_RATE_HZ = 48000,
     parameter integer SAMPLE_BITS = 16,
-    parameter integer SLOT_BITS = 16
+    parameter integer SLOT_BITS = 16,
+    parameter integer REQUEST_LEAD_HALF_EDGES = 0,
+    // 从请求沿到本模块缓存输入的最大系统拍数（当前A为R0到R4）。
+    parameter integer MAX_SAMPLE_LATENCY_CYCLES = 4
 ) (
     input  wire clk_in,
     input  wire rst_n,
@@ -43,16 +46,33 @@ module synth_top #(
     wire audio_rst_n = reset_release[1];
     assign audio_ready = audio_rst_n;
     wire bclk_half_ce;
+    wire sample_prepare;
+    localparam [63:0] HALF_EDGE_RATE = 64'd4*SLOT_BITS*SAMPLE_RATE_HZ;
+    localparam [63:0] MIN_PREPARE_CYCLES =
+        (64'd1*REQUEST_LEAD_HALF_EDGES*AUDIO_CLK_HZ) /
+        ((HALF_EDGE_RATE!=0) ? HALF_EDGE_RATE : 64'd1);
+
+    // 同帧边界到达的valid有意留到下一帧，所以提前窗口必须严格大于接收延迟。
+    // synthesis translate_off
+    initial begin
+        if(SAMPLE_BITS!=16 || SLOT_BITS!=16 || MAX_SAMPLE_LATENCY_CYCLES<1 ||
+           (REQUEST_LEAD_HALF_EDGES>0 && MIN_PREPARE_CYCLES<=MAX_SAMPLE_LATENCY_CYCLES)) begin
+            $display("FAIL synth_top insufficient sample preparation window or unsupported format"); $finish;
+        end
+    end
+    // synthesis translate_on
 
     sample_tick #(
         .AUDIO_CLK_HZ(AUDIO_CLK_HZ),
         .SAMPLE_RATE_HZ(SAMPLE_RATE_HZ),
-        .SLOT_BITS(SLOT_BITS)
+        .SLOT_BITS(SLOT_BITS),
+        .REQUEST_LEAD_HALF_EDGES(REQUEST_LEAD_HALF_EDGES)
     ) u_sample_tick (
         .clk_audio(clk_in),
         .rst_n(audio_rst_n),
         .bclk_half_ce(bclk_half_ce),
-        .frame_start(frame_start)
+        .frame_start(frame_start),
+        .sample_prepare(sample_prepare)
     );
 
     i2s_tx #(
@@ -71,7 +91,7 @@ module synth_top #(
         .sample_underrun(sample_underrun)
     );
 
-    assign sample_request = frame_start;
+    assign sample_request = sample_prepare;
     // sounding由A判断是否仍有保持音/释放尾音；不能直接用按键电平代替，
     // 否则松键会立刻关输出，ADSR的120ms释放尾音就听不到了。
     // 31004 原理图标明 PA_EN=1 关闭、PA_EN=0 开启。

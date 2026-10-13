@@ -6,7 +6,8 @@ module instrument_uart_piano_top #(
     parameter integer DEBOUNCE_CYCLES=100000,
     parameter integer UART_CLKS_PER_BIT=434,
     parameter integer WATCHDOG_CYCLES=150000000,
-    parameter ROM_FILE="../../rtl/rom/piano_1024.mem"
+    parameter ROM_FILE="../../rtl/rom/piano_1024.mem",
+    parameter integer REQUEST_LEAD_HALF_EDGES=2
 )(
     input wire sys_clk,sys_rst_n,
     input wire [1:0] Key_in,
@@ -16,6 +17,7 @@ module instrument_uart_piano_top #(
     instrument_uart_top #(
         .DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),.UART_CLKS_PER_BIT(UART_CLKS_PER_BIT),
         .WATCHDOG_CYCLES(WATCHDOG_CYCLES),.ROM_FILE(ROM_FILE),.FIXED_PIANO(1),
+        .REQUEST_LEAD_HALF_EDGES(REQUEST_LEAD_HALF_EDGES),
         .ATTACK_SAMPLES(32'd96),.DECAY_SAMPLES(32'd57600),
         .SUSTAIN_LEVEL(17'd0),.RELEASE_SAMPLES(32'd8640)
     ) u_core(

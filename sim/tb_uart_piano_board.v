@@ -37,10 +37,12 @@ module tb_uart_piano_board;
         end
         if(!dut.u_core.audio_ready) begin frames=0; previous=0; request_at=0; end
         else begin
-            if(dut.u_core.sample_request) begin
+            // 请求提前不改变DAC帧边界；消费上一拍已收到的缓存。
+            if(dut.u_core.u_b.frame_start) begin
                 if(frames==16384) begin $display("FAIL: scoreboard overflow"); $finish; end
-                expected[frames]=previous; frames=frames+1; request_at=cycle;
+                expected[frames]=previous; frames=frames+1;
             end
+            if(dut.u_core.sample_request) request_at=cycle;
             if(dut.u_core.sample_valid) begin
                 if(cycle-request_at!=4 || dut.u_core.sample_clipped!==0) begin $display("FAIL: R4/clipping"); $finish; end
                 previous=dut.u_core.sample_data;

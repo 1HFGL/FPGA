@@ -1,0 +1,4 @@
+controlled=D:\Project\fpga_contest\fpga_project\uart_piano\process_config.json
+controlled_sha256=E605E933D74ACA2A95F9B227F362EFB7FA01ECC597443A47CA94D8E5FC4A5F52
+effective=D:\Project\fpga_contest\fpga_project\uart_piano\impl\uart_piano_process_config.json
+effective_sha256=E605E933D74ACA2A95F9B227F362EFB7FA01ECC597443A47CA94D8E5FC4A5F52

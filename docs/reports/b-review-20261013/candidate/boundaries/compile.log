@@ -1,0 +1,70 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 10:47:00 on Oct 13,2026
+vlog -vlog01compat -pedanticerrors -work build/b-review-20261013/boundary-agent/work D:\Project\fpga_contest\rtl\adsr_env.v D:\Project\fpga_contest\rtl\adsr_voice_bank.v D:\Project\fpga_contest\rtl\board_test_top.v D:\Project\fpga_contest\rtl\board_top.v D:\Project\fpga_contest\rtl\demo_voice_bank.v D:\Project\fpga_contest\rtl\display_cdc_latest.v D:\Project\fpga_contest\rtl\display_font24.v D:\Project\fpga_contest\rtl\display_wave_buffer.v D:\Project\fpga_contest\rtl\event_encoder.v D:\Project\fpga_contest\rtl\i2s_tx.v D:\Project\fpga_contest\rtl\input_sync_debounce.v D:\Project\fpga_contest\rtl\instrument_adsr_top.v D:\Project\fpga_contest\rtl\instrument_demo_top.v D:\Project\fpga_contest\rtl\instrument_display.v D:\Project\fpga_contest\rtl\instrument_env.v D:\Project\fpga_contest\rtl\instrument_presets_top.v D:\Project\fpga_contest\rtl\instrument_uart_piano_top.v D:\Project\fpga_contest\rtl\instrument_uart_top.v D:\Project\fpga_contest\rtl\instrument_wave.v D:\Project\fpga_contest\rtl\interaction_top.v D:\Project\fpga_contest\rtl\lcd_rgb_timing.v D:\Project\fpga_contest\rtl\note_phase_lut.v D:\Project\fpga_contest\rtl\phase_acc.v D:\Project\fpga_contest\rtl\piano_display_renderer.v D:\Project\fpga_contest\rtl\pressure_if.v D:\Project\fpga_contest\rtl\reset_sync.v D:\Project\fpga_contest\rtl\sample_gain.v D:\Project\fpga_contest\rtl\sample_mixer4.v D:\Project\fpga_contest\rtl\sample_tick.v D:\Project\fpga_contest\rtl\single_tone_demo_top.v D:\Project\fpga_contest\rtl\synth_top.v D:\Project\fpga_contest\rtl\touch_or_key_if.v D:\Project\fpga_contest\rtl\uart_event_arbiter.v D:\Project\fpga_contest\rtl\uart_fifo.v D:\Project\fpga_contest\rtl\uart_line_rx.v D:\Project\fpga_contest\rtl\uart_reply_tx.v D:\Project\fpga_contest\rtl\uart_rx.v D:\Project\fpga_contest\rtl\uart_synth_protocol.v D:\Project\fpga_contest\rtl\uart_tx.v D:\Project\fpga_contest\rtl\voice_adsr.v D:\Project\fpga_contest\rtl\voice_allocator.v D:\Project\fpga_contest\rtl\voice_bank_adsr.v D:\Project\fpga_contest\rtl\voice_bank_instruments.v D:\Project\fpga_contest\rtl\voice_dds.v D:\Project\fpga_contest\rtl\voice_instrument.v D:\Project\fpga_contest\rtl\voice_test_pattern.v D:\Project\fpga_contest\rtl\voice_timbre_adsr.v D:\Project\fpga_contest\rtl\wave_lut_timbre.v D:\Project\fpga_contest\rtl\wave_lut.v sim/tb_audio_boundaries.v sim/tb_audio_display_isolation.v 
+-- Compiling module adsr_env
+-- Compiling module adsr_voice_bank
+-- Compiling module board_test_top
+-- Compiling module board_top
+-- Compiling module demo_voice_bank
+-- Compiling module display_cdc_latest
+-- Compiling module display_font24
+-- Compiling module display_wave_buffer
+-- Compiling module event_encoder
+-- Compiling module i2s_tx
+-- Compiling module input_sync_debounce
+-- Compiling module instrument_adsr_top
+-- Compiling module instrument_adsr_auto_top
+-- Compiling module instrument_demo_top
+-- Compiling module instrument_demo_auto_top
+-- Compiling module instrument_display
+-- Compiling module instrument_env
+-- Compiling module instrument_presets_top
+-- Compiling module instrument_uart_piano_top
+-- Compiling module instrument_uart_top
+-- Compiling module instrument_wave
+-- Compiling module interaction_top
+-- Compiling module lcd_rgb_timing
+-- Compiling module note_phase_lut
+-- Compiling module phase_acc
+-- Compiling module piano_display_renderer
+-- Compiling module pressure_if
+-- Compiling module reset_sync
+-- Compiling module sample_gain
+-- Compiling module sample_mixer4
+-- Compiling module sample_tick
+-- Compiling module single_tone_demo_top
+-- Compiling module synth_top
+-- Compiling module touch_or_key_if
+-- Compiling module uart_event_arbiter
+-- Compiling module uart_fifo
+-- Compiling module uart_line_rx
+-- Compiling module uart_reply_tx
+-- Compiling module uart_rx
+-- Compiling module uart_synth_protocol
+-- Compiling module uart_tx
+-- Compiling module voice_adsr
+-- Compiling module voice_allocator
+-- Compiling module voice_bank_adsr
+-- Compiling module voice_bank_instruments
+-- Compiling module voice_dds
+-- Compiling module voice_instrument
+-- Compiling module voice_test_pattern
+-- Compiling module voice_timbre_adsr
+-- Compiling module wave_lut_timbre
+-- Compiling module wave_lut
+-- Compiling module tb_audio_boundaries
+-- Compiling module audio_boundary_source
+-- Compiling module audio_boundary_words
+-- Compiling module tb_audio_display_isolation
+
+Top level modules:
+	adsr_voice_bank
+	board_test_top
+	instrument_adsr_auto_top
+	instrument_demo_auto_top
+	instrument_presets_top
+	single_tone_demo_top
+	tb_audio_boundaries
+	tb_audio_display_isolation
+End time: 10:47:00 on Oct 13,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0
