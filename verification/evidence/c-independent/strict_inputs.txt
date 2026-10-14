@@ -1,0 +1,20 @@
+ModelSim=Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+flags=-vlog01compat -pedanticerrors; RTL only
+C0EA01643FBB4E56247158F7275BC94F99F9E8AAC0A255D1A31EC0F439B58A8C  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\adc_knob_if.v
+EAEE2D2F1BF4E3D83AC672EFDBCFE69A89F56768BC13F9EB9C7501FEB70D8CFB  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\ads1115_if.v
+27CF42098B8FA71D29BE98015A7B6846BF26126E69BCF73237D76388612BAC3E  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\ads1115_knob_if.v
+498B5207CAA06B410F3523C098C3B2A702F67774F938706B898A3D9E085CC557  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\board_knob_top.v
+862247CD0EB68B57123AE4DC4AB445B40D920856B4BEBF030BCCD4D9565F5F35  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\board_test_top.v
+C033594B57BBD09804D0BA15FF3A23D6A25C282A3A75D117B6BDFBB3981072EC  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\board_top.v
+8FF425B533826B0E64F1A0444027EB744EEEBAF96540DFED8994E7BB52875AA8  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\event_encoder.v
+1D22E4B8D356480502BFA638CD57C8D9077DA4DEA8A9B37333F8B5717ADDB5B9  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\i2c_master.v
+8D1F9E28CF77A95920EA63FF0EEC952C64A146ECE0C4F7ADBA9AB754410932CD  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\input_sync_debounce.v
+3F42239F8179D70A3ECB9389C3E3370B0E364DAC631F3D85D70E762C9C0A2D35  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\interaction_top.v
+499EF4A8B6150907DA23D9B90ABB0957192F517A45526DF68DBCA1C593622F4E  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\pressure_if.v
+F5E59C2769C5A11E20D9B4DA261FAEB15C5A47023C9D64872D1238FC8120A984  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\reset_sync.v
+82DB32C1CE92B99C00A7755C6DE2D837FDCC19693697EA828164F30185312FCE  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\touch_or_key_if.v
+CA07789310259D62B5ED58BAA259674483B766D032B145F4DDF77E1EF41285D3  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\voice_allocator.v
+4CD277A5E17CCD2FC7EB3DEEB5D31D79177F0B75D1A3D6CB7C1090DBE14F0590  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\voice_test_pattern.v
+4FA7AE6ED76FD1FA157397C5D48D5E94F4052FAA0389EE1D3E095C58E3511D9F  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\tb\tb_voice_control.v
+58DAB5F2EB1E42A62F54C12803AC735F81D1007652C4C4FF84347A20A6EE2F1A  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\tb\tb_key_events.v
+ED1621731B5A0408B99132CD03111614DACFC8C563A3A9A107DCDB63C0B09D68  D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\tb\tb_input_fault_cleanup.v

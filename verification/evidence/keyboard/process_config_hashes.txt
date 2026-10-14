@@ -1,0 +1,4 @@
+controlled=D:\AI tools\Codex&GPT\files\fpga_piano\projects\piano\process_config.json
+controlled_sha256=A0E52E5891A9453525E7F529AEB36B8F27ED1DB3112F1C6CEB1FB4E5A679A6A6
+effective=D:\AI tools\Codex&GPT\files\fpga_piano\projects\piano\impl\uart_piano_process_config.json
+effective_sha256=A0E52E5891A9453525E7F529AEB36B8F27ED1DB3112F1C6CEB1FB4E5A679A6A6

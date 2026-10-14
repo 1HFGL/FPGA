@@ -1,0 +1,971 @@
+{
+  "repository": "1HFGL/FPGA",
+  "branch": "master",
+  "commit": "0406c609afe2cdc1a204b719dedf3054cb4c2157",
+  "files": [
+    {
+      "path": ".gitignore",
+      "git_blob": "243e4f36141ec6b651c4af865666955bd4a4b3fe"
+    },
+    {
+      "path": ".vscode/config.json",
+      "git_blob": "75f8a62cefaecf82456b614805856b3ee700a897"
+    },
+    {
+      "path": ".vscode/settings.json",
+      "git_blob": "bac1211fdc47982eed7c4491a9ba9295f4ebfdbd"
+    },
+    {
+      "path": ".vscode/tasks.json",
+      "git_blob": "49367a6cf5f1e55ab929c4aeb5d9efa7a7c564e4"
+    },
+    {
+      "path": "AGENTS.md",
+      "git_blob": "4393f3bce139f49efc9d362853bc831623d547a4"
+    },
+    {
+      "path": "PLAN.md",
+      "git_blob": "67c0ef7d70c809577ddede8e10ad3c2b69a39dc1"
+    },
+    {
+      "path": "README.md",
+      "git_blob": "d1579fb261a1fae0c51a53ea93d52dc05f9542e4"
+    },
+    {
+      "path": "boards/tang_mega_60k_31004/piano.cst",
+      "git_blob": "6058f694c5975addcdf55c04986c5451d021ef76"
+    },
+    {
+      "path": "boards/tang_mega_60k_31004/piano.sdc",
+      "git_blob": "8c000fcc5d4e898d8eb571969b69d2d7eca9f9cc"
+    },
+    {
+      "path": "docs/design.md",
+      "git_blob": "445b191e36d5845eb803989c3a05d6da8c1ad3c1"
+    },
+    {
+      "path": "docs/display-font/OFL.txt",
+      "git_blob": "1c9f43281b8f216c5461fe9ac729afbade7724e4"
+    },
+    {
+      "path": "docs/display-font/README.md",
+      "git_blob": "7159572671f34c8cbbaddd4fb672a0c46397b53a"
+    },
+    {
+      "path": "docs/display-rgb.md",
+      "git_blob": "93c48fc786e99f7aa4cb5d5087de5a624f8e7a6a"
+    },
+    {
+      "path": "docs/keyboard-assembly.md",
+      "git_blob": "781e95c935df75269cc72d6148c043c32e0ff297"
+    },
+    {
+      "path": "docs/verification.md",
+      "git_blob": "8393e344a8c02c9fe7fe3c05e48b6489136bb6f6"
+    },
+    {
+      "path": "host/README.md",
+      "git_blob": "503d24c88a99c8e170303857afefae10a2abcf13"
+    },
+    {
+      "path": "host/STUDIO_PROTOCOL.md",
+      "git_blob": "e5272d91f74447c655389d67a7e8c8bfb9405505"
+    },
+    {
+      "path": "host/run_tone_studio.bat",
+      "git_blob": "e86f7e287a626071628a9bcf6fc4a0d0708dc494"
+    },
+    {
+      "path": "host/setup_studio.ps1",
+      "git_blob": "a9d3bc0e0cb529ddcc801592487eead980bcd772"
+    },
+    {
+      "path": "host/studio.py",
+      "git_blob": "66585405f3a14c1210171fee93634438d2762e86"
+    },
+    {
+      "path": "host/studio_model.py",
+      "git_blob": "0b6924e4b48df9359579fcac34aaa547b38dbbcc"
+    },
+    {
+      "path": "host/studio_requirements.txt",
+      "git_blob": "0055fcdac09aec59c94f201ab96f0a08df5944a2"
+    },
+    {
+      "path": "host/studio_transport.py",
+      "git_blob": "762b04ccb717fce44d1afe2e45f07011da64d24a"
+    },
+    {
+      "path": "host/studio_ui.py",
+      "git_blob": "60714fa80ee7d9b1130360f8dd0de10914219e26"
+    },
+    {
+      "path": "host/test_piano.py",
+      "git_blob": "df477668a2dda11857dcc2fdeb97db2735830a44"
+    },
+    {
+      "path": "host/test_studio.py",
+      "git_blob": "a2f0c379b7565e63da961faf75f7160459c83c71"
+    },
+    {
+      "path": "host/tone_examples/bright.json",
+      "git_blob": "cac293d1baf94bad5b013304697040d5f6b36901"
+    },
+    {
+      "path": "host/tone_examples/piano.json",
+      "git_blob": "66dcf6a5422de97f8bae7dfa14ca20d4f2bf0fe0"
+    },
+    {
+      "path": "host/tone_examples/sine.json",
+      "git_blob": "f932e2fe3db00f2ec04b05a5df3d84b18634ba26"
+    },
+    {
+      "path": "host/tone_examples/soft.json",
+      "git_blob": "51cf8448cd695e22e30da6370e0d7b6aa427e902"
+    },
+    {
+      "path": "host/新音色.json",
+      "git_blob": "1f639c857eceac6015377947e4c1f6a565203627"
+    },
+    {
+      "path": "model/check_adsr.py",
+      "git_blob": "05f93fd13848d526b66ca16457fa9b6567b64a94"
+    },
+    {
+      "path": "model/check_dds.py",
+      "git_blob": "0e85bf502d13562c1ec3a284d581c24c423ebd9b"
+    },
+    {
+      "path": "model/check_instrument_bank.py",
+      "git_blob": "8ad6841a784062b03af28f019f7942e8c48a6dc8"
+    },
+    {
+      "path": "model/check_instrument_netlist.py",
+      "git_blob": "dfb80f0ba6c4ac816b0405e64b50407fc0300dea"
+    },
+    {
+      "path": "model/check_instrument_roms.py",
+      "git_blob": "e2c9780d7ea83538eb1f0a9ce38534e189f3751d"
+    },
+    {
+      "path": "model/check_instrument_timing.py",
+      "git_blob": "b81b3505b571eaac6073f0c328cc69bae423f0df"
+    },
+    {
+      "path": "model/check_poly_adsr.py",
+      "git_blob": "bdbbea896d63b18e82d4557cfbde609ff2c70e08"
+    },
+    {
+      "path": "model/check_presets_board.py",
+      "git_blob": "d11fac72b422ec034bb650feb262727e7d77ffd4"
+    },
+    {
+      "path": "model/check_timbre_bank.py",
+      "git_blob": "d1a66987ae9fffec12e39ad489946486669d6ee0"
+    },
+    {
+      "path": "model/check_timbre_netlist.py",
+      "git_blob": "9bf3e6167b3b60c2de710bf769df382d3ff51709"
+    },
+    {
+      "path": "model/check_timbre_rom.py",
+      "git_blob": "06af15cade0ed7ca3b27f506af475b46a39614d3"
+    },
+    {
+      "path": "model/gen_instrument_roms.py",
+      "git_blob": "2bd69d9aafa1809f896130f23dc8010bee351b83"
+    },
+    {
+      "path": "model/gen_sine.ps1",
+      "git_blob": "4eb27c5f4b48072545043d78bcb936e3be6530a9"
+    },
+    {
+      "path": "model/gen_timbres.py",
+      "git_blob": "fd514b8046c9c0138868bb992c574baf8d75f5ed"
+    },
+    {
+      "path": "model/render_instrument_preview.py",
+      "git_blob": "6d0298ab8e14a8e0e18021096aee57a195dcc3f3"
+    },
+    {
+      "path": "model/render_piano_preview.py",
+      "git_blob": "6098e1f55402539342493bfbb883ca13601db4b3"
+    },
+    {
+      "path": "model/render_timbre_preview.py",
+      "git_blob": "790896fffb8325211be2fb7e0334e45f686494cf"
+    },
+    {
+      "path": "projects/check_implementation.ps1",
+      "git_blob": "98297ac9618d422d017f197b1f2a4202dd545866"
+    },
+    {
+      "path": "projects/checks/instruments_check/clock.sdc",
+      "git_blob": "7f37b578c658f8f9e583ccbee9da60ac681915f6"
+    },
+    {
+      "path": "projects/checks/instruments_check/instruments_check.gprj",
+      "git_blob": "f8944526816485d70a77baec577146f6784929db"
+    },
+    {
+      "path": "projects/checks/instruments_check/process_config.json",
+      "git_blob": "20ccfddc4c798902b20d9920cc7e4f0d6fde392a"
+    },
+    {
+      "path": "projects/checks/instruments_check/run.tcl",
+      "git_blob": "9c3d6b1924b0118008be295859f5f7fa589094c1"
+    },
+    {
+      "path": "projects/checks/instruments_check/voice_bank_instruments_timing_top.v",
+      "git_blob": "6eca85d3cd1e215da0806159b3d337a5874ada29"
+    },
+    {
+      "path": "projects/checks/poly_adsr_check/clock.sdc",
+      "git_blob": "7f37b578c658f8f9e583ccbee9da60ac681915f6"
+    },
+    {
+      "path": "projects/checks/poly_adsr_check/poly_adsr_check.gprj",
+      "git_blob": "39275ab8c51d07b33697195073cee3555602c9bd"
+    },
+    {
+      "path": "projects/checks/poly_adsr_check/process_config.json",
+      "git_blob": "c38da9bad1e9bb6930e197090734da5f4a5a71f4"
+    },
+    {
+      "path": "projects/checks/poly_adsr_check/run.tcl",
+      "git_blob": "a789e27a2e42914913a7893fde11d7b25574ce5d"
+    },
+    {
+      "path": "projects/checks/poly_adsr_check/voice_bank_adsr_timing_top.v",
+      "git_blob": "22508971affce0bd569425a5940d35a70f265fda"
+    },
+    {
+      "path": "projects/display/build.ps1",
+      "git_blob": "a6f3a760a37f03289306bd915800199ee5af9094"
+    },
+    {
+      "path": "projects/display/display_rgb.gprj",
+      "git_blob": "c7ed831f2eeb88d5bb432f05d7eb11f0cb650d95"
+    },
+    {
+      "path": "projects/display/process_config.json",
+      "git_blob": "9739cde2acc91fbe7cecb297cb3e32af9dee8736"
+    },
+    {
+      "path": "projects/display/synthesize.tcl",
+      "git_blob": "649af0c31b290d5cef1d43fcf726656a4fad1d07"
+    },
+    {
+      "path": "projects/examples/instruments_board/clock.sdc",
+      "git_blob": "ec3747975b0f852bbe841e78143ed353eb292b4d"
+    },
+    {
+      "path": "projects/examples/instruments_board/instruments_board.gprj",
+      "git_blob": "f0cf860dffb01ff50927c93d261f2ab553893707"
+    },
+    {
+      "path": "projects/examples/instruments_board/pins.cst",
+      "git_blob": "a8ce8da429efcab5e6be393556d7bedd92c950fe"
+    },
+    {
+      "path": "projects/examples/instruments_board/process_config.json",
+      "git_blob": "cffc21776ea5d182a7782e990b71c6b0fe530d49"
+    },
+    {
+      "path": "projects/examples/instruments_board/run.tcl",
+      "git_blob": "1d4c927faf6d6e16d4b445c9757eb20ee415a47e"
+    },
+    {
+      "path": "projects/piano/build.ps1",
+      "git_blob": "d477a223335b5062c6ebe1decab230aae856665f"
+    },
+    {
+      "path": "projects/piano/build_piano.tcl",
+      "git_blob": "246564a78fba08928d51664d8cc24e8ef5c5c608"
+    },
+    {
+      "path": "projects/piano/process_config.json",
+      "git_blob": "dd6d1567d9a750266c628fb9829452f07c24ca4a"
+    },
+    {
+      "path": "projects/piano/uart_piano.gprj",
+      "git_blob": "14f1b3ca7c15f42be494f991a90a9efaf17aaf35"
+    },
+    {
+      "path": "rtl/audio/i2s_tx.v",
+      "git_blob": "904cdc596d45be76e9a46e30a944327851e65b99"
+    },
+    {
+      "path": "rtl/audio/sample_tick.v",
+      "git_blob": "149f8f9abe096478c0714b533ac34a584bc49d8b"
+    },
+    {
+      "path": "rtl/audio/synth_top.v",
+      "git_blob": "00d58c2e6440db7ee886c3e7090d9cd392e9d06b"
+    },
+    {
+      "path": "rtl/control/event_encoder.v",
+      "git_blob": "270c4631c9620c7e93a065f29dffcd8ab0e6796d"
+    },
+    {
+      "path": "rtl/control/input_sync_debounce.v",
+      "git_blob": "6befb7677db7abd6c042bdfab8dfb5733040c159"
+    },
+    {
+      "path": "rtl/control/note_phase_lut.v",
+      "git_blob": "78dde25738e4da6093f09827488d6586215f7d8a"
+    },
+    {
+      "path": "rtl/control/touch_or_key_if.v",
+      "git_blob": "eac5b36db876a73c6770a00225ebfef823c0cf36"
+    },
+    {
+      "path": "rtl/control/uart_event_arbiter.v",
+      "git_blob": "c7466b7ac5849f43f1e4cac23d1c763f95d2474f"
+    },
+    {
+      "path": "rtl/control/uart_fifo.v",
+      "git_blob": "ad5ecce5528e3fc70a7219be3753d013b0d03ee8"
+    },
+    {
+      "path": "rtl/control/uart_line_rx.v",
+      "git_blob": "63929db78297a8a09a007b50f4dfd38df5cd8ad8"
+    },
+    {
+      "path": "rtl/control/uart_reply_tx.v",
+      "git_blob": "047157a7245eabe04fc2331dfcc904c631a626e0"
+    },
+    {
+      "path": "rtl/control/uart_rx.v",
+      "git_blob": "76dda61399d94419a2ddb943932e37822556ef4d"
+    },
+    {
+      "path": "rtl/control/uart_synth_protocol.v",
+      "git_blob": "d5d8dc90ffcdd714590f2e197eac15fd0c4b9563"
+    },
+    {
+      "path": "rtl/control/uart_tx.v",
+      "git_blob": "a2f17b333616cc797302b75884d1a5f77d02d811"
+    },
+    {
+      "path": "rtl/control/voice_allocator.v",
+      "git_blob": "89aaede3cc1e6c6daacac799d29009b5440a2705"
+    },
+    {
+      "path": "rtl/display/display_cdc_latest.v",
+      "git_blob": "af08d7f2843e8962f97dcfa6dd630127342c84c2"
+    },
+    {
+      "path": "rtl/display/display_font24.v",
+      "git_blob": "0db6b7accc383db3c3a93d0dbcaee17830b0897f"
+    },
+    {
+      "path": "rtl/display/display_wave_buffer.v",
+      "git_blob": "b24e297eb384bbd9ec07c2f042b696067a3c8cfb"
+    },
+    {
+      "path": "rtl/display/instrument_display.v",
+      "git_blob": "b5a5733ee41a4581dc22ef72ae3d86f805e6a6fb"
+    },
+    {
+      "path": "rtl/display/lcd_rgb_timing.v",
+      "git_blob": "753a3b84fca99a715f93c3fdd52afae740c970c0"
+    },
+    {
+      "path": "rtl/display/piano_display_renderer.v",
+      "git_blob": "725fec02ee65bc13455a0176c859b78cf8e87d08"
+    },
+    {
+      "path": "rtl/rom/bright_1024.mem",
+      "git_blob": "580bb27833e601c3083ea6a9b14252cff86ce461"
+    },
+    {
+      "path": "rtl/rom/guitar_1024.mem",
+      "git_blob": "0bac37319a23762efda72c94868af1ed79714174"
+    },
+    {
+      "path": "rtl/rom/piano_1024.mem",
+      "git_blob": "59877888564a9a068be164c88681c09312fb8538"
+    },
+    {
+      "path": "rtl/rom/sine_1024.mem",
+      "git_blob": "72cfe6ca38f1221c10108e06202890585487ecda"
+    },
+    {
+      "path": "rtl/rom/strings_1024.mem",
+      "git_blob": "f5ba75d4cd37d3fde08cdee65c7cb00f7d5283e5"
+    },
+    {
+      "path": "rtl/synth/adsr_env.v",
+      "git_blob": "e2c09e58873c55f851cf61e2ed68a2745913fbf2"
+    },
+    {
+      "path": "rtl/synth/instrument_env.v",
+      "git_blob": "5509c7e566c70f45cd1d66f8cf8443a4122d06a4"
+    },
+    {
+      "path": "rtl/synth/instrument_wave.v",
+      "git_blob": "72a51314594bf0b088986c2f75204a5716fae37a"
+    },
+    {
+      "path": "rtl/synth/phase_acc.v",
+      "git_blob": "b3aeae195bcf242c8b439b35815a6f976c4efc2b"
+    },
+    {
+      "path": "rtl/synth/sample_gain.v",
+      "git_blob": "1bffe6364536556972999c99028c7c837941271d"
+    },
+    {
+      "path": "rtl/synth/sample_mixer4.v",
+      "git_blob": "cf5669fdfddcffde9596f06a2b7fbbe3dfaac0e0"
+    },
+    {
+      "path": "rtl/synth/voice_adsr.v",
+      "git_blob": "28fbde136450fcb173b4ec249a4678020ef5110d"
+    },
+    {
+      "path": "rtl/synth/voice_bank_adsr.v",
+      "git_blob": "ad26d293d1b96c1986ea424cc8b2ffea9f39ea1e"
+    },
+    {
+      "path": "rtl/synth/voice_bank_instruments.v",
+      "git_blob": "93cdec5d54c1955606bbdd4c32783b4aafa71308"
+    },
+    {
+      "path": "rtl/synth/voice_dds.v",
+      "git_blob": "54078f8dbe8989b932c326e123e133a376284f77"
+    },
+    {
+      "path": "rtl/synth/voice_instrument.v",
+      "git_blob": "b3bbecca314bde9a208e17c5dacfe5f52c205926"
+    },
+    {
+      "path": "rtl/synth/voice_timbre_adsr.v",
+      "git_blob": "97dceca19b1605d7861b27f20b1490b0efd50d44"
+    },
+    {
+      "path": "rtl/synth/wave_lut.v",
+      "git_blob": "391ec68b236f8e520456f5677effcf4c71785298"
+    },
+    {
+      "path": "rtl/synth/wave_lut_timbre.v",
+      "git_blob": "f86e19b13e1c7e43ebbfa46ffc80c2d1f80b1a17"
+    },
+    {
+      "path": "rtl/top/instrument_presets_top.v",
+      "git_blob": "9738b1ea823ed1cd17edac44a0269e518c30907e"
+    },
+    {
+      "path": "rtl/top/instrument_uart_piano_top.v",
+      "git_blob": "6067e8b4755af144b72cb910c69eecb217d5fff4"
+    },
+    {
+      "path": "rtl/top/instrument_uart_top.v",
+      "git_blob": "ca5f8584e35e3fba14f60eee2d879e5881f07ec1"
+    },
+    {
+      "path": "upstream/fpga_interaction/.gitignore",
+      "git_blob": "9262597bed3664dbb881933b92b821f06eabddbc"
+    },
+    {
+      "path": "upstream/fpga_interaction/README.md",
+      "git_blob": "ba581d4af253575eedcc306eb2a1b9b5195fe30c"
+    },
+    {
+      "path": "upstream/fpga_interaction/doc/ads1115_driver.md",
+      "git_blob": "2752d541127cafa0c91ace59f9f98158aae09921"
+    },
+    {
+      "path": "upstream/fpga_interaction/doc/board_bringup_plan.md",
+      "git_blob": "0812fac10a9a74cbb77271c2594bf260fab2a10a"
+    },
+    {
+      "path": "upstream/fpga_interaction/doc/c_input_upgrade.md",
+      "git_blob": "5e104ecf6f772b1cfc55daa9c1116854e22e588f"
+    },
+    {
+      "path": "upstream/fpga_interaction/doc/c_progress_20261012.md",
+      "git_blob": "8a2b09981d3a47cee9ad952d0f1d97fb3ba5a50c"
+    },
+    {
+      "path": "upstream/fpga_interaction/doc/code_review_20260924.md",
+      "git_blob": "213033a494d1e3fb6d3b94d3d7df10b9f4f6dfa4"
+    },
+    {
+      "path": "upstream/fpga_interaction/doc/timing_report.md",
+      "git_blob": "15bb110b09084dc8da0c0f41ef8ba6e3158892b8"
+    },
+    {
+      "path": "upstream/fpga_interaction/doc/upgrade_32voice.md",
+      "git_blob": "bf51c8434dfc3b68987d1f738a16de35db894fc9"
+    },
+    {
+      "path": "upstream/fpga_interaction/gowin/tang_mega_60K_pins.cst",
+      "git_blob": "a3d806759152979f4478dc255d32decdb62d197f"
+    },
+    {
+      "path": "upstream/fpga_interaction/gowin/tang_mega_60k_interaction.cst",
+      "git_blob": "0498ec45e6e3dec15c31bb8e140afe72a6a6554e"
+    },
+    {
+      "path": "upstream/fpga_interaction/gowin/tang_mega_60k_interaction.sdc",
+      "git_blob": "6df45d8778b33a3ca5a76f30a02bfe928493c0f2"
+    },
+    {
+      "path": "upstream/fpga_interaction/gowin/tang_mega_60k_knob.cst",
+      "git_blob": "115c55676fa4cf8e80d54db2177c4693058f375e"
+    },
+    {
+      "path": "upstream/fpga_interaction/gowin/tang_mega_60k_knob.sdc",
+      "git_blob": "6df45d8778b33a3ca5a76f30a02bfe928493c0f2"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/adc_knob_if.v",
+      "git_blob": "630649d319852c02c08fdc5c39af33692adc0cde"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/ads1115_if.v",
+      "git_blob": "4d0184976adb3e1c0f4f2b1d543743e89a70064b"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/ads1115_knob_if.v",
+      "git_blob": "c8977ed6f26ac24505d97cdc2538b145b2ed75f1"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/board_knob_top.v",
+      "git_blob": "224f6d88adca212bd15c088dde99b32bb58241b4"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/board_test_top.v",
+      "git_blob": "36c9548868955a3d1da1d6a9e98dd4ddb65903eb"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/board_top.v",
+      "git_blob": "c55a1456b40bf24eb5e5b1f7dc7167eee38624c4"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/event_encoder.v",
+      "git_blob": "61ce554cd4ab85b23d6410003b647c9662454376"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/i2c_master.v",
+      "git_blob": "66e56df9ec6fcef356e243fd804b39f643d92d2d"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/input_sync_debounce.v",
+      "git_blob": "a00df627c9492575c4e160947ad1a1dc409c7c72"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/interaction_top.v",
+      "git_blob": "e6c6ddf99beb3ec0dcb912080f443906b447254d"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/pressure_if.v",
+      "git_blob": "bbd7223a7e8e22302e54cb92a60c3a6198d00496"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/reset_sync.v",
+      "git_blob": "c494742b251edf8056a59c73a336777de6b20de9"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/touch_or_key_if.v",
+      "git_blob": "e7160060f5765fca5c965b5000ecfc9870384fbf"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/voice_allocator.v",
+      "git_blob": "34da40229115ca9c82fa32b480a4738fa25415fc"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/voice_test_pattern.v",
+      "git_blob": "5d396a7d279c0ba251ce8654246f8677038bdf22"
+    },
+    {
+      "path": "upstream/fpga_interaction/scripts/gowin_build.tcl",
+      "git_blob": "ea5618477091c1200837e13329b7684ff5a84b42"
+    },
+    {
+      "path": "upstream/fpga_interaction/scripts/gowin_build_knob.tcl",
+      "git_blob": "9866555a0908e4b9eff8c048b0767387edb28b11"
+    },
+    {
+      "path": "upstream/fpga_interaction/scripts/run_modelsim.bat",
+      "git_blob": "10b58ebd5bd15f3436fd2ee8280a7c44475affe4"
+    },
+    {
+      "path": "upstream/fpga_interaction/scripts/run_modelsim.ps1",
+      "git_blob": "bfa7bd9bcc2e469c446fa5cfa51d820b96f7564f"
+    },
+    {
+      "path": "upstream/fpga_interaction/sim/compile_all.do",
+      "git_blob": "03e95046838f3314b060ec7517201b27f1a3c94e"
+    },
+    {
+      "path": "upstream/fpga_interaction/tang_mega_60k_interaction.gprj",
+      "git_blob": "f7cf74ee72cd638949858957efc86a1cc8b56284"
+    },
+    {
+      "path": "upstream/fpga_interaction/tang_mega_60k_knob.gprj",
+      "git_blob": "6bc9e2a5b3a3cff5879964084841dd5e27f39663"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/ads1115_model.sv",
+      "git_blob": "3b0e317893747ca7370101f55e16b7bfeedff905"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_adc_knob_if.sv",
+      "git_blob": "b443cbf4bab920e83564174d0d282fccc2688d69"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_ads1115_faults.sv",
+      "git_blob": "0b334397585dd2b6c6c049752f03ad748c10f6e4"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_ads1115_if.sv",
+      "git_blob": "c0134b3c9f03a6dff650a926c5fd902645e725dc"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_ads1115_knob_if.sv",
+      "git_blob": "f2de484e993f3b6f6768d35ab818ae8acbcad8a4"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_ads1115_mapping.sv",
+      "git_blob": "dc61e36a87c362ea71bbd96ddacc1872e8ab23a9"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_event_encoder.sv",
+      "git_blob": "bff07f9203b5832e3f4382539dc8f4a82fde4d68"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_input_sync_debounce.sv",
+      "git_blob": "2b1c2de27de5d8053709f686932b7cf36308ede5"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_interaction_top.sv",
+      "git_blob": "9f4d38a3260669c0b1b9468c7eb4824878b79fa5"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_keyboard_extended.sv",
+      "git_blob": "e905b9d4c7700d0d2a8390547c47306d051be7aa"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_pressure_if.sv",
+      "git_blob": "a5b361a545040bc37a1cc37c5ed5408a38e17861"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_voice_allocator.sv",
+      "git_blob": "aa2212ef602551e6c254c547d48255440d9b5d83"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_voice_test_pattern.sv",
+      "git_blob": "311e0e79aec994dfc41d80e29e2b30554d04977f"
+    },
+    {
+      "path": "upstream/fpga_interaction/verification/debounce_2ms_20261012/ab_simulation.log",
+      "git_blob": "b808250dbc7ac42ff4b3f39b2fd9ebc2e5bc62d9"
+    },
+    {
+      "path": "upstream/fpga_interaction/verification/debounce_2ms_20261012/simulation.log",
+      "git_blob": "1fb17c74edc1d769076ee52ef3e43203b8bd2eed"
+    },
+    {
+      "path": "upstream/fpga_interaction/verification/knob_20261012/ab_simulation.log",
+      "git_blob": "a7505997561c77a914788bfc4b6c10fc4a3e863f"
+    },
+    {
+      "path": "upstream/fpga_interaction/verification/knob_20261012/build.tcl",
+      "git_blob": "2fa2de606a3c3b07535e584d44af3ee246654225"
+    },
+    {
+      "path": "upstream/fpga_interaction/verification/knob_20261012/knob_verified.gprj",
+      "git_blob": "2b2bfff6f315fae7d42c32f14afb86b726f9cfba"
+    },
+    {
+      "path": "upstream/fpga_interaction/verification/knob_20261012/reports/knob_verified_tr_content.html",
+      "git_blob": "3e181ad4a9d070bdcd0c29e08b363ae8865b68c6"
+    },
+    {
+      "path": "upstream/fpga_interaction/verification/knob_20261012/simulation.log",
+      "git_blob": "e4c0a63b8f7b68bd0db0a33dec2ffbe7a271ba9b"
+    },
+    {
+      "path": "verification/scripts/a_common.tcl",
+      "git_blob": "4eddb58306d3a5a96d447a61cb67749762c55728"
+    },
+    {
+      "path": "verification/scripts/check_audio_parameters.ps1",
+      "git_blob": "588affe66113c4ba6308e00f09a7a9a47ddd0456"
+    },
+    {
+      "path": "verification/scripts/check_c_rtl.ps1",
+      "git_blob": "e49601488fe5240fe1ee25635263b99a8863db52"
+    },
+    {
+      "path": "verification/scripts/check_verilog.ps1",
+      "git_blob": "c24e1a294d7eb672a48b6a0cf69564be24b8340d"
+    },
+    {
+      "path": "verification/scripts/compile_all.do",
+      "git_blob": "048cfe18b3db828bbf7949708a84cd1bba66093d"
+    },
+    {
+      "path": "verification/scripts/generate_display_font.py",
+      "git_blob": "2aa2c424a08aa9475628d4ee883c89a0bb56fb52"
+    },
+    {
+      "path": "verification/scripts/render_display_frame.py",
+      "git_blob": "af97431a6a9364d58a6a1c618988fe5b1478c015"
+    },
+    {
+      "path": "verification/scripts/run_adsr_env.do",
+      "git_blob": "910995fc60558a87dbb12e3ee76de219d2b802d0"
+    },
+    {
+      "path": "verification/scripts/run_allocator_review.tcl",
+      "git_blob": "148799678fd820fd8d931e1cd53c7c8336535bf5"
+    },
+    {
+      "path": "verification/scripts/run_b_audio.ps1",
+      "git_blob": "0a43beb77948e4f248fa4907cdd7e0659c719d5d"
+    },
+    {
+      "path": "verification/scripts/run_c_modelsim.bat",
+      "git_blob": "56d7f0714c6f23a87987abb0f7fb755b263b9c8b"
+    },
+    {
+      "path": "verification/scripts/run_c_modelsim.ps1",
+      "git_blob": "ec229f87c41935371e5d546b4f3400c74cf9adbe"
+    },
+    {
+      "path": "verification/scripts/run_display_tests.ps1",
+      "git_blob": "8394e320447ad8fe345a6e9b2dcde7072cb8b6a9"
+    },
+    {
+      "path": "verification/scripts/run_instruments.tcl",
+      "git_blob": "fd4dcfb303bbf359b181104791e1f64fb464cbac"
+    },
+    {
+      "path": "verification/scripts/run_latency_tests.ps1",
+      "git_blob": "b15002c0edd48b2d9f4aba31bbabb627c47c3bc1"
+    },
+    {
+      "path": "verification/scripts/run_modelsim.ps1",
+      "git_blob": "f14119bb13004e4338c50896c65928e1150bfb9f"
+    },
+    {
+      "path": "verification/scripts/run_pa_tests.ps1",
+      "git_blob": "c2e91742773f5e778cc7ddcb8b343705e9ab16bb"
+    },
+    {
+      "path": "verification/scripts/run_phase_acc.do",
+      "git_blob": "bfe95359086d29bfa1c097f7a9082e33bf027561"
+    },
+    {
+      "path": "verification/scripts/run_piano_tests.ps1",
+      "git_blob": "df6ca30337d0ca95d659b1ddc80dc653a7195aff"
+    },
+    {
+      "path": "verification/scripts/run_poly_adsr.tcl",
+      "git_blob": "482e66cbc4bd77273d5d9478c6c5dcea5004a9f4"
+    },
+    {
+      "path": "verification/scripts/run_tests.ps1",
+      "git_blob": "38ce02e0a67a4ef165e78c2f9b7dde5d4b8c290a"
+    },
+    {
+      "path": "verification/scripts/run_timbres.tcl",
+      "git_blob": "7ad4ea48948b548ed4c106bc419155c44bcc8cb2"
+    },
+    {
+      "path": "verification/scripts/run_uart_tests.ps1",
+      "git_blob": "423dac360aa2d1b76e90380cf6a9e372c57b833a"
+    },
+    {
+      "path": "verification/scripts/run_voice_adsr.do",
+      "git_blob": "de6e30bf98cbee40081fa9c8d7d74175cb0f933c"
+    },
+    {
+      "path": "verification/scripts/run_voice_dds.do",
+      "git_blob": "571d0d0bbebdc7526adb11a1e55aaa4e8e3bbdc3"
+    },
+    {
+      "path": "verification/scripts/run_wave_lut.do",
+      "git_blob": "22dd121d5e66465a8e96f5092b16a43ed84b360a"
+    },
+    {
+      "path": "verification/tb/audio/sample_tick_tb.v",
+      "git_blob": "fbb35b4274d3c379cd79fe4c42ca3ae7f79045ad"
+    },
+    {
+      "path": "verification/tb/audio/synth_top_tb.v",
+      "git_blob": "5f664fd05625013f383353f951fd812d0a52b964"
+    },
+    {
+      "path": "verification/tb/audio/tb_audio_boundaries.v",
+      "git_blob": "a00a430deb2405fdae29a84454f044f54fc283a9"
+    },
+    {
+      "path": "verification/tb/control/tb_allocator_review.v",
+      "git_blob": "7a91ffe807752ee50586ffb3e15b76eab6ac9a7d"
+    },
+    {
+      "path": "verification/tb/control/tb_allocator_trigger.v",
+      "git_blob": "0842c269f01dfd16069ce9891ee91c6edf78e868"
+    },
+    {
+      "path": "verification/tb/control/tb_event_encoder.v",
+      "git_blob": "b9971e59ab3584b2aac71f7072025648dbb46f1b"
+    },
+    {
+      "path": "verification/tb/control/tb_input_sync_debounce.v",
+      "git_blob": "7234b8bd5365f9d6cce64cf972436a8c07509886"
+    },
+    {
+      "path": "verification/tb/control/tb_uart_bytes.v",
+      "git_blob": "055dd8f7df547b424d4285b13aca4b74e6b6c365"
+    },
+    {
+      "path": "verification/tb/control/tb_uart_flow.v",
+      "git_blob": "5f126c49680d031bd8bf5893599cbd8b69166d92"
+    },
+    {
+      "path": "verification/tb/control/tb_uart_line.v",
+      "git_blob": "ea0ec805dcec575b24073c38e45536846a68da1e"
+    },
+    {
+      "path": "verification/tb/control/tb_uart_protocol.v",
+      "git_blob": "550b17df073d8b492801b33589d9c239fe5aaa24"
+    },
+    {
+      "path": "verification/tb/control/tb_uart_replies.v",
+      "git_blob": "fa06652c2040b538071de7ac525c38dc17384609"
+    },
+    {
+      "path": "verification/tb/control/tb_voice_allocator.v",
+      "git_blob": "5ef6439414db6869e26a1d1ab8e2b6b56977b490"
+    },
+    {
+      "path": "verification/tb/display/tb_display_cdc.v",
+      "git_blob": "17c36c32ab7f879e625406e37725adefdd3b0daf"
+    },
+    {
+      "path": "verification/tb/display/tb_display_renderer.v",
+      "git_blob": "55608fae56306f8479e3b831660b2d438de53f23"
+    },
+    {
+      "path": "verification/tb/display/tb_display_reset_gain.v",
+      "git_blob": "04ed6a85e0f4c4ba72fe4ba4e435a83fb4434ed6"
+    },
+    {
+      "path": "verification/tb/display/tb_display_timing.v",
+      "git_blob": "7b5bb0cd53615f372170def57a69d11edde40a1c"
+    },
+    {
+      "path": "verification/tb/display/tb_display_wave.v",
+      "git_blob": "0b66e1c1c47332f3d7709530af5d10d0a0509c1c"
+    },
+    {
+      "path": "verification/tb/display/tb_instrument_display.v",
+      "git_blob": "525914abf3a7ca325ea84b984c1a2cb9c7410e6c"
+    },
+    {
+      "path": "verification/tb/integration/single_tone_demo_top.v",
+      "git_blob": "39ffac577b2f2795143d34cb2df7e1c2a127d7ca"
+    },
+    {
+      "path": "verification/tb/integration/tb_audio_display_isolation.v",
+      "git_blob": "80d09d922073941f84caeb11276e95e5113d219a"
+    },
+    {
+      "path": "verification/tb/integration/tb_audio_parameters.v",
+      "git_blob": "0933c80be441fb9057accf8ccc637cd86b74c0df"
+    },
+    {
+      "path": "verification/tb/integration/tb_instrument_presets.v",
+      "git_blob": "0958ffad09630016e80ba406c10076dbbcae724f"
+    },
+    {
+      "path": "verification/tb/integration/tb_piano_latency.v",
+      "git_blob": "0e9ab4b28019c66ddcf7e70db1f8f445aca496d4"
+    },
+    {
+      "path": "verification/tb/integration/tb_single_tone_ab.v",
+      "git_blob": "5c2745e43b1c5e8a99f90f6afb99c2467934cc45"
+    },
+    {
+      "path": "verification/tb/integration/tb_uart_instrument.v",
+      "git_blob": "22254e01c3762218244da3d1db2a9369ba90a599"
+    },
+    {
+      "path": "verification/tb/integration/tb_uart_pa_drain.v",
+      "git_blob": "ac71475bb2e620ca29e1e61a02a0f9c26c9d7fac"
+    },
+    {
+      "path": "verification/tb/integration/tb_uart_piano_board.v",
+      "git_blob": "052eea60bd878e18bb29718427c7ff0faf9866df"
+    },
+    {
+      "path": "verification/tb/synth/tb_adsr_arithmetic.v",
+      "git_blob": "ed72222c0221272601e70150cf90bc01c1942c85"
+    },
+    {
+      "path": "verification/tb/synth/tb_adsr_env.v",
+      "git_blob": "640452c993355acb8c01d46ac5ebfd84c338be65"
+    },
+    {
+      "path": "verification/tb/synth/tb_instrument_bank.v",
+      "git_blob": "6903d9fb35d48efc52276fac5cdbc625836e13f5"
+    },
+    {
+      "path": "verification/tb/synth/tb_instrument_preview.v",
+      "git_blob": "433f1dec78138a89e5e94d5ba22a388df6454684"
+    },
+    {
+      "path": "verification/tb/synth/tb_instrument_wave.v",
+      "git_blob": "d4a82c35c73a2e10cdd6d3be09311f3a49fd51c0"
+    },
+    {
+      "path": "verification/tb/synth/tb_phase_acc.v",
+      "git_blob": "e7b9492daf7967d0b226bab637fd3f9b37f420f6"
+    },
+    {
+      "path": "verification/tb/synth/tb_piano_tone.v",
+      "git_blob": "40c55b2c199c528e07746121a690ace61a500288"
+    },
+    {
+      "path": "verification/tb/synth/tb_sample_gain.v",
+      "git_blob": "7e25593aad56d85ccf9967978b55914e85499f98"
+    },
+    {
+      "path": "verification/tb/synth/tb_sample_mixer4.v",
+      "git_blob": "2c8519de8f588cfafad5b9ffb323d2a03d89f054"
+    },
+    {
+      "path": "verification/tb/synth/tb_timbre_bank.v",
+      "git_blob": "a688e96e4f95e81534e1fa473ee874cdfed7a39c"
+    },
+    {
+      "path": "verification/tb/synth/tb_timbre_preview.v",
+      "git_blob": "21eaa533995791cb6019fba18bc0b75d115f30d5"
+    },
+    {
+      "path": "verification/tb/synth/tb_voice_adsr.v",
+      "git_blob": "8c08f3da42cd4c1cb547e53e672719abd9092154"
+    },
+    {
+      "path": "verification/tb/synth/tb_voice_bank_adsr.v",
+      "git_blob": "7031ec34f5aa46501cd9f69566e69e4a5797e222"
+    },
+    {
+      "path": "verification/tb/synth/tb_voice_dds.v",
+      "git_blob": "8d9b88ff4dc2f9ffc16f058811ff3f59ce07437a"
+    },
+    {
+      "path": "verification/tb/synth/tb_wave_lut.v",
+      "git_blob": "c7689b52f402f9354abe515fc5b779250a73f901"
+    },
+    {
+      "path": "verification/tb/synth/tb_wave_lut_timbre.v",
+      "git_blob": "d2a02b99da5dd07028e6b08bd592295c6a29c533"
+    }
+  ]
+}

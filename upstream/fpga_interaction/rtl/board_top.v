@@ -78,6 +78,16 @@ module board_top #(
         .ADC_WIDTH        (12),
         .TEST_HOLD_CYCLES (TEST_HOLD_CYCLES)
     ) u_interaction_top (
+        .octave_select(2'd1),
+        .sustain_on(1'b0),
+        .source_clear_valid(1'b0),
+        .source_clear_id(5'd0),
+        .source_clear_mask(5'd0),
+        .source_clear_ready(),
+        .voice_key_down(),
+        .voice_trigger_id_flat(),
+        .input_fault(),
+        .release_trigger_id_flat(512'd0),
         .clk                      (sys_clk),
         .rst_n                    (rst_n_sync),
         .key_n                    (key_n_all),

@@ -21,7 +21,7 @@ module instrument_uart_piano_top #(
         .ATTACK_SAMPLES(32'd96),.DECAY_SAMPLES(32'd57600),
         .SUSTAIN_LEVEL(17'd0),.RELEASE_SAMPLES(32'd8640)
     ) u_core(
-        .sys_clk(sys_clk),.sys_rst_n(sys_rst_n),.Key_in(Key_in),.uart_rx(uart_rx),.uart_tx(uart_tx),
+        .sys_clk(sys_clk),.sys_rst_n(sys_rst_n),.Key_in(Key_in),.piano_key_n(13'h1fff),.uart_rx(uart_rx),.uart_tx(uart_tx),
         .HP_BCK(HP_BCK),.HP_WS(HP_WS),.HP_DIN(HP_DIN),.PA_EN(PA_EN)
     );
 endmodule

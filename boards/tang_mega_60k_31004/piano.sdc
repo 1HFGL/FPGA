@@ -3,6 +3,7 @@ create_clock -name sys_clk -period 20.000 -waveform {0.000 10.000} [get_ports {s
 # uart_rx在RTL中唯一使用处是u_uart/u_rx/rx_meta，构建后还须核对网表。
 set_false_path -from [get_ports {uart_rx}]
 set_false_path -from [get_ports {Key_in[0] Key_in[1]}]
+set_false_path -from [get_ports {piano_key_n[0] piano_key_n[1] piano_key_n[2] piano_key_n[3] piano_key_n[4] piano_key_n[5] piano_key_n[6] piano_key_n[7] piano_key_n[8] piano_key_n[9] piano_key_n[10] piano_key_n[11] piano_key_n[12]}]
 # 复位异步断言，统一通过B两拍同步释放。
 set_false_path -from [get_ports {sys_rst_n}]
 # 保留本地寄存器到引脚预算；不是DAC完整外部时序签核。
