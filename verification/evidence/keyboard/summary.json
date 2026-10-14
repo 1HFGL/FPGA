@@ -1,0 +1,212 @@
+{
+  "baseline_commit": "0406c609afe2cdc1a204b719dedf3054cb4c2157",
+  "top": "piano_13key_top",
+  "strict_verilog_files": 87,
+  "testbenches": {
+    "control": [
+      "tb_input_sync_debounce",
+      "tb_event_encoder",
+      "tb_voice_allocator",
+      "tb_allocator_age",
+      "tb_allocator_owner",
+      "tb_allocator_expression_owner",
+      "tb_allocator_expression_reset"
+    ],
+    "piano": [
+      "tb_piano_tone",
+      "tb_uart_piano_board"
+    ],
+    "uart": [
+      "tb_uart_bytes",
+      "tb_uart_line",
+      "tb_uart_protocol",
+      "tb_uart_flow",
+      "tb_uart_replies",
+      "tb_uart_instrument",
+      "tb_uart_instrument_115200"
+    ],
+    "keyboard": [
+      "tb_piano_13_keys",
+      "tb_piano_13_debounce"
+    ]
+  },
+  "testbench_count": 18,
+  "unchanged_original_tests": 57,
+  "clock_mhz": 50,
+  "worst_slack_ns": {
+    "setup": 4.519,
+    "hold": 0.227,
+    "recovery": 17.039,
+    "removal": 0.876,
+    "pulse_width": 6.809
+  },
+  "constrained_ports": {
+    "sys_clk": "V22",
+    "sys_rst_n": "AA13",
+    "Key_in[0]": "AB13",
+    "Key_in[1]": "Y12",
+    "HP_BCK": "Y17",
+    "HP_WS": "AB17",
+    "HP_DIN": "AA16",
+    "PA_EN": "AB16",
+    "uart_rx": "V14",
+    "uart_tx": "U15",
+    "piano_key_n[0]": "P19",
+    "piano_key_n[1]": "R19",
+    "piano_key_n[2]": "T21",
+    "piano_key_n[3]": "U21",
+    "piano_key_n[4]": "P16",
+    "piano_key_n[5]": "R17",
+    "piano_key_n[6]": "R18",
+    "piano_key_n[7]": "T18",
+    "piano_key_n[8]": "Y21",
+    "piano_key_n[9]": "Y22",
+    "piano_key_n[10]": "AB21",
+    "piano_key_n[11]": "AB22",
+    "piano_key_n[12]": "AA20"
+  },
+  "resources": {
+    "Logic": 6225.0,
+    "Register": 2815.0,
+    "BSRAM": 6.0,
+    "DSP": 8.5
+  },
+  "cpu_pins_as_gpio": true,
+  "digital_observation_ns": {
+    "pcm": 2020220,
+    "left_dac_word": 2030880,
+    "scope": "single fresh C5 after stable input, not physical/analog latency or worst-case guarantee"
+  },
+  "bitstream": "projects/piano/impl/pnr/piano_13key.fs",
+  "bitstream_sha256": "e7fbfd3b8ef703db55916388c87ab3f24149d9d6af01e0c6fdabad346b12ac97",
+  "source_changes": [
+    {
+      "path": "AGENTS.md",
+      "status": "modified",
+      "sha256": "6a43f70d1fd39cea43d5fc42bee4c4bd5af1cb019ed7b18f0989232909cf2b97"
+    },
+    {
+      "path": "PLAN.md",
+      "status": "modified",
+      "sha256": "e13e9a426065bd44eefd8ff4790a847ef314113aaaa08863820e9f237fc2b4e7"
+    },
+    {
+      "path": "README.md",
+      "status": "modified",
+      "sha256": "20e09e6d5a073cb3d23b0aa03d52021879c7448dcc109e03a2a53482a000f8d4"
+    },
+    {
+      "path": "boards/tang_mega_60k_31004/piano.cst",
+      "status": "modified",
+      "sha256": "d447556ccd9c1dd38ee93db9b534eeac22924b703fead3cb54a2a3a1020d4fc6"
+    },
+    {
+      "path": "boards/tang_mega_60k_31004/piano.sdc",
+      "status": "modified",
+      "sha256": "9281cfb046e23cd02615850333f91cbcbb3f7843591305733f6872fea798b025"
+    },
+    {
+      "path": "docs/design.md",
+      "status": "modified",
+      "sha256": "cdfa97eb31aea292c41a7c84e8b4b5b4b2518d90886fd44b3ba74e84c3668fc4"
+    },
+    {
+      "path": "docs/keyboard-assembly.md",
+      "status": "modified",
+      "sha256": "be7a2d41f07744ea8bfb76c8101a59fd27192b8181daad6e7af8e799ff5b4575"
+    },
+    {
+      "path": "docs/keyboard-wiring.md",
+      "status": "added",
+      "sha256": "8b1123a86cd39baea84573898eb4998f56af0e11c3b3a396cebc721865c2815e"
+    },
+    {
+      "path": "docs/verification.md",
+      "status": "modified",
+      "sha256": "9d4cf4e2175303c9ded7fe1a221fae3151dfb4a7676d3d852410039480fb1904"
+    },
+    {
+      "path": "projects/piano/build.ps1",
+      "status": "modified",
+      "sha256": "8f373b05de0683079581c1bbafe34856b859bcdd285680020fd331e073c2d18a"
+    },
+    {
+      "path": "projects/piano/build_piano.tcl",
+      "status": "modified",
+      "sha256": "205ac2707cc049254178250252f12a0fd97ee81ec3f0a9c16b50a843ef793f98"
+    },
+    {
+      "path": "projects/piano/process_config.json",
+      "status": "modified",
+      "sha256": "a0e52e5891a9453525e7f529aeb36b8f27ed1db3112f1c6ceb1fb4e5a679a6a6"
+    },
+    {
+      "path": "projects/piano/read_timing_html.py",
+      "status": "added",
+      "sha256": "ec9bbc22f254f25f9293001077c94fd72858cd36d7bd9292ae497108667ab6b7"
+    },
+    {
+      "path": "projects/piano/uart_piano.gprj",
+      "status": "modified",
+      "sha256": "e6f3ac57bfe5a5aa7d9db777612b4e573d23cce3efb4fbafa26221fc04f659d3"
+    },
+    {
+      "path": "projects/piano/uart_piano.gprj.user",
+      "status": "added",
+      "sha256": "3e9a7cebeea81ff4aed7b668ece0703cfb0d73f83ac02b72edc8acf120c73efe"
+    },
+    {
+      "path": "rtl/control/event_encoder.v",
+      "status": "modified",
+      "sha256": "2c8c523adfd9bfa9b81f57518b8f11c12a93817325d2c7e85de6c24f78fa075b"
+    },
+    {
+      "path": "rtl/top/instrument_uart_piano_top.v",
+      "status": "modified",
+      "sha256": "e1fe8f80b31927cd437e72ef1e7eb08142331eef2b3764dd0c4116894992f0eb"
+    },
+    {
+      "path": "rtl/top/instrument_uart_top.v",
+      "status": "modified",
+      "sha256": "d614d9082d513c50e12bde97c24f5290834e61b9b0a7920c3e20de40a7544e31"
+    },
+    {
+      "path": "rtl/top/piano_13key_top.v",
+      "status": "added",
+      "sha256": "c0f7bf2bd821115ec7ddb9a6ec3be6ba9009edf6cb5fff68ae1fc06e87c32d00"
+    },
+    {
+      "path": "verification/scripts/check_verilog.ps1",
+      "status": "modified",
+      "sha256": "89fdf0c1ee43c3e2432c546be5a5c3f617228b6b961a189174642583d6b72a9b"
+    },
+    {
+      "path": "verification/scripts/run_keyboard_tests.ps1",
+      "status": "added",
+      "sha256": "0b9709bf2b7e1ee34198ed7c0c1968f5b6d741c1f14cb5589586e13deaf3496d"
+    },
+    {
+      "path": "verification/scripts/summarize_keyboard.py",
+      "status": "added",
+      "sha256": "838719578f232faf9756695be9b619cecbce9dab0266279391f7102eb173c434"
+    },
+    {
+      "path": "verification/scripts/verify_keyboard.ps1",
+      "status": "added",
+      "sha256": "28b43bccc19ad94230668c1884c1dbdc7daee65a1b27a18846e06e941dcf4303"
+    },
+    {
+      "path": "verification/tb/integration/tb_piano_13_debounce.v",
+      "status": "added",
+      "sha256": "f291cee18ac98839bfa56e032ad5d28525755ab3f54ab50a885a10920aaee095"
+    },
+    {
+      "path": "verification/tb/integration/tb_piano_13_keys.v",
+      "status": "added",
+      "sha256": "b1b3382680be1854e2ef8c099b44df7d963645f9ad1e4263b4856e29d6446161"
+    }
+  ],
+  "programmed": false,
+  "upload_state_at_validation": false,
+  "publication_branch": "codex/piano-13keys"
+}

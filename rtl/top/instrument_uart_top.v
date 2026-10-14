@@ -8,14 +8,23 @@ module instrument_uart_top #(
     parameter [16:0] SUSTAIN_LEVEL=6554,
     parameter ROM_FILE="../../rtl/rom/sine_1024.mem",
     parameter integer FIXED_PIANO=0,
-    parameter integer REQUEST_LEAD_HALF_EDGES=0
+    parameter integer REQUEST_LEAD_HALF_EDGES=0,
+    parameter integer EXTERNAL_PIANO_KEYS=0
 )(
     input wire sys_clk,sys_rst_n,input wire [1:0] Key_in,
+    input wire [12:0] piano_key_n,
     input wire uart_rx,output wire uart_tx,
     output wire HP_BCK,HP_WS,HP_DIN,PA_EN
 );
     wire audio_ready,sample_request,sample_underrun;
-    wire [1:0] key_press,key_release;
+    localparam integer PHYSICAL_KEYS=EXTERNAL_PIANO_KEYS ? 13 : 2;
+    wire [PHYSICAL_KEYS-1:0] physical_key_n,key_press,key_release;
+    generate if (EXTERNAL_PIANO_KEYS) begin : g_external_keys
+        // Board KEY1/KEY2 remain C4/E4 aliases. Either switch may hold that key.
+        assign physical_key_n=piano_key_n & {8'hff,Key_in[1],3'b111,Key_in[0]};
+    end else begin : g_board_keys
+        assign physical_key_n=Key_in;
+    end endgenerate
     wire pv,pr,pt,cv,cr,ct,av,ar,at,cancel,cancel_ready,ac,acr,session_ready;
     wire [7:0] ps,asrc;
     wire [6:0] pn,pvel,cn,cvel,an,avel;
@@ -36,12 +45,12 @@ module instrument_uart_top #(
         else if(output_frame_start && pa_drain_frames!=0)
             pa_drain_frames<=pa_drain_frames-2'd1;
     end
-    touch_or_key_if #(.KEY_COUNT(2),.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES)) u_keys(
-        .clk(sys_clk),.rst_n(audio_ready),.raw_key(Key_in),.key_level(),
+    touch_or_key_if #(.KEY_COUNT(PHYSICAL_KEYS),.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES)) u_keys(
+        .clk(sys_clk),.rst_n(audio_ready),.raw_key(physical_key_n),.key_level(),
         .key_press(key_press),.key_release(key_release));
-    event_encoder #(.KEY_COUNT(2),.SOURCE_WIDTH(8)) u_key_events(
+    event_encoder #(.KEY_COUNT(PHYSICAL_KEYS),.SOURCE_WIDTH(8),.CHROMATIC_KEYS(EXTERNAL_PIANO_KEYS)) u_key_events(
         .clk(sys_clk),.rst_n(audio_ready),.key_press(key_press),.key_release(key_release),
-        .key_velocity_flat({7'd100,7'd100}),.input_timbre(4'd0),
+        .key_velocity_flat({PHYSICAL_KEYS{7'd100}}),.input_timbre(4'd0),
         .event_valid(pv),.event_ready(pr),.event_type(pt),.event_source_id(ps),
         .event_note(pn),.event_velocity(pvel),.event_timbre());
     uart_synth_protocol #(.CLKS_PER_BIT(UART_CLKS_PER_BIT),.WATCHDOG_CYCLES(WATCHDOG_CYCLES),

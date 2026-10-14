@@ -1,0 +1,157 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 16:35:44 on Oct 14,2026
+vlog -vlog01compat -pedanticerrors -work build/regression/strict/strict_work D:\AI tools\Codex&GPT\files\fpga_piano\projects\checks\instruments_check\voice_bank_instruments_timing_top.v D:\AI tools\Codex&GPT\files\fpga_piano\projects\checks\poly_adsr_check\voice_bank_adsr_timing_top.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\audio\i2s_tx.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\audio\sample_tick.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\audio\synth_top.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\event_encoder.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\input_sync_debounce.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\note_phase_lut.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\touch_or_key_if.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_event_arbiter.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_fifo.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_line_rx.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_reply_tx.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_rx.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_synth_protocol.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_tx.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\voice_allocator.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\display_cdc_latest.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\display_font24.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\display_wave_buffer.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\instrument_display.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\lcd_rgb_timing.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\piano_display_renderer.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\adsr_env.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\instrument_env.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\instrument_wave.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\phase_acc.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\sample_gain.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\sample_mixer4.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_adsr.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_bank_adsr.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_bank_instruments.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_dds.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_instrument.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_timbre_adsr.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\wave_lut_timbre.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\wave_lut.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\top\instrument_presets_top.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\top\instrument_uart_piano_top.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\top\instrument_uart_top.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\top\piano_13key_top.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\audio\sample_tick_tb.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\audio\synth_top_tb.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\audio\tb_audio_boundaries.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_allocator_review.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_allocator_trigger.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_event_encoder.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_input_sync_debounce.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_uart_bytes.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_uart_flow.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_uart_line.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_uart_protocol.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_uart_replies.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_voice_allocator.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\display\tb_display_cdc.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\display\tb_display_renderer.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\display\tb_display_reset_gain.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\display\tb_display_timing.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\display\tb_display_wave.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\display\tb_instrument_display.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\single_tone_demo_top.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_audio_display_isolation.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_audio_parameters.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_instrument_presets.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_piano_13_debounce.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_piano_13_keys.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_piano_latency.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_single_tone_ab.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_uart_instrument.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_uart_pa_drain.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_uart_piano_board.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_adsr_arithmetic.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_adsr_env.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_instrument_bank.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_instrument_preview.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_instrument_wave.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_phase_acc.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_piano_tone.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_sample_gain.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_sample_mixer4.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_timbre_bank.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_timbre_preview.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_voice_adsr.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_voice_bank_adsr.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_voice_dds.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_wave_lut_timbre.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\synth\tb_wave_lut.v 
+-- Compiling module voice_bank_instruments_timing_top
+-- Compiling module voice_bank_adsr_timing_top
+-- Compiling module i2s_tx
+-- Compiling module sample_tick
+-- Compiling module synth_top
+-- Compiling module event_encoder
+-- Compiling module input_sync_debounce
+-- Compiling module note_phase_lut
+-- Compiling module touch_or_key_if
+-- Compiling module uart_event_arbiter
+-- Compiling module uart_fifo
+-- Compiling module uart_line_rx
+-- Compiling module uart_reply_tx
+-- Compiling module uart_rx
+-- Compiling module uart_synth_protocol
+-- Compiling module uart_tx
+-- Compiling module voice_allocator
+-- Compiling module display_cdc_latest
+-- Compiling module display_font24
+-- Compiling module display_wave_buffer
+-- Compiling module instrument_display
+-- Compiling module lcd_rgb_timing
+-- Compiling module piano_display_renderer
+-- Compiling module adsr_env
+-- Compiling module instrument_env
+-- Compiling module instrument_wave
+-- Compiling module phase_acc
+-- Compiling module sample_gain
+-- Compiling module sample_mixer4
+-- Compiling module voice_adsr
+-- Compiling module voice_bank_adsr
+-- Compiling module voice_bank_instruments
+-- Compiling module voice_dds
+-- Compiling module voice_instrument
+-- Compiling module voice_timbre_adsr
+-- Compiling module wave_lut_timbre
+-- Compiling module wave_lut
+-- Compiling module instrument_presets_top
+-- Compiling module instrument_uart_piano_top
+-- Compiling module instrument_uart_top
+-- Compiling module piano_13key_top
+-- Compiling module sample_tick_tb
+-- Compiling module synth_top_tb
+-- Compiling module tb_audio_boundaries
+-- Compiling module audio_boundary_source
+-- Compiling module audio_boundary_words
+-- Compiling module allocator_review_case
+-- Compiling module tb_allocator_age
+-- Compiling module tb_allocator_owner
+-- Compiling module tb_allocator_expression_owner
+-- Compiling module tb_allocator_expression_reset
+-- Compiling module tb_allocator_trigger
+-- Compiling module tb_event_encoder
+-- Compiling module tb_input_sync_debounce
+-- Compiling module tb_uart_bytes
+-- Compiling module tb_uart_flow
+-- Compiling module tb_uart_line
+-- Compiling module tb_uart_protocol
+-- Compiling module tb_uart_replies
+-- Compiling module tb_voice_allocator
+-- Compiling module tb_display_cdc
+-- Compiling module tb_display_renderer
+-- Compiling module tb_display_reset_gain
+-- Compiling module tb_display_timing
+-- Compiling module tb_display_wave
+-- Compiling module tb_instrument_display
+-- Compiling module single_tone_demo_top
+-- Compiling module tb_audio_display_isolation
+-- Compiling module tb_audio_parameters
+-- Compiling module tb_instrument_presets
+-- Compiling module tb_piano_13_debounce
+-- Compiling module tb_piano_13_keys
+-- Compiling module tb_piano_latency
+-- Compiling module tb_single_tone_ab
+-- Compiling module tb_uart_instrument
+-- Compiling module tb_uart_instrument_115200
+-- Compiling module tb_uart_pa_drain
+-- Compiling module tb_uart_piano_board
+-- Compiling module tb_adsr_arithmetic
+-- Compiling module tb_adsr_env
+-- Compiling module adsr_wide_case
+-- Compiling module adsr_duration_case
+-- Compiling module instrument_bank_case
+-- Compiling module tb_instrument_bank
+-- Compiling module tb_instrument_preview
+-- Compiling module tb_instrument_wave
+-- Compiling module tb_phase_acc
+-- Compiling module tb_piano_tone
+-- Compiling module tb_sample_gain
+-- Compiling module mixer4_case
+-- Compiling module tb_sample_mixer4
+-- Compiling module timbre_bank_case
+-- Compiling module tb_timbre_bank
+-- Compiling module tb_timbre_preview
+-- Compiling module tb_voice_adsr
+-- Compiling module poly_adsr_case
+-- Compiling module tb_voice_bank_adsr
+-- Compiling module tb_voice_dds
+-- Compiling module tb_wave_lut_timbre
+-- Compiling module tb_wave_lut
+
+Top level modules:
+	voice_bank_instruments_timing_top
+	voice_bank_adsr_timing_top
+	sample_tick_tb
+	synth_top_tb
+	tb_audio_boundaries
+	tb_allocator_age
+	tb_allocator_owner
+	tb_allocator_expression_owner
+	tb_allocator_expression_reset
+	tb_allocator_trigger
+	tb_event_encoder
+	tb_input_sync_debounce
+	tb_uart_bytes
+	tb_uart_flow
+	tb_uart_line
+	tb_uart_protocol
+	tb_uart_replies
+	tb_voice_allocator
+	tb_display_cdc
+	tb_display_renderer
+	tb_display_reset_gain
+	tb_display_timing
+	tb_display_wave
+	tb_instrument_display
+	tb_audio_display_isolation
+	tb_audio_parameters
+	tb_instrument_presets
+	tb_piano_13_debounce
+	tb_piano_13_keys
+	tb_piano_latency
+	tb_single_tone_ab
+	tb_uart_instrument_115200
+	tb_uart_pa_drain
+	tb_uart_piano_board
+	tb_adsr_arithmetic
+	tb_adsr_env
+	tb_instrument_bank
+	tb_instrument_preview
+	tb_instrument_wave
+	tb_phase_acc
+	tb_piano_tone
+	tb_sample_gain
+	tb_sample_mixer4
+	tb_timbre_bank
+	tb_timbre_preview
+	tb_voice_adsr
+	tb_voice_bank_adsr
+	tb_voice_dds
+	tb_wave_lut_timbre
+	tb_wave_lut
+End time: 16:35:45 on Oct 14,2026, Elapsed time: 0:00:01
+Errors: 0, Warnings: 0

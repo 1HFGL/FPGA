@@ -10,7 +10,9 @@ module event_encoder #(
     parameter integer KEY_COUNT    = 2,
     parameter integer MAX_EVENTS   = 64,
     parameter integer PTR_WIDTH    = 6,
-    parameter integer SOURCE_WIDTH = 5
+    parameter integer SOURCE_WIDTH = 5,
+    parameter integer CHROMATIC_KEYS = 0,
+    parameter integer NOTE_BASE = 60
 ) (
     input  wire clk,
     input  wire rst_n,
@@ -54,7 +56,12 @@ module event_encoder #(
 
     function [6:0] key_to_note;
         input integer key_index;
+        integer mapped_note;
         begin
+            if (CHROMATIC_KEYS) begin
+                mapped_note = NOTE_BASE + key_index;
+                key_to_note = mapped_note[6:0];
+            end else begin
             // 当前2键选C4/E4；前4键是C/E/G/C，不是13键连续半音布局。
             // 因此以后只把KEY_COUNT改成13还不够，必须同时修改映射与板级引脚。
             case (key_index)
@@ -64,6 +71,7 @@ module event_encoder #(
                 3: key_to_note = 7'd72;
                 default: key_to_note = 7'd60 + key_index[6:0];
             endcase
+            end
         end
     endfunction
 

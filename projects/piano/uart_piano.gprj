@@ -18,6 +18,7 @@
         <File path="../../rtl/control/uart_event_arbiter.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/top/instrument_uart_top.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/top/instrument_uart_piano_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/piano_13key_top.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/phase_acc.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/wave_lut.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_dds.v" type="file.verilog" enable="1"/>

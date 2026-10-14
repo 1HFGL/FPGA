@@ -1,0 +1,296 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 16:26:21 on Oct 14,2026
+vlog -vlog01compat -pedanticerrors -work build/regression/uart/normal_work D:\AI tools\Codex&GPT\files\fpga_piano\rtl\audio\i2s_tx.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\audio\sample_tick.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\audio\synth_top.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\event_encoder.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\input_sync_debounce.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\note_phase_lut.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\touch_or_key_if.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_event_arbiter.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_fifo.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_line_rx.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_reply_tx.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_rx.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_synth_protocol.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\uart_tx.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\control\voice_allocator.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\display_cdc_latest.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\display_font24.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\display_wave_buffer.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\instrument_display.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\lcd_rgb_timing.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\display\piano_display_renderer.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\adsr_env.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\instrument_env.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\instrument_wave.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\phase_acc.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\sample_gain.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\sample_mixer4.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_adsr.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_bank_adsr.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_bank_instruments.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_dds.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_instrument.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\voice_timbre_adsr.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\wave_lut.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\synth\wave_lut_timbre.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\top\instrument_presets_top.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\top\instrument_uart_piano_top.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\top\instrument_uart_top.v D:\AI tools\Codex&GPT\files\fpga_piano\rtl\top\piano_13key_top.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_uart_bytes.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_uart_flow.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_uart_line.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_uart_protocol.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\control\tb_uart_replies.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_uart_instrument.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_uart_pa_drain.v D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_uart_piano_board.v 
+-- Compiling module i2s_tx
+-- Compiling module sample_tick
+-- Compiling module synth_top
+-- Compiling module event_encoder
+-- Compiling module input_sync_debounce
+-- Compiling module note_phase_lut
+-- Compiling module touch_or_key_if
+-- Compiling module uart_event_arbiter
+-- Compiling module uart_fifo
+-- Compiling module uart_line_rx
+-- Compiling module uart_reply_tx
+-- Compiling module uart_rx
+-- Compiling module uart_synth_protocol
+-- Compiling module uart_tx
+-- Compiling module voice_allocator
+-- Compiling module display_cdc_latest
+-- Compiling module display_font24
+-- Compiling module display_wave_buffer
+-- Compiling module instrument_display
+-- Compiling module lcd_rgb_timing
+-- Compiling module piano_display_renderer
+-- Compiling module adsr_env
+-- Compiling module instrument_env
+-- Compiling module instrument_wave
+-- Compiling module phase_acc
+-- Compiling module sample_gain
+-- Compiling module sample_mixer4
+-- Compiling module voice_adsr
+-- Compiling module voice_bank_adsr
+-- Compiling module voice_bank_instruments
+-- Compiling module voice_dds
+-- Compiling module voice_instrument
+-- Compiling module voice_timbre_adsr
+-- Compiling module wave_lut
+-- Compiling module wave_lut_timbre
+-- Compiling module instrument_presets_top
+-- Compiling module instrument_uart_piano_top
+-- Compiling module instrument_uart_top
+-- Compiling module piano_13key_top
+-- Compiling module tb_uart_bytes
+-- Compiling module tb_uart_flow
+-- Compiling module tb_uart_line
+-- Compiling module tb_uart_protocol
+-- Compiling module tb_uart_replies
+-- Compiling module tb_uart_instrument
+-- Compiling module tb_uart_instrument_115200
+-- Compiling module tb_uart_pa_drain
+-- Compiling module tb_uart_piano_board
+
+Top level modules:
+	instrument_display
+	voice_adsr
+	instrument_presets_top
+	piano_13key_top
+	tb_uart_bytes
+	tb_uart_flow
+	tb_uart_line
+	tb_uart_protocol
+	tb_uart_replies
+	tb_uart_instrument_115200
+	tb_uart_pa_drain
+	tb_uart_piano_board
+End time: 16:26:21 on Oct 14,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/uart/normal_work -l build/regression/uart/tb_uart_bytes_normal.log -wlf build/regression/uart/tb_uart_bytes_normal.wlf tb_uart_bytes -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 16:26:22 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_uart_bytes(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_bytes: 256 RX/TX values, phase, baud, framing, reset
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_piano/verification/tb/control/tb_uart_bytes.v(67)
+#    Time: 45343960 ns  Iteration: 0  Instance: /tb_uart_bytes
+# End time: 16:26:23 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_bytes
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/uart/normal_work -l build/regression/uart/tb_uart_line_normal.log -wlf build/regression/uart/tb_uart_line_normal.wlf tb_uart_line -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 16:26:24 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_uart_line(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_line: fragmentation, bounds, errors, timeout
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_piano/verification/tb/control/tb_uart_line.v(53)
+#    Time: 51660 ns  Iteration: 1  Instance: /tb_uart_line
+# End time: 16:26:25 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_line
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/uart/normal_work -l build/regression/uart/tb_uart_protocol_normal.log -wlf build/regression/uart/tb_uart_protocol_normal.wlf tb_uart_protocol -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 16:26:26 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_uart_protocol(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_protocol: real UART handshake, notes, decimal, overflow, watchdog
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_piano/verification/tb/control/tb_uart_protocol.v(83)
+#    Time: 13132860 ns  Iteration: 1  Instance: /tb_uart_protocol
+# End time: 16:26:27 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_protocol
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/uart/normal_work -l build/regression/uart/tb_uart_flow_normal.log -wlf build/regression/uart/tb_uart_flow_normal.wlf tb_uart_flow -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 16:26:27 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_uart_flow(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_flow: FIFO full/empty/stall/flush and arbiter fairness/cancel
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_piano/verification/tb/control/tb_uart_flow.v(43)
+#    Time: 581 ns  Iteration: 0  Instance: /tb_uart_flow
+# End time: 16:26:28 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_flow
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/uart/normal_work -l build/regression/uart/tb_uart_replies_normal.log -wlf build/regression/uart/tb_uart_replies_normal.wlf tb_uart_replies -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 16:26:29 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_uart_replies(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_replies: finite slots, HELLO priority, STATUS coalescing, decimal and stalls
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_piano/verification/tb/control/tb_uart_replies.v(36)
+#    Time: 52580 ns  Iteration: 1  Instance: /tb_uart_replies
+# End time: 16:26:30 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_uart_replies
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/uart/normal_work -l build/regression/uart/tb_uart_instrument_normal.log -wlf build/regression/uart/tb_uart_instrument_normal.wlf tb_uart_instrument -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 16:26:31 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_uart_instrument.v(22): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 10, found 9.
+# ** Warning: D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_uart_instrument.v(22): (vopt-2718) [TFMPC] - Missing connection for port 'piano_key_n'.
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_uart_instrument(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_instrument: four notes, steal, sources, tail, watchdog, R4/serial/reset
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_piano/verification/tb/integration/tb_uart_instrument.v(106)
+#    Time: 7500960 ns  Iteration: 1  Instance: /tb_uart_instrument
+# End time: 16:26:32 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 2
+VERIFIED tb_uart_instrument
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/uart/normal_work -l build/regression/uart/tb_uart_instrument_115200_normal.log -wlf build/regression/uart/tb_uart_instrument_115200_normal.wlf tb_uart_instrument_115200 -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 16:26:33 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_uart_instrument.v(22): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 10, found 9.
+# ** Warning: D:\AI tools\Codex&GPT\files\fpga_piano\verification\tb\integration\tb_uart_instrument.v(22): (vopt-2718) [TFMPC] - Missing connection for port 'piano_key_n'.
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_uart_instrument_115200(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# PASS tb_uart_instrument_115200
+# PASS tb_uart_instrument: four notes, steal, sources, tail, watchdog, R4/serial/reset
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_piano/verification/tb/integration/tb_uart_instrument.v(106)
+#    Time: 28917620 ns  Iteration: 1  Instance: /tb_uart_instrument_115200/test
+# End time: 16:26:34 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 2
+VERIFIED tb_uart_instrument_115200
