@@ -10,6 +10,7 @@ module adsr_envelope #(
     input  wire rst_n,
     input  wire sample_tick,
     input  wire gate,
+    input  wire retrigger,
     output reg  [15:0] level,
     output reg  release_done
 );
@@ -33,7 +34,7 @@ module adsr_envelope #(
             gate_d <= gate;
             release_done <= 1'b0;
 
-            if (gate && !gate_d) begin
+            if (retrigger || (gate && !gate_d)) begin
                 state <= E_ATTACK;
                 level <= 16'd0;
             end else begin

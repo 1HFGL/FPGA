@@ -1,3 +1,7 @@
+> 本分支保存2026-10-14的独立C演奏控制成果。入口：[C说明](fpga_interaction/doc/c_control_progress_20261014.md)。
+> 本地A/B目录为C验证夹具，当前主钢琴的13键接入在 [`codex/piano-13keys`](https://github.com/1HFGL/FPGA/tree/codex/piano-13keys)。
+> 本分支基于10月12日C阶段；对接现代主工程需适配接口，不能把夹具结果当成整机验收。
+
 ### 器件清单与采购边界
 
 | 器件 | 数量 | 必须核对 |

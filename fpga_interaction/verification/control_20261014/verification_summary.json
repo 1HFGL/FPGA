@@ -1,0 +1,110 @@
+{
+  "C": {
+    "passes": 17,
+    "log": "simulation.log"
+  },
+  "AB": {
+    "passes": 8,
+    "log": "ab_simulation.log"
+  },
+  "Gowin": {
+    "clock_period_ns": 20.0,
+    "setup_violations": 0,
+    "setup_worst_slack_ns": 1.195,
+    "hold_violations": 0,
+    "hold_worst_slack_ns": 0.247,
+    "inputs": [
+      {
+        "path": "control_audio_verify_top.v",
+        "sha256": "f1e7b05091192d469db0bb5554e76ad6e201dc97d8bac2683a5749600c1aa9c9"
+      },
+      {
+        "path": "../../rtl/input_sync_debounce.v",
+        "sha256": "8d1f9e28cf77a95920ea63ff0eec952c64a146ece0c4f7adba9ab754410932cd"
+      },
+      {
+        "path": "../../rtl/touch_or_key_if.v",
+        "sha256": "82db32c1ce92b99c00a7755c6de2d837fdcc19693697ea828164f30185312fce"
+      },
+      {
+        "path": "../../rtl/pressure_if.v",
+        "sha256": "499ef4a8b6150907da23d9b90abb0957192f517a45526df68dbca1c593622f4e"
+      },
+      {
+        "path": "../../rtl/adc_knob_if.v",
+        "sha256": "c0ea01643fbb4e56247158f7275bc94f99f9e8aac0a255d1a31ec0f439b58a8c"
+      },
+      {
+        "path": "../../rtl/event_encoder.v",
+        "sha256": "8ff425b533826b0e64f1a0444027eb744eeebaf96540dfed8994e7bb52875aa8"
+      },
+      {
+        "path": "../../rtl/voice_allocator.v",
+        "sha256": "ca07789310259d62b5ed58baa259674483b766d032b145f4ddf77e1ef41285d3"
+      },
+      {
+        "path": "../../rtl/reset_sync.v",
+        "sha256": "f5e59c2769c5a11e20d9b4da261faeb15c5a47023c9d64872d1238fc8120a984"
+      },
+      {
+        "path": "../../rtl/voice_test_pattern.v",
+        "sha256": "4cd277a5e17ccd2fc7eb3deeb5d31d79177f0b75d1a3d6cb7c1090dbe14f0590"
+      },
+      {
+        "path": "../../rtl/interaction_top.v",
+        "sha256": "3f42239f8179d70a3ecb9389c3e3370b0e364dac631f3d85d70e762c9c0a2d35"
+      },
+      {
+        "path": "../../../fpga_a/rtl/phase_inc_calc.v",
+        "sha256": "b4ae64b56b6267ed9679de2c7d918d040374282a8874cff016a8091d8d9ae450"
+      },
+      {
+        "path": "../../../fpga_a/rtl/wave_lut.v",
+        "sha256": "c56952b08a8cf02804f508fc56c98dab3b69ca186f2f67883ac82e483a892123"
+      },
+      {
+        "path": "../../../fpga_a/rtl/adsr_envelope.v",
+        "sha256": "a3296b2c3fa86274566976da410604aa4150cfead3eccea628333dc309bd74fc"
+      },
+      {
+        "path": "../../../fpga_a/rtl/voice_gain.v",
+        "sha256": "3aeb9a503dec68e8f410dff0c37c869f5238d4ac562b52c26a1a106e322b3cdf"
+      },
+      {
+        "path": "../../../fpga_a/rtl/poly_mixer_saturator.v",
+        "sha256": "ea7f83dc90e168c54d797eb33b119cbc3439e35bad13b73c6980cab8dc96a2ee"
+      },
+      {
+        "path": "../../../fpga_a/rtl/synth_engine.v",
+        "sha256": "519045c08c316cb9df31991cfedf2141700119cf20d259fd13c7a9c1ced8d63d"
+      },
+      {
+        "path": "../../../fpga_b/rtl/sample_tick_gen.v",
+        "sha256": "0fc4f7a871dd65279135f36eda602231ae4a68a993eb1ccfa1d909e35c8b470f"
+      },
+      {
+        "path": "../../../fpga_b/rtl/i2s_tx.v",
+        "sha256": "232739e8f01cdeefc9a903d752c9a5cbd3ddd3db3952d3571181884b516d8209"
+      },
+      {
+        "path": "../../../fpga_ab_sim/rtl/audio_system_top.v",
+        "sha256": "834952881909fdce3739974be1d6dd7cf9d41057054bf249bc5787e4107346b9"
+      },
+      {
+        "path": "../../gowin/tang_mega_60k_interaction.cst",
+        "sha256": "d8b0ee639fd5148bd9833179674b18c40a399fbf745b4b8d783698e10a5afb36"
+      },
+      {
+        "path": "../../gowin/tang_mega_60k_interaction.sdc",
+        "sha256": "cf46e2d966f41e16b47c125ff3dc7250d518c412d11d1894cb7e0d5f7fb60263"
+      }
+    ],
+    "warnings": [
+      "EX3791",
+      "EX3792",
+      "NL0002",
+      "PR1014"
+    ]
+  },
+  "scope": "16 voices, existing two board-key pins and LED outputs; not final 13-key/DAC wiring"
+}

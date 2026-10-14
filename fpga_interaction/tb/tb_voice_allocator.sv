@@ -58,6 +58,14 @@ module tb_voice_allocator;
         .BEND_WIDTH   (16),
         .EXPR_WIDTH   (8)
     ) dut (
+        .sustain_on(1'b0),
+        .source_clear_valid(1'b0),
+        .source_clear_id(6'd0),
+        .source_clear_mask(6'd0),
+        .source_clear_ready(),
+        .release_trigger_id_flat(512'd0),
+        .voice_key_down(),
+        .voice_trigger_id_flat(),
         .clk(clk),
         .rst_n(rst_n),
         .event_valid(event_valid),

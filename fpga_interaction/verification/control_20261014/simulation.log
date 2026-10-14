@@ -1,0 +1,552 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 11:38:30 on Oct 14,2026
+vlog -sv D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\input_sync_debounce.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\pressure_if.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\adc_knob_if.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\i2c_master.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\ads1115_if.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\ads1115_knob_if.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\event_encoder.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\voice_allocator.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\reset_sync.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\voice_test_pattern.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\interaction_top.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\board_top.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\board_test_top.v D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\board_knob_top.v D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_input_sync_debounce.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_pressure_if.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_adc_knob_if.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_event_encoder.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_voice_allocator.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_interaction_top.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_voice_test_pattern.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_keyboard_extended.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\ads1115_model.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_ads1115_if.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_ads1115_knob_if.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_ads1115_faults.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_ads1115_mapping.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_voice_control.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_key_events.sv D:\AI tools\Codex&GPT\files\fpga_interaction\tb\tb_input_fault_cleanup.sv 
+-- Compiling module input_sync_debounce
+-- Compiling module touch_or_key_if
+-- Compiling module pressure_if
+-- Compiling module adc_knob_if
+-- Compiling module i2c_master
+-- Compiling module ads1115_if
+-- Compiling module ads1115_knob_if
+-- Compiling module event_encoder
+-- Compiling module voice_allocator
+-- Compiling module reset_sync
+-- Compiling module voice_test_pattern
+-- Compiling module interaction_top
+-- Compiling module board_top
+-- Compiling module board_test_top
+-- Compiling module board_knob_top
+-- Compiling module tb_input_sync_debounce
+-- Compiling module tb_input_sync_debounce_2ms
+-- Compiling module tb_pressure_if
+-- Compiling module tb_adc_knob_if
+-- Compiling module tb_event_encoder
+-- Compiling module tb_voice_allocator
+-- Compiling module tb_interaction_top
+-- Compiling module tb_voice_test_pattern
+-- Compiling module tb_keyboard_extended
+-- Compiling module ads1115_model
+-- Compiling module tb_ads1115_if
+-- Compiling module tb_ads1115_knob_if
+-- Compiling module tb_ads1115_faults
+-- Compiling module tb_ads1115_mapping
+-- Compiling module tb_voice_control
+-- Compiling module tb_voice_control_16
+-- Compiling module tb_key_events
+-- Compiling module tb_input_fault_cleanup
+
+Top level modules:
+	board_test_top
+	board_knob_top
+	tb_input_sync_debounce
+	tb_input_sync_debounce_2ms
+	tb_pressure_if
+	tb_adc_knob_if
+	tb_event_encoder
+	tb_voice_allocator
+	tb_interaction_top
+	tb_voice_test_pattern
+	tb_keyboard_extended
+	tb_ads1115_if
+	tb_ads1115_knob_if
+	tb_ads1115_faults
+	tb_ads1115_mapping
+	tb_voice_control_16
+	tb_key_events
+	tb_input_fault_cleanup
+End time: 11:38:31 on Oct 14,2026, Elapsed time: 0:00:01
+Errors: 0, Warnings: 0
+===== RUN tb_input_sync_debounce =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_input_sync_debounce -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:31 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_input_sync_debounce(fast)
+# run -all
+# PASS: tb_input_sync_debounce press=1 release=1
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_input_sync_debounce.sv(93)
+#    Time: 415 ns  Iteration: 1  Instance: /tb_input_sync_debounce
+# End time: 11:38:32 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_input_sync_debounce_2ms =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_input_sync_debounce_2ms -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:33 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_input_sync_debounce_2ms(fast)
+# run -all
+# PASS: tb_input_sync_debounce_2ms press_ns=2000050 release_ns=2000050 on=1 off=1
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_input_sync_debounce.sv(167)
+#    Time: 12130780 ns  Iteration: 1  Instance: /tb_input_sync_debounce_2ms
+# End time: 11:38:34 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_pressure_if =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_pressure_if -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:35 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_pressure_if(fast)
+# run -all
+# PASS: tb_pressure_if filtered=4000 velocity=121
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_pressure_if.sv(58)
+#    Time: 2095 ns  Iteration: 1  Instance: /tb_pressure_if
+# End time: 11:38:35 on Oct 14,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+===== RUN tb_adc_knob_if =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_adc_knob_if -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:36 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_adc_knob_if(fast)
+# run -all
+# PASS: tb_adc_knob_if knob0=127 knob1=64
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_adc_knob_if.sv(102)
+#    Time: 2725 ns  Iteration: 1  Instance: /tb_adc_knob_if
+# End time: 11:38:37 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_event_encoder =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_event_encoder -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:38 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_event_encoder(fast)
+# run -all
+# PASS: tb_event_encoder on=2 off=2
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_event_encoder.sv(128)
+#    Time: 255 ns  Iteration: 1  Instance: /tb_event_encoder
+# End time: 11:38:38 on Oct 14,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+===== RUN tb_voice_allocator =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_voice_allocator -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:39 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_voice_allocator(fast)
+# run -all
+# PASS: tb_voice_allocator_32 voices=31 max=32 steal=1
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_voice_allocator.sv(274)
+#    Time: 12055 ns  Iteration: 2  Instance: /tb_voice_allocator
+# End time: 11:38:40 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_interaction_top =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_interaction_top -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:41 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_interaction_top(fast)
+# run -all
+# PASS: tb_interaction_top_32key key/LED path and voice allocation
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_interaction_top.sv(199)
+#    Time: 2485 ns  Iteration: 1  Instance: /tb_interaction_top
+# End time: 11:38:42 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_voice_test_pattern =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_voice_test_pattern -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:42 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_voice_test_pattern(fast)
+# run -all
+# PASS: tb_voice_test_pattern on=4 off=4
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_voice_test_pattern.sv(91)
+#    Time: 925 ns  Iteration: 1  Instance: /tb_voice_test_pattern
+# End time: 11:38:43 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_keyboard_extended =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_keyboard_extended -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:44 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_keyboard_extended(fast)
+# run -all
+# PASS: tb_keyboard_extended notes=60,72 timbre=1 knob0=127 knob1=64
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_keyboard_extended.sv(179)
+#    Time: 5695 ns  Iteration: 1  Instance: /tb_keyboard_extended
+# End time: 11:38:45 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_ads1115_if =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_ads1115_if -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:46 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_ads1115_if(fast)
+# run -all
+# PASS: tb_ads1115_if raw={chn1=2000,chn0=4000}
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_ads1115_if.sv(75)
+#    Time: 21415 ns  Iteration: 1  Instance: /tb_ads1115_if
+# End time: 11:38:46 on Oct 14,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+===== RUN tb_ads1115_knob_if =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_ads1115_knob_if -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:47 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_ads1115_knob_if(fast)
+# run -all
+# PASS: tb_ads1115_knob_if knob0=79 knob1=39 ready=1 fault=0
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_ads1115_knob_if.sv(41)
+#    Time: 368045 ns  Iteration: 1  Instance: /tb_ads1115_knob_if
+# End time: 11:38:48 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_ads1115_faults =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_ads1115_faults -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:49 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_ads1115_faults(fast)
+# run -all
+# PASS: tb_ads1115_faults missing/disconnect/reconnect/all_write_ACK/address
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_ads1115_faults.sv(91)
+#    Time: 1960400 ns  Iteration: 1  Instance: /tb_ads1115_faults
+# End time: 11:38:49 on Oct 14,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+===== RUN tb_ads1115_mapping =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_ads1115_mapping -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:50 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_ads1115_mapping(fast)
+# run -all
+# INFO: 0->127 settled in 18 acquisition pairs
+# PASS: tb_ads1115_mapping negative/zero/midpoint/fullscale/saturation/slew
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_ads1115_mapping.sv(62)
+#    Time: 2209240 ns  Iteration: 1  Instance: /tb_ads1115_mapping
+# End time: 11:38:51 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_voice_control =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_voice_control -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:52 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_voice_control(fast)
+# run -all
+# PASS: tb_voice_control N=4 retrigger/source/tail/pedal/cleanup/release_id/uptime
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_voice_control.sv(92)
+#    Time: 10800 ns  Iteration: 1  Instance: /tb_voice_control
+# End time: 11:38:53 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_voice_control_16 =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_voice_control_16 -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:53 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_voice_control_16(fast)
+# run -all
+# PASS: tb_voice_control N=16 retrigger/source/tail/pedal/cleanup/release_id/uptime
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_voice_control.sv(92)
+#    Time: 18480 ns  Iteration: 1  Instance: /tb_voice_control_16/test
+# End time: 11:38:54 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_key_events =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_key_events -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:55 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_key_events(fast)
+# run -all
+# PASS: tb_key_events 13-key burst/backpressure/order/octave/overflow/reset
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_key_events.sv(60)
+#    Time: 1260 ns  Iteration: 1  Instance: /tb_key_events
+# End time: 11:38:56 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+===== RUN tb_input_fault_cleanup =====
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -onfinish exit work.tb_input_fault_cleanup -do "run -all; quit -code 0 -f" 
+# Start time: 11:38:56 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb_input_fault_cleanup(fast)
+# run -all
+# PASS: tb_input_fault_cleanup overflow/pedal override/tail preserved/reset
+# ** Note: $finish    : D:/AI tools/Codex&GPT/files/fpga_interaction/tb/tb_input_fault_cleanup.sv(42)
+#    Time: 4410 ns  Iteration: 1  Instance: /tb_input_fault_cleanup
+# End time: 11:38:57 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

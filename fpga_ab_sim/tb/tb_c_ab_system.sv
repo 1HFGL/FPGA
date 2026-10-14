@@ -56,6 +56,15 @@ module tb_c_ab_system;
         .TEST_HOLD_CYCLES (2000),
         .MAX_EVENTS       (64)
     ) dut (
+        .octave_select(2'd1),
+        .sustain_on(1'b0),
+        .source_clear_valid(1'b0),
+        .source_clear_id(5'd0),
+        .source_clear_mask(5'd0),
+        .source_clear_ready(),
+        .voice_key_down(),
+        .voice_trigger_id_flat(),
+        .input_fault(),
         .clk(clk),
         .rst_n(rst_n),
         .key_n(key_n),

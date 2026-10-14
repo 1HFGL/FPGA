@@ -1,0 +1,146 @@
+[
+  {
+    "path": "fpga_interaction/rtl/board_top.v",
+    "status": "modified",
+    "before_sha256": "d8ca0843aad47bd75beebd2fe1f2502172f1bebb087d1a5d9dd1a044d0b04de4",
+    "after_sha256": "c033594b57bbd09804d0ba15ff3a23d6a25c282a3a75d117b6bdfbb3981072ec"
+  },
+  {
+    "path": "fpga_interaction/rtl/event_encoder.v",
+    "status": "modified",
+    "before_sha256": "d48a6dd56cef28082fe277891993834988798fee82d4fff615b0dc2eb611d168",
+    "after_sha256": "8ff425b533826b0e64f1a0444027eb744eeebaf96540dfed8994e7bb52875aa8"
+  },
+  {
+    "path": "fpga_interaction/rtl/interaction_top.v",
+    "status": "modified",
+    "before_sha256": "357d9bea32fcda25cef06720d68450aafc3372bbd74b369f27294ae7d0313442",
+    "after_sha256": "3f42239f8179d70a3ecb9389c3e3370b0e364dac631f3d85d70e762c9c0a2d35"
+  },
+  {
+    "path": "fpga_interaction/rtl/voice_allocator.v",
+    "status": "modified",
+    "before_sha256": "a854fca8532f3bd8a85c381585992bb04e08f6f7dfd838e8f7f80877d846a1e6",
+    "after_sha256": "ca07789310259d62b5ed58baa259674483b766d032b145f4ddf77e1ef41285d3"
+  },
+  {
+    "path": "fpga_interaction/scripts/run_modelsim.ps1",
+    "status": "modified",
+    "before_sha256": "0e024f9cea23c8c9fa4dce3751e6500c1c9598909fab2617f0f6f19e9c72a14f",
+    "after_sha256": "5faa8ad29dccb64ef4b12d2143d8665f45b3807ed5777fb61e5928688791f8b2"
+  },
+  {
+    "path": "fpga_interaction/sim/compile_all.do",
+    "status": "modified",
+    "before_sha256": "8bd00a054f2fdea463b0818130f0dc7e3f9678de302f94935baadcfe8c880601",
+    "after_sha256": "12425ea8270c40a1dcbc4adfbc0f1d8c5476f4c5b43deaef544a851de6fd2347"
+  },
+  {
+    "path": "fpga_interaction/tb/tb_event_encoder.sv",
+    "status": "modified",
+    "before_sha256": "8ca3bfc10a1e6e98c706578facf2eb29cc1022a84378fd3025b83f41a7428cd5",
+    "after_sha256": "f2d20b9b22ebb8b64ec4ed23f3bfb4513955f89e33427f0175f78239cefb862b"
+  },
+  {
+    "path": "fpga_interaction/tb/tb_input_fault_cleanup.sv",
+    "status": "added",
+    "before_sha256": null,
+    "after_sha256": "2f8c7a7ba7bf94d1890970c70135bb407f58f9ea35446358dbfd2466aa4f7319"
+  },
+  {
+    "path": "fpga_interaction/tb/tb_interaction_top.sv",
+    "status": "modified",
+    "before_sha256": "43cce6eb1ae2f75b2992454b0449a56e61ab1ab230432187401920bcb4296874",
+    "after_sha256": "7c09624bb68dc78a9d3d2cb4462b538954c0cb09e0e4f484e1899eef86f55384"
+  },
+  {
+    "path": "fpga_interaction/tb/tb_key_events.sv",
+    "status": "added",
+    "before_sha256": null,
+    "after_sha256": "43ec02e68c35e87bdff280a074513a17184611dca2b1fb72020cb119ff40bef0"
+  },
+  {
+    "path": "fpga_interaction/tb/tb_keyboard_extended.sv",
+    "status": "modified",
+    "before_sha256": "303f134bdf9cc59c34d991bda68c74616e6a92f617e5c06c4308cc1db47694a6",
+    "after_sha256": "dde3a27c31941ace10f840ce404a6bf2f6f49e56f91716d1588c8f3a8e4aecfb"
+  },
+  {
+    "path": "fpga_interaction/tb/tb_voice_allocator.sv",
+    "status": "modified",
+    "before_sha256": "636a945235ab2abe65ef2b147e2354b5fd21408c9185eaa837be6f704d1b6d28",
+    "after_sha256": "44c4210531503e9069dd596735aee47d74b84f7d0ba618630b08309977a963cd"
+  },
+  {
+    "path": "fpga_interaction/tb/tb_voice_control.sv",
+    "status": "added",
+    "before_sha256": null,
+    "after_sha256": "b8a3d9fb2bcf4f58d03bb7393e18d35a5973a075cd4dfbb7fdf1c30a08c1193e"
+  },
+  {
+    "path": "fpga_a/rtl/adsr_envelope.v",
+    "status": "modified",
+    "before_sha256": "73a8f251dadd520066bedd8d72772f40237874c93732631c567c79457c797d4f",
+    "after_sha256": "a3296b2c3fa86274566976da410604aa4150cfead3eccea628333dc309bd74fc"
+  },
+  {
+    "path": "fpga_a/rtl/poly_mixer_saturator.v",
+    "status": "modified",
+    "before_sha256": "ea56207b164b3bfa083d905c31b19307fcd56a84252f41f9ed8ecc65d5f7fe15",
+    "after_sha256": "ea7f83dc90e168c54d797eb33b119cbc3439e35bad13b73c6980cab8dc96a2ee"
+  },
+  {
+    "path": "fpga_a/rtl/synth_engine.v",
+    "status": "modified",
+    "before_sha256": "1a49587347a1da009cd3c2f65b0bb584c902e77a5d0bc84c06aeeb7a8f161bc3",
+    "after_sha256": "519045c08c316cb9df31991cfedf2141700119cf20d259fd13c7a9c1ced8d63d"
+  },
+  {
+    "path": "fpga_ab_sim/rtl/audio_system_top.v",
+    "status": "modified",
+    "before_sha256": "1d50dcbe4ae0815ac430ad7858c202396f3c633a2f761fdaf9e5a6cda61adbba",
+    "after_sha256": "834952881909fdce3739974be1d6dd7cf9d41057054bf249bc5787e4107346b9"
+  },
+  {
+    "path": "fpga_ab_sim/scripts/run_modelsim.ps1",
+    "status": "modified",
+    "before_sha256": "6c87846257e989cadb4bd2d3b1b6c646b2d400fba6deb75dbc4bf6c366ad43c0",
+    "after_sha256": "ac6d41708cc62f9b7be354ccb0c084b464754507d2b8462c2a2d12c6ab8fa873"
+  },
+  {
+    "path": "fpga_ab_sim/sim/compile_all.do",
+    "status": "modified",
+    "before_sha256": "22f12f7e02cf84bda942d8154c6fd3142460a58c78d52510dd4ef79daed6c0e7",
+    "after_sha256": "d83fb85a9e9ad0019f32e5bf0da516c7ce2d402a6bff802b72290f1eb66996e7"
+  },
+  {
+    "path": "fpga_ab_sim/tb/tb_audio_pipeline.sv",
+    "status": "added",
+    "before_sha256": null,
+    "after_sha256": "e59957d30824f53924ef781cf9ba752e7bea549aeaf625afdd4ec6dabba92423"
+  },
+  {
+    "path": "fpga_ab_sim/tb/tb_c_ab_system.sv",
+    "status": "modified",
+    "before_sha256": "9ef939b2a7af435a08e7b40a090c797acec30d6cfce1b832551dd0533cb8a609",
+    "after_sha256": "e0ee2ec5b15696d090778f19bf14928d09f32f251530a8256140a85a963aff74"
+  },
+  {
+    "path": "fpga_ab_sim/tb/tb_c_ab_system_32.sv",
+    "status": "modified",
+    "before_sha256": "e08087705235eb25e45ed3efabf420939a305923ec1c5a18cc408a18dc36a393",
+    "after_sha256": "aaeac195209d58ca37b59dc86d6ba46ea4f6e822057e29d381deb715c1c2b6f9"
+  },
+  {
+    "path": "fpga_ab_sim/tb/tb_poly_mixer.sv",
+    "status": "added",
+    "before_sha256": null,
+    "after_sha256": "e7882823ed3e730cdc1baba655e6f0d3a9515dc19a24eb23be462f1fd24f63b4"
+  },
+  {
+    "path": "fpga_ab_sim/tb/tb_retrigger_audio.sv",
+    "status": "added",
+    "before_sha256": null,
+    "after_sha256": "74e38a7c0813846650eb14f6929e345b6178bab771c71a6420fc1044627448cc"
+  }
+]

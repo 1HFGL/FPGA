@@ -12,18 +12,26 @@ module interaction_top #(
     parameter integer TIMBRE_COUNT     = 8,
     parameter integer KNOB_COUNT       = 2,
     parameter integer ADC_WIDTH        = 12,
-    parameter integer TEST_HOLD_CYCLES = 50000000
+    parameter integer TEST_HOLD_CYCLES = 50000000,
+    parameter integer CHECK_RELEASE_ID = 0
 ) (
     input  wire clk,
     input  wire rst_n,
     input  wire [KEY_COUNT-1:0] key_n,
     input  wire [KEY_COUNT*7-1:0] key_velocity_flat,
+    input  wire [1:0] octave_select,
+    input  wire sustain_on,
+    input  wire source_clear_valid,
+    input  wire [SOURCE_WIDTH-1:0] source_clear_id,
+    input  wire [SOURCE_WIDTH-1:0] source_clear_mask,
+    output wire source_clear_ready,
     input  wire timbre_key_n,
     input  wire pressure_valid,
     input  wire [11:0] pressure_raw,
     input  wire [KNOB_COUNT*ADC_WIDTH-1:0] knob_raw_flat,
     input  wire knob_valid,
     input  wire [VOICES-1:0] release_done,
+    input  wire [VOICES*16-1:0] release_trigger_id_flat,
     input  wire expr_valid,
     input  wire [SOURCE_WIDTH-1:0] expr_source_id,
     input  wire [6:0] expr_note,
@@ -56,6 +64,9 @@ module interaction_top #(
     output wire test_done,
     output wire [VOICES-1:0] voice_active,
     output wire [VOICES-1:0] voice_gate,
+    output wire [VOICES-1:0] voice_key_down,
+    output wire [VOICES*16-1:0] voice_trigger_id_flat,
+    output wire input_fault,
     output wire [VOICES*SOURCE_WIDTH-1:0] voice_source_id_flat,
     output wire [VOICES*7-1:0] voice_note_flat,
     output wire [VOICES*7-1:0] voice_velocity_flat,
@@ -91,6 +102,19 @@ module interaction_top #(
     wire timbre_level;
     wire timbre_release;
     reg  [3:0] timbre_id_reg;
+    reg encoder_clear_sent;
+    wire allocator_clear_ready;
+    wire encoder_clear_pending = input_fault && !encoder_clear_sent;
+    wire allocator_clear_valid = encoder_clear_pending || source_clear_valid;
+    wire [SOURCE_WIDTH-1:0] allocator_clear_id = encoder_clear_pending ? {SOURCE_WIDTH{1'b0}} : source_clear_id;
+    localparam [SOURCE_WIDTH-1:0] LOCAL_GROUP_MASK = {1'b1, {(SOURCE_WIDTH-1){1'b0}}};
+    wire [SOURCE_WIDTH-1:0] allocator_clear_mask = encoder_clear_pending ? LOCAL_GROUP_MASK : source_clear_mask;
+    assign source_clear_ready = allocator_clear_ready && !encoder_clear_pending;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) encoder_clear_sent <= 1'b0;
+        else if (!input_fault) encoder_clear_sent <= 1'b0;
+        else if (encoder_clear_pending && allocator_clear_ready) encoder_clear_sent <= 1'b1;
+    end
 
     assign timbre_id = timbre_id_reg;
 
@@ -106,10 +130,10 @@ module interaction_top #(
         end
     end
     assign test_select = test_enable | test_busy;
-    assign normal_event_ready = event_ready_alloc && !test_select;
+    assign normal_event_ready = event_ready_alloc && !test_select && !input_fault;
     assign test_event_ready = event_ready_alloc && test_select;
 
-    assign event_valid     = test_select ? test_event_valid : normal_event_valid;
+    assign event_valid     = test_select ? test_event_valid : (normal_event_valid && !input_fault);
     assign event_type      = test_select ? test_event_type : normal_event_type;
     assign event_source_id = test_select ? test_source_id : normal_event_source_id;
     assign event_note      = test_select ? test_note : normal_event_note;
@@ -179,6 +203,8 @@ module interaction_top #(
         .key_release        (key_release),
         .key_velocity_flat  (key_velocity_flat),
         .input_timbre       (timbre_id),
+        .octave_select      (octave_select),
+        .input_overflow     (input_fault),
         .event_valid        (normal_event_valid),
         .event_type         (normal_event_type),
         .event_source_id    (normal_event_source_id),
@@ -215,7 +241,8 @@ module interaction_top #(
         .TIME_WIDTH   (32),
         .SOURCE_WIDTH (SOURCE_WIDTH),
         .BEND_WIDTH   (16),
-        .EXPR_WIDTH   (8)
+        .EXPR_WIDTH   (8),
+        .CHECK_RELEASE_ID (CHECK_RELEASE_ID)
     ) u_voice_allocator (
         .clk                     (clk),
         .rst_n                   (rst_n),
@@ -226,6 +253,11 @@ module interaction_top #(
         .event_note              (event_note),
         .event_velocity          (event_velocity),
         .event_timbre            (event_timbre),
+        .sustain_on              (sustain_on),
+        .source_clear_valid      (allocator_clear_valid),
+        .source_clear_ready      (allocator_clear_ready),
+        .source_clear_id         (allocator_clear_id),
+        .source_clear_mask       (allocator_clear_mask),
         .expr_valid              (expr_valid),
         .expr_ready              (expr_ready),
         .expr_source_id          (expr_source_id),
@@ -235,8 +267,11 @@ module interaction_top #(
         .expr_vibrato_depth      (expr_vibrato_depth),
         .expr_vibrato_rate       (expr_vibrato_rate),
         .release_done            (release_done),
+        .release_trigger_id_flat (release_trigger_id_flat),
         .voice_active            (voice_active),
         .voice_gate              (voice_gate),
+        .voice_key_down          (voice_key_down),
+        .voice_trigger_id_flat   (voice_trigger_id_flat),
         .voice_source_id_flat    (voice_source_id_flat),
         .voice_note_flat         (voice_note_flat),
         .voice_velocity_flat     (voice_velocity_flat),

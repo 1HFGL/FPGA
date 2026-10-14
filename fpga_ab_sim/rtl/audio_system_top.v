@@ -14,6 +14,12 @@ module audio_system_top #(
     input  wire rst_n,
     input  wire [KEY_COUNT-1:0] key_n,
     input  wire [KEY_COUNT*7-1:0] key_velocity_flat,
+    input  wire [1:0] octave_select,
+    input  wire sustain_on,
+    input  wire source_clear_valid,
+    input  wire [4:0] source_clear_id,
+    input  wire [4:0] source_clear_mask,
+    output wire source_clear_ready,
     input  wire timbre_key_n,
     input  wire pressure_valid,
     input  wire [11:0] pressure_raw,
@@ -36,6 +42,9 @@ module audio_system_top #(
     output wire i2s_sdata,
     output wire [VOICES-1:0] voice_active,
     output wire [VOICES-1:0] voice_gate,
+    output wire [VOICES-1:0] voice_key_down,
+    output wire [VOICES*16-1:0] voice_trigger_id_flat,
+    output wire input_fault,
     output wire [3:0] timbre_id,
     output wire [13:0] knob_value_flat,
     output wire param_ready,
@@ -58,6 +67,7 @@ module audio_system_top #(
     wire [VOICES*8-1:0] voice_vibrato_depth_flat;
     wire [VOICES*8-1:0] voice_vibrato_rate_flat;
     wire [VOICES*16-1:0] voice_sample_flat;
+    wire [VOICES*16-1:0] release_trigger_id_flat;
     wire [31:0] note_on_count;
     wire [31:0] note_off_count;
     wire [31:0] steal_count;
@@ -100,18 +110,26 @@ module audio_system_top #(
         .TIMBRE_COUNT    (8),
         .KNOB_COUNT      (2),
         .ADC_WIDTH       (12),
-        .TEST_HOLD_CYCLES(TEST_HOLD_CYCLES)
+        .TEST_HOLD_CYCLES(TEST_HOLD_CYCLES),
+        .CHECK_RELEASE_ID(1)
     ) u_interaction_top (
         .clk(clk),
         .rst_n(rst_n),
         .key_n(key_n),
         .key_velocity_flat(key_velocity_flat),
+        .octave_select(octave_select),
+        .sustain_on(sustain_on),
+        .source_clear_valid(source_clear_valid),
+        .source_clear_id(source_clear_id),
+        .source_clear_mask(source_clear_mask),
+        .source_clear_ready(source_clear_ready),
         .timbre_key_n(timbre_key_n),
         .pressure_valid(pressure_valid),
         .pressure_raw(pressure_raw),
         .knob_raw_flat(knob_raw_flat),
         .knob_valid(knob_valid),
         .release_done(release_done),
+        .release_trigger_id_flat(release_trigger_id_flat),
         .expr_valid(expr_valid),
         .expr_source_id(expr_source_id),
         .expr_note(expr_note),
@@ -144,6 +162,9 @@ module audio_system_top #(
         .test_done(test_done),
         .voice_active(voice_active_c),
         .voice_gate(voice_gate_c),
+        .voice_key_down(voice_key_down),
+        .voice_trigger_id_flat(voice_trigger_id_flat),
+        .input_fault(input_fault),
         .voice_source_id_flat(voice_source_id_flat),
         .voice_note_flat(voice_note_flat),
         .voice_velocity_flat(voice_velocity_flat),
@@ -168,6 +189,7 @@ module audio_system_top #(
         .sample_tick(sample_tick),
         .voice_active(voice_active_c),
         .voice_gate(voice_gate_c),
+        .voice_trigger_id_flat(voice_trigger_id_flat),
         .voice_note_flat(voice_note_flat),
         .voice_velocity_flat(voice_velocity_flat),
         .voice_timbre_flat(voice_timbre_flat),
@@ -175,6 +197,7 @@ module audio_system_top #(
         .master_volume(master_volume),
         .tone_brightness(tone_brightness),
         .release_done(release_done),
+        .release_trigger_id_flat(release_trigger_id_flat),
         .voice_sample_flat(voice_sample_flat),
         .audio_sample(audio_sample)
     );

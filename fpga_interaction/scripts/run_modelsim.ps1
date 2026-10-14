@@ -41,7 +41,10 @@ $sources = @(
     "..\tb\tb_ads1115_if.sv",
     "..\tb\tb_ads1115_knob_if.sv",
     "..\tb\tb_ads1115_faults.sv",
-    "..\tb\tb_ads1115_mapping.sv"
+    "..\tb\tb_ads1115_mapping.sv",
+    "..\tb\tb_voice_control.sv",
+    "..\tb\tb_key_events.sv",
+    "..\tb\tb_input_fault_cleanup.sv"
 )
 $sources = @($sources | ForEach-Object {
     Join-Path $root $_.Substring(3)
@@ -65,7 +68,11 @@ $tests = @(
     "tb_ads1115_if",
     "tb_ads1115_knob_if",
     "tb_ads1115_faults",
-    "tb_ads1115_mapping"
+    "tb_ads1115_mapping",
+    "tb_voice_control",
+    "tb_voice_control_16",
+    "tb_key_events",
+    "tb_input_fault_cleanup"
 )
 
 foreach ($test in $tests) {

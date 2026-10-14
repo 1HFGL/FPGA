@@ -23,13 +23,22 @@ $sources = @(
     "$filesRoot\fpga_b\rtl\i2s_tx.v",
     "$root\rtl\audio_system_top.v",
     "$root\tb\tb_c_ab_system.sv",
-    "$root\tb\tb_c_ab_system_32.sv"
+    "$root\tb\tb_c_ab_system_32.sv",
+    "$root\tb\tb_retrigger_audio.sv",
+    "$root\tb\tb_poly_mixer.sv",
+    "$root\tb\tb_audio_pipeline.sv"
 )
 & "D:\Modelsim\win64\vlog.exe" -sv @sources
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-$tests = @("tb_c_ab_system", "tb_c_ab_system_32")
+$tests = @("tb_c_ab_system", "tb_c_ab_system_32", "tb_retrigger_audio", "tb_poly_mixer", "tb_poly_mixer_1", "tb_poly_mixer_3", "tb_poly_mixer_32", "tb_audio_pipeline")
 foreach ($test in $tests) {
     Write-Host "===== RUN $test ====="
-    & "D:\Modelsim\win64\vsim.exe" -c "work.$test" -do "run -all; quit -f"
-    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    $simOutput = @(& "D:\Modelsim\win64\vsim.exe" -c -onfinish exit "work.$test" -do "run -all; quit -code 0 -f")
+    $simExit = $LASTEXITCODE
+    $simOutput | ForEach-Object { Write-Host $_ }
+    if (($simExit -ne 0) -or ($simOutput -match 'FAIL:|\*\* (Error|Fatal):') -or
+        -not ($simOutput -match 'PASS:')) {
+        Write-Error "Simulation failed or missing PASS: $test (exit=$simExit)"
+        exit 1
+    }
 }

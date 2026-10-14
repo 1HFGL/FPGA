@@ -1,0 +1,114 @@
+*** GOWIN Tcl Command Line Console  *** 
+Open project D:/AI tools/Codex&GPT/files/fpga_interaction/verification/control_20261014/control_verified.gprj finished
+GowinSynthesis start
+Running parser ...
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\control_audio_verify_top.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\input_sync_debounce.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\pressure_if.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\adc_knob_if.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\event_encoder.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\voice_allocator.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\reset_sync.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\voice_test_pattern.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\interaction_top.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_a\rtl\phase_inc_calc.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_a\rtl\wave_lut.v'
+WARN  (EX3792) : Literal value 'sd65536 truncated to fit in 16 bits("D:\AI tools\Codex&GPT\files\fpga_a\rtl\wave_lut.v":276)
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_a\rtl\adsr_envelope.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_a\rtl\voice_gain.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_a\rtl\poly_mixer_saturator.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_a\rtl\synth_engine.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_b\rtl\sample_tick_gen.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_b\rtl\i2s_tx.v'
+Analyzing Verilog file 'D:\AI tools\Codex&GPT\files\fpga_ab_sim\rtl\audio_system_top.v'
+Compiling module 'control_audio_verify_top'("D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\control_audio_verify_top.v":3)
+Compiling module 'reset_sync'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\reset_sync.v":3)
+Compiling module 'audio_system_top(VOICES=16)'("D:\AI tools\Codex&GPT\files\fpga_ab_sim\rtl\audio_system_top.v":3)
+Compiling module 'sample_tick_gen'("D:\AI tools\Codex&GPT\files\fpga_b\rtl\sample_tick_gen.v":3)
+Compiling module 'interaction_top(VOICES=16,CHECK_RELEASE_ID=1)'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\interaction_top.v":3)
+Compiling module 'touch_or_key_if(KEY_COUNT=13)'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":3)
+Compiling module 'input_sync_debounce'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\input_sync_debounce.v":3)
+Compiling module 'adc_knob_if'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\adc_knob_if.v":7)
+Compiling module 'pressure_if'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\pressure_if.v":3)
+Compiling module 'event_encoder'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\event_encoder.v":2)
+Extracting RAM for identifier 'pending_mem'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\event_encoder.v":19)
+Extracting RAM for identifier 'fifo_mem'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\event_encoder.v":25)
+Compiling module 'voice_test_pattern'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\voice_test_pattern.v":3)
+Compiling module 'voice_allocator(VOICES=16,CHECK_RELEASE_ID=1)'("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\voice_allocator.v":2)
+Compiling module 'synth_engine(VOICES=16)'("D:\AI tools\Codex&GPT\files\fpga_a\rtl\synth_engine.v":3)
+Compiling module 'phase_inc_calc'("D:\AI tools\Codex&GPT\files\fpga_a\rtl\phase_inc_calc.v":3)
+Compiling module 'wave_lut'("D:\AI tools\Codex&GPT\files\fpga_a\rtl\wave_lut.v":3)
+Compiling module 'adsr_envelope'("D:\AI tools\Codex&GPT\files\fpga_a\rtl\adsr_envelope.v":3)
+WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("D:\AI tools\Codex&GPT\files\fpga_a\rtl\adsr_envelope.v":53)
+WARN  (EX3791) : Expression size 32 truncated to fit in target size 16("D:\AI tools\Codex&GPT\files\fpga_a\rtl\adsr_envelope.v":63)
+WARN  (EX3791) : Expression size 32 truncated to fit in target size 16("D:\AI tools\Codex&GPT\files\fpga_a\rtl\adsr_envelope.v":78)
+Compiling module 'voice_gain'("D:\AI tools\Codex&GPT\files\fpga_a\rtl\voice_gain.v":3)
+Compiling module 'poly_mixer_saturator(VOICES=16)'("D:\AI tools\Codex&GPT\files\fpga_a\rtl\poly_mixer_saturator.v":3)
+WARN  (EX3791) : Expression size 17 truncated to fit in target size 16("D:\AI tools\Codex&GPT\files\fpga_a\rtl\synth_engine.v":128)
+Compiling module 'i2s_tx'("D:\AI tools\Codex&GPT\files\fpga_b\rtl\i2s_tx.v":3)
+NOTE  (EX0101) : Current top module is "control_audio_verify_top"
+[5%] Running netlist conversion ...
+Running device independent optimization ...
+[10%] Optimizing Phase 0 completed
+[15%] Optimizing Phase 1 completed
+[25%] Optimizing Phase 2 completed
+Running inference ...
+[30%] Inferring Phase 0 completed
+[40%] Inferring Phase 1 completed
+[50%] Inferring Phase 2 completed
+[55%] Inferring Phase 3 completed
+Running technical mapping ...
+[60%] Tech-Mapping Phase 0 completed
+[65%] Tech-Mapping Phase 1 completed
+[75%] Tech-Mapping Phase 2 completed
+[80%] Tech-Mapping Phase 3 completed
+[90%] Tech-Mapping Phase 4 completed
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[10].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[11].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[12].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[2].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[3].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[4].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[5].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[6].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[7].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[8].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "g_key[9].u_debounce" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\touch_or_key_if.v":30)
+WARN  (NL0002) : The module "pressure_if" instantiated to "u_pressure_if" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\interaction_top.v":191)
+WARN  (NL0002) : The module "input_sync_debounce" instantiated to "u_timbre_key" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\interaction_top.v":166)
+WARN  (NL0002) : The module "voice_test_pattern" instantiated to "u_voice_test_pattern" is swept in optimizing("D:\AI tools\Codex&GPT\files\fpga_interaction\rtl\interaction_top.v":235)
+[95%] Generate netlist file "D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\impl\gwsynthesis\control_verified.vg" completed
+[100%] Generate report file "D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\impl\gwsynthesis\control_verified_syn.rpt.html" completed
+GowinSynthesis finish
+Reading netlist file: "D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\impl\gwsynthesis\control_verified.vg"
+Parsing netlist file "D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\impl\gwsynthesis\control_verified.vg" completed
+Processing netlist completed
+Reading constraint file: "D:\AI tools\Codex&GPT\files\fpga_interaction\gowin\tang_mega_60k_interaction.cst"
+Physical Constraint parsed completed
+Running placement......
+[10%] Placement Phase 0 completed
+[20%] Placement Phase 1 completed
+[30%] Placement Phase 2 completed
+[50%] Placement Phase 3 completed
+Running routing......
+[60%] Routing Phase 0 completed
+[70%] Routing Phase 1 completed
+[80%] Routing Phase 2 completed
+WARN  (PR1014) : Generic routing resource will be used to clock signal 'sys_clk_d' by the specified constraint. And then it may lead to the excessive delay or skew
+[90%] Routing Phase 3 completed
+Running timing analysis......
+[95%] Timing analysis completed
+Placement and routing completed
+Bitstream generation in progress......
+Bitstream generation completed
+Running power analysis......
+[100%] Power analysis completed
+Generate file "D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\impl\pnr\control_verified.power.html" completed
+Generate file "D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\impl\pnr\control_verified.pin.html" completed
+Generate file "D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\impl\pnr\control_verified.rpt.html" completed
+Generate file "D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\impl\pnr\control_verified.rpt.txt" completed
+Generate file "D:\AI tools\Codex&GPT\files\fpga_interaction\verification\control_20261014\impl\pnr\control_verified.tr.html" completed
+Wed Oct 14 11:39:51 2026
+
+CONTROL_BUILD_DONE
