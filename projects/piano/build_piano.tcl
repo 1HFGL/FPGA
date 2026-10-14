@@ -12,8 +12,8 @@ file mkdir $impl_dir
 file copy -force $process_config [file join $impl_dir uart_piano_process_config.json]
 if {[catch {
     open_project [file join $project_dir uart_piano.gprj]
-    set_option -top_module piano_13key_top
-    set_option -output_base_name piano_13key
+    set_option -top_module piano_performance_top
+    set_option -output_base_name piano_performance
     run all
 } result]} {
     puts stderr $result

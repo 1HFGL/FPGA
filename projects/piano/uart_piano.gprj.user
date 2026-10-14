@@ -11,16 +11,16 @@
         <Process ID="Place" State="2"/>
     </FlowState>
     <ResultFileList>
-        <ResultFile ResultFileType="RES.netlist" ResultFilePath="impl/gwsynthesis/piano_13key.vg"/>
-        <ResultFile ResultFileType="RES.pnr.bitstream" ResultFilePath="impl/pnr/piano_13key.fs"/>
-        <ResultFile ResultFileType="RES.pnr.pin.rpt" ResultFilePath="impl/pnr/piano_13key.pin.html"/>
-        <ResultFile ResultFileType="RES.pnr.posp.bin" ResultFilePath="impl/pnr/piano_13key.db"/>
-        <ResultFile ResultFileType="RES.pnr.pwr.rpt" ResultFilePath="impl/pnr/piano_13key.power.html"/>
-        <ResultFile ResultFileType="RES.pnr.report" ResultFilePath="impl/pnr/piano_13key.rpt.html"/>
-        <ResultFile ResultFileType="RES.pnr.timing.paths" ResultFilePath="impl/pnr/piano_13key.timing_paths"/>
-        <ResultFile ResultFileType="RES.pnr.timing.rpt" ResultFilePath="impl/pnr/piano_13key.tr.html"/>
-        <ResultFile ResultFileType="RES.syn.report" ResultFilePath="impl/gwsynthesis/piano_13key_syn.rpt.html"/>
-        <ResultFile ResultFileType="RES.syn.resource" ResultFilePath="impl/gwsynthesis/piano_13key_syn_rsc.xml"/>
+        <ResultFile ResultFileType="RES.netlist" ResultFilePath="impl/gwsynthesis/piano_performance.vg"/>
+        <ResultFile ResultFileType="RES.pnr.bitstream" ResultFilePath="impl/pnr/piano_performance.fs"/>
+        <ResultFile ResultFileType="RES.pnr.pin.rpt" ResultFilePath="impl/pnr/piano_performance.pin.html"/>
+        <ResultFile ResultFileType="RES.pnr.posp.bin" ResultFilePath="impl/pnr/piano_performance.db"/>
+        <ResultFile ResultFileType="RES.pnr.pwr.rpt" ResultFilePath="impl/pnr/piano_performance.power.html"/>
+        <ResultFile ResultFileType="RES.pnr.report" ResultFilePath="impl/pnr/piano_performance.rpt.html"/>
+        <ResultFile ResultFileType="RES.pnr.timing.paths" ResultFilePath="impl/pnr/piano_performance.timing_paths"/>
+        <ResultFile ResultFileType="RES.pnr.timing.rpt" ResultFilePath="impl/pnr/piano_performance.tr.html"/>
+        <ResultFile ResultFileType="RES.syn.report" ResultFilePath="impl/gwsynthesis/piano_performance_syn.rpt.html"/>
+        <ResultFile ResultFileType="RES.syn.resource" ResultFilePath="impl/gwsynthesis/piano_performance_syn_rsc.xml"/>
     </ResultFileList>
     <Ui></Ui>
     <FpUi></FpUi>

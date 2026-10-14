@@ -1,53 +1,63 @@
 # 验证入口与结果边界
 
-2026-10-14的13键提交（`b59f8ee7`）验证结果：87文件严格Verilog编译，原C7/钢琴2/UART7与新增键盘2项共18项通过，57份原有测试字节保持；23端口指定约束和50MHz布局布线通过，setup/hold +4.519/+0.227ns，4音频pROM、6BSRAM、8.5DSP。CPU引脚GPIO复用已开启，控制配置和生效配置一致。细节与数字观测边界见[13键接线与运行](keyboard-wiring.md)，日志在 `build/keyboard-verification`、`build/regression/keyboard` 和 `build/piano`。
-下文“清理后的执行记录”是GitHub `0406c609` 的10月13日基线记录，当前下载入口改为 `piano_13key_top`/`piano_13key.fs`；本轮整理进入master，没有接线、下载或实物验收。
+2026-10-14，基于master `8277946`整合后的正式顶层为 `piano_performance_top`：13实体键/UART共享16声部，ADS1115双旋钮接入实际音频计算。当前证据统一在[性能整合摘要](../verification/evidence/performance/summary.json)，完整生成物在本机 `build/`，旧结果从Git查阅。
 
-本文维护当前结果，不每轮另建日期MD。生成日志/波形/模型输出写`build/`；必要报告和源码/约束/波表/工具/位流身份一并保存。历史完整证据在Git提交[f513622](https://github.com/1HFGL/FPGA/tree/f513622/docs/reports)，当前目录不重复存放。
+## 本轮实际执行
 
-## 当前命令
+| 检查 | 本轮结果 |
+| --- | --- |
+| 语言 | 99份有效源码/测试严格Verilog-2001编译，无SV模式 |
+| 正常回归 | All 27、UART 7、钢琴2、原13键2、PA 4、显示6、新联合5项通过 |
+| 上位机 | 32项Python单测通过 |
+| C独立工程 | 15 RTL＋3 Verilog控制TB严格编译；旧SV TB没有改动或作为主验证重跑 |
+| 文件保护 | 基于8277946核对106份既有测试/C独立工程文件，保持不变，SHA256见摘要 |
+| 音频负向检查 | 故意断开总音量或弯音连线，实际PCM/振荡器检查分别失败，正式源码不保留故障 |
+| 正式综合/布局布线 | Gowin1.9.12.04、GW5AT-LV60PG484AC1/I0/B、50MHz，通过当前约束检查 |
+| 资源 | Logic 19996/59904；寄存器6429/60780；BSRAM19/118；DSP67/118 |
+| 报告最差余量 | setup +3.928ns；hold +0.247ns；recovery +14.858ns；removal +0.923ns；脉宽无负值 |
+| 约束/配置 | 25端口指定球位；10条SDC激活；受控与实际process配置SHA256一致 |
+| 位流 | `projects/piano/impl/pnr/piano_performance.fs`，未烧录 |
 
-在仓库根执行；其他电脑用`-ModelSimBin`/`-Gowin`指定安装路径。缺工具应报错，不得跳过并称通过。
+位流SHA256：`eb03b6ddccf5dc0b610093144f23e97e70121bf1532f446f5c3f957533b4b63d`。16个pROM是独立声部音频表，另一个pROM是旋钮频率比例表，不当作第17声部。DSP/逻辑增加来自16路并行合成、弯音和ADC前端。
+
+弯音乘法增加一级系统时钟流水线，正式请求R0→DDS/包络R1→混音R4→总音量R5→B缓存R6；提前32/33拍准备，仍满足数字帧截止时间。原四路接口配置保持R4缓存，原tb判据没有放宽。旧配置的额外未接控制端口有仿真兼容告警；正式16路新增联合测试无端口告警。
+
+## 新联合测试测了什么
+
+- `tb_performance_bank`：16路逐路实际非零样本；C4在0.2秒样本窗的正向过零次数为原音53、升2半音59、降2半音47、回中53；检查数字增益/静音、尾音弯音、真实完成代次、连续请求控制对齐及复位。
+- `tb_performance_system`：实体/UART同音分离、13键＋电脑填满16路、17音抢占、延音、八度锁存、实际末级增益、数字串行输出、实体队列故障只清本地、PANIC跳过延音只清PC。
+- `tb_performance_adc`：位级I2C从机模型→ADC→正式16路顶层，检验PCM静音、振荡器弯音、掉线保持、恢复和复位；为了仿真速度缩短转换等待并关闭前端平滑，不能用于宣称默认旋钮响应。
+- `tb_performance_control`：held-gate重触发代次、过期完成拒绝、延音/按住状态分离、来源清理、八度快照、背压、溢出锁存与复位。
+- `tb_performance_latency`：正式顶层、真实50MHz/48kHz、2ms消抖和原钢琴包络，13音高/不同相位的新起音；稳定数字接点至完整左声道数字字最大观测 **2.030640ms**。
+
+此延迟没有计入机械抖动、DAC/功放模拟响应、触摸或旋钮采集，不是整机≤5ms/≤10ms或全工况最坏上界证明。所有声部非零检查只在有效发声窗口计数；钢琴自然衰减到零后占用状态不当作可闻声部。
+
+## 复现命令
+
+在仓库根运行，工具路径按实际安装修改：
 
 ```powershell
 ./verification/scripts/check_verilog.ps1
 ./verification/scripts/run_tests.ps1 -Suite All -ModelSimBin C:/Library/modelsim/win64
 ./verification/scripts/run_uart_tests.ps1
 ./verification/scripts/run_piano_tests.ps1
-./verification/scripts/run_display_tests.ps1
 ./verification/scripts/run_pa_tests.ps1
-./verification/scripts/run_latency_tests.ps1 -ExtraTests tb_audio_boundaries,tb_audio_display_isolation
-./verification/scripts/check_audio_parameters.ps1
+./verification/scripts/run_keyboard_tests.ps1 -ModelSimBin C:/Library/modelsim/win64
+./verification/scripts/run_display_tests.ps1
 ./verification/scripts/check_c_rtl.ps1
-& '.venv-studio/Scripts/python.exe' -m unittest discover -s host -p 'test_*.py' -v
-./projects/piano/build.ps1
-./projects/display/build.ps1
+./verification/scripts/run_performance_tests.ps1
+./verification/scripts/run_performance_tests.ps1 -Mutation Volume -Tests tb_performance_system
+./verification/scripts/run_performance_tests.ps1 -Mutation Bend -Tests tb_performance_adc
+& .venv-studio/Scripts/python.exe -m unittest discover -s host -p 'test_*.py'
+$projectPython='C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
+./projects/piano/build.ps1 -EvidenceDirectory build/performance -Python $projectPython
+& $projectPython -X utf8 verification/scripts/summarize_performance.py
 ```
 
-可选当前A核心/吉他实现矩阵：`./projects/check_implementation.ps1 -Group All`，共3项。与主钢琴构建分开；模块外壳/显示核心不能当可下载的完整乐器。
+## 尚未签核的事项
 
-此次C成果归并：主工程RTL及主Verilog测试与13键提交保持字节一致；独立C刷新了已发布阶段的4份旧测试接口，并将3份新增测试改为Verilog .v，断言条件未放宽。C17项回归及15个RTL+3个新TB严格编译另行验证，结果见[C输入说明](c-input.md)。旧“57份原测试不变”是13键提交时的结论，不适用于这次有意刷新的独立C测试。
+PR1014系统时钟通用路由告警、DAC的DIN/WS相对BCK完整外部时序、实物声音及整机最坏延迟尚待闭合；正余量只表示当前约束中的报告结果。SDA经两级同步，输入例外只切异步外部路径，未豁免同步器级间路径；SCL是同域使能输出，无新增内部逻辑时钟。
 
-All现在仅覆盖保留的当前实现；退役旧bank、旧板级演示和主目录旧C演示的7项专用测试随实现删除，当前分配器重触发/抢占回归仍保留。已有有效TB检查阈值没有放宽。C独立工程RTL单独编译，原SystemVerilog TB和脚本未修改、未纳入主验证。
+ADC默认128SPS、每通道固定等待10ms，加16对预热/IIR/限速，旋钮可能数百毫秒才稳定，本轮未优化或实测这一段。延音/八度仅内部接口，正式板级默认关闭/中档。触摸和显示主顶层尚未接入，钢琴真实感未改善、未验收。
 
-## 清理后的执行记录
-
-2026-10-13实际执行：清理前101文件严格Verilog编译通过；清理后84文件严格Verilog编译、All27、UART7、钢琴2、显示6、PA4通过。参数3合法通过、12非法以预期非零状态拒绝；上位机32单测通过。C的56个文件哈希保持不变，其中15个RTL单独严格编译，C原TB未运行。
-
-当前lead=2的14项数字延迟用例、音频边界、显示隔离以及默认ModelSim入口自检也通过；该组最大左声道数字观测延迟为2.063030ms，不代表整机实测。显示核心重新综合通过，但尚未完成屏幕引脚、PLL和外部时序验证。五项Python参考模型与本轮RTL输出对照通过。以上新日志统一保存在`build/cleanup`及`build/regression`。
-
-主钢琴重新完成综合/布局布线，受控/实际process配置一致，仍为5927逻辑、2710寄存器、4 BSRAM、8 DSP，现有约束setup/hold +5.891/+0.127ns。引脚和时序约束只是从旧UART工程移入boards，字节不变；主发声链路无逻辑修改。该次记录在`build/cleanup/piano-build`，不会复制出另一套源码。
-
-## 历史结果不是本轮实物验收
-
-清理前钢琴现有约束下5927逻辑（5235 LUT＋692 ALU）、2710寄存器、4 BSRAM、8 DSP，setup/hold +5.891/+0.127ns。尾音功放排空修复已验证；最大数字观测延迟2.083210→2.063030ms，改善20.18µs。
-
-数字延迟起点是最后稳定按键沿，终点是与新事件有关的完整左声道数字字、阈值1LSB。2.167220ms仅为新空闲C4/固定力度/空队列等指定条件上界，不是任意积压或全部工况的整机保证。真实接点抖动、DAC、功放、音箱和显示实物负载仍待测。
-
-PR1014及DIN/WS相对BCK的完整DAC外部时序仍待闭合；6条已有约束激活不等于全部板级签核。清理不等于烧录成功，不改变四声部为16声部。
-
-## 历史与恢复
-
-查旧版使用Git，不再新建backup/legacy目录：例如`git show f513622:rtl/synth/adsr_voice_bank.v`只读显示旧文件。最新原始指南/用户上传资料仍在`docs/sources`，字体来源和OFL许可仍保留。C完整独立工程按用户选择保留，历史C报告属于队友原记录，不称为本轮重跑。
-
-旧编译缓存的永久删除被工具环境拒绝，已移出仓库到系统临时回收目录；确切位置保存在本机`build/cleanup/cache-location.txt`。这些是旧生成物，不再作为活动工程或新验证证据。
+较早的13键阶段与清理阶段记录对应Git `b59f8ee`、`0406c60`、`f513622`；不混作本轮证据。C独立快照继续保留，旧缓存回收位置见本机 `build/cleanup/cache-location.txt`。

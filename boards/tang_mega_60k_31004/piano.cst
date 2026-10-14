@@ -20,6 +20,12 @@ IO_LOC "uart_rx" V14;
 IO_PORT "uart_rx" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 IO_LOC "uart_tx" U15;
 IO_PORT "uart_tx" IO_TYPE=LVCMOS33 DRIVE=8;
+// 厂家Rev1.4原理图p7/p19：J8-8=PMOD1_IO5/AA21，J8-5=PMOD1_IO6/AA19。
+// 禁止沿用独立调试工程H19/H20（Joy-Con电平转换线路）。
+IO_LOC "knob_sda" AA21;
+IO_PORT "knob_sda" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
+IO_LOC "knob_scl" AA19;
+IO_PORT "knob_scl" IO_TYPE=LVCMOS33 BANK_VCCIO=3.3;
 
 // Thirteen piano keys: J9/PMOD0 IO0..7, J8/PMOD1 IO0..4.
 // Shared PMOD/camera/SDRAM1/LED nets must not be driven by another design.

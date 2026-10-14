@@ -8,6 +8,11 @@
         <File path="../../rtl/control/input_sync_debounce.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/touch_or_key_if.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/event_encoder.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/piano_controls.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/i2c_master.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/ads1115_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/ads1115_knob_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/adc_knob_if.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/voice_allocator.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/uart_rx.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/uart_tx.v" type="file.verilog" enable="1"/>
@@ -19,6 +24,7 @@
         <File path="../../rtl/top/instrument_uart_top.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/top/instrument_uart_piano_top.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/top/piano_13key_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/piano_performance_top.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/phase_acc.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/wave_lut.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_dds.v" type="file.verilog" enable="1"/>

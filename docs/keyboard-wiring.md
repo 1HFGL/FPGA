@@ -1,10 +1,14 @@
 # 13 键接线与运行
 
-本地工作工程为 `fpga_piano`，基于 GitHub `1HFGL/FPGA` 的 master 提交 `0406c609` 接入 13 个独立低有效按钮。主工程仍使用队友现有的四声部钢琴近似合成、UART 和 PT8211-S 输出；13 个可选音高不等于 13 个同时发声声部。
+主工程基于远端master `8277946`继续整合：13个独立低有效按钮、UART与两个旋钮，正式16声部钢琴近似合成，PT8211-S输出。琴键数量与复音数量分别说明。
 
-正式板级入口：`projects/piano/uart_piano.gprj`，顶层 **`piano_13key_top`**，约束 `boards/tang_mega_60k_31004/piano.cst`。13键成果整理到 master；初始提交为 `b59f8ee7`。尚未接线或下载板卡。
+正式板级入口：`projects/piano/uart_piano.gprj`，顶层 **`piano_performance_top`**，约束 `boards/tang_mega_60k_31004/piano.cst`。13键成果整理到 master；初始提交为 `b59f8ee7`。尚未接线或下载板卡。
 
 ## 按键与引脚
+
+ADS1115旋钮接口：模块以3.3V供电、GND共地、ADDR接GND（0x48）；SDA接J8第8脚/AA21，SCL接J8第5脚/AA19，SDA上拉到3.3V。两只B10K两端接3.3V/GND，滑端分别接AIN0（总音量）和AIN1（全局±2半音弯音），三针模块按VCC/GND/SIG丝印接。模拟电压不得高于3.3V，两个SIG不可短接。
+
+ADC未ready沿用原音量/原音高，运行故障保持最后有效参数。连接后有预热/滤波等待；弯音软件中心为63/64，实物行程需校准。当前SCL推挽，不支持时钟拉伸。不要照独立C工程的H19/H20接线，它们属于Joy-Con线路。下方针号均按板上1脚标记定位。
 
 按半音排列，bit0 在最低位，范围 MIDI60～72。白键在前排，黑键在后排：
 
@@ -47,7 +51,7 @@ FPGA 球位列用于 CST，不是杜邦线直接连接的位置。
 
 PMOD 与 SDRAM1/DVP 相机扩展线共用，接琴键期间不要并接相机、PMOD外设或使用这些线的 SDRAM1 电路；J14的对应线也不算额外独立GPIO。旧 C LED 演示约束使用了其中部分球位，不要与此主钢琴约束混用。
 
-时钟、复位、两板载键、音频和UART保留用户给定的10个球位，13键没有占用 LCD RGB/CTP/Joy-Con 线路。J8 的 IO5/IO6/IO7 尚未使用；AA21/AA19 可作为后续 ADS1115 接线的候选保留脚，本轮没有把 ADC 接入主钢琴或改动独立 ADC 工程的历史约束。
+时钟、复位、两板载键、音频和UART保留用户给定的10个球位，13键没有占用 LCD RGB/CTP/Joy-Con 线路。本轮正式使用 J8 第8脚 PMOD1_IO5/AA21 作为ADS1115 SDA，J8 第5脚 PMOD1_IO6/AA19作为SCL；IO7仍空闲。依据[厂家31004 Rev1.4原理图](https://dl.sipeed.com/fileList/TANG/Mega_138K_60K/02_Schematic/DOCK/Tang_Mega_NEO_Dock-60K_31004_Schematics.pdf)第7、19页核对。独立C历史H19/H20是Joy-Con线路，本轮不改其快照，不能照接。
 
 板载 KEY1/KEY2 保留 C4/E4 测试功能，在13键模式分别与 K00/K04 合并为同一个逻辑按键；任意一个仍按住时不会因另一个松开而关音。黑键不承担功能设置操作。
 
@@ -56,13 +60,13 @@ PMOD 与 SDRAM1/DVP 相机扩展线共用，接琴键期间不要并接相机、
 从本工程根目录运行：
 
 ```powershell
-./verification/scripts/verify_keyboard.ps1 -ModelSimBin D:/Modelsim/win64
-./projects/piano/build.ps1 -Gowin D:/Gowin/Gowin_V1.9.12.03_x64/IDE/bin/gw_sh.exe
+./verification/scripts/run_performance_tests.ps1
+./projects/piano/build.ps1 -EvidenceDirectory build/performance -Python C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe
 ```
 
-生成位流位于 `projects/piano/impl/pnr/piano_13key.fs`；实际版本/校验值见 `build/piano/artifact.txt`。仅当按本表接线并核对模块电平后，用已有 SRAM Program 流程试板；本次未自动操作下载器或写Flash。
+生成位流位于 `projects/piano/impl/pnr/piano_performance.fs`；实际版本/校验值见 `build/performance/artifact.txt`。仅当按本表接线并核对模块电平后，用已有 SRAM Program 流程试板；本次未自动操作下载器或写Flash。
 
-先接 K00 单键，检查 C4；再检查 K01 黑键 C#4、K12 高音 C5，随后补齐其他键。四键和弦应可同时发声，第五个新音会抢占最老声部。PC与琴键共享四声部。
+先接 K00 单键，检查 C4；再检查 K01 黑键 C#4、K12 高音 C5，随后补齐其他键。实体13键可同时发声，PC可补至16声部；第17音优先抢最老已松键尾音，再抢最老按住音。PC与琴键同音也分别占用声部。
 
 独立新增测试覆盖全部13键音符/来源、逐键非零音频、四键和弦、第五键抢占、旧松键不误关新音、板键别名保持、13键突发和复位。第二项使用真实50MHz/48kHz、2ms消抖及正式钢琴包络，检查1ms脉冲被拒绝、C5稳定按下到PCM和完整左声道数字字。
 
@@ -72,7 +76,7 @@ PMOD 与 SDRAM1/DVP 相机扩展线共用，接琴键期间不要并接相机、
 
 单次新C5数字观测：稳定输入到PCM **2.020220ms**，到完整左声道数字字 **2.030880ms**，1ms脉冲不触发。这只是该相位/空声部/无积压用例，不是所有工况上界或整机实测，真实接点抖动与DAC/功放模拟延迟未计入。
 
-随提交保留的验证摘要在 `verification/evidence/keyboard/summary.json`；本机重新生成的摘要与补丁位于 `build/keyboard-verification`。13键原提交保留57份原测试；本次归并保持主Verilog测试原样，在独立C中刷新4份已发布测试接口，来源和哈希在 `verification/c_source_refresh.json`。PR1014与完整DAC外部时序/模拟输出延迟仍待闭合。13键主工程目前尚未移植独立 C 的八度、延音、起音代次与队列故障控制；它们和16声部钢琴合成将在后续统一接口后接入。
+随提交保留的验证摘要在 `verification/evidence/keyboard/summary.json`；本机重新生成的摘要与补丁位于 `build/keyboard-verification`。13键原提交保留57份原测试；本次归并保持主Verilog测试原样，在独立C中刷新4份已发布测试接口，来源和哈希在 `verification/c_source_refresh.json`。PR1014与完整DAC外部时序/模拟输出延迟仍待闭合。以上为13键阶段历史验证；本轮已迁移控制合同、接通16声部和双旋钮，当前结果以[验证说明](verification.md)为准。
 
 ## 引脚依据
 
