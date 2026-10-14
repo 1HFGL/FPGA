@@ -1,4 +1,4 @@
-param([string]$SimDirectory = "")
+param([string]$SimDirectory = "", [string]$ModelSimBin = "D:/Modelsim/win64")
 
 $ErrorActionPreference = "Stop"
 
@@ -10,7 +10,7 @@ if (-not (Test-Path -LiteralPath $simDir)) {
 Set-Location $simDir
 
 if (-not (Test-Path -LiteralPath "work")) {
-    & "D:\Modelsim\win64\vlib.exe" work
+    & (Join-Path $ModelSimBin 'vlib.exe') work
 }
 
 $sources = @(
@@ -41,13 +41,16 @@ $sources = @(
     "..\tb\tb_ads1115_if.sv",
     "..\tb\tb_ads1115_knob_if.sv",
     "..\tb\tb_ads1115_faults.sv",
-    "..\tb\tb_ads1115_mapping.sv"
+    "..\tb\tb_ads1115_mapping.sv",
+    "..\tb\tb_voice_control.v",
+    "..\tb\tb_key_events.v",
+    "..\tb\tb_input_fault_cleanup.v"
 )
 $sources = @($sources | ForEach-Object {
     Join-Path $root $_.Substring(3)
 })
 
-& "D:\Modelsim\win64\vlog.exe" -sv @sources
+& (Join-Path $ModelSimBin 'vlog.exe') -sv @sources
 if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
@@ -65,12 +68,16 @@ $tests = @(
     "tb_ads1115_if",
     "tb_ads1115_knob_if",
     "tb_ads1115_faults",
-    "tb_ads1115_mapping"
+    "tb_ads1115_mapping",
+    "tb_voice_control",
+    "tb_voice_control_16",
+    "tb_key_events",
+    "tb_input_fault_cleanup"
 )
 
 foreach ($test in $tests) {
     Write-Host "===== RUN $test ====="
-    $simOutput = @(& "D:\Modelsim\win64\vsim.exe" -c -onfinish exit "work.$test" -do "run -all; quit -code 0 -f")
+    $simOutput = @(& (Join-Path $ModelSimBin 'vsim.exe') -c -onfinish exit "work.$test" -do "run -all; quit -code 0 -f")
     $simExit = $LASTEXITCODE
     $simOutput | ForEach-Object { Write-Host $_ }
     if (($simExit -ne 0) -or ($simOutput -match 'FAIL:|\*\* (Error|Fatal):') -or

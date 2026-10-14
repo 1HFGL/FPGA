@@ -2,7 +2,7 @@
 
 本地工作工程为 `fpga_piano`，基于 GitHub `1HFGL/FPGA` 的 master 提交 `0406c609` 接入 13 个独立低有效按钮。主工程仍使用队友现有的四声部钢琴近似合成、UART 和 PT8211-S 输出；13 个可选音高不等于 13 个同时发声声部。
 
-正式板级入口：`projects/piano/uart_piano.gprj`，顶层 **`piano_13key_top`**，约束 `boards/tang_mega_60k_31004/piano.cst`。本成果位于 `codex/piano-13keys` 分支，尚未接线或下载板卡。
+正式板级入口：`projects/piano/uart_piano.gprj`，顶层 **`piano_13key_top`**，约束 `boards/tang_mega_60k_31004/piano.cst`。13键成果整理到 master；初始提交为 `b59f8ee7`。尚未接线或下载板卡。
 
 ## 按键与引脚
 
@@ -72,7 +72,7 @@ PMOD 与 SDRAM1/DVP 相机扩展线共用，接琴键期间不要并接相机、
 
 单次新C5数字观测：稳定输入到PCM **2.020220ms**，到完整左声道数字字 **2.030880ms**，1ms脉冲不触发。这只是该相位/空声部/无积压用例，不是所有工况上界或整机实测，真实接点抖动与DAC/功放模拟延迟未计入。
 
-随提交保留的验证摘要在 `verification/evidence/keyboard/summary.json`；本机重新生成的摘要与补丁位于 `build/keyboard-verification`；57份原有测试文件与基线字节一致。PR1014与完整DAC外部时序/模拟输出延迟仍待闭合。13键主工程目前尚未移植独立 C 的八度、延音、起音代次与队列故障控制；它们和16声部钢琴合成将在后续统一接口后接入。
+随提交保留的验证摘要在 `verification/evidence/keyboard/summary.json`；本机重新生成的摘要与补丁位于 `build/keyboard-verification`。13键原提交保留57份原测试；本次归并保持主Verilog测试原样，在独立C中刷新4份已发布测试接口，来源和哈希在 `verification/c_source_refresh.json`。PR1014与完整DAC外部时序/模拟输出延迟仍待闭合。13键主工程目前尚未移植独立 C 的八度、延音、起音代次与队列故障控制；它们和16声部钢琴合成将在后续统一接口后接入。
 
 ## 引脚依据
 

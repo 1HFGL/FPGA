@@ -13,6 +13,11 @@ if not baseline_path.is_file(): baseline_path=ROOT/'verification/source_baseline
 baseline=json.loads(baseline_path.read_text(encoding='utf-8'))
 snapshot=ROOT.parent/'github_review_20261014/branches/master'
 
+def read_log(path):
+    data=path.read_bytes()
+    # Windows PowerShell redirection writes UTF-16; pwsh writes UTF-8.
+    return data.decode('utf-16') if data.startswith((b'\xff\xfe',b'\xfe\xff')) else data.decode('utf-8-sig')
+
 def original_data(name):
     if snapshot.is_dir():
         original=snapshot/name
@@ -28,6 +33,9 @@ def git_hash(data):
     return hashlib.sha1(f'blob {len(data)}\0'.encode()+data).hexdigest()
 
 preserved_tests=0
+refreshed_tests=[]
+refresh_path=ROOT/'verification/c_source_refresh.json'
+refresh=json.loads(refresh_path.read_text(encoding='utf-8')) if refresh_path.is_file() else {'tests':{}}
 changes=[]
 diffs=[]
 paths={e['path']:e['git_blob'] for e in baseline['files']}
@@ -41,8 +49,13 @@ for name in sorted(paths):
     old_data=original_data(name)
     new_data=path.read_bytes() if path.is_file() else b''
     if name.startswith(('verification/tb/','upstream/fpga_interaction/tb/')) and paths[name]:
-        assert git_hash(new_data)==paths[name], 'Original teammate test changed: '+name
-        preserved_tests+=1
+        if git_hash(new_data)==paths[name]:
+            preserved_tests+=1
+        else:
+            authorized=refresh['tests'].get(name)
+            assert name.startswith('upstream/fpga_interaction/tb/') and authorized and \
+                hashlib.sha256(new_data).hexdigest()==authorized['sha256'], 'Unrecorded original test change: '+name
+            refreshed_tests.append(name)
     if old_data==new_data: continue
     changes.append({'path':name,'status':'added' if paths[name] is None else 'modified',
                     'sha256':hashlib.sha256(new_data).hexdigest()})
@@ -54,19 +67,19 @@ for name in sorted(paths):
 
 tests={}
 for group,expected in [('control',7),('piano',2),('uart',7)]:
-    body=(OUT/(group+'.log')).read_text(encoding='utf-8-sig')
+    body=read_log(OUT/(group+'.log'))
     names=re.findall(r'^VERIFIED (\w+)\s*$',body,re.M)
     assert len(names)==expected and not re.search(r'\*\* (Fatal|Error):|\bFAIL\b',body), group
     tests[group]=names
 tests['keyboard']=[]
 for name in ['tb_piano_13_keys','tb_piano_13_debounce']:
-    body=(ROOT/'build/regression/keyboard'/f'{name}.log').read_text(encoding='utf-8-sig')
+    body=read_log(ROOT/'build/regression/keyboard'/f'{name}.log')
     assert f'PASS {name}:' in body and not re.search(r'\*\* (Fatal|Error):|\bFAIL\b',body),name
     tests['keyboard'].append(name)
-strict=(ROOT/'build/regression/strict/strict_inputs.txt').read_text(encoding='utf-8-sig')
+strict=read_log(ROOT/'build/regression/strict/strict_inputs.txt')
 compiled=len(re.findall(r'^[0-9A-F]{64} ',strict,re.M))
 assert compiled==87
-compile_log=(ROOT/'build/regression/strict/strict_compile.log').read_text(encoding='utf-8-sig')
+compile_log=read_log(ROOT/'build/regression/strict/strict_compile.log')
 assert 'Errors: 0' in compile_log
 
 timing=(ROOT/'build/piano/timing_from_html.txt').read_text(encoding='utf-8')
@@ -99,11 +112,12 @@ fs=ROOT/'projects/piano/impl/pnr/piano_13key.fs'
 assert fs.is_file()
 resources={k:float(re.search(r'\b'+k+r'\s*\|\s*(\d+(?:\.\d+)?)/',rpt)[1])
            for k in ['Logic','Register','BSRAM','DSP']}
-digital_log=(ROOT/'build/regression/keyboard/tb_piano_13_debounce.log').read_text(encoding='utf-8-sig')
+digital_log=read_log(ROOT/'build/regression/keyboard/tb_piano_13_debounce.log')
 observed=re.search(r'to-PCM=(\d+)ns left-DAC-word=(\d+)ns',digital_log)
 result={'baseline_commit':baseline['commit'],'top':'piano_13key_top','strict_verilog_files':compiled,
         'testbenches':tests,'testbench_count':sum(map(len,tests.values())),
-        'unchanged_original_tests':preserved_tests,'clock_mhz':50,'worst_slack_ns':slacks,
+        'unchanged_original_tests':preserved_tests,'refreshed_independent_c_tests':refreshed_tests,
+        'clock_mhz':50,'worst_slack_ns':slacks,
         'constrained_ports':locations,'resources':resources,'cpu_pins_as_gpio':True,
         'digital_observation_ns':{'pcm':int(observed[1]),'left_dac_word':int(observed[2]),
                                   'scope':'single fresh C5 after stable input, not physical/analog latency or worst-case guarantee'},
@@ -111,4 +125,4 @@ result={'baseline_commit':baseline['commit'],'top':'piano_13key_top','strict_ver
         'source_changes':changes,'programmed':False,'uploaded':False}
 (OUT/'summary.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print(f'PASS summary: {compiled} Verilog files, {result["testbench_count"]} benches, 23 placed ports, setup {slacks["setup"]:+.3f} ns, hold {slacks["hold"]:+.3f} ns')
-print(f'Preserved {preserved_tests} original test files; review patch contains {len(changes)} changed/added files.')
+print(f'Preserved {preserved_tests} original test files; refreshed {len(refreshed_tests)} independent C tests from the recorded source commit; review patch contains {len(changes)} changed/added files.')

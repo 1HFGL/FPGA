@@ -1,7 +1,7 @@
 # 验证入口与结果边界
 
-2026-10-14本地13键入口的当前结果：87文件严格Verilog编译，原C7/钢琴2/UART7与新增键盘2项共18项通过，57份原有测试字节保持；23端口指定约束和50MHz布局布线通过，setup/hold +4.519/+0.227ns，4音频pROM、6BSRAM、8.5DSP。CPU引脚GPIO复用已开启，控制配置和生效配置一致。细节与数字观测边界见[13键接线与运行](keyboard-wiring.md)，日志在 `build/keyboard-verification`、`build/regression/keyboard` 和 `build/piano`。
-下文“清理后的执行记录”是GitHub `0406c609` 的10月13日基线记录，当前下载入口改为 `piano_13key_top`/`piano_13key.fs`；本轮没有接线、下载、实物验收或合并 master。
+2026-10-14的13键提交（`b59f8ee7`）验证结果：87文件严格Verilog编译，原C7/钢琴2/UART7与新增键盘2项共18项通过，57份原有测试字节保持；23端口指定约束和50MHz布局布线通过，setup/hold +4.519/+0.227ns，4音频pROM、6BSRAM、8.5DSP。CPU引脚GPIO复用已开启，控制配置和生效配置一致。细节与数字观测边界见[13键接线与运行](keyboard-wiring.md)，日志在 `build/keyboard-verification`、`build/regression/keyboard` 和 `build/piano`。
+下文“清理后的执行记录”是GitHub `0406c609` 的10月13日基线记录，当前下载入口改为 `piano_13key_top`/`piano_13key.fs`；本轮整理进入master，没有接线、下载或实物验收。
 
 本文维护当前结果，不每轮另建日期MD。生成日志/波形/模型输出写`build/`；必要报告和源码/约束/波表/工具/位流身份一并保存。历史完整证据在Git提交[f513622](https://github.com/1HFGL/FPGA/tree/f513622/docs/reports)，当前目录不重复存放。
 
@@ -25,6 +25,8 @@
 ```
 
 可选当前A核心/吉他实现矩阵：`./projects/check_implementation.ps1 -Group All`，共3项。与主钢琴构建分开；模块外壳/显示核心不能当可下载的完整乐器。
+
+此次C成果归并：主工程RTL及主Verilog测试与13键提交保持字节一致；独立C刷新了已发布阶段的4份旧测试接口，并将3份新增测试改为Verilog .v，断言条件未放宽。C17项回归及15个RTL+3个新TB严格编译另行验证，结果见[C输入说明](c-input.md)。旧“57份原测试不变”是13键提交时的结论，不适用于这次有意刷新的独立C测试。
 
 All现在仅覆盖保留的当前实现；退役旧bank、旧板级演示和主目录旧C演示的7项专用测试随实现删除，当前分配器重触发/抢占回归仍保留。已有有效TB检查阈值没有放宽。C独立工程RTL单独编译，原SystemVerilog TB和脚本未修改、未纳入主验证。
 

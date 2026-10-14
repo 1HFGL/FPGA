@@ -1,4 +1,4 @@
-file=D:\AI tools\Codex&GPT\files\fpga_piano\projects\piano\impl\pnr\piano_13key.fs
-sha256=E7FBFD3B8EF703DB55916388C87AB3F24149D9D6AF01E0C6FDABAD346B12AC97
-Executed: synthesis, place/route, bitstream; NOT programmed or physically verified.
-Candidate only: PR1014 and complete DAC external timing remain unresolved; real COM/audio/latency unverified.
+file=D:\AI tools\Codex&GPT\files\fpga_piano\projects\piano\impl\pnr\piano_13key.fs
+sha256=4CC826484E06E2F9BDA8862A9981C948A8A54F0CFCBD4F288E3ED7762661A586
+Executed: synthesis, place/route, bitstream; NOT programmed or physically verified.
+Candidate only: PR1014 and complete DAC external timing remain unresolved; real COM/audio/latency unverified.

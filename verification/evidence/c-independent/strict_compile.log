@@ -1,0 +1,31 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 19:58:28 on Oct 14,2026
+vlog -vlog01compat -pedanticerrors -work work D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\adc_knob_if.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\ads1115_if.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\ads1115_knob_if.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\board_knob_top.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\board_test_top.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\board_top.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\event_encoder.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\i2c_master.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\input_sync_debounce.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\interaction_top.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\pressure_if.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\reset_sync.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\touch_or_key_if.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\voice_allocator.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\rtl\voice_test_pattern.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\tb\tb_voice_control.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\tb\tb_key_events.v D:\AI tools\Codex&GPT\files\fpga_piano\upstream\fpga_interaction\tb\tb_input_fault_cleanup.v 
+-- Compiling module adc_knob_if
+-- Compiling module ads1115_if
+-- Compiling module ads1115_knob_if
+-- Compiling module board_knob_top
+-- Compiling module board_test_top
+-- Compiling module board_top
+-- Compiling module event_encoder
+-- Compiling module i2c_master
+-- Compiling module input_sync_debounce
+-- Compiling module interaction_top
+-- Compiling module pressure_if
+-- Compiling module reset_sync
+-- Compiling module touch_or_key_if
+-- Compiling module voice_allocator
+-- Compiling module voice_test_pattern
+-- Compiling module tb_voice_control
+-- Compiling module tb_voice_control_16
+-- Compiling module tb_key_events
+-- Compiling module tb_input_fault_cleanup
+
+Top level modules:
+	board_knob_top
+	board_test_top
+	tb_voice_control_16
+	tb_key_events
+	tb_input_fault_cleanup
+End time: 19:58:28 on Oct 14,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

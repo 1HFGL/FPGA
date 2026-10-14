@@ -31,7 +31,13 @@
     ]
   },
   "testbench_count": 18,
-  "unchanged_original_tests": 57,
+  "unchanged_original_tests": 53,
+  "refreshed_independent_c_tests": [
+    "upstream/fpga_interaction/tb/tb_event_encoder.sv",
+    "upstream/fpga_interaction/tb/tb_interaction_top.sv",
+    "upstream/fpga_interaction/tb/tb_keyboard_extended.sv",
+    "upstream/fpga_interaction/tb/tb_voice_allocator.sv"
+  ],
   "clock_mhz": 50,
   "worst_slack_ns": {
     "setup": 4.519,
@@ -78,22 +84,22 @@
     "scope": "single fresh C5 after stable input, not physical/analog latency or worst-case guarantee"
   },
   "bitstream": "projects/piano/impl/pnr/piano_13key.fs",
-  "bitstream_sha256": "e7fbfd3b8ef703db55916388c87ab3f24149d9d6af01e0c6fdabad346b12ac97",
+  "bitstream_sha256": "4cc826484e06e2f9bda8862a9981c948a8a54f0cfcbd4f288e3ed7762661a586",
   "source_changes": [
     {
       "path": "AGENTS.md",
       "status": "modified",
-      "sha256": "6a43f70d1fd39cea43d5fc42bee4c4bd5af1cb019ed7b18f0989232909cf2b97"
+      "sha256": "32c4ca3327012407d181d5994a97c839c3b3f25d6ec35c37bf4319f48c2d4720"
     },
     {
       "path": "PLAN.md",
       "status": "modified",
-      "sha256": "e13e9a426065bd44eefd8ff4790a847ef314113aaaa08863820e9f237fc2b4e7"
+      "sha256": "9e6380d79f24cec5c5ab80fb00e19106073de8acb4c9bba0b3fe28c93c1a0564"
     },
     {
       "path": "README.md",
       "status": "modified",
-      "sha256": "20e09e6d5a073cb3d23b0aa03d52021879c7448dcc109e03a2a53482a000f8d4"
+      "sha256": "bb2a95b799de78822aa64a38381095fd15a01acdabeab76ef8a3245f81d8dcbb"
     },
     {
       "path": "boards/tang_mega_60k_31004/piano.cst",
@@ -104,6 +110,11 @@
       "path": "boards/tang_mega_60k_31004/piano.sdc",
       "status": "modified",
       "sha256": "9281cfb046e23cd02615850333f91cbcbb3f7843591305733f6872fea798b025"
+    },
+    {
+      "path": "docs/c-input.md",
+      "status": "added",
+      "sha256": "9125e1b5478b779b46ee9797ada7b989caae63f0be4c5b287bbee62260667d9e"
     },
     {
       "path": "docs/design.md",
@@ -118,12 +129,12 @@
     {
       "path": "docs/keyboard-wiring.md",
       "status": "added",
-      "sha256": "8b1123a86cd39baea84573898eb4998f56af0e11c3b3a396cebc721865c2815e"
+      "sha256": "fffcec6c62d693fafaa30fe61c6ee4925e6bebc0d65c7b601c7366f531aaa268"
     },
     {
       "path": "docs/verification.md",
       "status": "modified",
-      "sha256": "9d4cf4e2175303c9ded7fe1a221fae3151dfb4a7676d3d852410039480fb1904"
+      "sha256": "cbae5991d71900f8daf800dde6862e3d61e78695d09a82f64e2c086e6cb23ed9"
     },
     {
       "path": "projects/piano/build.ps1",
@@ -176,9 +187,149 @@
       "sha256": "c0f7bf2bd821115ec7ddb9a6ec3be6ba9009edf6cb5fff68ae1fc06e87c32d00"
     },
     {
+      "path": "upstream/fpga_interaction/README.md",
+      "status": "modified",
+      "sha256": "a821b942c36e740a923db1e4b7d4bd9a3ec0728a3114fd736d81a29d7f8e5292"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/board_top.v",
+      "status": "modified",
+      "sha256": "c033594b57bbd09804d0ba15ff3a23d6a25c282a3a75d117b6bdfbb3981072ec"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/event_encoder.v",
+      "status": "modified",
+      "sha256": "8ff425b533826b0e64f1a0444027eb744eeebaf96540dfed8994e7bb52875aa8"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/interaction_top.v",
+      "status": "modified",
+      "sha256": "3f42239f8179d70a3ecb9389c3e3370b0e364dac631f3d85d70e762c9c0a2d35"
+    },
+    {
+      "path": "upstream/fpga_interaction/rtl/voice_allocator.v",
+      "status": "modified",
+      "sha256": "ca07789310259d62b5ed58baa259674483b766d032b145f4ddf77e1ef41285d3"
+    },
+    {
+      "path": "upstream/fpga_interaction/scripts/run_modelsim.ps1",
+      "status": "modified",
+      "sha256": "9d1d32eed889723303f3eac3f19b18833a9709f0e25e0b1c5cf2cbe5bc295730"
+    },
+    {
+      "path": "upstream/fpga_interaction/sim/compile_all.do",
+      "status": "modified",
+      "sha256": "15077c1081a76d1771aca7b8c5686ae24a70520d7f2c20d864fa1a461a3f506a"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_event_encoder.sv",
+      "status": "modified",
+      "sha256": "f2d20b9b22ebb8b64ec4ed23f3bfb4513955f89e33427f0175f78239cefb862b"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_interaction_top.sv",
+      "status": "modified",
+      "sha256": "7c09624bb68dc78a9d3d2cb4462b538954c0cb09e0e4f484e1899eef86f55384"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_keyboard_extended.sv",
+      "status": "modified",
+      "sha256": "dde3a27c31941ace10f840ce404a6bf2f6f49e56f91716d1588c8f3a8e4aecfb"
+    },
+    {
+      "path": "upstream/fpga_interaction/tb/tb_voice_allocator.sv",
+      "status": "modified",
+      "sha256": "44c4210531503e9069dd596735aee47d74b84f7d0ba618630b08309977a963cd"
+    },
+    {
+      "path": "verification/c_source_refresh.json",
+      "status": "added",
+      "sha256": "866d59292498c39cce479399deae4fd247e9daa7c8f91c1601d4866a9808305e"
+    },
+    {
+      "path": "verification/evidence/c-independent/source_changes.json",
+      "status": "added",
+      "sha256": "3f381e9d73bb10527f91173fb3dff0c5586658954337a99e65324a42466aa619"
+    },
+    {
+      "path": "verification/evidence/c-independent/verification_summary.json",
+      "status": "added",
+      "sha256": "ae1163b74fa1c3cf2543e94f71a2129bc8d64e43383b3b47e14f2a3a5540c8d2"
+    },
+    {
+      "path": "verification/evidence/keyboard/artifact.txt",
+      "status": "added",
+      "sha256": "f5964f1de6f713b204691a788c43e312116bf819182b45d718879dbc196999dc"
+    },
+    {
+      "path": "verification/evidence/keyboard/control.log",
+      "status": "added",
+      "sha256": "8ed5c67044ba3e3bad694a4c0444e2d83bb97c4b0b79f9792fc381970c83e5d5"
+    },
+    {
+      "path": "verification/evidence/keyboard/debounce.log",
+      "status": "added",
+      "sha256": "3fe22b5d12e6fb4c8ce3d606f9b871e1bd89442a1eec1348ca41d5dc1bd47043"
+    },
+    {
+      "path": "verification/evidence/keyboard/gowin_build.log",
+      "status": "added",
+      "sha256": "a9082a54d319371ecdc5260505197745c80bfe404635cc6779caf8bb1c7f4ecd"
+    },
+    {
+      "path": "verification/evidence/keyboard/keyboard.log",
+      "status": "added",
+      "sha256": "616404b1c2a09197e675b90c5faed2de1da0ac7d44657748766ea87819c63af7"
+    },
+    {
+      "path": "verification/evidence/keyboard/piano.log",
+      "status": "added",
+      "sha256": "0c794c08a878e5bd8fc97e9cce4e58684982a01b66193676c2cde0014cd7d16d"
+    },
+    {
+      "path": "verification/evidence/keyboard/process_config_hashes.txt",
+      "status": "added",
+      "sha256": "07fa9e2c3941a6c4c7daae8fa6159e9ba4c725c96800d8c891daa576d2a69e13"
+    },
+    {
+      "path": "verification/evidence/keyboard/resources.rpt.txt",
+      "status": "added",
+      "sha256": "da7f8979833c34d672b32715ed592592fa932577cb875c0bc4bc672b7438013e"
+    },
+    {
+      "path": "verification/evidence/keyboard/strict_compile.log",
+      "status": "added",
+      "sha256": "4cbd91bc5d5b31a8003584bb52554c7e1388980c0cce2844698c471bfed36f7b"
+    },
+    {
+      "path": "verification/evidence/keyboard/summary.json",
+      "status": "added",
+      "sha256": "9a785bf8eedd06537e60691d3d1a39b5be02afa8d012535f0f8665d0fb63daae"
+    },
+    {
+      "path": "verification/evidence/keyboard/timing_tables.txt",
+      "status": "added",
+      "sha256": "91c76cca8c700da9a020c625559a5036f28f7283dcddeda0774cf1161cc64f3b"
+    },
+    {
+      "path": "verification/evidence/keyboard/uart.log",
+      "status": "added",
+      "sha256": "620f1af10d5f581c6e907d190525d1fa55e5cd50680da12107ad9e75ed4e814e"
+    },
+    {
+      "path": "verification/scripts/check_c_rtl.ps1",
+      "status": "modified",
+      "sha256": "f6a0b112d56108b4a1ec3612f42767fd66b408141961701f38656e705e35bc92"
+    },
+    {
       "path": "verification/scripts/check_verilog.ps1",
       "status": "modified",
       "sha256": "89fdf0c1ee43c3e2432c546be5a5c3f617228b6b961a189174642583d6b72a9b"
+    },
+    {
+      "path": "verification/scripts/run_c_control_tests.ps1",
+      "status": "added",
+      "sha256": "ead0f372d6fd1e12532f269391c1b5f8aa787a6df8e5a4e3afec2f969981a87d"
     },
     {
       "path": "verification/scripts/run_keyboard_tests.ps1",
@@ -188,12 +339,17 @@
     {
       "path": "verification/scripts/summarize_keyboard.py",
       "status": "added",
-      "sha256": "838719578f232faf9756695be9b619cecbce9dab0266279391f7102eb173c434"
+      "sha256": "f4c4b148a418955fbbe59758257f11981cf76040472e4f51f6906a50d5ae4a7e"
     },
     {
       "path": "verification/scripts/verify_keyboard.ps1",
       "status": "added",
       "sha256": "28b43bccc19ad94230668c1884c1dbdc7daee65a1b27a18846e06e941dcf4303"
+    },
+    {
+      "path": "verification/source_baseline.json",
+      "status": "added",
+      "sha256": "6a2c33deaf93b58275965ec59fd74f5f8cd77a332ef3c4552ca433e2eee6790b"
     },
     {
       "path": "verification/tb/integration/tb_piano_13_debounce.v",
@@ -208,5 +364,6 @@
   ],
   "programmed": false,
   "upload_state_at_validation": false,
-  "publication_branch": "codex/piano-13keys"
+  "publication_target": "master",
+  "scope": "13-key main project; independent C feature integration remains pending."
 }

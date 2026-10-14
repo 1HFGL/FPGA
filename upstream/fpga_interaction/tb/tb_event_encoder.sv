@@ -36,6 +36,8 @@ module tb_event_encoder;
         .PTR_WIDTH    (6),
         .SOURCE_WIDTH (5)
     ) dut (
+        .octave_select(2'd1),
+        .input_overflow(),
         .clk                (clk),
         .rst_n              (rst_n),
         .key_press          (key_press),
