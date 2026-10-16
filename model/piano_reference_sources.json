@@ -1,0 +1,38 @@
+[
+  {
+    "note": 48,
+    "file": "Piano.mf.C3.aiff",
+    "url": "https://theremin.music.uiowa.edu/sound%20files/MIS/Piano_Other/piano/Piano.mf.C3.aiff",
+    "fs": 44100,
+    "channels": 2,
+    "seconds": 41.34526077097506,
+    "sha256": "b39ff5e129df5557996dbdbadd1f2622cf33425d33714d70af16fd4f209355b5"
+  },
+  {
+    "note": 60,
+    "file": "Piano.mf.C4.aiff",
+    "url": "https://theremin.music.uiowa.edu/sound%20files/MIS/Piano_Other/piano/Piano.mf.C4.aiff",
+    "fs": 44100,
+    "channels": 2,
+    "seconds": 30.912426303854875,
+    "sha256": "1a7d8ddea94a3639fa58d79ebcc0b09b170b9c324811d2b705f97e278fdefac2"
+  },
+  {
+    "note": 72,
+    "file": "Piano.mf.C5.aiff",
+    "url": "https://theremin.music.uiowa.edu/sound%20files/MIS/Piano_Other/piano/Piano.mf.C5.aiff",
+    "fs": 44100,
+    "channels": 2,
+    "seconds": 24.690544217687076,
+    "sha256": "68c231a437a0d54004427c723d136814358deea8f913516bee6095ea6c407937"
+  },
+  {
+    "note": 84,
+    "file": "Piano.mf.C6.aiff",
+    "url": "https://theremin.music.uiowa.edu/sound%20files/MIS/Piano_Other/piano/Piano.mf.C6.aiff",
+    "fs": 44100,
+    "channels": 2,
+    "seconds": 17.121632653061223,
+    "sha256": "897480810c72f06e4fc89cfe555925a344a7413230bd374d374a1796ae88acee"
+  }
+]

@@ -12,8 +12,9 @@ file mkdir $impl_dir
 file copy -force $process_config [file join $impl_dir uart_piano_process_config.json]
 if {[catch {
     open_project [file join $project_dir uart_piano.gprj]
-    set_option -top_module instrument_uart_piano_top
-    set_option -output_base_name instrument_uart_piano
+    set_option -top_module music_uart_top
+    set_option -output_base_name music_uart16
+    set_option -include_path {../..}
     run all
 } result]} {
     puts stderr $result

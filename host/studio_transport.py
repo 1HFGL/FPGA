@@ -190,6 +190,12 @@ class StudioSession(QObject):
         self.status = {}
         self.applied = None
         self.pending = None
+        self.selected_preset = None
+        self.preset_pending = None
+        self.controls = self.controls_pending = None
+        self.control_timer = QTimer(self)
+        self.control_timer.setSingleShot(True)
+        self.control_timer.timeout.connect(self._control_timeout)
         self.sequence = 0
         self.tx_bytes = self.rx_bytes = 0
         self.handshake_timer = QTimer(self)
@@ -198,6 +204,9 @@ class StudioSession(QObject):
         self.apply_timer = QTimer(self)
         self.apply_timer.setSingleShot(True)
         self.apply_timer.timeout.connect(self._apply_timeout)
+        self.preset_timer = QTimer(self)
+        self.preset_timer.setSingleShot(True)
+        self.preset_timer.timeout.connect(self._preset_timeout)
         self.poll = QTimer(self)
         self.poll.setInterval(1000)
         self.poll.timeout.connect(self.query_status)
@@ -249,6 +258,57 @@ class StudioSession(QObject):
         self.apply_timer.start(1800)
         self.changed.emit()
 
+    def select_preset(self, preset):
+        if not self.factory_presets:
+            raise RuntimeError("设备未确认支持钢琴／摇滚预设")
+        if type(preset) is not int or preset not in (0, 1):
+            raise ValueError("预设只能为 0（摇滚）或 1（钢琴）")
+        if self.preset_pending is not None:
+            raise RuntimeError("正在等待设备确认音色")
+        self.preset_pending = preset
+        try:
+            self.send(f"PRESET {preset}")
+        except Exception:
+            self.preset_pending = None
+            raise
+        self.preset_timer.start(1800)
+        self.changed.emit()
+
+    @property
+    def performance_controls(self):
+        return self.factory_presets and "CONTROL" in self.capabilities
+
+    def set_controls(self, volume, bend):
+        if not self.performance_controls or self.controls is None:
+            raise RuntimeError("设备尚未确认音量／弯音控制状态")
+        if type(volume) is not int or not 0 <= volume <= 127 or type(bend) is not int or not 0 <= bend <= 1024:
+            raise ValueError("音量范围0～127，弯音码0～1024，中心512")
+        if self.controls_pending is not None:
+            raise RuntimeError("正在等待设备确认演奏控制")
+        self.controls_pending = (volume, bend)
+        try:
+            self.send(f"CONTROL {volume} {bend}")
+        except Exception:
+            self.controls_pending = None
+            raise
+        self.control_timer.start(1800)
+        self.changed.emit()
+
+    def _control_timeout(self):
+        self.control_timer.stop()
+        self.controls = self.controls_pending = None
+        self.log.emit("提示", "演奏控制确认超时；等待完整设备状态，未自动重发")
+        self.query_status()
+        self.changed.emit()
+
+    def _preset_timeout(self):
+        self.preset_timer.stop()
+        self.preset_pending = None
+        self.selected_preset = None
+        self.log.emit("提示", "音色确认超时；等待设备状态后再演奏")
+        self.query_status()
+        self.changed.emit()
+
     @Slot(str)
     def _line(self, line):
         if self.sender() is not self.transport:
@@ -286,12 +346,26 @@ class StudioSession(QObject):
             if fields == ["ERROR", "0", "NOT_READY"]:
                 self.ready = False
                 self.poll.stop()
+                self.preset_timer.stop()
+                self.selected_preset = self.preset_pending = None
+                self.control_timer.stop()
+                self.controls = self.controls_pending = None
                 self.label = "设备会话已失效 · 请断开后重连"
                 self.log.emit("提示", "设备要求重新HELLO；请断开后重连，避免重放旧按键")
             if self.pending and len(fields) == 3 and fields[1] == str(self.pending[0]):
                 self.pending = None
                 self.apply_timer.stop()
                 self.log.emit("提示", "配置被设备拒绝：" + fields[2])
+            if self.preset_pending is not None and len(fields) == 3 and fields[1] == "0":
+                self.preset_timer.stop()
+                self.selected_preset = self.preset_pending = None
+                self.log.emit("提示", "音色请求被拒绝：" + fields[2])
+                self.query_status()
+            if self.controls_pending is not None and len(fields) == 3 and fields[1] == "0":
+                self.control_timer.stop()
+                self.controls = self.controls_pending = None
+                self.log.emit("提示", "演奏控制请求被拒绝：" + fields[2])
+                self.query_status()
         elif line.startswith("STATUS ") and self.ready:
             values = {}
             for item in line.split()[1:]:
@@ -301,9 +375,26 @@ class StudioSession(QObject):
                         value = int(value)
                         if value >= 0:
                             values[key] = value
+                    elif key in {"VOLUME", "BEND"} and self.performance_controls:
+                        limit = 127 if key == "VOLUME" else 1024
+                        if value.isascii() and value.isdigit() and 0 <= int(value) <= limit:
+                            values[key] = int(value)
+                    elif key == "PRESET" and self.factory_presets and value in {"0", "1"}:
+                        values[key] = int(value)
                 except ValueError:
                     continue
             self.status.update(values)
+            if "PRESET" in values:
+                self.selected_preset = values["PRESET"]
+                if self.preset_pending == self.selected_preset:
+                    self.preset_pending = None
+                    self.preset_timer.stop()
+            # A pair must arrive in one status line; never combine partial/stale reports.
+            if "VOLUME" in values and "BEND" in values:
+                self.controls = (values["VOLUME"], values["BEND"])
+                if self.controls == self.controls_pending:
+                    self.controls_pending = None
+                    self.control_timer.stop()
             self.status_changed.emit(dict(self.status))
         self.changed.emit()
 
@@ -329,6 +420,9 @@ class StudioSession(QObject):
         old_transport = self.transport
         self.handshake_timer.stop()
         self.apply_timer.stop()
+        self.preset_timer.stop()
+        self.control_timer.stop()
+        self.controls = self.controls_pending = None
         self.poll.stop()
         self.transport = None
         self.ready = False
@@ -336,6 +430,7 @@ class StudioSession(QObject):
         self.device = {}
         self.status = {}
         self.applied = self.pending = None
+        self.selected_preset = self.preset_pending = None
         self.label = "未连接"
         self.status_changed.emit({})
         self.changed.emit()
@@ -388,13 +483,26 @@ class StudioSession(QObject):
         return {"FIXED_SINE": "正弦", "FIXED_PIANO": "钢琴感"}.get(self.device.get("TONE"), "未知")
 
     @property
+    def factory_presets(self):
+        return (self.ready and {"NOTES", "STATUS", "PRESET"} <= self.capabilities
+                and "CONFIG" not in self.capabilities
+                and self.device.get("TONE") == "PIANO_ROCK")
+
+    @property
+    def preset_name(self):
+        return {0: "摇滚电吉他", 1: "钢琴"}.get(self.selected_preset, "等待设备确认")
+
+    @property
     def playable(self):
         # 固定音色是真实设备能力，不生成虚假的applied配置对象。
         return (self.ready and "NOTES" in self.capabilities
-                and (self.fixed_tone or self.applied is not None))
+                and (self.fixed_tone or self.applied is not None or
+                     (self.factory_presets and self.selected_preset is not None
+                      and self.preset_pending is None)))
 
     def note(self, note, on):
-        if not self.playable:
+        # A pending/unknown preset blocks new notes, but must never trap held notes.
+        if not self.playable and not (not on and self.factory_presets):
             raise RuntimeError("先连接支持演奏的设备并应用音色")
         if type(note) is not int or not 0 <= note <= 127:
             raise ValueError("音符范围为 0～127")

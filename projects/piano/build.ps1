@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param([string]$Gowin='D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe',
       [string]$EvidenceDirectory='build/piano')
 $ErrorActionPreference='Stop'
@@ -17,13 +17,19 @@ if(-not(Test-Path -LiteralPath $processConfigPath -PathType Leaf)){
 $expectedConfigHash=(Get-FileHash -LiteralPath $processConfigPath).Hash
 [xml]$project=Get-Content -LiteralPath $projectPath -Raw
 $inputs=@($projectPath,$PSCommandPath,$processConfigPath,(Join-Path $PSScriptRoot 'build_piano.tcl'),
-    (Join-Path $root 'rtl/rom/piano_1024.mem'),
-    (Join-Path $root 'host/tone_examples/piano.json'),
+    (Join-Path $root 'rtl/rom/piano_v3_modes.mem'),
+    (Join-Path $root 'rtl/rom/rock_v2_shaper.mem'),
+    (Join-Path $root 'rtl/rom/sine_1024.mem'),
+    (Join-Path $root 'rtl/rom/pitch_bend_1025.mem'),
+    (Join-Path $root 'model/gen_pitch_bend_rom.py'),
+    (Join-Path $root 'model/gen_rock_v2_rom.py'),
+    (Join-Path $root 'model/gen_piano_v3_rom.py'),
+    (Join-Path $root 'model/piano_reference_fit.json'),
     (Join-Path $root 'host/studio_model.py'))
 foreach($node in $project.Project.FileList.File){
     $inputs+=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot $node.path))
 }
-$lines=@('top=instrument_uart_piano_top target=GW5AT-LV60PG484AC1/I0/B clock=50MHz')
+$lines=@('top=music_uart_top target=GW5AT-LV60PG484AC1/I0/B clock=50MHz')
 foreach($file in ($inputs | Select-Object -Unique)){
     $lines+="$((Get-FileHash -LiteralPath $file).Hash)  $file"
 }
@@ -47,10 +53,11 @@ if($effectiveConfigHash -ne $expectedConfigHash){
 }
 $log=Get-Content "$evidence/build.log" -Raw
 if($log -match 'ERROR|EX3988|EX3791|EX3073'){throw 'Unresolved error/ROM/width/interface warning; do not program'}
-$base=Join-Path $PSScriptRoot 'impl/pnr/instrument_uart_piano'
+$base=Join-Path $PSScriptRoot 'impl/pnr/music_uart16'
 $rpt=Get-Content "$base.rpt.txt" -Raw
 $timing=Get-Content "$base.tr" -Raw
-if($rpt -notmatch 'BSRAM\s*\|\s*4/118' -or $rpt -notmatch 'DSP\s*\|\s*8/118'){
+# Measured control revision: +2 BSRAM for ratio ROM, +2 DSP for pitch/gain arithmetic.
+if($rpt -notmatch 'BSRAM\s*\|\s*79/118' -or $rpt -notmatch 'DSP\s*\|\s*11/118'){
     throw 'Audio ROM/DSP inference mismatch'
 }
 if(([regex]::Matches($rpt,'(?m)^\w+(?:\[\d+\])?\s*\|\s*-\s*\|\s*\w+/\d+\s*\|\s*Y\s*\|')).Count -ne 10){
