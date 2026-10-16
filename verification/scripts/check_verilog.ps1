@@ -9,8 +9,12 @@ Push-Location $root
 try {
     # 编译全部有效源码，不把历史报告或高云生成网表当手写 RTL。
     # Git 清单排除 Documents 下的厂商模板/缓存，同时包含尚未提交的新测试。
-    $paths=@(git ls-files --cached --others --exclude-standard -- rtl verification/tb projects |
-        Select-Object -Unique | Where-Object {$_ -match '\.(v|sv|svh)$' -and (Test-Path -LiteralPath $_)})
+    if(Test-Path -LiteralPath '.git') {
+        $paths=@(git ls-files --cached --others --exclude-standard -- rtl verification/tb projects |
+            Select-Object -Unique | Where-Object {$_ -match '\.(v|sv|svh)$' -and (Test-Path -LiteralPath $_)})
+    } else {
+        $paths=@(rg --files rtl verification/tb projects -g '*.v' -g '*.sv' -g '*.svh' -g '!**/impl/**')
+    }
     if($LASTEXITCODE -ne 0){throw 'Cannot list project sources'}
     $files=@($paths | ForEach-Object {Get-Item -LiteralPath $_})
     $forbidden=@($files | Where-Object {$_.Extension -ne '.v'})

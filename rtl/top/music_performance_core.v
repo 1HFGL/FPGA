@@ -76,12 +76,15 @@ module music_performance_core #(
         .allocator_cancel(ac),.allocator_cancel_ready(acr),.event_valid(av),.event_ready(ar),
         .event_type(at),.event_source(asrc),.event_note(an),.event_velocity(avel));
     voice_allocator #(.VOICES(VOICES),.IDX_WIDTH(VOICES==16?4:2),.COUNT_WIDTH(6),.SOURCE_WIDTH(8),
-        .MERGE_SAME_NOTE(0),.ENABLE_CANCEL(1)) u_allocator(
+        .MERGE_SAME_NOTE(0),.ENABLE_CANCEL(1),.ENABLE_PLAY_CONTROL(0),.CHECK_RELEASE_ID(0)) u_allocator(
         .clk(sys_clk),.rst_n(audio_ready),.event_valid(av),.event_ready(ar),.event_type(at),
         .event_source_id(asrc),.event_note(an),.event_velocity(at ? 7'd100 : 7'd0),.event_timbre({3'd0,allocated_preset}),
         .expr_valid(1'b0),.expr_ready(),.expr_source_id(8'd0),.expr_note(7'd0),
         .expr_pitch_bend(16'd0),.expr_aftertouch(8'd0),.expr_vibrato_depth(8'd0),.expr_vibrato_rate(8'd0),
         .release_done(release_done),.cancel_valid(ac),.cancel_ready(acr),.cancel_mask(8'h80),.cancel_value(8'h80),
+        // This entry uses the music bank's release pulses; optional C sustain/ID inputs are disabled.
+        .sustain_on(1'b0),.release_trigger_id_flat({VOICES*16{1'b0}}),
+        .voice_trigger_id_flat(),.voice_key_down(),
         .voice_active(voice_active),.voice_gate(voice_gate),.voice_trigger(voice_trigger),
         .voice_source_id_flat(voice_source_flat),.voice_note_flat(voice_note_flat),.voice_velocity_flat(voice_velocity_flat),
         .voice_timbre_flat(voice_timbre_flat),.voice_pitch_bend_flat(),.voice_aftertouch_flat(),.voice_vibrato_depth_flat(),.voice_vibrato_rate_flat(),

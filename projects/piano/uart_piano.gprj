@@ -5,25 +5,40 @@
     <Version>5</Version>
     <Device name="GW5AT-60B" pn="GW5AT-LV60PG484AC1/I0">gw5at60b-002</Device>
     <FileList>
-        <File path="../../rtl/control/music_controls.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/input_sync_debounce.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/touch_or_key_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/event_encoder.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/piano_controls.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/i2c_master.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/ads1115_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/ads1115_knob_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/adc_knob_if.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/voice_allocator.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/uart_rx.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/uart_tx.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/uart_fifo.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/control/music_event_encoder.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/control/music_uart_line_rx.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/control/music_uart_protocol.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/control/music_uart_reply_tx.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/control/music_uart_event_arbiter.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/synth/instrument_env.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/synth/voice_bank_music_pipe.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_line_rx.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_reply_tx.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_synth_protocol.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_event_arbiter.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/instrument_uart_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/instrument_uart_piano_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/piano_13key_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/piano_performance_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/phase_acc.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/wave_lut.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_dds.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/note_phase_lut.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/adsr_env.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/sample_gain.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_adsr.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/sample_mixer4.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_bank_adsr.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/wave_lut_timbre.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_timbre_adsr.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/audio/i2s_tx.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/audio/sample_tick.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/audio/synth_top.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/top/music_performance_core.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/top/music_uart_top.v" type="file.verilog" enable="1"/>
         <File path="../../boards/tang_mega_60k_31004/piano.cst" type="file.cst" enable="1"/>
         <File path="../../boards/tang_mega_60k_31004/piano.sdc" type="file.sdc" enable="1"/>
     </FileList>

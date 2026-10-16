@@ -1,6 +1,8 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$Gowin='D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe',
-      [string]$EvidenceDirectory='build/piano')
+      [string]$EvidenceDirectory='build/piano',
+      [string]$Python='D:/python/python.exe',
+      [switch]$CheckOnly)
 $ErrorActionPreference='Stop'
 $root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $evidence=if([IO.Path]::IsPathRooted($EvidenceDirectory)){
@@ -17,28 +19,24 @@ if(-not(Test-Path -LiteralPath $processConfigPath -PathType Leaf)){
 $expectedConfigHash=(Get-FileHash -LiteralPath $processConfigPath).Hash
 [xml]$project=Get-Content -LiteralPath $projectPath -Raw
 $inputs=@($projectPath,$PSCommandPath,$processConfigPath,(Join-Path $PSScriptRoot 'build_piano.tcl'),
-    (Join-Path $root 'rtl/rom/piano_v3_modes.mem'),
-    (Join-Path $root 'rtl/rom/rock_v2_shaper.mem'),
-    (Join-Path $root 'rtl/rom/sine_1024.mem'),
-    (Join-Path $root 'rtl/rom/pitch_bend_1025.mem'),
-    (Join-Path $root 'model/gen_pitch_bend_rom.py'),
-    (Join-Path $root 'model/gen_rock_v2_rom.py'),
-    (Join-Path $root 'model/gen_piano_v3_rom.py'),
-    (Join-Path $root 'model/piano_reference_fit.json'),
+    (Join-Path $root 'rtl/rom/piano_1024.mem'),
+    (Join-Path $root 'host/tone_examples/piano.json'),
     (Join-Path $root 'host/studio_model.py'))
 foreach($node in $project.Project.FileList.File){
     $inputs+=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot $node.path))
 }
-$lines=@('top=music_uart_top target=GW5AT-LV60PG484AC1/I0/B clock=50MHz')
+$lines=@('top=piano_performance_top voices=16 target=GW5AT-LV60PG484AC1/I0/B clock=50MHz')
 foreach($file in ($inputs | Select-Object -Unique)){
     $lines+="$((Get-FileHash -LiteralPath $file).Hash)  $file"
 }
 $lines | Set-Content "$evidence/build_inputs.txt" -Encoding utf8
-Push-Location $PSScriptRoot
-try {
-    & $Gowin 'build_piano.tcl' 2>&1 | Tee-Object "$evidence/build.log"
-    if($LASTEXITCODE -ne 0){throw 'Gowin build failed'}
-}finally{Pop-Location}
+if(-not $CheckOnly) {
+    Push-Location $PSScriptRoot
+    try {
+        & $Gowin 'build_piano.tcl' 2>&1 | Tee-Object "$evidence/build.log"
+        if($LASTEXITCODE -ne 0){throw 'Gowin build failed'}
+    }finally{Pop-Location}
+}
 # 记录工具实际留下的配置；不能只给受控输入做哈希，却仍采用旧impl选项。
 if(-not(Test-Path -LiteralPath $effectiveConfigPath -PathType Leaf)){
     throw "Missing effective process configuration: $effectiveConfigPath"
@@ -53,14 +51,22 @@ if($effectiveConfigHash -ne $expectedConfigHash){
 }
 $log=Get-Content "$evidence/build.log" -Raw
 if($log -match 'ERROR|EX3988|EX3791|EX3073'){throw 'Unresolved error/ROM/width/interface warning; do not program'}
-$base=Join-Path $PSScriptRoot 'impl/pnr/music_uart16'
+$base=Join-Path $PSScriptRoot 'impl/pnr/piano_performance'
 $rpt=Get-Content "$base.rpt.txt" -Raw
-$timing=Get-Content "$base.tr" -Raw
-# Measured control revision: +2 BSRAM for ratio ROM, +2 DSP for pitch/gain arithmetic.
-if($rpt -notmatch 'BSRAM\s*\|\s*79/118' -or $rpt -notmatch 'DSP\s*\|\s*11/118'){
+$normalizedTiming=Join-Path $evidence 'timing_from_html.txt'
+& $Python (Join-Path $PSScriptRoot 'read_timing_html.py') "${base}_tr_content.html" $normalizedTiming
+if($LASTEXITCODE -ne 0){throw 'Cannot read all HTML timing tables'}
+$timing=Get-Content $normalizedTiming -Raw
+$netlist=Get-Content (Join-Path $PSScriptRoot 'impl/gwsynthesis/piano_performance.vg') -Raw
+# Thirteen-key selection/FIFO can add RAM and a half-DSP. Check the four actual
+# audio pROM instances, rather than expecting the old two-key total resources.
+$dsp=[regex]::Match($rpt,'DSP\s*\|\s*(\d+(?:\.\d+)?)/118')
+# 16个音频ROM，另一个pROM是旋钮弯音比例表，不能把它当第17声部。
+if(([regex]::Matches($netlist,'(?m)^\s*pROM\s+rom_rom_')).Count -ne 16 -or
+    -not $dsp.Success -or [double]::Parse($dsp.Groups[1].Value,[Globalization.CultureInfo]::InvariantCulture) -lt 32){
     throw 'Audio ROM/DSP inference mismatch'
 }
-if(([regex]::Matches($rpt,'(?m)^\w+(?:\[\d+\])?\s*\|\s*-\s*\|\s*\w+/\d+\s*\|\s*Y\s*\|')).Count -ne 10){
+if(([regex]::Matches($rpt,'(?m)^\w+(?:\[\d+\])?\s*\|\s*-\s*\|\s*\w+/\d+\s*\|\s*Y\s*\|')).Count -ne 25){
     throw 'Pin coverage mismatch'
 }
 foreach($type in @('setup','hold')){
@@ -82,13 +88,19 @@ foreach($section in @('3.1.1 Setup Paths Table','3.1.2 Hold Paths Table',
         }
     }
 }
-if(([regex]::Matches($timing,'(?m)^\s*TC_\w+\s+Actived\s+')).Count -ne 6){throw 'Constraint activation mismatch'}
+if(([regex]::Matches($timing,'(?m)^\s*TC_\w+\s+Actived\s+')).Count -ne 10){throw 'Constraint activation mismatch'}
 foreach($line in $lines){
     if($line -match '^([A-F0-9]{64})  (.+)$'){
         if((Get-FileHash -LiteralPath $Matches[2]).Hash -ne $Matches[1]){throw "Input changed during build: $($Matches[2])"}
     }
 }
-Copy-Item -LiteralPath "$base.rpt.txt","$base.tr" -Destination $evidence
+Copy-Item -LiteralPath "$base.rpt.txt","${base}_tr_content.html" -Destination $evidence
+foreach($node in $project.Project.FileList.File) {
+    $designFile=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot $node.path))
+    if((Get-Item -LiteralPath $designFile).LastWriteTimeUtc -gt (Get-Item -LiteralPath "$base.fs").LastWriteTimeUtc) {
+        throw "Implementation predates design input: $designFile"
+    }
+}
 @("file=$base.fs","sha256=$((Get-FileHash -LiteralPath "$base.fs").Hash)",
   'Executed: synthesis, place/route, bitstream; NOT programmed or physically verified.',
   'Candidate only: PR1014 and complete DAC external timing remain unresolved; real COM/audio/latency unverified.') |

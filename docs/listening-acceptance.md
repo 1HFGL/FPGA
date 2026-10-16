@@ -1,3 +1,5 @@
+> 本文只用于 `projects/music/uart_music.gprj` 双音色两键试听入口。正式13键／ADS1115工程请使用 `docs/keyboard-wiring.md`。
+
 # 最新钢琴／摇滚16复音：烧录与试听验收
 
 适用：`music_uart_top`、固件标识 `music-classic16`，钢琴v3／摇滚、16复音、总音量及±2半音弯音。下面是本项目建议的阶段验收标准，不是赛事官方评分表。2026-10-14用户对前一music-live16版反馈“应该是都通过了”。用户随后对经典摇滚版反馈“应该是可以了”，记录为本版初步试听可用；完整验收仍需下表逐项填写。
@@ -17,7 +19,7 @@
 
 ## 1. 烧录哪个文件
 
-本次位流：`build/audition/music_classic16_20261014_201505/music_classic16.fs`。构建时间：2026-10-14 20:15:05（本机时间）。SHA-256：`55ddab166832b0df000993de6f9ce1d6465862ad961595e29ee67376ac2b1cce`。发布目录内 `manifest.json` 标明准确身份。原始输出仍在 `projects/piano/impl/pnr/music_uart16.fs`。用本轮给出的文件，不从其他demo或历史交付目录猜版本。
+本次位流：`build/audition/music_classic16_20261014_201505/music_classic16.fs`。构建时间：2026-10-14 20:15:05（本机时间）。SHA-256：`55ddab166832b0df000993de6f9ce1d6465862ad961595e29ee67376ac2b1cce`。发布目录内 `manifest.json` 标明准确身份。原始输出仍在 `projects/music/impl/pnr/music_uart16.fs`。用本轮给出的文件，不从其他demo或历史交付目录猜版本。
 
 - 器件：GW5AT-LV60PG484AC1/I0，Version B（工程器件名GW5AT-60B）。底板约束依据NEO Dock31004 Rev1.4。
 - Gowin Programmer检测到对应器件后，选择 **SRAM Program**，加载本轮 `.fs` 并执行。下载成功后再开始试听。本说明不改变既有接线；器件／底板版本不符时先核对。

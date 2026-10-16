@@ -1,0 +1,27 @@
+# vsim -c -lib build/regression/performance/Volume/work -l build/regression/performance/Volume/tb_performance_system.log -wlf build/regression/performance/Volume/tb_performance_system.wlf tb_performance_system -do "onerror {quit -code 1 -f}; onbreak {quit -code 1 -f}; run -all; quit -code 0 -f" 
+# Start time: 21:35:11 on Oct 14,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_performance_system(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 1 -f}
+#  Warning: onbreak command for use within macro
+#  run -all
+# FAIL: master gain not connected in top got=-729 expected=-718
+# ** Note: $finish    : verification/tb/integration/tb_performance_system.v(39)
+#    Time: 5229151 ns  Iteration: 0  Instance: /tb_performance_system
+# End time: 21:35:12 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

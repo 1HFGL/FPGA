@@ -1,149 +1,112 @@
 `timescale 1ns/1ps
-
 module event_encoder #(
-    parameter integer KEY_COUNT    = 13,
-    parameter integer NOTE_BASE    = 60,
-    parameter integer MAX_EVENTS   = 64,
-    parameter integer PTR_WIDTH    = 6,
-    parameter integer SOURCE_WIDTH = 5
+    parameter integer KEY_COUNT=13, NOTE_BASE=60, MAX_EVENTS=64, PTR_WIDTH=6, SOURCE_WIDTH=5
 ) (
-    input  wire clk,
-    input  wire rst_n,
-    input  wire [KEY_COUNT-1:0] key_press,
-    input  wire [KEY_COUNT-1:0] key_release,
-    input  wire [KEY_COUNT*7-1:0] key_velocity_flat,
-    input  wire [3:0] input_timbre,
-    output wire event_valid,
-    output wire event_type,
+    input wire clk, rst_n,
+    input wire [KEY_COUNT-1:0] key_press, key_release,
+    input wire [KEY_COUNT*7-1:0] key_velocity_flat,
+    input wire [3:0] input_timbre,
+    input wire [1:0] octave_select, // 0=lower octave, 1=NOTE_BASE, 2=upper octave
+    output reg input_overflow,
+    output wire event_valid, event_type,
     output wire [SOURCE_WIDTH-1:0] event_source_id,
-    output wire [6:0] event_note,
-    output wire [6:0] event_velocity,
+    output wire [6:0] event_note, event_velocity,
     output wire [3:0] event_timbre,
-    input  wire event_ready
+    input wire event_ready
 );
-
-    localparam integer EVENT_WIDTH = SOURCE_WIDTH + 19;
-
-    reg pending_on  [0:KEY_COUNT-1];
-    reg pending_off [0:KEY_COUNT-1];
+    localparam integer EVENT_WIDTH=SOURCE_WIDTH+19;
+    localparam integer KEY_PTR_WIDTH=(KEY_COUNT>1)?$clog2(KEY_COUNT):1;
+    reg [18:0] pending_mem [0:KEY_COUNT*4-1];
+    reg [1:0] pending_wr [0:KEY_COUNT-1], pending_rd [0:KEY_COUNT-1];
+    reg [2:0] pending_count [0:KEY_COUNT-1];
+    reg held_valid [0:KEY_COUNT-1];
+    reg [6:0] held_note [0:KEY_COUNT-1];
+    reg [KEY_PTR_WIDTH-1:0] rr_key;
     reg [EVENT_WIDTH-1:0] fifo_mem [0:MAX_EVENTS-1];
-    reg [PTR_WIDTH-1:0] wr_ptr;
-    reg [PTR_WIDTH-1:0] rd_ptr;
-    reg [PTR_WIDTH:0]   fifo_count;
-
-    integer i;
-    integer sel_idx;
-    integer on_idx;
-    integer off_idx;
-    reg sel_is_on;
-    reg has_on;
-    reg has_off;
-    reg [SOURCE_WIDTH-1:0] sel_source_id;
-    reg [6:0] sel_velocity;
-    reg [EVENT_WIDTH-1:0] wr_data;
-    wire [EVENT_WIDTH-1:0] rd_data;
-    wire do_read;
-    wire do_write;
-
+    reg [PTR_WIDTH-1:0] wr_ptr, rd_ptr;
+    reg [PTR_WIDTH:0] fifo_count;
+    integer i, offset, candidate, selected;
+    reg found;
+    reg [SOURCE_WIDTH-1:0] selected_source;
+    wire do_read=event_valid && event_ready;
+    wire do_write=found && !input_overflow && ((fifo_count<MAX_EVENTS) || do_read);
+    wire [EVENT_WIDTH-1:0] rd_data=fifo_mem[rd_ptr];
+    assign event_valid=!input_overflow && fifo_count!=0;
+    assign event_type=rd_data[SOURCE_WIDTH+18];
+    assign event_source_id=rd_data[SOURCE_WIDTH+17:18];
+    assign event_note=rd_data[17:11];
+    assign event_velocity=rd_data[10:4];
+    assign event_timbre=rd_data[3:0];
     function [6:0] key_to_note;
         input integer key_index;
+        input [1:0] octave;
+        integer value;
         begin
-            key_to_note = NOTE_BASE[6:0] + key_index[6:0];
+            case(octave)
+                2'd0: value=NOTE_BASE-12+key_index;
+                2'd2: value=NOTE_BASE+12+key_index;
+                default: value=NOTE_BASE+key_index;
+            endcase
+            if(value<0) key_to_note=0;
+            else if(value>127) key_to_note=127;
+            else key_to_note=value[6:0];
         end
     endfunction
-
-    assign event_valid    = (fifo_count != 0);
-    assign rd_data        = fifo_mem[rd_ptr];
-    assign event_type     = rd_data[SOURCE_WIDTH+18];
-    assign event_source_id = rd_data[SOURCE_WIDTH+17:18];
-    assign event_note     = rd_data[17:11];
-    assign event_velocity = rd_data[10:4];
-    assign event_timbre   = rd_data[3:0];
-
-    assign do_read  = event_valid & event_ready;
-    assign do_write = (has_on | has_off) & (fifo_count < MAX_EVENTS);
-
     always @* begin
-        has_on      = 1'b0;
-        has_off     = 1'b0;
-        on_idx      = 0;
-        off_idx     = 0;
-        sel_idx     = 0;
-        sel_is_on   = 1'b1;
-        sel_source_id = {SOURCE_WIDTH{1'b0}};
-        sel_velocity  = 7'd0;
-        wr_data       = {EVENT_WIDTH{1'b0}};
-
-        for (i = KEY_COUNT-1; i >= 0; i = i - 1) begin
-            if (pending_on[i]) begin
-                has_on = 1'b1;
-                on_idx = i;
-            end
+        found=0; selected=0; candidate=0; selected_source=0;
+        for(offset=0;offset<KEY_COUNT;offset=offset+1) begin
+            candidate=rr_key+offset;
+            if(candidate>=KEY_COUNT) candidate=candidate-KEY_COUNT;
+            if(!found && pending_count[candidate]!=0) begin found=1; selected=candidate; end
         end
-
-        for (i = KEY_COUNT-1; i >= 0; i = i - 1) begin
-            if (pending_off[i]) begin
-                has_off = 1'b1;
-                off_idx = i;
-            end
-        end
-
-        if (has_on) begin
-            sel_idx       = on_idx;
-            sel_is_on     = 1'b1;
-            sel_source_id = on_idx;
-            sel_velocity  = key_velocity_flat[on_idx*7 +: 7];
-            wr_data       = {1'b1, sel_source_id, key_to_note(on_idx), sel_velocity, input_timbre};
-        end else if (has_off) begin
-            sel_idx       = off_idx;
-            sel_is_on     = 1'b0;
-            sel_source_id = off_idx;
-            sel_velocity  = 7'd0;
-            wr_data       = {1'b0, sel_source_id, key_to_note(off_idx), 7'd0, input_timbre};
-        end
+        selected_source=selected[SOURCE_WIDTH-1:0];
     end
-
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            wr_ptr     <= {PTR_WIDTH{1'b0}};
-            rd_ptr     <= {PTR_WIDTH{1'b0}};
-            fifo_count <= {(PTR_WIDTH+1){1'b0}};
-            for (i = 0; i < KEY_COUNT; i = i + 1) begin
-                pending_on[i]  <= 1'b0;
-                pending_off[i] <= 1'b0;
+        if(!rst_n) begin
+            wr_ptr<=0; rd_ptr<=0; fifo_count<=0; rr_key<=0; input_overflow<=0;
+            for(i=0;i<KEY_COUNT;i=i+1) begin
+                pending_wr[i]<=0; pending_rd[i]<=0; pending_count[i]<=0;
+                held_valid[i]<=0; held_note[i]<=0;
             end
+        end else if(input_overflow) begin
+            // A sticky fault stops delivery; the parent releases only this input group.
+            fifo_count<=0;
+            for(i=0;i<KEY_COUNT;i=i+1) begin pending_count[i]<=0; held_valid[i]<=0; end
         end else begin
-            for (i = 0; i < KEY_COUNT; i = i + 1) begin
-                if (key_press[i]) begin
-                    pending_on[i] <= 1'b1;
-                end
-                if (key_release[i]) begin
-                    pending_off[i] <= 1'b1;
-                end
+            for(i=0;i<KEY_COUNT;i=i+1) begin
+                if(key_press[i] && key_release[i]) input_overflow<=1;
+                if(key_press[i] || (key_release[i] && held_valid[i])) begin
+                    if(pending_count[i]<4 || (do_write && selected==i)) begin
+                        if(key_press[i]) begin
+                            pending_mem[i*4+pending_wr[i]]<={1'b1,
+                                held_valid[i]?held_note[i]:key_to_note(i,octave_select),
+                                key_velocity_flat[i*7+:7],input_timbre};
+                            if(!held_valid[i]) held_note[i]<=key_to_note(i,octave_select);
+                            held_valid[i]<=1;
+                        end else begin
+                            // Release uses the original press note, even after an octave change.
+                            pending_mem[i*4+pending_wr[i]]<={1'b0,held_note[i],7'd0,input_timbre};
+                            held_valid[i]<=0;
+                        end
+                        pending_wr[i]<=pending_wr[i]+1'b1;
+                        if(!(do_write && selected==i)) pending_count[i]<=pending_count[i]+1'b1;
+                    end else input_overflow<=1;
+                end else if(do_write && selected==i) pending_count[i]<=pending_count[i]-1'b1;
+                if(do_write && selected==i) pending_rd[i]<=pending_rd[i]+1'b1;
             end
-
-            if (do_write) begin
-                fifo_mem[wr_ptr] <= wr_data;
-                wr_ptr <= wr_ptr + 1'b1;
-                if (sel_is_on) begin
-                    pending_on[sel_idx] <= 1'b0;
-                end else begin
-                    pending_off[sel_idx] <= 1'b0;
-                end
+            if(do_write) begin
+                fifo_mem[wr_ptr]<={pending_mem[selected*4+pending_rd[selected]][18],selected_source,
+                                  pending_mem[selected*4+pending_rd[selected]][17:0]};
+                wr_ptr<=wr_ptr+1'b1;
+                if(selected==KEY_COUNT-1) rr_key<=0;
+                else rr_key<=selected[KEY_PTR_WIDTH-1:0]+1'b1;
             end
-
-            if (do_read) begin
-                rd_ptr <= rd_ptr + 1'b1;
-            end
-
-            if (do_read & do_write) begin
-                fifo_count <= fifo_count;
-            end else if (do_write) begin
-                fifo_count <= fifo_count + 1'b1;
-            end else if (do_read) begin
-                fifo_count <= fifo_count - 1'b1;
-            end
+            if(do_read) rd_ptr<=rd_ptr+1'b1;
+            case({do_write,do_read})
+                2'b10: fifo_count<=fifo_count+1'b1;
+                2'b01: fifo_count<=fifo_count-1'b1;
+                default: fifo_count<=fifo_count;
+            endcase
         end
     end
-
 endmodule

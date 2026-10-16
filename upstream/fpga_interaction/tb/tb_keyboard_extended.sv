@@ -43,6 +43,16 @@ module tb_keyboard_extended;
         .ADC_WIDTH        (12),
         .TEST_HOLD_CYCLES (20)
     ) dut (
+        .octave_select(2'd1),
+        .sustain_on(1'b0),
+        .source_clear_valid(1'b0),
+        .source_clear_id(5'd0),
+        .source_clear_mask(5'd0),
+        .source_clear_ready(),
+        .voice_key_down(),
+        .voice_trigger_id_flat(),
+        .input_fault(),
+        .release_trigger_id_flat(512'd0),
         .clk(clk),
         .rst_n(rst_n),
         .key_n(key_n),

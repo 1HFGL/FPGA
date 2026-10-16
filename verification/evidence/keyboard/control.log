@@ -1,0 +1,224 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 19:51:56 on Oct 14,2026
+vlog -vlog01compat -pedanticerrors -work build/regression/regression_work rtl/control/input_sync_debounce.v rtl/control/touch_or_key_if.v rtl/control/event_encoder.v rtl/control/voice_allocator.v verification/tb/control/tb_input_sync_debounce.v verification/tb/control/tb_event_encoder.v verification/tb/control/tb_voice_allocator.v verification/tb/control/tb_allocator_review.v 
+-- Compiling module input_sync_debounce
+-- Compiling module touch_or_key_if
+-- Compiling module event_encoder
+-- Compiling module voice_allocator
+-- Compiling module tb_input_sync_debounce
+-- Compiling module tb_event_encoder
+-- Compiling module tb_voice_allocator
+-- Compiling module allocator_review_case
+-- Compiling module tb_allocator_age
+-- Compiling module tb_allocator_owner
+-- Compiling module tb_allocator_expression_owner
+-- Compiling module tb_allocator_expression_reset
+
+Top level modules:
+	touch_or_key_if
+	tb_input_sync_debounce
+	tb_event_encoder
+	tb_voice_allocator
+	tb_allocator_age
+	tb_allocator_owner
+	tb_allocator_expression_owner
+	tb_allocator_expression_reset
+End time: 19:51:56 on Oct 14,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_input_sync_debounce.log -wlf build/regression/waves/tb_input_sync_debounce.wlf tb_input_sync_debounce -do "do {build/regression/logs/tb_input_sync_debounce_run.do}" 
+# Start time: 19:51:56 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_input_sync_debounce(fast)
+# do {build/regression/logs/tb_input_sync_debounce_run.do}
+# PASS: tb_input_sync_debounce press=1 release=1
+# ** Note: $finish    : verification/tb/control/tb_input_sync_debounce.v(93)
+#    Time: 415 ns  Iteration: 1  Instance: /tb_input_sync_debounce
+# End time: 19:51:57 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_input_sync_debounce
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_event_encoder.log -wlf build/regression/waves/tb_event_encoder.wlf tb_event_encoder -do "do {build/regression/logs/tb_event_encoder_run.do}" 
+# Start time: 19:51:58 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_event_encoder(fast)
+# do {build/regression/logs/tb_event_encoder_run.do}
+# PASS: tb_event_encoder on=2 off=2
+# ** Note: $finish    : verification/tb/control/tb_event_encoder.v(126)
+#    Time: 255 ns  Iteration: 1  Instance: /tb_event_encoder
+# End time: 19:51:59 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_event_encoder
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_voice_allocator.log -wlf build/regression/waves/tb_voice_allocator.wlf tb_voice_allocator -do "do {build/regression/logs/tb_voice_allocator_run.do}" 
+# Start time: 19:52:00 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_voice_allocator(fast)
+# do {build/regression/logs/tb_voice_allocator_run.do}
+# PASS: tb_voice_allocator_32 voices=31 max=32 steal=1
+# ** Note: $finish    : verification/tb/control/tb_voice_allocator.v(268)
+#    Time: 12055 ns  Iteration: 2  Instance: /tb_voice_allocator
+# End time: 19:52:00 on Oct 14,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+VERIFIED tb_voice_allocator
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_allocator_age.log -wlf build/regression/waves/tb_allocator_age.wlf tb_allocator_age -do "do {build/regression/logs/tb_allocator_age_run.do}" 
+# Start time: 19:52:01 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_allocator_age(fast)
+# do {build/regression/logs/tb_allocator_age_run.do}
+# PASS tb_allocator_age: rollover, retrigger, free slots, 400 ordered allocations, reset
+# ** Note: $finish    : verification/tb/control/tb_allocator_review.v(156)
+#    Time: 997760 ns  Iteration: 2  Instance: /tb_allocator_age
+# End time: 19:52:02 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_allocator_age
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_allocator_owner.log -wlf build/regression/waves/tb_allocator_owner.wlf tb_allocator_owner -do "do {build/regression/logs/tb_allocator_owner_run.do}" 
+# Start time: 19:52:03 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_allocator_owner(fast)
+# do {build/regression/logs/tb_allocator_owner_run.do}
+# PASS tb_allocator_owner: stale note-off cannot stop a new owner, reset
+# ** Note: $finish    : verification/tb/control/tb_allocator_review.v(161)
+#    Time: 1740 ns  Iteration: 2  Instance: /tb_allocator_owner
+# End time: 19:52:04 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_allocator_owner
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_allocator_expression_owner.log -wlf build/regression/waves/tb_allocator_expression_owner.wlf tb_allocator_expression_owner -do "do {build/regression/logs/tb_allocator_expression_owner_run.do}" 
+# Start time: 19:52:04 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_allocator_expression_owner(fast)
+# do {build/regression/logs/tb_allocator_expression_owner_run.do}
+# PASS tb_allocator_expression_owner: stale expression cannot change a new owner, reset
+# ** Note: $finish    : verification/tb/control/tb_allocator_review.v(166)
+#    Time: 1180 ns  Iteration: 2  Instance: /tb_allocator_expression_owner
+# End time: 19:52:05 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_allocator_expression_owner
+Reading D:/Modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/regression_work -l build/regression/logs/tb_allocator_expression_reset.log -wlf build/regression/waves/tb_allocator_expression_reset.wlf tb_allocator_expression_reset -do "do {build/regression/logs/tb_allocator_expression_reset_run.do}" 
+# Start time: 19:52:06 on Oct 14,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_allocator_expression_reset(fast)
+# do {build/regression/logs/tb_allocator_expression_reset_run.do}
+# PASS tb_allocator_expression_reset: new owner clears old expression, same source preserves it
+# ** Note: $finish    : verification/tb/control/tb_allocator_review.v(171)
+#    Time: 1040 ns  Iteration: 2  Instance: /tb_allocator_expression_reset
+# End time: 19:52:07 on Oct 14,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+VERIFIED tb_allocator_expression_reset
+PASS: suite C (7 testbenches).

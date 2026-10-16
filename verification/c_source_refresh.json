@@ -1,0 +1,41 @@
+{
+  "source_commit": "8b0d12fdb225436112c203cc194b9b72ce47cc06",
+  "source_branch": "codex/c-play-control",
+  "destination": "upstream/fpga_interaction",
+  "description": "Copy the already published independent C test versions; no test logic rewritten here.",
+  "tests": {
+    "upstream/fpga_interaction/tb/tb_event_encoder.sv": {
+      "sha256": "f2d20b9b22ebb8b64ec4ed23f3bfb4513955f89e33427f0175f78239cefb862b",
+      "git_blob": "a57347c814bdcb203ed185244002398ce53d3b47"
+    },
+    "upstream/fpga_interaction/tb/tb_interaction_top.sv": {
+      "sha256": "7c09624bb68dc78a9d3d2cb4462b538954c0cb09e0e4f484e1899eef86f55384",
+      "git_blob": "09d99bbb1d83728bebd8f56dc8ca954e9c71d461"
+    },
+    "upstream/fpga_interaction/tb/tb_keyboard_extended.sv": {
+      "sha256": "dde3a27c31941ace10f840ce404a6bf2f6f49e56f91716d1588c8f3a8e4aecfb",
+      "git_blob": "82c0808f2edda4f52d779520c2002b7c60a14d9c"
+    },
+    "upstream/fpga_interaction/tb/tb_voice_allocator.sv": {
+      "sha256": "44c4210531503e9069dd596735aee47d74b84f7d0ba618630b08309977a963cd",
+      "git_blob": "ab88077f1f6cedd8e90941c05c4c54377520d793"
+    }
+  },
+  "verilog_migrations": {
+    "upstream/fpga_interaction/tb/tb_voice_control.v": {
+      "original": "tb_voice_control.sv",
+      "sha256": "4fa7ae6ed76fd1fa157397c5d48d5e94f4052faa0389ee1d3e095c58e3511d9f",
+      "changes": "Classic task/function declarations, declared loop index, and FAIL/$finish checks instead of $fatal."
+    },
+    "upstream/fpga_interaction/tb/tb_key_events.v": {
+      "original": "tb_key_events.sv",
+      "sha256": "58dab5f2eb1e42a62f54c12803ac735f81d1007652c4c4ff84347a20a6ee2f1a",
+      "changes": "Classic task/function declarations, declared loop index, and FAIL/$finish checks instead of $fatal."
+    },
+    "upstream/fpga_interaction/tb/tb_input_fault_cleanup.v": {
+      "original": "tb_input_fault_cleanup.sv",
+      "sha256": "ed1621731b5a0408b99132cd03111614dacfc8c563a3a9a107dcdb63c0b09d68",
+      "changes": "Classic task/function declarations, declared loop index, and FAIL/$finish checks instead of $fatal."
+    }
+  }
+}

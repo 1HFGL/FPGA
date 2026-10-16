@@ -15,7 +15,9 @@ module voice_allocator #(
     parameter integer BEND_WIDTH   = 16,
     parameter integer EXPR_WIDTH   = 8,
     parameter integer MERGE_SAME_NOTE = 1,
-    parameter integer ENABLE_CANCEL = 0
+    parameter integer ENABLE_CANCEL = 0,
+    parameter integer ENABLE_PLAY_CONTROL = 0,
+    parameter integer CHECK_RELEASE_ID = 0
 ) (
     input  wire clk,
     input  wire rst_n,
@@ -57,7 +59,11 @@ module voice_allocator #(
     output reg  [31:0] steal_count,
     output reg  steal_pulse,
     // 成功应用 note-on 后输出一拍；同音重触发及抢占也必须通知包络。
-    output reg [VOICES-1:0] voice_trigger
+    output reg [VOICES-1:0] voice_trigger,
+    input wire sustain_on,
+    input wire [VOICES*16-1:0] release_trigger_id_flat,
+    output wire [VOICES*16-1:0] voice_trigger_id_flat,
+    output reg [VOICES-1:0] voice_key_down
 );
 
     // IDLE锁存一条事件 -> 每拍SCAN一个声部 -> APPLY统一更新。
@@ -90,6 +96,9 @@ module voice_allocator #(
     // note-on 将目标移到最前，其前面的槽后移；持续演奏多久都不会回绕。
     // 四声部每槽只需2位，32声部每槽5位；不再需要每拍运行的32位计数器。
     reg [AGE_WIDTH-1:0] age_mem [0:VOICES-1];
+    // 从C最新控制成果适配：起音/完成代次必须匹配，旧尾音不能回收新音。
+    reg [15:0] trigger_id_mem [0:VOICES-1];
+    wire sustain_enabled=(ENABLE_PLAY_CONTROL!=0) && sustain_on;
 
     reg [1:0] state;
     reg op_expr;
@@ -171,6 +180,7 @@ module voice_allocator #(
             target_idx = free_idx;
         end else if (release_found) begin
             target_valid = 1'b1;
+            target_is_steal = (ENABLE_PLAY_CONTROL!=0);
             target_idx = release_idx;
         end else if (oldest_found) begin
             target_valid = 1'b1;
@@ -194,6 +204,7 @@ module voice_allocator #(
             // +:为“从低位起取指定宽度”：第g路音符占[g*7 +: 7]。
             // 这些assign只是把数组铺平成接口总线，不额外增加采样延迟。
             assign voice_source_id_flat[g*SOURCE_WIDTH +: SOURCE_WIDTH] = source_id_mem[g];
+            assign voice_trigger_id_flat[g*16 +: 16] = trigger_id_mem[g];
             assign voice_note_flat[g*7 +: 7] = note_mem[g];
             assign voice_velocity_flat[g*7 +: 7] = velocity_mem[g];
             assign voice_timbre_flat[g*4 +: 4] = timbre_mem[g];
@@ -217,6 +228,7 @@ module voice_allocator #(
             voice_trigger <= {VOICES{1'b0}};
             voice_active <= {VOICES{1'b0}};
             voice_gate <= {VOICES{1'b0}};
+            voice_key_down <= {VOICES{1'b0}};
             for (i = 0; i < VOICES; i = i + 1) begin
                 source_id_mem[i] <= {SOURCE_WIDTH{1'b0}};
                 note_mem[i] <= 7'd0;
@@ -227,15 +239,19 @@ module voice_allocator #(
                 vibrato_depth_mem[i] <= {EXPR_WIDTH{1'b0}};
                 vibrato_rate_mem[i] <= {EXPR_WIDTH{1'b0}};
                 age_mem[i] <= i;
+                trigger_id_mem[i] <= 16'd0;
             end
         end else begin
             steal_pulse <= 1'b0;
             voice_trigger <= {VOICES{1'b0}};
 
             for (i = 0; i < VOICES; i = i + 1) begin
-                if (voice_active[i] && !voice_gate[i] && release_done[i]) begin
+                if (voice_active[i] && !voice_gate[i] && release_done[i] &&
+                    (!CHECK_RELEASE_ID || release_trigger_id_flat[i*16+:16]==trigger_id_mem[i])) begin
                     voice_active[i] <= 1'b0;
                 end
+                if(ENABLE_PLAY_CONTROL && !sustain_enabled && !voice_key_down[i])
+                    voice_gate[i]<=1'b0;
             end
 
             if (active_count > max_voice_count) begin
@@ -246,8 +262,10 @@ module voice_allocator #(
                 S_IDLE: begin
                     if(cancel_request) begin
                         for(i=0;i<VOICES;i=i+1) begin
-                            if((source_id_mem[i] & cancel_mask)==cancel_value)
+                            if((source_id_mem[i] & cancel_mask)==(cancel_value & cancel_mask)) begin
                                 voice_gate[i]<=1'b0;
+                                voice_key_down[i]<=1'b0;
+                            end
                         end
                     end else if (event_valid) begin
                         op_expr <= 1'b0;
@@ -279,8 +297,9 @@ module voice_allocator #(
                 end
 
                 S_SCAN: begin
-                    if (voice_active[scan_idx] && voice_gate[scan_idx]) begin
-                        if (source_id_mem[scan_idx] == latched_source_id) begin
+                    if (voice_active[scan_idx] && (ENABLE_PLAY_CONTROL ? voice_key_down[scan_idx] : voice_gate[scan_idx])) begin
+                        if (source_id_mem[scan_idx] == latched_source_id &&
+                            (!ENABLE_PLAY_CONTROL || note_mem[scan_idx]==latched_note)) begin
                             same_source_found <= 1'b1;
                             same_source_idx <= scan_idx;
                         end
@@ -299,12 +318,13 @@ module voice_allocator #(
                         free_idx <= scan_idx;
                     end
 
-                    if (voice_active[scan_idx] && !voice_gate[scan_idx] && !release_found) begin
+                    if (voice_active[scan_idx] && !(ENABLE_PLAY_CONTROL ? voice_key_down[scan_idx] : voice_gate[scan_idx]) &&
+                        (!release_found || (ENABLE_PLAY_CONTROL && age_mem[scan_idx]>age_mem[release_idx]))) begin
                         release_found <= 1'b1;
                         release_idx <= scan_idx;
                     end
 
-                    if (voice_active[scan_idx] && voice_gate[scan_idx]) begin
+                    if (voice_active[scan_idx] && (ENABLE_PLAY_CONTROL ? voice_key_down[scan_idx] : voice_gate[scan_idx])) begin
                         if (!oldest_found || (age_mem[scan_idx] > oldest_age)) begin
                             oldest_found <= 1'b1;
                             oldest_idx <= scan_idx;
@@ -349,6 +369,8 @@ module voice_allocator #(
                             voice_trigger[target_idx] <= 1'b1;
                             voice_active[target_idx] <= 1'b1;
                             voice_gate[target_idx] <= 1'b1;
+                            voice_key_down[target_idx] <= 1'b1;
+                            trigger_id_mem[target_idx] <= trigger_id_mem[target_idx]+16'd1;
                             source_id_mem[target_idx] <= latched_source_id;
                             note_mem[target_idx] <= latched_note;
                             velocity_mem[target_idx] <= latched_velocity;
@@ -373,9 +395,11 @@ module voice_allocator #(
                         end
                     end else begin
                         if (off_target_valid) begin
-                            voice_gate[off_target_idx] <= 1'b0;
+                            voice_gate[off_target_idx] <= sustain_enabled;
+                            voice_key_down[off_target_idx] <= 1'b0;
                             note_off_count <= note_off_count + 1'b1;
-                            if (release_done[off_target_idx]) begin
+                            if (!sustain_enabled && release_done[off_target_idx] &&
+                                (!CHECK_RELEASE_ID || release_trigger_id_flat[off_target_idx*16+:16]==trigger_id_mem[off_target_idx])) begin
                                 voice_active[off_target_idx] <= 1'b0;
                             end
                         end

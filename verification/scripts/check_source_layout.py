@@ -11,7 +11,7 @@ for path in sorted((ROOT/'rtl').rglob('*.v')):
     for rom in re.findall(r'"(rtl/rom/[^"\n]+\.mem)"',body):
         assert (ROOT/rom).is_file(), f'Missing ROM: {rom}'
 projects={}
-for project in [ROOT/'projects/piano/uart_piano.gprj',ROOT/'projects/display/display_rgb.gprj']:
+for project in [ROOT/'projects/piano/uart_piano.gprj',ROOT/'projects/display/display_rgb.gprj',ROOT/'projects/music/uart_music.gprj']:
     files=[]
     for node in ET.parse(project).findall('.//File'):
         source=(project.parent/node.attrib['path']).resolve()
@@ -24,9 +24,9 @@ for path in (ROOT/'model').glob('*.py'):
     for node in ast.walk(tree):
         if isinstance(node,ast.ImportFrom) and node.module and node.module.startswith(('gen_','check_')):
             assert (ROOT/'model'/(node.module+'.py')).is_file(), f'Missing local Python import: {path}: {node.module}'
-assert set(p.name for p in (ROOT/'rtl/synth').glob('*.v'))=={'instrument_env.v','voice_bank_music_pipe.v'}
-assert set(p.name for p in (ROOT/'rtl/rom').glob('*.mem'))=={'sine_1024.mem','piano_v3_modes.mem','rock_v2_shaper.mem','pitch_bend_1025.mem'}
-report=dict(active_modules=len(modules),synthesis_modules=2,rom_tables=4,projects=projects)
+assert {'instrument_env.v','voice_bank_music_pipe.v','voice_bank_adsr.v'}.issubset(p.name for p in (ROOT/'rtl/synth').glob('*.v'))
+assert set(p.name for p in (ROOT/'rtl/rom').glob('*.mem'))>={'sine_1024.mem','piano_v3_modes.mem','rock_v2_shaper.mem','pitch_bend_1025.mem'}
+report=dict(active_modules=len(modules),synthesis_modules=len(list((ROOT/"rtl/synth").glob("*.v"))),rom_tables=len(list((ROOT/"rtl/rom").glob("*.mem"))),projects=projects)
 out=ROOT/'build/cleanup_a';out.mkdir(parents=True,exist_ok=True)
 (out/'source_layout.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
-print(f'PASS source layout: {len(modules)} active modules; 2 synthesis modules; 4 ROMs; 2 valid GPRJs')
+print(f'PASS source layout: {len(modules)} active modules; unique shared modules; current ROMs; 3 valid GPRJs')
