@@ -1,58 +1,41 @@
-# 高云 FPGA 电子钢琴
+# 高云 FPGA 钢琴／摇滚电子乐器
 
-2026-10-14：**13实体键与UART共享16声部，两个旋钮实际控制总音量和全局±2半音弯音**。保留板载C4/E4别名，音色仍为当前钢琴近似。
-主顶层为 `piano_performance_top`，25个端口有约束，接线见[接线与运行](docs/keyboard-wiring.md)。CPU引脚GPIO复用保持开启。
-验证记录见[验证说明](docs/verification.md)。本轮尚未下载或实测整机延迟；C的队列、来源清理、起音/完成代次已适配到实际主链路。
-延音/八度内部控制接口已接通，板级暂固定延音关闭、中音区；触摸和显示主顶层接入仍待完成。第二音色为吉他，屏幕型号与触摸驱动未落实。
+2026-10-16：整理分支基于远程master `6120d79`，保留队友13键／双旋钮主工程，同时纳入已试听的A双音色16复音成果。**两条板级入口尚未合成一条功能链路**；使用时按接线和顶层选择工程。
 
-## 工程入口
-
-| 入口 | 用途 |
+| 入口 | 功能与状态 |
 | --- | --- |
-| [projects/piano/uart_piano.gprj](projects/piano/uart_piano.gprj) | **主工程**，顶层 `piano_performance_top`，16声部＋旋钮 |
-| [projects/display/display_rgb.gprj](projects/display/display_rgb.gprj) | 800×480中文RGB显示核心，仅独立综合；触摸输入待新增，未定屏幕/引脚 |
-| [projects/examples/instruments_board](projects/examples/instruments_board/) | A的新吉他/弦乐试听，尚未合入主钢琴，不是钢琴旧版本 |
-| [projects/checks](projects/checks/) | 当前合成核心的独立时序检查，不用于下载 |
-| [upstream/fpga_interaction](upstream/fpga_interaction/) | C最新独立工程：八度、延音、起音序号、队列故障清理；与主钢琴接口适配待完成 |
-| [host/README.md](host/README.md) | 电脑音色设计台与串口演奏 |
+| [projects/piano/uart_piano.gprj](projects/piano/uart_piano.gprj) | 队友正式主工程：`piano_performance_top`，13实体键＋UART共享16声部、ADS1115音量／弯音；保持最新master源码和25信号约束 |
+| [projects/music/uart_music.gprj](projects/music/uart_music.gprj) | A双音色试听：`music_uart_top`，钢琴v3／经典摇滚、16复音、UART音量／弯音；两板键、10信号约束，classic16已有用户初步可用反馈 |
+| [projects/display/display_rgb.gprj](projects/display/display_rgb.gprj) | 独立RGB显示综合；屏幕引脚、PLL和触摸待落实 |
+| [host/run_tone_studio.bat](host/run_tone_studio.bat) | 共用电脑工具；根据固件握手启用能力，双音色使用music入口 |
+| [upstream/fpga_interaction](upstream/fpga_interaction/) | master当前C独立成果，原样保留，不与公共RTL同名模块混编 |
 
-```text
-rtl/                 当前公共源码：audio、control、synth、display、top、rom
-projects/            当前高云工程及必要process配置
-boards/              当前主钢琴的引脚与时序约束
-verification/        当前功能的Verilog测试与运行脚本
-upstream/            仅C正在开发的独立工程，不与主工程混编
-host/、model/        上位机、参考模型及波表生成/检查
-docs/                必要说明、原始赛题资料与许可证
-build/               本次生成的日志和波形，不提交
-```
+所有入口共用`rtl/`，各模块只有一个文件。`voice_bank_adsr`仍是13键主工程所需的波表核心；`voice_bank_music_pipe`是A的模态双音色核心，两者不能互相删除替代。原无依赖的弦乐演示／独立检查工程及其测试工具已退役。参数和来源在`model/`，测试在`verification/`，生成物写`build/`。
 
-旧 `adsr_voice_bank.v` 与 `demo_voice_bank.v` 已删除，**当前钢琴只用 `voice_bank_adsr.v`**。`adsr_env.v` 负责包络，`voice_timbre_adsr.v` 负责一个声部，`voice_bank_adsr.v` 参数化组织声部，正式配置16路，默认4路兼容原验证；职责不同，不是三份旧版本。新吉他/弦乐算法暂作独立开发。
+## 构建与验证
 
-主工程与C工程仍有少量同名模块：它们是两个当前开发入口的不同接口实现，不能混编或直接互相覆盖；用户选择保留C独立工程。本次在原路径刷新10月14日已发布C成果，保留队友历史SV测试的接口版本；三份新增控制测试整理为严格Verilog .v。
-
-## 构建与上板
-
-本机工具：Gowin `D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe`；ModelSim10.6e `C:/Library/modelsim/win64`。换电脑请覆盖脚本的工具路径参数。
+在仓库根运行，替换实际工具路径。A模型需要NumPy，见`model/requirements.txt`；上位机依赖见`host/README.md`。
 
 ```powershell
-./verification/scripts/check_verilog.ps1
-./verification/scripts/run_performance_tests.ps1
-./projects/piano/build.ps1 -EvidenceDirectory build/performance -Python C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe
+./verification/scripts/check_verilog.ps1 -ModelSimBin D:/modelsim1/win64
+python verification/scripts/check_source_layout.py
+# A双音色核心及独立定点对照
+./verification/scripts/run_tests.ps1 -Suite A -ModelSimBin D:/modelsim1/win64 -Python python
+# 队友13键和双旋钮主线
+./verification/scripts/run_keyboard_tests.ps1 -ModelSimBin D:/modelsim1/win64
+./verification/scripts/run_performance_tests.ps1 -ModelSimBin D:/modelsim1/win64
+# A双音色试听位流
+./projects/music/build.ps1 -Gowin C:/Gowin/Gowin_V1.9.12.03_x64/IDE/bin/gw_sh.exe
+# 正式13键位流：使用与受控配置相符的Gowin版本
+./projects/piano/build.ps1 -Gowin D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe -Python python
 ```
 
-器件为GW5AT-LV60PG484AC1/I0、Version B，引脚依据NEO Dock31004 Rev1.4。主工程引用[板级约束](boards/tang_mega_60k_31004/)，新增13路PMOD按钮输入。位流在 `projects/piano/impl/pnr/piano_performance.fs`，身份以本次 `build/performance/artifact.txt` 为准。
+不要把两个GPRJ全部文件混到一个自建顶层。`projects/music`输出`impl/pnr/music_uart16.fs`，`projects/piano`输出`impl/pnr/piano_performance.fs`。主工程使用25信号接线，A试听沿用原10信号接线；下载采用已确认的SRAM Program，先低音量。
 
-上板先用已确认的SRAM Program、低音量耳机测试，不自动写Flash。预期KEY1/KEY2能发声；按住时约1.202秒衰减至零，提前松键约180ms收尾。PC与板键共享16声部，满载优先抢占最老松键尾音，其次最老按住音；串口默认115200/8N1。旋钮0为音量，旋钮1为全局弯音；ADC未就绪沿用原音量/原音高，掉线保持最后有效值。PT8211-S使用LSBJ右对齐格式，不因模块名 `i2s_tx` 就称为标准Philips I2S，赛题接口口径尚需确认。
+## 当前资料与边界
 
-显示工程没有PLL、CST或可下载位流，不能直接按主工程方式下载。显示刷新与触摸采集是两条不同通路；已有琴键图形不是触摸驱动。双入口均以整机≤10ms为基础目标、≤5ms优先争取，分别验证，不用实体键数据替触摸达标。
+- A交接：[双音色设计](docs/music-design.md)、[双音色验证](docs/music-verification.md)、[试听指导](docs/listening-acceptance.md)。
+- 正式输入主线：[设计](docs/design.md)、[接线](docs/keyboard-wiring.md)、[C输入](docs/c-input.md)、[验证](docs/verification.md)。
+- 本次合并：[验证与保留范围](docs/integration-a.md)；分工与后续工作：[PLAN](PLAN.md)。
 
-## 当前文档
-
-- [PLAN.md](PLAN.md)：目标、A/B/C分工、赛题要求及未完成项。
-- [docs/design.md](docs/design.md)：当前音频通路、位宽/有效时刻、音色依据。
-- [docs/display-rgb.md](docs/display-rgb.md)：显示接口与时序。
-- [docs/keyboard-assembly.md](docs/keyboard-assembly.md)：13键装配。
-- [docs/verification.md](docs/verification.md)：验证命令、结果边界及Git历史入口。
-
-旧代码、旧报告、旧设计计划不再在当前目录复制保存；清理前完整版本为Git提交 `f513622`。原始PDF/用户资料、字体许可证和C最新工程保留。清理本身不增加功能，也不证明实物延迟达标。
+本地历史classic16包在`build/audition/music_classic16_20261014_201505/`，不随源码提交。新克隆应从对应工程构建；测试日志的历史本地路径不代表文件已上传。A只有用户初步试听反馈，正式13键／双旋钮仍以主线验证说明为准；完整外部时序、触摸和两条整机延迟仍待实测。

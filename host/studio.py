@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import sys
 
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import Qt, QTimer, QSignalBlocker
 from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
     QApplication, QFileDialog, QMainWindow, QMessageBox,
@@ -34,6 +34,15 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         self.piano_buttons = []
         self.rendering = False
         self.test_mode = False
+        self.control_dirty = False
+        self.control_send_timer = QTimer(self)
+        self.control_send_timer.setSingleShot(True)
+        self.control_send_timer.timeout.connect(self.send_performance_controls)
+        self.audition_active = False
+        self.audition_events = []
+        self.audition_timer = QTimer(self)
+        self.audition_timer.setSingleShot(True)
+        self.audition_timer.timeout.connect(self.audition_step)
         self._build()
         self.session.changed.connect(self.connection_changed)
         self.session.log.connect(self.log_message)
@@ -117,7 +126,9 @@ class StudioWindow(StudioViewMixin, QMainWindow):
             valid = False
         saved = "已保存" if valid and not self.dirty() else "尚未保存"
         prefix = "模拟设备" if self.session.simulated and self.session.ready else "设备"
-        if self.session.fixed_tone:
+        if self.session.factory_presets:
+            device = f"设备音色：{self.session.preset_name} · 草稿参数未应用"
+        elif self.session.fixed_tone:
             device = f"设备固定{self.session.fixed_tone_name} · 界面参数未应用"
         elif self.session.pending:
             device = f"{prefix}确认中…"
@@ -232,13 +243,27 @@ class StudioWindow(StudioViewMixin, QMainWindow):
             self.connection_label.style().polish(self.connection_label)
         self.traffic_label.setText(f"已发 {self.session.tx_bytes} B · 已收 {self.session.rx_bytes} B")
         playable = self.session.playable
+        if not playable and self.audition_active:
+            self.stop_notes()
         for key in self.piano_buttons:
             key.setEnabled(playable)
         maximum = int(self.session.device.get("MAX_VOICES", "0"))
         self.chord_button.setEnabled(playable and maximum >= 4)
+        self.power_button.setEnabled(playable and maximum >= 3)
+        can_audition = playable and self.session.factory_presets and not self.audition_active
+        self.anchor_button.setEnabled(can_audition)
+        self.scale_button.setEnabled(can_audition)
+        self.polyphony_button.setEnabled(can_audition and maximum >= 16)
+        voices = self.session.status.get("VOICE_COUNT", "—")
+        self.voice_hint.setText(f"设备报告当前声部：{voices} / {maximum or '—'}（含释放尾音）")
         self.panic_button.setEnabled(self.session.ready and "NOTES" in self.session.capabilities)
         self.query_button.setEnabled(self.session.ready and "STATUS" in self.session.capabilities)
+        self.device_preset_combo.setEnabled(self.session.factory_presets and self.session.preset_pending is None)
+        preset = self.session.preset_pending if self.session.preset_pending is not None else self.session.selected_preset
+        self.device_preset_combo.setCurrentIndex(self.device_preset_combo.findData(preset))
         self.play_hint.setText("模拟设备只显示音符事件，不产生声音。" if playable and self.session.simulated else
+                               "正在等待设备确认音色；已按下的音符仍可松开。" if self.session.preset_pending is not None else
+                               f"设备音色：{self.session.preset_name}。" if self.session.factory_presets else
                                f"按住琴键演奏；设备为固定{self.session.fixed_tone_name}，界面参数不改变声音。" if self.session.fixed_tone else
                                "按住琴键演奏。" if playable else "先连接支持演奏的设备；可配置设备需先应用音色。")
         if self.session.ready:
@@ -248,7 +273,56 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         else:
             self.device_info.setText(self.session.label)
             self.pressed_notes.clear()
+        self.render_performance_controls()
         self.update_document_status()
+
+    def performance_edited(self, value):
+        if not self.session.performance_controls or self.session.controls is None:
+            return
+        self.control_dirty = True
+        if not self.control_send_timer.isActive():
+            self.control_send_timer.start(40)
+        self.render_performance_controls()
+
+    def send_performance_controls(self):
+        if not self.control_dirty or self.session.controls_pending is not None:
+            return
+        self.control_dirty = False
+        try:
+            self.session.set_controls(self.device_volume.value(), self.device_bend.value() + 512)
+        except (RuntimeError, ValueError) as exc:
+            self.log_message("提示", str(exc))
+            self.render_performance_controls()
+
+    def render_performance_controls(self):
+        enabled = self.session.performance_controls and self.session.controls is not None
+        for widget in (self.device_volume, self.device_bend, self.center_bend_button):
+            widget.setEnabled(enabled)
+        if not enabled:
+            self.control_dirty = False
+            self.control_send_timer.stop()
+            self.control_hint.setText("等待设备确认控制状态。" if self.session.performance_controls else "当前设备未提供音量／弯音控制；设计页草稿不会改变固件预设。")
+            return
+        if not self.control_dirty:
+            values = self.session.controls_pending or self.session.controls
+            with QSignalBlocker(self.device_volume), QSignalBlocker(self.device_bend):
+                self.device_volume.setValue(values[0])
+                self.device_bend.setValue(values[1] - 512)
+        elif self.session.controls_pending is None and not self.control_send_timer.isActive():
+            self.control_send_timer.start(40)
+        volume, bend = self.session.controls
+        state = " · 修改待发送" if self.control_dirty else " · 等待设备确认" if self.session.controls_pending is not None else ""
+        self.control_hint.setText(f"设备目标：音量 {volume}/127 · 弯音 {(bend-512)/256:+.2f} 半音{state}；固件平滑应用到持续音和尾音。")
+
+    def choose_device_preset(self, index):
+        if self.audition_active:
+            self.stop_notes()
+        try:
+            # Do not PANIC: existing voices and release tails keep their instrument.
+            self.session.select_preset(self.device_preset_combo.itemData(index))
+        except (RuntimeError, ValueError) as exc:
+            self.problem("无法切换音色", exc)
+            self.connection_changed()
 
     def status_changed(self, values):
         for key, item in self.status_labels.items():
@@ -262,17 +336,19 @@ class StudioWindow(StudioViewMixin, QMainWindow):
             self.problem("无法应用", exc)
 
     def note_pressed(self, note):
+        if self.audition_active:
+            self.stop_notes()
         try:
             self.session.note(note, True)
             self.pressed_notes.add(note)
-        except RuntimeError as exc:
+        except (RuntimeError, OSError) as exc:
             self.log_message("提示", str(exc))
 
     def note_released(self, note):
         if note in self.pressed_notes:
             try:
                 self.session.note(note, False)
-            except RuntimeError as exc:
+            except (RuntimeError, OSError) as exc:
                 self.log_message("提示", str(exc))
             self.pressed_notes.discard(note)
 
@@ -281,16 +357,80 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         for note in [60, 64, 67, 72]:
             self.note_pressed(note)
 
+    def power_chord(self):
+        self.stop_notes()
+        for note in (60, 67, 72):
+            self.note_pressed(note)
+
     def stop_notes(self):
+        was_audition = self.audition_active
+        self.audition_active = False
+        self.audition_timer.stop()
+        self.audition_events.clear()
+        if was_audition:
+            self.audition_hint.setText("试听已停止；板上按键不受影响。")
         for note in list(self.pressed_notes):
             self.note_released(note)
         try:
             self.session.panic()
-        except RuntimeError as exc:
+        except (RuntimeError, OSError) as exc:
             self.log_message("提示", str(exc))
+        if was_audition:
+            self.connection_changed()
+
+    def start_audition(self, kind):
+        if not self.session.playable or not self.session.factory_presets:
+            return
+        maximum = int(self.session.device.get("MAX_VOICES", "0"))
+        if kind == "polyphony" and maximum < 16:
+            return
+        if kind not in ("anchors", "scale", "polyphony"):
+            raise ValueError("Unknown audition")
+        self.stop_notes()
+        if kind == "polyphony":
+            groups = [(tuple(range(48, 80, 2)), "16音压力测试", 2000)]
+        elif kind == "anchors":
+            groups = [((n,), name, 1200) for n, name in ((48, "C3"), (60, "C4"), (72, "C5"), (84, "C6"))]
+        else:
+            groups = [((n,), f"音阶 MIDI {n}", 250) for n in range(48, 85)]
+        # QTimer schedules one event at a time; no sleeping or catch-up burst.
+        # Cancel old events before any manual note/preset/navigation/session change.
+        self.audition_events = [((), (), 200, "等待旧尾音结束")]
+        for notes, name, hold in groups:
+            self.audition_events.extend([(notes, (), hold, name), ((), notes, 200, name + " · 松键")])
+        self.audition_active = True
+        self.log_message("试听", f"开始{kind}，使用当前设备音色／音量；程序不判断听感是否合格")
+        self.audition_step()
+
+    def audition_step(self):
+        if not self.audition_active:
+            return
+        if not self.session.playable:
+            self.stop_notes()
+            return
+        if not self.audition_events:
+            self.stop_notes()
+            self.audition_hint.setText("试听序列已结束，请记录听感；不代表验收通过。")
+            self.connection_changed()
+            return
+        ons, offs, delay, label = self.audition_events.pop(0)
+        try:
+            for note in offs:
+                self.session.note(note, False)
+                self.pressed_notes.discard(note)
+            for note in ons:
+                self.session.note(note, True)
+                self.pressed_notes.add(note)
+        except (RuntimeError, OSError) as exc:
+            self.stop_notes()
+            self.log_message("试听", str(exc))
+            return
+        self.audition_hint.setText(f"试听中：{label}；点“全部松键”可停止。")
+        self.connection_changed()
+        self.audition_timer.start(delay)
 
     def focus_changed(self, state):
-        if state != Qt.ApplicationActive and self.pressed_notes:
+        if state != Qt.ApplicationActive and (self.pressed_notes or self.audition_active):
             self.stop_notes()
 
     def log_message(self, kind, text):
@@ -305,8 +445,8 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         QMessageBox.information(self, "使用说明", "1. 拖动谐波柱，设置包络，保存配置。\n"
             "2. 选择模拟设备，点击连接，再点击应用到设备。\n"
             "3. 设备实验可观察音符与声部状态，模拟设备不发声。\n"
-            "4. 真实设备需要 SYNTH/1 固件，当前板级程序尚未接入。\n\n"
-            "详细说明：host/STUDIO_README.md")
+            "4. 双音色固件连接后，在演奏台选择钢琴／摇滚；等待设备确认即可演奏。\n\n"
+            "详细说明：host/README.md")
 
     def closeEvent(self, event):
         if not self.confirm_discard():

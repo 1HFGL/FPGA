@@ -35,3 +35,8 @@ transcript
 *.binx
 *.vg
 *.timing_paths
+
+# Retired generated output locations; current output belongs in build/
+/results/
+/deliveries/
+/fpga_project/

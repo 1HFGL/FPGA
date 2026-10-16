@@ -263,3 +263,14 @@ ADSR是起音、衰减、保持、释放的包络控制；声音从松键后继�
 [README](README.md)列主工程及构建；[当前音频设计](docs/design.md)、[显示接口](docs/display-rgb.md)、[装配](docs/keyboard-assembly.md)、[验证](docs/verification.md)、[上位机](host/README.md)分别维护唯一当前说明。历史指南和用户原始资料在 `docs/sources`，历史实现/报告直接查Git。
 
 学习按当前任务补齐Verilog组合/时序、位宽/补码、仿真、DDS、ADSR、串行音频及跨时钟；A/B/C均按初学者协作，不要求先学完全部课程才参与。
+
+
+## 2026-10-16 A双音色整理分支合入说明
+
+已核对远程master基线`6120d79`。正式13实体键／ADS1115双旋钮入口仍为`projects/piano/uart_piano.gprj`、`piano_performance_top`，保留该基线的RTL、约束、配置和C独立工程。
+
+A当前成果为钢琴v3／经典摇滚、共享16复音、UART总音量／±2半音弯音，独立试听入口`projects/music/uart_music.gprj`、`music_uart_top`，沿用原两板键和十信号约束。两工程共用公共RTL目录，不复制整个A/B/C工程。不能把A试听的音色／控制能力宣称已接入13键／ADC主工程，也不能给A入口使用25信号主工程约束。
+
+此前本地清理按`0406c60`删除的部分模块，已成为最新13键主工程的实际依赖，因此保留其唯一公共实现与必要测试；无依赖的旧弦乐演示、独立检查工程及专用工具继续退役。C原始工程和新增实体键／控制测试随master保留，不改写队友TB。
+
+A接口见[双音色设计](docs/music-design.md)，结果见[双音色验证](docs/music-verification.md)和[合并验证](docs/integration-a.md)。下一步才是把A音色核心接入正式13键／双旋钮通路并重新做资源、时序和板级验收。原classic16位流仍只适用于此前两键试听接线。
