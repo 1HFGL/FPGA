@@ -119,6 +119,16 @@ module instrument_display #(
     wire title_enable;
     wire [2:0] title_glyph;
     wire [5:0] title_column,title_row;
+    wire [38:0] activity;
+    wire [15:0] meter_level,meter_peak;
+    generate if(ENHANCED && UI)begin:g_feedback
+        display_feedback u_feedback(.pixel_clk(pixel_clk),.rst_n(pixel_rst_n),.frame_commit(commit),
+            .held(state_latest[39]?state_latest[65:53]:state_latest[52:40]),
+            .instrument_guitar(state_latest[39]),.raw_peak(envelope_peak),
+            .activity(activity),.meter_level(meter_level),.meter_peak(meter_peak));
+    end else begin:g_no_feedback
+        assign activity=0;assign meter_level=0;assign meter_peak=0;
+    end endgenerate
     generate if(ENHANCED && UI)begin:g_panel
         instrument_panel_ui u_renderer(
             .x(x_d),.y(y_d),.key_down(state_frame[39]?state_frame[65:53]:state_frame[52:40]),
@@ -126,6 +136,7 @@ module instrument_display #(
             .sustain(state_frame[38]),.instrument_guitar(state_frame[39]),
             .wave_min(envelope_min),.wave_max(envelope_max),.peak_level(envelope_peak),
             .gain_shift(envelope_gain),.wave_ready(wave_ready_d),
+            .activity(activity),.meter_level(meter_level),.meter_peak(meter_peak),
             .text_enable(text_enable),.text_glyph(text_glyph),
             .text_column(text_column),.text_row(text_row),.text_color(text_color),
             .title_enable(title_enable),.title_glyph(title_glyph),

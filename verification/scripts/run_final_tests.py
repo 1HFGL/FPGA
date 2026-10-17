@@ -8,7 +8,7 @@ p.add_argument('tops', nargs='+')
 p.add_argument('--bin', default='C:/Library/modelsim/win64')
 p.add_argument('--gowin-simlib', default='D:/Gowin/Gowin_V1.9.12.04_x64/IDE/simlib/gw5a/prim_sim.v')
 p.add_argument('--legacy', action='store_true', help='Run an unchanged historical contract test with explicit compatibility parameters')
-p.add_argument('--mutation', choices=['None','Preset','Release','Wave','Env'], default='None')
+p.add_argument('--mutation', choices=['None','Preset','Release','Wave','Env','TouchRelease'], default='None')
 a = p.parse_args()
 OUT = ROOT / 'build/regression/final'
 OUT.mkdir(parents=True, exist_ok=True)
@@ -26,7 +26,8 @@ for top in a.tops:
             'Preset':('tb_final_modal_adapter','rtl/synth/voice_bank_modal_adapter.v','.voice_instrument(~voice_guitar)','.voice_instrument(voice_guitar)','FAIL modal golden mismatch'),
             'Release':('tb_final_modal_adapter','rtl/synth/voice_bank_modal_adapter.v','(!busy && !sample_valid && raw_release[v])','raw_release[v]','FAIL stale release'),
             'Wave':('tb_final_wave_envelope','rtl/display/display_wave_envelope.v','sample_data>first_sample','sample_data<first_sample','FAIL pair peak lost'),
-            'Env':('tb_final_env_alignment','rtl/synth/instrument_env.v','next_level=attack_first_level;','next_level=17\'d0;','FAIL env current preset')}
+            'Env':('tb_final_env_alignment','rtl/synth/instrument_env.v','next_level=attack_first_level;','next_level=17\'d0;','FAIL env current preset'),
+            'TouchRelease':('tb_touch_contact_tracker','rtl/control/touch_contact_tracker.v','if(held[index])begin',"if(1'b0)begin",'FAIL missing touch event')}
         required,path,before,after,failure=options[a.mutation]
         if top!=required or a.legacy:raise SystemExit('Mutation requires '+required)
         original=ROOT/path

@@ -52,6 +52,8 @@
         <File path="../../rtl/display/display_wave_envelope.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/display/instrument_panel_renderer.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/display/instrument_panel_ui.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/instrument_ui_map.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/display_feedback.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/display/display_font24.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/display/display_font_ui.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/display/piano_display_renderer.v" type="file.verilog" enable="1"/>

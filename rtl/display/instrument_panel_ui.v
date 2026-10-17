@@ -1,4 +1,4 @@
-// 1024x600“静奏”绘制器：2bit 覆盖度字模 + 统一参数卡 + 乐器主体。
+// 1024x600“静奏·简洁版”：暖白底、淡黄反馈、真实波形和双乐器主体。
 // 与 instrument_panel_renderer 的区别：
 //   - 文本分两个层次：24px 正文与 48px 原生标题，不再把 24px 点阵整数放大；
 //   - 字形以覆盖度 0..3 表示，由上层与背景做一次线性混合，边缘平滑；
@@ -6,13 +6,13 @@
 // 本模块只做组合绘制，坐标均为编译期常量；不含除法、开方或整屏帧缓存。
 // 文本接口：本模块在 P0 给出字形/行/列请求，字模 ROM 在 P1 返回整行覆盖度。
 module instrument_panel_ui #(
-    parameter [23:0] C_BG      = 24'h0b1116,
-    parameter [23:0] C_PANEL   = 24'h141d24,
-    parameter [23:0] C_GRID    = 24'h26343d,
-    parameter [23:0] C_TEXT    = 24'he8eef2,
-    parameter [23:0] C_MUTED   = 24'h8ea0ac,
-    parameter [23:0] C_ACCENT  = 24'h65d9ed, // 钢琴：冷青
-    parameter [23:0] C_WARM    = 24'hf0b76b  // 吉他：暖琥珀
+    parameter [23:0] C_BG      = 24'hecebe7,
+    parameter [23:0] C_PANEL   = 24'hf8f7f3,
+    parameter [23:0] C_GRID    = 24'hd7d6d0,
+    parameter [23:0] C_TEXT    = 24'h252c2e,
+    parameter [23:0] C_MUTED   = 24'h686e70,
+    parameter [23:0] C_ACCENT  = 24'hf0de6b,
+    parameter [23:0] C_WARM    = 24'hf0de6b
 ) (
     input wire [11:0] x, y,
     input wire [12:0] key_down,
@@ -24,6 +24,8 @@ module instrument_panel_ui #(
     input wire signed [15:0] wave_min, wave_max,
     input wire [15:0] peak_level,
     input wire [3:0] gain_shift,
+    input wire [38:0] activity,
+    input wire [15:0] meter_level,meter_peak,
     // 24px 正文请求
     output reg text_enable,
     output reg [5:0] text_glyph,
@@ -38,9 +40,15 @@ module instrument_panel_ui #(
 );
     // 配色随音色切换；两套界面共用同一布局网格。
     wire [23:0] accent = instrument_guitar ? C_WARM : C_ACCENT;
-    wire [23:0] bg     = instrument_guitar ? 24'h140f0b : C_BG;
-    wire [23:0] panel  = instrument_guitar ? 24'h211a14 : C_PANEL;
-    wire [23:0] grid   = instrument_guitar ? 24'h453427 : C_GRID;
+    wire [23:0] bg=C_BG, panel=C_PANEL, grid=C_GRID;
+    wire note_hit,key_black;
+    wire [3:0] key_index;
+    wire [11:0] key_left,key_right,key_top,key_bottom;
+    wire [1:0] control_kind,control_value;
+    instrument_ui_map u_map(.x(x),.y(y),.instrument_guitar(instrument_guitar),
+        .note_valid(note_hit),.note_index(key_index),.key_black(key_black),
+        .key_left(key_left),.key_right(key_right),.key_top(key_top),.key_bottom(key_bottom),
+        .control_kind(control_kind),.control_value(control_value));
 
     // Low range uses frets 0..12; high range scrolls to frets 12..24.
     // The high-range highlight layout equals middle shifted one octave.
@@ -57,7 +65,7 @@ module instrument_panel_ui #(
     endfunction
     wire [5:0] first_octave_glyph=(octave==0)?6'd51:(octave==2)?6'd53:6'd52;
     wire [5:0] last_octave_glyph=first_octave_glyph+6'd1;
-    // ---- 波形几何：512 列 min/max，纵向约 128 像素，中轴 y=276 ----
+    // ---- 波形几何：512样本转256列min/max，中轴y=264，纵向约128像素 ----
     wire signed [31:0] low_amp  = $signed({{16{wave_min[15]}}, wave_min}) <<< gain_shift;
     wire signed [31:0] high_amp = $signed({{16{wave_max[15]}}, wave_max}) <<< gain_shift;
     wire signed [31:0] low_shifted  = low_amp  >>> 9;
@@ -67,8 +75,8 @@ module instrument_panel_ui #(
                                    (low_amp  < -32768) ? -18'sd63 : low_shifted[17:0];
     wire signed [17:0] high_step = (high_amp >  32767) ?  18'sd63 :
                                    (high_amp < -32768) ? -18'sd63 : high_shifted[17:0];
-    wire [11:0] wave_top    = 12'sd276 - high_step[11:0];
-    wire [11:0] wave_bottom = 12'sd276 - low_step[11:0];
+    wire [11:0] wave_top    = 12'sd264 - high_step[11:0];
+    wire [11:0] wave_bottom = 12'sd264 - low_step[11:0];
     wire [7:0]  level_height = peak_level[15:8]; // 0..128，未经显示放大的数字峰值
 
     // ---- 数值格式化：每帧由上层更新一次，这里只做 BCD 选择 ----
@@ -252,174 +260,145 @@ module instrument_panel_ui #(
         end
     endfunction
 
-    integer k, s, f, ny;
-
+    function [5:0] note_letter;
+        input integer n;
+        begin case(n)
+            0,1,12:note_letter=40;2,3:note_letter=41;4:note_letter=42;
+            5,6:note_letter=43;7,8:note_letter=44;9,10:note_letter=45;default:note_letter=46;
+        endcase end
+    endfunction
+    function [2:0] note_activity;
+        input integer note;
+        input [1:0] range_select;
+        input [38:0] levels;
+        begin
+            note_activity=0;
+            if(range_select==0)begin
+                if(note>=48 && note<=60)note_activity=levels[(note-48)*3+:3];
+            end else if(note>=60 && note<=72)note_activity=levels[(note-60)*3+:3];
+        end
+    endfunction
+    integer k,s,f,ny;
     always @(*) begin
-        // 默认值覆盖全部输出，区域外不保留上一像素（避免锁存器）。
-        base_rgb = bg;
-        text_enable = 1'b0;
-        text_glyph = 0;
-        text_column = 0;
-        text_row = 0;
-        text_color = C_TEXT;
-        title_enable = 1'b0;
-        title_glyph = 0;
-        title_column = 0;
-        title_row = 0;
+        base_rgb=bg;
+        text_enable=0;text_glyph=0;text_column=0;text_row=0;text_color=C_TEXT;
+        title_enable=0;title_glyph=0;title_column=0;title_row=0;
+        ny=0;
 
-        // ---- 顶部：标题栏与发丝线 ----
-        if (y >= 74 && y < 76 && x >= 32 && x < 992) base_rgb = grid;
-
-        // ---- 三块参数卡：32..336 / 352..704 / 720..992，y=88..184 ----
-        if (y >= 88 && y < 184 && x >= 32  && x < 336) base_rgb = panel;
-        if (y >= 88 && y < 184 && x >= 352 && x < 704) base_rgb = panel;
-        if (y >= 88 && y < 184 && x >= 720 && x < 992) base_rgb = panel;
-
-        // ---- 波形卡：32..992，y=192..376 ----
-        if (y >= 192 && y < 376 && x >= 32 && x < 992) base_rgb = panel;
-        if (y >= 208 && y < 352 && x >= 48 && x < 816) begin
-            if (y == 276 || x[6:0] == 0) base_rgb = grid;      // 中轴与整列刻度
-            if (wave_ready && y >= wave_top && y <= wave_bottom) base_rgb = accent;
-        end
-        // 右侧电平柱：真实数字峰值，红色仅表示接近满幅。
-        if (y >= 208 && y < 344 && x >= 872 && x < 904) begin
-            base_rgb = grid;
-            if (y >= 344 - level_height) base_rgb = (peak_level > 16'd30000) ? 24'hf17e72 : accent;
+        // 暖白底与少量分隔。按钮命中区来自同一u_map，不再另写近似坐标。
+        if(x>=16 && x<1008 && y>=12 && y<592)base_rgb=panel;
+        if(x>=32 && x<992 && y==84)base_rgb=grid;
+        if(control_kind!=0)begin
+            base_rgb=24'he8e7e1;
+            if((control_kind==1 && control_value=={1'b0,instrument_guitar}) ||
+               (control_kind==2 && control_value==octave) ||
+               (control_kind==3 && sustain))base_rgb=accent;
         end
 
-        // ---- 音量条：48..304，y=152..158 ----
-        if (y >= 152 && y < 158 && x >= 48 && x < 304) begin
-            base_rgb = grid;
-            if (x < 48 + {volume, 1'b0}) base_rgb = accent;
+        // 波形坐标仍是每列3像素/256列。填色与轨迹均来自真实有符号样本。
+        if(x>=32 && x<992 && y>=160 && y<348)base_rgb=24'h293033;
+        if(x>=48 && x<816 && y>=200 && y<332)begin
+            if(y==264)base_rgb=24'h626963;
+            if(wave_ready)begin
+                if((y<=264 && y>=wave_top) || (y>=264 && y<=wave_bottom))
+                    base_rgb=24'h777454;
+                if(y+1>=wave_top && y<=wave_bottom+1)base_rgb=accent;
+            end
         end
-        // ---- 弯音：384..672，中线 528，±2 半音 ----
-        if (y >= 152 && y < 158 && x >= 384 && x < 672) base_rgb = grid;
-        if (y >= 146 && y < 164 && x >= 527 && x < 530) base_rgb = C_MUTED;
-        if (y >= 148 && y < 162 &&
-            x >= 400 + {~pitch_bend[15], pitch_bend[14:8]} &&
-            x <  410 + {~pitch_bend[15], pitch_bend[14:8]}) base_rgb = accent;
+        // 电平和白色峰值标记都使用未放大的原始峰值，显示倍率不影响它们。
+        if(x==856 && y>=176 && y<332)base_rgb=24'h596060;
+        if(x>=904 && x<936 && y>=208 && y<336)begin
+            base_rgb=24'h424a4c;
+            if(y>=336-{4'd0,meter_level[15:8]})
+                base_rgb=(peak_level>16'd30000)?24'he18b77:accent;
+            if(y[2:0]==0)base_rgb=24'h293033;
+            if(y>=334-{4'd0,meter_peak[15:8]} &&
+               y<337-{4'd0,meter_peak[15:8]})base_rgb=24'hf7f7ed;
+        end
 
-        // ---- 乐器主体：钢琴键盘 / 吉他指板，同一底座 ----
-        if (y >= 388 && y < 584 && x >= 24 && x < 1000) base_rgb = 24'h070a0d;
-
-        if (!instrument_guitar) begin
-            // 白键：32..(32+8*120)，y=400..568；键缝 1 像素，底边色条表达持键。
-            for (k = 0; k < 8; k = k + 1) begin
-                if (x >= 32 + k * 120 && x < 152 + k * 120 && y >= 400 && y < 568) begin
-                    base_rgb = key_down[white_note(k)] ? 24'ha7e3ec : 24'heceff1;
-                    if (x == 32 + k * 120 || y == 400) base_rgb = grid;
-                    if (y >= 558) base_rgb = key_down[white_note(k)] ? accent : 24'hc4ccd0;
+        // 键体高亮；短残影仅是显示反馈，key_down依然唯一表示正在持键。
+        if(note_hit)begin
+            if(key_black)base_rgb=key_down[key_index]?accent:24'h303638;
+            else base_rgb=key_down[key_index]?24'hfaf2c6:24'hf5f4ef;
+            if(!key_down[key_index] && activity[key_index*3+:3]!=0)
+                base_rgb=key_black?24'h69664a:24'hf1edda;
+            if(x==key_left || x+1==key_right || y==key_top || y+1==key_bottom)
+                base_rgb=24'h6c7170;
+            if(y+8>=key_bottom && key_down[key_index])base_rgb=accent;
+            if(key_black && y<key_top+4)base_rgb=24'h565c5b;
+        end
+        if(instrument_guitar)begin
+            if(x>=96 && x<928 && y>=384 && y<520)base_rgb=24'h333b3d;
+            for(f=0;f<=13;f=f+1)
+                if(x>=96+f*64 && x<98+f*64 && y>=384 && y<520)base_rgb=24'h8c9290;
+            if(octave!=2 && x>=96 && x<102 && y>=384 && y<520)base_rgb=24'hc9cac2;
+            for(s=0;s<6;s=s+1)begin
+                ny=392+s*24;
+                if(x>=102 && x<928 && y>=ny && y<=ny+(s>=4))base_rgb=24'hacb2ac;
+                for(f=0;f<=12;f=f+1)begin
+                    if(guitar_held(open_note(s)+f,octave,key_down))begin
+                        if(x>=119+f*64 && x<=137+f*64 && y>=ny-7 && y<=ny+7)
+                            base_rgb=accent;
+                        // 起音后数帧的局部弦振动，不让整块指板持续抖动。
+                        if(note_activity(open_note(s)+f,octave,activity)>3 &&
+                           x>=141+f*64 && x<181+f*64 &&
+                           ((x[4] && y==ny-2) || (!x[4] && y==ny+2)))base_rgb=accent;
+                    end
                 end
             end
-            // 黑键：宽 72、高 100，压在相邻白键缝上。
-            for (k = 0; k < 5; k = k + 1) begin
-                if (x >= 32 + black_boundary(k) * 120 - 36 &&
-                    x <  32 + black_boundary(k) * 120 + 36 &&
-                    y >= 400 && y < 500) begin
-                    base_rgb = key_down[black_note(k)] ? accent : 24'h0a1018;
-                    if (y < 404) base_rgb = 24'h39424c; // 顶部受光
-                end
-            end
+        end
+
+        // 正文字库与48px标题复用，字库尺寸不随此布局扩大。
+        text4(32,36,2,{6'd7,6'd8,12'd0},C_MUTED); // 静奏
+        if(!instrument_guitar)title4(128,24,2,{6'd3,6'd4,6'd0});
+        else title4(128,24,3,{6'd1,6'd5,6'd6});
+        text4(788,36,2,{6'd3,6'd4,12'd0},C_TEXT);
+        text4(908,36,2,{6'd5,6'd6,12'd0},C_TEXT);
+        text4(32,108,2,{6'd9,6'd10,12'd0},C_MUTED);
+        num4(104,108,3,{(volume<100?6'd0:dg(volume_digits[11:8])),
+             (volume<10?6'd0:dg(volume_digits[7:4])),dg(volume_digits[3:0]),6'd0},C_TEXT);
+        text4(220,108,2,{6'd11,6'd9,12'd0},C_MUTED);
+        num4(320,108,1,{dg(bend_digits[11:8]),18'd0},C_TEXT);
+        num4(356,108,2,{dg(bend_digits[7:4]),dg(bend_digits[3:0]),12'd0},C_TEXT);
+        if(x>=294 && x<310 && y>=119 && y<122)base_rgb=C_TEXT;
+        if(!pitch_bend[15] && x>=301 && x<304 && y>=113 && y<128)base_rgb=C_TEXT;
+        if(x>=346 && x<350 && y>=128 && y<132)base_rgb=C_TEXT;
+        text4(492,108,2,{6'd9,6'd16,12'd0},C_MUTED);
+        text4(588,108,1,{6'd13,18'd0},C_TEXT);
+        text4(652,108,1,{6'd14,18'd0},C_TEXT);
+        text4(716,108,1,{6'd15,18'd0},C_TEXT);
+        text4(800,108,2,{6'd17,6'd9,12'd0},C_MUTED);
+        text4(872,108,1,{(sustain?6'd18:6'd19),18'd0},C_TEXT);
+        // 简洁的开关指示；尚无USB控制器时只反映实际sustain状态。
+        if(x>=930 && x<978 && y>=112 && y<128)base_rgb=sustain?accent:24'hb7bab6;
+        if(y>=110 && y<130 &&
+           ((sustain && x>=960 && x<980) || (!sustain && x>=928 && x<948)))base_rgb=24'hffffff;
+        text4(48,172,4,{6'd20,6'd21,6'd22,6'd23},24'he9ebe3);
+        num4(720,172,(multiplier<10?2:multiplier<100?3:4),
+            multiplier<10?{6'd47,dg(gain_digits[3:0]),12'd0}:
+            multiplier<100?{6'd47,dg(gain_digits[7:4]),dg(gain_digits[3:0]),6'd0}:
+            {6'd47,dg(gain_digits[11:8]),dg(gain_digits[7:4]),dg(gain_digits[3:0])},24'he9ebe3);
+        text4(880,172,2,{6'd37,6'd38,12'd0},24'he9ebe3);
+        if(!instrument_guitar)begin
+            for(k=0;k<8;k=k+1)
+                text4(66+k*120,540,2,{white_letter(k),(k==7?last_octave_glyph:first_octave_glyph),12'd0},C_TEXT);
         end else begin
-            // 指板：96..928，六弦每 24 像素；0..12 品，品丝每 64 像素。
-            if (x >= 96 && x < 928 && y >= 404 && y < 550) base_rgb = 24'h33251c;
-            // 琴枕：指板左端加宽，区分“0 品”与普通品丝。
-            if (octave!=2 && x >= 96 && x < 102 && y >= 404 && y < 550) base_rgb = 24'hb9ad97;
-            for (f = 0; f <= 13; f = f + 1)
-                if (x >= 96 + f * 64 && x < 98 + f * 64 && y >= 404 && y < 550)
-                    base_rgb = 24'h7d6753;
-            // 品记：3/5/7/9 单点，12 品双点（画在中央两弦之间）。
-            if (y >= 470 && y < 478 && x >= 96 && x < 928) begin
-                for (f = 0; f <= 12; f = f + 1) begin
-                    if ((f == 3 || f == 5 || f == 7 || f == 9) &&
-                        x >= 128 + f * 64 - 27 && x < 128 + f * 64 - 15)
-                        base_rgb = 24'h8a735d;
-                    if (f == 12 && ((x >= 128 + 12 * 64 - 27 && x < 128 + 12 * 64 - 15) ||
-                                    (x >= 128 + 12 * 64 - 7  && x < 128 + 12 * 64 + 5)))
-                        base_rgb = 24'h8a735d;
-                end
-            end
-            for (s = 0; s < 6; s = s + 1) begin
-                ny = 416 + s * 24;
-                // 弦径随音高收细：低音弦 2 像素，高音弦 1 像素。
-                if (x >= 102 && x < 928 && y >= ny && y <= ny + (s >= 4)) base_rgb = 24'hbfb5a2;
-                // 持键位置：同音所有可奏位置一起高亮。
-                for (f = 0; f <= 12; f = f + 1) begin
-                    if (guitar_held(open_note(s)+f,octave,key_down) &&
-                        x >= 128 + f * 64 - 9 && x <= 128 + f * 64 + 9 &&
-                        y >= ny - 7 && y <= ny + 7)
-                        base_rgb = accent;
-                end
-            end
-        end
-
-        // ---- 文字层：标题 + 卡片标签 + 读数 + 键名/弦名 ----
-        // 字形编号与 generate_ui_fonts.py 的分组严格对应（见该文件字符表）。
-        // 标题拆成两次调用：每次最多 3 字，覆盖 4 字标题。
-        if (!instrument_guitar) begin
-            title4(40, 16, 3, {6'd1, 6'd2, 6'd3});   // 电子钢
-            title4(40 + 3 * 52, 16, 1, {6'd4, 6'd0, 6'd0}); // 琴
-        end else begin
-            title4(40, 16, 3, {6'd1, 6'd2, 6'd5});   // 电子吉
-            title4(40 + 3 * 52, 16, 1, {6'd6, 6'd0, 6'd0}); // 他
-        end
-
-        // 右上角“静奏”状态胶囊。
-        text4(884, 34, 2, {6'd7, 6'd8, 12'd0}, C_MUTED);
-
-        text4(48, 100, 2, {6'd9, 6'd10, 12'd0}, C_MUTED);    // 音量
-        num4(226, 100, 3, {(volume < 100 ? 6'd0 : dg(volume_digits[11:8])),
-                           (volume < 10  ? 6'd0 : dg(volume_digits[7:4])),
-                           dg(volume_digits[3:0]), 6'd0}, C_TEXT);
-        text4(368, 100, 2, {6'd11, 6'd9, 12'd0}, C_MUTED);   // 弯音
-        // 读数“x.xx 半音”：整数位、十分位、百分位分开摆放，
-        // 小数点与正负号由几何线条绘制，不占字库槽；数字用 24px 等宽字距。
-        num4(492, 100, 1, {dg(bend_digits[11:8]), 18'd0}, C_TEXT);
-        num4(528, 100, 1, {dg(bend_digits[7:4]),  18'd0}, C_TEXT);
-        num4(552, 100, 1, {dg(bend_digits[3:0]),  18'd0}, C_TEXT);
-        text4(592, 100, 2, {6'd12, 6'd9, 12'd0}, C_MUTED);   // 半音
-        text4(736, 100, 3, {(octave == 0 ? 6'd13 : octave == 2 ? 6'd15 : 6'd14),
-                            6'd9, 6'd16, 6'd0}, C_TEXT);     // 低/中/高音区
-        text4(736, 136, 3, {6'd17, 6'd9, (sustain ? 6'd18 : 6'd19), 6'd0}, C_MUTED); // 延音开/关
-
-        text4(48, 200, 4, {6'd20, 6'd21, 6'd22, 6'd23}, C_MUTED); // 实时波形
-        text4(672, 200, 2, {6'd24, 6'd25, 12'd0}, C_MUTED);       // 倍率
-        // ids 固定 4 槽 × 6bit，槽 0 是最高位；不足 4 字必须在“右侧”补 0，
-        // 否则 18 位拼接被零扩展后整体左移一个字，读数会消失。
-        num4(724, 200, (multiplier < 10 ? 2 : multiplier < 100 ? 3 : 4),
-             (multiplier < 10)    ? {6'd47, dg(gain_digits[3:0]), 12'd0} :
-             (multiplier < 100)   ? {6'd47, dg(gain_digits[7:4]), dg(gain_digits[3:0]), 6'd0} :
-                                    {6'd47, dg(gain_digits[11:8]), dg(gain_digits[7:4]), dg(gain_digits[3:0])},
-             accent);
-        text4(832, 200, 4, {6'd37, 6'd38, 6'd1, 6'd39}, C_MUTED); // 输出电平
-
-        // 符号与小数点用几何线条画，不占字库槽。
-        // 正号=横线；负号=横线（更短）；小数点落在整数位与十分位之间。
-        if (x >= 466 && x < 482 && y >= 119 && y < 122) base_rgb = accent;      // 符号横线
-        if (!pitch_bend[15] && x >= 473 && x < 476 && y >= 113 && y < 128) base_rgb = accent; // 正号竖线
-        if (x >= 518 && x < 522 && y >= 122 && y < 126) base_rgb = C_TEXT;      // 小数点
-
-        if (!instrument_guitar) begin
-            // 乐器名放在琴体上沿之上，避免 24px 字被键盘/指板覆盖。
-            text4(40, 372, 2, {6'd3, 6'd4, 12'd0}, accent);     // 钢琴
-            // 键名随档位显示C3..C4 / C4..C5 / C5..C6。
-            for (k = 0; k < 8; k = k + 1)
-                text4(66 + k * 120, 530, 2, {white_letter(k), (k == 7 ? last_octave_glyph : first_octave_glyph), 12'd0}, 24'h2f3c46);
-        end else begin
-            text4(40, 372, 4, {6'd33, 6'd34, 6'd35, 6'd36}, accent); // 指位示意
-            // 弦名 E4 B3 G3 D3 A2 E2 放在指板左侧；数字 2/3/4 对应字形 50/51/52。
-            text4(40, 408, 2, {6'd42, 6'd52, 12'd0}, C_MUTED);  // E4
-            text4(40, 432, 2, {6'd46, 6'd51, 12'd0}, C_MUTED);  // B3
-            text4(40, 456, 2, {6'd44, 6'd51, 12'd0}, C_MUTED);  // G3
-            text4(40, 480, 2, {6'd41, 6'd51, 12'd0}, C_MUTED);  // D3
-            text4(40, 504, 2, {6'd45, 6'd50, 12'd0}, C_MUTED);  // A2
-            text4(40, 528, 2, {6'd42, 6'd50, 12'd0}, C_MUTED);  // E2
+            text4(40,352,2,{6'd33,6'd34,12'd0},C_MUTED); // 指位；与0品标签错开。
+            for(s=0;s<6;s=s+1)
+                text4(40,384+s*24,1,{dg(s[3:0]+1'b1),18'd0},C_MUTED);
             for(f=0;f<=12;f=f+1)begin
                 if(octave==2)begin
-                    if(f<8)text4(103+f*64,550,2,{6'd49,dg(f[3:0]+4'd2),12'd0},C_MUTED);
-                    else text4(103+f*64,550,2,{6'd50,dg(f[3:0]-4'd8),12'd0},C_MUTED);
-                end else if(f<10)text4(116+f*64,550,1,{dg(f[3:0]),18'd0},C_MUTED);
-                else text4(103+f*64,550,2,{6'd49,dg(f[3:0]-4'd10),12'd0},C_MUTED);
+                    if(f<8)num4(103+f*64,352,2,{6'd49,dg(f[3:0]+4'd2),12'd0},C_MUTED);
+                    else num4(103+f*64,352,2,{6'd50,dg(f[3:0]-4'd8),12'd0},C_MUTED);
+                end else if(f<10)num4(116+f*64,352,1,{dg(f[3:0]),18'd0},C_MUTED);
+                else num4(103+f*64,352,2,{6'd49,dg(f[3:0]-4'd10),12'd0},C_MUTED);
+            end
+            for(k=0;k<13;k=k+1)begin
+                text4(36+k*74,548,1,{note_letter(k),18'd0},C_TEXT);
+                num4(72+k*74,548,1,{(k==12?last_octave_glyph:first_octave_glyph),18'd0},C_TEXT);
+                if((k==1 || k==3 || k==6 || k==8 || k==10) &&
+                   x>=62+k*74 && x<70+k*74 && y>=553 && y<566 &&
+                   (y==556 || y==562 || x==64+k*74 || x==68+k*74))base_rgb=C_TEXT;
             end
         end
     end

@@ -226,3 +226,36 @@ python verification/scripts/summarize_octaves.py
 本机HDMI仿真使用默认Gowin V1.9.12.04的`gw5a/prim_sim.v`；未重跑Gowin综合/布局布线，原三音区包的实现仍属于队友V1.9.12.03构建。A/PC完整套件未重跑，不声称全面回归、时序签核或实物验收。
 
 另保存用户选定的`display-touch-concept.png`及[简洁界面与触摸设计](display-rgb.md)，只改文档/概念资产；新界面和FPGA USB主机尚未实施。触摸描述符、速率、报告、31005电气连接和真实延迟是独立待验证项。
+
+## 2026-10-17 简洁界面实现与独立触点处理
+
+用户要求“完成计划”后实施。正式HDMI继续使用唯一`instrument_panel_ui`，改为暖白/浅灰、淡黄高亮，钢琴琴键与吉他六弦/13半音垫同步切换。新增`instrument_ui_map`供绘制与触点共同命中，`display_feedback`在帧提交更新7帧残影、局部拨弦和峰值保持/回落。输出仍是原3级像素流水及真实PCM波形，不改变音频R923/R924。README和显示说明的两图来自`tb_simple_display_frames`实际RGB输出，概念图单独保留。
+
+`touch_contact_tracker`目前只接受已解码的5点完整快照。按触点ID稳定匹配内部来源，先松旧音再滑奏，换区保留旧音高，切模式后旧触点等待抬手；控件只在接触开始时发一次。断连/坏报告按来源取消，背压下保持有效事件。模块尚未进入正式顶层；USB主机、HID解码/组包、坐标适配、USB跨域及正式输入/延音控制汇合未完成。用户明确回复新线尚未接电脑；本轮只读PnP枚举未发现可确认的触摸屏。
+
+本机ModelSim10.6e/Gowin1.9.12.04/Python3.12.14实际验证：
+
+- **166文件严格Verilog-2001通过**，未使用SV模式。
+- 5项新常规测试：`tb_simple_ui_map`覆盖两模式1228800像素及控件边界；`tb_simple_ui_states`覆盖三音区/3042独立指位检查；`tb_display_feedback`检查帧沿更新、淡出/峰值/复位；`tb_simple_display_frames`检查两种真实模态音频的完整帧、1841400像素的流水匹配和新配色/模式状态；`tb_touch_contact_tracker`核对28条精确事件、五指、来源重排/同音、滑奏/换区/模式、满16席真实分配器、断连/重复ID、背压和待接受事务复位。
+- 5项既有功能回归通过：`tb_performance_octaves`、`tb_hdmi_octaves`、`tb_final_wave_envelope`、`tb_final_hdmi_isolation`、`tb_final_performance --legacy`。旧performance仍是显式兼容操作配置；当前三音区/R924由前两项证明。新增`--mutation TouchRelease`故意丢松键，检查器以`FAIL missing touch event`拒绝，故障仅生成到build。
+- 既有队友TB和上游TB保持原文。原`tb_final_display_ui`/`tb_panel_octaves`的固定深色/旧坐标断言不作为新视觉验收；它们未改写成新期望，新像素/音区检查由上述独立测试覆盖。A/PC完整套件及17次串行恢复未在本轮重跑。
+- 工程布局检查71个唯一有效模块及3个既有GPRJ通过；HDMI工程由真实Gowin构建另核对新增模块。当前实际J13报告检查通过。
+
+最终HDMI完整综合/布局布线，GW5AT-LV60PG484AC1/I0，50/49/245MHz：Logic **20704/59904**、寄存器 **8059/60780**、BSRAM **94/118**、DSP **13.5/118**、PLLA1。相对三音区包Logic+237、寄存器+90，BSRAM/DSP不变。最差setup/hold/recovery/removal/pulse-width为 **+1.303/+0.124/+0.834/+0.143/+5.803ns**；34实际端口、17条SDC和12个复位FF/LUT落点检查通过。两次构建中第二次修正吉他文字重叠，最终报告与该源码匹配。所有既有引脚、SDC/例外、process及音频核心保持不变；本轮未重建未改变的无屏工程。
+
+独立触点模块仅综合：**930Logic、309寄存器、0锁存器、0BSRAM、0DSP**。第一次发现两个常数乘7槽地址被推成DSP，改为移位减法后重跑综合和正/负向测试，网表无乘法DSP。该综合未设板级引脚/外部时序，不生成下载文件，不能加到正式HDMI报告后声称USB整机已实现。
+
+本轮带屏位流：[piano_hdmi.fs](../projects/hdmi/impl/pnr/piano_hdmi.fs)，SHA256 `23b8d73c5ae0049b9f55db50dc75144a82c7b2fab65e02652ae2a5fe537063f8`。PR1014、DAC完整外部时序、HDMI眼图/接收器兼容和整机模拟延迟仍未闭合。保持/移除余量较薄，不称全面签核。未烧录、未实屏验收、未推送。
+
+可审计摘要及本轮日志：[ui_touch/summary.json](../verification/evidence/ui_touch/summary.json)。原有用户修改和未跟踪HDMI证据保留；源/约束身份、检查器/输入清单、主报告和日志均与本轮结果关联。复现：
+
+```powershell
+./verification/scripts/check_verilog.ps1
+python verification/scripts/run_final_tests.py tb_simple_ui_map tb_simple_ui_states tb_display_feedback tb_simple_display_frames tb_touch_contact_tracker
+python verification/scripts/run_final_tests.py tb_touch_contact_tracker --mutation TouchRelease
+python verification/scripts/run_final_tests.py tb_performance_octaves tb_hdmi_octaves tb_final_wave_envelope tb_final_hdmi_isolation
+python verification/scripts/run_final_tests.py tb_final_performance --legacy
+./projects/hdmi/build.ps1
+```
+
+独立触点综合可在build中创建只含`touch_contact_tracker.v`/`instrument_ui_map.v`的相同器件工程，以tracker为顶层执行`run syn`；本机本轮临时工程为`build/expression-sync/touch-synthesis/`。USB下一步须先获得实际设备描述符/报告，再实施主机/HID与正式汇合，顺序已落到PLAN第7.1节。

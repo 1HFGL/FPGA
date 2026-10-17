@@ -18,7 +18,9 @@
 
 按住旧音再切音区，旧音保持音高，松键按原音符释放；新按键使用新音区。HDMI同步切换音区名称、琴键音名与持键窗口；吉他高音区显示12～24品。换区后越出当前窗口的旧音仍会发声，不显示为新音区的琴键。
 
-本机当前试听包：`build/audition/octave3_j13_20261017/`，带屏选 `hdmi_octave3_j13.fs`，无屏选 `piano_octave3_j13.fs`。接线、双旋钮、16声部及钢琴/经典摇滚合成参数保持原样。验证与上板边界见[验证记录](docs/verification.md)。用户已确认此前音色异常来自音响；本次新增音区仍需实物试听。明亮度暂缓，不把八度选音宣称为新增第三表情维度。
+本轮带屏版本已实现“静奏·简洁版”，下载文件为 `projects/hdmi/impl/pnr/piano_hdmi.fs`，身份见[验证记录](docs/verification.md)最新节。此前`octave3_j13_20261017`包是三音区旧画面，不能用于验收新界面。接线、双旋钮、16声部及两音色参数保持原样。用户已确认此前音色异常来自音响；新版本仍需实物试听。明亮度暂缓，八度不计第三表情维度。
+
+USB触摸尚未接入正式顶层。已完成五触点快照到音符/控件的独立Verilog模块，包含滑奏、来源隔离与断连清理；USB主机、实际HID报告适配、最终汇合和屏幕延音操作仍待完成。用户确认新线尚未接电脑，需先读取本屏USB信息。详见[显示和触摸合同](docs/display-rgb.md)。
 
 ## 两个下载入口
 
@@ -43,7 +45,7 @@
 
 ![吉他模式：真实RTL像素](docs/display-guitar.png)
 
-两图为此前中音区RTL完整帧及实际模态合成输出的示例，不是软件仿画；新音区的标签和吉他品位以当前RTL为准。界面使用离线生成的2bit覆盖度字模，48px标题为原生渲染，不是把24px点阵放大。波形显示512样本/约10.67ms，自动倍率×1～×256；右侧电平条直接反映音频数字峰值，显示放大不改变声音。高亮只表示仍持有的已分配音符，旧钢琴音不会被画到吉他指板上。
+两图是本轮简洁版的完整RTL输出帧，音频来自实际模态核心。暖白/浅灰配淡黄高亮；钢琴8白键/5黑键，吉他六弦指板加13个半音垫。界面复用2bit覆盖度字模及原生48px标题。波形显示512样本/约10.67ms，自动倍率×1～×256；电平增加峰值保持/回落，继续使用原始PCM峰值。松键可有7帧淡色残影，只有持键使用明亮色条；旧钢琴音不会被画到吉他指板上。
 
 钢琴含48个模态槽，吉他含31个分量、拨弦噪声、失真和箱体处理；ROM是合成参数/单周期正弦/传递曲线，不是整音PCM录音。A核心保持队友原输出，试听仍需按相同音高和接近响度与实物对照。钢琴松键释放约85.33ms，吉他约42.67ms再加箱体收尾；按住时分量自然衰减，没有旧版固定1.2秒清零。
 
@@ -55,7 +57,9 @@
 
 ```powershell
 ./verification/scripts/check_verilog.ps1
-python verification/scripts/run_final_tests.py tb_panel_octaves tb_performance_octaves tb_hdmi_octaves tb_final_display_ui tb_final_hdmi_isolation
+python verification/scripts/run_final_tests.py tb_simple_ui_map tb_simple_ui_states tb_display_feedback tb_simple_display_frames tb_touch_contact_tracker
+python verification/scripts/run_final_tests.py tb_performance_octaves tb_hdmi_octaves tb_final_wave_envelope tb_final_hdmi_isolation
+python verification/scripts/run_final_tests.py tb_touch_contact_tracker --mutation TouchRelease
 python verification/scripts/run_final_tests.py tb_final_performance --legacy
 python verification/scripts/run_music_tests.py --bin C:/Library/modelsim/win64
 python model/check_music_pipe.py build/regression/music/tb_music_pipe.csv

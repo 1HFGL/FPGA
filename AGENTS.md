@@ -111,3 +111,9 @@
 ## 当前操作覆盖：2026-10-17 三音区
 
 用户已确认此前音色异常是音响问题。最新用户要求优先KEY1切换音区，暂不做明亮度：两个正式入口ENABLE_OCTAVE_KEY=1、ENABLE_BRIGHTNESS=0；复位钢琴/中音区，KEY1中→高→低→中（每次按下一个档位，不长按连跳），KEY2切乐器并保留音区。低C3～C4/中C4～C5/高C5～C6，每区13音，两乐器相同。旧音按原音高松键、PC绝对MIDI独立；音区和高亮共同寄存送HDMI。高音吉他显示12～24品。当前音频合同恢复R923有效/R924缓存，原60半边沿提前量不变。旧明亮度代码仅保留可选兼容，不与音区功能同时启用；八度不计第三表情维度。当前下载包build/audition/octave3_j13_20261017，证据verification/evidence/octaves/summary.json。新位流实物验收仍待用户进行。
+
+## 当前覆盖：2026-10-17 简洁界面与触点阶段
+
+用户选择暖白/浅灰＋淡黄“静奏·简洁版”，随后要求完成计划。expression已合到本地master；新界面已修改唯一`instrument_panel_ui`，新增共享`instrument_ui_map`及帧域`display_feedback`，正式HDMI已PNR。当前位流是`projects/hdmi/impl/pnr/piano_hdmi.fs`，SHA256 `23b8d73c5ae0049b9f55db50dc75144a82c7b2fab65e02652ae2a5fe537063f8`；旧octave3包不能验收新界面。Logic20704/寄存器8059/BSRAM94/DSP13.5，五类最差余量1.303/0.124/0.834/0.143/5.803ns，仍有既有外部时序缺口。166份严格编译、10项常规及1项松键故障注入通过，既有TB未改。
+
+用户同时要求FPGA独立USB触摸，不用电脑/MCU运行时转发。已写`touch_contact_tracker`并独立与满16声部分配器测试/综合，只接收完整已解码的五触点快照；该模块尚未进入正式顶层。USB主机、HID适配/组包、跨域及正式三路/延音汇合未完成。用户回复新线尚未接电脑，实际USB描述符/报告缺失；不得据界面按钮或独立触点仿真宣称屏幕触摸已通。执行剩余T3～T6见PLAN第7.1节，证据`verification/evidence/ui_touch/summary.json`。本轮未推送、未烧录、未做实物延迟；继续保留用户`.vscode/config.json`修改和未跟踪HDMI证据。

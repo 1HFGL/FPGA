@@ -1,0 +1,666 @@
+{
+  "date": "2026-10-17",
+  "base_revision": "6b5e59a",
+  "working_tree_changes": true,
+  "scope": "Simple UI in formal HDMI top; standalone decoded contact tracker; USB host/HID/formal touch merge unfinished",
+  "device": "GW5AT-LV60PG484AC1/I0 / Tang Mega60K / NEO Dock31005",
+  "tools": {
+    "simulation": "ModelSim SE-64 10.6e",
+    "implementation": "Gowin V1.9.12.04",
+    "python": "3.12.14"
+  },
+  "strict": {
+    "files": 166,
+    "flags": "-vlog01compat -pedanticerrors",
+    "passed": true
+  },
+  "tests": [
+    {
+      "test": "tb_simple_ui_map",
+      "negative_control": false,
+      "result": [
+        "# PASS tb_simple_ui_map: 1228800 pixels, black precedence, 13 guitar pads, exact control edges, invalid coordinates"
+      ],
+      "log_sha256": "fbcebd06e4c7b04ea1e73780ce67fa80148d0012a71d32f1332a0f99506c3bee",
+      "input_manifest_sha256": "9f64bc4afce443e9cf64b7f68c64ffe7172ada5df782ba6cd8754823d7cb4870"
+    },
+    {
+      "test": "tb_simple_ui_states",
+      "negative_control": false,
+      "result": [
+        "# PASS tb_simple_ui_states: three ranges, both-mode octave labels, 3042 independent fret checks, every note visible, high frets"
+      ],
+      "log_sha256": "bfb55578f3e9add50229c94c7f586d3b0ba5d46446f671abd0508ae8e483de6d",
+      "input_manifest_sha256": "e9e89355254be4ad2748dc14a5bbb6d857fdddd2c0f7ed4b80aad510df729e1b"
+    },
+    {
+      "test": "tb_display_feedback",
+      "negative_control": false,
+      "result": [
+        "# PASS tb_display_feedback: frame-only updates, release fade, raw meter peak hold/decay, mode and reset"
+      ],
+      "log_sha256": "47c41e6b77966af69e3296d8d38804c725cd4777cd0e1350ed8acc9970ebc39c",
+      "input_manifest_sha256": "e90c550d13824ebbd06a9193806de4cddfb80c568c215eeb37307417805e26ba"
+    },
+    {
+      "test": "tb_simple_display_frames",
+      "negative_control": false,
+      "result": [
+        "# PASS tb_simple_display_frames: both modes real modal frames, pixel-exact renderer match=1841400, title=3840 soft=16731 piano_held=48144"
+      ],
+      "log_sha256": "3bf670c5d26ec3bf5e5ca4b618de2b5601f013b6de99695b695519a24260f2c1",
+      "input_manifest_sha256": "266f09b2a6dd522023c8cd14aca11b27a79092a1a91464fb9ae0a70469be2cb4"
+    },
+    {
+      "test": "tb_touch_contact_tracker",
+      "negative_control": false,
+      "result": [
+        "# PASS tb_touch_contact_tracker: 28 exact events, five contacts/IDs/reorder/same-note/glissando/octave/mode, controls, full16 allocator isolation, disconnect/duplicate/backpressure/pending reset"
+      ],
+      "log_sha256": "16843636451343aa3f648a593537ef4e9af7f57ad9a6a6232104e238a75fdba6",
+      "input_manifest_sha256": "14f264e18e4370528c44a0d4a7db993e2cb0aa758dba2c4f858d2b6ba68b44e5"
+    },
+    {
+      "test": "tb_touch_contact_tracker_TouchRelease",
+      "negative_control": true,
+      "result": [
+        "# FAIL missing touch event 5/6"
+      ],
+      "log_sha256": "64215f3bdf728656d63089ab0bbd00ac20008cc140acb0c1bdee6d11fab0b2bf",
+      "input_manifest_sha256": "047345270aca8efa96e8f273328030255d9c989919de6f4e53b6d03eca076fcb"
+    },
+    {
+      "test": "tb_performance_octaves",
+      "negative_control": false,
+      "result": [
+        "# PASS tb_performance_octaves: 78 notes/two instruments, bounce/hold/wrap/simultaneous press, old-note release, independent PC, full16, real ADC, R924, 21190 exact DAC words"
+      ],
+      "log_sha256": "ff7267bc56b20ebc0acca6b7f64609deead61ba02d9f35a6fecf56896a9d9702",
+      "input_manifest_sha256": "4badba027ab891d5505c4f6a78b96024fa00c1f2f6a31788a591de65d360def1"
+    },
+    {
+      "test": "tb_hdmi_octaves",
+      "negative_control": false,
+      "result": [
+        "# PASS tb_hdmi_octaves: actual 2ms debounce, low/middle/high frame state, both instruments, held-note ownership, brightness priority, 3307 matching audio samples"
+      ],
+      "log_sha256": "03164084a672b5e76c849342b76e19cce030838dd79184502acdf3f9074fc936",
+      "input_manifest_sha256": "6c7ed1cdf2ae19e2e09c544adacd7307fcdbece3707d3aa9ca49f618400e49de"
+    },
+    {
+      "test": "tb_final_wave_envelope",
+      "negative_control": false,
+      "result": [
+        "# PASS tb_final_wave_envelope: 256 bins, full-scale, spikes, atomic pages, x1..256 AGC, quiet/silence/reset"
+      ],
+      "log_sha256": "6572f5e0460bcb0bb31db96f8213509dc19ea73a48705d1f1cb33917c3bf0338",
+      "input_manifest_sha256": "ddb1568e8505036b5b9deed2742e0463b218f602ff8da1f3bb47bb07698fd368"
+    },
+    {
+      "test": "tb_final_hdmi_isolation",
+      "negative_control": false,
+      "result": [
+        "# PASS tb_final_hdmi_isolation: full16 serial audio identical; mode/control, HPD/PLL/pixel-stop/reset, samples=369 drops=19"
+      ],
+      "log_sha256": "148357a7a8645a6bb324d78d313fedde86baa85d82a18107bc425a05569836b5",
+      "input_manifest_sha256": "706a3f414b2946e809e730648470c95ab83b8439e9972d371ba5ba0ca5de6559"
+    },
+    {
+      "test": "tb_final_performance_legacy",
+      "negative_control": false,
+      "result": [
+        "# PASS tb_final_performance: 16 nonzero modal voices, actual I2C mute/bend/fault/recovery, mode/owners/steal, R924, 20642 exact DAC words"
+      ],
+      "log_sha256": "7f90da25d4a7b0add8bc9da5381f83b90ce5a156c936978cca38c7673ea14d75",
+      "input_manifest_sha256": "85cc71de1daf5dd87886245cc3b1ff2869123c22e03f276709a1d190d78eb776"
+    }
+  ],
+  "protection": {
+    "count": 99,
+    "changed": []
+  },
+  "implementation": {
+    "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+    "errors": [],
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 1.303,
+      "3.1.2 Hold Paths Table": 0.124,
+      "3.1.3 Recovery Paths Table": 0.834,
+      "3.1.4 Removal Paths Table": 0.143,
+      "3.2 Minimum Pulse Width Table": 5.803
+    },
+    "ports": 34,
+    "active_constraints": 17,
+    "resources": {
+      "Logic": {
+        "used": 20704,
+        "available": 59904
+      },
+      "Register": {
+        "used": 8059,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 94,
+        "available": 118
+      },
+      "DSP": {
+        "used": 13.5,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 1,
+        "available": 8
+      }
+    },
+    "bitstream_sha256": "23b8d73c5ae0049b9f55db50dc75144a82c7b2fab65e02652ae2a5fe537063f8",
+    "inputs": [
+      {
+        "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\build.ps1",
+        "sha256": "f913744aad409fabaa0131a33bcf79a0c09d1b329c76545215deedb536777eb8"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\build.tcl",
+        "sha256": "be80aedc7d65f4db2222b5a53ee9458f160acb24ab81779f58b1c5c54a0b55ce"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\piano_hdmi.gprj",
+        "sha256": "dc97911229da2664089cc3d0473679bd6f2c3735162824497c4e85dfb91d27f9"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\verification\\scripts\\check_hdmi_implementation.py",
+        "sha256": "c7fd8bd21e8799972bc39ec51f49f29548f6a354a93049d19dac3cf5abdec70c"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\process_config.json",
+        "sha256": "cb99d34da13786a0f910794a794b247080bf927cd3a537fdc9e229b5be18f1cd"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\rom\\piano_1024.mem",
+        "sha256": "b3abcc11a9302601c994afce9161258da1a80ef247e2d4f745275ecaf4826f1b"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\rom\\guitar_1024.mem",
+        "sha256": "e5c79a48664801c669aad792883aaa0cd65b196652593f3f77f44b795973f1a0"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\rom\\sine_1024.mem",
+        "sha256": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\rom\\piano_v3_modes.mem",
+        "sha256": "cac05bc7e087e1f495e47f11e5c1c26cd28c3cb7976ace26af04c29a56bb5999"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\rom\\rock_v2_shaper.mem",
+        "sha256": "6923505492a20340e9744aee917265439521f00bd5de3854388c790031c81345"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\piano.cst",
+        "sha256": "5bc231cf88da45e8d8c6c7bc987885327ad1ffc79b96499992539c91d3655ed7"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\piano.sdc",
+        "sha256": "752d3a99f506a906786d5a23b8e6a974913489b578210a4a4801b189549b7955"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\hdmi.cst",
+        "sha256": "ad0da49dfe3c4d82ea7cdc01e82c8cefbd20add201dfd981e8e568a9d8671d08"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\hdmi.sdc",
+        "sha256": "3dad6fc44cf15465dd46e12d08cfa0f11eea31cf694318450f7e8c4405378333"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\hdmi_reset_placement.cst",
+        "sha256": "dd5a7bb74e104d181839ebbfd9557b1718bf653213d743e5a673841d581a7ec9"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\brightness_keys.v",
+        "sha256": "05e3f3e42f5852a5a8309c5669202ea348aa21d393ab5f5bc97cf406ae9db4de"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\audio\\tone_filter.v",
+        "sha256": "b99f27a8a646c63c4dcd1109c7c01b46ef522d0ac800582eeefd0bf3be25cfa9"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\input_sync_debounce.v",
+        "sha256": "4aa0f80f9166f3ce3e18b6619ea29e4a4641893dae2bbd0c28ccfa8e874584cc"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\touch_or_key_if.v",
+        "sha256": "6e9c09fb9fcd6c893910f7719672e11c3158802bcb14496e66e1489d296ac4d7"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\event_encoder.v",
+        "sha256": "354770510e25e4297cb91768bc29487414c86a96f36e9e02aefb338e62be2975"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\piano_controls.v",
+        "sha256": "822a2cff20183dc6636d75ddeaa2bdf5d2a71982ebbe7a4c60faca94e41953f8"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\i2c_master.v",
+        "sha256": "405d0390c13c52c12d1af96e523d7de890075ecf8a4cedb31c6626f47baff994"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\ads1115_if.v",
+        "sha256": "9a6dd08dd84cb4c0cfc672634ef9c4adee43875967d7313a2b34d9013a6023a3"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\ads1115_knob_if.v",
+        "sha256": "96d8c13cab8e2c5a1775145f53c38cbd93d68a82e612ea4dd9c36b49c5877c5f"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\adc_knob_if.v",
+        "sha256": "c0ea01643fbb4e56247158f7275bc94f99f9e8aac0a255d1a31ec0f439b58a8c"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\voice_allocator.v",
+        "sha256": "65389aad361bcabf7c3fb511827e36437b4ac4009dacb52d58d509de3b8dd58c"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_rx.v",
+        "sha256": "1477963cfe450eed516052e25085936683592ac9edefe5bc33dc7dd2df8123b9"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_tx.v",
+        "sha256": "009d15dd6a6fa5fbbc7626f4771224b815554ac4a731d4407ebd01a1185f1033"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_fifo.v",
+        "sha256": "d29abed64b9b72a5e8565470e4c37bbf34a0a6e6c89699ec120902057200f333"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_line_rx.v",
+        "sha256": "de156235bb876225a027317ef6d7b97f9f923603fda81105ff37a5da0181a2dd"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_reply_tx.v",
+        "sha256": "4fc6676a434161dde4b6edcf46717b0524a850901918e0215c47c126ca0898da"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_synth_protocol.v",
+        "sha256": "c086b3a6125bc65f4aa708ce27d0d2a97f64c552e1114f035737ca881c998aed"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_event_arbiter.v",
+        "sha256": "f4d46548bc0c3499673cef4810fc7e3491178aa7f6871005d4c6ab044207d972"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\top\\instrument_uart_top.v",
+        "sha256": "deb8044b0a9f04446b3441531958496fba77ea2d877da87443dcbf22046ba684"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\top\\instrument_uart_piano_top.v",
+        "sha256": "e2604e570942dc56c63aff2de81d01216e948ee72ba082bb6087ee01776e1705"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\top\\piano_13key_top.v",
+        "sha256": "280cf9cfa708ee62fbe0d32b8c21f578f780851e8c4f4b1cfcd0dab87c2428a7"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\top\\piano_performance_top.v",
+        "sha256": "0547072e45bd6e799e92e85c6ad8a842cfa8b8764f419231135c4db5b0197998"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\phase_acc.v",
+        "sha256": "c3ea7b922199dfebae6b982c65f7fa1e7efcc18caebce6b4b1f7ffb9bccbc96d"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\wave_lut.v",
+        "sha256": "f476407c6bfb4853b547f1f3ad88d718878f8520fd48915bea664f2b03ff5cbc"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_dds.v",
+        "sha256": "a5af8f0dcd732bb3f5b2a73f7dd9040fc6d13bef79cc7e0933e8bf014cd7fea2"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\control\\note_phase_lut.v",
+        "sha256": "71c1a6b7d797da5a34a091cd1aeb304f8df794f8c962fafa3aae6a886b36d029"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\adsr_env.v",
+        "sha256": "33107d2ce68cb5a00c1d96c9fddeca1a276e56c94a0712d90f4c2390457d2c51"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\sample_gain.v",
+        "sha256": "123f61f75037c68740bcc5c51d55d0ceaced35f91914a2b0acadbcd5c73d6dd1"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_adsr.v",
+        "sha256": "10980327f13d7d9d0d301da8924cad689cdda6a28d3cda7ba493fffdb474a19f"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\sample_mixer4.v",
+        "sha256": "27d1e0c5854cd86748475afaad372b71825c6d19a8ccea36b13d42326f94519c"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_bank_adsr.v",
+        "sha256": "11a97053338ffc763e612c62e1511141c78de1734aa04c79b4545f26da0e5038"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\wave_lut_timbre.v",
+        "sha256": "562653ae5c8945ee55266545c9cef8ccd554fa068932c8136b58d41abbd0d4dd"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_timbre_adsr.v",
+        "sha256": "12ca3d22b45ffcbc073c78fe68d4d0a9ace2deebf3c748cde0efa5e1304bf288"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_instrument.v",
+        "sha256": "e26752a0e853ca2dd6b9668f7fd117b3030cded14dbe4b9258688e638d279abf"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\instrument_env.v",
+        "sha256": "a0899f9dc25fc6fe1b67ec53b9dd2976fbf60ecf5ec7b90336f5d9ed92d3d4e4"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_bank_music_pipe.v",
+        "sha256": "ab080ef2bd4f60d377537abdab51e0655248bb7dd269073f868aec976ac029b4"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_bank_modal_adapter.v",
+        "sha256": "9e3f3dc21ee6c8994e9852f2bff9b73e17da24056c61c0b801822e99f2e45e38"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\synth\\instrument_wave.v",
+        "sha256": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\audio\\i2s_tx.v",
+        "sha256": "35f7b26132f9a08651d061c236f020aee21aab1f61683e9c192e82aa4ec5ae25"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\audio\\sample_tick.v",
+        "sha256": "cd84ec1405fabe9896c33d0a17b55d7a1c71f7d11ab3b9b5efaeb5bcbb54a922"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\audio\\synth_top.v",
+        "sha256": "903cc00a0a0996019dfb65e1744c3a31598318fa5264a232288bcb7412cb48aa"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_cdc_latest.v",
+        "sha256": "c79288111cded83c271b09973324003e649ad0a557cb328be9e62a411a91fd47"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\lcd_rgb_timing.v",
+        "sha256": "439f779ffd44d54f459f182438009a40c78379002d86d3eea1e0a7c1e96b5d9d"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_wave_buffer.v",
+        "sha256": "d1168885f767d017ab988503a0d280c5732874c8f4a9eaefe493fc326ecc2030"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_wave_envelope.v",
+        "sha256": "6b2e5a716800d29b84490868d097dd53a1259779d3cd65ae78903508862136ef"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\instrument_panel_renderer.v",
+        "sha256": "6d99c1e54f0cec625c702780fc4dda597ec2c48360cfbe1b7756d79701385e9d"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\instrument_panel_ui.v",
+        "sha256": "072f2decac0edfdd0964feba2dc302ede48f9b07daa55e69cad1751fa3fc33c6"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\instrument_ui_map.v",
+        "sha256": "fd0ba01b20b1d21d1575cc8de49c32217ebd8c750367691c15a2525ae64de76c"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_feedback.v",
+        "sha256": "5a217c2ffaba62d5070361268b176c949b4bb3006e0009b70857499963d2b692"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_font24.v",
+        "sha256": "16c2ec0ba45d163c29192fbf803dba6a2b10d1696d18279f840eec580ad3bf95"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_font_ui.v",
+        "sha256": "d5119730ef24d423219a38adc5ecc5ed611c9a29075706023a9d09dac35b18f4"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\piano_display_renderer.v",
+        "sha256": "b10b7f7c271338f000c5954b408d44b6e46e6871edafb1d73f3b42873cec0acc"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\instrument_display.v",
+        "sha256": "6e00ead547c6ceeb0d0625a5216230f6da65a41a8172bf88ae45a228c3546b94"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_bend_map.v",
+        "sha256": "7cec7c74f4eb02acb53112095bb0a946fe01cbb9ead28bc6bb138442ce97501b"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\tmds_encoder.v",
+        "sha256": "b5cf6a9a8289b3cc3df51eecbb9914fd4b5f43315cdbc3f44b362f2844b381fe"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\dvi_tx_gowin.v",
+        "sha256": "6c0a13a8d10dd9cd781380192369ba05b06aabe904c4a58dd405c6c00ee797a4"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\hdmi_clock_60k.v",
+        "sha256": "8e281b78cc4b19f00ad23e629e5bbbcccab09444e4d60a0262e4d84ba43ca446"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\display\\hdmi_reset_guard.v",
+        "sha256": "e71364364004eedbf7a01c406c5a819ee558da4fb8212e9616beefe65dd49ec8"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\rtl\\top\\piano_hdmi_top.v",
+        "sha256": "05065c08ac5a609ecf2afca9e6ba7c6b75ac79efd530211026fe92231888d7ad"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\build\\hdmi\\piano_hdmi.cst",
+        "sha256": "5862c525d136fcad57f48615b8be5aac4cc537687716c99c920d7a7a783558d2"
+      },
+      {
+        "path": "D:\\Project\\fpga_contest\\build\\hdmi\\piano_hdmi.sdc",
+        "sha256": "b1389eb732e44b40da376a2709fcd286b0a339af95beeb027a8f4d0b8385b805"
+      }
+    ],
+    "reset_placement": {
+      "u_tx/g_lane[3].serializer_release_1_s0": [
+        "R24C134[0][B]"
+      ],
+      "u_tx/g_lane[3].u_reset_combine": [
+        "R24C134[0][A]"
+      ],
+      "u_tx/g_lane[2].serializer_release_1_s0": [
+        "R39C134[0][B]"
+      ],
+      "u_tx/g_lane[2].u_reset_combine": [
+        "R39C134[0][A]"
+      ],
+      "u_tx/g_lane[1].serializer_release_1_s0": [
+        "R22C134[0][B]"
+      ],
+      "u_tx/g_lane[1].u_reset_combine": [
+        "R22C134[0][A]"
+      ],
+      "u_tx/g_lane[0].serializer_release_1_s0": [
+        "R26C134[0][B]"
+      ],
+      "u_tx/g_lane[0].u_reset_combine": [
+        "R26C134[0][A]"
+      ],
+      "u_tx/g_lane[3].serializer_release_0_s0": [
+        "R24C134[0][A]"
+      ],
+      "u_tx/g_lane[2].serializer_release_0_s0": [
+        "R39C134[0][A]"
+      ],
+      "u_tx/g_lane[1].serializer_release_0_s0": [
+        "R22C134[0][A]"
+      ],
+      "u_tx/g_lane[0].serializer_release_0_s0": [
+        "R26C134[0][A]"
+      ]
+    },
+    "limitations": [
+      "PR1014 system clock generic routing remains",
+      "DAC external timing incomplete",
+      "HDMI electrical eye/cable/receiver not measured",
+      "USB touch not implemented",
+      "Not programmed; screen compatibility and end-to-end latency unverified"
+    ]
+  },
+  "touch_synthesis": {
+    "scope": "synthesis only; not in formal top",
+    "logic": 930,
+    "registers": 309,
+    "latches": 0,
+    "bsram": 0,
+    "dsp": 0,
+    "netlist_multiplier_instances": 0,
+    "report": "touch_syn.rpt.html"
+  },
+  "source_sha256": {
+    "rtl/control/uart_rx.v": "1477963cfe450eed516052e25085936683592ac9edefe5bc33dc7dd2df8123b9",
+    "rtl/top/piano_13key_top.v": "280cf9cfa708ee62fbe0d32b8c21f578f780851e8c4f4b1cfcd0dab87c2428a7",
+    "projects/hdmi/piano_hdmi.gprj": "dc97911229da2664089cc3d0473679bd6f2c3735162824497c4e85dfb91d27f9",
+    "rtl/rom/pitch_bend_1025.mem": "236f2d8eb6a2a026284f60f371cd9159ad3c421ec961f6aa57cdf4e0c59f1e2d",
+    "rtl/rom/bright_1024.mem": "dd28109da4c80da45cb6975a1496eb23df93bb26fb09e6cf35478d1c818ad6a4",
+    "rtl/synth/voice_bank_instruments.v": "14281c0a5e5af3ef87e0104295abd9670abd87d29f5468915b4881a9e7c3cd40",
+    "build/hdmi/piano_hdmi.sdc": "b1389eb732e44b40da376a2709fcd286b0a339af95beeb027a8f4d0b8385b805",
+    "rtl/top/instrument_uart_top.v": "deb8044b0a9f04446b3441531958496fba77ea2d877da87443dcbf22046ba684",
+    "rtl/control/uart_line_rx.v": "de156235bb876225a027317ef6d7b97f9f923603fda81105ff37a5da0181a2dd",
+    "rtl/display/lcd_rgb_timing.v": "439f779ffd44d54f459f182438009a40c78379002d86d3eea1e0a7c1e96b5d9d",
+    "rtl/rom/guitar_1024.mem": "e5c79a48664801c669aad792883aaa0cd65b196652593f3f77f44b795973f1a0",
+    "rtl/control/uart_event_arbiter.v": "f4d46548bc0c3499673cef4810fc7e3491178aa7f6871005d4c6ab044207d972",
+    "rtl/synth/sample_gain.v": "123f61f75037c68740bcc5c51d55d0ceaced35f91914a2b0acadbcd5c73d6dd1",
+    "boards/tang_mega_60k_31004/hdmi_reset_placement.cst": "dd5a7bb74e104d181839ebbfd9557b1718bf653213d743e5a673841d581a7ec9",
+    "rtl/synth/sample_mixer4.v": "27d1e0c5854cd86748475afaad372b71825c6d19a8ccea36b13d42326f94519c",
+    "rtl/control/adc_knob_if.v": "c0ea01643fbb4e56247158f7275bc94f99f9e8aac0a255d1a31ec0f439b58a8c",
+    "rtl/control/music_event_encoder.v": "f8aaab2a50d13972b0327f44df9323130ee344bfab30039ec1fc27acb9980d5c",
+    "rtl/audio/sample_tick.v": "cd84ec1405fabe9896c33d0a17b55d7a1c71f7d11ab3b9b5efaeb5bcbb54a922",
+    "verification/tb/display/tb_simple_display_frames.v": "8f0bd9e6dd1fa9c6a4fd6d62b1adab2a29af8bbb501d0112191b6e11a474ded3",
+    "verification/tb/control/tb_touch_contact_tracker.v": "cbf8ce6efbb2148efd73754ec0e75af5be6502d46a201a4fe88d1317f988af5f",
+    "projects/hdmi/process_config.json": "cb99d34da13786a0f910794a794b247080bf927cd3a537fdc9e229b5be18f1cd",
+    "rtl/display/hdmi_clock_60k.v": "8e281b78cc4b19f00ad23e629e5bbbcccab09444e4d60a0262e4d84ba43ca446",
+    "verification/tb/display/tb_simple_ui_states.v": "5d125bfb2959227bdaa6211bb429aaca1ccd0319438127ee7991c55dd549627c",
+    "boards/tang_mega_60k_31004/piano.cst": "5bc231cf88da45e8d8c6c7bc987885327ad1ffc79b96499992539c91d3655ed7",
+    "rtl/top/music_uart_top.v": "0b42842775e46c3088c48954326966f9ca7a0bfe1317d8dad438abf7f626598f",
+    "rtl/display/tmds_encoder.v": "b5cf6a9a8289b3cc3df51eecbb9914fd4b5f43315cdbc3f44b362f2844b381fe",
+    "verification/scripts/check_verilog.ps1": "b3a248e0cebe1df7680901d2b2ced9d313fe9ef72de81a944f91b0a6776c4205",
+    "rtl/control/music_uart_line_rx.v": "0a2757b1ad6323ea6e2f5b0faa103bcebfae22c26c1d5f35cca285e34ffc0b72",
+    "rtl/control/note_phase_lut.v": "71c1a6b7d797da5a34a091cd1aeb304f8df794f8c962fafa3aae6a886b36d029",
+    "rtl/control/uart_synth_protocol.v": "c086b3a6125bc65f4aa708ce27d0d2a97f64c552e1114f035737ca881c998aed",
+    "rtl/synth/adsr_env.v": "33107d2ce68cb5a00c1d96c9fddeca1a276e56c94a0712d90f4c2390457d2c51",
+    "rtl/rom/sine_1024.mem": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5",
+    "rtl/control/music_controls.v": "1d6df5d55b6f8918abc3360d97d3d66e421bef49a3f1b9fbf8538a335cf0dfe2",
+    "rtl/audio/synth_top.v": "903cc00a0a0996019dfb65e1744c3a31598318fa5264a232288bcb7412cb48aa",
+    "rtl/control/voice_allocator.v": "65389aad361bcabf7c3fb511827e36437b4ac4009dacb52d58d509de3b8dd58c",
+    "verification/tb/display/tb_simple_ui_map.v": "2ffb5c848d3762b26a7ef4f76c5be017322a24d1ec6c116825e8d1d119d66b1a",
+    "rtl/synth/voice_dds.v": "a5af8f0dcd732bb3f5b2a73f7dd9040fc6d13bef79cc7e0933e8bf014cd7fea2",
+    "projects/hdmi/build.tcl": "be80aedc7d65f4db2222b5a53ee9458f160acb24ab81779f58b1c5c54a0b55ce",
+    "rtl/display/hdmi_reset_guard.v": "e71364364004eedbf7a01c406c5a819ee558da4fb8212e9616beefe65dd49ec8",
+    "boards/tang_mega_60k_31004/hdmi.sdc": "3dad6fc44cf15465dd46e12d08cfa0f11eea31cf694318450f7e8c4405378333",
+    "rtl/control/ads1115_knob_if.v": "96d8c13cab8e2c5a1775145f53c38cbd93d68a82e612ea4dd9c36b49c5877c5f",
+    "rtl/rom/rock_v2_shaper.mem": "6923505492a20340e9744aee917265439521f00bd5de3854388c790031c81345",
+    "rtl/display/display_wave_buffer.v": "d1168885f767d017ab988503a0d280c5732874c8f4a9eaefe493fc326ecc2030",
+    "boards/tang_mega_60k_31004/piano.sdc": "752d3a99f506a906786d5a23b8e6a974913489b578210a4a4801b189549b7955",
+    "rtl/display/display_font24.v": "16c2ec0ba45d163c29192fbf803dba6a2b10d1696d18279f840eec580ad3bf95",
+    "rtl/synth/wave_lut.v": "f476407c6bfb4853b547f1f3ad88d718878f8520fd48915bea664f2b03ff5cbc",
+    "rtl/display/display_bend_map.v": "7cec7c74f4eb02acb53112095bb0a946fe01cbb9ead28bc6bb138442ce97501b",
+    "rtl/synth/voice_bank_modal_adapter.v": "9e3f3dc21ee6c8994e9852f2bff9b73e17da24056c61c0b801822e99f2e45e38",
+    "rtl/synth/voice_timbre_adsr.v": "12ca3d22b45ffcbc073c78fe68d4d0a9ace2deebf3c748cde0efa5e1304bf288",
+    "rtl/synth/voice_bank_music_pipe.v": "ab080ef2bd4f60d377537abdab51e0655248bb7dd269073f868aec976ac029b4",
+    "rtl/synth/instrument_wave.v": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27",
+    "rtl/top/piano_performance_top.v": "0547072e45bd6e799e92e85c6ad8a842cfa8b8764f419231135c4db5b0197998",
+    "rtl/synth/phase_acc.v": "c3ea7b922199dfebae6b982c65f7fa1e7efcc18caebce6b4b1f7ffb9bccbc96d",
+    "rtl/display/instrument_display.v": "6e00ead547c6ceeb0d0625a5216230f6da65a41a8172bf88ae45a228c3546b94",
+    "rtl/top/music_display_top.v": "84293dec186399b7fe261b8e42bfea0c48357699b5c0f459d6df3e4d584c388c",
+    "rtl/audio/tone_filter.v": "b99f27a8a646c63c4dcd1109c7c01b46ef522d0ac800582eeefd0bf3be25cfa9",
+    "verification/scripts/run_final_tests.py": "ea1dd3ccaaf02aa8a252e4815c0e2726f8f0621524a473cece59696a645b2a9a",
+    "rtl/control/touch_or_key_if.v": "6e9c09fb9fcd6c893910f7719672e11c3158802bcb14496e66e1489d296ac4d7",
+    "rtl/top/instrument_uart_piano_top.v": "e2604e570942dc56c63aff2de81d01216e948ee72ba082bb6087ee01776e1705",
+    "rtl/display/display_font_ui.v": "d5119730ef24d423219a38adc5ecc5ed611c9a29075706023a9d09dac35b18f4",
+    "rtl/rom/strings_1024.mem": "f07ef598d4aae186c5729d89669dc888a186f74414d9cf597be5f94f894b09b3",
+    "rtl/rom/piano_1024.mem": "b3abcc11a9302601c994afce9161258da1a80ef247e2d4f745275ecaf4826f1b",
+    "rtl/rom/piano_v3_modes.mem": "cac05bc7e087e1f495e47f11e5c1c26cd28c3cb7976ace26af04c29a56bb5999",
+    "rtl/control/music_uart_reply_tx.v": "35a4494ebffa24c437966f65542c160406b7b939fbff7e6f16dd7c92a7819067",
+    "projects/hdmi/build.ps1": "f913744aad409fabaa0131a33bcf79a0c09d1b329c76545215deedb536777eb8",
+    "rtl/control/i2c_master.v": "405d0390c13c52c12d1af96e523d7de890075ecf8a4cedb31c6626f47baff994",
+    "rtl/control/uart_tx.v": "009d15dd6a6fa5fbbc7626f4771224b815554ac4a731d4407ebd01a1185f1033",
+    "rtl/synth/voice_instrument.v": "e26752a0e853ca2dd6b9668f7fd117b3030cded14dbe4b9258688e638d279abf",
+    "rtl/top/instrument_presets_top.v": "42802252928d86f807dd34cae6fb72cb19f2545479a19279d39a2b96c538d1ef",
+    "rtl/audio/i2s_tx.v": "35f7b26132f9a08651d061c236f020aee21aab1f61683e9c192e82aa4ec5ae25",
+    "rtl/display/instrument_ui_map.v": "fd0ba01b20b1d21d1575cc8de49c32217ebd8c750367691c15a2525ae64de76c",
+    "rtl/control/music_uart_protocol.v": "a7052a3cb7498e98ce86323524881510888f3d68e426e93d05fb765d2c96b695",
+    "rtl/control/event_encoder.v": "354770510e25e4297cb91768bc29487414c86a96f36e9e02aefb338e62be2975",
+    "rtl/control/uart_reply_tx.v": "4fc6676a434161dde4b6edcf46717b0524a850901918e0215c47c126ca0898da",
+    "rtl/control/input_sync_debounce.v": "4aa0f80f9166f3ce3e18b6619ea29e4a4641893dae2bbd0c28ccfa8e874584cc",
+    "verification/tb/display/tb_display_feedback.v": "23fb59fe8e6ca3c103e5cd2a6bd99e470ddda6a526be3d11d1c81b5d54030f7b",
+    "rtl/control/music_uart_event_arbiter.v": "85172c68a1a0e340281a3eca515550590199882693e450df656fa9b05c434c9a",
+    "rtl/control/brightness_keys.v": "05e3f3e42f5852a5a8309c5669202ea348aa21d393ab5f5bc97cf406ae9db4de",
+    "rtl/control/ads1115_if.v": "9a6dd08dd84cb4c0cfc672634ef9c4adee43875967d7313a2b34d9013a6023a3",
+    "rtl/display/display_feedback.v": "5a217c2ffaba62d5070361268b176c949b4bb3006e0009b70857499963d2b692",
+    "rtl/synth/wave_lut_timbre.v": "562653ae5c8945ee55266545c9cef8ccd554fa068932c8136b58d41abbd0d4dd",
+    "rtl/control/uart_fifo.v": "d29abed64b9b72a5e8565470e4c37bbf34a0a6e6c89699ec120902057200f333",
+    "rtl/control/piano_controls.v": "822a2cff20183dc6636d75ddeaa2bdf5d2a71982ebbe7a4c60faca94e41953f8",
+    "rtl/top/music_performance_core.v": "95304c1e2ef30913a7c762e00b2bd7f4c2f5d6d430f3c557a9b49a660a7bc397",
+    "rtl/synth/instrument_env.v": "a0899f9dc25fc6fe1b67ec53b9dd2976fbf60ecf5ec7b90336f5d9ed92d3d4e4",
+    "build/hdmi/piano_hdmi.cst": "5862c525d136fcad57f48615b8be5aac4cc537687716c99c920d7a7a783558d2",
+    "rtl/display/instrument_panel_renderer.v": "6d99c1e54f0cec625c702780fc4dda597ec2c48360cfbe1b7756d79701385e9d",
+    "rtl/display/display_cdc_latest.v": "c79288111cded83c271b09973324003e649ad0a557cb328be9e62a411a91fd47",
+    "rtl/display/display_wave_envelope.v": "6b2e5a716800d29b84490868d097dd53a1259779d3cd65ae78903508862136ef",
+    "rtl/top/piano_hdmi_top.v": "05065c08ac5a609ecf2afca9e6ba7c6b75ac79efd530211026fe92231888d7ad",
+    "verification/scripts/check_hdmi_implementation.py": "c7fd8bd21e8799972bc39ec51f49f29548f6a354a93049d19dac3cf5abdec70c",
+    "rtl/display/piano_display_renderer.v": "b10b7f7c271338f000c5954b408d44b6e46e6871edafb1d73f3b42873cec0acc",
+    "rtl/control/touch_contact_tracker.v": "c292c8ccbce989dd638c8716f928dd026e25acb21ba3fa4525f417b0c9c28cea",
+    "boards/tang_mega_60k_31004/hdmi.cst": "ad0da49dfe3c4d82ea7cdc01e82c8cefbd20add201dfd981e8e568a9d8671d08",
+    "rtl/synth/voice_adsr.v": "10980327f13d7d9d0d301da8924cad689cdda6a28d3cda7ba493fffdb474a19f",
+    "rtl/synth/voice_bank_adsr.v": "11a97053338ffc763e612c62e1511141c78de1734aa04c79b4545f26da0e5038",
+    "rtl/display/instrument_panel_ui.v": "072f2decac0edfdd0964feba2dc302ede48f9b07daa55e69cad1751fa3fc33c6",
+    "rtl/display/dvi_tx_gowin.v": "6c0a13a8d10dd9cd781380192369ba05b06aabe904c4a58dd405c6c00ee797a4"
+  },
+  "evidence_sha256": {
+    "tb_simple_ui_map.log": "fbcebd06e4c7b04ea1e73780ce67fa80148d0012a71d32f1332a0f99506c3bee",
+    "tb_touch_contact_tracker_TouchRelease.log": "64215f3bdf728656d63089ab0bbd00ac20008cc140acb0c1bdee6d11fab0b2bf",
+    "tb_display_feedback.log": "47c41e6b77966af69e3296d8d38804c725cd4777cd0e1350ed8acc9970ebc39c",
+    "tb_final_hdmi_isolation.log": "148357a7a8645a6bb324d78d313fedde86baa85d82a18107bc425a05569836b5",
+    "tb_performance_octaves.log": "ff7267bc56b20ebc0acca6b7f64609deead61ba02d9f35a6fecf56896a9d9702",
+    "touch_syn.rpt.html": "b01c244c59fedae7d81cf5e7c2c12591773b51ffbd97644fd98f6b65500c3fa8",
+    "tb_final_performance_legacy.log": "7f90da25d4a7b0add8bc9da5381f83b90ce5a156c936978cca38c7673ea14d75",
+    "strict_inputs.txt": "9d523886c62fe1498287fa4fa88ccdfe4cbf26ed526968c0d2b5890e9d6aef75",
+    "implementation_check.json": "367f9e5defaf868e5c2654890ed76577c0ae50c38cc0894dba61e98e16278dda",
+    "timing.txt": "4b619d7f7d2a4b31bad0bfb4c9b7362bb870c2b61b8915e95e5ba7ebac92f45f",
+    "tb_simple_ui_states.log": "bfb55578f3e9add50229c94c7f586d3b0ba5d46446f671abd0508ae8e483de6d",
+    "tb_touch_contact_tracker.log": "16843636451343aa3f648a593537ef4e9af7f57ad9a6a6232104e238a75fdba6",
+    "strict_compile.log": "a6c70596212ac8bb0c94b46aad4ff446180493cc314aebbdeb8092af1c0bd035",
+    "tb_final_wave_envelope.log": "6572f5e0460bcb0bb31db96f8213509dc19ea73a48705d1f1cb33917c3bf0338",
+    "tb_simple_display_frames.log": "3bf670c5d26ec3bf5e5ca4b618de2b5601f013b6de99695b695519a24260f2c1",
+    "piano_hdmi.rpt.txt": "8746c29e3167f689ac411467d141eced1328c85b84353c979e5bef93806a5478",
+    "tb_hdmi_octaves.log": "03164084a672b5e76c849342b76e19cce030838dd79184502acdf3f9074fc936",
+    "j13-check.json": "8df620793fd780c72054483541348293fb7a27dfe4f0e2224b64522ea23a117a",
+    "build.log": "2093e0112d8e737ed6f3552a473bcbd9dceea34abd6c5f76b48b7ce9162ca3bb",
+    "build_inputs.txt": "60434e3d9e436354b4c170c9c60e2c359ff28b324ed373815d47d01c93a768bc"
+  },
+  "images_sha256": {
+    "piano": "bc7f8f7f8bd298409f4b0ffe1edb078f4abde36a192243e92be9549ea858c252",
+    "guitar": "8f445334b676c49ae75f394a6568c695436c2602357f99eceabb400051d5fd71"
+  },
+  "status": {
+    "ui_rtl": true,
+    "ui_placed_and_routed": true,
+    "touch_tracker_rtl": true,
+    "touch_tracker_simulated": true,
+    "touch_tracker_synthesized": true,
+    "usb_host": false,
+    "hid_adapter": false,
+    "touch_formal_merge": false,
+    "programmed": false,
+    "hardware_verified": false,
+    "pushed": false
+  },
+  "limits": [
+    "USB device not connected to PC; no real descriptor/report available.",
+    "Touch tracker accepts complete decoded snapshots; it cannot parse USB bytes.",
+    "Global sustain and screen controls are not yet connected in formal top.",
+    "Existing fixed dark-UI tests retained; new independent tests verify the new layout.",
+    "PR1014, full DAC external timing, HDMI signal integrity, and analog input-to-output latency unresolved.",
+    "Unchanged no-screen implementation, full A/PC suites and 17 serializer recovery tests were not rerun."
+  ]
+}
