@@ -1,6 +1,7 @@
 """检查HDMI构建身份、引脚覆盖及五类最差路径；不代替板级电气/实物签核。"""
 import argparse
 import hashlib
+import html
 import json
 from pathlib import Path
 import re
@@ -75,7 +76,11 @@ placement_source = root / "boards/tang_mega_60k_31004/hdmi_reset_placement.cst"
 expected_placement = dict(re.findall(r'INS_LOC\s+"([^"]+)"\s+(R\d+C\d+);',
                                     placement_source.read_text(encoding="utf-8-sig")))
 check(len(expected_placement) == 12, "Expected twelve local reset placement constraints")
-detail = (out / "piano_hdmi.tr").read_text(encoding="utf-8-sig")
+detail_html = out / "piano_hdmi_tr_content.html"
+if detail_html.exists():
+    detail = html.unescape(re.sub(r"<[^>]*>", " ", detail_html.read_text(encoding="utf-8-sig")))
+else:
+    detail = (out / "piano_hdmi.tr").read_text(encoding="utf-8-sig")
 actual_placement = {}
 for location, node in re.findall(r'(R\d+C\d+\[\d+\]\[[AB]\])\s+(\S+)', detail):
     instance = node.rsplit("/", 1)[0]

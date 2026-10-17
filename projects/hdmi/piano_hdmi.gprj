@@ -5,6 +5,8 @@
     <Version>5</Version>
     <Device name="GW5AT-60B" pn="GW5AT-LV60PG484AC1/I0">gw5at60b-002</Device>
     <FileList>
+        <File path="../../rtl/control/brightness_keys.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/audio/tone_filter.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/input_sync_debounce.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/touch_or_key_if.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/event_encoder.v" type="file.verilog" enable="1"/>

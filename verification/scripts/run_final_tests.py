@@ -6,6 +6,7 @@ ROOT = Path(__file__).resolve().parents[2]
 p = argparse.ArgumentParser()
 p.add_argument('tops', nargs='+')
 p.add_argument('--bin', default='C:/Library/modelsim/win64')
+p.add_argument('--gowin-simlib', default='D:/Gowin/Gowin_V1.9.12.04_x64/IDE/simlib/gw5a/prim_sim.v')
 p.add_argument('--legacy', action='store_true', help='Run an unchanged historical contract test with explicit compatibility parameters')
 p.add_argument('--mutation', choices=['None','Preset','Release','Wave','Env'], default='None')
 a = p.parse_args()
@@ -45,15 +46,15 @@ for top in a.tops:
     support = [ROOT/'verification/tb/integration/performance_adc_model.v'] if top in ('tb_final_performance','tb_performance_adc') else []
     sim_top=top
     if a.legacy:
-        instances={'tb_performance_adc':['dut'],'tb_performance_latency':['dut'],
+        instances={'tb_final_performance':['dut'],'tb_performance_adc':['dut'],'tb_performance_latency':['dut'],
             'tb_review_dual_system':['dut'],'tb_hdmi_audio_isolation':['dut','baseline']}
         if top not in instances:raise SystemExit('No compatibility override defined for '+top)
         sim_top='legacy_'+top
         wrapper=OUT/(sim_top+'.v')
         wrapper.write_text('module '+sim_top+';\n'+top+' original();\n'+
-            '\n'.join('defparam original.'+inst+'.USE_MODAL=0;' for inst in instances[top])+'\nendmodule\n')
+            '\n'.join('defparam original.'+inst+('.ENABLE_BRIGHTNESS=0;' if top=='tb_final_performance' else '.USE_MODAL=0;') for inst in instances[top])+'\nendmodule\n')
         support.append(wrapper)
-    vendor=Path('D:/Gowin/Gowin_V1.9.12.04_x64/IDE/simlib/gw5a/prim_sim.v') if top in (
+    vendor=Path(a.gowin_simlib) if top in (
         'tb_final_hdmi_isolation','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
     inputs = [*test_sources, *support, tb, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem')]+([vendor] if vendor else [])
     (OUT / (tag + '_inputs.json')).write_text(json.dumps({

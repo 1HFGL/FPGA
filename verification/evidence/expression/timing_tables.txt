@@ -1,0 +1,138 @@
+Derived from C:\Users\Nanji\Documents\GitHub\FPGA\projects\piano\impl\pnr\piano_performance_tr_content.html; normalized HTML tables, not a native text report.
+sys_clk Setup 0.000 0
+sys_clk Hold 0.000 0
+
+3.1.1 Setup Paths Table
+1 1.649 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_0_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.294
+2 1.697 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_16_s0/D sys_clk:[R] sys_clk:[R] 20.000 -0.008 18.254
+3 1.718 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/error_acc_10_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.224
+4 1.744 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_15_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.199
+5 1.863 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_3_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.080
+6 1.901 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/error_acc_11_s0/D sys_clk:[R] sys_clk:[R] 20.000 -0.008 18.050
+7 1.931 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_2_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.012
+8 1.931 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_6_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 18.003
+9 1.939 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_1_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.004
+10 1.962 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/error_acc_6_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 17.980
+11 1.975 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[12].u_env/env_level_11_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 17.967
+12 2.050 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/error_acc_7_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 17.893
+13 2.101 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_4_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 17.833
+14 2.105 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/error_acc_8_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 17.837
+15 2.124 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_9_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 17.818
+16 2.133 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/error_acc_9_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 17.809
+17 2.168 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[12].u_env/env_level_3_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 17.766
+18 2.197 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_12_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 17.737
+19 2.211 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[12].u_env/env_level_6_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 17.731
+20 2.225 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/error_acc_12_s0/D sys_clk:[R] sys_clk:[R] 20.000 -0.008 17.726
+21 2.232 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[12].u_env/remainder_11_s0/CE sys_clk:[R] sys_clk:[R] 20.000 0.000 17.488
+22 2.256 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_10_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 17.687
+23 2.278 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/error_acc_5_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 17.664
+24 2.287 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/env_level_7_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 17.647
+25 2.312 u_core/g_modal.u_bank/u_modal/state_2_s1/Q u_core/g_modal.u_bank/u_modal/g_env[12].u_env/env_level_8_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 17.622
+
+
+3.1.2 Hold Paths Table
+1 0.247 u_core/u_b/u_i2s_tx/pending_valid_s4/Q u_core/u_b/u_i2s_tx/pending_valid_s4/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+2 0.247 u_core/u_b/u_i2s_tx/bit_index_1_s0/Q u_core/u_b/u_i2s_tx/bit_index_1_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+3 0.247 u_core/u_b/u_i2s_tx/bit_index_3_s0/Q u_core/u_b/u_i2s_tx/bit_index_3_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+4 0.247 u_core/u_b/u_i2s_tx/bit_index_10_s0/Q u_core/u_b/u_i2s_tx/bit_index_10_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+5 0.247 u_core/u_b/u_sample_tick/half_edge_index_11_s0/Q u_core/u_b/u_sample_tick/half_edge_index_11_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+6 0.247 u_core/u_b/u_sample_tick/phase_acc_14_s0/Q u_core/u_b/u_sample_tick/phase_acc_14_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+7 0.247 u_core/u_b/u_sample_tick/phase_acc_17_s0/Q u_core/u_b/u_sample_tick/phase_acc_17_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+8 0.247 u_core/u_b/u_sample_tick/phase_acc_28_s0/Q u_core/u_b/u_sample_tick/phase_acc_28_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+9 0.247 u_core/g_brightness.u_keys/u_keys/g_key[0].u_debounce/debounce_cnt_2_s0/Q u_core/g_brightness.u_keys/u_keys/g_key[0].u_debounce/debounce_cnt_2_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+10 0.247 u_core/g_brightness.u_keys/repeat_count_0_s0/Q u_core/g_brightness.u_keys/repeat_count_0_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+11 0.247 u_core/g_modal.u_bank/u_modal/g_env[15].u_env/ticks_left_0_s0/Q u_core/g_modal.u_bank/u_modal/g_env[15].u_env/ticks_left_0_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+12 0.247 u_core/g_modal.u_bank/u_modal/g_env[14].u_env/ticks_left_2_s0/Q u_core/g_modal.u_bank/u_modal/g_env[14].u_env/ticks_left_2_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+13 0.247 u_core/g_modal.u_bank/u_modal/g_env[14].u_env/ticks_left_7_s0/Q u_core/g_modal.u_bank/u_modal/g_env[14].u_env/ticks_left_7_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+14 0.247 u_core/g_modal.u_bank/u_modal/g_env[14].u_env/ticks_left_9_s0/Q u_core/g_modal.u_bank/u_modal/g_env[14].u_env/ticks_left_9_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+15 0.247 u_core/g_modal.u_bank/u_modal/g_env[14].u_env/ticks_left_12_s0/Q u_core/g_modal.u_bank/u_modal/g_env[14].u_env/ticks_left_12_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+16 0.247 u_core/g_modal.u_bank/u_modal/g_env[13].u_env/ticks_left_6_s0/Q u_core/g_modal.u_bank/u_modal/g_env[13].u_env/ticks_left_6_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+17 0.247 u_core/g_modal.u_bank/u_modal/g_env[13].u_env/ticks_left_7_s0/Q u_core/g_modal.u_bank/u_modal/g_env[13].u_env/ticks_left_7_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+18 0.247 u_core/g_modal.u_bank/u_modal/g_env[13].u_env/ticks_left_8_s0/Q u_core/g_modal.u_bank/u_modal/g_env[13].u_env/ticks_left_8_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+19 0.247 u_core/g_modal.u_bank/u_modal/g_env[13].u_env/ticks_left_12_s0/Q u_core/g_modal.u_bank/u_modal/g_env[13].u_env/ticks_left_12_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+20 0.247 u_core/g_modal.u_bank/u_modal/g_env[13].u_env/state_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[13].u_env/state_1_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+21 0.247 u_core/g_modal.u_bank/u_modal/g_env[12].u_env/ticks_left_12_s0/Q u_core/g_modal.u_bank/u_modal/g_env[12].u_env/ticks_left_12_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+22 0.247 u_core/g_modal.u_bank/u_modal/g_env[11].u_env/ticks_left_3_s0/Q u_core/g_modal.u_bank/u_modal/g_env[11].u_env/ticks_left_3_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+23 0.247 u_core/g_modal.u_bank/u_modal/g_env[10].u_env/ticks_left_12_s0/Q u_core/g_modal.u_bank/u_modal/g_env[10].u_env/ticks_left_12_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+24 0.247 u_core/g_modal.u_bank/u_modal/g_env[9].u_env/ticks_left_6_s0/Q u_core/g_modal.u_bank/u_modal/g_env[9].u_env/ticks_left_6_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+25 0.247 u_core/g_modal.u_bank/u_modal/g_env[9].u_env/ticks_left_9_s0/Q u_core/g_modal.u_bank/u_modal/g_env[9].u_env/ticks_left_9_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+
+
+3.1.3 Recovery Paths Table
+1 12.855 u_core/u_b/reset_release_1_s0/Q u_adc/mult_13_s1/RESET[0] sys_clk:[R] sys_clk:[R] 20.000 0.000 6.640
+2 13.194 u_core/u_b/reset_release_1_s0/Q u_adc/mult_112_s1/RESET[0] sys_clk:[R] sys_clk:[R] 20.000 -0.008 6.309
+3 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_b/u_i2s_tx/pending_sample_5_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+4 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_b/u_i2s_tx/pending_sample_6_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+5 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_b/u_i2s_tx/pending_sample_9_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+6 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_b/u_i2s_tx/pending_sample_10_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+7 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_b/u_i2s_tx/pending_sample_12_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+8 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_b/u_i2s_tx/pending_sample_13_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+9 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_b/u_i2s_tx/pending_sample_14_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+10 16.578 u_core/u_b/reset_release_1_s0/Q u_core/g_brightness.u_keys/u_keys/g_key[0].u_debounce/press_pulse_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+11 16.578 u_core/u_b/reset_release_1_s0/Q u_core/g_brightness.u_keys/u_keys/g_key[0].u_debounce/debounce_cnt_7_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+12 16.578 u_core/u_b/reset_release_1_s0/Q u_core/g_brightness.u_keys/u_keys/g_key[0].u_debounce/stable_d_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+13 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[5]_0_s1/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+14 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[4]_0_s1/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+15 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[3]_0_s1/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+16 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[2]_0_s1/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+17 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[1]_0_s1/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+18 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/source_id_mem[9]_2_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+19 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/source_id_mem[9]_4_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+20 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/source_id_mem[9]_5_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+21 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/source_id_mem[8]_2_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+22 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/source_id_mem[3]_2_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+23 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/source_id_mem[3]_4_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.008 3.117
+24 16.578 u_core/u_b/reset_release_1_s0/Q u_core/u_b/u_i2s_tx/pending_sample_15_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 0.000 3.109
+25 16.578 u_core/u_b/reset_release_1_s0/Q u_core/g_brightness.u_keys/u_keys/g_key[0].u_debounce/debounce_cnt_2_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 0.000 3.109
+
+
+3.1.4 Removal Paths Table
+1 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[15]_9_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+2 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[14]_9_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+3 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[11]_9_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+4 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[7]_9_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+5 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[6]_2_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+6 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[6]_7_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+7 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[5]_2_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+8 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[5]_7_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+9 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[4]_7_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+10 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[4]_10_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+11 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[4]_11_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+12 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[2]_7_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+13 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[2]_11_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+14 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[1]_2_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+15 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[1]_9_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+16 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[1]_12_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+17 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/note_mem[14]_1_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+18 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/note_mem[1]_1_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+19 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_keys/g_key[2].u_debounce/debounce_cnt_2_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+20 1.143 u_core/u_b/reset_release_1_s0/Q u_adc/u_knob/filtered[1]_3_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.185 1.280
+21 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[13]_11_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.181 1.276
+22 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[13]_13_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.181 1.276
+23 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[10]_2_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.181 1.276
+24 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[10]_9_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.181 1.276
+25 1.143 u_core/u_b/reset_release_1_s0/Q u_core/u_allocator/trigger_id_mem[8]_8_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.181 1.276
+
+
+3.2 Minimum Pulse Width Table
+1 6.809 7.709 0.900 Low Pulse Width sys_clk u_core/g_controls.u_parameters/bend_target_0_s1
+2 6.809 7.709 0.900 Low Pulse Width sys_clk u_core/g_modal.u_bank/u_modal/mode_rom_mode_rom_0_5_s
+3 6.809 7.709 0.900 Low Pulse Width sys_clk u_core/g_modal.u_bank/u_modal/mode_rom_mode_rom_0_13_s
+4 6.814 7.714 0.900 Low Pulse Width sys_clk u_core/g_modal.u_bank/u_modal/mode_rom_mode_rom_0_0_s
+5 6.814 7.714 0.900 Low Pulse Width sys_clk u_core/g_modal.u_bank/u_modal/mode_rom_mode_rom_0_1_s
+6 6.814 7.714 0.900 Low Pulse Width sys_clk u_core/g_modal.u_bank/u_modal/mode_rom_mode_rom_0_3_s
+7 6.814 7.714 0.900 Low Pulse Width sys_clk u_core/g_modal.u_bank/u_modal/mode_rom_mode_rom_0_7_s
+8 6.814 7.714 0.900 Low Pulse Width sys_clk u_core/g_modal.u_bank/u_modal/mode_rom_mode_rom_0_11_s
+9 6.814 7.714 0.900 Low Pulse Width sys_clk u_core/g_modal.u_bank/u_modal/mode_rom_mode_rom_0_15_s
+10 6.819 7.719 0.900 Low Pulse Width sys_clk u_core/g_modal.u_bank/u_modal/mode_rom_mode_rom_0_2_s
+
+TC_CLOCK Actived create_clock -name sys_clk -period 20.000 -waveform {0.000 10.000} [get_ports {sys_clk}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {uart_rx}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {Key_in[0] Key_in[1]}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {piano_key_n[0] piano_key_n[1] piano_key_n[2] piano_key_n[3] piano_key_n[4] piano_key_n[5] piano_key_n[6] piano_key_n[7] piano_key_n[8] piano_key_n[9] piano_key_n[10] piano_key_n[11] piano_key_n[12]}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {sys_rst_n}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {knob_sda}]
+TC_MAX_DELAY Actived set_max_delay -to [get_ports {knob_sda knob_scl}] 20.000
+TC_MIN_DELAY Actived set_min_delay -to [get_ports {knob_sda knob_scl}] 0.000
+TC_MAX_DELAY Actived set_max_delay -to [get_ports {HP_BCK HP_WS HP_DIN PA_EN uart_tx}] 20.000
+TC_MIN_DELAY Actived set_min_delay -to [get_ports {HP_BCK HP_WS HP_DIN PA_EN uart_tx}] 0.000

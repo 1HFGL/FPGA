@@ -133,3 +133,23 @@ USB触摸、混响、32声部本轮未实现；模拟总延迟、外部时序及
 合并工作树重新执行149文件严格Verilog-2001编译、8项正式联合回归、host全部81项及双音色协议4项，全部通过；源码布局检查66个唯一有效模块及3个GPRJ通过。原队友TB不改，正式RTL／两入口工程／现有约束与 `69589a2` 的Git内容一致。本轮没有重跑综合／布局布线；上节资源、时序和位流哈希仍属于原构建，不将合并测试冒称新实现或实物验收。
 
 可审计摘要见 [master_merge.json](../verification/evidence/final/master_merge.json)，原始日志保存在本地 `build/master-merge/`（合并工作树归档前复制）。电脑端仍用离屏Qt和内存传输替身，未连接真实COM；模拟整机延迟及外部时序缺口保持未闭合。
+
+
+## 2026-10-17 第三表情维度整合
+
+本次在队友最新master `aef94e5`上接入明亮度，保留31005底板J13接线、模态钢琴／经典摇滚、16复音和HDMI画面。两个正式入口均启用：旋钮0音量、旋钮1弯音、KEY1明亮度；KEY2继续切换乐器。KEY1短按每次调暗16级，到0后再次短按回127；长按约0.5秒恢复127，复位也恢复127。KEY1不再兼作C4，外接13琴键映射不变。两键同时按下仍会触发KEY2切音色，不再作为第三维恢复手势。
+
+明亮度由FPGA混音后定点低通实现，默认127逐样本保持原PCM；三拍音频流水线使正式缓存合同由R924变为R927，原60个半边沿请求提前量保留，尾音归零后再关闭功放。屏幕观察过滤后的音频，显示不反馈控制。明亮度改变谐波比例和部分能量，不能称为真实力度传感或模拟底噪修复。
+
+新验证入口`verification/scripts/run_expression_tests.ps1`；整合结果与新位流身份见`verification/evidence/expression/summary.json`。旧e18160e基线的31004／旧接线试听包不适用于当前J13接线；请从本次整合后的正式工程构建或使用新包。既有PR1014、DAC完整外部时序、模拟总延迟及新增听感仍需实物验收。PPT第12页的≥3维是扩展目标，基础要求仍为≥2维。
+
+
+### 本次整合实际验证结果
+
+155份Verilog严格编译；4项第三维测试通过，14,992个单元样本、7,606个兼容链路样本和9,717个当前模态链路样本与独立整数模型完全一致。当前模态三维测试解码19,434个实际DAC字，验证KEY1、KEY2、混合预设、16复音、R927、尾音与静音；默认明亮度与原PCM相同。队友模态适配器和正式HDMI音频隔离测试通过。旧正式I2C测试保留原文，通过显式ENABLE_BRIGHTNESS=0包装验证原R924／KEY1别名合同，不冒充新KEY1操作证据。
+
+两入口Gowin1.9.12.03构建及当前约束检查通过，J13实际布局报告和负向检查通过。无屏Logic16645、寄存器7228、BSRAM80、DSP15.5，setup/hold/recovery/removal/pulse-width最差余量为+1.649/+0.247/+12.855/+1.143/+6.809ns。HDMI Logic20134、寄存器7834、BSRAM94、DSP16，对应余量+0.379/+0.247/+0.834/+0.143/+5.803ns；34端口、17条SDC及12个复位布局落点检查通过。Gowin版本与队友旧报告不同，差异不能全归因于功能改动。
+
+无屏位流SHA256：`e84fa2abe3bbf90f8e8385b924cc34feb47b468be1f8c968ae1b23ae6a7eb872`；HDMI位流SHA256：`7dacdc2c72152199413080f44cacc9774e0bdd3ab19f9f949e844a771530d709`。本机新包为`build/audition/expression3_j13_20261017/`。源代码包含两入口构建和仿真依据，位流／缓存不纳入Git。完整哈希见`verification/evidence/expression/summary.json`；既有队友TB、upstream、引脚和process配置没有修改。新增功能未下载或实物验收；上述报告不闭合PR1014、DAC完整外部时序及整机延迟。
+
+复现新增回归：`./verification/scripts/run_expression_tests.ps1 -ModelSimBin D:/modelsim1/win64 -Python <已安装NumPy的Python路径>`。当前正式测试用`run_final_tests.py tb_final_modal_adapter tb_final_hdmi_isolation --bin D:/modelsim1/win64 --gowin-simlib <Gowin安装目录>/IDE/simlib/gw5a/prim_sim.v`；旧正式合同单独执行`run_final_tests.py tb_final_performance --legacy --bin D:/modelsim1/win64`。

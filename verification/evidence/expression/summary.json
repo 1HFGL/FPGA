@@ -1,0 +1,304 @@
+{
+  "date": "2026-10-17",
+  "baseline": "aef94e57ee4ab362af8395ccd79d7aa9e1d2462e",
+  "publication_branch": "cleanup/expression-brightness",
+  "requirement_source": {
+    "file": "FPGA2026_pre2.pptx",
+    "sha256": "9ca6b032ac4608e2a6f616b9744af594b1991195b8bd3a806a5f9ca3eebc07fc",
+    "basic_two_dimensions_page": 10,
+    "extension_three_dimensions_page": 12,
+    "page_14_interpretation_is_personal_reference": true
+  },
+  "board": "Tang Mega 60K / actual dock 31005 / current J13 wiring",
+  "tools": {
+    "simulator": "ModelSim SE-64 10.6e",
+    "implementation": "Gowin V1.9.12.03"
+  },
+  "axes": [
+    "volume",
+    "global_pitch_bend",
+    "global_tone_brightness"
+  ],
+  "controls": {
+    "KEY1": "short press: darker by 16, wrap 0 to 127; hold 0.5 seconds: restore 127",
+    "KEY2": "select piano/classic rock, unchanged",
+    "knob0": "volume",
+    "knob1": "bend",
+    "external_13_keys": "unchanged",
+    "default_brightness": 127,
+    "slew": "one step per 48kHz frame"
+  },
+  "sample_contract": {
+    "core_valid_cycle": 923,
+    "filtered_valid_cycle": 926,
+    "output_buffer_cycle": 927,
+    "request_lead_half_edges": 60
+  },
+  "tests": {
+    "strict_verilog_2001_files": 155,
+    "expression_tests": 4,
+    "modal_adapter": "PASS",
+    "current_hdmi_audio_isolation": "PASS; default ENABLE_BRIGHTNESS=1",
+    "old_formal_I2C_mode_test": "PASS with explicit ENABLE_BRIGHTNESS=0 wrapper; R924/KEY1 alias contract only",
+    "new_modal_serial_words": 19434,
+    "existing_tb_upstream_constraints_unchanged": true,
+    "j13_actual_reports_and_negative_controls": "PASS",
+    "source_layout_active_modules": 68
+  },
+  "audio_analysis": {
+    "unit_exact_samples": 14992,
+    "integration_exact_samples": 7606,
+    "modal_exact_samples": 9717,
+    "spectrum": {
+      "1": {
+        "frequency_hz": 261.6255653005986,
+        "raw_fundamental": 707.149326763565,
+        "filtered_fundamental": 707.149326763565,
+        "h4_relative_change_db": 0.0
+      },
+      "2": {
+        "frequency_hz": 261.6255653005986,
+        "raw_fundamental": 707.1280562060798,
+        "filtered_fundamental": 480.7735272433922,
+        "h4_relative_change_db": -9.570374195272793
+      },
+      "3": {
+        "frequency_hz": 261.6255653005986,
+        "raw_fundamental": 356.3728809935917,
+        "filtered_fundamental": 242.29274439987645,
+        "h4_relative_change_db": -9.544574959477107
+      },
+      "4": {
+        "frequency_hz": 293.66607413700314,
+        "raw_fundamental": 356.3805616842555,
+        "filtered_fundamental": 226.94195091504747,
+        "h4_relative_change_db": -9.956382897913414
+      }
+    },
+    "default_bypass_exact": true,
+    "hardware_verified": false
+  },
+  "implementation": {
+    "piano": {
+      "top": "piano_performance_top",
+      "resources": {
+        "Logic": {
+          "used": 16645.0,
+          "available": 59904.0
+        },
+        "Register": {
+          "used": 7228.0,
+          "available": 60780.0
+        },
+        "BSRAM": {
+          "used": 80.0,
+          "available": 118.0
+        },
+        "DSP": {
+          "used": 15.5,
+          "available": 118.0
+        }
+      },
+      "minimum_reported_slack_ns": {
+        "setup": 1.649,
+        "hold": 0.247,
+        "recovery": 12.855,
+        "removal": 1.143,
+        "pulse_width": 6.809
+      },
+      "ports": 25,
+      "active_constraints": 10,
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "report_sha256": "f385d04dc85faad53b8888866a6f2a26b24df30e90ef2f4a0facb15ba676e328",
+      "bitstream": "projects\\piano\\impl\\pnr\\piano_performance.fs",
+      "bitstream_sha256": "e84fa2abe3bbf90f8e8385b924cc34feb47b468be1f8c968ae1b23ae6a7eb872",
+      "programmed": false
+    },
+    "hdmi": {
+      "top": "piano_hdmi_top",
+      "resources": {
+        "Logic": {
+          "used": 20134.0,
+          "available": 59904.0
+        },
+        "Register": {
+          "used": 7834.0,
+          "available": 60780.0
+        },
+        "BSRAM": {
+          "used": 94.0,
+          "available": 118.0
+        },
+        "DSP": {
+          "used": 16.0,
+          "available": 118.0
+        }
+      },
+      "minimum_reported_slack_ns": {
+        "setup": 0.379,
+        "hold": 0.247,
+        "recovery": 0.834,
+        "removal": 0.143,
+        "pulse_width": 5.803
+      },
+      "ports": 34,
+      "active_constraints": 17,
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "report_sha256": "b4e25bcf26f25ba46729b907ee162efc1308640feb51a8abadc51b301d6ea58e",
+      "bitstream": "projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "bitstream_sha256": "7dacdc2c72152199413080f44cacc9774e0bdd3ab19f9f949e844a771530d709",
+      "programmed": false,
+      "reset_placement": {
+        "u_tx/g_lane[3].serializer_release_1_s0": [
+          "R24C134[0][B]"
+        ],
+        "u_tx/g_lane[3].u_reset_combine": [
+          "R24C134[0][A]"
+        ],
+        "u_tx/g_lane[2].serializer_release_1_s0": [
+          "R39C134[0][B]"
+        ],
+        "u_tx/g_lane[2].u_reset_combine": [
+          "R39C134[0][A]"
+        ],
+        "u_tx/g_lane[1].serializer_release_1_s0": [
+          "R22C134[0][B]"
+        ],
+        "u_tx/g_lane[1].u_reset_combine": [
+          "R22C134[0][A]"
+        ],
+        "u_tx/g_lane[0].serializer_release_1_s0": [
+          "R26C134[0][B]"
+        ],
+        "u_tx/g_lane[0].u_reset_combine": [
+          "R26C134[0][A]"
+        ],
+        "u_tx/g_lane[3].serializer_release_0_s0": [
+          "R24C134[0][A]"
+        ],
+        "u_tx/g_lane[2].serializer_release_0_s0": [
+          "R39C134[0][A]"
+        ],
+        "u_tx/g_lane[1].serializer_release_0_s0": [
+          "R22C134[0][A]"
+        ],
+        "u_tx/g_lane[0].serializer_release_0_s0": [
+          "R26C134[0][A]"
+        ]
+      }
+    }
+  },
+  "source_sha256": {
+    "projects/piano/uart_piano.gprj": "1b7edd7128e9781d15a9a06f2b703f933dc3e35de8b1a32809ff1a285b77d4bb",
+    "projects/piano/build.ps1": "91f7d85f322f1e4d098b2e7c2abcbc608cf886a380714e5105945bcc6155e495",
+    "projects/piano/process_config.json": "1a8c84f6bea65fb876a50619d419ea998ac56fd7b52abf09db665f6a328bd787",
+    "projects/piano/build_piano.tcl": "73f0222a00bfb0244bebbc183795eca9a9637f4642a435ce9226a65052f01aba",
+    "rtl/rom/piano_1024.mem": "b3abcc11a9302601c994afce9161258da1a80ef247e2d4f745275ecaf4826f1b",
+    "rtl/rom/guitar_1024.mem": "e5c79a48664801c669aad792883aaa0cd65b196652593f3f77f44b795973f1a0",
+    "rtl/rom/sine_1024.mem": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5",
+    "rtl/rom/piano_v3_modes.mem": "cac05bc7e087e1f495e47f11e5c1c26cd28c3cb7976ace26af04c29a56bb5999",
+    "rtl/rom/rock_v2_shaper.mem": "6923505492a20340e9744aee917265439521f00bd5de3854388c790031c81345",
+    "host/tone_examples/piano.json": "9add6e05f239811a807d34dcafa42858699e1c4660e51d050fe4ad2d26f182cc",
+    "host/studio_model.py": "9b77692df0fb60b3443e3520403349e4490d522fe33305d4e8220e8fbfe9333e",
+    "rtl/control/brightness_keys.v": "877060181ab61c6cc9945df2183afc7cba67a225695f544394e4553835edf7b7",
+    "rtl/audio/tone_filter.v": "249fecf34372d782816883140a25e774965d74dcfe10b8017024cc79e86423cc",
+    "rtl/control/input_sync_debounce.v": "234a87000da9e399437641566813ce23c9f5aac14aa16069aeb9fb0eb7529aec",
+    "rtl/control/touch_or_key_if.v": "f9cbe4cd7357ff64b9cecdffff146774e57c3ec3fd2b1a3650ad3aa23000941f",
+    "rtl/control/event_encoder.v": "354770510e25e4297cb91768bc29487414c86a96f36e9e02aefb338e62be2975",
+    "rtl/control/piano_controls.v": "02e07ac73176e12bb111be5fa7f1fd4385a3d8eaacae60e3ac38c8a977bf1010",
+    "rtl/control/i2c_master.v": "58e120674b8d75ea659e20cf6413fccefbd21d9e02aec35a65bf17b070c1037e",
+    "rtl/control/ads1115_if.v": "b238a4809f0d0c8217db5b0dc4f7d01ab80cf57a7dedf086d862561892ac4dc0",
+    "rtl/control/ads1115_knob_if.v": "ca577176df937432b5ae6ed0ec1874573008634011d1f33ed7757cd9aad42113",
+    "rtl/control/adc_knob_if.v": "f5e07a9639223f9deb3cd28eb27b78a662ae0d7de1288c00f8c8e2b7eee5e4e0",
+    "rtl/control/voice_allocator.v": "65389aad361bcabf7c3fb511827e36437b4ac4009dacb52d58d509de3b8dd58c",
+    "rtl/control/uart_rx.v": "1477963cfe450eed516052e25085936683592ac9edefe5bc33dc7dd2df8123b9",
+    "rtl/control/uart_tx.v": "009d15dd6a6fa5fbbc7626f4771224b815554ac4a731d4407ebd01a1185f1033",
+    "rtl/control/uart_fifo.v": "d29abed64b9b72a5e8565470e4c37bbf34a0a6e6c89699ec120902057200f333",
+    "rtl/control/uart_line_rx.v": "de156235bb876225a027317ef6d7b97f9f923603fda81105ff37a5da0181a2dd",
+    "rtl/control/uart_reply_tx.v": "90f1bcc0239a971276627eca56ed87862744abef1c2741a0f59e942e019b1cf2",
+    "rtl/control/uart_synth_protocol.v": "9d7f2256b43f88ee6fd29872853675ba4e1785afd4772b5afa8b751a60d63f76",
+    "rtl/control/uart_event_arbiter.v": "f4d46548bc0c3499673cef4810fc7e3491178aa7f6871005d4c6ab044207d972",
+    "rtl/top/instrument_uart_top.v": "ce3cc86b049b0da252b33fd0d16ed8c5b9d0e231498f052c7b5171f07d707d2a",
+    "rtl/top/instrument_uart_piano_top.v": "e2604e570942dc56c63aff2de81d01216e948ee72ba082bb6087ee01776e1705",
+    "rtl/top/piano_13key_top.v": "280cf9cfa708ee62fbe0d32b8c21f578f780851e8c4f4b1cfcd0dab87c2428a7",
+    "rtl/top/piano_performance_top.v": "b5faf6c689d018588e78d13b4e8aaf35e649e95adfd05d998a396a9a1e17c9db",
+    "rtl/synth/phase_acc.v": "a56b4bffb078c540b3b78d4de0709affc34c01f95d7d5db45188820c0131d34e",
+    "rtl/synth/wave_lut.v": "5526a960c307e010f8472e756863ab7240b877624193277dfd2d840366c207ad",
+    "rtl/synth/voice_dds.v": "6bc1eeffe4579218a57bcc5e93c8946b8e85a8abdf4def7f8540081932ecd1b3",
+    "rtl/control/note_phase_lut.v": "71c1a6b7d797da5a34a091cd1aeb304f8df794f8c962fafa3aae6a886b36d029",
+    "rtl/synth/adsr_env.v": "4ae8ada60ab391ec2a1615da5a8af3eca5fd607a2dee2f97d231819a1bf621f9",
+    "rtl/synth/sample_gain.v": "3205283a9633d01c699a18fc3892f5d3589f5761322e3d491db014d6ba5c7b9d",
+    "rtl/synth/voice_adsr.v": "24c570b73f5e3b6f02116feeec64a65d8a9d2980e30c726a58858f46ec2eabbc",
+    "rtl/synth/sample_mixer4.v": "27d1e0c5854cd86748475afaad372b71825c6d19a8ccea36b13d42326f94519c",
+    "rtl/synth/voice_bank_adsr.v": "11a97053338ffc763e612c62e1511141c78de1734aa04c79b4545f26da0e5038",
+    "rtl/synth/wave_lut_timbre.v": "6814ba3c79b5d10de342893c3179e16ad702ae699292d53ac994ac02d1408e54",
+    "rtl/synth/voice_timbre_adsr.v": "12ca3d22b45ffcbc073c78fe68d4d0a9ace2deebf3c748cde0efa5e1304bf288",
+    "rtl/synth/voice_instrument.v": "e26752a0e853ca2dd6b9668f7fd117b3030cded14dbe4b9258688e638d279abf",
+    "rtl/synth/instrument_env.v": "a0899f9dc25fc6fe1b67ec53b9dd2976fbf60ecf5ec7b90336f5d9ed92d3d4e4",
+    "rtl/synth/voice_bank_music_pipe.v": "ab080ef2bd4f60d377537abdab51e0655248bb7dd269073f868aec976ac029b4",
+    "rtl/synth/voice_bank_modal_adapter.v": "8ccd08c7ef0750df452cb4c89dbf10649ff78205f1a3d2e3b45569b6b74daae6",
+    "rtl/synth/instrument_wave.v": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27",
+    "rtl/audio/i2s_tx.v": "8b06588204147bd6869c8be108e2071b554f4d52d9e7740f8f42d908a93abc7f",
+    "rtl/audio/sample_tick.v": "e2be6ca0023267c8218c5b229fadbde329fc045c845a51e1b3797ba05e66e96e",
+    "rtl/audio/synth_top.v": "14db7f6cf97e635a5227f9b20b40c1f122dd0b46c9e9987a957290526b050ae2",
+    "boards/tang_mega_60k_31004/piano.cst": "5bc231cf88da45e8d8c6c7bc987885327ad1ffc79b96499992539c91d3655ed7",
+    "boards/tang_mega_60k_31004/piano.sdc": "752d3a99f506a906786d5a23b8e6a974913489b578210a4a4801b189549b7955",
+    "projects/hdmi/build.ps1": "d968868f098301ee94059e10e06212ac59cfaeb2766f43fa0b3d265b5bdfe30a",
+    "projects/hdmi/build.tcl": "42cc98323514e0bfdeee4eae9df98357049bee43a062ca8713ff4eba5e603cc3",
+    "projects/hdmi/piano_hdmi.gprj": "b594fc5b17bd8516a377d0a8031c93e0c6483f1e48a350d247dc09a43cfee12c",
+    "verification/scripts/check_hdmi_implementation.py": "f2cc96f3a1eaaff97b8b665a59974502c3de4e4ef3923aa104f07240b97a510d",
+    "projects/hdmi/process_config.json": "86afdddb8677d00cec63a4abcc6ab2ab29b4a72b02a8940aa7b41b62cef0c753",
+    "boards/tang_mega_60k_31004/hdmi.cst": "81dfd76ca1f88360b326ecd7046c998dd6dad694662e69925667bd3324d08fa2",
+    "boards/tang_mega_60k_31004/hdmi.sdc": "fb1af0f0e015f714bbe21d416b3f0c3b22fe823b2fa269ec2ddb1baf088190ca",
+    "boards/tang_mega_60k_31004/hdmi_reset_placement.cst": "d3e23965432e43874ebebd5070035613874bff519c9984172d7f757eb846d179",
+    "rtl/display/display_cdc_latest.v": "3ab623d3bcc832165516bd2002b79c4e16f191a8c891b38e455a65bc0965a11e",
+    "rtl/display/lcd_rgb_timing.v": "cf4f150d45b42b766fa3b258aec6239ff67dca768c0319f6266a6881683377c1",
+    "rtl/display/display_wave_buffer.v": "abc0395d34ee63847384e817e565c53412657d52b9c1c15c376c4125006fc837",
+    "rtl/display/display_wave_envelope.v": "a2ab1366ee1175968282085f8aff0fe630f613010b1a08f7a2cd8c8aca4b4a80",
+    "rtl/display/instrument_panel_renderer.v": "ced3e4548e7c31fe810caa77d1c0beb008ed01aa31476168a182443c4170392d",
+    "rtl/display/instrument_panel_ui.v": "ecd3284e1ccb837a3548a5abc8db9f630efa552054418442e00a20bac7f39098",
+    "rtl/display/display_font24.v": "16c2ec0ba45d163c29192fbf803dba6a2b10d1696d18279f840eec580ad3bf95",
+    "rtl/display/display_font_ui.v": "d5119730ef24d423219a38adc5ecc5ed611c9a29075706023a9d09dac35b18f4",
+    "rtl/display/piano_display_renderer.v": "7209c1414cd52f0696c3ae79a24f6df24933beef3c84b78e9bcd60225cd87b06",
+    "rtl/display/instrument_display.v": "df70f2e3abfeecaecfa2d1ac733ca5fcb5cc9ef8f7cee472ad01f6fa03df547f",
+    "rtl/display/display_bend_map.v": "21eb5d9cff7755a9c8e7457f302cbab1c5316e4f32668d159a2004d8fcc29af9",
+    "rtl/display/tmds_encoder.v": "7172a330df97e13265339eb94421024256d707f4aa643c0ee7121002a88dea1a",
+    "rtl/display/dvi_tx_gowin.v": "0d8afc522b2ed901a67a7c3157c0450964795cf8d43ea515281e43492f0257ee",
+    "rtl/display/hdmi_clock_60k.v": "e73679de57c0e21c75bc981acc6f98cb8b2f821d567b5eeb29111c6a85d8b00d",
+    "rtl/display/hdmi_reset_guard.v": "7c68f9999d9ce022dd1d69063e724e8925d7b993e5252e10f5b7ab7e5e04a349",
+    "rtl/top/piano_hdmi_top.v": "88cf8e3fe0b0d41e6b45d01a65504b281675703a089b8d974fdfedd276470d3d",
+    "model/check_tone_filter.py": "8974a5a241c329a35e350a383af79f2f04fb90c37a9568a605b72ac8e205748b",
+    "verification/scripts/run_expression_tests.ps1": "7645ae2a4b67c9b873b6510e0bb7fa98220f5a6a822f9417486415ba76bf37e8",
+    "verification/scripts/run_final_tests.py": "e48ab2256945dd6a7565ce74aace11ca3b0de50e915a84c9cf0b15de610e3ade",
+    "verification/tb/audio/tb_tone_filter.v": "3d2f9baa574665208aed588d47d2337d3dc009c474324f213678acfc07625f28",
+    "verification/tb/control/tb_brightness_keys.v": "e1403973c9e5d8efe348342d05609fc04a53bb1d68df1f7b98a7d44d1178b2ef",
+    "verification/tb/integration/tb_performance_brightness.v": "1ac5d34f8d59e9810ef4c19a3c0df36a772f2ee3aa5ba90c4fee360a3115e7a7",
+    "verification/tb/integration/tb_expression_modal.v": "a7b860fd9b9b5820ef5b8fe04c4d5e67acc6a22ab6dbebb26664c402a42860f9"
+  },
+  "evidence_sha256": {
+    "build.log": "9948540a44b5c3ed47e835a861d4b27578f9a3c53cbd66efab4958e505e962ac",
+    "build_inputs.txt": "2593c3b6d3430ff8565d238e067b61f80f1008853a470b47ae8891be8029fbb7",
+    "resources.rpt.txt": "f385d04dc85faad53b8888866a6f2a26b24df30e90ef2f4a0facb15ba676e328",
+    "timing_tables.txt": "2fa1237863b66e0107474046d58cefd829e8b2ed9c31cc626ab3e655cc5167a7",
+    "strict.log": "27a27a7601bb1e701479bf8f107eb7f89077aa5f5cf67bde31888ee70db6dc23",
+    "regression.log": "b8d73f5f0cb5bc26506c87e00fe1b706b1db2eb893520e4bb2c9e10aee2ff486",
+    "hdmi_timing_tables.txt": "13a8b9c2081168c4fcaf538444cb3ad584aae876fc82874214a2ad176197eca1",
+    "hdmi_build_inputs.txt": "041940f01536c5363f9cb5a8330406b70464c50be2953ddf55dd5eca1f3e41dd",
+    "j13-check.json": "83bd858f0dc78a699135e8869a1e4f0a4dcbab1a0071cab33e043ce689c2fafb",
+    "tb_tone_filter.log": "8ed590e6514bdaf0e943afc06fb748d3730447bd04d9cf34e5ec9e394db2a6fc",
+    "tb_brightness_keys.log": "a8c063264cddbcfd9f98c28b1e3da3aae76629bfc685003e470f8cc7dc62d921",
+    "tb_performance_brightness.log": "eb48accf5c344dda25d9f71d4199a19cbb44cc84f8e484271427307c71f4709b",
+    "tb_expression_modal.log": "e32dc18c1f159b8c74c16e7bec40252475b9b57d79278b749f43f98bccb34d54",
+    "tb_final_modal_adapter.log": "bfe47834a8e203a746c7f19051c3d9196e81ca0d73e572ad738e17009ed5d019",
+    "tb_final_performance_legacy.log": "577e79647b30ff0d565f186c3fcd232b8e9333a06131f2cd53cd5a65ce376f37",
+    "tb_final_hdmi_isolation.log": "2802202285adfbf595acdeae99f8cdef27151adaa606621203a0d3515b8857dc"
+  },
+  "hardware_verified": false,
+  "analog_noise_fixed": false,
+  "limits": [
+    "PR1014 generic system clock route remains; DAC complete external timing and physical end-to-end latency unverified.",
+    "HDMI setup margin is 0.379 ns in this constrained report, not broad timing margin or hardware signoff.",
+    "The old 31004/old-wiring package based on e18160e is superseded for the current J13 harness.",
+    "New behavioral tests shorten key debounce/hold timing and inject knob samples; actual default response requires board acceptance."
+  ]
+}

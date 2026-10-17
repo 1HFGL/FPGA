@@ -5,6 +5,8 @@ module piano_hdmi_top #(
     parameter ROM_FILE="../../rtl/rom/piano_1024.mem",
     parameter integer DEBOUNCE_CYCLES=100000,
     parameter integer DISPLAY_LOCK_CYCLES=100000,
+    parameter integer ENABLE_BRIGHTNESS=1,
+    parameter integer BRIGHTNESS_REPEAT_CYCLES=25000000,
     parameter integer USE_MODAL=1,
     parameter integer UART_CLKS_PER_BIT=434
 )(
@@ -47,7 +49,8 @@ module piano_hdmi_top #(
     instrument_uart_top #(.ROM_FILE(ROM_FILE),.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),.UART_CLKS_PER_BIT(UART_CLKS_PER_BIT),
         .FIXED_PIANO(1),.ATTACK_SAMPLES(96),.DECAY_SAMPLES(57600),.SUSTAIN_LEVEL(0),.RELEASE_SAMPLES(8640),
         .REQUEST_LEAD_HALF_EDGES(USE_MODAL?60:2),.EXTERNAL_PIANO_KEYS(1),.VOICES(16),
-        .ENABLE_CONTROLS(1),.ENABLE_GUITAR(1),.USE_MODAL(USE_MODAL)) u_core(
+        .ENABLE_CONTROLS(1),.ENABLE_GUITAR(1),.USE_MODAL(USE_MODAL),
+        .ENABLE_BRIGHTNESS(ENABLE_BRIGHTNESS),.BRIGHTNESS_REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES)) u_core(
         .sys_clk(sys_clk),.sys_rst_n(sys_rst_n),.Key_in(Key_in),.piano_key_n(piano_key_n),
         .uart_rx(uart_rx),.uart_tx(uart_tx),.HP_BCK(HP_BCK),.HP_WS(HP_WS),.HP_DIN(HP_DIN),.PA_EN(PA_EN),
         .knob_value_flat(knob_value_flat),.knob_valid(knob_valid),.param_ready(param_ready),.param_fault(param_fault),

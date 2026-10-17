@@ -1,0 +1,165 @@
+Generated 14992 tone vectors
+Reading D:/modelsim1/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/expression/tb_tone_filter/work -l C:\Users\Nanji\Documents\GitHub\FPGA\build\expression\tb_tone_filter/run.log -wlf C:\Users\Nanji\Documents\GitHub\FPGA\build\expression\tb_tone_filter/run.wlf tb_tone_filter -do "onerror {quit -code 1 -f}; onbreak {quit -code 0 -f}; run 1 sec; quit -code 0 -f" 
+# Start time: 15:17:13 on Oct 17,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_tone_filter(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 0 -f}
+#  Warning: onbreak command for use within macro
+#  run 1 sec
+# PASS tb_tone_filter: 14992 outputs, R2 valid, reset cancellation, overrun
+# ** Note: $finish    : C:/Users/Nanji/Documents/GitHub/FPGA/verification/tb/audio/tb_tone_filter.v(53)
+#    Time: 1710640 ns  Iteration: 1  Instance: /tb_tone_filter
+# End time: 15:17:14 on Oct 17,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+PASS default ModelSim self-check: tb_tone_filter
+Reading D:/modelsim1/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/expression/tb_brightness_keys/work -l C:\Users\Nanji\Documents\GitHub\FPGA\build\expression\tb_brightness_keys/run.log -wlf C:\Users\Nanji\Documents\GitHub\FPGA\build\expression\tb_brightness_keys/run.wlf tb_brightness_keys -do "onerror {quit -code 1 -f}; onbreak {quit -code 0 -f}; run 1 sec; quit -code 0 -f" 
+# Start time: 15:17:17 on Oct 17,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_brightness_keys(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 0 -f}
+#  Warning: onbreak command for use within macro
+#  run 1 sec
+# PASS tb_brightness_keys: debounce, step, hold, clamps, restore, frame slew, reset
+# ** Note: $finish    : C:/Users/Nanji/Documents/GitHub/FPGA/verification/tb/control/tb_brightness_keys.v(31)
+#    Time: 56880 ns  Iteration: 1  Instance: /tb_brightness_keys
+# End time: 15:17:19 on Oct 17,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 0
+PASS default ModelSim self-check: tb_brightness_keys
+Reading D:/modelsim1/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/expression/tb_performance_brightness/work -l C:\Users\Nanji\Documents\GitHub\FPGA\build\expression\tb_performance_brightness/run.log -wlf C:\Users\Nanji\Documents\GitHub\FPGA\build\expression\tb_performance_brightness/run.wlf tb_performance_brightness -do "onerror {quit -code 1 -f}; onbreak {quit -code 0 -f}; run 1 sec; quit -code 0 -f" 
+# Start time: 15:17:22 on Oct 17,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: C:\Users\Nanji\Documents\GitHub\FPGA\verification\tb\integration\tb_performance_brightness.v(20): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 23, found 17.
+# ** Warning: C:\Users\Nanji\Documents\GitHub\FPGA\verification\tb\integration\tb_performance_brightness.v(20): (vopt-2718) [TFMPC] - Missing connection for port 'monitor_guitar_keys'.
+# ** Warning: C:\Users\Nanji\Documents\GitHub\FPGA\verification\tb\integration\tb_performance_brightness.v(20): (vopt-2718) [TFMPC] - Missing connection for port 'monitor_piano_keys'.
+# ** Warning: C:\Users\Nanji\Documents\GitHub\FPGA\verification\tb\integration\tb_performance_brightness.v(20): (vopt-2718) [TFMPC] - Missing connection for port 'monitor_instrument_guitar'.
+# ** Warning: C:\Users\Nanji\Documents\GitHub\FPGA\verification\tb\integration\tb_performance_brightness.v(20): (vopt-2718) [TFMPC] - Missing connection for port 'monitor_key_down'.
+# ** Warning: C:\Users\Nanji\Documents\GitHub\FPGA\verification\tb\integration\tb_performance_brightness.v(20): (vopt-2718) [TFMPC] - Missing connection for port 'monitor_audio_sample'.
+# ** Warning: C:\Users\Nanji\Documents\GitHub\FPGA\verification\tb\integration\tb_performance_brightness.v(20): (vopt-2718) [TFMPC] - Missing connection for port 'monitor_audio_valid'.
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_performance_brightness(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 0 -f}
+#  Warning: onbreak command for use within macro
+#  run 1 sec
+# PASS tb_performance_brightness: independent tone/volume/bend, 13+3 voices, 15213 serial words, finite tails, no underrun
+# ** Note: $finish    : C:/Users/Nanji/Documents/GitHub/FPGA/verification/tb/integration/tb_performance_brightness.v(97)
+#    Time: 158479060 ns  Iteration: 1  Instance: /tb_performance_brightness
+# End time: 15:17:28 on Oct 17,2026, Elapsed time: 0:00:06
+# Errors: 0, Warnings: 7
+PASS default ModelSim self-check: tb_performance_brightness
+Reading D:/modelsim1/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/expression/tb_expression_modal/work -l C:\Users\Nanji\Documents\GitHub\FPGA\build\expression\tb_expression_modal/run.log -wlf C:\Users\Nanji\Documents\GitHub\FPGA\build\expression\tb_expression_modal/run.wlf tb_expression_modal -do "onerror {quit -code 1 -f}; onbreak {quit -code 0 -f}; run 1 sec; quit -code 0 -f" 
+# Start time: 15:17:31 on Oct 17,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_expression_modal(fast)
+# Loading work.voice_timbre_adsr(fast)
+# onerror {quit -code 1 -f}
+#  Warning: onerror command for use within macro
+#  onbreak {quit -code 0 -f}
+#  Warning: onbreak command for use within macro
+#  run 1 sec
+# PASS tb_expression_modal: KEY1 tone/KEY2 mode, mixed presets, full16, R927, 19434 serial words, no underrun, finite tails
+# ** Note: $finish    : C:/Users/Nanji/Documents/GitHub/FPGA/verification/tb/integration/tb_expression_modal.v(104)
+#    Time: 202439340 ns  Iteration: 1  Instance: /tb_expression_modal
+# End time: 15:17:46 on Oct 17,2026, Elapsed time: 0:00:15
+# Errors: 0, Warnings: 0
+PASS default ModelSim self-check: tb_expression_modal
+PASS tone oracle: 14992 unit and 7606 integration samples exact; finite zero tail
+{
+  "1": {
+    "frequency_hz": 261.6255653005986,
+    "raw_fundamental": 707.149326763565,
+    "filtered_fundamental": 707.149326763565,
+    "h4_relative_change_db": 0.0
+  },
+  "2": {
+    "frequency_hz": 261.6255653005986,
+    "raw_fundamental": 707.1280562060798,
+    "filtered_fundamental": 480.7735272433922,
+    "h4_relative_change_db": -9.570374195272793
+  },
+  "3": {
+    "frequency_hz": 261.6255653005986,
+    "raw_fundamental": 356.3728809935917,
+    "filtered_fundamental": 242.29274439987645,
+    "h4_relative_change_db": -9.544574959477107
+  },
+  "4": {
+    "frequency_hz": 293.66607413700314,
+    "raw_fundamental": 356.3805616842555,
+    "filtered_fundamental": 226.94195091504747,
+    "h4_relative_change_db": -9.956382897913414
+  }
+}
+PASS expression regression
