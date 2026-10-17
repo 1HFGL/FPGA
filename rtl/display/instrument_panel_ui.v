@@ -42,6 +42,21 @@ module instrument_panel_ui #(
     wire [23:0] panel  = instrument_guitar ? 24'h211a14 : C_PANEL;
     wire [23:0] grid   = instrument_guitar ? 24'h453427 : C_GRID;
 
+    // Low range uses frets 0..12; high range scrolls to frets 12..24.
+    // The high-range highlight layout equals middle shifted one octave.
+    function guitar_held;
+        input integer note;
+        input [1:0] range_select;
+        input [12:0] held;
+        begin
+            guitar_held=1'b0;
+            if(range_select==0)begin
+                if(note>=48 && note<=60)guitar_held=held[note-48];
+            end else if(note>=60 && note<=72)guitar_held=held[note-60];
+        end
+    endfunction
+    wire [5:0] first_octave_glyph=(octave==0)?6'd51:(octave==2)?6'd53:6'd52;
+    wire [5:0] last_octave_glyph=first_octave_glyph+6'd1;
     // ---- 波形几何：512 列 min/max，纵向约 128 像素，中轴 y=276 ----
     wire signed [31:0] low_amp  = $signed({{16{wave_min[15]}}, wave_min}) <<< gain_shift;
     wire signed [31:0] high_amp = $signed({{16{wave_max[15]}}, wave_max}) <<< gain_shift;
@@ -309,7 +324,7 @@ module instrument_panel_ui #(
             // 指板：96..928，六弦每 24 像素；0..12 品，品丝每 64 像素。
             if (x >= 96 && x < 928 && y >= 404 && y < 550) base_rgb = 24'h33251c;
             // 琴枕：指板左端加宽，区分“0 品”与普通品丝。
-            if (x >= 96 && x < 102 && y >= 404 && y < 550) base_rgb = 24'hb9ad97;
+            if (octave!=2 && x >= 96 && x < 102 && y >= 404 && y < 550) base_rgb = 24'hb9ad97;
             for (f = 0; f <= 13; f = f + 1)
                 if (x >= 96 + f * 64 && x < 98 + f * 64 && y >= 404 && y < 550)
                     base_rgb = 24'h7d6753;
@@ -330,8 +345,7 @@ module instrument_panel_ui #(
                 if (x >= 102 && x < 928 && y >= ny && y <= ny + (s >= 4)) base_rgb = 24'hbfb5a2;
                 // 持键位置：同音所有可奏位置一起高亮。
                 for (f = 0; f <= 12; f = f + 1) begin
-                    if (open_note(s) + f >= 60 && open_note(s) + f <= 72 &&
-                        key_down[open_note(s) + f - 60] &&
+                    if (guitar_held(open_note(s)+f,octave,key_down) &&
                         x >= 128 + f * 64 - 9 && x <= 128 + f * 64 + 9 &&
                         y >= ny - 7 && y <= ny + 7)
                         base_rgb = accent;
@@ -388,9 +402,9 @@ module instrument_panel_ui #(
         if (!instrument_guitar) begin
             // 乐器名放在琴体上沿之上，避免 24px 字被键盘/指板覆盖。
             text4(40, 372, 2, {6'd3, 6'd4, 12'd0}, accent);     // 钢琴
-            // 键名：C D E F G A B C5，放在白键底部；数字 5 对应字形 53。
+            // 键名随档位显示C3..C4 / C4..C5 / C5..C6。
             for (k = 0; k < 8; k = k + 1)
-                text4(66 + k * 120, 530, 2, {white_letter(k), (k == 7 ? 6'd53 : 6'd52), 12'd0}, 24'h2f3c46);
+                text4(66 + k * 120, 530, 2, {white_letter(k), (k == 7 ? last_octave_glyph : first_octave_glyph), 12'd0}, 24'h2f3c46);
         end else begin
             text4(40, 372, 4, {6'd33, 6'd34, 6'd35, 6'd36}, accent); // 指位示意
             // 弦名 E4 B3 G3 D3 A2 E2 放在指板左侧；数字 2/3/4 对应字形 50/51/52。
@@ -400,6 +414,13 @@ module instrument_panel_ui #(
             text4(40, 480, 2, {6'd41, 6'd51, 12'd0}, C_MUTED);  // D3
             text4(40, 504, 2, {6'd45, 6'd50, 12'd0}, C_MUTED);  // A2
             text4(40, 528, 2, {6'd42, 6'd50, 12'd0}, C_MUTED);  // E2
+            for(f=0;f<=12;f=f+1)begin
+                if(octave==2)begin
+                    if(f<8)text4(103+f*64,550,2,{6'd49,dg(f[3:0]+4'd2),12'd0},C_MUTED);
+                    else text4(103+f*64,550,2,{6'd50,dg(f[3:0]-4'd8),12'd0},C_MUTED);
+                end else if(f<10)text4(116+f*64,550,1,{dg(f[3:0]),18'd0},C_MUTED);
+                else text4(103+f*64,550,2,{6'd49,dg(f[3:0]-4'd10),12'd0},C_MUTED);
+            end
         end
     end
 endmodule
