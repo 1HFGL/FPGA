@@ -10,7 +10,9 @@ module voice_instrument #(
     parameter [16:0] G_SUSTAIN=17'd0,
     parameter [31:0] S_ATTACK=32'd1024, S_DECAY=32'd8192, S_RELEASE=32'd8192,
     parameter [16:0] S_SUSTAIN=17'd49152,
-    parameter [31:0] G_TONE_SAMPLES=32'd8192, S_TONE_SAMPLES=32'd2048
+    parameter [31:0] G_TONE_SAMPLES=32'd8192, S_TONE_SAMPLES=32'd2048,
+    // 可将第二预设接为固定钢琴波表；默认0保持原吉他/弦乐行为和接口。
+    parameter integer S_FIXED_TONE=0
 ) (
     input wire clk, rst, sample_tick,
     input wire [31:0] phase_inc,
@@ -46,10 +48,13 @@ module voice_instrument #(
     reg [TONE_W-1:0] tone_age;
     wire [31:0] tone_duration=active_instrument?S_TN:G_TN;
     // 分别使用常量乘除，默认点数是2的幂；充分扩位兼容参数边界。
-    wire [63:0] guitar_product=tone_age * 64'd61440;
-    wire [63:0] strings_product=tone_age * 64'd24576;
+    // 61440=2^16-2^12，24576=2^14+2^13。先扩至64位再移位，
+    // 保持原乘法的全部高位；常量代数展开避免每声部为亮度系数占用DSP。
+    wire [63:0] tone_age_wide={{(64-TONE_W){1'b0}},tone_age};
+    wire [63:0] guitar_product=(tone_age_wide<<16)-(tone_age_wide<<12);
+    wire [63:0] strings_product=(tone_age_wide<<14)+(tone_age_wide<<13);
     wire [63:0] guitar_drop=guitar_product/G_TN, strings_rise=strings_product/S_TN;
-    assign tone_level=active_instrument?(17'd8192+strings_rise[16:0]):
+    assign tone_level=active_instrument?(S_FIXED_TONE?17'd65536:(17'd8192+strings_rise[16:0])):
                                        (17'd65536-guitar_drop[16:0]);
     always @(posedge clk) begin
         if(rst) begin

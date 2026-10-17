@@ -1,5 +1,7 @@
 """Async serial transport, explicit device handshake, and a silent simulator."""
 import queue
+import threading
+import time
 from collections import deque
 from PySide6.QtCore import QObject, QThread, QTimer, Signal, Slot
 
@@ -33,6 +35,44 @@ class LineDecoder:
         return lines
 
 
+class CommandQueue:
+    """64 normal commands; bounded, deduplicated releases have reserved space.
+
+    A release removes an unsent note-on for that pitch before moving ahead of
+    diagnostics. Otherwise an early NOTE_OFF could be followed by a stale ON.
+    PANIC/HELLO also cancel unsent musical events. An in-flight write finishes
+    before the worker dequeues its next command, preserving wire order.
+    """
+    def __init__(self):
+        self.items = deque()
+        self.lock = threading.Lock()
+
+    def put_nowait(self, payload):
+        parts = payload.split()
+        command = parts[0]
+        with self.lock:
+            if command in {b"PANIC", b"HELLO"}:
+                self.items = deque(p for p in self.items if p.split()[0] not in
+                                   {b"NOTE_ON", b"NOTE_OFF", b"PANIC", b"HELLO"})
+                self.items.appendleft(payload)
+            elif command == b"NOTE_OFF":
+                note = parts[1]
+                self.items = deque(p for p in self.items if not
+                                   (p.split()[0] in {b"NOTE_ON", b"NOTE_OFF"} and p.split()[1] == note))
+                self.items.appendleft(payload)
+            else:
+                normal = sum(p.split()[0] not in {b"NOTE_OFF", b"PANIC", b"HELLO"} for p in self.items)
+                if normal >= 64:
+                    raise queue.Full
+                self.items.append(payload)
+
+    def get_nowait(self):
+        with self.lock:
+            if not self.items:
+                raise queue.Empty
+            return self.items.popleft()
+
+
 class SerialTransport(QThread):
     opened = Signal()
     line = Signal(str)
@@ -43,18 +83,22 @@ class SerialTransport(QThread):
     def __init__(self, port, baud, parent=None):
         super().__init__(parent)
         self.port, self.baud = port, baud
-        self.outbound = queue.Queue(maxsize=64)
+        self.outbound = CommandQueue()
+        self.wakeup = threading.Event()
 
     def send(self, text):
+        if self.isInterruptionRequested():
+            raise RuntimeError("串口正在关闭")
         try:
             self.outbound.put_nowait((text + "\n").encode("ascii"))
+            self.wakeup.set()
         except queue.Full:
-            raise RuntimeError("发送队列已满，请停止连续操作后重连") from None
+            raise RuntimeError("发送队列繁忙；停止命令仍可发送，请稍候") from None
 
     def run(self):
         import serial
         try:
-            with serial.Serial(self.port, self.baud, timeout=0.03,
+            with serial.Serial(self.port, self.baud, timeout=0,
                                write_timeout=0.3, rtscts=False, dsrdtr=False) as port:
                 self.opened.emit()
                 decoder = LineDecoder()
@@ -70,11 +114,16 @@ class SerialTransport(QThread):
                         if written != len(payload):
                             raise RuntimeError("串口未写完一条命令")
                         self.traffic.emit(written, 0)
-                    data = port.read(max(1, min(port.in_waiting, 256)))
+                    # Never wait for an unsolicited reply between chord notes.
+                    available = min(port.in_waiting, 256)
+                    data = port.read(available) if available else b""
                     if data:
                         self.traffic.emit(0, len(data))
                         for line in decoder.feed(data):
                             self.line.emit(line)
+                    if payload is None and not data:
+                        self.wakeup.wait(.002)
+                        self.wakeup.clear()
         except Exception as exc:
             self.error.emit(str(exc))
         finally:
@@ -82,6 +131,7 @@ class SerialTransport(QThread):
 
     def close(self):
         self.requestInterruption()
+        self.wakeup.set()
         # Read/write timeouts bound shutdown; never destroy a running QThread.
         if not self.wait(1500):
             raise RuntimeError("串口线程仍在退出，请稍后再关闭窗口")
@@ -94,8 +144,10 @@ class MockTransport(QObject):
     closed = Signal()
     traffic = Signal(int, int)
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, piano=False):
         super().__init__(parent)
+        self.piano = piano
+        self.maximum = 16 if piano else 4
         self.running = False
         self.tone = Tone()
         self.notes = []
@@ -130,8 +182,13 @@ class MockTransport(QObject):
         self.traffic.emit(len(text) + 1, 0)
         fields = text.split()
         if text == "HELLO":
-            self.reply("SYNTH/1 CAPS=CONFIG,NOTES,STATUS MAX_VOICES=4 SAMPLE_RATE=48000 FW=simulator")
+            self.notes.clear()
+            self.reply("SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=16 SAMPLE_RATE=48000 FW=host-simulator TONE=FIXED_PIANO"
+                       if self.piano else "SYNTH/1 CAPS=CONFIG,NOTES,STATUS MAX_VOICES=4 SAMPLE_RATE=48000 FW=simulator")
         elif text.startswith("APPLY "):
+            if self.piano:
+                self.reply(f"ERROR {fields[1]} UNSUPPORTED")
+                return
             try:
                 sequence, tone = decode_apply(text)
                 self.tone = tone
@@ -145,7 +202,7 @@ class MockTransport(QObject):
             note = int(fields[1])
             if note in self.notes:
                 self.notes.remove(note)
-            if len(self.notes) == 4:
+            if len(self.notes) == self.maximum:
                 self.notes.pop(0)
                 self.steals += 1
             self.notes.append(note)
@@ -192,6 +249,13 @@ class StudioSession(QObject):
         self.pending = None
         self.sequence = 0
         self.tx_bytes = self.rx_bytes = 0
+        self.active_notes = set()
+        self.pending_releases = set()
+        self.panic_pending = False
+        self.last_response = None
+        self.retry_timer = QTimer(self)
+        self.retry_timer.setInterval(40)
+        self.retry_timer.timeout.connect(self._retry_stops)
         self.handshake_timer = QTimer(self)
         self.handshake_timer.setSingleShot(True)
         self.handshake_timer.timeout.connect(self._handshake_timeout)
@@ -205,15 +269,17 @@ class StudioSession(QObject):
     def connect_device(self, port, baud=115200, transport=None):
         if self.transport is not None:
             raise RuntimeError("请先断开当前设备")
-        self.simulated = port == "SIM"
+        self.simulated = port in {"SIM", "SIM_PIANO"}
         self.label = "正在连接…"
         self.tx_bytes = self.rx_bytes = 0
-        self.transport = transport or (MockTransport(self) if self.simulated else
+        self.transport = transport or (MockTransport(self, piano=port == "SIM_PIANO") if self.simulated else
                                       SerialTransport(port, baud, self))
         self.transport.opened.connect(self._opened)
         self.transport.line.connect(self._line)
         self.transport.error.connect(self._error)
-        self.transport.closed.connect(self._closed)
+        # QThread.finished, unlike a signal emitted inside run(), guarantees
+        # that deleteLater cannot destroy a still-running native worker.
+        (self.transport.finished if isinstance(self.transport, QThread) else self.transport.closed).connect(self._closed)
         self.transport.traffic.connect(self._traffic)
         self.changed.emit()
         self.transport.start()
@@ -223,8 +289,8 @@ class StudioSession(QObject):
         if self.sender() is not self.transport:
             return
         self.label = "串口已打开，等待设备确认…"
-        self.send("HELLO")
         self.handshake_timer.start(1800)
+        self.send("HELLO")
         self.changed.emit()
 
     def send(self, line):
@@ -267,6 +333,7 @@ class StudioSession(QObject):
                 return
             self.handshake_timer.stop()
             self.ready = True
+            self.last_response = time.monotonic()
             self.device = fields
             self.capabilities = caps
             self.label = "模拟设备 · 不产生声音" if self.simulated else "设备已确认"
@@ -284,10 +351,7 @@ class StudioSession(QObject):
         elif line.startswith("ERROR "):
             fields = line.split(" ", 2)
             if fields == ["ERROR", "0", "NOT_READY"]:
-                self.ready = False
-                self.poll.stop()
-                self.label = "设备会话已失效 · 请断开后重连"
-                self.log.emit("提示", "设备要求重新HELLO；请断开后重连，避免重放旧按键")
+                self._invalidate("设备会话已失效 · 请重新握手")
             if self.pending and len(fields) == 3 and fields[1] == str(self.pending[0]):
                 self.pending = None
                 self.apply_timer.stop()
@@ -297,13 +361,17 @@ class StudioSession(QObject):
             for item in line.split()[1:]:
                 try:
                     key, value = item.split("=", 1)
-                    if key in {"VOICE_COUNT", "MAX_VOICE_COUNT", "STEAL_COUNT", "SAMPLE_RATE"}:
+                    ranges = {"VOICE_COUNT": (0, 32), "MAX_VOICE_COUNT": (0, 32),
+                              "STEAL_COUNT": (0, 4294967295), "SAMPLE_RATE": (8000, 192000)}
+                    if key in ranges:
                         value = int(value)
-                        if value >= 0:
+                        if ranges[key][0] <= value <= ranges[key][1]:
                             values[key] = value
                 except ValueError:
                     continue
             self.status.update(values)
+            if values:
+                self.last_response = time.monotonic()
             self.status_changed.emit(dict(self.status))
         self.changed.emit()
 
@@ -330,6 +398,11 @@ class StudioSession(QObject):
         self.handshake_timer.stop()
         self.apply_timer.stop()
         self.poll.stop()
+        self.retry_timer.stop()
+        self.active_notes.clear()
+        self.pending_releases.clear()
+        self.panic_pending = False
+        self.last_response = None
         self.transport = None
         self.ready = False
         self.capabilities.clear()
@@ -355,7 +428,7 @@ class StudioSession(QObject):
 
     def _handshake_timeout(self):
         self.label = "串口已打开 · 固件未响应"
-        self.log.emit("提示", "未收到 SYNTH/1 握手。当前 FPGA 程序可能尚无串口控制功能。")
+        self.log.emit("提示", "未收到 SYNTH/1 握手；核对UART串口、115200波特率与已下载固件，再重新握手。")
         self.changed.emit()
 
     def _apply_timeout(self):
@@ -363,14 +436,64 @@ class StudioSession(QObject):
         self.log.emit("提示", "配置确认超时；设备状态未知，请重连后重新应用")
         # The device may have applied the packet but lost its reply.
         self.applied = None
+        try:
+            self.panic()
+        except RuntimeError:
+            pass  # retry_timer retains the stop request.
         self.changed.emit()
 
     def query_status(self):
         if self.ready and "STATUS" in self.capabilities:
+            if self.last_response is not None and time.monotonic() - self.last_response > 3:
+                try:
+                    self.panic()
+                except RuntimeError:
+                    pass
+                self._invalidate("状态回复超时 · 请重新握手")
+                return
             try:
                 self.send("STATUS?")
             except RuntimeError as exc:
                 self.log.emit("错误", str(exc))
+
+    def _invalidate(self, reason):
+        # Stop heartbeats as well as new notes; the FPGA's independent session
+        # watchdog can then recover PC voices if the stop packet cannot arrive.
+        self.ready = False
+        self.poll.stop()
+        self.apply_timer.stop()
+        self.retry_timer.stop()
+        self.applied = self.pending = None
+        self.active_notes.clear()
+        self.pending_releases.clear()
+        self.panic_pending = False
+        self.status.clear()
+        self.status_changed.emit({})
+        self.label = reason
+        self.log.emit("提示", reason + "；不自动重放按键，必要时由设备失联保护释放电脑声部。")
+        self.changed.emit()
+
+    def rehandshake(self):
+        if self.transport is None:
+            raise RuntimeError("请先连接串口")
+        self._invalidate("等待设备重新确认…")
+        self.handshake_timer.start(1800)
+        self.send("HELLO")
+
+    def _retry_stops(self):
+        if not self.ready:
+            self.retry_timer.stop()
+            return
+        try:
+            if self.panic_pending:
+                self.panic()
+            else:
+                for note in list(self.pending_releases):
+                    self.note(note, False)
+        except RuntimeError:
+            return
+        if not self.pending_releases and not self.panic_pending:
+            self.retry_timer.stop()
 
     @property
     def fixed_sine(self):
@@ -381,25 +504,51 @@ class StudioSession(QObject):
         # 白名单，而非任意TONE字段都绕过配置确认；模拟CONFIG设备仍须APPLY。
         return (self.ready and {"NOTES", "STATUS"} <= self.capabilities
                 and "CONFIG" not in self.capabilities
-                and self.device.get("TONE") in {"FIXED_SINE", "FIXED_PIANO"})
+                and self.device.get("TONE") in {"FIXED_SINE", "FIXED_PIANO", "PIANO_GUITAR"})
 
     @property
     def fixed_tone_name(self):
-        return {"FIXED_SINE": "正弦", "FIXED_PIANO": "钢琴感"}.get(self.device.get("TONE"), "未知")
+        return {"FIXED_SINE": "正弦", "FIXED_PIANO": "钢琴感",
+                "PIANO_GUITAR": "钢琴／吉他（KEY2切换）"}.get(self.device.get("TONE"), "未知")
 
     @property
     def playable(self):
         # 固定音色是真实设备能力，不生成虚假的applied配置对象。
         return (self.ready and "NOTES" in self.capabilities
+                and self.pending is None and not self.panic_pending
                 and (self.fixed_tone or self.applied is not None))
 
     def note(self, note, on):
-        if not self.playable:
+        if not self.ready or "NOTES" not in self.capabilities or on and not self.playable:
             raise RuntimeError("先连接支持演奏的设备并应用音色")
         if type(note) is not int or not 0 <= note <= 127:
             raise ValueError("音符范围为 0～127")
-        self.send(f"NOTE_ON {note} 100 0" if on else f"NOTE_OFF {note} 0")
+        if on and note in self.pending_releases:
+            raise RuntimeError("该音符正在释放，请稍候")
+        try:
+            self.send(f"NOTE_ON {note} 100 0" if on else f"NOTE_OFF {note} 0")
+        except RuntimeError:
+            if not on:
+                self.pending_releases.add(note)
+                self.retry_timer.start()
+            raise
+        if on:
+            self.active_notes.add(note)
+        else:
+            self.active_notes.discard(note)
+            self.pending_releases.discard(note)
+        self.changed.emit()
 
     def panic(self):
         if self.ready and "NOTES" in self.capabilities:
-            self.send("PANIC")
+            self.panic_pending = True
+            try:
+                self.send("PANIC")
+            except RuntimeError:
+                self.retry_timer.start()
+                self.changed.emit()
+                raise
+            self.active_notes.clear()
+            self.pending_releases.clear()
+            self.panic_pending = False
+            self.changed.emit()

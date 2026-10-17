@@ -11,6 +11,9 @@ Desktop.ini
 
 # Generated simulation output; historical evidence lives in Git
 /build/
+/simulation/
+/sources.f
+/rtl/display/sources.f
 work/
 modelsim.ini
 transcript

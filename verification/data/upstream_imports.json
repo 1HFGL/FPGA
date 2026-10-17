@@ -1,0 +1,172 @@
+[
+  {
+    "path": "model/analyse_classic_rock.py",
+    "sha256": "AB5F7DDC635EE5BD5B93954E3C9D49B93EB78BA2EFE63ECA99725C307657F5DA",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/analyse_piano_reference.py",
+    "sha256": "D072911C3A9B506DBFD8E46137BB5CAB385AC4C18C26E0DDD8568FF8B17A3D8D",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/check_music_controls.py",
+    "sha256": "DBF1806F0E59B9FD6D0BB90F793E4724D76A309D48B7BFA4541BEDFCB4593FC0",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/check_music_pipe.py",
+    "sha256": "3C491BD96B27C523DE8353BA3C50A9FB10BAF1F57EEF9506A1614FBF37314B5E",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/check_music_range.py",
+    "sha256": "1F4E3B9F48AD4559328729454C982F516C76BB7A83A817B5E8DB9B1DE1335FB6",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/fetch_piano_reference.py",
+    "sha256": "B609B1751BA9C3EF5F3D7A38E58EC7FE041C1177EE507283657BFFDED7126BAB",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/gen_piano_v3_rom.py",
+    "sha256": "552A781DA6F3F5AD55AF263688484F97F41565B07773BB7DCE0E09DD7C9A7604",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/gen_pitch_bend_rom.py",
+    "sha256": "2088811F2E67DDA2D911376E38F9E4809953C692EEA1353046865003ACF68AC8",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/gen_rock_v2_rom.py",
+    "sha256": "F38D58A4A4E77FF0F042A0A792A417DFA0183C110CE700ECB8177484192BAE0A",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/piano_reference_fit.json",
+    "sha256": "114EC920496983DD2F4000125366D90D4B986F4D86F914E885657E8776FA99AA",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/piano_reference_sources.json",
+    "sha256": "1308B6E54EF4CF83932DBDACB1F682BAA3BC9E00961FCBDB13E586FDA0EDB4D3",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "model/requirements.txt",
+    "sha256": "10C15AAC265C81BC342FF09FC08510682971C81A4F24FF649CC0F7AE4F9BB278",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/control/music_controls.v",
+    "sha256": "1D6DF5D55B6F8918ABC3360D97D3D66E421BEF49A3F1B9FBF8538A335CF0DFE2",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/control/music_event_encoder.v",
+    "sha256": "F8AAAB2A50D13972B0327F44DF9323130EE344BFAB30039EC1FC27ACB9980D5C",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/control/music_uart_event_arbiter.v",
+    "sha256": "85172C68A1A0E340281A3ECA515550590199882693E450DF656FA9B05C434C9A",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/control/music_uart_line_rx.v",
+    "sha256": "0A2757B1AD6323EA6E2F5B0FAA103BCEBFAE22C26C1D5F35CCA285E34FFC0B72",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/control/music_uart_protocol.v",
+    "sha256": "A7052A3CB7498E98CE86323524881510888F3D68E426E93D05FB765D2C96B695",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/control/music_uart_reply_tx.v",
+    "sha256": "35A4494EBFFA24C437966F65542C160406B7B939FBFF7E6F16DD7C92A7819067",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/rom/piano_v3_modes.mem",
+    "sha256": "CAC05BC7E087E1F495E47F11E5C1C26CD28C3CB7976ACE26AF04C29A56BB5999",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/rom/pitch_bend_1025.mem",
+    "sha256": "236F2D8EB6A2A026284F60F371CD9159AD3C421EC961F6AA57CDF4E0C59F1E2D",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/rom/rock_v2_shaper.mem",
+    "sha256": "6923505492A20340E9744AEE917265439521F00BD5DE3854388C790031C81345",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/synth/voice_bank_music_pipe.v",
+    "sha256": "AB080EF2BD4F60D377537ABDAB51E0655248BB7DD269073F868AEC976AC029B4",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/top/music_display_top.v",
+    "sha256": "84293DEC186399B7FE261B8E42BFEA0C48357699B5C0F459D6DF3E4D584C388C",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/top/music_performance_core.v",
+    "sha256": "95304C1E2EF30913A7C762E00B2BD7F4C2F5D6D430F3C557A9B49A660A7BC397",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "rtl/top/music_uart_top.v",
+    "sha256": "0B42842775E46C3088C48954326966F9CA7A0BFE1317D8DAD438ABF7F626598F",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "verification/fixtures/music_neutral_sha256.json",
+    "sha256": "5CC38D8F9A4118DA604B903D52AAE3EB8A65F7CF1B66D97436F6F533ADCAC953",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "verification/tb/music/tb_music_controls.v",
+    "sha256": "BABCA489D55AD67EC40EEBD52954C4C09EBD449E08511E413A08A7B73F14B938",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "verification/tb/music/tb_music_display_isolation.v",
+    "sha256": "CB09874665DD5325996597C5923161C7F052A66E853BD12FC642578F891C3C38",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "verification/tb/music/tb_music_local_controls.v",
+    "sha256": "D597294B8D7DB575AEECFBD3B776A05372D7D7805D12A6F2272B0C84F3D36DA0",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "verification/tb/music/tb_music_pipe.v",
+    "sha256": "F90A00045583E89343B9DBB52BC06A96CB510615BB2D1D6A074CB06C71122138",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "verification/tb/music/tb_music_protocol.v",
+    "sha256": "587D281F79B8D7CBE647BE9E5096457CBB2B5F678E36EBD010AED77A28CFE1B3",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "verification/tb/music/tb_music_recovery.v",
+    "sha256": "BAE44464E8A6BB150A0674DFF16A004D877678DB839972232E3289FAFAFC6414",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "verification/tb/music/tb_music_uart16.v",
+    "sha256": "63EFDCE9A4FB642F2818BE1B5BE733B8E84FF16D35A175AE1869001D58435FC3",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  },
+  {
+    "path": "verification/scripts/run_music_tests.py",
+    "sha256": "9A175AAFF256CD493B72121670DC8270C5FDB8AA85DF567598DA16FFF4A334AF",
+    "upstream": "e18160e4ae1f7023447819e780669055c869788a"
+  }
+]

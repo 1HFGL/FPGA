@@ -46,6 +46,11 @@ QLabel#badge { background:#202b2e; color:#b2c0c1; border:1px solid #405055;
     border-radius:13px; padding:5px 12px; font-size:12px; }
 QLabel#badge[ready="true"] { background:#26362b; color:#d5ed99; border-color:#506548; }
 QLabel#metricValue { font-family:'Consolas'; font-size:34px; color:#d5ed99; }
+QLabel#heroTitle { font-size:40px; font-weight:600; color:#f2eee2; }
+QLabel#heroNumber { font-family:'Consolas'; font-size:42px; color:#d5ed99; }
+QLabel#warning { color:#efd39b; background:#2d291f; border:1px solid #5c5136;
+    border-radius:6px; padding:9px 12px; font-size:12px; }
+QLabel#noteStrip { font-family:'Consolas'; color:#d5ed99; font-size:15px; }
 QLabel#documentStatus { color:#aabcae; font-size:12px; }
 QLineEdit, QSpinBox, QComboBox { background:#121b1e; border:1px solid #3b4a4e;
     border-radius:6px; padding:7px 10px; selection-background-color:#d5ed99;
@@ -97,6 +102,7 @@ QMessageBox { background:#192326; }
 
 def label(text, role=None, wrap=False):
     item = QLabel(text)
+    item.setTextFormat(Qt.PlainText)
     if role:
         item.setObjectName(role)
     item.setWordWrap(wrap)
@@ -305,25 +311,33 @@ class PianoKey(QPushButton):
     def __init__(self, note, text, black=False, parent=None):
         super().__init__(text, parent)
         self.note, self.black = note, black
+        self.held = False
+        self.shortcut = ""
         self.setAccessibleName(f"音符 {text}")
         self.setCursor(Qt.PointingHandCursor)
 
     def paintEvent(self, event):
         p = QPainter(self)
         p.setRenderHint(QPainter.Antialiasing)
-        active = self.isDown()
+        active = self.isDown() or self.held
         rect = QRectF(self.rect()).adjusted(1, 0, -2, -1)
-        color = ACCENT if active else "#233237" if self.black else "#e5e7df"
+        color = ACCENT if active else "#233237" if self.black else "#eeeade"
         if not self.isEnabled():
             color = "#263135" if self.black else "#b2bcb4"
         p.setPen(QPen(QColor("#111b1e"), 1))
-        p.setBrush(QColor(color))
+        gradient = QLinearGradient(rect.topLeft(), rect.bottomLeft())
+        gradient.setColorAt(0, QColor(color).lighter(108))
+        gradient.setColorAt(1, QColor(color))
+        p.setBrush(gradient)
         p.drawRoundedRect(rect, 5, 5)
         p.setPen(QPen(QColor("#556566" if self.black else "#a1aaa2"), 2))
         p.drawLine(QPointF(rect.left() + 4, rect.bottom() - 6), QPointF(rect.right() - 4, rect.bottom() - 6))
         p.setPen(QColor("#1a3027" if active or not self.black else "#bccbc7"))
-        p.setFont(QFont("Consolas", 10))
-        p.drawText(QRectF(0, self.height() - 36, self.width(), 22), Qt.AlignCenter, self.text())
+        p.setFont(QFont("Consolas", 11))
+        p.drawText(QRectF(0, self.height() - 58, self.width(), 22), Qt.AlignCenter, self.text())
+        p.setFont(QFont("Consolas", 9))
+        p.setPen(QColor("#455747" if active else "#91a0a1" if self.black else "#6d7972"))
+        p.drawText(QRectF(0, self.height() - 32, self.width(), 18), Qt.AlignCenter, self.shortcut)
 
 
 class PianoKeyboard(QWidget):
@@ -335,6 +349,8 @@ class PianoKeyboard(QWidget):
         self.setMinimumHeight(225)
         names = ["C4", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C5"]
         self.keys = [PianoKey(60 + i, name, 60 + i in self.BLACK, self) for i, name in enumerate(names)]
+        for key, shortcut in zip(self.keys, "AWS EDFTGYHUJK".replace(" ", "")):
+            key.shortcut = shortcut
         for note in self.BLACK:
             self.keys[note - 60].raise_()
 
@@ -347,6 +363,28 @@ class PianoKeyboard(QWidget):
             key.setGeometry(round(boundary * width - width * .29), 0, round(width * .58), round(self.height() * .62))
             key.raise_()
         super().resizeEvent(event)
+
+
+class VoiceRack(QWidget):
+    """A device-reported occupancy indicator; no fabricated audio waveform."""
+    def __init__(self):
+        super().__init__()
+        self.count = self.maximum = None
+        self.setMinimumHeight(22)
+
+    def set_status(self, count, maximum):
+        self.count, self.maximum = count, maximum
+        self.update()
+
+    def paintEvent(self, event):
+        p = QPainter(self)
+        p.setRenderHint(QPainter.Antialiasing)
+        cells = min(32, max(self.maximum or 16, self.count or 0))
+        width = self.width() / cells
+        for i in range(cells):
+            p.setPen(Qt.NoPen)
+            p.setBrush(QColor(ACCENT if self.count is not None and i < self.count else "#34403f"))
+            p.drawRoundedRect(QRectF(i * width, 3, max(2, width - 4), 13), 2, 2)
 
 
 class StudioViewMixin:
@@ -367,16 +405,16 @@ class StudioViewMixin:
         brand = QVBoxLayout()
         brand.setSpacing(0)
         brand.addWidget(label("声场", "brand"))
-        brand.addWidget(label("FPGA SYNTH STUDIO", "eyebrow"))
+        brand.addWidget(label("PIANO / CONTROL ROOM", "eyebrow"))
         head.addLayout(brand)
         head.addStretch()
         self.nav_group = QButtonGroup(self)
-        for i, title in enumerate(["音色工作台", "演奏", "设备"]):
+        for i, title in [(1, "演奏"), (2, "设备"), (0, "开发")]:
             nav = button(title, lambda checked=False, n=i: self.navigate(n), "nav")
             nav.setCheckable(True)
             self.nav_group.addButton(nav, i)
             head.addWidget(nav)
-        self.nav_group.button(0).setChecked(True)
+        self.nav_group.button(1).setChecked(True)
         head.addStretch()
         self.connection_label = label("未连接", "badge")
         head.addWidget(self.connection_label)
@@ -384,6 +422,7 @@ class StudioViewMixin:
         work.addWidget(header)
 
         document = QFrame()
+        self.document_bar = document
         document.setObjectName("documentBar")
         doc = QHBoxLayout(document)
         doc.setContentsMargins(28, 14, 28, 10)
@@ -405,11 +444,13 @@ class StudioViewMixin:
                                      ("另存为", self.save_as, "ghost"), ("保存", self.save, None)]:
             doc.addWidget(button(text, callback, role))
         work.addWidget(document)
+        document.hide()
 
         self.pages = QStackedWidget()
         self.pages.addWidget(self.design_page())
         self.pages.addWidget(self.experiment_page())
         self.pages.addWidget(self.diagnostic_page())
+        self.pages.setCurrentIndex(1)
         work.addWidget(self.pages, 1)
         self.log_view = QPlainTextEdit()
         self.log_view.setReadOnly(True)
@@ -433,7 +474,7 @@ class StudioViewMixin:
         self.port_combo.setMinimumContentsLength(18)
         row.addWidget(self.port_combo)
         self.baud_combo = QComboBox()
-        self.baud_combo.addItems(["115200", "230400", "460800", "921600"])
+        self.baud_combo.addItems(["115200"])
         self.baud_combo.setFixedWidth(106)
         row.addWidget(self.baud_combo)
         self.refresh_button = button("刷新", self.refresh_ports, "ghost")
@@ -441,10 +482,15 @@ class StudioViewMixin:
         self.connect_button = button("连接", self.toggle_connection)
         row.addWidget(self.connect_button)
         row.addStretch()
-        row.addWidget(button("导出波表", self.export_table, "ghost"))
+        self.export_button = button("导出波表", self.export_table, "ghost")
+        row.addWidget(self.export_button)
         self.apply_button = button("应用到设备  →", self.apply, "primary")
         self.apply_button.setMinimumWidth(160)
         row.addWidget(self.apply_button)
+        self.rehandshake_button = button("重新握手", self.rehandshake, "ghost")
+        row.addWidget(self.rehandshake_button)
+        self.export_button.hide()
+        self.apply_button.hide()
         foot.addLayout(row)
         status = QHBoxLayout()
         self.file_label = label("", "subtitle")
@@ -611,30 +657,70 @@ class StudioViewMixin:
         return frame
 
     def experiment_page(self):
-        area, layout = self.scroll_page("演奏台", "把刚刚塑造的音色交给琴键。")
-        frame, content = card("键盘", "C4 — C5 / 13 NOTES")
-        self.play_hint = label("先连接设备并应用音色。", "accent", True)
-        content.addWidget(self.play_hint)
+        area, layout = self.scroll_page()
+        layout.setSpacing(12)
+        layout.setContentsMargins(27, 10, 27, 12)
+        hero = QHBoxLayout()
+        hero.setSpacing(18)
+        title, heading = card("演奏空间", "01 / PERFORMANCE")
+        heading.setSpacing(8)
+        heading.setContentsMargins(20, 14, 20, 14)
+        heading.addWidget(label("让指尖，落在声音上。", "heroTitle"))
+        self.tone_label = label("固件预设 · 等待设备确认", "accent")
+        heading.addWidget(self.tone_label)
+        self.play_hint = label("实体键与电脑共享声部池 · 音频由 FPGA 实时生成", "subtitle", True)
+        heading.addWidget(self.play_hint)
+        hero.addWidget(title, 7)
+        monitor, monitor_layout = card("声部占用", "DEVICE REPORT")
+        monitor_layout.setSpacing(8)
+        monitor_layout.setContentsMargins(20, 14, 20, 14)
+        monitor_row = QHBoxLayout()
+        self.occupancy_label = label("— / —", "heroNumber")
+        monitor_row.addWidget(self.occupancy_label)
+        monitor_row.addStretch()
+        self.capacity_label = label("设备尚未报告", "subtitle")
+        monitor_row.addWidget(self.capacity_label)
+        monitor_layout.addLayout(monitor_row)
+        self.voice_rack = VoiceRack()
+        monitor_layout.addWidget(self.voice_rack)
+        self.freshness_label = label("等待状态数据", "subtitle")
+        monitor_layout.addWidget(self.freshness_label)
+        hero.addWidget(monitor, 4)
+        layout.addLayout(hero)
+        self.capacity_warning = label("", "warning", True)
+        self.capacity_warning.hide()
+        layout.addWidget(self.capacity_warning)
+
+        frame, content = card("琴键", "13 NOTES / PC INPUT")
+        content.setSpacing(10)
+        self.octave_combo = QComboBox()
+        self.octave_combo.addItems(["低音区  C3 — C4", "中音区  C4 — C5", "高音区  C5 — C6"])
+        self.octave_combo.setCurrentIndex(1)
+        self.octave_combo.currentIndexChanged.connect(self.octave_changed)
+        content.itemAt(0).layout().addWidget(self.octave_combo)
         keyboard = PianoKeyboard()
+        self.keyboard = keyboard
+        keyboard.setMinimumHeight(210)
+        keyboard.setFocusPolicy(Qt.StrongFocus)
+        self.octave_combo.activated.connect(lambda: keyboard.setFocus())
         self.piano_buttons = keyboard.keys
-        for key in keyboard.keys:
-            key.pressed.connect(lambda n=key.note: self.note_pressed(n))
-            key.released.connect(lambda n=key.note: self.note_released(n))
+        for i, key in enumerate(keyboard.keys):
+            key.pressed.connect(lambda n=i: self.press_input(("mouse", n), n))
+            key.released.connect(lambda n=i: self.release_input(("mouse", n)))
         content.addWidget(keyboard)
         actions = QHBoxLayout()
-        self.chord_button = button("触发四音和弦", self.chord)
-        self.panic_button = button("全部松键", self.stop_notes, "ghost")
+        self.chord_button = button("试听四音和弦", self.chord)
+        self.panic_button = button("停止电脑音符  /  Esc", self.stop_notes, "primary")
         actions.addWidget(self.chord_button)
         actions.addWidget(self.panic_button)
         actions.addStretch()
-        actions.addWidget(label("按住演奏 / 松开释放", "subtitle"))
+        actions.addWidget(label("白键  A S D F G H J K    黑键  W E T Y U", "subtitle"))
         content.addLayout(actions)
         layout.addWidget(frame)
-        hints = QHBoxLayout()
-        hints.addWidget(label("声音由 FPGA 生成", "eyebrow"))
-        hints.addStretch()
-        hints.addWidget(label("模拟设备只验证交互，不产生声音。", "subtitle"))
-        layout.addLayout(hints)
+        self.notes_label = label("电脑按住的音符  —", "noteStrip")
+        layout.addWidget(self.notes_label)
+        self.controls_info = label("实体旋钮：音量 / ±2半音弯音 · UART未上报数值\n延音与板级八度控制未开放；HDMI画面及USB触摸状态未上报。", "subtitle", True)
+        layout.addWidget(self.controls_info)
         layout.addStretch()
         return area
 
@@ -669,12 +755,15 @@ class StudioViewMixin:
         for title, body in [
             ("01  选择设备", "在底部选择串口与波特率；也可以选择模拟设备试用。"),
             ("02  等待确认", "连接后由设备返回支持的功能；串口打开本身不代表固件就绪。"),
-            ("03  确认能力", "固定正弦设备可直接演奏；支持配置的设备需先应用并等待确认。"),
+            ("03  开始演奏", "固定钢琴固件握手成功后直接弹奏；开发页参数不会改变固件预设。"),
         ]:
             details.addWidget(label(title))
             details.addWidget(label(body, "subtitle", True))
             details.addSpacing(8)
-        details.addWidget(label("UART基础版支持握手与四复音演奏；固定正弦/包络，界面调参不会应用到该固件。", "accent", True))
+        details.addWidget(label("当前工程为16声部，但现有固件握手仍报告4。界面以设备报告为准；本次仅改上位机。", "accent", True))
+        details.addWidget(label("状态回复连续超时会停止电脑演奏；重新握手后需重新按键，不重放旧音符。", "subtitle", True))
+        self.device_warning = label("", "warning", True)
+        details.addWidget(self.device_warning)
         details.addStretch()
         row.addWidget(guide, 2)
         layout.addLayout(row)

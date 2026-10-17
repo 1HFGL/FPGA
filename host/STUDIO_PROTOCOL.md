@@ -1,8 +1,10 @@
 # SYNTH/1 上位机接口合同
 
-当前主钢琴只实现NOTES/STATUS，握手为 `SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=4 SAMPLE_RATE=48000 FW=uart-piano-v1 TONE=FIXED_PIANO`。无CONFIG，APPLY返回UNSUPPORTED；固定释放180ms。使用见[上位机说明](README.md)与[主工程](../README.md)。
+当前正式无屏/HDMI主工程只实现NOTES/STATUS，握手为 `SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=16 SAMPLE_RATE=48000 FW=uart-dual-v1 TONE=PIANO_GUITAR`。无CONFIG，APPLY返回UNSUPPORTED；KEY2切换钢琴／吉他，钢琴释放180ms，吉他约85.33ms。使用见[上位机说明](README.md)与[主工程](../README.md)。
 
-以下CONFIG字段是PC与模拟设备已实现的未来协议，不是当前FPGA能力。上位机仍兼容FIXED_SINE设备，但旧正弦板级工程已从当前仓库移除、可从Git恢复。实际串口与听音需上板验证。
+2026-10-15模式集成后，正式声部容量已从VOICES透传，默认兼容入口仍报告4而不是被强制改成16。PC新音使用板上当前模式，旧音/尾音保留起音预设；两音色共享16席位，不是各16。当前没有远程MODE命令，STATUS也没有当前模式、旋钮、延音、八度、显示或触摸字段；上位机只提示“钢琴／吉他（KEY2切换）”，不假装知道当前选中哪种。默认电脑模拟钢琴报告16声部，仅用于PC交互验证。
+
+以下CONFIG字段是PC与模拟设备已实现的未来协议，不是当前FPGA能力。固定固件白名单明确接受FIXED_SINE、FIXED_PIANO和PIANO_GUITAR；未知TONE或带CONFIG能力的设备不能据此绕过APPLY确认。旧正弦板级工程已从当前仓库移除、可从Git恢复。实际串口与听音需上板验证。
 
 ## 传输与握手
 
@@ -49,6 +51,8 @@ STATUS VOICE_COUNT=0 MAX_VOICE_COUNT=4 STEAL_COUNT=0 SAMPLE_RATE=48000
 - `PANIC` 仅停止由上位机来源发起的声部，不能无条件吞掉实体按键的状态；由固件在采样边界执行。
 - `VOICE_COUNT` 为固件实际占用的声部（包括释放尾音）；`MAX_VOICE_COUNT` 为本次启动峰值；`STEAL_COUNT` 为累计抢占。采样率由设备报告，仍需实物验证。
 - 支持 `STATUS` 时，上位机每秒查询一次；发音事件优先于诊断流量。建议固件对上位机来源设置通信失联回收机制，避免拔线后卡音；具体时限需在接入时验证。本次模拟设备断开即清除模拟音符，不模拟真实包络或发声。
+
+电脑端附加行为：配置确认期间禁止新起音，但松键不依赖配置是否确认；超时尝试PANIC。松键或PANIC提交失败会保留并重试。连续3秒未收到有效STATUS时会话失效，停止状态查询/新起音，重新HELLO后不重放旧音符。此行为不新增固件命令，也不把串口写入当作设备已执行的证明。
 
 ## FPGA 接入前需要明确
 

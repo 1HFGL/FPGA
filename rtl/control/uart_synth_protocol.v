@@ -4,7 +4,9 @@ module uart_synth_protocol #(
     parameter integer CLKS_PER_BIT=434,
     parameter integer LINE_TIMEOUT_CYCLES=12500000,
     parameter integer WATCHDOG_CYCLES=150000000,
-    parameter integer FIXED_PIANO=0
+    parameter integer FIXED_PIANO=0,
+    parameter integer VOICES=4, // 与实际合成核心一致；不是当前占用数
+    parameter integer ENABLE_GUITAR=0
 )(
     input wire clk,rst_n,rx,output wire tx,
     output wire event_valid,input wire event_ready,
@@ -89,7 +91,7 @@ module uart_synth_protocol #(
             if(hello_req) session_ready<=1;
         end
     end
-    uart_reply_tx #(.FIXED_PIANO(FIXED_PIANO)) u_replies(.clk(clk),.rst_n(rst_n),.hello_req(hello_req),.status_req(status_req),
+    uart_reply_tx #(.FIXED_PIANO(FIXED_PIANO),.VOICES(VOICES),.ENABLE_GUITAR(ENABLE_GUITAR)) u_replies(.clk(clk),.rst_n(rst_n),.hello_req(hello_req),.status_req(status_req),
         .error_req(error_req),.voice_count(voice_count),.max_voice_count(max_voice_count),.steal_count(steal_count),
         .error_sequence(error_seq),.error_code(error_code),.tx_data(tx_data),.tx_valid(tx_valid),.tx_ready(tx_ready));
     uart_tx #(.CLKS_PER_BIT(CLKS_PER_BIT)) u_tx(.clk(clk),.rst_n(rst_n),.data(tx_data),

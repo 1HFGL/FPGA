@@ -1,0 +1,17 @@
+{
+  "samples": 11400,
+  "fields": [
+    "sample",
+    "active",
+    "selected",
+    "env",
+    "voices",
+    "sample4",
+    "active4",
+    "selected4",
+    "env4",
+    "voices4"
+  ],
+  "sha256": "e6ebc8ee8069c242e68296e0457824fb285e5979b03e2422031d1d7ff1b38cac",
+  "description": "Captured before global controls were added, 2026-10-13. SHA256 of newline-joined comma-separated fields in row order, no final newline. Both 4- and 16-voice default outputs and states."
+}

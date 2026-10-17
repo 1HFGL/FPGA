@@ -1,92 +1,75 @@
-# 13 键接线与运行
+# 当前接线：31005底板、八白键连续排列
 
-主工程基于远端master `8277946`继续整合：13个独立低有效按钮、UART与两个旋钮，正式16声部钢琴近似合成，PT8211-S输出。琴键数量与复音数量分别说明。
+本表对应 **NEO Dock31005＋Tang Mega60K核心板、2026-10-16模态双音色/双画面位流**。必须重新编译并下载对应新位流；旧半音顺序的位流不能配本表。带屏选projects/hdmi/piano_hdmi.gprj，无屏选projects/piano/uart_piano.gprj；位流身份见[验证记录](verification.md)。
 
-正式板级入口：`projects/piano/uart_piano.gprj`，顶层 **`piano_performance_top`**，约束 `boards/tang_mega_60k_31004/piano.cst`。13键成果整理到 master；初始提交为 `b59f8ee7`。尚未接线或下载板卡。
+## 先定位接口和电源
 
-## 按键与引脚
+信号接靠近PCIe金手指的已焊40针扩展排针（原理图J13），不是上方未焊的40孔区域。按用户正面照片保持**网口在左、Sipeed标志在右、散热片在上、PCIe金手指在下**：**右上为1脚，右下为2脚，从右向左增加**。右端可见N/1、2/P标记；背面方形焊盘位于镜像后的左端，对应同一1脚。下面球位来自底板→60K核心板追踪，接线时同时核对可见丝印，不能只看按钮K号。
 
-ADS1115旋钮接口：模块以3.3V供电、GND共地、ADDR接GND（0x48）；SDA接J8第8脚/AA21，SCL接J8第5脚/AA19，SDA上拉到3.3V。两只B10K两端接3.3V/GND，滑端分别接AIN0（总音量）和AIN1（全局±2半音弯音），三针模块按VCC/GND/SIG丝印接。模拟电压不得高于3.3V，两个SIG不可短接。
-
-ADC未ready沿用原音量/原音高，运行故障保持最后有效参数。连接后有预热/滤波等待；弯音软件中心为63/64，实物行程需校准。当前SCL推挽，不支持时钟拉伸。不要照独立C工程的H19/H20接线，它们属于Joy-Con线路。下方针号均按板上1脚标记定位。
-
-按半音排列，bit0 在最低位，范围 MIDI60～72。白键在前排，黑键在后排：
+![用户照片中的下方排针；右端为1/2脚](connector-j13-photo.png)
 
 ```text
-后排：     C#4  D#4       F#4  G#4  A#4
-前排：  C4   D4   E4   F4   G4   A4   B4   C5
+按上图正面方向（不是底面）：
+左：网口                                           右：Sipeed标志
+上排靠散热片 ... 17   15   13   11   9    7    5    3    1
+信号标识       A21  A20  A16   5V  B16  A14  B13  C15  E14
+下排靠金手指 ... 18   16   14   12  10    8    6    4    2
+信号标识       B21  B20  A15  GND  B15  A13  C13  C14  E13
+                       ← 针号由右向左递增，每竖列为一对针
 ```
 
-| 标签/端口位 | 音符 | 颜色 | 模块 OUT/开关信号端接到底板 | FPGA 球位 | Bank |
+**11脚是5V，12脚是GND，两脚都不接琴键信号。本方案模块电源从J8/J9取3.3V/GND。** J8/J9的1/2脚为3.3V，3/4脚为GND；先核对1脚方向和板上标记再分配电源。按键、ADC和旋钮必须共地。保持杜邦线短，面包板分段电源轨须检查连通。
+
+接线前断开板卡供电和USB。该接口使用外部SDRAM0扩展线，不能同时插接驱动这些线的扩展板；不涉及核心板DDR3的Bank9/10/11。当前数字I/O为3.3V Bank1/2，不能抄138K原理图的Bank编号。
+
+## 按模块K编号接，不按半音编号数
+
+八键模块的K1～K8全部是白键，五键模块单独从K1编号。RTL的piano_key_n仍按C、C#、D…C排列，区别由CST完成。
+
+| 模块端子 / 端口位 | 音符 | 颜色 | 模块信号端接到底板 | FPGA球位 | Bank |
 |---|---|---|---|---|---:|
-| K00 / piano_key_n[0] | C4 | 白 | J9 第11脚，PMOD0_IO0 | P19 | 7 |
-| K01 / piano_key_n[1] | C#4 | 黑 | J9 第12脚，PMOD0_IO1 | R19 | 7 |
-| K02 / piano_key_n[2] | D4 | 白 | J9 第9脚，PMOD0_IO2 | T21 | 7 |
-| K03 / piano_key_n[3] | D#4 | 黑 | J9 第10脚，PMOD0_IO3 | U21 | 7 |
-| K04 / piano_key_n[4] | E4 | 白 | J9 第7脚，PMOD0_IO4 | P16 | 6 |
-| K05 / piano_key_n[5] | F4 | 白 | J9 第8脚，PMOD0_IO5 | R17 | 6 |
-| K06 / piano_key_n[6] | F#4 | 黑 | J9 第5脚，PMOD0_IO6 | R18 | 6 |
-| K07 / piano_key_n[7] | G4 | 白 | J9 第6脚，PMOD0_IO7 | T18 | 6 |
-| K08 / piano_key_n[8] | G#4 | 黑 | J8 第11脚，PMOD1_IO0 | Y21 | 8 |
-| K09 / piano_key_n[9] | A4 | 白 | J8 第12脚，PMOD1_IO1 | Y22 | 8 |
-| K10 / piano_key_n[10] | A#4 | 黑 | J8 第9脚，PMOD1_IO2 | AB21 | 8 |
-| K11 / piano_key_n[11] | B4 | 白 | J8 第10脚，PMOD1_IO3 | AB22 | 8 |
-| K12 / piano_key_n[12] | C5 | 白 | J8 第7脚，PMOD1_IO4 | AA20 | 7 |
+| 八键K1 / piano_key_n[0] | C4 | 白 | J13 第1脚，SDRAM0_D0 | E14 | 1 |
+| 八键K2 / piano_key_n[2] | D4 | 白 | J13 第2脚，SDRAM0_D1 | E13 | 1 |
+| 八键K3 / piano_key_n[4] | E4 | 白 | J13 第3脚，SDRAM0_D2 | C15 | 1 |
+| 八键K4 / piano_key_n[5] | F4 | 白 | J13 第4脚，SDRAM0_D3 | C14 | 1 |
+| 八键K5 / piano_key_n[7] | G4 | 白 | J13 第5脚，SDRAM0_D4 | B13 | 1 |
+| 八键K6 / piano_key_n[9] | A4 | 白 | J13 第6脚，SDRAM0_D5 | C13 | 1 |
+| 八键K7 / piano_key_n[11] | B4 | 白 | J13 第7脚，SDRAM0_D6 | A14 | 1 |
+| 八键K8 / piano_key_n[12] | C5 | 白 | J13 第8脚，SDRAM0_D7 | A13 | 1 |
+| 五键K1 / piano_key_n[1] | C#4 | 黑 | J13 第9脚，SDRAM0_D15 | B16 | 1 |
+| 五键K2 / piano_key_n[3] | D#4 | 黑 | J13 第10脚，SDRAM0_D14 | B15 | 1 |
+| 五键K3 / piano_key_n[6] | F#4 | 黑 | J13 第13脚，SDRAM0_D13 | A16 | 1 |
+| 五键K4 / piano_key_n[8] | G#4 | 黑 | J13 第14脚，SDRAM0_D12 | A15 | 1 |
+| 五键K5 / piano_key_n[10] | A#4 | 黑 | J13 第15脚，SDRAM0_D11 | A20 | 2 |
+| knob_sda | ADC数据 | — | J13 第16脚，SDRAM0_D10 | B20 | 2 |
+| knob_scl | ADC时钟 | — | J13 第17脚，SDRAM0_D9 | A21 | 2 |
 
-该 NEO Dock 的 J8/J9 **第1、2脚是 +3V3，第3、4脚是 GND，第5～12脚才是信号**。
-按板上1脚标记定位，并按实际针脚编号接，不套用其他 PMOD 板的编号或凭图上左右位置接线。
-FPGA 球位列用于 CST，不是杜邦线直接连接的位置。
+按键模块VCC接3.3V、GND共地，各K信号接表中位置。本固件要求未按高、按下低；FPGA启用上拉。普通无源开关一个触点接信号，另一个接GND。黑白键电路相同，不能根据按钮塑料颜色决定音符。
 
-接线按低有效按钮实现：
+## ADC、旋钮、屏幕和音频
 
-- 普通无源开关：一个有效触点接对应信号脚，另一个触点接 GND；FPGA 已启用内部上拉。四脚轻触开关应使用按下才导通的一对触点。
-- VCC/GND/OUT 按键模块：VCC 接3.3V、GND共地、OUT接表中信号脚；本固件要求未按为高、按下为低。模块针序按其丝印接，输出不得超过3.3V。
-- 所有琴键地可以共用。黑白键的电路和消抖完全一样，音符由端口位编号决定。
+用户实物为Gravity 16-Bit ADC Module V1.0（ADS1115）。四线插头按照片：**红=+3.3V、黑=GND、绿=D/SDA、蓝=C/SCL**；同时核对板上+、−、D、C丝印。地址拨到0x48，I2C上拉到3.3V。
 
-## 复用条件与保留接口
+两个Rotation Sensor-L V3为模拟电位器模块：黑GND、红3.3V、蓝SIG。音量旋钮SIG接ADC A0蓝色A端，弯音旋钮SIG接A1蓝色A端；对应行黑−/红+给旋钮供电。两个SIG不能相连，不直接接FPGA。模拟输入限制0～3.3V。旋钮正中对应弯音63/64死区，实际中心需上板校准。
 
-四个 PMOD0 引脚 P19/R19/T21/U21 默认属于 CPU 专用脚。工程的受控 `process_config.json` 已设 `CPU=true`，含义是 **Use CPU as regular IO**，不是运行 CPU 发声。构建会复制受控配置并核对实际生效配置哈希。厂商说明见 [Gowin Software User Guide 的 Dual-Purpose Pin](https://cdn.gowinsemi.com.cn/SUG100E.pdf)。
+主工程I2C约347.22kHz、860SPS/每通道等待1.5ms；当前SCL推挽，不支持时钟拉伸。真实上升沿/上拉及噪声需要实测，不能根据RTL分频推定接线电气合格。
 
-若在 GUI 新建工程，必须在 Configuration → Place & Route → Dual-Purpose Pin 勾选 **Use CPU as regular IO**，并选择正确顶层、ROM、CST/SDC。缺这个选项，布局会报告 CPU 专用脚不可使用。
+CLB7INH屏的HD IN接板卡HDMI，POWER/DC5V接独立合适5V电源；CTOUCH和Backlight CTR本轮不接。不要给屏幕接12V，也不从FPGA信号排针给屏幕供电。耳机/有源音箱接板卡音频接口，HDMI不输出声音。
 
-PMOD 与 SDRAM1/DVP 相机扩展线共用，接琴键期间不要并接相机、PMOD外设或使用这些线的 SDRAM1 电路；J14的对应线也不算额外独立GPIO。旧 C LED 演示约束使用了其中部分球位，不要与此主钢琴约束混用。
+## 下载后逐项核对
 
-时钟、复位、两板载键、音频和UART保留用户给定的10个球位，13键没有占用 LCD RGB/CTP/Joy-Con 线路。本轮正式使用 J8 第8脚 PMOD1_IO5/AA21 作为ADS1115 SDA，J8 第5脚 PMOD1_IO6/AA19作为SCL；IO7仍空闲。依据[厂家31004 Rev1.4原理图](https://dl.sipeed.com/fileList/TANG/Mega_138K_60K/02_Schematic/DOCK/Tang_Mega_NEO_Dock-60K_31004_Schematics.pdf)第7、19页核对。独立C历史H19/H20是Joy-Con线路，本轮不改其快照，不能照接。
+1. 确认下载位流与本表同一版本，先接八键K1，低音量检查C4和屏幕C4高亮。
+2. 依次K2～K8，应是D4、E4、F4、G4、A4、B4、C5；每次只按一个。五黑键未接时保留上拉，随后按表接入。
+3. KEY2切吉他，画面变暖色指板，新音为经典摇滚电吉他；按住旧钢琴音再切换，其声音保留、指板不冒出对应旧音高亮。
+4. 验证音量静音/恢复、弯音中心与两端，再测试和弦、快速重按及松键尾音。
+5. K6仍无响应时：先看A4高亮；断电后把K5/K6模块输出线对调，判断故障随按钮/线还是固定输入位置移动。恢复原接线后记录结果。换了CST不能视为硬件故障已经排除。
 
-板载 KEY1/KEY2 保留 C4/E4 测试功能，在13键模式分别与 K00/K04 合并为同一个逻辑按键；任意一个仍按住时不会因另一个松开而关音。黑键不承担功能设置操作。
+## 依据与重现
 
-## 构建与验证
-
-从本工程根目录运行：
+[31005底板原理图](https://dl.sipeed.com/fileList/TANG/Mega_138K_60K/02_Schematic/DOCK/Tang_Mega_NEO_Dock-138K_31005_Schematics.pdf)第19页J13→第7页BTB，再查60K核心板第1/4/6页球位和Bank供电。目录名31004暂保留历史路径；实际逐信号记录在[接线合同](../verification/data/board_31005_j13.json)。
 
 ```powershell
-./verification/scripts/run_performance_tests.ps1
-./projects/piano/build.ps1 -EvidenceDirectory build/performance -Python C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe
+python verification/scripts/check_j13_wiring.py --report projects/piano/impl/pnr/piano_performance.rpt.txt --report projects/hdmi/impl/pnr/piano_hdmi.rpt.txt
 ```
 
-生成位流位于 `projects/piano/impl/pnr/piano_performance.fs`；实际版本/校验值见 `build/performance/artifact.txt`。仅当按本表接线并核对模块电平后，用已有 SRAM Program 流程试板；本次未自动操作下载器或写Flash。
-
-先接 K00 单键，检查 C4；再检查 K01 黑键 C#4、K12 高音 C5，随后补齐其他键。实体13键可同时发声，PC可补至16声部；第17音优先抢最老已松键尾音，再抢最老按住音。PC与琴键同音也分别占用声部。
-
-独立新增测试覆盖全部13键音符/来源、逐键非零音频、四键和弦、第五键抢占、旧松键不误关新音、板键别名保持、13键突发和复位。第二项使用真实50MHz/48kHz、2ms消抖及正式钢琴包络，检查1ms脉冲被拒绝、C5稳定按下到PCM和完整左声道数字字。
-
-原有测试文件保持与基线字节一致；重跑 C 7项、钢琴2项、UART7项，加新增2项，共18项通过。全部87个有效Verilog文件严格编译通过。输入扩展使资源发生变化，构建检查验证4个实际音频 pROM 实例、23端口约束、7条激活时序约束及setup/hold/recovery/removal/pulse-width五类路径表；同时检查源码时间和构建输入哈希。
-
-最终核对结果：50MHz周期20ns，setup **+4.519ns**、hold **+0.227ns**，setup/hold违例均为0；recovery/removal/pulse-width表也无负余量。Logic 6225、寄存器2815、BSRAM6、DSP8.5。实际生效配置与受控配置的哈希相同，4个音频pROM实例保留。
-
-单次新C5数字观测：稳定输入到PCM **2.020220ms**，到完整左声道数字字 **2.030880ms**，1ms脉冲不触发。这只是该相位/空声部/无积压用例，不是所有工况上界或整机实测，真实接点抖动与DAC/功放模拟延迟未计入。
-
-随提交保留的验证摘要在 `verification/evidence/keyboard/summary.json`；本机重新生成的摘要与补丁位于 `build/keyboard-verification`。13键原提交保留57份原测试；本次归并保持主Verilog测试原样，在独立C中刷新4份已发布测试接口，来源和哈希在 `verification/c_source_refresh.json`。PR1014与完整DAC外部时序/模拟输出延迟仍待闭合。以上为13键阶段历史验证；本轮已迁移控制合同、接通16声部和双旋钮，当前结果以[验证说明](verification.md)为准。
-
-## 引脚依据
-
-- [NEO Dock31004 Rev1.4原理图](https://dl.sipeed.com/shareURL/TANG/Mega_138K_60K/02_Schematic)：第6/7页板间连接与第19页 J8/J9接口。
-- [60K核心板原理图](https://dl.sipeed.com/shareURL/TANG/Mega_138K_60K/02_Schematic)：球位映射与第6页 Bank6/7/8 的3.3V供电。
-- 高云布局后的 `piano_13key.rpt.txt` 再次核对全部13脚均为输入、LVCMOS33、UP、3.3V，并核对正确球位和Bank。
-
-原始原理图与快照保留原样，没有把通用球位表视为新外设已经接好的证据。
-
-本提交通过上述官方资料目录提供原理图，不重复上传PDF。已核对原件的SHA256：
-
-- `tang_mega_neo_dock_60k_schematic.pdf`：`5ca6049ed80bab57bcaa87cc5e58926f569f2ca2aa11b984d52da1782633f976`
-- `tang_mega_60k_schematic.pdf`：`f9a1a01862fe8c48cb5461e88f84d61e37d03f2d032e0baee7ef03fb951f6157`
+检查器核对合同、文档、CST和两个真实实现报告，拒绝错球位/电压/报告；它不证明用户杜邦线已经接到正确实物位置。1脚方向已由用户照片正反面核对，实际逐键/K6、模拟延迟尚需上板记录。不得把桥接扬声器端接示波器地夹；测量音频前按原理图确认测点，见[外部时序与测量边界](verification.md)。
