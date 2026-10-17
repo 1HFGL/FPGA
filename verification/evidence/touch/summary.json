@@ -1,0 +1,94 @@
+{
+  "baseline_commit": "a0684e4b7c19ec895eee61adf9bcf95b148ce355",
+  "scope": "FPGA normalized-coordinate control and display preparation",
+  "physical_usb_input_implemented": false,
+  "hardware_verified": false,
+  "strict_verilog_files": 162,
+  "tests": {
+    "tb_touch_brightness": "PASS tb_touch_brightness: 2111 reports; all 1024 x positions, capture, reset, boundaries, malformed, disconnect and timeout",
+    "tb_touch_hdmi_audio": "PASS tb_touch_hdmi_audio: full16 mixed presets, independent controls, R927, 17804 serial words, 5319 altered samples, video isolation and finite tails",
+    "tb_touch_display": "PASS tb_touch_display: three actual RGB frames, 3072 independent slider-row pixels, labels, atomic CDC, disconnected/zero/midpoint",
+    "tb_tone_filter": "PASS tb_tone_filter: 14992 outputs, R2 valid, reset cancellation, overrun",
+    "tb_brightness_keys": "PASS tb_brightness_keys: debounce, step, hold, clamps, restore, frame slew, reset",
+    "tb_panel_octaves": "PASS tb_panel_octaves: all ranges, piano glyphs, 3042 fret pixel checks, every guitar note visible, high fret labels",
+    "tb_final_hdmi_isolation": "PASS tb_final_hdmi_isolation: full16 serial audio identical; mode/control, HPD/PLL/pixel-stop/reset, samples=369 drops=19",
+    "tb_hdmi_octaves": "PASS tb_hdmi_octaves: actual 2ms debounce, low/middle/high frame state, both instruments, held-note ownership, brightness priority, 3307 matching audio samples",
+    "tb_final_display_ui": "PASS tb_final_display_ui: both modes real modal frames, pixel-exact renderer match=1841400, title=9168 soft=16975 piano_held=44927"
+  },
+  "unit_filter_reference_samples": 14992,
+  "touch_filter_reference_samples": 8893,
+  "exact_bypass_samples": 538,
+  "changed_tone_samples": 5319,
+  "full_16_voice_samples": 2937,
+  "protected_published_files_unchanged": 192,
+  "old_font_rows_unchanged": true,
+  "current_usb_boundary": "Tied disconnected; testbench reports are simulation only",
+  "audio_contract": "HDMI R927, no-screen R924; default127 exact original samples",
+  "touch_csv_sha256": "cdafa046bdcfa99dfa6599e87696d7a95be0d13b78adda320e28f3a5005b6b0d",
+  "checker_sha256": "2e16a9e6d4418c1969efb0708ad63fbb71d038296b1b2ae78421a1ce73b9467e",
+  "disconnected_preview_build": {
+    "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+    "resources": {
+      "Logic": {
+        "used": 20668,
+        "available": 59904
+      },
+      "Register": {
+        "used": 8066,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 94,
+        "available": 118
+      },
+      "DSP": {
+        "used": 16,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 1,
+        "available": 8
+      }
+    },
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 0.184,
+      "3.1.2 Hold Paths Table": 0.131,
+      "3.1.3 Recovery Paths Table": 0.834,
+      "3.1.4 Removal Paths Table": 0.143,
+      "3.2 Minimum Pulse Width Table": 5.803
+    },
+    "ports": 34,
+    "active_constraints": 17,
+    "bitstream_sha256": "93eae4d1294394a11e1ca9f599ff4ff9b9850b2f3941b47848078748d3614658",
+    "limitation": "Constant disconnected input is optimized; dynamic host/control path must be implemented and rebuilt later"
+  },
+  "preview_package": "build/audition/touch_brightness_prepare_20261017/hdmi_touch_brightness_preview.fs",
+  "evidence_sha256": {
+    "preview_build_inputs.txt": "6f8f2c8f98a91697b449be62030b504ed4ea8b1a337e83b3b4a54c29d36f7f9f",
+    "preview_implementation_check.json": "4df24fbb6d872d89f34b526b171ffc5f127b254553b8675debbd8ee34a9c5d5c",
+    "preview_timing.txt": "135a2fde9037458889aac9f8d213a6a332106620e5ddc62b0e6ac571cd72efca",
+    "strict_compile.log": "491c1e557f6a3dfb29b4acd7861b0619f7027fb16781503529d252cd8d82b87f",
+    "strict_inputs.txt": "d4870375a476ebb507de9a8aa1b15eb0dbe2ad607457b84da524401db9aeb61f",
+    "tb_brightness_keys_console.log": "26b9004ae95b994c7da80f7249113831c0040b63735dd806abc1c1501946e324",
+    "tb_brightness_keys_inputs.json": "a3a8a35ffb75c9ef20ce2a3647b5ba3043eef209b7086424f696aa0e52c16d1e",
+    "tb_final_display_ui_console.log": "4926da8de1ad041d1e262b4a5904d31fe5dd42f1ce5569f52da62c1ed51bacd1",
+    "tb_final_display_ui_inputs.json": "edf8580f27b513275ab04e4d9f4eadc6592a44299f290c884095616de0ecead8",
+    "tb_final_hdmi_isolation_console.log": "5e4d7f634503ec4e99b0622307e961af37fc71f55c38c1ca0c8fc301d3184f72",
+    "tb_final_hdmi_isolation_inputs.json": "d882114e605dd0bb275eed42d85564b4a226557c38a342b2af19a86664763760",
+    "tb_hdmi_octaves_console.log": "45be3c0b0556f3f107e9d6e747ec53fb89d2ad6ee183b4ce0f405ee6bb467697",
+    "tb_hdmi_octaves_inputs.json": "a4265d9bc6257f999a7efad62b99f75cb3be2b090a5786d20bb50caed896c316",
+    "tb_panel_octaves_console.log": "b0aef9a18c1e2da68430a6e1f59fe9f324da9d99fb70646b7f337ce48386ae94",
+    "tb_panel_octaves_inputs.json": "071c8e9e78e7fdeace9849ec74356555b20e634abaf8254940495831a7b97a88",
+    "tb_tone_filter_console.log": "f2462cb7534787571ec63514fdfddab543dcc2b95ba5e88c90dd2656e5d56f78",
+    "tb_tone_filter_inputs.json": "d15876a693c38ac2d7eb5383700212d64c82ffbab202eea361974207c5e2d845",
+    "tb_touch_brightness_console.log": "76cfc9cc41219d79ea8d625bcc2bca3682e898331d09f4ca2025c07982f5cafe",
+    "tb_touch_brightness_inputs.json": "a5956451a66ae56e40233dcf6b2debe97f155b5b20f2bbf4eb318695f7c0c804",
+    "tb_touch_display_console.log": "22ff849387d62a87c70864186689dd2d67c0767f83a2483b1d846d133e7edee8",
+    "tb_touch_display_inputs.json": "a62305cdd67490d77fee7f1f1745869548af2fe2062ad8d2380f8bcc583934e8",
+    "tb_touch_hdmi_audio_console.log": "07213fb64409f9b4ad2100c47e5d4bcd0e404b33217cb812648375ee525a79a2",
+    "tb_touch_hdmi_audio_inputs.json": "25cf4df87e76dc6c99154a2035a278b55e520237eaf69c7a0cc1504cbe2d3526",
+    "touch_dark.png": "870cb952219b468391bdaeaa5133791b9db614a78df523138c0334869e5e8eee",
+    "touch_disconnected.png": "84b622a6c08e3e5b23ac8a2a32f5d0cd5065e630f4f1f43f69ff13888e5236da",
+    "touch_guitar_mid.png": "1e921d3357f2b04f631172c1841e047052190610901468ef61379bf34789a587"
+  }
+}

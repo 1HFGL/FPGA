@@ -19,6 +19,21 @@ module instrument_panel_renderer(
     wire [23:0] background=instrument_guitar?24'h18130f:24'h0c141e;
     wire [23:0] panel=instrument_guitar?24'h251e18:24'h152331;
     wire [23:0] accent=instrument_guitar?24'hf0b76b:24'h65d9ed;
+    // Low range uses frets 0..12; high range scrolls to frets 12..24.
+    // The high-range highlight layout equals middle shifted one octave.
+    function guitar_held;
+        input integer note;
+        input [1:0] range_select;
+        input [12:0] held;
+        begin
+            guitar_held=1'b0;
+            if(range_select==0)begin
+                if(note>=48 && note<=60)guitar_held=held[note-48];
+            end else if(note>=60 && note<=72)guitar_held=held[note-60];
+        end
+    endfunction
+    wire [5:0] first_octave_glyph=(octave==0)?6'd23:(octave==2)?6'd25:6'd24;
+    wire [5:0] last_octave_glyph=first_octave_glyph+6'd1;
     wire [23:0] grid=instrument_guitar?24'h483728:24'h2a4054;
     localparam [23:0] TEXT=24'he8edf2,MUTED=24'ha4b4c3;
     wire signed [31:0] low_amp=$signed({{16{wave_min[15]}},wave_min}) <<< gain_shift;
@@ -162,7 +177,7 @@ module instrument_panel_renderer(
                 if(x>=96 && x<928 && y>=center_y && y<=center_y+(s>=3))base_rgb=24'hb6aa95;
                 for(f=0;f<=12;f=f+1)begin
                     n=open_note(s)+f;center_x=128+f*64;
-                    if(n>=60 && n<=72 && key_down[n-60] &&
+                    if(guitar_held(n,octave,key_down) &&
                        x>=center_x-9 && x<=center_x+9 && y>=center_y-7 && y<=center_y+7)
                         base_rgb=accent;
                 end
@@ -190,13 +205,16 @@ module instrument_panel_renderer(
         if(!instrument_guitar)begin
             label4(40,374,2,{6'd3,6'd4,12'd0},0,accent);
             for(k=0;k<8;k=k+1)
-                label4(65+k*120,524,2,{white_letter(k),(k==7?6'd25:6'd24),12'd0},0,24'h304052);
+                label4(65+k*120,524,2,{white_letter(k),(k==7?last_octave_glyph:first_octave_glyph),12'd0},0,24'h304052);
         end else begin
             label4(40,374,4,{6'd36,6'd37,6'd38,6'd39},0,accent);
             for(s=0;s<6;s=s+1)
                 label4(40,404+s*24,2,{string_letter(s),(s==0?6'd24:s<4?6'd23:6'd22),12'd0},0,MUTED);
             for(f=0;f<=12;f=f+1)begin
-                if(f<10)label4(116+f*64,550,1,{dg(f[3:0]),18'd0},0,MUTED);
+                if(octave==2)begin
+                    if(f<8)label4(103+f*64,550,2,{6'd21,dg(f[3:0]+4'd2),12'd0},0,MUTED);
+                    else label4(103+f*64,550,2,{6'd22,dg(f[3:0]-4'd8),12'd0},0,MUTED);
+                end else if(f<10)label4(116+f*64,550,1,{dg(f[3:0]),18'd0},0,MUTED);
                 else label4(103+f*64,550,2,{6'd21,dg(f[3:0]-4'd10),12'd0},0,MUTED);
             end
         end

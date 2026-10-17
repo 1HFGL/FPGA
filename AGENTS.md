@@ -2,6 +2,10 @@
 
 本文件面向在当前目录工作的后续AI助手；详细学习与开发安排见 [PLAN.md](./PLAN.md)。本文件不能替代用户当次要求或更高优先级指令。
 
+## 最新操作覆盖：2026-10-17 触摸明亮度准备
+
+用户确认最终独立运行，只有明亮度改用触摸；KEY1三音区、KEY2乐器保留。当前触摸线未接，HDMI默认ENABLE_TOUCH_BRIGHTNESS=1仅接规范化报告边界常量零，显示“触摸关”。不要宣称USB主机／HID已实现，不要猜接线或刷控制器。共用核心EXTERNAL_BRIGHTNESS=1允许音区键与外部明亮度并用，48kHz逐级平滑，tone_filter不变，HDMI R927／无屏R924。原A模型／ROM／约束／上游TB不动。板卡侧合同见docs/touch-brightness.md，结果见verification/evidence/touch/summary.json。下文历史“明亮度停用”仅适用于旧音区包；新预览包不表示物理触摸已通。
+
 ## 项目与人员事实
 
 - 2026-10-17审查与修复：Opus缓存包络步长会在R0换预设或连续sample_tick时读取旧结果，已改为当前幅度的双预设候选并行计算后选择，不增加音频延迟。新增独立整数参考139069次对照和Env负向检查；正式UI=1保留2bit覆盖度字模/原生48px标题，审计改用`*_ui_frame.hex`并与UI=0转储分开。149个发布文件严格编译、8项正式/7项A原版/Python定点对照、HDMI17次恢复与负向检查、57项PC测试通过。145份受保护文件及34份导入文件不变，固定清单在verification/data。两入口重建：HDMI Logic19835/FF7716/BSRAM94/DSP13.5，五类余量+1.021/+0.203/+0.834/+0.143/+5.803ns；无屏Logic16127/FF7110/BSRAM80/DSP13，+0.744/+0.146/+14.893/+1.220/+6.809ns。R923/R924和原约束/process/接线不变。详见docs/verification及final摘要；仍未代为下载或实物验收，不称全面签核。
@@ -102,6 +106,12 @@
 学习和赛题来源见PLAN.md。AGENTS.md采用项目级助手说明文件形式，依据[OpenAI官方说明](https://learn.chatgpt.com/docs/agent-configuration/agents-md)；本文件只提供当前项目约定，不修改全局设置。
 
 
-## 2026-10-17 第三表情维度整合
+## 历史记录：第三表情维度（已由当前 KEY1 音区方案取代）
+
+> 以下仅适用于旧 expression3 位流。当前正式入口停用明亮度，KEY1 切三音区，缓存恢复 R924；不再执行短按调暗／长按恢复。
 
 正式无屏和HDMI入口在master aef94e5上启用第三维明亮度。KEY1短按调暗／长按0.5秒恢复，KEY2继续切乐器；KEY1不再作C4别名。保留31005/J13接线、模态核心和显示，正式缓存合同R927。说明见docs/design.md，验证见verification/evidence/expression/summary.json；不得把旧接线位流交给现有线束。
+
+## 当前操作覆盖：2026-10-17 三音区
+
+用户已确认此前音色异常是音响问题。最新用户要求优先KEY1切换音区，暂不做明亮度：两个正式入口ENABLE_OCTAVE_KEY=1、ENABLE_BRIGHTNESS=0；复位钢琴/中音区，KEY1中→高→低→中（每次按下一个档位，不长按连跳），KEY2切乐器并保留音区。低C3～C4/中C4～C5/高C5～C6，每区13音，两乐器相同。旧音按原音高松键、PC绝对MIDI独立；音区和高亮共同寄存送HDMI。高音吉他显示12～24品。当前音频合同恢复R923有效/R924缓存，原60半边沿提前量不变。旧明亮度代码仅保留可选兼容，不与音区功能同时启用；八度不计第三表情维度。当前下载包build/audition/octave3_j13_20261017，证据verification/evidence/octaves/summary.json。新位流实物验收仍待用户进行。

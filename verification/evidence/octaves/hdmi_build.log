@@ -1,0 +1,464 @@
+*** GOWIN Tcl Command Line Console  *** 
+Open project C:/Users/Nanji/Documents/GitHub/FPGA/projects/hdmi/piano_hdmi.gprj finished
+GowinSynthesis start
+Running parser ...
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\brightness_keys.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\audio\tone_filter.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\input_sync_debounce.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\touch_or_key_if.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\event_encoder.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\piano_controls.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\i2c_master.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\ads1115_if.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\ads1115_knob_if.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\adc_knob_if.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\voice_allocator.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_rx.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_tx.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_fifo.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_line_rx.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_reply_tx.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_synth_protocol.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_event_arbiter.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\top\instrument_uart_top.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\top\instrument_uart_piano_top.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\top\piano_13key_top.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\top\piano_performance_top.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\phase_acc.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_dds.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\note_phase_lut.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\adsr_env.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\sample_gain.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_adsr.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\sample_mixer4.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_env.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_modal_adapter.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\audio\i2s_tx.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\audio\sample_tick.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\audio\synth_top.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_cdc_latest.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\lcd_rgb_timing.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_wave_buffer.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_wave_envelope.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\instrument_panel_renderer.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\instrument_panel_ui.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_font24.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_font_ui.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\piano_display_renderer.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\instrument_display.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_bend_map.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\tmds_encoder.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\dvi_tx_gowin.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\hdmi_clock_60k.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\hdmi_reset_guard.v'
+Analyzing Verilog file 'C:\Users\Nanji\Documents\GitHub\FPGA\rtl\top\piano_hdmi_top.v'
+Compiling module 'piano_hdmi_top'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\top\piano_hdmi_top.v":4)
+Compiling module 'hdmi_clock_60k'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\hdmi_clock_60k.v":4)
+Compiling module 'hdmi_reset_guard'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\hdmi_reset_guard.v":3)
+Compiling module 'ads1115_knob_if'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\ads1115_knob_if.v":9)
+Compiling module 'ads1115_if(I2C_HZ=350000,I2C_ADDR=7'b1001000,DR=3'b111,CONV_WAIT=75000,STARTUP_WAIT=80000,RETRY_WAIT=500000)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\ads1115_if.v":4)
+Compiling module 'i2c_master(I2C_HZ=350000)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\i2c_master.v":5)
+Compiling module 'adc_knob_if(ADC_WIDTH=15,READY_SAMPLES=2,SLEW_STEP=127,FILTER_SHIFT=0)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\adc_knob_if.v":7)
+Compiling module 'display_bend_map'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_bend_map.v":4)
+Compiling module 'instrument_uart_top(DECAY_SAMPLES=57600,RELEASE_SAMPLES=8640,SUSTAIN_LEVEL=0,ROM_FILE="..\..\rtl\rom\piano_1024.mem",FIXED_PIANO=1,REQUEST_LEAD_HALF_EDGES=60,EXTERNAL_PIANO_KEYS=1,VOICES=16,ENABLE_CONTROLS=1,ENABLE_GUITAR=1,USE_MODAL=1,ENABLE_OCTAVE_KEY=1)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\top\instrument_uart_top.v":3)
+Compiling module 'input_sync_debounce(CNT_WIDTH=17)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\input_sync_debounce.v":7)
+Compiling module 'touch_or_key_if(KEY_COUNT=13)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\touch_or_key_if.v":6)
+Compiling module 'input_sync_debounce'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\input_sync_debounce.v":7)
+Compiling module 'event_encoder(KEY_COUNT=13,SOURCE_WIDTH=8,CHROMATIC_KEYS=1,ENABLE_PLAY_CONTROL=32'b00000000000000000000000000000001)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\event_encoder.v":5)
+Extracting RAM for identifier 'pending_mem'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\event_encoder.v":23)
+Extracting RAM for identifier 'fifo_mem'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\event_encoder.v":29)
+Compiling module 'uart_synth_protocol(FIXED_PIANO=1,VOICES=16,ENABLE_GUITAR=1)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_synth_protocol.v":3)
+Compiling module 'uart_rx'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_rx.v":3)
+Compiling module 'uart_fifo(ADDR_BITS=6)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_fifo.v":3)
+Extracting RAM for identifier 'mem'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_fifo.v":10)
+Compiling module 'uart_line_rx'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_line_rx.v":4)
+Compiling module 'uart_fifo(WIDTH=15)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_fifo.v":3)
+Extracting RAM for identifier 'mem'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_fifo.v":10)
+Compiling module 'uart_reply_tx(FIXED_PIANO=1,VOICES=16,ENABLE_GUITAR=1)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_reply_tx.v":4)
+Compiling module 'uart_tx'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_tx.v":2)
+Compiling module 'uart_event_arbiter'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\uart_event_arbiter.v":3)
+Compiling module 'voice_allocator(VOICES=16,IDX_WIDTH=4,SOURCE_WIDTH=8,MERGE_SAME_NOTE=0,ENABLE_CANCEL=1,ENABLE_PLAY_CONTROL=1,CHECK_RELEASE_ID=1)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\voice_allocator.v":9)
+Compiling module 'voice_bank_adsr(ROM_FILE="..\..\rtl\rom\piano_1024.mem",ATTACK_SAMPLES=32'b00000000000000000000000001100000,DECAY_SAMPLES=32'b00000000000000001110000100000000,SUSTAIN_LEVEL=17'b00000000000000000,RELEASE_SAMPLES=32'b00000000000000000010000111000000,BRIGHT_ROM_FILE="..\..\rtl\rom\piano_1024.mem",VOICES=16,ENABLE_CONTROLS=1,ENABLE_GUITAR=1,GUITAR_ROM_FILE="..\..\rtl\rom\guitar_1024.mem",SINE_ROM_FILE="..\..\rtl\rom\sine_1024.mem")'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":13)
+Compiling module 'note_phase_lut'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\note_phase_lut.v":7)
+Compiling module 'voice_timbre_adsr(ROM_FILE="..\..\rtl\rom\piano_1024.mem",BRIGHT_ROM_FILE="..\..\rtl\rom\piano_1024.mem",ATTACK_SAMPLES=32'b00000000000000000000000001100000,DECAY_SAMPLES=32'b00000000000000001110000100000000,SUSTAIN_LEVEL=17'b00000000000000000,RELEASE_SAMPLES=32'b00000000000000000010000111000000,ENABLE_GUITAR=1,GUITAR_ROM_FILE="..\..\rtl\rom\guitar_1024.mem",SINE_ROM_FILE="..\..\rtl\rom\sine_1024.mem")'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":6)
+Compiling module 'phase_acc'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\phase_acc.v":6)
+Compiling module 'wave_lut_timbre(ROM_FILE="..\..\rtl\rom\piano_1024.mem",BRIGHT_ROM_FILE="..\..\rtl\rom\piano_1024.mem")'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":6)
+Compiling module 'wave_lut(ROM_FILE="..\..\rtl\rom\piano_1024.mem")'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut.v":5)
+Extracting RAM for identifier 'rom'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut.v":15)
+Compiling module 'adsr_env(ATTACK_SAMPLES=32'b00000000000000000000000001100000,DECAY_SAMPLES=32'b00000000000000001110000100000000,SUSTAIN_LEVEL=17'b00000000000000000,RELEASE_SAMPLES=32'b00000000000000000010000111000000)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\adsr_env.v":10)
+Compiling module 'sample_gain'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\sample_gain.v":7)
+Compiling module 'voice_instrument(SINE_ROM_FILE="..\..\rtl\rom\sine_1024.mem",GUITAR_ROM_FILE="..\..\rtl\rom\guitar_1024.mem",STRINGS_ROM_FILE="..\..\rtl\rom\piano_1024.mem",S_ATTACK=32'b00000000000000000000000001100000,S_DECAY=32'b00000000000000001110000100000000,S_RELEASE=32'b00000000000000000010000111000000,S_SUSTAIN=17'b00000000000000000,S_FIXED_TONE=1)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":5)
+Compiling module 'instrument_env(G_ATTACK=32'b00000000000000000000000001000000,G_DECAY=32'b00000000000000001000000000000000,G_RELEASE=32'b00000000000000000001000000000000,G_SUSTAIN=17'b00000000000000000,S_ATTACK=32'b00000000000000000000000001100000,S_DECAY=32'b00000000000000001110000100000000,S_RELEASE=32'b00000000000000000010000111000000,S_SUSTAIN=17'b00000000000000000)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_env.v":6)
+Compiling module 'instrument_wave(SINE_ROM_FILE="..\..\rtl\rom\sine_1024.mem",GUITAR_ROM_FILE="..\..\rtl\rom\guitar_1024.mem",STRINGS_ROM_FILE="..\..\rtl\rom\piano_1024.mem")'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":5)
+Compiling module 'wave_lut(ROM_FILE="..\..\rtl\rom\sine_1024.mem")'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut.v":5)
+Extracting RAM for identifier 'rom'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut.v":15)
+Compiling module 'wave_lut(ROM_FILE="..\..\rtl\rom\guitar_1024.mem")'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut.v":5)
+Extracting RAM for identifier 'rom'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut.v":15)
+Compiling module 'sample_mixer4(VOICES=16)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\sample_mixer4.v":9)
+Compiling module 'piano_controls'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\control\piano_controls.v":4)
+Compiling module 'voice_bank_modal_adapter(MODE_ROM_FILE="..\..\rtl\rom\piano_v3_modes.mem",SHAPER_ROM_FILE="..\..\rtl\rom\rock_v2_shaper.mem",SINE_ROM_FILE="..\..\rtl\rom\sine_1024.mem")'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_modal_adapter.v":5)
+Compiling module 'voice_bank_music_pipe(MODE_ROM_FILE="..\..\rtl\rom\piano_v3_modes.mem",SHAPER_ROM_FILE="..\..\rtl\rom\rock_v2_shaper.mem",SINE_ROM_FILE="..\..\rtl\rom\sine_1024.mem")'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":6)
+Extracting RAM for identifier 'mode_rom'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":36)
+Extracting RAM for identifier 'sine_rom'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":37)
+Extracting RAM for identifier 'shaper_rom'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":38)
+Extracting RAM for identifier 'phases'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":39)
+Extracting RAM for identifier 'amplitudes'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":40)
+Extracting RAM for identifier 'correction'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":56)
+Extracting RAM for identifier 'fade_left'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":57)
+Extracting RAM for identifier 'lfsr'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":58)
+Extracting RAM for identifier 'bend'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":58)
+Extracting RAM for identifier 'noise_sample'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_music_pipe.v":59)
+Compiling module 'instrument_env(G_ATTACK=16,G_DECAY=1,G_RELEASE=32'b00000000000000000000100000000000,G_SUSTAIN=65536,S_ATTACK=64,S_DECAY=1,S_RELEASE=32'b00000000000000000001000000000000,S_SUSTAIN=65536)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_env.v":6)
+Compiling module 'synth_top(AUDIO_CLK_HZ=50000000,REQUEST_LEAD_HALF_EDGES=60,MAX_SAMPLE_LATENCY_CYCLES=924)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\audio\synth_top.v":8)
+Compiling module 'sample_tick(AUDIO_CLK_HZ=50000000,REQUEST_LEAD_HALF_EDGES=60)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\audio\sample_tick.v":10)
+Compiling module 'i2s_tx'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\audio\i2s_tx.v":8)
+Compiling module 'instrument_display(H_ACTIVE=1024,V_ACTIVE=600,WIDE=1,H_SYNC=104,H_BACK=144,V_FRONT=3,V_SYNC=7,V_BACK=14,VS_ACTIVE=1,ENHANCED=1,UI=1)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\instrument_display.v":12)
+Compiling module 'display_cdc_latest(WIDTH=66)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_cdc_latest.v":5)
+Compiling module 'display_cdc_latest'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_cdc_latest.v":5)
+Compiling module 'lcd_rgb_timing(H_ACTIVE=1024,H_SYNC=104,H_BACK=144,V_ACTIVE=600,V_FRONT=3,V_SYNC=7,V_BACK=14,VS_ACTIVE=1)'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\lcd_rgb_timing.v":4)
+Compiling module 'display_wave_buffer'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_wave_buffer.v":5)
+Extracting RAM for identifier 'memory'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_wave_buffer.v":14)
+Compiling module 'display_wave_envelope'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_wave_envelope.v":4)
+Extracting RAM for identifier 'memory'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_wave_envelope.v":13)
+Compiling module 'instrument_panel_ui'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\instrument_panel_ui.v":8)
+WARN  (EX2420) : Latch inferred for net 'ny[31]'; We do not recommend the use of latches in FPGA designs, as they may lead to timing problems("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\instrument_panel_ui.v":425)
+Compiling module 'display_font_ui'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_font_ui.v":7)
+Extracting RAM for identifier 'text_rom'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_font_ui.v":16)
+Extracting RAM for identifier 'title_rom'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\display_font_ui.v":17)
+Compiling module 'dvi_tx_gowin'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\dvi_tx_gowin.v":4)
+Compiling module 'tmds_encoder'("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\tmds_encoder.v":5)
+NOTE  (EX0101) : Current top module is "piano_hdmi_top"
+[5%] Running netlist conversion ...
+Running device independent optimization ...
+[10%] Optimizing Phase 0 completed
+[15%] Optimizing Phase 1 completed
+[25%] Optimizing Phase 2 completed
+Running inference ...
+[30%] Inferring Phase 0 completed
+[40%] Inferring Phase 1 completed
+[50%] Inferring Phase 2 completed
+[55%] Inferring Phase 3 completed
+Running technical mapping ...
+[60%] Tech-Mapping Phase 0 completed
+[65%] Tech-Mapping Phase 1 completed
+[75%] Tech-Mapping Phase 2 completed
+[80%] Tech-Mapping Phase 3 completed
+[90%] Tech-Mapping Phase 4 completed
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_controls.u_master" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\top\instrument_uart_top.v":255)
+WARN  (NL0002) : The module "voice_bank_adsr" instantiated to "u_bank" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\top\instrument_uart_top.v":239)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[0].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[0].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[0].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[10].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[10].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[10].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[11].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[11].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[11].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[12].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[12].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[12].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[13].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[13].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[13].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[14].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[14].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[14].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[15].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[15].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[15].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[1].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[1].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[1].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[2].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[2].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[2].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[3].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[3].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[3].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[4].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[4].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[4].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[5].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[5].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[5].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[6].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[6].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[6].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[7].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[7].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[7].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[8].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[8].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[8].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "note_phase_lut" instantiated to "g_voice[9].u_note" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":103)
+WARN  (NL0002) : The module "sample_gain" instantiated to "g_voice[9].u_velocity" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":131)
+WARN  (NL0002) : The module "voice_timbre_adsr" instantiated to "g_voice[9].u_voice" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":116)
+WARN  (NL0002) : The module "voice_instrument" instantiated to "g_dual.u_instrument" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":99)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_amplitude" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":110)
+WARN  (NL0002) : The module "instrument_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":76)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":79)
+WARN  (NL0002) : The module "instrument_wave" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_instrument.v":86)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_guitar" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":24)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_sine" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":21)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_strings" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\instrument_wave.v":27)
+WARN  (NL0002) : The module "adsr_env" instantiated to "u_env" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":80)
+WARN  (NL0002) : The module "sample_gain" instantiated to "u_gain" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":85)
+WARN  (NL0002) : The module "phase_acc" instantiated to "u_phase_acc" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":69)
+WARN  (NL0002) : The module "wave_lut_timbre" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_timbre_adsr.v":73)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_bright" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":26)
+WARN  (NL0002) : The module "wave_lut" instantiated to "u_soft" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\wave_lut_timbre.v":22)
+WARN  (NL0002) : The module "sample_mixer4" instantiated to "u_mix" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\synth\voice_bank_adsr.v":153)
+WARN  (NL0002) : The module "display_wave_buffer" instantiated to "u_wave" is swept in optimizing("C:\Users\Nanji\Documents\GitHub\FPGA\rtl\display\instrument_display.v":87)
+[95%] Generate netlist file "C:\Users\Nanji\Documents\GitHub\FPGA\projects\hdmi\impl\gwsynthesis\piano_hdmi.vg" completed
+[100%] Generate report file "C:\Users\Nanji\Documents\GitHub\FPGA\projects\hdmi\impl\gwsynthesis\piano_hdmi_syn.rpt.html" completed
+GowinSynthesis finish
+Reading netlist file: "C:\Users\Nanji\Documents\GitHub\FPGA\projects\hdmi\impl\gwsynthesis\piano_hdmi.vg"
+Parsing netlist file "C:\Users\Nanji\Documents\GitHub\FPGA\projects\hdmi\impl\gwsynthesis\piano_hdmi.vg" completed
+Processing netlist completed
+Reading constraint file: "C:\Users\Nanji\Documents\GitHub\FPGA\build\hdmi\piano_hdmi.cst"
+Physical Constraint parsed completed
+Running placement......
+[10%] Placement Phase 0 completed
+[20%] Placement Phase 1 completed
+[30%] Placement Phase 2 completed
+[50%] Placement Phase 3 completed
+Running routing......
+[60%] Routing Phase 0 completed
+[70%] Routing Phase 1 completed
+[80%] Routing Phase 2 completed
+WARN  (PR1014) : Generic routing resource will be used to clock signal 'sys_clk_d' by the specified constraint. And then it may lead to the excessive delay or skew
+[90%] Routing Phase 3 completed
+Running timing analysis......
+[95%] Timing analysis completed
+Placement and routing completed
+Bitstream generation in progress......
+Bitstream generation completed
+Running power analysis......
+[100%] Power analysis completed
+Generate file "C:\Users\Nanji\Documents\GitHub\FPGA\projects\hdmi\impl\pnr\piano_hdmi.power.html" completed
+Generate file "C:\Users\Nanji\Documents\GitHub\FPGA\projects\hdmi\impl\pnr\piano_hdmi.pin.html" completed
+Generate file "C:\Users\Nanji\Documents\GitHub\FPGA\projects\hdmi\impl\pnr\piano_hdmi.rpt.html" completed
+Generate file "C:\Users\Nanji\Documents\GitHub\FPGA\projects\hdmi\impl\pnr\piano_hdmi.rpt.txt" completed
+Generate file "C:\Users\Nanji\Documents\GitHub\FPGA\projects\hdmi\impl\pnr\piano_hdmi.tr.html" completed
+Sat Oct 17 16:48:56 2026
+
+PASS HDMI synthesis and PNR execution; inspect timing/constraints before hardware use.
+
