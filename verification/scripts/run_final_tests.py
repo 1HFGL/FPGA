@@ -43,7 +43,7 @@ for top in a.tops:
         if result.returncode or re.search(r'\bFAIL\b|\*\* (Error|Fatal):', body):
             print(body[-5000:]); raise SystemExit('Failed: ' + str(log))
         return body
-    support = [ROOT/'verification/tb/integration/performance_adc_model.v'] if top in ('tb_final_performance','tb_performance_adc') else []
+    support = [ROOT/'verification/tb/integration/performance_adc_model.v'] if top in ('tb_final_performance','tb_performance_adc','tb_performance_octaves') else []
     sim_top=top
     if a.legacy:
         instances={'tb_final_performance':['dut'],'tb_performance_adc':['dut'],'tb_performance_latency':['dut'],
@@ -52,10 +52,10 @@ for top in a.tops:
         sim_top='legacy_'+top
         wrapper=OUT/(sim_top+'.v')
         wrapper.write_text('module '+sim_top+';\n'+top+' original();\n'+
-            '\n'.join('defparam original.'+inst+('.ENABLE_BRIGHTNESS=0;' if top=='tb_final_performance' else '.USE_MODAL=0;') for inst in instances[top])+'\nendmodule\n')
+            '\n'.join('defparam original.'+inst+('.ENABLE_BRIGHTNESS=0;\ndefparam original.'+inst+'.ENABLE_OCTAVE_KEY=0;' if top=='tb_final_performance' else '.USE_MODAL=0;') for inst in instances[top])+'\nendmodule\n')
         support.append(wrapper)
     vendor=Path(a.gowin_simlib) if top in (
-        'tb_final_hdmi_isolation','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
+        'tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
     inputs = [*test_sources, *support, tb, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem')]+([vendor] if vendor else [])
     (OUT / (tag + '_inputs.json')).write_text(json.dumps({
         'flags': '-vlog01compat -pedanticerrors',

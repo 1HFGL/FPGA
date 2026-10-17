@@ -19,7 +19,8 @@ module instrument_uart_top #(
     parameter MODE_ROM_FILE="",
     parameter SHAPER_ROM_FILE="",
     parameter integer ENABLE_BRIGHTNESS=0,
-    parameter integer BRIGHTNESS_REPEAT_CYCLES=25000000
+    parameter integer BRIGHTNESS_REPEAT_CYCLES=25000000,
+    parameter integer ENABLE_OCTAVE_KEY=0
 )(
     input wire sys_clk,sys_rst_n,input wire [1:0] Key_in,
     input wire [12:0] piano_key_n,
@@ -34,11 +35,34 @@ module instrument_uart_top #(
     output wire signed [15:0] monitor_audio_sample,
     output reg [12:0] monitor_key_down,
     output wire monitor_instrument_guitar,
-    output reg [12:0] monitor_piano_keys,monitor_guitar_keys
+    output reg [12:0] monitor_piano_keys,monitor_guitar_keys,
+    output reg [1:0] monitor_octave
 );
     wire audio_ready,sample_request,sample_underrun;
     assign control_ready=audio_ready;
     localparam integer PHYSICAL_KEYS=EXTERNAL_PIANO_KEYS ? 13 : 2;
+    // KEY1 has a single role. Octave mode bypasses the optional brightness path.
+    localparam integer USE_BRIGHTNESS=ENABLE_BRIGHTNESS && !ENABLE_OCTAVE_KEY;
+    reg [1:0] selected_octave;
+    wire octave_press;
+    wire [1:0] next_octave=(selected_octave==2)?2'd0:selected_octave+2'd1;
+    wire [1:0] active_octave=ENABLE_OCTAVE_KEY ? selected_octave :
+        (ENABLE_CONTROLS && control_octave<3 ? control_octave : 2'd1);
+    // Simultaneous accepted KEY1 and note presses use the new range.
+    wire [1:0] event_octave=(ENABLE_OCTAVE_KEY && octave_press)?next_octave:active_octave;
+    wire [6:0] display_note_base=(active_octave==0)?7'd48:(active_octave==2)?7'd72:7'd60;
+    generate if(ENABLE_OCTAVE_KEY)begin:g_octave_key
+        input_sync_debounce #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),
+            .CNT_WIDTH((DEBOUNCE_CYCLES>1)?$clog2(DEBOUNCE_CYCLES):1)) u_octave(
+            .clk(sys_clk),.rst_n(audio_ready),.async_in(Key_in[0]),
+            .level(),.press_pulse(octave_press),.release_pulse());
+    end else begin:g_external_octave
+        assign octave_press=1'b0;
+    end endgenerate
+    always @(posedge sys_clk)begin
+        if(!audio_ready)selected_octave<=2'd1;
+        else if(octave_press)selected_octave<=next_octave;
+    end
     // 编译期从基准ROM的目录定位同目录乐器表，GUI/仿真都沿用各自有效路径。
     // 可用显式参数覆盖；函数只处理常量文件名，不形成硬件路径处理器。
     function [2047:0] sibling_rom;
@@ -79,10 +103,10 @@ module instrument_uart_top #(
     wire note_guitar=ENABLE_GUITAR && (selected_guitar ^ mode_press);
     wire [PHYSICAL_KEYS-1:0] physical_key_n,key_press,key_release;
     generate if (EXTERNAL_PIANO_KEYS) begin : g_external_keys
-        // 默认兼容C4/E4别名；正式明亮度模式下KEY1调音色、KEY2切乐器，外接13键全保留。
-        assign physical_key_n=ENABLE_BRIGHTNESS ? piano_key_n : piano_key_n & {8'hff,(ENABLE_GUITAR?1'b1:Key_in[1]),3'b111,Key_in[0]};
+        // 正式KEY1切音区、KEY2切乐器；旧兼容配置仍保留C4/E4别名。
+        assign physical_key_n=(USE_BRIGHTNESS || ENABLE_OCTAVE_KEY) ? piano_key_n : piano_key_n & {8'hff,(ENABLE_GUITAR?1'b1:Key_in[1]),3'b111,Key_in[0]};
     end else begin : g_board_keys
-        assign physical_key_n=ENABLE_GUITAR?{1'b1,Key_in[0]}:Key_in;
+        assign physical_key_n={ENABLE_GUITAR?1'b1:Key_in[1],ENABLE_OCTAVE_KEY?1'b1:Key_in[0]};
     end endgenerate
     wire pv,pr,pt,cv,cr,ct,av,ar,at,cancel,cancel_ready,ac,acr,session_ready;
     wire [7:0] ps,asrc;
@@ -109,14 +133,14 @@ module instrument_uart_top #(
     assign monitor_audio_valid=output_sample_valid;
     assign monitor_audio_sample=output_sample_data;
     // 只观察已接受的声部状态：PC与实体同音作OR，尾音不显示成仍按住。
-    // 当前板级音区固定中档；越出C4..C5的PC音符仍发声，但不映射到这13键。
+    // 仅高亮当前13音窗口；换档前仍按住的越区旧音继续发声，按原音高松键。
     reg [12:0] held_keys,piano_held,guitar_held;
     integer monitor_voice,monitor_key;
     always @(*) begin
         held_keys=0;piano_held=0;guitar_held=0;
         for(monitor_voice=0;monitor_voice<VOICES;monitor_voice=monitor_voice+1)
             for(monitor_key=0;monitor_key<13;monitor_key=monitor_key+1)
-                if(voice_key_down[monitor_voice] && voice_note_flat[monitor_voice*7+:7]==60+monitor_key)
+                if(voice_key_down[monitor_voice] && voice_note_flat[monitor_voice*7+:7]==display_note_base+monitor_key)
                 begin
                     held_keys[monitor_key]=1'b1;
                     if(bank_timbre[monitor_voice])guitar_held[monitor_key]=1'b1;
@@ -124,8 +148,11 @@ module instrument_uart_top #(
                 end
     end
     always @(posedge sys_clk) begin
-        if(!audio_ready)begin monitor_key_down<=0;monitor_piano_keys<=0;monitor_guitar_keys<=0;end
-        else begin monitor_key_down<=held_keys;monitor_piano_keys<=piano_held;monitor_guitar_keys<=guitar_held;end
+        if(!audio_ready)begin monitor_key_down<=0;monitor_piano_keys<=0;monitor_guitar_keys<=0;monitor_octave<=1;end
+        else begin
+            monitor_key_down<=held_keys;monitor_piano_keys<=piano_held;monitor_guitar_keys<=guitar_held;
+            monitor_octave<=active_octave;
+        end
     end
     wire signed [15:0] bank_sample_data;
     wire bank_sample_valid;
@@ -165,10 +192,10 @@ module instrument_uart_top #(
         .clk(sys_clk),.rst_n(audio_ready),.raw_key(physical_key_n),.key_level(),
         .key_press(key_press),.key_release(key_release));
     event_encoder #(.KEY_COUNT(PHYSICAL_KEYS),.SOURCE_WIDTH(8),.CHROMATIC_KEYS(EXTERNAL_PIANO_KEYS),
-        .ENABLE_PLAY_CONTROL(ENABLE_CONTROLS)) u_key_events(
+        .ENABLE_PLAY_CONTROL(ENABLE_CONTROLS || ENABLE_OCTAVE_KEY)) u_key_events(
         .clk(sys_clk),.rst_n(audio_ready),.key_press(key_press),.key_release(key_release),
         .key_velocity_flat({PHYSICAL_KEYS{7'd100}}),.input_timbre(4'd0),
-        .octave_select(ENABLE_CONTROLS ? control_octave : 2'd1),.input_overflow(input_fault),
+        .octave_select(event_octave),.input_overflow(input_fault),
         .event_valid(pv),.event_ready(pr),.event_type(pt),.event_source_id(ps),
         .event_note(pn),.event_velocity(pvel),.event_timbre());
     uart_synth_protocol #(.CLKS_PER_BIT(UART_CLKS_PER_BIT),.WATCHDOG_CYCLES(WATCHDOG_CYCLES),
@@ -249,8 +276,8 @@ module instrument_uart_top #(
         assign release_done=legacy_release_done;assign release_trigger_id_flat=legacy_release_ids;
     end endgenerate
     // Three-clock tone pipeline follows either bank. It never blocks audio requests.
-    // In dual-instrument mode KEY2 remains the mode button; KEY1 alone shapes tone.
-    generate if(ENABLE_BRIGHTNESS) begin:g_brightness
+    // Optional legacy brightness mode is disabled while KEY1 controls octave.
+    generate if(USE_BRIGHTNESS) begin:g_brightness
         brightness_keys #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),.REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES),
             .SINGLE_KEY(ENABLE_GUITAR)) u_keys(
             .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),.key_n(Key_in),
@@ -265,7 +292,7 @@ module instrument_uart_top #(
     end endgenerate
     synth_top #(.AUDIO_CLK_HZ(50000000),.SAMPLE_RATE_HZ(48000),
         .REQUEST_LEAD_HALF_EDGES(REQUEST_LEAD_HALF_EDGES),
-        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?(56*VOICES+28):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(ENABLE_BRIGHTNESS?3:0))) u_b(
+        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?(56*VOICES+28):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(USE_BRIGHTNESS?3:0))) u_b(
         .clk_in(sys_clk),.rst_n(sys_rst_n),.audio_enable(pa_audio_enable),.sample_data(output_sample_data),.sample_valid(output_sample_valid),
         .audio_ready(audio_ready),.sample_request(sample_request),.sample_underrun(sample_underrun),
         .i2s_bclk(HP_BCK),.i2s_lrclk(HP_WS),.i2s_sdata(HP_DIN),.pa_en(PA_EN),

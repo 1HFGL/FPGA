@@ -2,9 +2,23 @@
 
 当前正式版本：**钢琴v3＋经典摇滚电吉他，13实体键和UART共享16声部，两旋钮控制总音量及全局±2半音弯音，7寸1024×600 HDMI中文显示**。
 
-2026-10-16已接入队友master `e18160e` 的模态核心与配套ROM；钢琴显示琴键，吉他显示六弦指板。KEY2切换新音的预设，旧音/尾音保留原音色；KEY1调节明亮度（短按调暗、长按恢复），KEY0复位回钢琴。新位流的八白键连续接下方40针接口1～8，五黑键接9、10、13、14、15，ADC仍接16/17。具体见[唯一接线表](docs/keyboard-wiring.md)。
+2026-10-16已接入队友master `e18160e` 的模态核心与配套ROM；钢琴显示琴键，吉他显示六弦指板。KEY2切换新音的预设，旧音/尾音保留原音色；KEY1按次切换中→高→低→中音区，KEY0复位回钢琴和中音区。新位流的八白键连续接下方40针接口1～8，五黑键接9、10、13、14、15，ADC仍接16/17。具体见[唯一接线表](docs/keyboard-wiring.md)。
 
 实物是 **NEO Dock31005＋Tang Mega60K核心板**。约束目录保留历史名称31004，内容按31005底板与60K核心板核对。J8/J9仅取3.3V/GND，下方接口11脚为5V，不能接3.3V信号或模块电源。
+
+## 当前：KEY1 三音区
+
+两个正式入口默认开启 `ENABLE_OCTAVE_KEY=1`，复位为钢琴、中音区。KEY1每次有效按下只前进一档，长按不连跳；KEY2切换乐器但保留音区。
+
+| 音区 | 13个实体键依次发音 | MIDI |
+|---|---|---|
+| 低 | C3、C#3、D3…B3、C4 | 48～60 |
+| 中（开机） | C4、C#4、D4…B4、C5 | 60～72 |
+| 高 | C5、C#5、D5…B5、C6 | 72～84 |
+
+按住旧音再切音区，旧音保持音高，松键按原音符释放；新按键使用新音区。HDMI同步切换音区名称、琴键音名与持键窗口；吉他高音区显示12～24品。换区后越出当前窗口的旧音仍会发声，不显示为新音区的琴键。
+
+本机当前试听包：`build/audition/octave3_j13_20261017/`，带屏选 `hdmi_octave3_j13.fs`，无屏选 `piano_octave3_j13.fs`。接线、双旋钮、16声部及钢琴/经典摇滚合成参数保持原样。验证与上板边界见[验证记录](docs/verification.md)。用户已确认此前音色异常来自音响；本次新增音区仍需实物试听。明亮度暂缓，不把八度选音宣称为新增第三表情维度。
 
 ## 两个下载入口
 
@@ -29,25 +43,26 @@
 
 ![吉他模式：真实RTL像素](docs/display-guitar.png)
 
-两图来自当前RTL完整帧及实际模态合成输出，不是软件仿画。界面使用离线生成的2bit覆盖度字模，48px标题为原生渲染，不是把24px点阵放大。波形显示512样本/约10.67ms，自动倍率×1～×256；右侧电平条直接反映音频数字峰值，显示放大不改变声音。高亮只表示仍持有的已分配音符，旧钢琴音不会被画到吉他指板上。
+两图为此前中音区RTL完整帧及实际模态合成输出的示例，不是软件仿画；新音区的标签和吉他品位以当前RTL为准。界面使用离线生成的2bit覆盖度字模，48px标题为原生渲染，不是把24px点阵放大。波形显示512样本/约10.67ms，自动倍率×1～×256；右侧电平条直接反映音频数字峰值，显示放大不改变声音。高亮只表示仍持有的已分配音符，旧钢琴音不会被画到吉他指板上。
 
 钢琴含48个模态槽，吉他含31个分量、拨弦噪声、失真和箱体处理；ROM是合成参数/单周期正弦/传递曲线，不是整音PCM录音。A核心保持队友原输出，试听仍需按相同音高和接近响度与实物对照。钢琴松键释放约85.33ms，吉他约42.67ms再加箱体收尾；按住时分量自然衰减，没有旧版固定1.2秒清零。
 
-音频50MHz系统/48kHz采样/16位，16声部R923原始样本有效，新增明亮度后R927缓存，提前60个半位边沿准备。PT8211-S使用LSBJ右对齐格式；模块名I2S不自动证明标准Philips格式或赛题接口口径已闭合。
+音频50MHz系统/48kHz采样/16位，16声部R923原始样本有效，正式版明亮度旁路、R924缓存，提前60个半位边沿准备。PT8211-S使用LSBJ右对齐格式；模块名I2S不自动证明标准Philips格式或赛题接口口径已闭合。
 
-音量复位为满增益（既有集成测试合同），ADC就绪后平滑采用旋钮值；掉线保持最后有效参数。ADC为ADS1115，860SPS/每通道等待1.5ms/实际约347.22kHz I2C；AIN0音量、AIN1弯音。串口115200/8N1，保留NOTES/STATUS及`TONE=PIANO_GUITAR`识别，音色由KEY2选择。板级固定中音区、延音关闭。
+音量复位为满增益（既有集成测试合同），ADC就绪后平滑采用旋钮值；掉线保持最后有效参数。ADC为ADS1115，860SPS/每通道等待1.5ms/实际约347.22kHz I2C；AIN0音量、AIN1弯音。串口115200/8N1，保留NOTES/STATUS及`TONE=PIANO_GUITAR`识别，音色由KEY2选择。板级KEY1选择低C3～C4／中C4～C5／高C5～C6，各13音；延音关闭。电脑UART发送绝对MIDI音符，仍由上位机自己的音区选择控制。
 
 ## 验证入口
 
 ```powershell
 ./verification/scripts/check_verilog.ps1
-python verification/scripts/run_final_tests.py tb_final_env_alignment tb_final_modal_adapter tb_final_performance tb_performance_latency tb_final_wave_envelope tb_final_display_frame tb_final_display_ui tb_final_hdmi_isolation
+python verification/scripts/run_final_tests.py tb_panel_octaves tb_performance_octaves tb_hdmi_octaves tb_final_display_ui tb_final_hdmi_isolation
+python verification/scripts/run_final_tests.py tb_final_performance --legacy
 python verification/scripts/run_music_tests.py --bin C:/Library/modelsim/win64
 python model/check_music_pipe.py build/regression/music/tb_music_pipe.csv
 ./verification/scripts/run_hdmi_reset_tests.ps1
 ```
 
-使用实际Python路径或已配置的Python。原R4/R6/R7测试通过明确兼容参数验证，队友TB和黄金数据不改；它们不替代新正式入口的R927联合验收。完整命令、当前结果、资源/五类时序、负向对照和受保护文件检查见[验证记录](docs/verification.md)。
+使用实际Python路径或已配置的Python。原R4/R6/R7测试通过明确兼容参数验证，队友TB和黄金数据不改；它们不替代新正式入口的R924三音区联合验收。完整命令、当前结果、资源/五类时序、负向对照和受保护文件检查见[验证记录](docs/verification.md)。
 
 ## 项目导航
 
@@ -71,7 +86,9 @@ master同时保留队友A的 `projects/music/uart_music.gprj` 独立试听工程
 当前尚需实物验收新音色、逐键接线/K6、旋钮噪声/中心校准和模拟总延迟。USB触摸、混响、32声部不属于本轮；完整比赛目标仍在PLAN中。PR1014、DAC完整外部时序和其他板外预算未闭合，当前约束检查通过不等于全面签核。
 
 
-## 2026-10-17 第三表情维度整合
+## 历史记录：第三表情维度（已由当前 KEY1 音区方案取代）
+
+> 以下仅适用于旧 expression3 位流。当前正式入口停用明亮度，KEY1 切三音区，缓存恢复 R924；不再执行短按调暗／长按恢复。
 
 本次在队友最新master `aef94e5`上接入明亮度，保留31005底板J13接线、模态钢琴／经典摇滚、16复音和HDMI画面。两个正式入口均启用：旋钮0音量、旋钮1弯音、KEY1明亮度；KEY2继续切换乐器。KEY1短按每次调暗16级，到0后再次短按回127；长按约0.5秒恢复127，复位也恢复127。KEY1不再兼作C4，外接13琴键映射不变。两键同时按下仍会触发KEY2切音色，不再作为第三维恢复手势。
 
@@ -80,4 +97,4 @@ master同时保留队友A的 `projects/music/uart_music.gprj` 独立试听工程
 新验证入口`verification/scripts/run_expression_tests.ps1`；整合结果与新位流身份见`verification/evidence/expression/summary.json`。旧e18160e基线的31004／旧接线试听包不适用于当前J13接线；请从本次整合后的正式工程构建或使用新包。既有PR1014、DAC完整外部时序、模拟总延迟及新增听感仍需实物验收。PPT第12页的≥3维是扩展目标，基础要求仍为≥2维。
 
 
-本机最新三维试听包：`build/audition/expression3_j13_20261017/`（无屏／HDMI各一份），适用当前31005/J13接线。代码与证据通过整理分支及PR交付，GitHub合并记录为最终发布状态。
+历史三维试听包（不是当前推荐下载入口）：`build/audition/expression3_j13_20261017/`（无屏／HDMI各一份），适用当前31005/J13接线。代码与证据通过整理分支及PR交付，GitHub合并记录为最终发布状态。
