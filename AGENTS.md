@@ -102,6 +102,12 @@
 学习和赛题来源见PLAN.md。AGENTS.md采用项目级助手说明文件形式，依据[OpenAI官方说明](https://learn.chatgpt.com/docs/agent-configuration/agents-md)；本文件只提供当前项目约定，不修改全局设置。
 
 
-## 2026-10-17 第三表情维度整合
+## 历史记录：第三表情维度（已由当前 KEY1 音区方案取代）
+
+> 以下仅适用于旧 expression3 位流。当前正式入口停用明亮度，KEY1 切三音区，缓存恢复 R924；不再执行短按调暗／长按恢复。
 
 正式无屏和HDMI入口在master aef94e5上启用第三维明亮度。KEY1短按调暗／长按0.5秒恢复，KEY2继续切乐器；KEY1不再作C4别名。保留31005/J13接线、模态核心和显示，正式缓存合同R927。说明见docs/design.md，验证见verification/evidence/expression/summary.json；不得把旧接线位流交给现有线束。
+
+## 当前操作覆盖：2026-10-17 三音区
+
+用户已确认此前音色异常是音响问题。最新用户要求优先KEY1切换音区，暂不做明亮度：两个正式入口ENABLE_OCTAVE_KEY=1、ENABLE_BRIGHTNESS=0；复位钢琴/中音区，KEY1中→高→低→中（每次按下一个档位，不长按连跳），KEY2切乐器并保留音区。低C3～C4/中C4～C5/高C5～C6，每区13音，两乐器相同。旧音按原音高松键、PC绝对MIDI独立；音区和高亮共同寄存送HDMI。高音吉他显示12～24品。当前音频合同恢复R923有效/R924缓存，原60半边沿提前量不变。旧明亮度代码仅保留可选兼容，不与音区功能同时启用；八度不计第三表情维度。当前下载包build/audition/octave3_j13_20261017，证据verification/evidence/octaves/summary.json。新位流实物验收仍待用户进行。

@@ -5,7 +5,8 @@ module piano_hdmi_top #(
     parameter ROM_FILE="../../rtl/rom/piano_1024.mem",
     parameter integer DEBOUNCE_CYCLES=100000,
     parameter integer DISPLAY_LOCK_CYCLES=100000,
-    parameter integer ENABLE_BRIGHTNESS=1,
+    parameter integer ENABLE_BRIGHTNESS=0,
+    parameter integer ENABLE_OCTAVE_KEY=1,
     parameter integer BRIGHTNESS_REPEAT_CYCLES=25000000,
     parameter integer USE_MODAL=1,
     parameter integer UART_CLKS_PER_BIT=434
@@ -27,6 +28,7 @@ module piano_hdmi_top #(
         .rst_n(sys_rst_n),.pll_locked(pll_locked && hdmi_hpd),.display_rst_n(display_reset));
     wire [12:0] held_keys;
     wire instrument_guitar;
+    wire [1:0] current_octave;
     reg [6:0] volume;
     reg signed [15:0] bend;
     wire signed [15:0] audio_sample;
@@ -50,13 +52,14 @@ module piano_hdmi_top #(
         .FIXED_PIANO(1),.ATTACK_SAMPLES(96),.DECAY_SAMPLES(57600),.SUSTAIN_LEVEL(0),.RELEASE_SAMPLES(8640),
         .REQUEST_LEAD_HALF_EDGES(USE_MODAL?60:2),.EXTERNAL_PIANO_KEYS(1),.VOICES(16),
         .ENABLE_CONTROLS(1),.ENABLE_GUITAR(1),.USE_MODAL(USE_MODAL),
-        .ENABLE_BRIGHTNESS(ENABLE_BRIGHTNESS),.BRIGHTNESS_REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES)) u_core(
+        .ENABLE_BRIGHTNESS(ENABLE_BRIGHTNESS),.ENABLE_OCTAVE_KEY(ENABLE_OCTAVE_KEY),
+        .BRIGHTNESS_REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES)) u_core(
         .sys_clk(sys_clk),.sys_rst_n(sys_rst_n),.Key_in(Key_in),.piano_key_n(piano_key_n),
         .uart_rx(uart_rx),.uart_tx(uart_tx),.HP_BCK(HP_BCK),.HP_WS(HP_WS),.HP_DIN(HP_DIN),.PA_EN(PA_EN),
         .knob_value_flat(knob_value_flat),.knob_valid(knob_valid),.param_ready(param_ready),.param_fault(param_fault),
         .control_sustain(1'b0),.control_octave(2'd1),.control_ready(core_ready),.monitor_audio_valid(audio_valid),
         .monitor_audio_sample(audio_sample),.monitor_key_down(held_keys),.monitor_instrument_guitar(instrument_guitar),
-        .monitor_piano_keys(piano_held_keys),.monitor_guitar_keys(guitar_held_keys));
+        .monitor_piano_keys(piano_held_keys),.monitor_guitar_keys(guitar_held_keys),.monitor_octave(current_octave));
     wire [23:0] rgb;
     wire de,hs,vs;
     // UI=1：正式 2bit 覆盖度界面；旧逐像素帧测试仍用 UI=0 的兼容绘制器。
@@ -65,7 +68,7 @@ module piano_hdmi_top #(
         .HS_ACTIVE(0),.VS_ACTIVE(1)) u_display(
         .sys_clk(sys_clk),.pixel_clk(pixel_clk),.rst_n(display_reset),.key_down(held_keys),
         .piano_keys(piano_held_keys),.guitar_keys(guitar_held_keys),
-        .volume(volume),.pitch_bend(bend),.octave(2'd1),.sustain(1'b0),.instrument_guitar(instrument_guitar),
+        .volume(volume),.pitch_bend(bend),.octave(current_octave),.sustain(1'b0),.instrument_guitar(instrument_guitar),
         .audio_valid(audio_valid),.audio_sample(audio_sample),
         .lcd_rgb(rgb),.lcd_de(de),.lcd_hsync(hs),.lcd_vsync(vs),.frame_start(),.display_sample_drop());
     // 在像素域同步释放编码器/OSER复位；锁丢失同时清掉显示信箱两端。
