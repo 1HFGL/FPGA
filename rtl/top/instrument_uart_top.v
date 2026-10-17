@@ -20,7 +20,8 @@ module instrument_uart_top #(
     parameter SHAPER_ROM_FILE="",
     parameter integer ENABLE_BRIGHTNESS=0,
     parameter integer BRIGHTNESS_REPEAT_CYCLES=25000000,
-    parameter integer ENABLE_OCTAVE_KEY=0
+    parameter integer ENABLE_OCTAVE_KEY=0,
+    parameter integer EXTERNAL_BRIGHTNESS=0
 )(
     input wire sys_clk,sys_rst_n,input wire [1:0] Key_in,
     input wire [12:0] piano_key_n,
@@ -36,13 +37,15 @@ module instrument_uart_top #(
     output reg [12:0] monitor_key_down,
     output wire monitor_instrument_guitar,
     output reg [12:0] monitor_piano_keys,monitor_guitar_keys,
-    output reg [1:0] monitor_octave
+    output reg [1:0] monitor_octave,
+    input wire [6:0] control_brightness, // synchronous to sys_clk; used only with EXTERNAL_BRIGHTNESS
+    output wire [6:0] monitor_brightness
 );
     wire audio_ready,sample_request,sample_underrun;
     assign control_ready=audio_ready;
     localparam integer PHYSICAL_KEYS=EXTERNAL_PIANO_KEYS ? 13 : 2;
-    // KEY1 has a single role. Octave mode bypasses the optional brightness path.
-    localparam integer USE_BRIGHTNESS=ENABLE_BRIGHTNESS && !ENABLE_OCTAVE_KEY;
+    // External brightness coexists with KEY1 octave; the old key mode stays exclusive.
+    localparam integer USE_BRIGHTNESS=ENABLE_BRIGHTNESS && (EXTERNAL_BRIGHTNESS || !ENABLE_OCTAVE_KEY);
     reg [1:0] selected_octave;
     wire octave_press;
     wire [1:0] next_octave=(selected_octave==2)?2'd0:selected_octave+2'd1;
@@ -129,6 +132,7 @@ module instrument_uart_top #(
     wire signed [15:0] output_sample_data;
     wire output_sample_valid,tone_tail,tone_overrun;
     wire [6:0] brightness_target,brightness_current;
+    assign monitor_brightness=brightness_current;
     wire output_sounding=sounding || tone_tail;
     assign monitor_audio_valid=output_sample_valid;
     assign monitor_audio_sample=output_sample_data;
@@ -276,12 +280,25 @@ module instrument_uart_top #(
         assign release_done=legacy_release_done;assign release_trigger_id_flat=legacy_release_ids;
     end endgenerate
     // Three-clock tone pipeline follows either bank. It never blocks audio requests.
-    // Optional legacy brightness mode is disabled while KEY1 controls octave.
+    // External control slews once per audio request, independently of pixel refresh.
     generate if(USE_BRIGHTNESS) begin:g_brightness
-        brightness_keys #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),.REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES),
-            .SINGLE_KEY(ENABLE_GUITAR)) u_keys(
-            .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),.key_n(Key_in),
-            .target(brightness_target),.current(brightness_current));
+        if(EXTERNAL_BRIGHTNESS)begin:g_external
+            reg [6:0] current;
+            assign brightness_target=control_brightness;
+            assign brightness_current=current;
+            always @(posedge sys_clk)begin
+                if(!audio_ready)current<=127;
+                else if(sample_request)begin
+                    if(current<brightness_target)current<=current+1'b1;
+                    else if(current>brightness_target)current<=current-1'b1;
+                end
+            end
+        end else begin:g_keys
+            brightness_keys #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),.REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES),
+                .SINGLE_KEY(ENABLE_GUITAR)) u_keys(
+                .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),.key_n(Key_in),
+                .target(brightness_target),.current(brightness_current));
+        end
         tone_filter u_tone(.clk(sys_clk),.rst_n(audio_ready),.in_valid(sample_valid),
             .sample_in(sample_data),.brightness(brightness_current),.sample_out(output_sample_data),
             .out_valid(output_sample_valid),.tail_active(tone_tail),.overrun(tone_overrun));

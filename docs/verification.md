@@ -192,3 +192,22 @@ python verification/scripts/run_final_tests.py tb_final_performance --legacy --b
 python verification/scripts/check_j13_wiring.py --report projects/piano/impl/pnr/piano_performance.rpt.txt --report projects/hdmi/impl/pnr/piano_hdmi.rpt.txt --output build/octaves-noscreen/j13-check.json
 python verification/scripts/summarize_octaves.py
 ```
+
+
+## 2026-10-17 触摸明亮度板卡侧准备版
+
+范围：KEY1三音区、KEY2钢琴／经典摇滚保持；HDMI上方加入明亮度滑条／原音按钮、接收规范化主触点的状态机及音频采样域平滑。默认127逐样本保留原音；HDMI R927，无屏R924。屏幕当前没有触摸线，USB主机／枚举／HID／坐标校准尚未实现，顶层输入接断开常量，显示“触摸关”。不能把本节证据当成物理触摸、第三维实物验收或整机延迟结论。
+
+- 严格Verilog-2001：162文件，0编译错误／警告；未修改旧测试。
+- 9项仿真：触摸2111份报告及全部1024个横坐标；捕获／滑入不触发／端点／原音／越界／断连／超时／复位；实际HDMI顶层两乐器16声部、双旋钮独立、R927、17804个串行DAC字、视频失锁／断开／停钟、有限尾音；三张真实RGB帧含3072个滑条所在行像素检查和帧原子更新。原音区、原UI、原按键明亮度及原音视频隔离回归通过。HDMI动态测试使用规范化报告仿真注入，未执行USB通信；ADC参数注入未宣称重跑真实I2C。
+- 独立Python整数参考：14992个滤波单元样本＋8893个本轮整合样本逐点一致，含538个精确旁路样本、5319个实际改变样本和2937个满16声部样本。全暗释放后状态精确归零。触摸改变谐波／能量但不写音量增益或弯音比。
+- 相对已发布a0684e4：192份受保护文件（模型／ROM／音频滤波／原约束／上游／既有TB等）无内容变化；原UI的57字及标题点阵逐行一致，仅填6个空槽。源码／日志输入身份随证据保存。
+- Gowin1.9.12.03已完成HDMI断开输入配置综合与布局布线：Logic20668、FF8066、BSRAM94/118、DSP16/118。Setup/Hold/Recovery/Removal/最小脉宽最差余量依次+0.184/+0.131/+0.834/+0.143/+5.803ns；34个引脚、17项有效约束及12个复位布局落点核验通过，未改引脚／SDC／process配置。
+
+首次新联合测试在最后复位阶段错误沿用了累计帧计数，误把复位首帧计为持续欠载；按已有上电窗口合同改为每次复位独立计数，最终重跑通过。只修正本轮新TB，不改RTL或放宽稳态欠载检查。供应商仿真库的4项real_duty自触发提示保留，不作为本设计功能错误或已解决事项。
+
+位流（仅预览控件／原有演奏）：`build/audition/touch_brightness_prepare_20261017/hdmi_touch_brightness_preview.fs`。
+SHA256：`93eae4d1294394a11e1ca9f599ff4ff9b9850b2f3941b47848078748d3614658`。
+本包不包含可用USB接收；输入常量会被综合裁剪，接入动态主机后需重新实现与审查资源／时序。当前+0.184ns是本次约束下最差Setup余量，不称宽裕或全面签核。旧PR1014、DAC完整外部时序、HDMI板外预算、真实触摸和模拟总延迟仍未闭合；没有代为烧录或推送。
+
+详见[交接合同](touch-brightness.md)与 `verification/evidence/touch/summary.json`。可重复汇总命令：`python verification/scripts/check_touch_preparation.py --package`。旧 `octave3_j13_20261017` 包保持原样。

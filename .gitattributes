@@ -4,3 +4,8 @@
 /build/audition/octave3_j13_20261017/* -text
 /build/audition/octave3_j13_20261017/*.fs binary
 /verification/evidence/octaves/* -text
+
+# Preserve the touch-preparation preview and reproducible evidence bytes.
+/build/audition/touch_brightness_prepare_20261017/* -text
+/build/audition/touch_brightness_prepare_20261017/*.fs binary
+/verification/evidence/touch/* -text

@@ -55,7 +55,7 @@ for top in a.tops:
             '\n'.join('defparam original.'+inst+('.ENABLE_BRIGHTNESS=0;\ndefparam original.'+inst+'.ENABLE_OCTAVE_KEY=0;' if top=='tb_final_performance' else '.USE_MODAL=0;') for inst in instances[top])+'\nendmodule\n')
         support.append(wrapper)
     vendor=Path(a.gowin_simlib) if top in (
-        'tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
+        'tb_touch_hdmi_audio','tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
     inputs = [*test_sources, *support, tb, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem')]+([vendor] if vendor else [])
     (OUT / (tag + '_inputs.json')).write_text(json.dumps({
         'flags': '-vlog01compat -pedanticerrors',

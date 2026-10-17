@@ -6,6 +6,7 @@
 // 本模块只做组合绘制，坐标均为编译期常量；不含除法、开方或整屏帧缓存。
 // 文本接口：本模块在 P0 给出字形/行/列请求，字模 ROM 在 P1 返回整行覆盖度。
 module instrument_panel_ui #(
+    parameter integer TOUCH_PANEL=0,
     parameter [23:0] C_BG      = 24'h0b1116,
     parameter [23:0] C_PANEL   = 24'h141d24,
     parameter [23:0] C_GRID    = 24'h26343d,
@@ -16,7 +17,8 @@ module instrument_panel_ui #(
 ) (
     input wire [11:0] x, y,
     input wire [12:0] key_down,
-    input wire [6:0] volume,
+    input wire [6:0] volume,brightness,
+    input wire touch_available,
     input wire signed [15:0] pitch_bend,
     input wire [1:0] octave,
     input wire sustain, instrument_guitar,
@@ -99,6 +101,9 @@ module instrument_panel_ui #(
     wire [23:0] bend_scaled = (bend_wide << 7) + (bend_wide << 6) + (bend_wide << 3) + 24'd16384;
     wire [7:0]  bend_cents = bend_scaled[22:15];
 
+    wire [11:0] brightness_digits = decimal_digits({2'd0, brightness});
+    wire [11:0] brightness_x = 12'd352 + {3'd0,brightness,2'b00};
+    wire [23:0] touch_color = touch_available ? accent : C_MUTED;
     wire [11:0] volume_digits = decimal_digits({2'd0, volume});
     wire [11:0] bend_digits   = decimal_digits({1'b0, bend_cents});
     wire [8:0]  multiplier    = 9'd1 << gain_shift;
@@ -364,8 +369,20 @@ module instrument_panel_ui #(
             title4(40 + 3 * 52, 16, 1, {6'd6, 6'd0, 6'd0}); // 他
         end
 
-        // 右上角“静奏”状态胶囊。
-        text4(884, 34, 2, {6'd7, 6'd8, 12'd0}, C_MUTED);
+        if(TOUCH_PANEL)begin
+            // UI and hit boxes share docs/touch-brightness.md pixel coordinates.
+            if(x>=336 && x<992 && y>=8 && y<74)base_rgb=panel;
+            if(x>=352 && x<=860 && y>=52 && y<58)base_rgb=grid;
+            if(x>=352 && x<=brightness_x && y>=52 && y<58)base_rgb=touch_color;
+            if(x+12'd6>=brightness_x && x<brightness_x+12'd6 && y>=43 && y<67)
+                base_rgb=touch_color;
+            if(x>=880 && x<984 && y>=12 && y<70)base_rgb=grid;
+            text4(352,12,3,{6'd58,6'd59,6'd60,6'd0},C_TEXT); // 明亮度
+            num4(438,12,3,{(brightness<100?6'd0:dg(brightness_digits[11:8])),
+                (brightness<10?6'd0:dg(brightness_digits[7:4])),dg(brightness_digits[3:0]),6'd0},touch_color);
+            text4(734,12,3,{6'd62,6'd63,(touch_available?6'd18:6'd19),6'd0},touch_color); // 触摸开/关
+            text4(906,28,2,{6'd61,6'd9,12'd0},touch_color); // 原音
+        end else text4(884, 34, 2, {6'd7, 6'd8, 12'd0}, C_MUTED);
 
         text4(48, 100, 2, {6'd9, 6'd10, 12'd0}, C_MUTED);    // 音量
         num4(226, 100, 3, {(volume < 100 ? 6'd0 : dg(volume_digits[11:8])),
