@@ -192,3 +192,37 @@ python verification/scripts/run_final_tests.py tb_final_performance --legacy --b
 python verification/scripts/check_j13_wiring.py --report projects/piano/impl/pnr/piano_performance.rpt.txt --report projects/hdmi/impl/pnr/piano_hdmi.rpt.txt --output build/octaves-noscreen/j13-check.json
 python verification/scripts/summarize_octaves.py
 ```
+
+## 2026-10-17 本机同步expression后的复测与界面定稿
+
+本地master由`aef94e5`快进到远端`c1da9a3`，再合入`cleanup/expression-brightness`的`a0684e4`，合并提交`0cca748`。合并树SHA为`a5f6939bc377bc5eba3f7a49745c30bae528a565`，与expression最新分支完全一致；无冲突、无人工RTL修补。本轮仅本地操作，未推送、未烧录。
+
+本机ModelSim SE-64 10.6e、Python3.12.14实际重跑结果：
+
+| 检查 | 实际结果 |
+| --- | --- |
+| 严格语言编译 | 158文件，`-vlog01compat -pedanticerrors`，无SystemVerilog模式 |
+| `tb_panel_octaves` | 三音区、琴键字形、3042个指板像素检查通过 |
+| `tb_performance_octaves` | 两乐器78音、换区/旧音释放/PC隔离、满16声部、真实ADC、R924及21190个DAC字通过 |
+| `tb_hdmi_octaves` | 实际2ms消抖、三音区帧状态、两音色、持键所有权、3307个音频样本一致 |
+| `tb_final_display_ui` | 两模式真实模态帧，1841400个像素精确匹配；测试的是现有深色UI，不是新概念图 |
+| `tb_final_hdmi_isolation` | 满16声部、HPD/PLL/像素停钟/复位，369个音频样本一致 |
+| `tb_final_performance --legacy` | 显式关闭新音区/明亮度操作的旧合同兼容，20642个DAC字通过；不当作新KEY1证据 |
+
+初次在沙箱内启动ModelSim报DLL重定位/进程重定向错误，尚未开始RTL编译；相同工具在获准的非沙箱进程中正常启动并完成全部检查。未更改系统DLL、许可、脚本或测试来绕过错误。
+
+保护检查：同步前保存的99份既有TB/上游TB及用户未提交文件SHA256全部不变；保留`.vscode/config.json`的用户修改和未跟踪的`verification/evidence/hdmi/`。原有引脚、SDC、物理布局约束没有本轮额外修改。
+
+队友证据独立核对：266份输入中160份字节一致、106份仅LF/CRLF行尾差异（分别重算两种行尾哈希确认），没有其他内容差异；全部报告文件哈希一致。两个`octave3_j13_20261017`位流与上节公布的SHA256完全一致。不得把换行归一化比较说成266份原始字节完全一致。新本机测试自己的输入清单保存在`build/regression/final/*_inputs.json`，同步核对摘要为`build/expression-sync/sync_audit.json`。
+
+实际复现命令（本机路径）：
+
+```powershell
+./verification/scripts/check_verilog.ps1 -ModelSimBin C:/Library/modelsim/win64
+& 'C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' verification/scripts/run_final_tests.py tb_panel_octaves tb_performance_octaves tb_hdmi_octaves tb_final_display_ui tb_final_hdmi_isolation
+& 'C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe' verification/scripts/run_final_tests.py tb_final_performance --legacy
+```
+
+本机HDMI仿真使用默认Gowin V1.9.12.04的`gw5a/prim_sim.v`；未重跑Gowin综合/布局布线，原三音区包的实现仍属于队友V1.9.12.03构建。A/PC完整套件未重跑，不声称全面回归、时序签核或实物验收。
+
+另保存用户选定的`display-touch-concept.png`及[简洁界面与触摸设计](display-rgb.md)，只改文档/概念资产；新界面和FPGA USB主机尚未实施。触摸描述符、速率、报告、31005电气连接和真实延迟是独立待验证项。
