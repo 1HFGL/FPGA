@@ -267,3 +267,10 @@ ADSR是起音、衰减、保持、释放的包络控制；声音从松键后继�
 [README](README.md)列主工程及构建；[当前音频设计](docs/design.md)、[显示接口](docs/display-rgb.md)、[装配](docs/keyboard-assembly.md)、[验证](docs/verification.md)、[上位机](host/README.md)分别维护唯一当前说明。历史指南和用户原始资料在 `docs/sources`，历史实现/报告直接查Git。
 
 学习按当前任务补齐Verilog组合/时序、位宽/补码、仿真、DDS、ADSR、串行音频及跨时钟；A/B/C均按初学者协作，不要求先学完全部课程才参与。
+
+
+## 2026-10-17 第三表情维度整合
+
+在master aef94e5上整合第三维明亮度，覆盖无屏和HDMI正式入口，同时保留KEY2音色切换、J13接线与模态16复音。KEY1操作、R927接口及试听见docs/design.md、docs/keyboard-wiring.md；最新验证及位流身份见verification/evidence/expression/summary.json。PPT第12页≥3维是扩展目标，基础仍为≥2维。
+
+本次两入口构建、155份严格编译、4项第三维回归与当前模态／HDMI联合检查通过；实际资源、时序、旧合同兼容范围和位流哈希见docs/verification.md最新节。新增实物验收尚未完成。

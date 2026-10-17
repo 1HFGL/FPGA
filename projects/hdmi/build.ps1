@@ -1,4 +1,4 @@
-﻿[CmdletBinding()]
+[CmdletBinding()]
 param([string]$Gowin='D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe',
       [string]$Python='C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe',
       [switch]$PrepareOnly)
@@ -48,7 +48,8 @@ try {
     $base=Join-Path $PSScriptRoot 'impl/pnr/piano_hdmi'
     & $Python "$root/projects/piano/read_timing_html.py" "${base}_tr_content.html" "$out/timing.txt"
     if($LASTEXITCODE){throw 'Cannot extract timing tables'}
-    Copy-Item -LiteralPath "$base.rpt.txt","$base.tr","${base}_tr_content.html" -Destination $out
+    Copy-Item -LiteralPath "$base.rpt.txt","${base}_tr_content.html" -Destination $out
+    if(Test-Path "$base.tr"){Copy-Item -LiteralPath "$base.tr" -Destination $out}
     @("file=$base.fs","sha256=$((Get-FileHash -LiteralPath "$base.fs").Hash)",
       "process_sha256=$effective",'Synthesis/PNR executed. Inspect all timing tables and constraint coverage.',
       'NOT programmed; no screen, touch, signal-integrity or end-to-end latency signoff.') |

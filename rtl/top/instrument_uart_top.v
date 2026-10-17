@@ -17,7 +17,9 @@ module instrument_uart_top #(
     parameter SINE_ROM_FILE="",
     parameter integer USE_MODAL=0,
     parameter MODE_ROM_FILE="",
-    parameter SHAPER_ROM_FILE=""
+    parameter SHAPER_ROM_FILE="",
+    parameter integer ENABLE_BRIGHTNESS=0,
+    parameter integer BRIGHTNESS_REPEAT_CYCLES=25000000
 )(
     input wire sys_clk,sys_rst_n,input wire [1:0] Key_in,
     input wire [12:0] piano_key_n,
@@ -77,8 +79,8 @@ module instrument_uart_top #(
     wire note_guitar=ENABLE_GUITAR && (selected_guitar ^ mode_press);
     wire [PHYSICAL_KEYS-1:0] physical_key_n,key_press,key_release;
     generate if (EXTERNAL_PIANO_KEYS) begin : g_external_keys
-        // 默认KEY1/KEY2仍作C4/E4别名；双乐器模式下KEY2只切换音色，13键全保留。
-        assign physical_key_n=piano_key_n & {8'hff,(ENABLE_GUITAR?1'b1:Key_in[1]),3'b111,Key_in[0]};
+        // 默认兼容C4/E4别名；正式明亮度模式下KEY1调音色、KEY2切乐器，外接13键全保留。
+        assign physical_key_n=ENABLE_BRIGHTNESS ? piano_key_n : piano_key_n & {8'hff,(ENABLE_GUITAR?1'b1:Key_in[1]),3'b111,Key_in[0]};
     end else begin : g_board_keys
         assign physical_key_n=ENABLE_GUITAR?{1'b1,Key_in[0]}:Key_in;
     end endgenerate
@@ -100,8 +102,12 @@ module instrument_uart_top #(
     wire [5:0] voice_count,max_voice_count;
     wire signed [15:0] sample_data;
     wire sample_valid,sounding,sample_clipped;
-    assign monitor_audio_valid=sample_valid;
-    assign monitor_audio_sample=sample_data;
+    wire signed [15:0] output_sample_data;
+    wire output_sample_valid,tone_tail,tone_overrun;
+    wire [6:0] brightness_target,brightness_current;
+    wire output_sounding=sounding || tone_tail;
+    assign monitor_audio_valid=output_sample_valid;
+    assign monitor_audio_sample=output_sample_data;
     // 只观察已接受的声部状态：PC与实体同音作OR，尾音不显示成仍按住。
     // 当前板级音区固定中档；越出C4..C5的PC音符仍发声，但不映射到这13键。
     reg [12:0] held_keys,piano_held,guitar_held;
@@ -142,16 +148,16 @@ module instrument_uart_top #(
     reg pa_audio_registered;
     always @(posedge sys_clk) begin
         if(!audio_ready) pa_audio_registered<=1'b0;
-        else pa_audio_registered<=sounding || pa_drain_frames!=0;
+        else pa_audio_registered<=output_sounding || pa_drain_frames!=0;
     end
     // 16路活跃判定经寄存器后再驱动功放，切断合成乘法器到板级PA引脚的长路径。
-    wire pa_audio_enable=ENABLE_CONTROLS ? pa_audio_registered : (sounding || pa_drain_frames!=0);
+    wire pa_audio_enable=ENABLE_CONTROLS ? pa_audio_registered : (output_sounding || pa_drain_frames!=0);
     // A静音时，B还可能在发送上一非零样本。再留三个真实输出帧边界，
     // 让待发/活动帧与左右DAC的零字排完；不增加新音启动等待。
     // 每个系统拍都可重装，避免很短的触发落在两个帧边界之间而漏记。
     always @(posedge sys_clk) begin
         if(!audio_ready) pa_drain_frames<=2'd0;
-        else if(sounding) pa_drain_frames<=2'd3;
+        else if(output_sounding) pa_drain_frames<=2'd3;
         else if(output_frame_start && pa_drain_frames!=0)
             pa_drain_frames<=pa_drain_frames-2'd1;
     end
@@ -242,10 +248,25 @@ module instrument_uart_top #(
         assign sounding=legacy_sounding;assign sample_clipped=legacy_clipped;
         assign release_done=legacy_release_done;assign release_trigger_id_flat=legacy_release_ids;
     end endgenerate
+    // Three-clock tone pipeline follows either bank. It never blocks audio requests.
+    // In dual-instrument mode KEY2 remains the mode button; KEY1 alone shapes tone.
+    generate if(ENABLE_BRIGHTNESS) begin:g_brightness
+        brightness_keys #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),.REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES),
+            .SINGLE_KEY(ENABLE_GUITAR)) u_keys(
+            .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),.key_n(Key_in),
+            .target(brightness_target),.current(brightness_current));
+        tone_filter u_tone(.clk(sys_clk),.rst_n(audio_ready),.in_valid(sample_valid),
+            .sample_in(sample_data),.brightness(brightness_current),.sample_out(output_sample_data),
+            .out_valid(output_sample_valid),.tail_active(tone_tail),.overrun(tone_overrun));
+    end else begin:g_no_brightness
+        assign brightness_target=127;assign brightness_current=127;
+        assign output_sample_data=sample_data;assign output_sample_valid=sample_valid;
+        assign tone_tail=0;assign tone_overrun=0;
+    end endgenerate
     synth_top #(.AUDIO_CLK_HZ(50000000),.SAMPLE_RATE_HZ(48000),
         .REQUEST_LEAD_HALF_EDGES(REQUEST_LEAD_HALF_EDGES),
-        .MAX_SAMPLE_LATENCY_CYCLES(USE_MODAL?(56*VOICES+28):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))) u_b(
-        .clk_in(sys_clk),.rst_n(sys_rst_n),.audio_enable(pa_audio_enable),.sample_data(sample_data),.sample_valid(sample_valid),
+        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?(56*VOICES+28):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(ENABLE_BRIGHTNESS?3:0))) u_b(
+        .clk_in(sys_clk),.rst_n(sys_rst_n),.audio_enable(pa_audio_enable),.sample_data(output_sample_data),.sample_valid(output_sample_valid),
         .audio_ready(audio_ready),.sample_request(sample_request),.sample_underrun(sample_underrun),
         .i2s_bclk(HP_BCK),.i2s_lrclk(HP_WS),.i2s_sdata(HP_DIN),.pa_en(PA_EN),
         .frame_start(output_frame_start));
