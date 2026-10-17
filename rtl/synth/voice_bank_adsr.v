@@ -3,6 +3,7 @@
 // 参数化独立声部合成：正式16路，默认4路用于接口兼容和单元验证。
 // 默认控制关闭：R0 DDS/包络，R1包络乘法，R2力度，R3混音，R4下游接收。
 // 控制启用：R0弯音乘法与控制快照，R1 DDS/包络，R4混音，R5下游接收。
+// 双乐器启用：增加一拍亮度处理，R5混音；B继续预留严格的输出准备窗口。
 // 支持连续请求，每拍控制跟随对应样本；正式音频请求约每1042个系统拍一次。
 // 这里的R0/R1/...是相邻系统时钟上升沿，50MHz下每拍20ns，不是音频帧。
 // 每路note -> 音高表 -> 全局弯音频率比 -> voice_timbre_adsr -> 力度增益 -> 平衡混音。
@@ -18,7 +19,10 @@ module voice_bank_adsr #(
     parameter integer MIX_SHIFT = 5,
     parameter BRIGHT_ROM_FILE = "rtl/rom/bright_1024.mem",
     parameter integer VOICES=4,
-    parameter integer ENABLE_CONTROLS=0
+    parameter integer ENABLE_CONTROLS=0,
+    parameter integer ENABLE_GUITAR=0,
+    parameter GUITAR_ROM_FILE="rtl/rom/guitar_1024.mem",
+    parameter SINE_ROM_FILE="rtl/rom/sine_1024.mem"
 ) (
     input  wire               clk,
     input  wire               rst_n, // 低有效同步复位，需来自统一复位逻辑
@@ -44,13 +48,13 @@ module voice_bank_adsr #(
     wire [VOICES*16-1:0] gain_samples;
     reg request_d1;
     wire core_request=ENABLE_CONTROLS ? request_d1 : sample_request;
-    reg core_request_d1;
+    reg core_request_d1,core_request_d2;
     reg [VOICES-1:0] mixed_nonzero;
     genvar v;
 
     always @(posedge clk) begin
-        if (rst) begin request_d1<=1'b0;core_request_d1<=1'b0;end
-        else begin request_d1<=sample_request;core_request_d1<=core_request;end
+        if (rst) begin request_d1<=1'b0;core_request_d1<=1'b0;core_request_d2<=0;end
+        else begin request_d1<=sample_request;core_request_d1<=core_request;core_request_d2<=core_request_d1;end
     end
 
     generate for (v=0; v<VOICES; v=v+1) begin: g_voice
@@ -87,16 +91,18 @@ module voice_bank_adsr #(
         wire signed [15:0] adsr_sample;
         wire adsr_valid;
         wire signed [15:0] gain_sample;
-        reg [6:0] velocity_d0, velocity_d1;
+        reg [6:0] velocity_d0, velocity_d1,velocity_d2;
+        wire [6:0] effective_velocity=ENABLE_GUITAR?velocity_d2:velocity_d1;
         // 0 为静音，127 为单位增益；1~126 按 velocity/128 缩放。
         // 这只是兼容的数字增益输入，不表示新增按键力度传感器。
-        wire [16:0] velocity_gain = (velocity_d1==7'd127) ?
-                                     17'd65536 : {1'b0,velocity_d1,9'd0};
+        wire [16:0] velocity_gain = (effective_velocity==7'd127) ?
+                                     17'd65536 : {1'b0,effective_velocity,9'd0};
 
         note_phase_lut u_note (
             .note(voice_note_flat[v*7 +: 7]), .phase_inc(base_phase_inc)
         );
         voice_timbre_adsr #(
+            .ENABLE_GUITAR(ENABLE_GUITAR),.GUITAR_ROM_FILE(GUITAR_ROM_FILE),.SINE_ROM_FILE(SINE_ROM_FILE),
             .BRIGHT_ROM_FILE(BRIGHT_ROM_FILE),
             .ROM_FILE(ROM_FILE), .ATTACK_SAMPLES(ATTACK_SAMPLES),
             .DECAY_SAMPLES(DECAY_SAMPLES), .SUSTAIN_LEVEL(SUSTAIN_LEVEL),
@@ -112,10 +118,11 @@ module voice_bank_adsr #(
         // R0锁存velocity_d0，R1移到velocity_d1，R2乘法器读取旧velocity_d1；
         // 直接接实时voice_velocity_flat会把新音量错配给前一个音频样本。
         always @(posedge clk) begin
-            if (rst) begin velocity_d0<=0; velocity_d1<=0; end
+            if (rst) begin velocity_d0<=0; velocity_d1<=0;velocity_d2<=0;end
             else begin
                 if (core_request) velocity_d0<=ENABLE_CONTROLS ? velocity_snapshot : voice_velocity_flat[v*7 +: 7];
                 if (core_request_d1) velocity_d1<=velocity_d0;
+                if (core_request_d2) velocity_d2<=velocity_d1;
             end
         end
         sample_gain u_velocity (

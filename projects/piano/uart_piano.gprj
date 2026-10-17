@@ -36,6 +36,11 @@
         <File path="../../rtl/synth/voice_bank_adsr.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/wave_lut_timbre.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_timbre_adsr.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_instrument.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/instrument_env.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_bank_music_pipe.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_bank_modal_adapter.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/instrument_wave.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/audio/i2s_tx.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/audio/sample_tick.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/audio/synth_top.v" type="file.verilog" enable="1"/>

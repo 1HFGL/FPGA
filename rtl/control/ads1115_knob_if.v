@@ -1,27 +1,29 @@
 `timescale 1ns/1ps
-// ADS1115 旋钮前端：I2C 采集 2 通道 -> 滤波/平滑 -> 2x7bit 参数。
+// ADS1115 旋钮前端：I2C 采集 2 通道 -> 标定/量化 -> 2x7bit 参数。
 // 对外接口与并行 adc_knob_if 一致（knob_value_flat + ready/fault），
 // 便于 board_top 直接替换接入。
 //
-// Signed conversion codes are clamped and calibrated before filtering.
-// Default endpoints assume a 0..3.3V potentiometer and PGA +/-4.096V (125uV/code).
+// 默认0..3.3V、PGA±4.096V（125uV/码），负值钳为0，端点映射到0/127。
+// 主工程采用860SPS；两通道完成后成对发布。平滑由音频48kHz域负责，
+// 此处不再叠加低速IIR和限速；若更改DR，必须同时重算CONV_WAIT与延迟预算。
 module ads1115_knob_if #(
     parameter integer CLK_HZ        = 50000000,
-    parameter integer I2C_HZ        = 100000,
+    parameter integer I2C_HZ        = 350000,
     parameter [6:0]  I2C_ADDR       = 7'h48,
     parameter [2:0]  PGA            = 3'b001,   // +/-4.096V
-    parameter [2:0]  DR             = 3'b100,   // 128 SPS
+    parameter [2:0]  DR             = 3'b111,   // 860 SPS
     parameter integer CH0_MUX       = 4,        // AIN0-GND
     parameter integer CH1_MUX       = 5,        // AIN1-GND
-    parameter integer CONV_WAIT     = 500000,
-    parameter integer READY_SAMPLES = 16,
+    // 1.5ms覆盖860SPS慢10%时的1.292ms转换并留启动余量；需实物复核。
+    parameter integer CONV_WAIT     = (CLK_HZ / 2000) * 3,
+    parameter integer READY_SAMPLES = 2,
     parameter integer FAULT_TIMEOUT = 5000000,
     parameter integer RAW_MIN_0     = 0,
     parameter integer RAW_MAX_0     = 26400,
     parameter integer RAW_MIN_1     = 0,
     parameter integer RAW_MAX_1     = 26400,
-    parameter integer FILTER_SHIFT  = 2,
-    parameter integer SLEW_STEP     = 8,
+    parameter integer FILTER_SHIFT  = 0,
+    parameter integer SLEW_STEP     = 127,
     parameter integer RETRY_WAIT    = CLK_HZ / 100
 ) (
     input  wire clk,
@@ -90,7 +92,8 @@ module ads1115_knob_if #(
         .CH1_MUX      (CH1_MUX),
         .CONV_WAIT    (CONV_WAIT),
         .RETRY_WAIT   (RETRY_WAIT),
-        .STARTUP_WAIT (1000)
+        // FPGA复位不等于ADC掉电：先让可能尚在进行的单次转换结束。
+        .STARTUP_WAIT (CONV_WAIT + CLK_HZ / 10000)
     ) u_ads (
         .clk          (clk),
         .rst_n        (rst_n),

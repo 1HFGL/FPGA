@@ -1,0 +1,14 @@
+// 与piano.cst合用。NEO Dock Rev1.4原理图p7/p15、Sipeed cam_dvi管脚交叉核对。
+// 差分负端由同一TLVDS_OBUF确定；不把两端配置成独立LVCMOS输出。
+IO_LOC "tmds_data_p[0]" J14,H14;
+IO_LOC "tmds_data_p[1]" J15,H15;
+IO_LOC "tmds_data_p[2]" K17,J17;
+IO_LOC "tmds_clk_p" G15,G16;
+IO_PORT "tmds_data_p[0]" PULL_MODE=NONE DRIVE=3.5 BANK_VCCIO=3.3;
+IO_PORT "tmds_data_p[1]" PULL_MODE=NONE DRIVE=3.5 BANK_VCCIO=3.3;
+IO_PORT "tmds_data_p[2]" PULL_MODE=NONE DRIVE=3.5 BANK_VCCIO=3.3;
+IO_PORT "tmds_clk_p" PULL_MODE=NONE DRIVE=3.5 BANK_VCCIO=3.3;
+// 当前Rev1.4 HPD是显示器返回、经分压进入FPGA的输入，不能照搬旧例程hpd_en输出常高。
+IO_LOC "hdmi_hpd" K13;
+IO_PORT "hdmi_hpd" IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
+INS_LOC "u_video_clock/u_pll" PLL_R[0];

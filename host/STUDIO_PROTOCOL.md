@@ -1,16 +1,10 @@
 # SYNTH/1 上位机接口合同
 
-当前主工程握手为：
+当前正式无屏/HDMI主工程只实现NOTES/STATUS，握手为 `SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=16 SAMPLE_RATE=48000 FW=uart-dual-v1 TONE=PIANO_GUITAR`。无CONFIG，APPLY返回UNSUPPORTED；KEY2切换钢琴／吉他，当前模态钢琴释放约85.33ms，吉他约42.67ms再加箱体收尾。使用见[上位机说明](README.md)与[主工程](../README.md)。
 
-```text
-SYNTH/1 CAPS=NOTES,STATUS,PRESET,CONTROL MAX_VOICES=16 SAMPLE_RATE=48000 FW=music-classic16 TONE=PIANO_ROCK
-```
+2026-10-15模式集成后，正式声部容量已从VOICES透传，默认兼容入口仍报告4而不是被强制改成16。PC新音使用板上当前模式，旧音/尾音保留起音预设；两音色共享16席位，不是各16。当前没有远程MODE命令，STATUS也没有当前模式、旋钮、延音、八度、显示或触摸字段；上位机只提示“钢琴／吉他（KEY2切换）”，不假装知道当前选中哪种。默认电脑模拟钢琴报告16声部，仅用于PC交互验证。
 
-无CONFIG，APPLY返回UNSUPPORTED；`PRESET 0`选摇滚、`PRESET 1`选钢琴，需先HELLO。成功回复带 `PRESET=0/1` 的STATUS；选择只影响之后触发的音，队列和已有声部保持各自预设。HELLO只清理PC音，不重置选择；硬件复位默认钢琴。钢琴／吉他释放分别4096／2048点，吉他另有箱体收尾。使用见[上位机说明](README.md)与[主工程](../README.md)。
-
-NOTE_ON非零力度在主系统归一为100，力度0按NOTE_OFF处理。PC来源字段只接受0；板键和PC同音独立占声部。有效命令保持会话，3秒无通信只释放PC音。STATUS可在会话未就绪时查询，但不恢复演奏权限。
-
-以下CONFIG字段是PC与模拟设备已实现的未来协议，不是当前FPGA能力。上位机仍兼容FIXED_SINE设备，但旧正弦板级工程已从当前仓库移除、可从Git恢复。实际串口与听音需上板验证。
+以下CONFIG字段是PC与模拟设备已实现的未来协议，不是当前FPGA能力。固定固件白名单明确接受FIXED_SINE、FIXED_PIANO和PIANO_GUITAR；未知TONE或带CONFIG能力的设备不能据此绕过APPLY确认。旧正弦板级工程已从当前仓库移除、可从Git恢复。实际串口与听音需上板验证。
 
 ## 传输与握手
 
@@ -23,19 +17,6 @@ SYNTH/1 CAPS=CONFIG,NOTES,STATUS MAX_VOICES=4 SAMPLE_RATE=48000 FW=version-id
 ```
 
 `MAX_VOICES` 为真实支持的独立声部数，1～32；`SAMPLE_RATE` 为设备名义采样率，8000～192000 Hz，不代替采样率测量。`FW` 无空格。`CONFIG` 必须完整支持本版本配置字段才可宣告；只支持状态读取则仅宣告 `STATUS`，新界面将禁用配置与演奏。
-
-## 已实现的演奏控制
-
-```text
-CONTROL 64 1024
-STATUS VOICE_COUNT=0 MAX_VOICE_COUNT=0 STEAL_COUNT=0 SAMPLE_RATE=48000 PRESET=1 VOLUME=64 BEND=1024
-```
-
-命令必须为完整的 `CONTROL volume bend`，两个无符号ASCII十进制整数。音量0..127（0静音、127单位增益、其他码/128），弯音码0..1024（0=−2半音、512居中、1024=+2半音）。复位默认8／512，首个采样的增益即为8/128；127仍表示单位增益。两个字段原子接受，全局作用于正在按住的音、新音和释放尾音；内部平滑且保持相位／包络连续。持音力度仍固定100。
-
-需先HELLO；未就绪报 `ERROR 0 NOT_READY`，越界报RANGE，缺字段／多字段／负数／十进制溢出报BAD_CMD，C同期合法提交报BUSY。拒绝不会部分改变控制，也不会因控制BUSY取消音符。成功以完整STATUS回复，VOLUME/BEND表示已接受的目标，不是平滑完成通知；平滑／定点规则见 [设计合同](../docs/design.md)。HELLO、PANIC及PC看门狗保留控制目标。
-
-客户端按CONTROL能力启用，不能把CONFIG中的0..255草稿volume当作本命令单位。每次只保留一个在途CONTROL；两个状态字段必须在同一行合法收到后才更新参数对，匹配目标后解除等待。超时1800ms或错误后查询状态，不自动重发；断连丢弃旧待发值。STATUS不带事务编号，回执只代表一个已报告的目标快照，不能证明后续没有被本地C覆盖。GUI合并窗口40ms，不能用于证明低延迟实体控制达标。
 
 ## 原子配置命令
 
@@ -62,7 +43,7 @@ NOTE_ON note velocity source
 NOTE_OFF note source
 PANIC
 STATUS?
-STATUS VOICE_COUNT=0 MAX_VOICE_COUNT=16 STEAL_COUNT=0 SAMPLE_RATE=48000 PRESET=1 VOLUME=8 BEND=512
+STATUS VOICE_COUNT=0 MAX_VOICE_COUNT=4 STEAL_COUNT=0 SAMPLE_RATE=48000
 ```
 
 - `note` 0～127 为 MIDI 编号；`velocity` 0～127，当前界面固定 100；`source` 当前界面固定 0。
@@ -71,6 +52,21 @@ STATUS VOICE_COUNT=0 MAX_VOICE_COUNT=16 STEAL_COUNT=0 SAMPLE_RATE=48000 PRESET=1
 - `VOICE_COUNT` 为固件实际占用的声部（包括释放尾音）；`MAX_VOICE_COUNT` 为本次启动峰值；`STEAL_COUNT` 为累计抢占。采样率由设备报告，仍需实物验证。
 - 支持 `STATUS` 时，上位机每秒查询一次；发音事件优先于诊断流量。建议固件对上位机来源设置通信失联回收机制，避免拔线后卡音；具体时限需在接入时验证。本次模拟设备断开即清除模拟音符，不模拟真实包络或发声。
 
+电脑端附加行为：配置确认期间禁止新起音，但松键不依赖配置是否确认；超时尝试PANIC。松键或PANIC提交失败会保留并重试。连续3秒未收到有效STATUS时会话失效，停止状态查询/新起音，重新HELLO后不重放旧音符。此行为不新增固件命令，也不把串口写入当作设备已执行的证明。
+
 ## FPGA 接入前需要明确
 
 当前UART引脚见主工程CST（RX=V14、TX=U15），基础命令接入已存在。若扩展CONFIG，仍需验证整行解析、原子参数提交和硬件定点规则。现有 ADSR 编译参数不能直接当作运行时寄存器；谐波合成、颤音和上述发声模式需分别开发与验证。软件生成的波表是单周期参考，不是预录 PCM。
+
+## A独立试听固件：PRESET／CONTROL
+
+以下仅适用于 `projects/music/uart_music.gprj` 报告的 `TONE=PIANO_ROCK`，不代表正式 `PIANO_GUITAR` 入口支持这些命令。上位机同时检查NOTES、STATUS、PRESET能力，不以设备名称猜测协议。
+
+```text
+PRESET 0
+PRESET 1
+CONTROL 127 512
+STATUS ... PRESET=1 VOLUME=127 BEND=512
+```
+
+PRESET 0为摇滚吉他、1为钢琴，状态中的PRESET是确认依据。CONTROL须明确报告CONTROL能力，音量0～127、弯音0～1024（512居中）；整对提交，40ms合并连续拖动，完整VOLUME/BEND状态对才更新确认值。确认超时不伪装成功。失联／重新握手清空在途预设与控制状态，不重放旧演奏。此处不增加CONFIG能力，谐波／包络草稿仍不能应用到这些固定预设。

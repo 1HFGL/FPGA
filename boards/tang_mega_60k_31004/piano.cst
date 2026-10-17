@@ -1,4 +1,5 @@
-// NEO Dock31004 Rev1.4，GW5AT-60B；依据已核对的底板/核心板原理图。
+// 实物为NEO Dock31005 + 60K核心板，GW5AT-60B；目录名31004仅为历史路径。
+// J13针号依据31005底板p19，经p7的BTB针号对照60K核心板p1，不能抄138K的Bank编号。
 IO_LOC "sys_clk" V22;
 IO_PORT "sys_clk" IO_TYPE=LVCMOS33;
 IO_LOC "sys_rst_n" AA13;
@@ -20,28 +21,29 @@ IO_LOC "uart_rx" V14;
 IO_PORT "uart_rx" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 IO_LOC "uart_tx" U15;
 IO_PORT "uart_tx" IO_TYPE=LVCMOS33 DRIVE=8;
-// 厂家Rev1.4原理图p7/p19：J8-8=PMOD1_IO5/AA21，J8-5=PMOD1_IO6/AA19。
-// 禁止沿用独立调试工程H19/H20（Joy-Con电平转换线路）。
-IO_LOC "knob_sda" AA21;
+// ADS1115数字线迁到下方J13：16=SDRAM0_D10/B20，17=SDRAM0_D9/A21。
+// 模块3.3V/GND仍从J8/J9取；J13-11为5V，禁止用作3.3V供电。
+IO_LOC "knob_sda" B20;
 IO_PORT "knob_sda" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
-IO_LOC "knob_scl" AA19;
+IO_LOC "knob_scl" A21;
 IO_PORT "knob_scl" IO_TYPE=LVCMOS33 BANK_VCCIO=3.3;
 
-// Thirteen piano keys: J9/PMOD0 IO0..7, J8/PMOD1 IO0..4.
-// Shared PMOD/camera/SDRAM1/LED nets must not be driven by another design.
-IO_LOC "piano_key_n[0]" P19;
-IO_LOC "piano_key_n[1]" R19;
-IO_LOC "piano_key_n[2]" T21;
-IO_LOC "piano_key_n[3]" U21;
-IO_LOC "piano_key_n[4]" P16;
-IO_LOC "piano_key_n[5]" R17;
-IO_LOC "piano_key_n[6]" R18;
-IO_LOC "piano_key_n[7]" T18;
-IO_LOC "piano_key_n[8]" Y21;
-IO_LOC "piano_key_n[9]" Y22;
-IO_LOC "piano_key_n[10]" AB21;
-IO_LOC "piano_key_n[11]" AB22;
-IO_LOC "piano_key_n[12]" AA20;
+// 八白键连续接J13-1..8，五黑键接9/10/13/14/15；内部仍按半音编号。
+// 避开11=5V和12=GND；必须配套本轮新位流，不能沿用旧半音排列接线。
+// 这些线为外部SDRAM0扩展线，不可同时连接SDRAM0外设；不涉及核心板DDR3。
+IO_LOC "piano_key_n[0]" E14;
+IO_LOC "piano_key_n[1]" B16;
+IO_LOC "piano_key_n[2]" E13;
+IO_LOC "piano_key_n[3]" B15;
+IO_LOC "piano_key_n[4]" C15;
+IO_LOC "piano_key_n[5]" C14;
+IO_LOC "piano_key_n[6]" A16;
+IO_LOC "piano_key_n[7]" B13;
+IO_LOC "piano_key_n[8]" A15;
+IO_LOC "piano_key_n[9]" C13;
+IO_LOC "piano_key_n[10]" A20;
+IO_LOC "piano_key_n[11]" A14;
+IO_LOC "piano_key_n[12]" A13;
 IO_PORT "piano_key_n[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
 IO_PORT "piano_key_n[1]" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
 IO_PORT "piano_key_n[2]" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;

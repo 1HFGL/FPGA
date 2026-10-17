@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-17",
+  "status": "MERGE_TESTED_HARDWARE_PENDING",
+  "master_parent": "e18160e4ae1f7023447819e780669055c869788a",
+  "integration_parent": "69589a2241e580b30f2936834e85ac8fbd24f2a2",
+  "resolution": "Keep verified formal FPGA inputs and protected tests; retain master's standalone A project and merge both host capability sets.",
+  "strict_verilog": {
+    "files": 149,
+    "flags": "-vlog01compat -pedanticerrors",
+    "passed": true
+  },
+  "formal_tests": {
+    "count": 8,
+    "passed": true,
+    "markers": [
+      "# PASS tb_final_display_frame: piano/guitar real modal frames, waveform pixels=1929 span=49, fret markers=285, frame-atomic state",
+      "# PASS tb_final_display_ui: both modes real modal frames, pixel-exact renderer match=1841400, title=9168 soft=16262 piano_held=44927",
+      "# PASS tb_final_env_alignment: 139069 independent integer checks; current preset, consecutive ticks, odd/zero/long durations, reset",
+      "# PASS tb_final_hdmi_isolation: full16 serial audio identical; mode/control, HPD/PLL/pixel-stop/reset, samples=369 drops=19",
+      "# PASS tb_final_modal_adapter: samples=4436 nonzero=4308 R923 golden, generations, tails, control, recovery",
+      "# PASS tb_final_performance: 16 nonzero modal voices, actual I2C mute/bend/fault/recovery, mode/owners/steal, R924, 20642 exact DAC words",
+      "# PASS tb_final_wave_envelope: 256 bins, full-scale, spikes, atomic pages, x1..256 AGC, quiet/silence/reset",
+      "# PASS tb_performance_latency: 13 production onsets; maximum_observed_ns=2070600; analog/contact bounce excluded"
+    ]
+  },
+  "pc_tests": {
+    "host": 81,
+    "dual_host": 4,
+    "total": 85,
+    "passed": true,
+    "real_serial_opened": false
+  },
+  "source_layout": {
+    "unique_active_modules": 66,
+    "gprj": 3,
+    "passed": true
+  },
+  "implementation": {
+    "rerun": false,
+    "reference": "verification/evidence/final/summary.json",
+    "identity": "Git content matches integration_parent for 173 recorded non-host inputs, all formal RTL, both formal projects, TB and constraints. Existing implementation evidence remains attributed to that build; not a new PNR signoff.",
+    "proof_input_count": 173,
+    "proof_paths": [
+      "rtl",
+      "projects/piano",
+      "projects/hdmi",
+      "verification/tb",
+      "boards/tang_mega_60k_31004/piano.cst",
+      "boards/tang_mega_60k_31004/piano.sdc",
+      "boards/tang_mega_60k_31004/hdmi.cst",
+      "boards/tang_mega_60k_31004/hdmi.sdc",
+      "boards/tang_mega_60k_31004/hdmi_reset_placement.cst"
+    ]
+  },
+  "host_sha256": {
+    "host/studio.py": "4160ffaf3d8a6759dfbb400319d6524b5b97ed20f0d093ec819191d5bb46b33e",
+    "host/studio_transport.py": "909121b07906a33b7fa627a0ebbe526fec0ffaee61221ad43eb5b0fe02d13b81",
+    "host/studio_ui.py": "cec02be747d68a2a79ee9f0cd60ff9ed34c841d26a07acadcb36494f842e8ef7"
+  },
+  "log_sha256": {
+    "build/merge/host_tests.log": "a4abb299d9cd502866002967a3eb3d7530abba09dfce52c0f7660d51a4649718",
+    "build/merge/dual_host_tests.log": "9f3098d7e2a4a4f4aea1b7bd615a679675416f127e27c9bd2c0fa43ea79bb837",
+    "build/regression/strict/strict_compile.log": "6e9f6c706bb29d9c39379115764f6ac940394ff1586ef21bbeca3f1e9abd6634",
+    "build/regression/strict/strict_inputs.txt": "bcec5a3318f0943d409f7fa96516718961391597ce7ed0e018c29daed5263f7c",
+    "build/cleanup_a/source_layout.json": "30be8815619e6a8f9020b0dd775303cbe80d092f4f20d1e2dee6dd7f18edb2a0",
+    "build/regression/final/tb_final_display_frame_console.log": "d051d2416dded71e77a6352c522fe3ad807092c46949f478d337c2c26c8f974b",
+    "build/regression/final/tb_final_display_ui_console.log": "cb405ccbc5d308d6750888949b5c0ffefb7f1609a5d473b867cc9594eeb91292",
+    "build/regression/final/tb_final_env_alignment_console.log": "873e311ed627e0cf5f62659472158232b25d21212537e785c50447857d801acb",
+    "build/regression/final/tb_final_hdmi_isolation_console.log": "c70b305e4d45e6cbf51014c48772ca8fa59cebdb53bb1d7b4dab760dae6892cb",
+    "build/regression/final/tb_final_modal_adapter_console.log": "008e0dc33e9cf4a3b83ddaca881c5c1b7ec9ba37edf868f09409a2f0f7d08332",
+    "build/regression/final/tb_final_performance_console.log": "adff40bc83dedc9d714c223ad599c14fc070ee183482da9176f7f34ba69a3aff",
+    "build/regression/final/tb_final_wave_envelope_console.log": "b7bdfda95a081a01e94c545aad2e9a7655eca7c7bc8b038f5fadfab9182cb184",
+    "build/regression/final/tb_performance_latency_console.log": "9e719d63b149c75c368fa599d030317c529bb9716924da2457054c04155eade6"
+  },
+  "local_log_archive": "build/master-merge/ (same relative paths under this directory)",
+  "limitations": [
+    "No programming or hardware measurement.",
+    "Digital onset test excludes contact bounce and analog path.",
+    "External timing gaps remain open.",
+    "Teammate tests and timing constraints were not relaxed."
+  ]
+}

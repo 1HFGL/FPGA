@@ -2,13 +2,17 @@
 
 // 两音色单声部。DDS/ADSR 在请求 R0 更新，乘法结果在 R1 输出；
 // 与原 voice_adsr 延迟一致。相位不因换音色/重触发而强行归零。
+// ENABLE_GUITAR=1时复用拨弦引擎：0钢琴/1吉他；多一拍亮度流水线，R2输出。
 module voice_timbre_adsr #(
     parameter ROM_FILE = "rtl/rom/sine_1024.mem",
     parameter BRIGHT_ROM_FILE = "rtl/rom/bright_1024.mem",
     parameter [31:0] ATTACK_SAMPLES = 32'd96,
     parameter [31:0] DECAY_SAMPLES = 32'd24000,
     parameter [16:0] SUSTAIN_LEVEL = 17'd6554,
-    parameter [31:0] RELEASE_SAMPLES = 32'd5760
+    parameter [31:0] RELEASE_SAMPLES = 32'd5760,
+    parameter integer ENABLE_GUITAR=0,
+    parameter GUITAR_ROM_FILE="rtl/rom/guitar_1024.mem",
+    parameter SINE_ROM_FILE="rtl/rom/sine_1024.mem"
 ) (
     input wire clk, rst, sample_tick,
     input wire [31:0] phase_inc,
@@ -23,6 +27,9 @@ module voice_timbre_adsr #(
     wire [9:0] addr;
     wire signed [15:0] raw_sample;
     wire raw_valid, env_active;
+    wire signed [15:0] legacy_sample;
+    wire legacy_valid;
+    wire [16:0] legacy_env_level;
     wire [2:0] env_state;
     reg gate_sampled, retrigger_pending, pending_timbre, active_timbre;
 
@@ -69,11 +76,32 @@ module voice_timbre_adsr #(
         .SUSTAIN_LEVEL(SUSTAIN_LEVEL), .RELEASE_SAMPLES(RELEASE_SAMPLES)
     ) u_env (
         .clk(clk), .rst(rst), .sample_tick(sample_tick), .gate(gate),
-        .retrigger(retrigger), .env_level(env_level), .active(env_active), .state(env_state)
+        .retrigger(retrigger), .env_level(legacy_env_level), .active(env_active), .state(env_state)
     );
+    // 保留默认入口的层次/时序，正式双音色入口由常量参数选择，综合裁剪未用路径。
     sample_gain u_gain (
         .clk(clk), .rst(rst), .in_valid(raw_valid), .sample_in(raw_sample),
-        .gain(env_level), .sample_out(sample), .out_valid(sample_valid)
+        .gain(legacy_env_level), .sample_out(legacy_sample), .out_valid(legacy_valid)
     );
-    assign voice_active = env_active | (sample_valid && sample != 16'sd0);
+    wire signed [15:0] dual_sample;
+    wire dual_valid,dual_active;
+    wire [16:0] dual_env;
+    generate if(ENABLE_GUITAR)begin:g_dual
+        // 复用A的拨弦亮度变化；第二预设用原钢琴表和包络，不复制声部池。
+        // A接口0=吉他/1=第二预设，外部接口0=钢琴/1=吉他，因此取反。
+        voice_instrument #(.SINE_ROM_FILE(SINE_ROM_FILE),.GUITAR_ROM_FILE(GUITAR_ROM_FILE),
+            .STRINGS_ROM_FILE(ROM_FILE),.S_FIXED_TONE(1),
+            .S_ATTACK(ATTACK_SAMPLES),.S_DECAY(DECAY_SAMPLES),
+            .S_SUSTAIN(SUSTAIN_LEVEL),.S_RELEASE(RELEASE_SAMPLES)) u_instrument(
+            .clk(clk),.rst(rst),.sample_tick(sample_tick),.phase_inc(phase_inc),
+            .gate(gate),.retrigger(retrigger),.instrument(~timbre),
+            .sample(dual_sample),.sample_valid(dual_valid),.env_level(dual_env),
+            .tone_level(),.voice_active(dual_active),.active_instrument());
+    end else begin:g_no_dual
+        assign dual_sample=0;assign dual_valid=0;assign dual_env=0;assign dual_active=0;
+    end endgenerate
+    assign sample=ENABLE_GUITAR?dual_sample:legacy_sample;
+    assign sample_valid=ENABLE_GUITAR?dual_valid:legacy_valid;
+    assign env_level=ENABLE_GUITAR?dual_env:legacy_env_level;
+    assign voice_active=ENABLE_GUITAR?dual_active:(env_active | (legacy_valid && legacy_sample!=16'sd0));
 endmodule

@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$ModelSimBin='C:/Library/modelsim/win64',
       [string]$OutputDirectory='build/regression/pa-drain')
 $ErrorActionPreference='Stop'
@@ -14,18 +14,20 @@ try {
         & "$ModelSimBin/vlib.exe" $lib
         if($LASTEXITCODE -ne 0){throw 'vlib failed'}
     }
-    # 检查当前16声部钢琴核心，保留短尾音和默认尾音的DAC/功放排空断言。
-    $sources=@(Get-ChildItem -LiteralPath (Join-Path $root 'rtl') -Recurse -Filter '*.v' |
-        Sort-Object FullName | ForEach-Object {$_.FullName})
+    # 只取实际钢琴工程清单，避免与并行开发中的其他tb混编。
+    $projectDir=Join-Path $root 'projects/piano'
+    [xml]$project=Get-Content "$projectDir/uart_piano.gprj" -Raw
+    $sources=@($project.Project.FileList.File | Where-Object {$_.type -eq 'file.verilog'} |
+        ForEach-Object {[IO.Path]::GetFullPath((Join-Path $projectDir $_.path))})
     $sources+=@('verification/tb/integration/tb_uart_pa_drain.v')
     $manifest=@("ModelSim=$(& "$ModelSimBin/vlog.exe" -version)", 'flags=-vlog01compat -pedanticerrors')
-    foreach($file in ($sources+@(Get-ChildItem 'rtl/rom' -Filter '*.mem' | ForEach-Object {$_.FullName})+@($PSCommandPath))) {
+    foreach($file in ($sources+@('rtl/rom/piano_1024.mem',$PSCommandPath))) {
         $manifest+="$((Get-FileHash -LiteralPath $file).Hash)  $file"
     }
     $manifest | Set-Content "$OutputDirectory/inputs.txt" -Encoding utf8
     & "$ModelSimBin/vlog.exe" -vlog01compat -pedanticerrors -work $lib @sources *> "$OutputDirectory/compile.log"
     if($LASTEXITCODE -ne 0){throw 'PA test compile failed'}
-    foreach($lead in @(60)) { foreach($short in @(1,0)) {
+    foreach($lead in @(0,2)) { foreach($short in @(1,0)) {
         $tag="lead${lead}_short${short}"
         $log="$OutputDirectory/pa_$tag.log"
         & "$ModelSimBin/vsim.exe" -c -lib $lib -l $log -wlf "$OutputDirectory/pa_$tag.wlf" `

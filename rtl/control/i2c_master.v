@@ -21,7 +21,10 @@ module i2c_master #(
     localparam [2:0] OP_START = 3'd0, OP_STOP = 3'd1, OP_WRITE = 3'd2,
                      OP_READA = 3'd3, OP_READN = 3'd4;
 
-    localparam integer QDIV = (CLK_HZ / (I2C_HZ * 4)) > 0 ? (CLK_HZ / (I2C_HZ * 4)) : 1;
+    // 向上取整，不能因整数截断让SCL超过请求频率。
+    // 主工程350kHz请求在50MHz下取36拍/相位，SCL低电平1.44us，
+    // 满足ADS1115快速模式tLOW>=1.3us；对称400kHz不能直接满足此下限。
+    localparam integer QDIV = (CLK_HZ + I2C_HZ * 4 - 1) / (I2C_HZ * 4);
 
     reg sda_oe;                 // 1 = 把 SDA 拉低（开漏）
     wire sda_in;

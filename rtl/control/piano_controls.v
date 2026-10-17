@@ -1,7 +1,9 @@
 // 全局旋钮参数：50MHz同域；每个音频请求推进一次有界平滑。
 // 参数有效时成对锁存；ADC故障保留最后有效值，复位为单位音量/原音高。
 // Q1.16增益0..65536；Q2.16频率比，半音比为2^(1/12)，63/64中心死区。
-module piano_controls(
+module piano_controls #(
+    parameter [16:0] RESET_GAIN=17'd65536 // 复位默认满音量；低音量启动会改变上电首个采样，不在本模块内做
+)(
     input wire clk,rst_n,sample_request,
     input wire [13:0] knob_value_flat,
     input wire knob_valid,param_ready,param_fault,
@@ -10,9 +12,12 @@ module piano_controls(
 );
     reg [16:0] gain_target;
     reg [17:0] bend_target;
-    wire [22:0] gain_product=knob_value_flat[6:0]*17'd65536;
-    wire [23:0] gain_quotient=({1'b0,gain_product}+24'd63)/24'd127;
-    wire [16:0] mapped_gain=gain_quotient[16:0]; // 范围已证明0..65536，显式截位
+    // 对全部7位值精确等于 floor((value*65536+63)/127)，不是近似增益。
+    // 65536=127*516+4；余项round(4*value/127)恰好为(value+16)>>5。
+    // 显式移位/加法保留0和65536两端，避免24位常数除法展开。
+    wire [6:0] gain_knob=knob_value_flat[6:0];
+    wire [7:0] gain_round={1'b0,gain_knob}+8'd16;
+    wire [16:0] mapped_gain={1'b0,gain_knob,9'd0}+{8'd0,gain_knob,2'd0}+{14'd0,gain_round[7:5]};
     function [17:0] ratio_for_knob;
         input [6:0] value;
         begin
@@ -152,8 +157,8 @@ module piano_controls(
     endfunction
     always @(posedge clk) begin
         if(!rst_n) begin
-            gain_target<=17'd65536; bend_target<=18'd65536;
-            master_gain<=17'd65536; bend_ratio<=18'd65536;
+            gain_target<=RESET_GAIN; bend_target<=18'd65536;
+            master_gain<=RESET_GAIN; bend_ratio<=18'd65536;
         end else begin
             if(knob_valid && param_ready && !param_fault) begin
                 gain_target<=mapped_gain;

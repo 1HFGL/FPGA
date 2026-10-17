@@ -1,0 +1,582 @@
+[
+  {
+    "path": "boards/tang_mega_60k_31004/hdmi.cst",
+    "sha256": "AD0DA49DFE3C4D82EA7CDC01E82C8CEFBD20ADD201DFD981E8E568A9D8671D08"
+  },
+  {
+    "path": "boards/tang_mega_60k_31004/hdmi.sdc",
+    "sha256": "3DAD6FC44CF15465DD46E12D08CFA0F11EEA31CF694318450F7E8C4405378333"
+  },
+  {
+    "path": "boards/tang_mega_60k_31004/hdmi_reset_placement.cst",
+    "sha256": "DD5A7BB74E104D181839EBBFD9557B1718BF653213D743E5A673841D581A7EC9"
+  },
+  {
+    "path": "projects/hdmi/process_config.json",
+    "sha256": "CB99D34DA13786A0F910794A794B247080BF927CD3A537FDC9E229B5BE18F1CD"
+  },
+  {
+    "path": "rtl/display/dvi_tx_gowin.v",
+    "sha256": "6C0A13A8D10DD9CD781380192369BA05B06AABE904C4A58DD405C6C00EE797A4"
+  },
+  {
+    "path": "rtl/display/hdmi_clock_60k.v",
+    "sha256": "8E281B78CC4B19F00AD23E629E5BBBCCCAB09444E4D60A0262E4D84BA43CA446"
+  },
+  {
+    "path": "rtl/display/hdmi_reset_guard.v",
+    "sha256": "E71364364004EEDBF7A01C406C5A819EE558DA4FB8212E9616BEEFE65DD49EC8"
+  },
+  {
+    "path": "rtl/display/tmds_encoder.v",
+    "sha256": "B5CF6A9A8289B3CC3DF51EECBB9914FD4B5F43315CDBC3F44B362F2844B381FE"
+  },
+  {
+    "path": "verification/data/display_font_golden.mem",
+    "sha256": "C59EFFF23F456AFB4D9D53584073DF6C67786F5BDE7C5B57D0787FE9161D8FF0"
+  },
+  {
+    "path": "verification/tb/display/tb_display_hdmi_frame.v",
+    "sha256": "2B684150F121A5ADF0F60D5D6D81D16EAB6AEA56BA41D8A8FDF2A3433BE0C4E0"
+  },
+  {
+    "path": "verification/tb/display/tb_hdmi_audio_isolation.v",
+    "sha256": "799E9EAB57C037B3B1FC9366C4728A8EB79B865C3C4786790D473011F38ECB6D"
+  },
+  {
+    "path": "verification/tb/display/tb_hdmi_phy.v",
+    "sha256": "FA7E1A8AA07D403FE709A37ACBDEC631AA0FB9499D286DFE3ADDAB333E977E60"
+  },
+  {
+    "path": "verification/tb/display/tb_tmds_encoder.v",
+    "sha256": "9C27F4C16B4A7CE61F6C60F9644502EBD45234F54D095F4D4247A93609D58AF6"
+  },
+  {
+    "path": "verification/tb/review/ads1115_timed_model.v",
+    "sha256": "D69AEFFA221D4BCAA59065BEBFBDF24E19D89E68E3F74E5B7E73FC5AD80F38BA"
+  },
+  {
+    "path": "verification/tb/review/tb_review_arithmetic.v",
+    "sha256": "BF161D65280C6C889B91481217516836326A38392F02BF15B9AF56C6082E2A95"
+  },
+  {
+    "path": "verification/tb/review/tb_review_dual_math.v",
+    "sha256": "B858F3705121C56405EC0B3F68347B3DC96C2AC2B539B3C8F0242EC0226473AF"
+  },
+  {
+    "path": "verification/tb/review/tb_review_dual_system.v",
+    "sha256": "6355CB6D900EA631B4A91FE8D67CBA924DCB105071CE80CD5864A47FF29321D1"
+  },
+  {
+    "path": "verification/tb/review/tb_review_dual_voice.v",
+    "sha256": "8B2CE0D622F8A5320ADE3EE964E3EF3571F416B01036F8F9F2195D4678C27B83"
+  },
+  {
+    "path": "verification/tb/review/tb_review_font.v",
+    "sha256": "E37D78B1075C44DC9FCB2BDE076DA272914B8BB18CED8675255DAE848A122D75"
+  },
+  {
+    "path": "verification/tb/review/tb_review_hdmi_reset_recovery.v",
+    "sha256": "D541A84BA216C776F06D33B08F72C3D4A8E0355D82FD0F153D0F8A0D0CAF68C6"
+  },
+  {
+    "path": "verification/tb/review/tb_review_knob_latency.v",
+    "sha256": "9C0B63EE3779F14C3A903071173A67B752AEC1E898925641332EF6968FD5727F"
+  },
+  {
+    "path": "verification/tb/review/tb_review_layout.v",
+    "sha256": "74FE57450EA9396693D33C3A484FE86FA6F5B28530D842CC4E661FB310BEB9C5"
+  },
+  {
+    "path": "verification/tb/review/tb_review_uart_capacity.v",
+    "sha256": "DD689CA9F44FD6262E49372A29B878BE3E10888478C957F5B28D4C13BC8097DE"
+  },
+  {
+    "path": "verification/tb/review/tb_review_uart_capacity_top.v",
+    "sha256": "BE91B08C50FB6712B3622F066F8A9480CFD8F5010A536324DB590DB9209B9E40"
+  },
+  {
+    "path": "boards/tang_mega_60k_31004/piano.sdc",
+    "sha256": "752D3A99F506A906786D5A23B8E6A974913489B578210A4A4801B189549B7955"
+  },
+  {
+    "path": "projects/checks/instruments_check/clock.sdc",
+    "sha256": "69258773D8675905A8A69AEFECD970BA3D1E3E51F293F82A08DE0374E282C331"
+  },
+  {
+    "path": "projects/checks/instruments_check/process_config.json",
+    "sha256": "88A0AD6714047F8D778CF127289C6DD172CFDDB9BA3B86B7CB87B413CABFE4E6"
+  },
+  {
+    "path": "projects/checks/poly_adsr_check/clock.sdc",
+    "sha256": "69258773D8675905A8A69AEFECD970BA3D1E3E51F293F82A08DE0374E282C331"
+  },
+  {
+    "path": "projects/checks/poly_adsr_check/process_config.json",
+    "sha256": "A66F272CB480218AC6212EF6B6AD1461EC6F7125F0B4157F431A5B5F7CE7D9A5"
+  },
+  {
+    "path": "projects/display/process_config.json",
+    "sha256": "A4A1716062F35BF8645498E49C1286B28E93956F55DAB98035167F69BD311369"
+  },
+  {
+    "path": "projects/examples/instruments_board/clock.sdc",
+    "sha256": "63BF2D2E7CFBFB8DCA70D6CE0E61A3D851DB629B9D318E64AEA3172AE95D746C"
+  },
+  {
+    "path": "projects/examples/instruments_board/process_config.json",
+    "sha256": "A8C72585629D060E97E9B5E1471ED0A62979DC210322632572FA6022924430BD"
+  },
+  {
+    "path": "projects/piano/process_config.json",
+    "sha256": "1A8C84F6BEA65FB876A50619D419EA998AC56FD7B52ABF09DB665F6A328BD787"
+  },
+  {
+    "path": "upstream/fpga_interaction/.gitignore",
+    "sha256": "C0893D423F9FFA2302FDFE133A05F9602F7D5EC33FEF7A4C68290ED622D12642"
+  },
+  {
+    "path": "upstream/fpga_interaction/README.md",
+    "sha256": "A821B942C36E740A923DB1E4B7D4BD9A3EC0728A3114FD736D81A29D7F8E5292"
+  },
+  {
+    "path": "upstream/fpga_interaction/doc/ads1115_driver.md",
+    "sha256": "86C662264CE61C8C4758835ABEBFC0A43005098259276F280359EC9BC372F0D9"
+  },
+  {
+    "path": "upstream/fpga_interaction/doc/board_bringup_plan.md",
+    "sha256": "12B2BECC06AB719F10B3ADB7D1D01628A5FB4587D1CC36A2EF8D2EF98DB80619"
+  },
+  {
+    "path": "upstream/fpga_interaction/doc/c_control_progress_20261014.md",
+    "sha256": "373CAE33B6019E059688846C520EA065A2CE655BCC8329335018EB46DD01F897"
+  },
+  {
+    "path": "upstream/fpga_interaction/doc/c_input_upgrade.md",
+    "sha256": "9570ACBBBF81308153AE097CA52C70F219FDCDDB23C8858E77507EFA3D366749"
+  },
+  {
+    "path": "upstream/fpga_interaction/doc/c_progress_20261012.md",
+    "sha256": "ADA99B854220193AFF4EE77A94683CDB76860E17FC121F57F6A53AD449CB0E9B"
+  },
+  {
+    "path": "upstream/fpga_interaction/doc/code_review_20260924.md",
+    "sha256": "942FD9AAD71DF29D0886E70D4FAA0EEDD864F88C3F4200775300DB2609580B4D"
+  },
+  {
+    "path": "upstream/fpga_interaction/doc/timing_report.md",
+    "sha256": "FE63F320C21364E9BA6E942814B932FEA0F83A9AC01CC5B82301E43F637CCD3F"
+  },
+  {
+    "path": "upstream/fpga_interaction/doc/upgrade_32voice.md",
+    "sha256": "CA5364ED9DE116C1890A2C0FE8F6EABC80674245A318F15F3CC3FB24D41C5FF0"
+  },
+  {
+    "path": "upstream/fpga_interaction/gowin/tang_mega_60K_pins.cst",
+    "sha256": "02DEDE37E843D05DD9688471F61F55906607DA4C308F1903D2ADC078651F7BC3"
+  },
+  {
+    "path": "upstream/fpga_interaction/gowin/tang_mega_60k_interaction.cst",
+    "sha256": "0775FA13C5AA95BFE9806DC1D54BF168C76F95276FA8B7F1BC61A4720C4008C3"
+  },
+  {
+    "path": "upstream/fpga_interaction/gowin/tang_mega_60k_interaction.sdc",
+    "sha256": "CF46E2D966F41E16B47C125FF3DC7250D518C412D11D1894CB7E0D5F7FB60263"
+  },
+  {
+    "path": "upstream/fpga_interaction/gowin/tang_mega_60k_knob.cst",
+    "sha256": "5D0C87C9AA0ECE290089E4520E8553CA34FB398ED4631813AEBDDA4193A88A74"
+  },
+  {
+    "path": "upstream/fpga_interaction/gowin/tang_mega_60k_knob.sdc",
+    "sha256": "CF46E2D966F41E16B47C125FF3DC7250D518C412D11D1894CB7E0D5F7FB60263"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/adc_knob_if.v",
+    "sha256": "F5E07A9639223F9DEB3CD28EB27B78A662AE0D7DE1288C00F8C8E2B7EEE5E4E0"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/ads1115_if.v",
+    "sha256": "EAEE2D2F1BF4E3D83AC672EFDBCFE69A89F56768BC13F9EB9C7501FEB70D8CFB"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/ads1115_knob_if.v",
+    "sha256": "F50AD6CCB1655814A51040673A0022B78362369AAB3C7910B732C824F694C6DD"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/board_knob_top.v",
+    "sha256": "1253734CAF05914C5B34CB5FA5FDA1B2207C44387A3395CAC5C59B483DFFE69C"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/board_test_top.v",
+    "sha256": "F32B1608549F7A4BCCFFC0FF47DB4EA4F9CBFB073CA3B26B1EF6A6335B824381"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/board_top.v",
+    "sha256": "C033594B57BBD09804D0BA15FF3A23D6A25C282A3A75D117B6BDFBB3981072EC"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/event_encoder.v",
+    "sha256": "67E96034DD9B9AD1D6D43FEDAC44B562C324218A2761AF7DE2EB1EE7D6EF9286"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/i2c_master.v",
+    "sha256": "1D22E4B8D356480502BFA638CD57C8D9077DA4DEA8A9B37333F8B5717ADDB5B9"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/input_sync_debounce.v",
+    "sha256": "2657A5AF91F870BB929336720AC7115C7E58D9E88DF795FEFF159803E3716AF5"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/interaction_top.v",
+    "sha256": "795254B953613AE24DD92C487B1DD83D909544B12468CF8893D499F3D075B90C"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/pressure_if.v",
+    "sha256": "39DBE4838EECE30AF34E9D0F59F4B4BCC10A2C0548A4CD5219A2683CF033AC4B"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/reset_sync.v",
+    "sha256": "6B848886027F205E9912EF5CB172D59507146139F17D5A91AD88FF82BBC7D382"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/touch_or_key_if.v",
+    "sha256": "07FED495DB0DC66DC0A743A7AAF0E02BC0C52E59C1E7BB81A033ED785008DABC"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/voice_allocator.v",
+    "sha256": "20978482832FC7CCE82BD1A31CCC38795E0DDD11FED92F226F4058AC194FE464"
+  },
+  {
+    "path": "upstream/fpga_interaction/rtl/voice_test_pattern.v",
+    "sha256": "22ABD8D5581C93FC617735C2978CB6E27EB61710EDD9546A90C3A51CCCBF5F36"
+  },
+  {
+    "path": "upstream/fpga_interaction/scripts/gowin_build.tcl",
+    "sha256": "215839DD18F85D231E3707EAC5556B2D83713982E2F1B85A03BA130E35103DA9"
+  },
+  {
+    "path": "upstream/fpga_interaction/scripts/gowin_build_knob.tcl",
+    "sha256": "0E4E10E2C15EFCDC7EBF97314EA064165D9DDB67F7ED40CDA5781DB212C7F4F7"
+  },
+  {
+    "path": "upstream/fpga_interaction/scripts/run_modelsim.bat",
+    "sha256": "190BD5C27B8C7EDD9A08CD27CCE30E2AFD2F50C6E2BA3757FD75803F14D75414"
+  },
+  {
+    "path": "upstream/fpga_interaction/scripts/run_modelsim.ps1",
+    "sha256": "9D1D32EED889723303F3EAC3F19B18833A9709F0E25E0B1C5CF2CBE5BC295730"
+  },
+  {
+    "path": "upstream/fpga_interaction/sim/compile_all.do",
+    "sha256": "15077C1081A76D1771ACA7B8C5686AE24A70520D7F2C20D864FA1A461A3F506A"
+  },
+  {
+    "path": "upstream/fpga_interaction/tang_mega_60k_interaction.gprj",
+    "sha256": "8F9440F5D11D9864FC3D42640BD88EC2E07226AB85E0C19CF87A94AC8946E5EE"
+  },
+  {
+    "path": "upstream/fpga_interaction/tang_mega_60k_knob.gprj",
+    "sha256": "77AC8D646D5AA96211747B2E5D68705272F23CB55149E39427550951FF6214CF"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/ads1115_model.sv",
+    "sha256": "C4D7FA506BBA68DDB14ECBB8251E17ECB964858D2FCB4546B2DAACFA20E851F1"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_adc_knob_if.sv",
+    "sha256": "6DF74261018222AFDAB0D8AD74530E76BCDE8BF9B66DBB281C1660D4BEA739A4"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_ads1115_faults.sv",
+    "sha256": "8E572AF025C1E52A2A6AB31E92E62AAA1DEE26D73F8674346C476F63798D862C"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_ads1115_if.sv",
+    "sha256": "E7259E9AAE535ABCB155B5F706C9531110891544CC41079A6C92E5B99901C296"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_ads1115_knob_if.sv",
+    "sha256": "8E7F9F8862F10BD5D7A4BB8750BC838AE07302EFA2D392AA046C57EE4932A77E"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_ads1115_mapping.sv",
+    "sha256": "ABF613A2495742C6FB7EA01F734B502E4CCF165768FAFD54DD84EA7E56FE7460"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_event_encoder.sv",
+    "sha256": "F2D20B9B22EBB8B64EC4ED23F3BFB4513955F89E33427F0175F78239CEFB862B"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_input_fault_cleanup.v",
+    "sha256": "ED1621731B5A0408B99132CD03111614DACFC8C563A3A9A107DCDB63C0B09D68"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_input_sync_debounce.sv",
+    "sha256": "0CA51B910748624DA4A0719CCD045D1741233C6BDDF543CAB6FF9C693E19AA98"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_interaction_top.sv",
+    "sha256": "7C09624BB68DC78A9D3D2CB4462B538954C0CB09E0E4F484E1899EEF86F55384"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_key_events.v",
+    "sha256": "58DAB5F2EB1E42A62F54C12803AC735F81D1007652C4C4FF84347A20A6EE2F1A"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_keyboard_extended.sv",
+    "sha256": "DDE3A27C31941ACE10F840CE404A6BF2F6F49E56F91716D1588C8F3A8E4AECFB"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_pressure_if.sv",
+    "sha256": "2574CE8C962052312D049C665CFB11D063E42857585727A00FE814073DE3133F"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_voice_allocator.sv",
+    "sha256": "44C4210531503E9069DD596735AEE47D74B84F7D0BA618630B08309977A963CD"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_voice_control.v",
+    "sha256": "4FA7AE6ED76FD1FA157397C5D48D5E94F4052FAA0389EE1D3E095C58E3511D9F"
+  },
+  {
+    "path": "upstream/fpga_interaction/tb/tb_voice_test_pattern.sv",
+    "sha256": "D1195DDFBD717A5FBAE50A4E61010095AE1524681C4372A419ECB2E61069B86C"
+  },
+  {
+    "path": "upstream/fpga_interaction/verification/debounce_2ms_20261012/ab_simulation.log",
+    "sha256": "80D4DB456EF4867BA37E409E6E1C143A2EE8068542EC45A8479CCD5690344F97"
+  },
+  {
+    "path": "upstream/fpga_interaction/verification/debounce_2ms_20261012/simulation.log",
+    "sha256": "F19513D938E35F7C07483A1D9B52D5E4F73D7D61F1C5AA5FECB19B53649604E9"
+  },
+  {
+    "path": "upstream/fpga_interaction/verification/knob_20261012/ab_simulation.log",
+    "sha256": "B568813D8ECD8CBDB6D314BE8092E92A096EF365670E8692584995E3F36F81A8"
+  },
+  {
+    "path": "upstream/fpga_interaction/verification/knob_20261012/build.tcl",
+    "sha256": "2F54A9DA27B209E3524E196DBDAD865E16D340DC0E8ED013D04952D30E91C8B2"
+  },
+  {
+    "path": "upstream/fpga_interaction/verification/knob_20261012/knob_verified.gprj",
+    "sha256": "A4AE70DD4248B0072E473AED1B31777CE2CB0517E2B846333D0B340AA48591E5"
+  },
+  {
+    "path": "upstream/fpga_interaction/verification/knob_20261012/reports/knob_verified_tr_content.html",
+    "sha256": "D9F5510E50989C09AA3A2F6A1D8B21CE9998A9B384FCBFC6B810C0F3CBA2F731"
+  },
+  {
+    "path": "upstream/fpga_interaction/verification/knob_20261012/simulation.log",
+    "sha256": "16362F1DFB33B2F11A336D3482C13D7E27A1D543160CFDAA7B3627B22CEC61A0"
+  },
+  {
+    "path": "verification/tb/audio/sample_tick_tb.v",
+    "sha256": "F89F8ACED7459142DB0DEB3BBEF5C12DFE69D466B9793CB1EC3A8A4DC2DF2B73"
+  },
+  {
+    "path": "verification/tb/audio/synth_top_tb.v",
+    "sha256": "ED828768A5935568A72E53DDE318152FFC3E9B54F9995FB1FC3DC73342162C42"
+  },
+  {
+    "path": "verification/tb/audio/tb_audio_boundaries.v",
+    "sha256": "3C8C0BC15896F2C5D69A31D57969E91DD6CC4FEB0686893042B021D9B84B88AF"
+  },
+  {
+    "path": "verification/tb/control/tb_allocator_review.v",
+    "sha256": "8ABCB7B587F1375FB2D97D43D2E62496F5AB7D96B94A6C9573C064B7FA58738A"
+  },
+  {
+    "path": "verification/tb/control/tb_allocator_trigger.v",
+    "sha256": "316FCEF13B4EBBAF82C08BD10A00B502CFB13730D7D1736A474FFE856C6B7081"
+  },
+  {
+    "path": "verification/tb/control/tb_event_encoder.v",
+    "sha256": "96050551F551DDDBAFA209B739BBA83E8D4E075186319325E207A853E46473A3"
+  },
+  {
+    "path": "verification/tb/control/tb_input_sync_debounce.v",
+    "sha256": "A89B74CF35F0D8CE9CC2E612C2F512C12CF95CD4D78F73E1CEE2C750E92685CE"
+  },
+  {
+    "path": "verification/tb/control/tb_uart_bytes.v",
+    "sha256": "01C6DD74C715D4757B64272073CC4D821D106B8C21197EE60917593E4DE52CF2"
+  },
+  {
+    "path": "verification/tb/control/tb_uart_flow.v",
+    "sha256": "F058BD9C25A46A7D2EE4652022832E7DF1D59757E906F069DA5153D1D04D84C1"
+  },
+  {
+    "path": "verification/tb/control/tb_uart_line.v",
+    "sha256": "C9384A7E8A2E0B38A3148481A682AA1267A920462A92DFFD3B4A434B38AB4D64"
+  },
+  {
+    "path": "verification/tb/control/tb_uart_protocol.v",
+    "sha256": "9D547E8472C5FE0B6BB34F1FF7AE070C94AA012B166D1EBAE738EF0C815607E2"
+  },
+  {
+    "path": "verification/tb/control/tb_uart_replies.v",
+    "sha256": "D521672654A411E88AC9F470C5C7601BF075569F292A6122FE640843139C77B3"
+  },
+  {
+    "path": "verification/tb/control/tb_voice_allocator.v",
+    "sha256": "A5B16AFCE6B8F9ABF1B493CCCFE9F0F6457A52A967F150F3ADA020E5D3D4D499"
+  },
+  {
+    "path": "verification/tb/display/tb_display_cdc.v",
+    "sha256": "C50E05685BE0295584CE3CD2F74DEA228A11825AF34AD1018A7E1F8ECB36C0E3"
+  },
+  {
+    "path": "verification/tb/display/tb_display_renderer.v",
+    "sha256": "BC1AB429C3D6556F125617A0C797117689234F648EF201CCAD6463BAB3AA715E"
+  },
+  {
+    "path": "verification/tb/display/tb_display_reset_gain.v",
+    "sha256": "38E186AB36EE34C312881DC8E916181D0932169595CA3D00293054EDC1CF95F8"
+  },
+  {
+    "path": "verification/tb/display/tb_display_timing.v",
+    "sha256": "EE2E4C052708B3DA26F31B0CADB23E9D32D77A00CC26F7D978BF36201AA6F392"
+  },
+  {
+    "path": "verification/tb/display/tb_display_wave.v",
+    "sha256": "9759BDF1F1E9277D88A0070290A598A023942F0B61B41AFB8C7C4E5F858A1251"
+  },
+  {
+    "path": "verification/tb/display/tb_instrument_display.v",
+    "sha256": "8F4AF2A627E38C2A14A2F688C9EC42BD85B7BE97E80C9E8514BAB1A735C0BE49"
+  },
+  {
+    "path": "verification/tb/integration/performance_adc_model.v",
+    "sha256": "A4B5322C4347307A9ACEACF29F3AB78B026B838C15C9BB11958583C28F7E5614"
+  },
+  {
+    "path": "verification/tb/integration/single_tone_demo_top.v",
+    "sha256": "0709CD8DD9CD2B1F587F5C62C28944E5EF1C2BAA1B1E8F409E43B8B5547C7C76"
+  },
+  {
+    "path": "verification/tb/integration/tb_audio_display_isolation.v",
+    "sha256": "010F61BD6A4DDF9953E138D6D9D46B9904321500155B3915A09AD84C3909D1E0"
+  },
+  {
+    "path": "verification/tb/integration/tb_audio_parameters.v",
+    "sha256": "E62526866073EE6B4C95FF2B790FBFDA1E65E8DF1B926C991CE6C1C6C8673F8A"
+  },
+  {
+    "path": "verification/tb/integration/tb_instrument_presets.v",
+    "sha256": "253F446CF4562A1AC67C3DF73E90FF04DC0A5A1DB24092FC35EA568F03A983BC"
+  },
+  {
+    "path": "verification/tb/integration/tb_performance_adc.v",
+    "sha256": "39C6893F4493C184AAD9D839FA2D81C45F5ECBD24FD333FFE5ECFA8FF16C740C"
+  },
+  {
+    "path": "verification/tb/integration/tb_performance_bank.v",
+    "sha256": "3B5DFE6E3A4D7CFAB54CC81EB16AF8134E81CC763B7D83C477F509033EE7CB3C"
+  },
+  {
+    "path": "verification/tb/integration/tb_performance_control.v",
+    "sha256": "3ADDEE2735E53C215899B1F1227C8A96929193635CCDF540C7764C16CACEEB11"
+  },
+  {
+    "path": "verification/tb/integration/tb_performance_latency.v",
+    "sha256": "64B2C2A9088408D500D375487A41FB3C5871933FE9D2FE7E3D59C0AFD4F84CCE"
+  },
+  {
+    "path": "verification/tb/integration/tb_performance_system.v",
+    "sha256": "B6A3796A2EF87D8098A0829AB3FE6694416EB9BB0786C65939B7467262C9E53E"
+  },
+  {
+    "path": "verification/tb/integration/tb_piano_13_debounce.v",
+    "sha256": "BD5A5D502A1A7320DB0BE6A28D7D274DB7D4F136786732134A4F8109E45EE6FF"
+  },
+  {
+    "path": "verification/tb/integration/tb_piano_13_keys.v",
+    "sha256": "5E703D0C82A5B96A25DA0CDEB2F1C3D23B77C77E9E27AEB83839EC425AA8AD40"
+  },
+  {
+    "path": "verification/tb/integration/tb_piano_latency.v",
+    "sha256": "A686BC686FEECE7D9B845BA4408A0CF6C898449ED856587D2FCE6A16153A1A9F"
+  },
+  {
+    "path": "verification/tb/integration/tb_single_tone_ab.v",
+    "sha256": "432CACF3CCFD98150AF52EDF069B99CFBFCF1F8A1C2A9677B001E59AAE6736A8"
+  },
+  {
+    "path": "verification/tb/integration/tb_uart_instrument.v",
+    "sha256": "5B5514C600536827CCFFA084FC0769C39715EB8365BA288C80CA7FEA66ABD371"
+  },
+  {
+    "path": "verification/tb/integration/tb_uart_pa_drain.v",
+    "sha256": "AD51BB901E86F563A8109E914EE7B4C28F5C982A8276279B789BD02F6DBD63EC"
+  },
+  {
+    "path": "verification/tb/integration/tb_uart_piano_board.v",
+    "sha256": "181B7D2EC46F8D587FC38653522E4A613C441F710DBD71C5B155F8271B8CFD60"
+  },
+  {
+    "path": "verification/tb/synth/tb_adsr_arithmetic.v",
+    "sha256": "DA81D0FBE16C0FD961804F49AF173C18D5FC8BE1490F9CE6EF0CE6A0C7D2CF4F"
+  },
+  {
+    "path": "verification/tb/synth/tb_adsr_env.v",
+    "sha256": "553354B3FF5099432D353A977DB30CFB714FB5B00A9C8D207231271509FB8F9F"
+  },
+  {
+    "path": "verification/tb/synth/tb_instrument_bank.v",
+    "sha256": "5AC14F81885E6A7587B8F6D7CD192B7611A6E8A3F57F274E1C9392F3AED44BFC"
+  },
+  {
+    "path": "verification/tb/synth/tb_instrument_preview.v",
+    "sha256": "C243E46FCA41C5989C5291B59E4CB8EAB030191F368E2CA89121F87137B4B5AD"
+  },
+  {
+    "path": "verification/tb/synth/tb_instrument_wave.v",
+    "sha256": "B53D72E57B8CA799632CEB96C63C2FFC41723E9229CE1748C1FF8EC16C4B7C80"
+  },
+  {
+    "path": "verification/tb/synth/tb_phase_acc.v",
+    "sha256": "2757A6CF1894E48D179C60AADA92CB872793203DD2EC42922668048C6DB10A24"
+  },
+  {
+    "path": "verification/tb/synth/tb_piano_tone.v",
+    "sha256": "C175B8D324FCFDA866D1ACB44C4E087D186A3A54189FA3A7065E74EBC5B5ED1D"
+  },
+  {
+    "path": "verification/tb/synth/tb_sample_gain.v",
+    "sha256": "ACBD7DF9C51AC67D8E47ACF545D42A9135C3E00E7548620539FD9F07AF1DF34D"
+  },
+  {
+    "path": "verification/tb/synth/tb_sample_mixer4.v",
+    "sha256": "7BC58289DD6C0CAE4CD001EC79A852D5882022BE1BDB4551AC2B995EDC5218DA"
+  },
+  {
+    "path": "verification/tb/synth/tb_timbre_bank.v",
+    "sha256": "E3CBA8231C98FB00FCE9C06EA37479DC741389D8F37616D749219766B98A74CF"
+  },
+  {
+    "path": "verification/tb/synth/tb_timbre_preview.v",
+    "sha256": "3876923C337E26E52B2903001C2A51AAA1DC98A611A27B20C9584E626544CED8"
+  },
+  {
+    "path": "verification/tb/synth/tb_voice_adsr.v",
+    "sha256": "8ED3F2983C560F18EBF95B3B10D47371207253D60DF3ADE537D84A8D7DA10B40"
+  },
+  {
+    "path": "verification/tb/synth/tb_voice_bank_adsr.v",
+    "sha256": "7F8FDB64C87073A47D331D32E1C10F1FF2DC03BC5D034A7766D5BBA6F372E152"
+  },
+  {
+    "path": "verification/tb/synth/tb_voice_dds.v",
+    "sha256": "CA4608626F98CA4A837EE5A49360F7FE9A947B9284BFF6041FFBE2BDB9F3D393"
+  },
+  {
+    "path": "verification/tb/synth/tb_wave_lut.v",
+    "sha256": "733C884E36FE2E55775AEF9DFEE7035B612E8FE957CC010609647F545ADAC2D4"
+  },
+  {
+    "path": "verification/tb/synth/tb_wave_lut_timbre.v",
+    "sha256": "148EF2EF84E28E6CF8C656648AA7937A23C2F7E13B38B0D0A2594962C9661869"
+  }
+]

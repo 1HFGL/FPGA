@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$ModelSimBin='C:/Library/modelsim/win64',
       [string]$OutputDirectory='build/regression/performance',
       [string[]]$Tests=@('tb_performance_bank','tb_performance_system','tb_performance_adc','tb_performance_control','tb_performance_latency'),
@@ -11,7 +11,9 @@ try {
     $lib="$out/work"
     New-Item -ItemType Directory -Path $out -Force | Out-Null
     if(-not(Test-Path "$lib/_info")) { & "$ModelSimBin/vlib.exe" $lib; if($LASTEXITCODE){throw 'vlib failed'} }
-    $sources=@(rg --files rtl -g '*.v')+@(rg --files verification/tb/integration -g '*performance*.v')
+    # 源文件枚举不依赖 ripgrep：部分机器没装 rg，会让整个回归无法启动。
+    # Get-ChildItem 给出同一组 .v 文件，编译顺序对 Verilog 无影响。
+    $sources=@(Get-ChildItem rtl -Recurse -Filter *.v | ForEach-Object FullName) + @(Get-ChildItem verification/tb/integration -Recurse -Filter *performance*.v | ForEach-Object FullName)
     if($LASTEXITCODE){throw 'source discovery failed'}
     if($Mutation -ne 'None') {
         $original=Get-Content rtl/top/instrument_uart_top.v -Raw
@@ -24,7 +26,8 @@ try {
         $sources=@($sources | Where-Object {$_ -ne 'rtl/top/instrument_uart_top.v'})+@("$out/mutated_top.v")
     }
     $manifest=@("ModelSim=$(& "$ModelSimBin/vlog.exe" -version)",'flags=-vlog01compat -pedanticerrors')
-    foreach($file in $sources){$manifest+="$((Get-FileHash -LiteralPath $file).Hash)  $file"}
+    $manifestFiles=$sources+@($PSCommandPath)+@(Get-ChildItem rtl/rom -Filter '*.mem' | ForEach-Object FullName)
+    foreach($file in $manifestFiles){$manifest+="$((Get-FileHash -LiteralPath $file).Hash)  $file"}
     $manifest | Set-Content "$out/inputs.txt" -Encoding utf8
     & "$ModelSimBin/vlog.exe" -vlog01compat -pedanticerrors -work $lib @sources *> "$out/compile.log"
     if($LASTEXITCODE){throw "Compile failed: $out/compile.log"}

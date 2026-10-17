@@ -1,7 +1,7 @@
 ﻿[CmdletBinding()]
 param([string]$Gowin='D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe',
       [string]$EvidenceDirectory='build/piano',
-      [string]$Python='D:/python/python.exe',
+      [string]$Python='C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe',
       [switch]$CheckOnly)
 $ErrorActionPreference='Stop'
 $root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
@@ -20,6 +20,8 @@ $expectedConfigHash=(Get-FileHash -LiteralPath $processConfigPath).Hash
 [xml]$project=Get-Content -LiteralPath $projectPath -Raw
 $inputs=@($projectPath,$PSCommandPath,$processConfigPath,(Join-Path $PSScriptRoot 'build_piano.tcl'),
     (Join-Path $root 'rtl/rom/piano_1024.mem'),
+    (Join-Path $root 'rtl/rom/guitar_1024.mem'),(Join-Path $root 'rtl/rom/sine_1024.mem'),
+    (Join-Path $root 'rtl/rom/piano_v3_modes.mem'),(Join-Path $root 'rtl/rom/rock_v2_shaper.mem'),
     (Join-Path $root 'host/tone_examples/piano.json'),
     (Join-Path $root 'host/studio_model.py'))
 foreach($node in $project.Project.FileList.File){
@@ -58,13 +60,13 @@ $normalizedTiming=Join-Path $evidence 'timing_from_html.txt'
 if($LASTEXITCODE -ne 0){throw 'Cannot read all HTML timing tables'}
 $timing=Get-Content $normalizedTiming -Raw
 $netlist=Get-Content (Join-Path $PSScriptRoot 'impl/gwsynthesis/piano_performance.vg') -Raw
-# Thirteen-key selection/FIFO can add RAM and a half-DSP. Check the four actual
-# audio pROM instances, rather than expecting the old two-key total resources.
+# 模态参数ROM与相位/幅度状态映射片内RAM，共享运算器取代每声部复制乘法器。
 $dsp=[regex]::Match($rpt,'DSP\s*\|\s*(\d+(?:\.\d+)?)/118')
-# 16个音频ROM，另一个pROM是旋钮弯音比例表，不能把它当第17声部。
-if(([regex]::Matches($netlist,'(?m)^\s*pROM\s+rom_rom_')).Count -ne 16 -or
-    -not $dsp.Success -or [double]::Parse($dsp.Groups[1].Value,[Globalization.CultureInfo]::InvariantCulture) -lt 32){
-    throw 'Audio ROM/DSP inference mismatch'
+$bsram=[regex]::Match($rpt,'BSRAM\s*\|\s*(\d+)/118')
+if(-not $bsram.Success -or [int]$bsram.Groups[1].Value -lt 64 -or
+    -not $dsp.Success -or [double]$dsp.Groups[1].Value -lt 1 -or [double]$dsp.Groups[1].Value -gt 32 -or
+    $netlist -notmatch 'u_modal'){
+    throw 'Modal RAM/DSP inference mismatch or legacy synthesis path still active'
 }
 if(([regex]::Matches($rpt,'(?m)^\w+(?:\[\d+\])?\s*\|\s*-\s*\|\s*\w+/\d+\s*\|\s*Y\s*\|')).Count -ne 25){
     throw 'Pin coverage mismatch'

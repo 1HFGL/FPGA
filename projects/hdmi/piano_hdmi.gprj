@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW5AT-60B" pn="GW5AT-LV60PG484AC1/I0">gw5at60b-002</Device>
+    <FileList>
+        <File path="../../rtl/control/input_sync_debounce.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/touch_or_key_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/event_encoder.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/piano_controls.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/i2c_master.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/ads1115_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/ads1115_knob_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/adc_knob_if.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/voice_allocator.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_rx.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_tx.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_fifo.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_line_rx.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_reply_tx.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_synth_protocol.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_event_arbiter.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/instrument_uart_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/instrument_uart_piano_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/piano_13key_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/piano_performance_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/phase_acc.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/wave_lut.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_dds.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/note_phase_lut.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/adsr_env.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/sample_gain.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_adsr.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/sample_mixer4.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_bank_adsr.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/wave_lut_timbre.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_timbre_adsr.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_instrument.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/instrument_env.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_bank_music_pipe.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/voice_bank_modal_adapter.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/instrument_wave.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/audio/i2s_tx.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/audio/sample_tick.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/audio/synth_top.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/display_cdc_latest.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/lcd_rgb_timing.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/display_wave_buffer.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/display_wave_envelope.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/instrument_panel_renderer.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/instrument_panel_ui.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/display_font24.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/display_font_ui.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/piano_display_renderer.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/instrument_display.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/display_bend_map.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/tmds_encoder.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/dvi_tx_gowin.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/hdmi_clock_60k.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/display/hdmi_reset_guard.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/top/piano_hdmi_top.v" type="file.verilog" enable="1"/>
+        <File path="../../build/hdmi/piano_hdmi.cst" type="file.cst" enable="1"/>
+        <File path="../../build/hdmi/piano_hdmi.sdc" type="file.sdc" enable="1"/>
+    </FileList>
+</Project>

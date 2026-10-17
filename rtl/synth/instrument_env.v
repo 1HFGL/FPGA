@@ -64,11 +64,21 @@ module instrument_env #(
 
     // 初始化与正常推进分开计算：第一步的误差从 0 开始，r<N，
     // 必定没有额外进位。因此除法之后无需再串联余数比较和步长加一。
+    // 起音预设可在接受请求的同一拍改变，sample_tick 也允许连续有效。
+    // 因此不能缓存上一拍按 instrument 选出的步长，否则会使用旧预设/旧幅度。
+    // 两套常量除法与首步幅度并行计算，最后再选预设；不增加采样延迟。
     wire [16:0] attack_distance=UNITY-env_level;
-    wire [16:0] attack_step=instrument ? (attack_distance/S_AN) : (attack_distance/G_AN);
-    wire [COUNT_W-1:0] attack_rem=instrument ? (attack_distance%S_AN) : (attack_distance%G_AN);
-    wire [16:0] release_step=instrument ? (env_level/S_RN) : (env_level/G_RN);
-    wire [COUNT_W-1:0] release_rem=instrument ? (env_level%S_RN) : (env_level%G_RN);
+    wire [16:0] g_attack_step=attack_distance/G_AN, s_attack_step=attack_distance/S_AN;
+    wire [16:0] g_release_step=env_level/G_RN, s_release_step=env_level/S_RN;
+    wire [16:0] attack_step=instrument?s_attack_step:g_attack_step;
+    wire [16:0] release_step=instrument?s_release_step:g_release_step;
+    wire [COUNT_W-1:0] attack_rem=instrument?(attack_distance%S_AN):(attack_distance%G_AN);
+    wire [COUNT_W-1:0] release_rem=instrument?(env_level%S_RN):(env_level%G_RN);
+    // 每个候选都在0..UNITY内，17位足够；加减放在预设选择之前，缩短选择链。
+    wire [16:0] g_attack_first=env_level+g_attack_step, s_attack_first=env_level+s_attack_step;
+    wire [16:0] g_release_first=env_level-g_release_step, s_release_first=env_level-s_release_step;
+    wire [16:0] attack_first_level=instrument?s_attack_first:g_attack_first;
+    wire [16:0] release_first_level=instrument?s_release_first:g_release_first;
     // 衰减只能从起音终点进入，起始幅度一定是 UNITY，可在综合期算好。
     // 两套常量分别除后再选择，避免运行时可变除法器。
     localparam [16:0] G_DISTANCE=UNITY-G_SC, S_DISTANCE=UNITY-S_SC;
@@ -120,7 +130,7 @@ module instrument_env #(
                     next_remainder=attack_rem;
                     next_error=attack_rem;
                     next_left=A_COUNT-1'b1;
-                    next_level=env_level+attack_step;
+                    next_level=attack_first_level;
                     if (A_N==1) begin
                         next_level=UNITY; next_state=DECAY; next_error=0;
                     end
@@ -140,7 +150,7 @@ module instrument_env #(
                     next_remainder=release_rem;
                     next_error=release_rem;
                     next_left=R_COUNT-1'b1;
-                    next_level=env_level-release_step;
+                    next_level=release_first_level;
                     if (R_N==1) begin
                         next_level=0; next_state=IDLE; next_error=0;
                     end

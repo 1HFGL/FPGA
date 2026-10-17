@@ -6,10 +6,15 @@ from PIL import Image
 parser = argparse.ArgumentParser()
 parser.add_argument("source", type=Path)
 parser.add_argument("output", type=Path)
+parser.add_argument("--width", type=int, default=800)
+parser.add_argument("--height", type=int, default=480)
 args = parser.parse_args()
+if args.width <= 0 or args.height <= 0:
+    raise SystemExit("Width and height must be positive")
 pixels = args.source.read_text(encoding="ascii").splitlines()
-if len(pixels) != 800 * 480:
-    raise SystemExit(f"Expected 384000 active pixels, got {len(pixels)}")
+expected = args.width * args.height
+if len(pixels) != expected:
+    raise SystemExit(f"Expected {expected} active pixels, got {len(pixels)}")
 data = bytes.fromhex("".join(pixels))
-Image.frombytes("RGB", (800, 480), data).save(args.output)
+Image.frombytes("RGB", (args.width, args.height), data).save(args.output)
 print(f"PASS rendered RTL pixels: {args.output}")

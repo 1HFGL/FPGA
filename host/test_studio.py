@@ -335,6 +335,10 @@ class GuiTests(unittest.TestCase):
     def setUp(self):
         self.window = StudioWindow()
         self.window.test_mode = True
+        # Existing editor tests retain their configurable simulator/profile;
+        # the current piano home/profile is covered separately.
+        self.window.port_combo.setCurrentIndex(self.window.port_combo.findData("SIM"))
+        self.window.navigate(0)
         self.window.show()
         QApplication.processEvents()
 
