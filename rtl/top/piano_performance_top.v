@@ -15,6 +15,9 @@ module piano_performance_top #(
     parameter integer ENABLE_BRIGHTNESS=0,
     parameter integer ENABLE_OCTAVE_KEY=1,
     parameter integer BRIGHTNESS_REPEAT_CYCLES=25000000,
+    parameter integer ENABLE_REVERB=1,
+    parameter integer ENABLE_CHORUS=1,
+    parameter integer ENABLE_DELAY=1,
     parameter integer USE_MODAL=1
 )(
     input wire sys_clk,sys_rst_n,
@@ -40,8 +43,9 @@ module piano_performance_top #(
         .WATCHDOG_CYCLES(WATCHDOG_CYCLES),.ROM_FILE(ROM_FILE),.FIXED_PIANO(1),
         .ATTACK_SAMPLES(ATTACK_SAMPLES),.DECAY_SAMPLES(DECAY_SAMPLES),
         .SUSTAIN_LEVEL(17'd0),.RELEASE_SAMPLES(RELEASE_SAMPLES),
-        .REQUEST_LEAD_HALF_EDGES(USE_MODAL?60:2),.EXTERNAL_PIANO_KEYS(1),.VOICES(16),
-        .ENABLE_CONTROLS(1),.ENABLE_GUITAR(1),.USE_MODAL(USE_MODAL),
+        .REQUEST_LEAD_HALF_EDGES(USE_MODAL?60:((ENABLE_REVERB || ENABLE_CHORUS || ENABLE_DELAY)?3:2)),.EXTERNAL_PIANO_KEYS(1),.VOICES(16),
+        .ENABLE_CONTROLS(1),.ENABLE_GUITAR(1),.USE_MODAL(USE_MODAL),.ENABLE_REVERB(ENABLE_REVERB),
+        .ENABLE_CHORUS(ENABLE_CHORUS),.ENABLE_DELAY(ENABLE_DELAY),
         .ENABLE_BRIGHTNESS(ENABLE_BRIGHTNESS),.ENABLE_OCTAVE_KEY(ENABLE_OCTAVE_KEY),
         .BRIGHTNESS_REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES)) u_core(
         .sys_clk(sys_clk),.sys_rst_n(sys_rst_n),.Key_in(Key_in),.piano_key_n(piano_key_n),
@@ -49,5 +53,6 @@ module piano_performance_top #(
         .knob_value_flat(knob_value_flat),.knob_valid(knob_valid),.param_ready(param_ready),.param_fault(param_fault),
         .control_sustain(1'b0),.control_octave(2'd1),.control_ready(core_ready),
         .monitor_audio_valid(unused_monitor_valid),.monitor_audio_sample(unused_monitor_sample),
-        .monitor_key_down(unused_monitor_keys),.monitor_instrument_guitar(),.monitor_piano_keys(),.monitor_guitar_keys(),.monitor_octave());
+        .monitor_key_down(unused_monitor_keys),.monitor_instrument_guitar(),.monitor_piano_keys(),.monitor_guitar_keys(),.monitor_octave(),
+        .control_brightness(7'd127),.monitor_brightness());
 endmodule

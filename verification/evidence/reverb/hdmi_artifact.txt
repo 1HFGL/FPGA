@@ -1,0 +1,5 @@
+file=C:\Users\Nanji\Documents\GitHub\FPGA\projects\hdmi\impl\pnr\piano_hdmi.fs
+sha256=BA4EE20ACA1E0C4299E1EC7BEBE8E9FA1511572E78D4B11EB9727E0571E9B42B
+process_sha256=86AFDDDB8677D00CEC63A4ABCC6AB2AB29B4A72B02A8940AA7B41B62CEF0C753
+Synthesis/PNR executed. Inspect all timing tables and constraint coverage.
+NOT programmed; no screen, touch, signal-integrity or end-to-end latency signoff.

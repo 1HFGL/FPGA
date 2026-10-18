@@ -1,5 +1,21 @@
 # 项目协作规范：高云 FPGA 电子乐器
 
+## 当前发布范围：用户分支核验
+
+用户授权将本地混响、Delay、Chorus 源码、证据与试听包推到 `cleanup/expression-brightness`，明确暂不推 master；本提交不创建或合并PR。以下“未推送”及摘要 `published:false` 是保留的构建时快照，分支发布不改变既有固件字节或测试结论。后续合入 master 需要用户另行授权。
+
+## 最新操作覆盖：2026-10-17 补齐Delay与Chorus
+
+用户明确追加两种效果，无需新按键/触摸/上位机控制。正式顶层ENABLE_CHORUS/ENABLE_DELAY/ENABLE_REVERB均1，兼容核心均0；链路为可选明亮度→chorus_effect→echo_delay→原room_reverb→B。共用混音总线、单声道复制双通道，不计新增可演奏声部或表情维度。KEY1音区、KEY2乐器不改，USB触摸仍待接入。Chorus占1块RAM、Delay占9块；新增17拍，HDMI R953、无屏R950，976拍准备窗仍保留。
+
+171文件严格Verilog-2001、9项测试、851000输入×6种配置通过；三效果正式链路13571样本逐级匹配独立整数参考，其中5031样本为Chorus输出零但Delay仍有回声。256份已有受保护文件逐字节不变。HDMI Logic23097/FF9210/BSRAM114/DSP25；无屏 Logic18719/FF8502/BSRAM100/DSP22，带屏余4块RAM。三效果PA完整尾声测试通过，原合成/ROM/混响、旧TB、引脚/SDC/process不改。旧合同须显式--dry（三效果全关）、--reverb-only（只留混响）或--legacy，不能改旧TB。新包build/audition/delay_chorus_j13_20261017含新三效果和原混响对照；旧包/证据保留且校验原哈希。新证据见verification/evidence/effects/summary.json。尚未烧录、实物试听、推送；保留PR1014/完整DAC外部时序与模拟延迟待验收项。
+
+## 历史操作覆盖：2026-10-17 默认房间混响
+
+用户确认先做混响，默认开启并提供干声对照；本条覆盖旧“混响暂缓”。两个正式顶层ENABLE_REVERB=1，共享room_reverb位于原A输出/可选明亮度之后，原A模型/ROM保持，16复音/48kHz、KEY1三音区、KEY2乐器不变。混响为固定预设，不计新增可控表情维度；触摸物理链路仍未实现。新增9拍，HDMI R936/无屏R933，原976拍准备窗和60半边沿提前量不变。PA必须等待湿声内部状态归零及原DAC帧排空。关闭混响的旧测试必须显式使用--dry或--legacy，不能改写既有TB降低断言。
+
+已验证166文件、7项测试、505192输入×3比例、5971集成样本；两入口现有约束检查通过，HDMI BSRAM104/118、DSP20；无屏BSRAM90、DSP17，Hold最小49ps。250份受保护既有文件未改，只给无屏未用明亮度输入显式接127中性值。新包build/audition/room_reverb_j13_20261017包含新湿声与上轮干声基准，来源不可混称。见docs/reverb.md和verification/evidence/reverb/summary.json。未烧录/实物试听/推送此轮改动，不称完整外部时序签核。
+
 本文件面向在当前目录工作的后续AI助手；详细学习与开发安排见 [PLAN.md](./PLAN.md)。本文件不能替代用户当次要求或更高优先级指令。
 
 ## 最新操作覆盖：2026-10-17 触摸明亮度准备

@@ -7,9 +7,12 @@ p = argparse.ArgumentParser()
 p.add_argument('tops', nargs='+')
 p.add_argument('--bin', default='C:/Library/modelsim/win64')
 p.add_argument('--gowin-simlib', default='D:/Gowin/Gowin_V1.9.12.04_x64/IDE/simlib/gw5a/prim_sim.v')
+p.add_argument('--dry', action='store_true', help='Disable all effects explicitly for unchanged dry contract tests')
+p.add_argument('--reverb-only', action='store_true', help='Disable chorus and delay for unchanged room-only contract tests')
 p.add_argument('--legacy', action='store_true', help='Run an unchanged historical contract test with explicit compatibility parameters')
 p.add_argument('--mutation', choices=['None','Preset','Release','Wave','Env'], default='None')
 a = p.parse_args()
+if sum((a.dry,a.legacy,a.reverb_only))>1:raise SystemExit('Use separate dry, legacy and reverb-only runs')
 OUT = ROOT / 'build/regression/final'
 OUT.mkdir(parents=True, exist_ok=True)
 sources = sorted(ROOT.glob('rtl/**/*.v'))
@@ -18,7 +21,7 @@ for top in a.tops:
     if len(candidates) != 1:
         raise SystemExit('Expected one current test: ' + top)
     tb = candidates[0]
-    tag=top+('_legacy' if a.legacy else '')+('_'+a.mutation if a.mutation!='None' else '')
+    tag=top+('_dry' if a.dry else '')+('_legacy' if a.legacy else '')+('_reverb_only' if a.reverb_only else '')+('_'+a.mutation if a.mutation!='None' else '')
     lib = (OUT / (tag + '_work')).relative_to(ROOT).as_posix()
     test_sources=list(sources)
     if a.mutation!='None':
@@ -52,14 +55,32 @@ for top in a.tops:
         sim_top='legacy_'+top
         wrapper=OUT/(sim_top+'.v')
         wrapper.write_text('module '+sim_top+';\n'+top+' original();\n'+
-            '\n'.join('defparam original.'+inst+('.ENABLE_BRIGHTNESS=0;\ndefparam original.'+inst+'.ENABLE_OCTAVE_KEY=0;' if top=='tb_final_performance' else '.USE_MODAL=0;') for inst in instances[top])+'\nendmodule\n')
+            '\n'.join('defparam original.'+inst+('.ENABLE_BRIGHTNESS=0;\ndefparam original.'+inst+'.ENABLE_OCTAVE_KEY=0;' if top=='tb_final_performance' else '.USE_MODAL=0;')+''.join('\ndefparam original.'+inst+'.'+param+'=0;' for param in ('ENABLE_CHORUS','ENABLE_DELAY','ENABLE_REVERB')) for inst in instances[top])+'\nendmodule\n')
+        support.append(wrapper)
+    if a.dry:
+        if a.legacy:raise SystemExit('Use separate dry and legacy runs')
+        instances={'tb_touch_hdmi_audio':['dut'],'tb_hdmi_octaves':['dut','baseline'],
+            'tb_performance_octaves':['dut'],'tb_final_hdmi_isolation':['dut','baseline']}
+        if top not in instances:raise SystemExit('No dry compatibility override for '+top)
+        sim_top='dry_'+top
+        wrapper=OUT/(sim_top+'.v')
+        wrapper.write_text('module '+sim_top+';\n'+top+' original();\n'+
+            '\n'.join('defparam original.'+inst+'.'+param+'=0;' for inst in instances[top] for param in ('ENABLE_CHORUS','ENABLE_DELAY','ENABLE_REVERB'))+'\nendmodule\n')
+        support.append(wrapper)
+    if a.reverb_only:
+        instances={'tb_reverb_hdmi':['dut','baseline']}
+        if top not in instances:raise SystemExit('No reverb-only override for '+top)
+        sim_top='reverb_only_'+top
+        wrapper=OUT/(sim_top+'.v')
+        wrapper.write_text('module '+sim_top+';\n'+top+' original();\n'+
+            '\n'.join('defparam original.'+inst+'.'+param+'=0;' for inst in instances[top] for param in ('ENABLE_CHORUS','ENABLE_DELAY'))+'\nendmodule\n')
         support.append(wrapper)
     vendor=Path(a.gowin_simlib) if top in (
-        'tb_touch_hdmi_audio','tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
+        'tb_effects_hdmi','tb_reverb_hdmi','tb_touch_hdmi_audio','tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
     inputs = [*test_sources, *support, tb, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem')]+([vendor] if vendor else [])
     (OUT / (tag + '_inputs.json')).write_text(json.dumps({
         'flags': '-vlog01compat -pedanticerrors',
-        'mode':'explicit legacy compatibility' if a.legacy else 'current integration',
+        'mode':'explicit dry compatibility' if a.dry else ('explicit legacy compatibility' if a.legacy else ('explicit reverb-only compatibility' if a.reverb_only else 'current integration')),
         'mutation':a.mutation,
         'sha256': {(str(f.relative_to(ROOT)) if f.is_relative_to(ROOT) else str(f)): hashlib.sha256(f.read_bytes()).hexdigest() for f in inputs}}, indent=2))
     if not (ROOT / lib / '_info').exists():
