@@ -1,0 +1,32 @@
+{
+  "files": {
+    "hdmi_dry_reference.fs": {
+      "bytes": 20633639,
+      "sha256": "93eae4d1294394a11e1ca9f599ff4ff9b9850b2f3941b47848078748d3614658"
+    },
+    "hdmi_room_reverb_j13.fs": {
+      "bytes": 20633639,
+      "sha256": "ba4ee20aca1e0c4299e1ec7bebe8e9fa1511572e78d4b11eb9727e0571e9b42b"
+    },
+    "piano_dry_reference.fs": {
+      "bytes": 19622819,
+      "sha256": "4ccb941929d959f77738d0e97798cc505d3499dd6a04b962be905083fa0f03c9"
+    },
+    "piano_room_reverb_j13.fs": {
+      "bytes": 20055563,
+      "sha256": "c2aa56b424136860ef2e38e5f94c041c1ab2aa880f0c1bc0e6f252ddf5a0a257"
+    },
+    "README.md": {
+      "bytes": 870,
+      "sha256": "c055d6bfb910d8437331600a345c22e435d6bd546fbec78069405b4eb10ed061"
+    },
+    "summary.json": {
+      "bytes": 5159,
+      "sha256": "abf411e0ede6dff1b68932b6947549785bf42f6e2daf065a771901a3a6e3a794"
+    },
+    "试听与设计说明.md": {
+      "bytes": 8026,
+      "sha256": "62c2db36312cc3ee15ef89342ce936ddc4101f16ac8f5b1c2c7170c6871c6c7d"
+    }
+  }
+}

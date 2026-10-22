@@ -21,7 +21,10 @@ module instrument_uart_top #(
     parameter integer ENABLE_BRIGHTNESS=0,
     parameter integer BRIGHTNESS_REPEAT_CYCLES=25000000,
     parameter integer ENABLE_OCTAVE_KEY=0,
-    parameter integer EXTERNAL_BRIGHTNESS=0
+    parameter integer EXTERNAL_BRIGHTNESS=0,
+    parameter integer ENABLE_REVERB=0,
+    parameter integer ENABLE_CHORUS=0,
+    parameter integer ENABLE_DELAY=0
 )(
     input wire sys_clk,sys_rst_n,input wire [1:0] Key_in,
     input wire [12:0] piano_key_n,
@@ -130,10 +133,14 @@ module instrument_uart_top #(
     wire signed [15:0] sample_data;
     wire sample_valid,sounding,sample_clipped;
     wire signed [15:0] output_sample_data;
+    wire signed [15:0] tone_sample_data;
+    wire tone_sample_valid,reverb_tail,reverb_overrun;
+    wire signed [15:0] chorus_sample_data,delay_sample_data;
+    wire chorus_sample_valid,delay_sample_valid,chorus_tail,delay_tail,chorus_overrun,delay_overrun;
     wire output_sample_valid,tone_tail,tone_overrun;
     wire [6:0] brightness_target,brightness_current;
     assign monitor_brightness=brightness_current;
-    wire output_sounding=sounding || tone_tail;
+    wire output_sounding=sounding || tone_tail || chorus_tail || delay_tail || reverb_tail;
     assign monitor_audio_valid=output_sample_valid;
     assign monitor_audio_sample=output_sample_data;
     // 只观察已接受的声部状态：PC与实体同音作OR，尾音不显示成仍按住。
@@ -300,16 +307,43 @@ module instrument_uart_top #(
                 .target(brightness_target),.current(brightness_current));
         end
         tone_filter u_tone(.clk(sys_clk),.rst_n(audio_ready),.in_valid(sample_valid),
-            .sample_in(sample_data),.brightness(brightness_current),.sample_out(output_sample_data),
-            .out_valid(output_sample_valid),.tail_active(tone_tail),.overrun(tone_overrun));
+            .sample_in(sample_data),.brightness(brightness_current),.sample_out(tone_sample_data),
+            .out_valid(tone_sample_valid),.tail_active(tone_tail),.overrun(tone_overrun));
     end else begin:g_no_brightness
         assign brightness_target=127;assign brightness_current=127;
-        assign output_sample_data=sample_data;assign output_sample_valid=sample_valid;
+        assign tone_sample_data=sample_data;assign tone_sample_valid=sample_valid;
         assign tone_tail=0;assign tone_overrun=0;
+    end endgenerate
+    // Shared post-mix effects: chorus -> echo -> room; each direct path remains immediate.
+    // None of these copies is an independently playable voice.
+    generate if(ENABLE_CHORUS)begin:g_chorus
+        chorus_effect u_chorus(.clk(sys_clk),.rst_n(audio_ready),.in_valid(tone_sample_valid),
+            .sample_in(tone_sample_data),.sample_out(chorus_sample_data),.out_valid(chorus_sample_valid),
+            .tail_active(chorus_tail),.busy(),.overrun(chorus_overrun));
+    end else begin:g_no_chorus
+        assign chorus_sample_data=tone_sample_data;assign chorus_sample_valid=tone_sample_valid;
+        assign chorus_tail=0;assign chorus_overrun=0;
+    end endgenerate
+    generate if(ENABLE_DELAY)begin:g_delay
+        echo_delay u_delay(.clk(sys_clk),.rst_n(audio_ready),.in_valid(chorus_sample_valid),
+            .sample_in(chorus_sample_data),.sample_out(delay_sample_data),.out_valid(delay_sample_valid),
+            .tail_active(delay_tail),.busy(),.overrun(delay_overrun));
+    end else begin:g_no_delay
+        assign delay_sample_data=chorus_sample_data;assign delay_sample_valid=chorus_sample_valid;
+        assign delay_tail=0;assign delay_overrun=0;
+    end endgenerate
+    // The existing room algorithm and preset are unchanged.
+    generate if(ENABLE_REVERB)begin:g_reverb
+        room_reverb u_room(.clk(sys_clk),.rst_n(audio_ready),.in_valid(delay_sample_valid),
+            .sample_in(delay_sample_data),.sample_out(output_sample_data),.out_valid(output_sample_valid),
+            .tail_active(reverb_tail),.busy(),.overrun(reverb_overrun));
+    end else begin:g_dry
+        assign output_sample_data=delay_sample_data;assign output_sample_valid=delay_sample_valid;
+        assign reverb_tail=0;assign reverb_overrun=0;
     end endgenerate
     synth_top #(.AUDIO_CLK_HZ(50000000),.SAMPLE_RATE_HZ(48000),
         .REQUEST_LEAD_HALF_EDGES(REQUEST_LEAD_HALF_EDGES),
-        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?(56*VOICES+28):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(USE_BRIGHTNESS?3:0))) u_b(
+        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?(56*VOICES+28):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(USE_BRIGHTNESS?3:0)+(ENABLE_CHORUS?12:0)+(ENABLE_DELAY?5:0)+(ENABLE_REVERB?9:0))) u_b(
         .clk_in(sys_clk),.rst_n(sys_rst_n),.audio_enable(pa_audio_enable),.sample_data(output_sample_data),.sample_valid(output_sample_valid),
         .audio_ready(audio_ready),.sample_request(sample_request),.sample_underrun(sample_underrun),
         .i2s_bclk(HP_BCK),.i2s_lrclk(HP_WS),.i2s_sdata(HP_DIN),.pa_en(PA_EN),

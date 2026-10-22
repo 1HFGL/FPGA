@@ -1,0 +1,4 @@
+file=C:\Users\Nanji\Documents\GitHub\FPGA\projects\piano\impl\pnr\piano_performance.fs
+sha256=C2AA56B424136860EF2E38E5F94C041C1AB2AA880F0C1BC0E6F252DDF5A0A257
+Executed: synthesis, place/route, bitstream; NOT programmed or physically verified.
+Candidate only: PR1014 and complete DAC external timing remain unresolved; real COM/audio/latency unverified.

@@ -1,12 +1,40 @@
 # 高云 FPGA 双音色电子乐器
 
+## 分支核验交付
+
+本提交按用户要求仅发布到 `cleanup/expression-brightness` 供核验，不合入 master。包含混响、Delay、Chorus 的源码、独立参考/测试、实现证据与 `.fs` 试听文件。
+
+带屏先用 [三效果新版](build/audition/delay_chorus_j13_20261017/hdmi_delay_chorus_j13.fs)，对照用 [仅混响版](build/audition/delay_chorus_j13_20261017/hdmi_reverb_only_reference.fs)；完全干声在 [混响阶段试听包](build/audition/room_reverb_j13_20261017/) 中。具体步骤见 [试听说明](docs/delay-chorus.md)。GitHub文件页面可通过 Download raw file 下载 `.fs`。
+
+以下开发记录和构建摘要中的“未推送”/`published:false`保留为当时的验证快照；不表示此分支提交缺少相应文件。实际板卡听感、完整外部时序及整机模拟延迟仍待验证。
+
+## 最新：Delay＋Chorus＋Reverb 自动轻效果（2026-10-17）
+
+按用户追加要求，两个正式入口默认开启三效果。钢琴与经典摇滚电吉他共用固定轻预设：Chorus两路缓慢调制短延迟，Delay约160ms并逐次衰减，再经过原混响。无需额外按键、触摸或上位机操作；KEY1音区、KEY2乐器及双旋钮沿用。听感与复现见[三效果说明](docs/delay-chorus.md)。
+
+- 带屏新版：`build/audition/delay_chorus_j13_20261017/hdmi_delay_chorus_j13.fs`
+- 带屏仅混响对照：同目录 `hdmi_reverb_only_reference.fs`，复用上轮核验文件。
+- 无屏新版及对照：同目录 `piano_delay_chorus_j13.fs` / `piano_reverb_only_reference.fs`。
+
+171文件严格Verilog-2001、9项测试、851000输入×6种配置通过；三效果正式链路13571样本逐级匹配独立整数参考，其中5031样本为Chorus输出零但Delay仍有回声。256份已有受保护文件逐字节不变。两入口已构建并通过当前约束检查；HDMI Logic23097/FF9210/BSRAM114/DSP25；无屏 Logic18719/FF8502/BSRAM100/DSP22。16复音/48kHz保持，HDMI缓存R953、无屏R950；HDMI仅余4块BSRAM。新版直达声约比仅混响版低3dB，试听时应做响度匹配。尚未代为烧录或实物验收，本轮未推送GitHub。来源和完整边界见[本轮摘要](verification/evidence/effects/summary.json)。后文旧包保留为阶段记录。
+
+## 此前：默认轻混响（2026-10-17）
+
+钢琴和经典摇滚电吉他现在共用轻房间混响，默认开启；KEY1三音区、KEY2乐器、双旋钮、UART与16复音保持现有操作。下载和听感验收见[混响说明](docs/reverb.md)。
+
+- 带屏混响：`build/audition/room_reverb_j13_20261017/hdmi_room_reverb_j13.fs`
+- 带屏干声对照：同目录 `hdmi_dry_reference.fs`（上轮已验证基准，非本轮重建）。
+- 无屏入口：同目录 `piano_room_reverb_j13.fs`，干声对照为 `piano_dry_reference.fs`。
+
+166文件严格Verilog-2001编译、7项当前/显式干声兼容测试、50.5万组整数参考及5971组完整链路逐样本对照通过。两入口已重新综合/布局布线并通过当前约束检查；HDMI缓存R936、无屏R933。未代为烧录或进行实物听感验收，当前更改尚未推送GitHub。详细资源、哈希与边界见[本轮证据](verification/evidence/reverb/summary.json)。以下旧包继续保留为对照。
+
 当前正式版本：**钢琴v3＋经典摇滚电吉他，13实体键和UART共享16声部，两旋钮控制总音量及全局±2半音弯音，7寸1024×600 HDMI中文显示**。
 
 2026-10-16已接入队友master `e18160e` 的模态核心与配套ROM；钢琴显示琴键，吉他显示六弦指板。KEY2切换新音的预设，旧音/尾音保留原音色；KEY1按次切换中→高→低→中音区，KEY0复位回钢琴和中音区。新位流的八白键连续接下方40针接口1～8，五黑键接9、10、13、14、15，ADC仍接16/17。具体见[唯一接线表](docs/keyboard-wiring.md)。
 
 实物是 **NEO Dock31005＋Tang Mega60K核心板**。约束目录保留历史名称31004，内容按31005底板与60K核心板核对。J8/J9仅取3.3V/GND，下方接口11脚为5V，不能接3.3V信号或模块电源。
 
-## 最新：触摸明亮度准备版
+## 此前：触摸明亮度准备版
 
 按用户确认，明亮度移到屏幕上方滑条和“原音”按钮，KEY1仍切三音区、KEY2仍切乐器。FPGA坐标处理、音频平滑和显示已接入；当前触摸线未接，USB主机／HID解析尚未实现，界面显示“触摸关”，此时手指不会改变参数。最终运行方案不依赖电脑。详细接口、验证及所需资料见[触摸明亮度说明](docs/touch-brightness.md)。
 

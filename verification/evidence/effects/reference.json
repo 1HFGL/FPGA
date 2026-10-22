@@ -1,0 +1,201 @@
+{
+  "zero": {
+    "samples": 9000,
+    "last_chorus": -1,
+    "last_echo": -1,
+    "last_chorus_active": -1,
+    "last_echo_active": -1,
+    "chorus_min_delay_q8": [
+      131072,
+      212992
+    ],
+    "chorus_max_delay_q8": [
+      138443,
+      223189
+    ]
+  },
+  "positive_impulse": {
+    "samples": 110000,
+    "last_chorus": 836,
+    "last_echo": 61440,
+    "last_chorus_active": 1023,
+    "last_echo_active": 92159,
+    "chorus_min_delay_q8": [
+      131072,
+      196608
+    ],
+    "chorus_max_delay_q8": [
+      163839,
+      229375
+    ],
+    "echoes": [
+      [
+        0,
+        28672
+      ],
+      [
+        7680,
+        2559
+      ],
+      [
+        15360,
+        959
+      ],
+      [
+        23040,
+        359
+      ],
+      [
+        30720,
+        134
+      ],
+      [
+        38400,
+        50
+      ],
+      [
+        46080,
+        18
+      ],
+      [
+        53760,
+        7
+      ],
+      [
+        61440,
+        2
+      ],
+      [
+        69120,
+        0
+      ],
+      [
+        76800,
+        0
+      ],
+      [
+        84480,
+        0
+      ],
+      [
+        92160,
+        0
+      ],
+      [
+        99840,
+        0
+      ],
+      [
+        107520,
+        0
+      ]
+    ]
+  },
+  "negative_impulse": {
+    "samples": 110000,
+    "last_chorus": 836,
+    "last_echo": 61440,
+    "last_chorus_active": 1023,
+    "last_echo_active": 92159,
+    "chorus_min_delay_q8": [
+      131072,
+      196608
+    ],
+    "chorus_max_delay_q8": [
+      163839,
+      229375
+    ]
+  },
+  "small_signal": {
+    "samples": 90000,
+    "last_chorus": 836,
+    "last_echo": 23040,
+    "last_chorus_active": 1023,
+    "last_echo_active": 46079,
+    "chorus_min_delay_q8": [
+      131072,
+      196608
+    ],
+    "chorus_max_delay_q8": [
+      163839,
+      229375
+    ]
+  },
+  "positive_dc": {
+    "samples": 120000,
+    "last_chorus": 10880,
+    "last_echo": 79119,
+    "last_chorus_active": 11022,
+    "last_echo_active": 102158,
+    "chorus_min_delay_q8": [
+      131072,
+      196608
+    ],
+    "chorus_max_delay_q8": [
+      163839,
+      229375
+    ]
+  },
+  "negative_dc": {
+    "samples": 120000,
+    "last_chorus": 10880,
+    "last_echo": 79119,
+    "last_chorus_active": 11022,
+    "last_echo_active": 102158,
+    "chorus_min_delay_q8": [
+      131072,
+      196608
+    ],
+    "chorus_max_delay_q8": [
+      163839,
+      229375
+    ]
+  },
+  "random": {
+    "samples": 22000,
+    "last_chorus": 21999,
+    "last_echo": 21999,
+    "last_chorus_active": 21999,
+    "last_echo_active": 21999,
+    "chorus_min_delay_q8": [
+      131072,
+      212992
+    ],
+    "chorus_max_delay_q8": [
+      149093,
+      229375
+    ]
+  },
+  "dirty_reset": {
+    "samples": 10000,
+    "last_chorus": -1,
+    "last_echo": -1,
+    "last_chorus_active": -1,
+    "last_echo_active": -1,
+    "chorus_min_delay_q8": [
+      131072,
+      212992
+    ],
+    "chorus_max_delay_q8": [
+      139263,
+      224323
+    ]
+  },
+  "modulation": {
+    "samples": 260000,
+    "last_chorus": 160775,
+    "last_echo": 221407,
+    "last_chorus_active": 161022,
+    "last_echo_active": 244478,
+    "chorus_min_delay_q8": [
+      131072,
+      196608
+    ],
+    "chorus_max_delay_q8": [
+      163839,
+      229375
+    ]
+  },
+  "vectors": 851000,
+  "vectors_sha256": "ded43f4ef11061a3a5d1ebc94527816af382ce54777b5c8622fb937fc1c2bc8a"
+}
