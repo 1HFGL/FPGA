@@ -6,6 +6,7 @@
 // 本模块只做组合绘制，坐标均为编译期常量；不含除法、开方或整屏帧缓存。
 // 文本接口：本模块在 P0 给出字形/行/列请求，字模 ROM 在 P1 返回整行覆盖度。
 module instrument_panel_ui #(
+    parameter integer TOUCH_PANEL=0,
     parameter [23:0] C_BG      = 24'hecebe7,
     parameter [23:0] C_PANEL   = 24'hf8f7f3,
     parameter [23:0] C_GRID    = 24'hd7d6d0,
@@ -16,7 +17,8 @@ module instrument_panel_ui #(
 ) (
     input wire [11:0] x, y,
     input wire [12:0] key_down,
-    input wire [6:0] volume,
+    input wire [6:0] volume,brightness,
+    input wire touch_available,
     input wire signed [15:0] pitch_bend,
     input wire [1:0] octave,
     input wire sustain, instrument_guitar,
@@ -107,6 +109,9 @@ module instrument_panel_ui #(
     wire [23:0] bend_scaled = (bend_wide << 7) + (bend_wide << 6) + (bend_wide << 3) + 24'd16384;
     wire [7:0]  bend_cents = bend_scaled[22:15];
 
+    wire [11:0] brightness_digits = decimal_digits({2'd0, brightness});
+    wire [11:0] brightness_x = 12'd352 + {3'd0,brightness,2'b00};
+    wire [23:0] touch_color = touch_available ? accent : C_MUTED;
     wire [11:0] volume_digits = decimal_digits({2'd0, volume});
     wire [11:0] bend_digits   = decimal_digits({1'b0, bend_cents});
     wire [8:0]  multiplier    = 9'd1 << gain_shift;

@@ -1,6 +1,6 @@
 # 中文界面点阵来源
 
-新界面（`UI=1`）使用 2bit 覆盖度字模：58 个 24×24 正文字形与 7 个 48×48 标题字形，由 `verification/scripts/generate_ui_fonts.py` 离线生成到 `rtl/display/display_font_ui.v`。48px 标题为原生渲染，不再把 24px 点阵整数放大。旧 `UI=0` 兼容绘制器仍使用下述固定24×24点阵。当前57个字符含中文状态与音名；EXTENDED=1启用新增字符，基础31字符编号和旧测试参考保持不变，不是通用中文输入系统。
+新界面（`UI=1`）使用 2bit 覆盖度字模：64 个 24×24 正文字形与 7 个 48×48 标题字形，由 `verification/scripts/generate_ui_fonts.py` 离线生成到 `rtl/display/display_font_ui.v`。48px 标题为原生渲染，不再把 24px 点阵整数放大。旧 `UI=0` 兼容绘制器仍使用下述固定24×24点阵。当前57个字符含中文状态与音名；EXTENDED=1启用新增字符，基础31字符编号和旧测试参考保持不变，不是通用中文输入系统。
 
 字体来源为 [Google Fonts 的 Noto Sans SC](https://github.com/google/fonts/tree/main/ofl/notosanssc)，源许可为 [SIL Open Font License 1.1](https://raw.githubusercontent.com/google/fonts/main/ofl/notosanssc/OFL.txt)，完整许可保存在本目录 `OFL.txt`。保留 Adobe 版权及 Reserved Font Name 声明；本项目点阵模块名是 `display_font24`。
 
@@ -27,3 +27,13 @@ python verification/scripts/generate_ui_fonts.py C:/Windows/Fonts/NotoSansSC-VF.
 ```
 
 生成器以 4 倍字号渲染后按面积降采样，再量化为 0/1/2/3 四级覆盖度；满墨像素与文字色完全相同。正文字形编号与旧字库不同，绘制器以 `instrument_panel_ui.v` 内的编号为准；字体 SHA256 写在生成文件头部。许可与来源仍是本目录的 Noto Sans SC / Red Hat Mono（SIL OFL 1.1）。
+
+## 2026-10-17 触摸控件补字
+
+UI=1的58～63号原空槽追加“明亮度原触摸”，原57字与48px标题逐行保持一致。只需原Noto Sans SC字体即可复现追加，无须在本机重新寻找数字字体：
+
+```powershell
+python verification/scripts/generate_ui_fonts.py C:/Windows/Fonts/NotoSansSC-VF.ttf rtl/display/display_font_ui.v --append-touch-only
+```
+
+该模式核对原中文字形源SHA256，保持旧点阵；可重复运行。完整重生成仍必须提供原Red Hat Mono数字字体，不能用中文字体替换数字后声称原图不变。

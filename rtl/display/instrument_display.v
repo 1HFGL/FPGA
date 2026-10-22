@@ -18,6 +18,7 @@ module instrument_display #(
     parameter integer HS_ACTIVE=0, VS_ACTIVE=0,
     parameter integer WAVE_GAIN_SHIFT=3, // 通用入口固定倍率
     parameter integer ENHANCED=0, // 正式1024x600：双乐器主体、16位峰值波形
+    parameter integer TOUCH_PANEL=0, // prepared normalized touch brightness UI
     parameter integer UI=0 // 1：2bit覆盖度字模新版界面；0：保留旧逐像素测试路径
 ) (
     input wire sys_clk, pixel_clk, rst_n,
@@ -27,6 +28,8 @@ module instrument_display #(
     input wire signed [15:0] pitch_bend, // 显示归一化码：-32768..32767 对应 -2..+2半音
     input wire [1:0] octave, // 0低/1中/2高；3显示为中档
     input wire sustain, instrument_guitar, // 音色状态：0钢琴，1吉他；不是切换命令
+    input wire [6:0] brightness,
+    input wire touch_available,
     input wire audio_valid,
     input wire signed [15:0] audio_sample, // 最终混音后的样本副本，每次valid代表一个样本
     output reg [23:0] lcd_rgb,
@@ -42,14 +45,15 @@ module instrument_display #(
         if (!rst_n) pixel_release<=0;
         else pixel_release<={pixel_release[0],1'b1};
     wire sys_rst_n=sys_release[1], pixel_rst_n=pixel_release[1];
-    wire [65:0] state_latest;
-    reg [65:0] state_frame;
+    wire [73:0] state_latest;
+    reg [73:0] state_frame;
     wire [15:0] sample_pixel;
     wire sample_pixel_valid, sample_ready;
     // 状态与音频副本各走一条单格信箱；显示等待绝不反馈到音频域。
-    display_cdc_latest #(.WIDTH(66)) u_status (
+    display_cdc_latest #(.WIDTH(74)) u_status (
         .src_clk(sys_clk),.src_rst_n(sys_rst_n),.src_valid(1'b1),
-        .src_data({(ENHANCED?guitar_keys:13'd0),(ENHANCED?piano_keys:13'd0),
+        .src_data({(TOUCH_PANEL?touch_available:1'b0),(TOUCH_PANEL?brightness:7'd127),
+                   (ENHANCED?guitar_keys:13'd0),(ENHANCED?piano_keys:13'd0),
                    instrument_guitar,sustain,octave,pitch_bend,volume,key_down}),.src_ready(),
         .dst_clk(pixel_clk),.dst_rst_n(pixel_rst_n),.dst_valid(),.dst_data(state_latest));
     display_cdc_latest #(.WIDTH(16)) u_sample (
@@ -130,7 +134,8 @@ module instrument_display #(
         assign activity=0;assign meter_level=0;assign meter_peak=0;
     end endgenerate
     generate if(ENHANCED && UI)begin:g_panel
-        instrument_panel_ui u_renderer(
+        instrument_panel_ui #(.TOUCH_PANEL(TOUCH_PANEL)) u_renderer(
+            .brightness(state_frame[72:66]),.touch_available(state_frame[73]),
             .x(x_d),.y(y_d),.key_down(state_frame[39]?state_frame[65:53]:state_frame[52:40]),
             .volume(state_frame[19:13]),.pitch_bend(state_frame[35:20]),.octave(state_frame[37:36]),
             .sustain(state_frame[38]),.instrument_guitar(state_frame[39]),
@@ -230,7 +235,7 @@ module instrument_display #(
 
     always @(posedge pixel_clk or negedge pixel_rst_n) begin
         if (!pixel_rst_n) begin
-            state_frame<=0;
+            state_frame<={1'b0,7'd127,66'd0};
             x_d<=0; y_d<=0; de_d<=0; start_d<=0; wave_ready_d<=0; ui_d<=0;
             hs_d<=(HS_ACTIVE==0); vs_d<=(VS_ACTIVE==0);
             base_l1<=0;color_l1<=0;
