@@ -1,0 +1,11 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 16:29:23 on Oct 23,2026
+vlog -vlog01compat -pedanticerrors "+define+UI_MAP_REFERENCE" -work work D:\Project\fpga_contest\build\ui_map_parallel_20261023\sim_black_priority_v4\dut.v D:\Project\fpga_contest\build\ui_map_parallel_20261023\sim_black_priority_v4\reference.v D:\Project\fpga_contest\verification\tb\display\tb_ui_map_equivalence.v 
+-- Compiling module instrument_ui_map
+-- Compiling module instrument_ui_map_reference
+-- Compiling module tb_ui_map_equivalence
+
+Top level modules:
+	tb_ui_map_equivalence
+End time: 16:29:23 on Oct 23,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

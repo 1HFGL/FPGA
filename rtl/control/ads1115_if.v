@@ -1,6 +1,7 @@
 `timescale 1ns/1ps
-// ADS1115 前端：通过 I2C 主机驱动 ADS1115，轮流采集两个旋钮通道，
-// 输出 2 x 16bit 原始数据 + sample_valid（两通道都更新后给一个脉冲）。
+// ADS1115 前端：默认两通道保持原成对发布合同。
+// ENABLE_CH2=1 时轮询 AIN0/1/2：前两路读完立即更新各自缓存并发布，
+// 第三路通过独立 raw_ch2/ch2_valid 发布，避免让音量等待明亮度转换。
 module ads1115_if #(
     parameter integer CLK_HZ      = 50000000,
     parameter integer I2C_HZ      = 100000,
@@ -11,7 +12,9 @@ module ads1115_if #(
     parameter integer CH1_MUX     = 5,       // 101 = AIN1-GND
     parameter integer CONV_WAIT   = 500000,  // 等待转换完成周期数
     parameter integer STARTUP_WAIT= 1000,
-    parameter integer RETRY_WAIT  = CLK_HZ / 100
+    parameter integer RETRY_WAIT  = CLK_HZ / 100,
+    parameter integer ENABLE_CH2  = 0,
+    parameter integer CH2_MUX     = 6        // 110 = AIN2-GND
 ) (
     input  wire clk,
     input  wire rst_n,
@@ -19,16 +22,19 @@ module ads1115_if #(
     output reg  sample_valid,
     output reg  fault,
     inout  wire sda,
-    output wire scl
+    output wire scl,
+    output reg [15:0] raw_ch2,
+    output reg ch2_valid
 );
 
     localparam [2:0] OP_START = 3'd0, OP_STOP = 3'd1, OP_WRITE = 3'd2,
                      OP_READA = 3'd3, OP_READN = 3'd4;
 
-    reg chn;
+    reg [1:0] chn;
     wire [7:0] addr_w = {I2C_ADDR, 1'b0};
     wire [7:0] addr_r = {I2C_ADDR, 1'b1};
-    wire [2:0] mux    = (chn == 0) ? CH0_MUX[2:0] : CH1_MUX[2:0];
+    wire [2:0] mux    = (chn == 0) ? CH0_MUX[2:0] :
+                               (chn == 1) ? CH1_MUX[2:0] : CH2_MUX[2:0];
     wire [15:0] cfg   = {1'b1, mux, PGA, 1'b1, DR, 3'b000, 2'b11};
 
     reg [15:0] ch0_data;
@@ -74,6 +80,8 @@ module ads1115_if #(
             raw_flat     <= 32'd0;
             sample_valid <= 1'b0;
             fault        <= 1'b0;
+            raw_ch2      <= 16'd0;
+            ch2_valid    <= 1'b0;
             wait_cnt     <= STARTUP_WAIT;
             i2c_req      <= 1'b0;
             i2c_op       <= OP_START;
@@ -81,6 +89,7 @@ module ads1115_if #(
         end else begin
             i2c_req      <= 1'b0;
             sample_valid <= 1'b0;
+            ch2_valid    <= 1'b0;
 
             // Every transmitted byte must be ACKed. Abort the whole pair on NACK.
             if (i2c_done && write_step && i2c_ack) begin
@@ -156,13 +165,21 @@ module ads1115_if #(
                     if (i2c_done) begin
                         if (chn == 0) begin
                             ch0_data <= {rd_msb, rd_lsb};
-                            chn <= 1'b1;
-                        end else begin
+                            chn <= 2'd1;
+                            if(ENABLE_CH2) begin
+                                raw_flat <= {ch1_data,rd_msb,rd_lsb};
+                                sample_valid <= 1'b1;
+                            end
+                        end else if(chn == 1) begin
                             ch1_data <= {rd_msb, rd_lsb};
-                            chn <= 1'b0;
+                            chn <= ENABLE_CH2 ? 2'd2 : 2'd0;
                             sample_valid <= 1'b1;
                             raw_flat <= {rd_msb, rd_lsb, ch0_data};
                             fault <= 1'b0;
+                        end else begin
+                            raw_ch2 <= {rd_msb,rd_lsb};
+                            ch2_valid <= 1'b1;
+                            chn <= 2'd0;
                         end
                         step <= 5'd1;
                         i2c_req <= 1'b1; i2c_op <= OP_START;

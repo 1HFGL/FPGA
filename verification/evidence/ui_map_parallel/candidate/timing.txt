@@ -1,0 +1,153 @@
+Derived from D:\Project\fpga_contest\build\ui_map_parallel_20261023\candidate\projects\hdmi\impl\pnr\piano_hdmi_tr_content.html; normalized HTML tables, not a native text report.
+sys_clk Setup 0.000 0
+sys_clk Hold 0.000 0
+hdmi_serial Setup 0.000 0
+hdmi_serial Hold 0.000 0
+hdmi_pixel Setup 0.000 0
+hdmi_pixel Hold 0.000 0
+
+3.1.1 Setup Paths Table
+1 0.433 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[1].u_env/env_level_8_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 19.501
+2 0.675 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[9].u_env/env_level_12_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 19.268
+3 0.691 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[1].u_env/env_level_15_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 19.243
+4 0.725 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[1].u_env/env_level_11_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 19.209
+5 0.772 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[3].u_env/env_level_11_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 19.171
+6 0.863 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[7].u_env/env_level_5_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 19.072
+7 0.888 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[1].u_env/env_level_13_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 19.046
+8 0.897 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[3].u_env/env_level_13_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 19.043
+9 0.918 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[0].u_env/env_level_5_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.017 19.008
+10 0.925 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[9].u_env/env_level_15_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 19.018
+11 0.942 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[6].u_env/env_level_12_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 19.000
+12 0.955 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[7].u_env/env_level_12_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.017 18.970
+13 0.956 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[3].u_env/env_level_12_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.987
+14 0.961 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[0].u_env/env_level_16_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 18.973
+15 0.982 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[1].u_env/env_level_12_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.961
+16 1.002 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[0].u_env/env_level_2_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 18.933
+17 1.030 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[9].u_env/env_level_14_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 18.905
+18 1.041 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[7].u_env/env_level_10_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.017 18.885
+19 1.061 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[3].u_env/env_level_10_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.882
+20 1.067 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[3].u_env/env_level_14_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.875
+21 1.072 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[3].u_env/env_level_15_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 18.871
+22 1.074 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[5].u_env/env_level_11_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.017 18.852
+23 1.087 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[1].u_env/env_level_14_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 18.853
+24 1.087 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[9].u_env/env_level_10_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 18.847
+25 1.096 u_core/u_b/reset_release_1_s0/Q u_core/g_modal.u_bank/u_modal/g_env[3].u_env/env_level_8_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.008 18.838
+
+
+3.1.2 Hold Paths Table
+1 0.191 u_core/g_reverb.u_room/p1_8_s0/Q u_core/g_reverb.u_room/mem1_mem1_0_0_s/ADB[11] sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.226
+2 0.191 u_core/g_reverb.u_room/p1_8_s0/Q u_core/g_reverb.u_room/mem1_mem1_0_0_s/ADA[11] sys_clk:[R] sys_clk:[R] 0.000 0.000 0.224
+3 0.192 u_core/g_reverb.u_room/p1_10_s0/Q u_core/g_reverb.u_room/mem1_mem1_0_0_s/ADA[13] sys_clk:[R] sys_clk:[R] 0.000 0.004 0.221
+4 0.194 u_core/g_reverb.u_room/p1_10_s0/Q u_core/g_reverb.u_room/mem1_mem1_0_0_s/ADB[13] sys_clk:[R] sys_clk:[R] 0.000 0.000 0.225
+5 0.197 u_core/g_reverb.u_room/p1_0_s0/Q u_core/g_reverb.u_room/mem1_mem1_0_0_s/ADA[3] sys_clk:[R] sys_clk:[R] 0.000 0.004 0.227
+6 0.197 u_core/u_keys/g_key[7].u_debounce/debounce_cnt_5_s0/Q u_core/u_keys/g_key[7].u_debounce/debounce_cnt_6_s0/D sys_clk:[R] sys_clk:[R] 0.000 -0.177 0.397
+7 0.199 u_core/g_reverb.u_room/p3_8_s0/Q u_core/g_reverb.u_room/mem3_mem3_0_0_s/ADB[11] sys_clk:[R] sys_clk:[R] 0.000 0.004 0.227
+8 0.199 u_core/g_reverb.u_room/p1_7_s0/Q u_core/g_reverb.u_room/mem1_mem1_0_0_s/ADA[10] sys_clk:[R] sys_clk:[R] 0.000 0.000 0.232
+9 0.201 u_core/g_reverb.u_room/p3_8_s0/Q u_core/g_reverb.u_room/mem3_mem3_0_0_s/ADA[11] sys_clk:[R] sys_clk:[R] 0.000 0.007 0.227
+10 0.221 u_core/g_modal.u_bank/u_modal/slot1_9_s0/Q u_core/g_modal.u_bank/u_modal/amplitudes_amplitudes_0_1_s/ADA[13] sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.258
+11 0.228 u_display/lcd_hsync_s0/Q u_tx/u_blue/control_q_0_s0/D hdmi_pixel:[R] hdmi_pixel:[R] 0.000 -0.185 0.424
+12 0.237 u_core/g_modal.u_bank/u_modal/issue_index_3_s8/Q u_core/g_modal.u_bank/u_modal/amplitudes_amplitudes_0_1_s/ADB[7] sys_clk:[R] sys_clk:[R] 0.000 0.000 0.268
+13 0.240 u_core/g_modal.u_bank/u_modal/issue_index_3_s8/Q u_core/g_modal.u_bank/u_modal/amplitudes_amplitudes_0_0_s/ADB[7] sys_clk:[R] sys_clk:[R] 0.000 0.004 0.268
+14 0.244 u_display/lcd_rgb_7_s0/Q u_tx/u_blue/q_7_s0/D hdmi_pixel:[R] hdmi_pixel:[R] 0.000 -0.177 0.444
+15 0.247 u_core/g_reverb.u_room/nlp1_6_s0/Q u_core/g_reverb.u_room/lp1_6_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.200
+16 0.247 u_core/g_modal.u_bank/u_modal/g_env[8].u_env/ticks_left_12_s0/Q u_core/g_modal.u_bank/u_modal/g_env[8].u_env/ticks_left_12_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+17 0.247 u_core/g_modal.u_bank/u_modal/g_env[5].u_env/ticks_left_12_s0/Q u_core/g_modal.u_bank/u_modal/g_env[5].u_env/ticks_left_12_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+18 0.247 u_core/g_ble.u_protocol/u_tx/bit_index_3_s1/Q u_core/g_ble.u_protocol/u_tx/bit_index_3_s1/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+19 0.247 u_core/g_ble.u_protocol/u_events/count_3_s0/Q u_core/g_ble.u_protocol/u_events/count_3_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+20 0.247 u_core/g_ble.u_protocol/u_line/timeout_count_31_s1/Q u_core/g_ble.u_protocol/u_line/timeout_count_31_s1/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+21 0.247 u_core/g_ble.u_protocol/u_line/number_bad_s0/Q u_core/g_ble.u_protocol/u_line/number_bad_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+22 0.247 u_core/g_ble.u_protocol/health_counter_3_s3/Q u_core/g_ble.u_protocol/health_counter_3_s3/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+23 0.247 u_core/u_uart/u_line/timeout_count_7_s1/Q u_core/u_uart/u_line/timeout_count_7_s1/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+24 0.247 u_core/u_uart/u_line/timeout_count_14_s1/Q u_core/u_uart/u_line/timeout_count_14_s1/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+25 0.247 u_core/u_uart/u_rx_fifo/count_3_s0/Q u_core/u_uart/u_rx_fifo/count_3_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.270
+
+
+3.1.3 Recovery Paths Table
+1 0.976 u_tx/g_lane[3].serializer_release_1_s0/Q u_tx/g_lane[3].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[R] 2.041 -0.793 1.685
+2 0.976 u_tx/g_lane[2].serializer_release_1_s0/Q u_tx/g_lane[2].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[R] 2.041 -0.793 1.685
+3 0.976 u_tx/g_lane[1].serializer_release_1_s0/Q u_tx/g_lane[1].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[R] 2.041 -0.793 1.685
+4 0.976 u_tx/g_lane[0].serializer_release_1_s0/Q u_tx/g_lane[0].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[R] 2.041 -0.793 1.685
+5 3.015 u_tx/g_lane[0].serializer_release_1_s0/Q u_tx/g_lane[0].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 4.082 -0.790 1.685
+6 3.015 u_tx/g_lane[1].serializer_release_1_s0/Q u_tx/g_lane[1].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 4.082 -0.790 1.685
+7 3.015 u_tx/g_lane[2].serializer_release_1_s0/Q u_tx/g_lane[2].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 4.082 -0.790 1.685
+8 3.015 u_tx/g_lane[3].serializer_release_1_s0/Q u_tx/g_lane[3].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 4.082 -0.790 1.685
+9 12.895 u_core/u_b/reset_release_1_s0/Q u_core/g_ble.u_protocol/u_tx/timer_4_s1/CLEAR sys_clk:[R] sys_clk:[R] 20.000 0.017 6.776
+10 12.895 u_core/u_b/reset_release_1_s0/Q u_core/g_ble.u_protocol/u_tx/timer_3_s1/CLEAR sys_clk:[R] sys_clk:[R] 20.000 0.017 6.776
+11 12.895 u_core/u_b/reset_release_1_s0/Q u_core/g_ble.u_protocol/u_tx/timer_2_s1/CLEAR sys_clk:[R] sys_clk:[R] 20.000 0.017 6.776
+12 12.895 u_core/u_b/reset_release_1_s0/Q u_core/g_ble.u_protocol/u_tx/timer_1_s1/CLEAR sys_clk:[R] sys_clk:[R] 20.000 0.017 6.776
+13 12.895 u_core/u_b/reset_release_1_s0/Q u_core/g_ble.u_protocol/u_tx/timer_0_s1/CLEAR sys_clk:[R] sys_clk:[R] 20.000 0.017 6.776
+14 6.807 video_release_1_s0/Q u_tx/g_lane[0].serializer_release_1_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 3.131
+15 6.807 video_release_1_s0/Q u_tx/g_lane[3].serializer_release_0_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 3.131
+16 6.807 video_release_1_s0/Q u_tx/g_lane[3].serializer_release_1_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 3.131
+17 6.807 video_release_1_s0/Q u_tx/g_lane[2].serializer_release_0_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 3.131
+18 6.807 video_release_1_s0/Q u_tx/g_lane[2].serializer_release_1_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 3.131
+19 6.807 video_release_1_s0/Q u_tx/g_lane[1].serializer_release_0_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 3.131
+20 6.807 video_release_1_s0/Q u_tx/g_lane[1].serializer_release_1_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 3.131
+21 6.807 video_release_1_s0/Q u_tx/g_lane[0].serializer_release_0_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 3.131
+22 8.376 u_tx/g_lane[0].serializer_release_1_s0/Q u_tx/g_lane[0].u_serializer/RESET hdmi_pixel:[F] hdmi_pixel:[R] 10.204 0.005 1.685
+23 8.376 u_tx/g_lane[1].serializer_release_1_s0/Q u_tx/g_lane[1].u_serializer/RESET hdmi_pixel:[F] hdmi_pixel:[R] 10.204 0.005 1.685
+24 8.376 u_tx/g_lane[2].serializer_release_1_s0/Q u_tx/g_lane[2].u_serializer/RESET hdmi_pixel:[F] hdmi_pixel:[R] 10.204 0.005 1.685
+25 8.376 u_tx/g_lane[3].serializer_release_1_s0/Q u_tx/g_lane[3].u_serializer/RESET hdmi_pixel:[F] hdmi_pixel:[R] 10.204 0.005 1.685
+
+
+3.1.4 Removal Paths Table
+1 0.144 u_tx/g_lane[3].serializer_release_0_s0/Q u_tx/g_lane[3].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 0.000 -0.324 0.639
+2 0.144 u_tx/g_lane[2].serializer_release_0_s0/Q u_tx/g_lane[2].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 0.000 -0.324 0.639
+3 0.144 u_tx/g_lane[1].serializer_release_0_s0/Q u_tx/g_lane[1].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 0.000 -0.324 0.639
+4 0.144 u_tx/g_lane[0].serializer_release_0_s0/Q u_tx/g_lane[0].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 0.000 -0.324 0.639
+5 0.361 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_63_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.007 0.320
+6 0.361 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_74_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.007 0.320
+7 0.361 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_75_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.007 0.320
+8 0.361 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_76_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.007 0.320
+9 0.363 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_37_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.007 0.322
+10 0.363 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_44_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.007 0.322
+11 0.363 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_54_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.007 0.322
+12 0.363 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_65_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.007 0.322
+13 0.363 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_78_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.007 0.322
+14 0.366 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_39_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.322
+15 0.372 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_13_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.328
+16 0.372 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_14_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.328
+17 0.372 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_15_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.328
+18 0.372 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_16_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.328
+19 0.372 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_17_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.328
+20 0.372 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_18_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.328
+21 0.372 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_19_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.328
+22 0.373 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_47_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 0.000 0.326
+23 0.373 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_58_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 0.000 0.326
+24 0.373 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_60_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 0.000 0.326
+25 0.406 u_display/sys_release_1_s0/Q u_display/u_status/hold_data_51_s0/CLEAR sys_clk:[R] sys_clk:[R] 0.000 -0.177 0.535
+
+
+3.2 Minimum Pulse Width Table
+1 5.803 6.703 0.900 Low Pulse Width hdmi_pixel u_display/g_ui_font.u_font/gowin_add_title_rom_title_rom_0_0_s
+2 5.804 6.704 0.900 High Pulse Width hdmi_pixel u_display/g_ui_font.u_font/gowin_add_title_rom_title_rom_0_0_s
+3 5.808 6.708 0.900 Low Pulse Width hdmi_pixel u_display/g_ui_font.u_font/title_rom_title_rom_0_2_s
+4 5.808 6.708 0.900 Low Pulse Width hdmi_pixel u_display/g_ui_font.u_font/gowin_add_title_rom_title_rom_0_2_s
+5 5.809 6.709 0.900 High Pulse Width hdmi_pixel u_display/g_ui_font.u_font/title_rom_title_rom_0_2_s
+6 5.809 6.709 0.900 High Pulse Width hdmi_pixel u_display/g_ui_font.u_font/gowin_add_title_rom_title_rom_0_2_s
+7 5.813 6.713 0.900 Low Pulse Width hdmi_pixel u_display/g_ui_font.u_font/title_rom_title_rom_0_1_s
+8 5.814 6.714 0.900 High Pulse Width hdmi_pixel u_display/g_ui_font.u_font/title_rom_title_rom_0_1_s
+9 6.072 6.972 0.900 Low Pulse Width hdmi_pixel u_display/g_envelope.u_capture/memory_memory_0_0_s
+10 6.072 6.972 0.900 Low Pulse Width hdmi_pixel u_display/g_ui_font.u_font/text_rom_text_rom_0_3_s
+
+TC_CLOCK Actived create_clock -name sys_clk -period 20.000 -waveform {0.000 10.000} [get_ports {sys_clk}]
+TC_GENERATED_CLOCK Actived create_generated_clock -name hdmi_serial -source [get_ports {sys_clk}] -master_clock sys_clk -multiply_by 49 -divide_by 10 [get_pins {u_video_clock/u_pll/CLKOUT0}]
+TC_GENERATED_CLOCK Actived create_generated_clock -name hdmi_pixel -source [get_ports {sys_clk}] -master_clock sys_clk -multiply_by 49 -divide_by 50 [get_pins {u_video_clock/u_pll/CLKOUT1}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {uart_rx}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {Key_in[0] Key_in[1]}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {piano_key_n[0] piano_key_n[1] piano_key_n[2] piano_key_n[3] piano_key_n[4] piano_key_n[5] piano_key_n[6] piano_key_n[7] piano_key_n[8] piano_key_n[9] piano_key_n[10] piano_key_n[11] piano_key_n[12]}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {sys_rst_n}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {knob_sda}]
+TC_MAX_DELAY Actived set_max_delay -to [get_ports {knob_sda knob_scl}] 20.000
+TC_MIN_DELAY Actived set_min_delay -to [get_ports {knob_sda knob_scl}] 0.000
+TC_MAX_DELAY Actived set_max_delay -to [get_ports {HP_BCK HP_WS HP_DIN PA_EN uart_tx}] 20.000
+TC_MIN_DELAY Actived set_min_delay -to [get_ports {HP_BCK HP_WS HP_DIN PA_EN uart_tx}] 0.000
+TC_FALSE_PATH Actived set_false_path -from [get_ports {hdmi_hpd}]
+TC_FALSE_PATH Actived set_false_path -through [get_pins {u_display/u_status/req_meta_s0/D u_display/u_status/ack_meta_s0/D u_display/u_sample/req_meta_s0/D u_display/u_sample/ack_meta_s0/D}]
+TC_MAX_DELAY Actived set_max_delay -from [get_regs {u_display/u_status/hold_data* u_display/u_sample/hold_data*}] -to [get_regs {u_display/u_status/dst_data* u_display/u_sample/dst_data*}] 20.000
+TC_FALSE_PATH Actived set_false_path -hold -from [get_regs {u_display/u_status/hold_data* u_display/u_sample/hold_data*}] -to [get_regs {u_display/u_status/dst_data* u_display/u_sample/dst_data*}]
+TC_FALSE_PATH Actived set_false_path -through [get_pins {video_release_0_s0/CLEAR video_release_1_s0/CLEAR}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {ble_rx}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {ble_state}]
+TC_MAX_DELAY Actived set_max_delay -to [get_ports {ble_tx}] 20.000
+TC_MIN_DELAY Actived set_min_delay -to [get_ports {ble_tx}] 0.000

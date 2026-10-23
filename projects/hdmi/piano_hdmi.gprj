@@ -27,23 +27,20 @@
         <File path="../../rtl/control/uart_reply_tx.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/uart_synth_protocol.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/uart_event_arbiter.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/practice_guide.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/top/instrument_uart_top.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/top/instrument_uart_piano_top.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/top/piano_13key_top.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/top/piano_performance_top.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/phase_acc.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/wave_lut.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/synth/voice_dds.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/note_phase_lut.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/adsr_env.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/sample_gain.v" type="file.verilog" enable="1"/>
-        <File path="../../rtl/synth/voice_adsr.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/sample_mixer4.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_bank_adsr.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/wave_lut_timbre.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_timbre_adsr.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_instrument.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/instrument_env.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/modal_parameter_rom.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_bank_music_pipe.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_bank_modal_adapter.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/instrument_wave.v" type="file.verilog" enable="1"/>

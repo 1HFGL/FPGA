@@ -1,0 +1,5 @@
+warning: in the working copy of '.vscode/config.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'projects/hdmi/process_config.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'rtl/control/ads1115_if.v', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'rtl/control/ads1115_knob_if.v', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'rtl/control/uart_event_arbiter.v', LF will be replaced by CRLF the next time Git touches it

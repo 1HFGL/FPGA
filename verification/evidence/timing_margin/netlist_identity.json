@@ -1,0 +1,183 @@
+{
+  "status": "PASS_ALPHA_RENAMING_ONLY",
+  "modules": 84,
+  "token_pairs_checked": 1900912,
+  "renamed_identifiers": {
+    "uart_reply_tx": {
+      "steal_count": "steal_count_Z"
+    },
+    "uart_synth_protocol": {
+      "steal_count": "steal_count_Z"
+    },
+    "uart_reply_tx_0": {
+      "steal_count": "steal_count_Z"
+    },
+    "uart_synth_protocol_0": {
+      "steal_count": "steal_count_Z"
+    },
+    "voice_allocator": {
+      "steal_count": "steal_count_Z",
+      "voice_gate": "voice_gate_Z",
+      "voice_key_down": "voice_key_down_Z",
+      "voice_key_down_15_8": "voice_key_down_15_5",
+      "voice_key_down_14_8": "voice_key_down_14_5",
+      "voice_key_down_13_8": "voice_key_down_13_5",
+      "voice_key_down_12_8": "voice_key_down_12_5",
+      "voice_key_down_11_8": "voice_key_down_11_5",
+      "voice_key_down_10_8": "voice_key_down_10_5",
+      "voice_key_down_9_8": "voice_key_down_9_5",
+      "voice_key_down_8_8": "voice_key_down_8_5",
+      "voice_key_down_7_8": "voice_key_down_7_5",
+      "voice_key_down_6_8": "voice_key_down_6_5",
+      "voice_key_down_5_8": "voice_key_down_5_5",
+      "voice_key_down_4_8": "voice_key_down_4_5",
+      "voice_key_down_3_8": "voice_key_down_3_5",
+      "voice_key_down_2_8": "voice_key_down_2_5",
+      "voice_key_down_1_8": "voice_key_down_1_5",
+      "voice_key_down_0_8": "voice_key_down_0_5",
+      "voice_key_down_15_9": "voice_key_down_15_6",
+      "voice_key_down_15_10": "voice_key_down_15_7",
+      "voice_key_down_14_9": "voice_key_down_14_6",
+      "voice_key_down_13_9": "voice_key_down_13_6",
+      "voice_key_down_12_9": "voice_key_down_12_6",
+      "voice_key_down_11_9": "voice_key_down_11_6",
+      "voice_key_down_10_9": "voice_key_down_10_6",
+      "voice_key_down_9_9": "voice_key_down_9_6",
+      "voice_key_down_8_9": "voice_key_down_8_6",
+      "voice_key_down_7_9": "voice_key_down_7_6",
+      "voice_key_down_6_9": "voice_key_down_6_6",
+      "voice_key_down_5_9": "voice_key_down_5_6",
+      "voice_key_down_4_9": "voice_key_down_4_6",
+      "voice_key_down_3_9": "voice_key_down_3_6",
+      "voice_key_down_2_9": "voice_key_down_2_6",
+      "voice_key_down_1_9": "voice_key_down_1_6",
+      "voice_key_down_0_9": "voice_key_down_0_6",
+      "voice_key_down_0_10": "voice_key_down_0_7",
+      "voice_key_down_15_12": "voice_key_down_15_9",
+      "voice_key_down_15_13": "voice_key_down_15_10",
+      "voice_key_down_14_10": "voice_key_down_14_7",
+      "voice_key_down_14_11": "voice_key_down_14_8",
+      "voice_key_down_13_10": "voice_key_down_13_7",
+      "voice_key_down_13_11": "voice_key_down_13_8",
+      "voice_key_down_12_10": "voice_key_down_12_7",
+      "voice_key_down_12_11": "voice_key_down_12_8",
+      "voice_key_down_11_10": "voice_key_down_11_7",
+      "voice_key_down_11_11": "voice_key_down_11_8",
+      "voice_key_down_10_10": "voice_key_down_10_7",
+      "voice_key_down_10_11": "voice_key_down_10_8",
+      "voice_key_down_9_10": "voice_key_down_9_7",
+      "voice_key_down_9_11": "voice_key_down_9_8",
+      "voice_key_down_8_10": "voice_key_down_8_7",
+      "voice_key_down_8_11": "voice_key_down_8_8",
+      "voice_key_down_7_10": "voice_key_down_7_7",
+      "voice_key_down_7_11": "voice_key_down_7_8",
+      "voice_key_down_6_10": "voice_key_down_6_7",
+      "voice_key_down_6_11": "voice_key_down_6_8",
+      "voice_key_down_5_10": "voice_key_down_5_7",
+      "voice_key_down_5_11": "voice_key_down_5_8",
+      "voice_key_down_4_10": "voice_key_down_4_7",
+      "voice_key_down_4_11": "voice_key_down_4_8",
+      "voice_key_down_3_10": "voice_key_down_3_7",
+      "voice_key_down_3_11": "voice_key_down_3_8",
+      "voice_key_down_2_10": "voice_key_down_2_7",
+      "voice_key_down_2_11": "voice_key_down_2_8",
+      "voice_key_down_1_10": "voice_key_down_1_7",
+      "voice_key_down_1_11": "voice_key_down_1_8",
+      "voice_key_down_0_11": "voice_key_down_0_8",
+      "voice_key_down_0_12": "voice_key_down_0_9",
+      "voice_key_down_15_15": "voice_key_down_15_12",
+      "voice_active": "voice_active_Z",
+      "voice_count_0_s27": "voice_count_0_s28",
+      "voice_count_1_s28": "voice_count_1_s29",
+      "voice_count_2_s30": "voice_count_2_s31",
+      "voice_count_3_s31": "voice_count_3_s32",
+      "voice_count_4_s31": "voice_count_4_s32",
+      "voice_count_0_s28": "voice_count_0_s29",
+      "voice_count_2_s31": "voice_count_2_s32",
+      "voice_count_3_s32": "voice_count_3_s33",
+      "voice_count_4_s32": "voice_count_4_s33",
+      "voice_count_0_s29": "voice_count_0_s30",
+      "voice_count_0_s30": "voice_count_0_s31",
+      "voice_count_1_s30": "voice_count_1_s31",
+      "voice_count_1_s31": "voice_count_1_s32",
+      "voice_count_3_s33": "voice_count_3_s34",
+      "voice_count_3_s34": "voice_count_3_s35",
+      "voice_count_4_s33": "voice_count_4_s34",
+      "voice_count_4_s34": "voice_count_4_s35",
+      "voice_count_4_s35": "voice_count_4_s36",
+      "voice_count_0_s31": "voice_count_0_s32",
+      "voice_count_0_s32": "voice_count_0_s33",
+      "voice_count_1_s33": "voice_count_1_s34",
+      "voice_count_1_s34": "voice_count_1_s35",
+      "voice_count_2_s34": "voice_count_2_s35",
+      "voice_count_1_s35": "voice_count_1_s36",
+      "voice_count_2_s35": "voice_count_2_s36",
+      "voice_count_1_s36": "voice_count_1_s37"
+    },
+    "instrument_env": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_0": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_1": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_2": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_3": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_4": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_5": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_6": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_7": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_8": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_9": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_10": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_11": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_12": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_13": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_env_14": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "voice_bank_music_pipe": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "voice_bank_modal_adapter": {
+      "voice_gate": "voice_gate_Z"
+    },
+    "instrument_uart_top": {
+      "steal_count": "steal_count_Z",
+      "voice_gate": "voice_gate_Z",
+      "voice_key_down": "voice_key_down_Z"
+    }
+  },
+  "original_sha256": "44f441d949a2d6c997cdf6f7f97172423e5a828d1f28b64152e1ed39c7267974",
+  "formal_sha256": "122678a062f1e8b7d4a8bcaf2a3957f4a0bb3315fd569f8de7ecd4b01a95a2a9",
+  "plain_text_matches": false,
+  "negative_controls_rejected": 7,
+  "only_source_change": "Place_Option 4 -> 3",
+  "limitation": "Conservative structural token/namespace bijection for these generated netlists; not arbitrary behavioral formal equivalence"
+}

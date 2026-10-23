@@ -6,7 +6,10 @@
 // 本模块只做组合绘制，坐标均为编译期常量；不含除法、开方或整屏帧缓存。
 // 文本接口：本模块在 P0 给出字形/行/列请求，字模 ROM 在 P1 返回整行覆盖度。
 module instrument_panel_ui #(
+    // 保留队友触摸准备版的接口兼容；当前简洁布局不叠加旧版顶部滑条。
+    // USB主机尚未接通，不能把不可用的控件画成已经能操作。
     parameter integer TOUCH_PANEL=0,
+    parameter integer ENABLE_GUIDE=0,
     parameter [23:0] C_BG      = 24'hecebe7,
     parameter [23:0] C_PANEL   = 24'hf8f7f3,
     parameter [23:0] C_GRID    = 24'hd7d6d0,
@@ -22,6 +25,8 @@ module instrument_panel_ui #(
     input wire signed [15:0] pitch_bend,
     input wire [1:0] octave,
     input wire sustain, instrument_guitar,
+    input wire guide_valid,
+    input wire [3:0] guide_index,guide_progress,
     input wire wave_ready,
     input wire signed [15:0] wave_min, wave_max,
     input wire [15:0] peak_level,
@@ -109,13 +114,30 @@ module instrument_panel_ui #(
     wire [23:0] bend_scaled = (bend_wide << 7) + (bend_wide << 6) + (bend_wide << 3) + 24'd16384;
     wire [7:0]  bend_cents = bend_scaled[22:15];
 
-    wire [11:0] brightness_digits = decimal_digits({2'd0, brightness});
-    wire [11:0] brightness_x = 12'd352 + {3'd0,brightness,2'b00};
-    wire [23:0] touch_color = touch_available ? accent : C_MUTED;
     wire [11:0] volume_digits = decimal_digits({2'd0, volume});
+    wire [11:0] guide_digits=decimal_digits({5'd0,guide_progress});
+    wire [8:0] guide_width={1'b0,guide_progress,4'd0}+{2'b0,guide_progress,3'd0};
+    wire [11:0] guide_x=x-12'd360;
+    wire [5:0] slash_sum={2'd0,x[3:0]}+{1'b0,y[4:0]};
     wire [11:0] bend_digits   = decimal_digits({1'b0, bend_cents});
-    wire [8:0]  multiplier    = 9'd1 << gain_shift;
-    wire [11:0] gain_digits   = decimal_digits(multiplier);
+    // 倍率只选三个固定字槽，不再参与字框宽度/文本使能的优先链。
+    // 字形0表示空白；有效倍率为x1..x256，高于8仍显示x0，保持原边界行为。
+    // 这样gain_shift仅经过字形选择进入ROM地址，不经过乘字宽/比较/覆盖仲裁。
+    reg [17:0] gain_glyphs;
+    always @* begin
+        case(gain_shift)
+            4'd0: gain_glyphs={6'd49,6'd0,6'd0};
+            4'd1: gain_glyphs={6'd50,6'd0,6'd0};
+            4'd2: gain_glyphs={6'd52,6'd0,6'd0};
+            4'd3: gain_glyphs={6'd56,6'd0,6'd0};
+            4'd4: gain_glyphs={6'd49,6'd54,6'd0};
+            4'd5: gain_glyphs={6'd51,6'd50,6'd0};
+            4'd6: gain_glyphs={6'd54,6'd52,6'd0};
+            4'd7: gain_glyphs={6'd49,6'd50,6'd56};
+            4'd8: gain_glyphs={6'd50,6'd53,6'd54};
+            default: gain_glyphs={6'd48,6'd0,6'd0};
+        endcase
+    end
 
     // ---- 24px 正文：最多 4 字，字距 26（中文）/24（数字由调用处留空） ----
     // 用三次比较选槽位，避免在像素路径上放 /26 通用除法。
@@ -331,6 +353,10 @@ module instrument_panel_ui #(
                 base_rgb=24'h6c7170;
             if(y+8>=key_bottom && key_down[key_index])base_rgb=accent;
             if(key_black && y<key_top+4)base_rgb=24'h565c5b;
+            // 青绿空心边框表示下一目标；淡黄实心仍只表示实际按住。
+            if(ENABLE_GUIDE && guide_valid && key_index==guide_index &&
+               (x<key_left+3 || x+3>=key_right || y<key_top+3 || y+3>=key_bottom))
+                base_rgb=24'h397e75;
         end
         if(instrument_guitar)begin
             if(x>=96 && x<928 && y>=384 && y<520)base_rgb=24'h333b3d;
@@ -379,10 +405,7 @@ module instrument_panel_ui #(
         if(y>=110 && y<130 &&
            ((sustain && x>=960 && x<980) || (!sustain && x>=928 && x<948)))base_rgb=24'hffffff;
         text4(48,172,4,{6'd20,6'd21,6'd22,6'd23},24'he9ebe3);
-        num4(720,172,(multiplier<10?2:multiplier<100?3:4),
-            multiplier<10?{6'd47,dg(gain_digits[3:0]),12'd0}:
-            multiplier<100?{6'd47,dg(gain_digits[7:4]),dg(gain_digits[3:0]),6'd0}:
-            {6'd47,dg(gain_digits[11:8]),dg(gain_digits[7:4]),dg(gain_digits[3:0])},24'he9ebe3);
+        num4(720,172,4,{6'd47,gain_glyphs},24'he9ebe3);
         text4(880,172,2,{6'd37,6'd38,12'd0},24'he9ebe3);
         if(!instrument_guitar)begin
             for(k=0;k<8;k=k+1)
@@ -404,6 +427,22 @@ module instrument_panel_ui #(
                 if((k==1 || k==3 || k==6 || k==8 || k==10) &&
                    x>=62+k*74 && x<70+k*74 && y>=553 && y<566 &&
                    (y==556 || y==562 || x==64+k*74 || x==68+k*74))base_rgb=C_TEXT;
+            end
+        end
+        // 顶部独立小区域最后选择，避免把新文字叠进整屏文字优先长链。
+        // 吉他只在下方音名键提示下一音，不枚举78个等音指位标记。
+        if(ENABLE_GUIDE && x>=352 && x<704 && y>=24 && y<75)begin
+            text4(360,36,2,{6'd33,6'd35,12'd0},C_MUTED);
+            num4(430,36,2,{dg(guide_digits[7:4]),dg(guide_digits[3:0]),12'd0},C_TEXT);
+            num4(500,36,2,{6'd49,6'd52,12'd0},C_TEXT);
+            // 在此坐标窗内x高位固定480、y高位固定32，只需6位局部和26/27。
+            // 不能仅比较模16，否则左上端会多出一个像素。
+            if(x>=483 && x<495 && y>=40 && y<58 &&
+               (slash_sum==26 || slash_sum==27))base_rgb=C_MUTED;
+            text4(580,36,2,{note_letter(guide_index),first_octave_glyph,12'd0},C_TEXT);
+            if(x>=360 && x<696 && y>=69 && y<72)begin
+                base_rgb=grid;
+                if(guide_x<{3'd0,guide_width})base_rgb=24'h397e75;
             end
         end
     end

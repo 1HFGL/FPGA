@@ -1,8 +1,8 @@
 {
   "board": "NEO Dock 31005 + Tang Mega 60K SOM",
-  "date": "2026-10-16",
+  "date": "2026-10-23",
   "cst": "boards/tang_mega_60k_31004/piano.cst",
-  "previous_cst_sha256": "027c19cf060dbd19409b733eaceb76ed177d41485ae3db90ec4419c533c6893a",
+  "previous_cst_sha256": "5bc231cf88da45e8d8c6c7bc987885327ad1ffc79b96499992539c91d3655ed7",
   "sources": [
     {"name": "Tang_Mega_NEO_Dock-138K_31005_Schematics.pdf", "sha256": "ade025e2c30b23d9fa820346cabd5ee3f90e6b9bfbc083d48bc691e1d3977d1e", "pages": [7, 19], "url": "https://dl.sipeed.com/fileList/TANG/Mega_138K_60K/02_Schematic/DOCK/Tang_Mega_NEO_Dock-138K_31005_Schematics.pdf"},
     {"name": "tang_mega_60k_30354_schematics..pdf", "sha256": "e457547f08ca37250b27ccfd4c8e29e3ce44cf309b24324623932fd2626002be", "pages": [1, 4, 6], "note": "本次实际读取用户Downloads中的60K核心板原件；底板BTB针号须转接60K核心板，不得照抄138K球位的Bank编号"}
@@ -10,20 +10,26 @@
   "power": {"source": "J8 or J9", "vcc_3v3_pins": [1, 2], "gnd_pins": [3, 4], "j13_5v_pin_do_not_use": 11, "j13_gnd_pin": 12},
   "signals": [
     {"port": "piano_key_n[0]", "note": "C4", "j13_pin": 1, "net": "SDRAM0_D0", "btb_pin": 65, "ball": "E14", "bank": 1},
-    {"port": "piano_key_n[1]", "note": "C#4", "j13_pin": 9, "net": "SDRAM0_D15", "btb_pin": 41, "ball": "B16", "bank": 1},
+    {"port": "piano_key_n[1]", "note": "C#4", "j13_pin": 40, "net": "SDRAM0_A3", "btb_pin": 18, "ball": "C18", "bank": 2},
     {"port": "piano_key_n[2]", "note": "D4", "j13_pin": 2, "net": "SDRAM0_D1", "btb_pin": 67, "ball": "E13", "bank": 1},
-    {"port": "piano_key_n[3]", "note": "D#4", "j13_pin": 10, "net": "SDRAM0_D14", "btb_pin": 43, "ball": "B15", "bank": 1},
+    {"port": "piano_key_n[3]", "note": "D#4", "j13_pin": 38, "net": "SDRAM0_A1", "btb_pin": 12, "ball": "E19", "bank": 2},
     {"port": "piano_key_n[4]", "note": "E4", "j13_pin": 3, "net": "SDRAM0_D2", "btb_pin": 59, "ball": "C15", "bank": 1},
     {"port": "piano_key_n[5]", "note": "F4", "j13_pin": 4, "net": "SDRAM0_D3", "btb_pin": 61, "ball": "C14", "bank": 1},
-    {"port": "piano_key_n[6]", "note": "F#4", "j13_pin": 13, "net": "SDRAM0_D13", "btb_pin": 35, "ball": "A16", "bank": 1},
+    {"port": "piano_key_n[6]", "note": "F#4", "j13_pin": 36, "net": "SDRAM0_A10", "btb_pin": 6, "ball": "D20", "bank": 2},
     {"port": "piano_key_n[7]", "note": "G4", "j13_pin": 5, "net": "SDRAM0_D4", "btb_pin": 53, "ball": "B13", "bank": 1},
-    {"port": "piano_key_n[8]", "note": "G#4", "j13_pin": 14, "net": "SDRAM0_D12", "btb_pin": 37, "ball": "A15", "bank": 1},
+    {"port": "piano_key_n[8]", "note": "G#4", "j13_pin": 34, "net": "SDRAM0_BA0", "btb_pin": 40, "ball": "F15", "bank": 1},
     {"port": "piano_key_n[9]", "note": "A4", "j13_pin": 6, "net": "SDRAM0_D5", "btb_pin": 55, "ball": "C13", "bank": 1},
-    {"port": "piano_key_n[10]", "note": "A#4", "j13_pin": 15, "net": "SDRAM0_D11", "btb_pin": 11, "ball": "A20", "bank": 2},
+    {"port": "piano_key_n[10]", "note": "A#4", "j13_pin": 32, "net": "SDRAM0_RAS", "btb_pin": 24, "ball": "F16", "bank": 1},
     {"port": "piano_key_n[11]", "note": "B4", "j13_pin": 7, "net": "SDRAM0_D6", "btb_pin": 47, "ball": "A14", "bank": 1},
     {"port": "piano_key_n[12]", "note": "C5", "j13_pin": 8, "net": "SDRAM0_D7", "btb_pin": 49, "ball": "A13", "bank": 1},
     {"port": "knob_sda", "j13_pin": 16, "net": "SDRAM0_D10", "btb_pin": 13, "ball": "B20", "bank": 2},
     {"port": "knob_scl", "j13_pin": 17, "net": "SDRAM0_D9", "btb_pin": 5, "ball": "A21", "bank": 2}
+  ],
+  "bluetooth_cst": "boards/tang_mega_60k_31004/ble.cst",
+  "bluetooth": [
+    {"module_pin": "RXD", "port": "ble_tx", "fpga_role": "uart_tx", "j13_pin": 9, "net": "SDRAM0_D15", "btb_pin": 41, "ball": "B16", "bank": 1},
+    {"module_pin": "TXD", "port": "ble_rx", "fpga_role": "uart_rx", "j13_pin": 10, "net": "SDRAM0_D14", "btb_pin": 43, "ball": "B15", "bank": 1},
+    {"module_pin": "STATE", "port": "ble_state", "fpga_role": "link_input", "j13_pin": 13, "net": "SDRAM0_D13", "btb_pin": 35, "ball": "A16", "bank": 1}
   ],
   "unchanged_locations": {"sys_clk": "V22", "sys_rst_n": "AA13", "Key_in[0]": "AB13", "Key_in[1]": "Y12", "HP_BCK": "Y17", "HP_WS": "AB17", "HP_DIN": "AA16", "PA_EN": "AB16", "uart_rx": "V14", "uart_tx": "U15"}
 }

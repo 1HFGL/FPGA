@@ -3,6 +3,7 @@
 # 才能让清空旧impl后的构建与现有构建采用同一套选项。
 set project_dir [file normalize [file dirname [info script]]]
 cd $project_dir
+source [file join $project_dir .. check_modal_rom.tcl]
 set process_config [file join $project_dir process_config.json]
 set impl_dir [file join $project_dir impl]
 if {![file isfile $process_config]} {

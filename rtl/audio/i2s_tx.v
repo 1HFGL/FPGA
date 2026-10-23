@@ -28,7 +28,22 @@ module i2s_tx #(
     reg pending_valid;
     reg [SAMPLE_BITS-1:0] active_sample;
     reg [SAMPLE_BITS-1:0] shift_reg;
-    reg [15:0] bit_index;
+    function integer counter_bits;
+        input integer count;
+        integer value;
+        begin
+            value=count-1;
+            counter_bits=0;
+            while(value>0)begin
+                counter_bits=counter_bits+1;
+                value=value>>1;
+            end
+            if(counter_bits<1)counter_bits=1;
+        end
+    endfunction
+    // 只计一个时隙内的位序，16位时隙只需4位，不能用16位计数器增大进位链。
+    localparam integer BIT_INDEX_BITS=counter_bits(SLOT_BITS);
+    reg [BIT_INDEX_BITS-1:0] bit_index;
     wire [SAMPLE_BITS-1:0] next_sample =
         pending_valid ? pending_sample : {SAMPLE_BITS{1'b0}};
 
@@ -43,7 +58,7 @@ module i2s_tx #(
             pending_valid   <= 1'b0;
             active_sample   <= {SAMPLE_BITS{1'b0}};
             shift_reg       <= {SAMPLE_BITS{1'b0}};
-            bit_index       <= 16'd0;
+            bit_index       <= {BIT_INDEX_BITS{1'b0}};
             i2s_bclk        <= 1'b1; // 首个 frame_start 产生下降沿
             i2s_lrclk       <= 1'b1;
             i2s_sdata       <= 1'b0;
@@ -61,7 +76,7 @@ module i2s_tx #(
                     // 使用旧的 pending_valid；同周期输入留给下一帧。
                     active_sample   <= next_sample;
                     shift_reg       <= next_sample;
-                    bit_index       <= 16'd0;
+                    bit_index       <= {BIT_INDEX_BITS{1'b0}};
                     i2s_bclk        <= 1'b0;
                     i2s_lrclk       <= 1'b0;
                     i2s_sdata       <= next_sample[SAMPLE_BITS-1];
@@ -70,12 +85,12 @@ module i2s_tx #(
                     // BCK 下降沿：提前准备下一位数据。
                     i2s_bclk <= 1'b0;
                     if (bit_index == SLOT_BITS - 1) begin
-                        bit_index <= 16'd0;
+                        bit_index <= {BIT_INDEX_BITS{1'b0}};
                         i2s_lrclk <= ~i2s_lrclk;
                         shift_reg <= active_sample;
                         i2s_sdata <= active_sample[SAMPLE_BITS-1];
                     end else begin
-                        bit_index <= bit_index + 16'd1;
+                        bit_index <= bit_index + 1'b1;
                         shift_reg <= {shift_reg[SAMPLE_BITS-2:0], 1'b0};
                         i2s_sdata <= shift_reg[SAMPLE_BITS-2];
                     end

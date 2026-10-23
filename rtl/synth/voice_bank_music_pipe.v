@@ -32,14 +32,12 @@ module voice_bank_music_pipe #(
  reg [IW-1:0] voice_index;
  reg [5:0] issue_index;
  reg issued_all;
- // 75 payload bits plus one zero padding bit for 19 hex digits per ROM word.
- reg [75:0] mode_rom[0:16383];
+ // 参数访存抽出为三个16项bank；数值、读取时刻及后续三级流水保持不变。
  reg signed [15:0] sine_rom[0:1023];
  reg [15:0] shaper_rom[0:1023];
  reg [31:0] phases[0:VOICES*64-1];
  reg [23:0] amplitudes[0:VOICES*64-1];
  initial begin
-  $readmemh(MODE_ROM_FILE,mode_rom);
   $readmemh(SINE_ROM_FILE,sine_rom);
   $readmemh(SHAPER_ROM_FILE,shaper_rom);
  end
@@ -71,7 +69,10 @@ module voice_bank_music_pipe #(
  // Three registered stage-valid bits; a voice boundary drains all stages.
  reg valid0,valid1,valid2,last0,last1,last2;
  reg [SW-1:0] slot0,slot1;
- reg [75:0] cfg0;
+ wire [75:0] cfg0;
+ modal_parameter_rom #(.MODE_ROM_FILE(MODE_ROM_FILE)) u_mode_rom(
+  .clk(clk),.rst_n(rst_n),.read_enable(state==RUN && !issued_all),
+  .address({instrument_active[voice_index],notes[voice_index*7 +:7],issue_index}),.data(cfg0));
  reg [31:0] phase0,phase_next1;
  reg [23:0] amp0,amp1;
  reg signed [15:0] sine1,noise1;
@@ -135,7 +136,7 @@ module voice_bank_music_pipe #(
    gate_previous<=0;pending<=0;pending_preset<=0;instrument_active<=0;starts<=0;initialized<=0;notes<=0;velocities<=0;
    sample_data<=0;sample_valid<=0;sample_clipped<=0;overrun<=0;
    valid0<=0;valid1<=0;valid2<=0;last0<=0;last1<=0;last2<=0;
-   slot0<=0;slot1<=0;cfg0<=0;phase0<=0;amp0<=0;phase_next1<=0;amp1<=0;
+   slot0<=0;slot1<=0;phase0<=0;amp0<=0;phase_next1<=0;amp1<=0;
    gain_latched<=65536;ratio_latched<=65536;voice_ratio_product<=0;master_product<=0;
    sine1<=0;noise1<=0;noise_flag1<=0;muted1<=0;loss1<=0;pitch1<=0;product2<=0;
    mode_sum<=0;guitar_sum<=0;piano_sum<=0;piano_hold<=0;
@@ -169,7 +170,6 @@ module voice_bank_music_pipe #(
     // Compute one combined frequency ratio per voice, overlapping the first ROM read.
     // Center ratio reproduces inc + floor(inc*pluck_bend/65536) exactly.
     if(issue_index==0)voice_ratio_product<=ratio_latched*(17'd65536+{1'b0,bend[voice_index]});
-    cfg0<=mode_rom[{instrument_active[voice_index],notes[voice_index*7 +:7],issue_index}];
     phase0<=phases[{voice_index,issue_index}];amp0<=amplitudes[{voice_index,issue_index}];
     slot0<={voice_index,issue_index};valid0<=1;last0<=(issue_index==47);
     if(issue_index==47)issued_all<=1;else issue_index<=issue_index+1'b1;

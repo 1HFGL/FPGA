@@ -1,0 +1,8 @@
+........Active RTL in PNR project; refusing implicit resynthesis
+.Missing common synthesis netlist; refusing implicit resynthesis
+.PASS sweep worker: stage=pnr place=0 route=0 clock_order=0
+....
+----------------------------------------------------------------------
+Ran 14 tests in 0.258s
+
+OK

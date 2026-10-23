@@ -1,6 +1,8 @@
 # 声场：FPGA钢琴上位机
 
-当前唯一入口是 `run_tone_studio.bat`；旧综合控制台已删除，历史在Git提交 `f513622`。`studio.py` 负责交互，`studio_ui.py` 绘制界面，`studio_transport.py` 串口/模拟设备，`studio_model.py` 保存配置并生成单周期波表。
+2026-10-19按用户要求，手机端已独立迁至[`D:/Project/jingzou_harmony`](../../jingzou_harmony/)，不再放在本目录。DevEco Studio 26.0.0.851原生编译及23项独立测试通过；已生成签名调试HAP，官方签名/Profile及当前手机授权核验通过，安装和BLE联调仍待完成。当前使用与命令行打包说明见[独立工程README](../../jingzou_harmony/README.md)。下文是现有电脑端说明。
+
+电脑端唯一入口是 `run_tone_studio.bat`；旧综合控制台已删除，历史在Git提交 `f513622`。`studio.py` 负责交互，`studio_ui.py` 绘制界面，`studio_transport.py` 串口/模拟设备，`studio_model.py` 保存配置并生成单周期波表。
 
 2026-10-15：根据13键/16声部工程完善演奏首页、电脑键盘、三档电脑音域和设备状态，保留开发草稿页。随后KEY2双音色集成补充PIANO_GUITAR识别与4项独立兼容测试；板级实现与验证边界见[主工程](../README.md)。
 

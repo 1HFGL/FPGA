@@ -1,5 +1,7 @@
 # C输入与声部管理
 
+> 2026-10-23正式HDMI追加AIN2明亮度及独立BLE输入：正式来源ID改为9位（实体0..12、电脑`0x100|note`、BLE`0x180|note`），旧兼容入口仍8位。蓝牙断连/取消只清自身；实体/PC/BLE共用16声部。导奏只复制已接受的新起音，不反压事件。C独立工程和既有TB不改；当前合同以[设计说明首节](design.md)为准，下文8位描述属于兼容/历史接口。
+
 本文说明C的输入/声部职责。C控制成果保留，2026-10-16已通过适配层接入master `e18160e` 的16声部钢琴v3／经典摇滚电吉他核心；A/B/C职责按PLAN执行。
 
 ## 从哪里开始看
@@ -7,7 +9,7 @@
 | 入口 | 用途 | 当前状态 |
 | --- | --- | --- |
 | [13键接线与运行](keyboard-wiring.md) | 31005/J13琴键与ADC接线，J8/J9仅供3.3V/GND | 主工程已接入，实物待验证 |
-| [piano_performance_top.v](../rtl/top/piano_performance_top.v) | 主钢琴板级入口 | 13实体键＋UART共享16声部＋ADS1115双旋钮 |
+| [piano_hdmi_top.v](../rtl/top/piano_hdmi_top.v) | 唯一正式整机入口 | 13实体键＋UART共享16声部＋ADS1115双旋钮＋HDMI |
 | [instrument_uart_top.v](../rtl/top/instrument_uart_top.v) | 同步/消抖、键事件、UART仲裁与A/B连接 | 当前主发声链路 |
 | [rtl/control](../rtl/control/) | 主工程C模块 | 8位来源ID，16位起音/完成代次；兼容单拍起音通知 |
 | [独立C工程](../upstream/fpga_interaction/) | 已验证的八度、延音、队列及声部分配算法 | 队列、八度锁存、延音和代次规则已适配主钢琴，独立工程不改 |
@@ -32,7 +34,7 @@
 ./verification/scripts/check_c_rtl.ps1 -ModelSimBin C:/Library/modelsim/win64
 ./verification/scripts/run_c_control_tests.ps1 -ModelSimBin C:/Library/modelsim/win64
 ./upstream/fpga_interaction/scripts/run_modelsim.ps1 -ModelSimBin C:/Library/modelsim/win64 -SimDirectory ./build/c-independent
-./projects/piano/build.ps1 -Gowin D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe
+./projects/hdmi/build.ps1 -Gowin D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe
 ```
 
 独立C的15份RTL和三份新增控制测试严格使用Verilog-2001检查；旧SV测试按历史版本保留，独立C全量回归单独运行，不与主工程混编。三份新增测试从原SV版本调整声明和失败报告语法，检查条件保持。

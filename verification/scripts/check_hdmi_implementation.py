@@ -46,20 +46,20 @@ for clock in ("sys_clk", "hdmi_pixel", "hdmi_serial"):
     for kind in ("Setup", "Hold"):
         check(re.search(rf"(?m)^{clock} {kind} 0\.000 0$", timing), f"Clock summary failed: {clock} {kind}")
 active_constraints = len(re.findall(r"(?m)^TC_\w+ Actived ", timing))
-check(active_constraints == 17, f"Expected 17 active constraints, got {active_constraints}")
+check(active_constraints == 21, f"Expected 21 active constraints (17 existing + 4 BLE), got {active_constraints}")
 report = (out / "piano_hdmi.rpt.txt").read_text(encoding="utf-8-sig")
 ports = {}
 for line in report.splitlines():
     cells = [x.strip() for x in line.split("|")]
     if len(cells) > 5 and re.fullmatch(r"\w+(?:\[\d+\])?", cells[0]) and re.fullmatch(r"[A-Z]+\d+/\d+", cells[2]):
         ports[cells[0]] = (cells[2].split("/")[0], cells[3])
-check(len(ports) == 34, f"Expected 34 pin-constrained ports, got {len(ports)}")
+check(len(ports) == 37, f"Expected 37 pin-constrained ports (34 existing + 3 BLE), got {len(ports)}")
 expected_pins = {}
-for name in ("piano", "hdmi"):
+for name in ("piano", "hdmi", "ble"):
     cst = (root / f"boards/tang_mega_60k_31004/{name}.cst").read_text(encoding="utf-8-sig")
     expected_pins.update(re.findall(r'IO_LOC\s+"([^"]+)"\s+([A-Z]+\d+)', cst))
 expected_pins.update({"tmds_data_n[0]": "H14", "tmds_data_n[1]": "H15", "tmds_data_n[2]": "J17", "tmds_clk_n": "G16"})
-check(len(expected_pins) == 34, "CST/negative pair coverage mismatch")
+check(len(expected_pins) == 37, "CST/negative pair coverage mismatch")
 for name, pin in expected_pins.items():
     check(ports.get(name) == (pin, "Y"), f"Pin missing/moved/unconstrained: {name}")
 resources = {}
@@ -108,4 +108,4 @@ summary = {"status": "FAIL" if errors else "PASS_CURRENT_CONSTRAINTS_ONLY", "err
 (out / "implementation_check.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 if errors:
     raise SystemExit("FAIL HDMI implementation: " + "; ".join(errors))
-print("PASS HDMI current constraints: 34 pins, 17 constraints, five timing tables, input/bitstream identity")
+print("PASS HDMI current constraints: 37 pins, 21 constraints, five timing tables, input/bitstream identity")

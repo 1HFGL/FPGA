@@ -1,0 +1,1303 @@
+{
+  "baseline": "6120d79c8d1d106b16b9710c8f289c125f8f313e",
+  "date": "2026-10-16",
+  "review_skill": "fpga-development",
+  "visual_skill": "canvas-design",
+  "quality_score": 8,
+  "release_status": "CANDIDATE_NOT_HARDWARE_VERIFIED",
+  "implementation": {
+    "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+    "errors": [],
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 2.848,
+      "3.1.2 Hold Paths Table": 0.188,
+      "3.1.3 Recovery Paths Table": 0.751,
+      "3.1.4 Removal Paths Table": 0.143,
+      "3.2 Minimum Pulse Width Table": 5.803
+    },
+    "ports": 34,
+    "active_constraints": 17,
+    "resources": {
+      "Logic": {
+        "used": 24463,
+        "available": 59904
+      },
+      "Register": {
+        "used": 7848,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 54,
+        "available": 118
+      },
+      "DSP": {
+        "used": 83,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 1,
+        "available": 8
+      }
+    },
+    "bitstream_sha256": "a573aa00de44220fcc60c0164218fc40534e456b48ce3ba6486bc8ae029aa7ed",
+    "inputs": [
+      {
+        "path": "projects/hdmi/build.ps1",
+        "sha256": "49785fc86b10d8ac8815d03f01b16b706fe609d0a8f6b5453cb9c4b9e91d5b26"
+      },
+      {
+        "path": "projects/hdmi/build.tcl",
+        "sha256": "be80aedc7d65f4db2222b5a53ee9458f160acb24ab81779f58b1c5c54a0b55ce"
+      },
+      {
+        "path": "projects/hdmi/piano_hdmi.gprj",
+        "sha256": "7517e9efdd98d7a4cbcd16541ee2cf1c09ab81d71f43378776a62da05abdec3f"
+      },
+      {
+        "path": "verification/scripts/check_hdmi_implementation.py",
+        "sha256": "166009cb3d4f6ee1e0c9b5839ec0af82c143747b6fe0ce8b98d69abd76a8d136"
+      },
+      {
+        "path": "projects/hdmi/process_config.json",
+        "sha256": "cb99d34da13786a0f910794a794b247080bf927cd3a537fdc9e229b5be18f1cd"
+      },
+      {
+        "path": "rtl/rom/piano_1024.mem",
+        "sha256": "b3abcc11a9302601c994afce9161258da1a80ef247e2d4f745275ecaf4826f1b"
+      },
+      {
+        "path": "rtl/rom/guitar_1024.mem",
+        "sha256": "e5c79a48664801c669aad792883aaa0cd65b196652593f3f77f44b795973f1a0"
+      },
+      {
+        "path": "rtl/rom/sine_1024.mem",
+        "sha256": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5"
+      },
+      {
+        "path": "boards/tang_mega_60k_31004/piano.cst",
+        "sha256": "b87a8bb8e58b5f99c9de87ddfceb13091aaf80eaaee1c3927774ced0f45c9b5b"
+      },
+      {
+        "path": "boards/tang_mega_60k_31004/piano.sdc",
+        "sha256": "752d3a99f506a906786d5a23b8e6a974913489b578210a4a4801b189549b7955"
+      },
+      {
+        "path": "boards/tang_mega_60k_31004/hdmi.cst",
+        "sha256": "ad0da49dfe3c4d82ea7cdc01e82c8cefbd20add201dfd981e8e568a9d8671d08"
+      },
+      {
+        "path": "boards/tang_mega_60k_31004/hdmi.sdc",
+        "sha256": "3dad6fc44cf15465dd46e12d08cfa0f11eea31cf694318450f7e8c4405378333"
+      },
+      {
+        "path": "boards/tang_mega_60k_31004/hdmi_reset_placement.cst",
+        "sha256": "dd5a7bb74e104d181839ebbfd9557b1718bf653213d743e5a673841d581a7ec9"
+      },
+      {
+        "path": "rtl/control/input_sync_debounce.v",
+        "sha256": "4aa0f80f9166f3ce3e18b6619ea29e4a4641893dae2bbd0c28ccfa8e874584cc"
+      },
+      {
+        "path": "rtl/control/touch_or_key_if.v",
+        "sha256": "6e9c09fb9fcd6c893910f7719672e11c3158802bcb14496e66e1489d296ac4d7"
+      },
+      {
+        "path": "rtl/control/event_encoder.v",
+        "sha256": "354770510e25e4297cb91768bc29487414c86a96f36e9e02aefb338e62be2975"
+      },
+      {
+        "path": "rtl/control/piano_controls.v",
+        "sha256": "9c9c07f3631e4b1be211f393e2f7039f052191e41ed0cc7eb423f7d30cce1097"
+      },
+      {
+        "path": "rtl/control/i2c_master.v",
+        "sha256": "405d0390c13c52c12d1af96e523d7de890075ecf8a4cedb31c6626f47baff994"
+      },
+      {
+        "path": "rtl/control/ads1115_if.v",
+        "sha256": "9a6dd08dd84cb4c0cfc672634ef9c4adee43875967d7313a2b34d9013a6023a3"
+      },
+      {
+        "path": "rtl/control/ads1115_knob_if.v",
+        "sha256": "96d8c13cab8e2c5a1775145f53c38cbd93d68a82e612ea4dd9c36b49c5877c5f"
+      },
+      {
+        "path": "rtl/control/adc_knob_if.v",
+        "sha256": "c0ea01643fbb4e56247158f7275bc94f99f9e8aac0a255d1a31ec0f439b58a8c"
+      },
+      {
+        "path": "rtl/control/voice_allocator.v",
+        "sha256": "65389aad361bcabf7c3fb511827e36437b4ac4009dacb52d58d509de3b8dd58c"
+      },
+      {
+        "path": "rtl/control/uart_rx.v",
+        "sha256": "1477963cfe450eed516052e25085936683592ac9edefe5bc33dc7dd2df8123b9"
+      },
+      {
+        "path": "rtl/control/uart_tx.v",
+        "sha256": "009d15dd6a6fa5fbbc7626f4771224b815554ac4a731d4407ebd01a1185f1033"
+      },
+      {
+        "path": "rtl/control/uart_fifo.v",
+        "sha256": "d29abed64b9b72a5e8565470e4c37bbf34a0a6e6c89699ec120902057200f333"
+      },
+      {
+        "path": "rtl/control/uart_line_rx.v",
+        "sha256": "de156235bb876225a027317ef6d7b97f9f923603fda81105ff37a5da0181a2dd"
+      },
+      {
+        "path": "rtl/control/uart_reply_tx.v",
+        "sha256": "4fc6676a434161dde4b6edcf46717b0524a850901918e0215c47c126ca0898da"
+      },
+      {
+        "path": "rtl/control/uart_synth_protocol.v",
+        "sha256": "c086b3a6125bc65f4aa708ce27d0d2a97f64c552e1114f035737ca881c998aed"
+      },
+      {
+        "path": "rtl/control/uart_event_arbiter.v",
+        "sha256": "f4d46548bc0c3499673cef4810fc7e3491178aa7f6871005d4c6ab044207d972"
+      },
+      {
+        "path": "rtl/top/instrument_uart_top.v",
+        "sha256": "26de5ffe17045db6d951c26f261c9a9cd57e9a62988364b0d3bf22b370058fcd"
+      },
+      {
+        "path": "rtl/top/instrument_uart_piano_top.v",
+        "sha256": "e2604e570942dc56c63aff2de81d01216e948ee72ba082bb6087ee01776e1705"
+      },
+      {
+        "path": "rtl/top/piano_13key_top.v",
+        "sha256": "280cf9cfa708ee62fbe0d32b8c21f578f780851e8c4f4b1cfcd0dab87c2428a7"
+      },
+      {
+        "path": "rtl/top/piano_performance_top.v",
+        "sha256": "85d96d72dd604070bb8ccd9ed9b58afc14a362a90df8c7fb8c29a5b21390f3c5"
+      },
+      {
+        "path": "rtl/synth/phase_acc.v",
+        "sha256": "c3ea7b922199dfebae6b982c65f7fa1e7efcc18caebce6b4b1f7ffb9bccbc96d"
+      },
+      {
+        "path": "rtl/synth/wave_lut.v",
+        "sha256": "f476407c6bfb4853b547f1f3ad88d718878f8520fd48915bea664f2b03ff5cbc"
+      },
+      {
+        "path": "rtl/synth/voice_dds.v",
+        "sha256": "a5af8f0dcd732bb3f5b2a73f7dd9040fc6d13bef79cc7e0933e8bf014cd7fea2"
+      },
+      {
+        "path": "rtl/control/note_phase_lut.v",
+        "sha256": "71c1a6b7d797da5a34a091cd1aeb304f8df794f8c962fafa3aae6a886b36d029"
+      },
+      {
+        "path": "rtl/synth/adsr_env.v",
+        "sha256": "33107d2ce68cb5a00c1d96c9fddeca1a276e56c94a0712d90f4c2390457d2c51"
+      },
+      {
+        "path": "rtl/synth/sample_gain.v",
+        "sha256": "123f61f75037c68740bcc5c51d55d0ceaced35f91914a2b0acadbcd5c73d6dd1"
+      },
+      {
+        "path": "rtl/synth/voice_adsr.v",
+        "sha256": "10980327f13d7d9d0d301da8924cad689cdda6a28d3cda7ba493fffdb474a19f"
+      },
+      {
+        "path": "rtl/synth/sample_mixer4.v",
+        "sha256": "27d1e0c5854cd86748475afaad372b71825c6d19a8ccea36b13d42326f94519c"
+      },
+      {
+        "path": "rtl/synth/voice_bank_adsr.v",
+        "sha256": "11a97053338ffc763e612c62e1511141c78de1734aa04c79b4545f26da0e5038"
+      },
+      {
+        "path": "rtl/synth/wave_lut_timbre.v",
+        "sha256": "562653ae5c8945ee55266545c9cef8ccd554fa068932c8136b58d41abbd0d4dd"
+      },
+      {
+        "path": "rtl/synth/voice_timbre_adsr.v",
+        "sha256": "12ca3d22b45ffcbc073c78fe68d4d0a9ace2deebf3c748cde0efa5e1304bf288"
+      },
+      {
+        "path": "rtl/synth/voice_instrument.v",
+        "sha256": "e26752a0e853ca2dd6b9668f7fd117b3030cded14dbe4b9258688e638d279abf"
+      },
+      {
+        "path": "rtl/synth/instrument_env.v",
+        "sha256": "b633a34e6a0b8bd81f2638630b52fc4a55034a44187be3516b93b89ff27234b2"
+      },
+      {
+        "path": "rtl/synth/instrument_wave.v",
+        "sha256": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27"
+      },
+      {
+        "path": "rtl/audio/i2s_tx.v",
+        "sha256": "35f7b26132f9a08651d061c236f020aee21aab1f61683e9c192e82aa4ec5ae25"
+      },
+      {
+        "path": "rtl/audio/sample_tick.v",
+        "sha256": "cd84ec1405fabe9896c33d0a17b55d7a1c71f7d11ab3b9b5efaeb5bcbb54a922"
+      },
+      {
+        "path": "rtl/audio/synth_top.v",
+        "sha256": "903cc00a0a0996019dfb65e1744c3a31598318fa5264a232288bcb7412cb48aa"
+      },
+      {
+        "path": "rtl/display/display_cdc_latest.v",
+        "sha256": "c79288111cded83c271b09973324003e649ad0a557cb328be9e62a411a91fd47"
+      },
+      {
+        "path": "rtl/display/lcd_rgb_timing.v",
+        "sha256": "439f779ffd44d54f459f182438009a40c78379002d86d3eea1e0a7c1e96b5d9d"
+      },
+      {
+        "path": "rtl/display/display_wave_buffer.v",
+        "sha256": "d1168885f767d017ab988503a0d280c5732874c8f4a9eaefe493fc326ecc2030"
+      },
+      {
+        "path": "rtl/display/display_font24.v",
+        "sha256": "213f2cce302d1a9567b5248712dff98ae66401fe6de614ea4b7503d606e3e107"
+      },
+      {
+        "path": "rtl/display/piano_display_renderer.v",
+        "sha256": "b10b7f7c271338f000c5954b408d44b6e46e6871edafb1d73f3b42873cec0acc"
+      },
+      {
+        "path": "rtl/display/instrument_display.v",
+        "sha256": "20b1c3a46a178584172c632f09038bf5d71fab8d439096aec6e224be45b60357"
+      },
+      {
+        "path": "rtl/display/display_bend_map.v",
+        "sha256": "7cec7c74f4eb02acb53112095bb0a946fe01cbb9ead28bc6bb138442ce97501b"
+      },
+      {
+        "path": "rtl/display/tmds_encoder.v",
+        "sha256": "b5cf6a9a8289b3cc3df51eecbb9914fd4b5f43315cdbc3f44b362f2844b381fe"
+      },
+      {
+        "path": "rtl/display/dvi_tx_gowin.v",
+        "sha256": "6c0a13a8d10dd9cd781380192369ba05b06aabe904c4a58dd405c6c00ee797a4"
+      },
+      {
+        "path": "rtl/display/hdmi_clock_60k.v",
+        "sha256": "8e281b78cc4b19f00ad23e629e5bbbcccab09444e4d60a0262e4d84ba43ca446"
+      },
+      {
+        "path": "rtl/display/hdmi_reset_guard.v",
+        "sha256": "e71364364004eedbf7a01c406c5a819ee558da4fb8212e9616beefe65dd49ec8"
+      },
+      {
+        "path": "rtl/top/piano_hdmi_top.v",
+        "sha256": "64b2228093e66097698529e2db89319d7e6891388cd39e7de6dbc24107dd1617"
+      },
+      {
+        "path": "build/hdmi/piano_hdmi.cst",
+        "sha256": "8c864f73e1d0e4c4c37f3f9ec974cfce28fe4a453103588584ce522728444724"
+      },
+      {
+        "path": "build/hdmi/piano_hdmi.sdc",
+        "sha256": "b1389eb732e44b40da376a2709fcd286b0a339af95beeb027a8f4d0b8385b805"
+      }
+    ],
+    "reset_placement": {
+      "u_tx/g_lane[1].serializer_release_0_s0": [
+        "R22C134[0][A]"
+      ],
+      "u_tx/g_lane[1].u_reset_combine": [
+        "R22C134[0][A]"
+      ],
+      "u_tx/g_lane[2].serializer_release_0_s0": [
+        "R39C134[0][A]"
+      ],
+      "u_tx/g_lane[2].u_reset_combine": [
+        "R39C134[0][A]"
+      ],
+      "u_tx/g_lane[3].serializer_release_1_s0": [
+        "R24C134[0][B]"
+      ],
+      "u_tx/g_lane[3].u_reset_combine": [
+        "R24C134[0][A]"
+      ],
+      "u_tx/g_lane[0].serializer_release_1_s0": [
+        "R26C134[0][B]"
+      ],
+      "u_tx/g_lane[0].u_reset_combine": [
+        "R26C134[0][A]"
+      ],
+      "u_tx/g_lane[3].serializer_release_0_s0": [
+        "R24C134[0][A]"
+      ],
+      "u_tx/g_lane[2].serializer_release_1_s0": [
+        "R39C134[0][B]"
+      ],
+      "u_tx/g_lane[1].serializer_release_1_s0": [
+        "R22C134[0][B]"
+      ],
+      "u_tx/g_lane[0].serializer_release_0_s0": [
+        "R26C134[0][A]"
+      ]
+    },
+    "limitations": [
+      "PR1014 system clock generic routing remains",
+      "DAC external timing incomplete",
+      "HDMI electrical eye/cable/receiver not measured",
+      "USB touch not implemented",
+      "Not programmed; screen compatibility and end-to-end latency unverified"
+    ]
+  },
+  "before_native_ui": {
+    "resources": {
+      "Logic": {
+        "used": 20893,
+        "available": 59904
+      },
+      "Register": {
+        "used": 6825,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 22,
+        "available": 118
+      },
+      "DSP": {
+        "used": 67,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 1,
+        "available": 8
+      }
+    },
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 3.31,
+      "3.1.2 Hold Paths Table": 0.12,
+      "3.1.3 Recovery Paths Table": 0.79,
+      "3.1.4 Removal Paths Table": 0.152,
+      "3.2 Minimum Pulse Width Table": 5.803
+    },
+    "bitstream_sha256": "19fce4429fafa36fc42a5bc24e9fb4708e0fa80ce3b6ef4470f37cc1ef9b03a1"
+  },
+  "before_fast_knobs": {
+    "resources": {
+      "Logic": {
+        "used": 21671,
+        "available": 59904
+      },
+      "Register": {
+        "used": 6866,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 22,
+        "available": 118
+      },
+      "DSP": {
+        "used": 67,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 1,
+        "available": 8
+      }
+    },
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 3.965,
+      "3.1.2 Hold Paths Table": 0.126,
+      "3.1.3 Recovery Paths Table": 1.114,
+      "3.1.4 Removal Paths Table": 0.152,
+      "3.2 Minimum Pulse Width Table": 5.803
+    },
+    "bitstream_sha256": "59d067890b60fdb1a61b22271782de718652dc88519041716b3f95f15d09d058"
+  },
+  "before_quiet_ui": {
+    "resources": {
+      "Logic": {
+        "used": 21379,
+        "available": 59904
+      },
+      "Register": {
+        "used": 6865,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 22,
+        "available": 118
+      },
+      "DSP": {
+        "used": 67,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 1,
+        "available": 8
+      }
+    },
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 3.507,
+      "3.1.2 Hold Paths Table": 0.125,
+      "3.1.3 Recovery Paths Table": -0.42,
+      "3.1.4 Removal Paths Table": 0.295,
+      "3.2 Minimum Pulse Width Table": 5.803
+    },
+    "bitstream_sha256": "6b1c28f2352d97a6d8358565caf094e4adb85b9b281443849d58eb6e3e178859"
+  },
+  "strict_verilog_sources": 120,
+  "board_pin_migration": {
+    "board": "NEO Dock 31005 + Tang Mega 60K SOM",
+    "ports": 25,
+    "migrated_signals": 15,
+    "cst_sha256": "b87a8bb8e58b5f99c9de87ddfceb13091aaf80eaaee1c3927774ced0f45c9b5b",
+    "contract_sha256": "15c86194e142d56482ca811032e7373828f3e63c8f7bf2c417b4df00e4f6b796",
+    "checker_sha256": "6179e0e83e3ce15303803d3603a6f03eb05a1679cd45c6a87621c669e7130f76",
+    "previous_cst_sha256": "027c19cf060dbd19409b733eaceb76ed177d41485ae3db90ec4419c533c6893a",
+    "hardware_measured": false
+  },
+  "regression_pass_counts": {
+    "display": 6,
+    "hdmi": 4,
+    "hdmi_reset": 1,
+    "review": 3,
+    "uart": 7,
+    "capacity": 2,
+    "dual": 3,
+    "all": 27,
+    "performance": 5,
+    "timed_knob": 1
+  },
+  "tests": [
+    {
+      "test": "tb_display_timing",
+      "marker": "# PASS tb_display_timing: three frames, both polarities, porches, reset",
+      "log_sha256": "67560ffbc5ba8db1700b7f5eaa2ea143b8e14158a96d8a4e973f00e5f0f9abc9"
+    },
+    {
+      "test": "tb_display_cdc",
+      "marker": "# PASS tb_display_cdc: atomicity, order, busy drop, clock stop, reset",
+      "log_sha256": "97c7d18a01c299ac5f0aafabfb8d047b305a0605c355ad8ba70940ba67b45533"
+    },
+    {
+      "test": "tb_display_wave",
+      "marker": "# PASS tb_display_wave: all addresses, frame swaps, no tearing, reset masking",
+      "log_sha256": "5e1e7b3eca23355558fddc68150339af8aa896af836a2a2be967799a0274e82c"
+    },
+    {
+      "test": "tb_display_renderer",
+      "marker": "# PASS tb_display_renderer: 13 keys, priority, volume/bend bounds, signed wave, timbres",
+      "log_sha256": "25f2467cdc6d8046b7410d4380ff64fd584d61c7535ea5132e047d4e1d215d91"
+    },
+    {
+      "test": "tb_display_reset_gain",
+      "marker": "# PASS tb_display_reset_gain: saturation, sign, stopped clock, common reset and restart",
+      "log_sha256": "5ecf8ab0c70669d9a26a94c2fbedebaf02ecbe68aa8d9fcaf02cd0010ab50dc7"
+    },
+    {
+      "test": "tb_instrument_display",
+      "marker": "# PASS tb_instrument_display: full RGB frames, atomic status, 48k capture, blanking, alignment",
+      "log_sha256": "7fe9e1d098cff9705429e2f32263633b428618731377cf440214c5f6fe80e68b"
+    },
+    {
+      "test": "tb_tmds_encoder",
+      "marker": "# PASS tb_tmds_encoder: all 256 bytes/control tokens, disparity chains, decode, reset (6150)",
+      "log_sha256": "c8e1d13f50d52781ccf4e7a116a48179bf1f60ae7809052e5a4c08ad67d6fce7"
+    },
+    {
+      "test": "tb_hdmi_phy",
+      "marker": "# PASS tb_hdmi_phy: vendor PLL 49/245MHz, 4 OSER10 lanes, LSB order, RGB/control alignment (708)",
+      "log_sha256": "fdf6b28a61d00406f155866cabd1e88c80325352b8c17221f152dcdadcd97516"
+    },
+    {
+      "test": "tb_display_hdmi_frame",
+      "marker": "# PASS tb_display_hdmi_frame: native 1024x600 UI, CVT sync, Chinese title, waveform, frame-atomic keys",
+      "log_sha256": "40ec5e6228145f24083816394638c66ded5e624da21e38bcf5a14e039b1e332e"
+    },
+    {
+      "test": "tb_hdmi_audio_isolation",
+      "marker": "# PASS tb_hdmi_audio_isolation: serial audio identical, actual key/knob/wave taps, unplug/unlock/reset (81 samples)",
+      "log_sha256": "8719f2475181caeffbc5238ef80ded0da52742247daa2793a8ae8391a19d9f9e"
+    },
+    {
+      "test": "tb_review_hdmi_reset_recovery",
+      "marker": "# PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)",
+      "log_sha256": "80e26556ed0200642cf40d0de6913a04f4c1ff38af6a2281f23dd4a41b180a86"
+    },
+    {
+      "test": "tb_review_arithmetic",
+      "marker": "# PASS tb_review_arithmetic: 256 exact gain/bend values, endpoints and center",
+      "log_sha256": "a0792289cda324600d6a5cd3ff0b58ac9172290ca760860ebd0062dbc50dcbbd"
+    },
+    {
+      "test": "tb_review_font",
+      "marker": "# PASS tb_review_font: 65536 glyph/row/column positions including blank bounds",
+      "log_sha256": "100017e54c2d827dfacc7da0909d99a3269df70b3fc571b093aa77f07729c75d"
+    },
+    {
+      "test": "tb_review_layout",
+      "marker": "# PASS tb_review_layout: all volume/bend numeric codes, 13 keys, signs, native bounds",
+      "log_sha256": "7af8bc35d0f6e2bc920102f0104bfffe577720eb4c3a2a508bc0f837f149fe10"
+    },
+    {
+      "test": "tb_uart_bytes",
+      "marker": "# PASS tb_uart_bytes: 256 RX/TX values, phase, baud, framing, reset",
+      "log_sha256": "9fbe680fb460d16e4a832b0b0ff9047c4cfb3b71b5a8d98f7f583fcbcdac6e4b"
+    },
+    {
+      "test": "tb_uart_line",
+      "marker": "# PASS tb_uart_line: fragmentation, bounds, errors, timeout",
+      "log_sha256": "6bfb10dde518438a75a35f5553866b2eb9996bc8d4fa79cea9e15df5b1c48180"
+    },
+    {
+      "test": "tb_uart_protocol",
+      "marker": "# PASS tb_uart_protocol: real UART handshake, notes, decimal, overflow, watchdog",
+      "log_sha256": "5d2131a3ebadfde46b09d170541d649ce8dd861f3caab781fdd5c0461195f305"
+    },
+    {
+      "test": "tb_uart_flow",
+      "marker": "# PASS tb_uart_flow: FIFO full/empty/stall/flush and arbiter fairness/cancel",
+      "log_sha256": "95312ed3b59db245ff1cd4b0e6e21f1903bd0972d9835d7701fc8bee8957fe4d"
+    },
+    {
+      "test": "tb_uart_replies",
+      "marker": "# PASS tb_uart_replies: finite slots, HELLO priority, STATUS coalescing, decimal and stalls",
+      "log_sha256": "fe705cac682b287dd186163cc7f2a79f25df77377c2428fe809deb269d314cf9"
+    },
+    {
+      "test": "tb_uart_instrument",
+      "marker": "# PASS tb_uart_instrument: four notes, steal, sources, tail, watchdog, R4/serial/reset",
+      "log_sha256": "60fdd11b948f09dd021a9865a1932e9469fc5a82d3796eda33f123e2079a87fc"
+    },
+    {
+      "test": "tb_uart_instrument_115200",
+      "marker": "# PASS tb_uart_instrument_115200",
+      "log_sha256": "6e3e30e3f74f44f3a8aeefef078f334a20997d139ee14b44e661a30d098127ae"
+    },
+    {
+      "test": "tb_review_uart_capacity",
+      "marker": "# PASS tb_review_uart_capacity: 18 capacity/tone combinations, exact bytes, stalls and mid-reply reset",
+      "log_sha256": "b43da43de59d8ea7c908a07920524c9a297e09e24a350f4df59e95f846ea3432"
+    },
+    {
+      "test": "tb_review_uart_capacity_top",
+      "marker": "# PASS tb_review_uart_capacity_top: production 16 voices, 115200, exact 92 bytes, reset and re-handshake",
+      "log_sha256": "643a74941f5898734487e7062d38132abadc182770f0dc10cd084b7ec4e86d94"
+    },
+    {
+      "test": "tb_review_dual_math",
+      "marker": "# PASS tb_review_dual_math: 8193 ages, independent 64-bit multiplication, 32-bit parameter extremes",
+      "log_sha256": "20ef3d364c0db480b1522ae9a55d663235932d176e5a37c086a3803a4d2e28c3"
+    },
+    {
+      "test": "tb_review_dual_voice",
+      "marker": "# PASS tb_review_dual_voice: exact piano samples, one-cycle alignment, locked old timbre, guitar brightness and reset",
+      "log_sha256": "50611542fe30e2c87e83ce8c9e8a7583fe338484d04ec49aac76c467897e42e7"
+    },
+    {
+      "test": "tb_review_dual_system",
+      "marker": "# PASS tb_review_dual_system: KEY2/bounce/hold, old tails, 13 keys+UART/16 audible voices, steal, knobs, R7 and reset",
+      "log_sha256": "11f108702f0b5127068b30b74943b9406b1f226688ff8a4d7bde823e232c8bfb"
+    },
+    {
+      "test": "tb_phase_acc",
+      "marker": "# PASS: all 15 checks passed.",
+      "log_sha256": "480426b94e59d351f12ad714707cff25162487f2094e93df9092119c2fc2cb87"
+    },
+    {
+      "test": "tb_wave_lut",
+      "marker": "# PASS: all 1035 checks passed; all 1024 ROM addresses verified.",
+      "log_sha256": "a0802b75d521ff8357452a1063b29e1439378c22c465d6726fb368baff8d61af"
+    },
+    {
+      "test": "tb_voice_dds",
+      "marker": "# PASS: voice_dds; 4810 valid samples matched; 1200025 clock checks passed.",
+      "log_sha256": "a371ae9d4cbc4adf895dfd260b824e5371a7fee746bcd7a6536ff4ea7fb179ad"
+    },
+    {
+      "test": "tb_adsr_env",
+      "marker": "# PASS: adsr_env duration checks (1929506 checks, 12 parameter sets).",
+      "log_sha256": "df407d4d2e82af7a4d30095226ef4cbfa282e45901a6fd86357cf0d7ae0bf817"
+    },
+    {
+      "test": "tb_adsr_arithmetic",
+      "marker": "# PASS: adsr arithmetic exhaustive checks (131074 checks, 65537 levels, reset).",
+      "log_sha256": "188bb281e6dbc89d78d66b647180775c51aa1024f98dfa754bf9b10c64974a23"
+    },
+    {
+      "test": "tb_sample_gain",
+      "marker": "# PASS: sample_gain exhaustive checks (458757).",
+      "log_sha256": "71fe547f568db09b39571414b18356dc2048d147bdcf4c53f0c2b201eaf5c567"
+    },
+    {
+      "test": "tb_voice_adsr",
+      "marker": "# PASS: voice_adsr sample and pipeline checks (162085 clocks, 47734 samples).",
+      "log_sha256": "f7a2fb4cfcd597177dbcdd71a444912655b122ce3658265c6a889a8f02b480fa"
+    },
+    {
+      "test": "tb_sample_mixer4",
+      "marker": "# PASS: sample_mixer4 signed boundaries, saturation, idle and reset.",
+      "log_sha256": "cc19babfb4423f4c14af24f7599b92652716904e5654f2149528efcca8d1853d"
+    },
+    {
+      "test": "tb_voice_bank_adsr",
+      "marker": "# PASS: voice_bank_adsr four independent envelopes, triggers, pipeline and mix.",
+      "log_sha256": "bbe34b08a107f162b44be4c894fc8692c99922a6cde5751df02dd2fb33b6e8e1"
+    },
+    {
+      "test": "tb_wave_lut_timbre",
+      "marker": "# PASS: two timbre ROMs, idle/reset, direct threshold and R1 pipeline.",
+      "log_sha256": "f56039a75a56080a7e60ae41ec00929fa9dc8054b378f9f4fd9f754aa63424ed"
+    },
+    {
+      "test": "tb_timbre_bank",
+      "marker": "# PASS: tb_timbre_bank mixed voices, per-note timbre snapshots, pending triggers, high-note fallback and R3 pipeline.",
+      "log_sha256": "cae8eb7c39afc0ea7f33e3c4b0c993e92bc0bb9db5585e710889aea8e035869c"
+    },
+    {
+      "test": "tb_timbre_preview",
+      "marker": "# PASS: two RTL timbre preview segments, 48000 samples each, tails silent.",
+      "log_sha256": "aa34208224a9d5744694f39e479218051b53d1b93f069d6f08cad17ea44aae37"
+    },
+    {
+      "test": "tb_instrument_wave",
+      "marker": "# PASS: instrument ROMs, direct threshold and R2 pipeline.",
+      "log_sha256": "14cc36169a430943e6bc0d72519b8a9b46352a5120ca82f2dbb35656b04e732a"
+    },
+    {
+      "test": "tb_instrument_bank",
+      "marker": "# PASS: tb_instrument_bank mixed voices, per-note instrument snapshots, pending triggers, high-note fallback and R4 pipeline.",
+      "log_sha256": "8a8827378da25de093b798003b9bc81a7f4f7cb1caf119f775cecf814065a83b"
+    },
+    {
+      "test": "tb_instrument_preview",
+      "marker": "# PASS: instrument RTL preview, 432000 samples, four silent tails.",
+      "log_sha256": "9b683b1c1d45e66619922128e203f11c5f65ba17e3c447ea3ddf6205a2bab166"
+    },
+    {
+      "test": "tb_instrument_presets",
+      "marker": "# PASS: tb_instrument_presets 1534 serial words, 768 outputs, +270/-282 samples, 768 R5 captures; KEY1/KEY2, preset snapshots, R4, LSBJ, PA drain, reset.",
+      "log_sha256": "cc01f865e62b6eee3c628e0577966b5302ffcd57cee5b5aeb2bec3665647a161"
+    },
+    {
+      "test": "sample_tick_tb",
+      "marker": "# PASS sample_tick_tb: 640 half-edges, 10 frames, reset",
+      "log_sha256": "01f4750de9daf23628514d40492d057b9c4e4caddcc2152f87daa42f8c9b3939"
+    },
+    {
+      "test": "synth_top_tb",
+      "marker": "# PASS synth_top_tb: serial data, channels, underrun, PA, reset",
+      "log_sha256": "7b36c4d79d7faa28715b9ca03fc753b2960116d0355915f9c63e6a5791b10f88"
+    },
+    {
+      "test": "tb_single_tone_ab",
+      "marker": "# PASS tb_single_tone_ab: request/valid, next-frame serial, pitch, reset",
+      "log_sha256": "b6a25174f6f8dcc3df0d49616de063febab15c5b7af3711d5e0378dd98e9cbd5"
+    },
+    {
+      "test": "tb_input_sync_debounce",
+      "marker": "# PASS: tb_input_sync_debounce press=1 release=1",
+      "log_sha256": "6478736db5128760a2eac5e36dec1e580ec1e9fc7919c7eacb836262ddaaa45b"
+    },
+    {
+      "test": "tb_event_encoder",
+      "marker": "# PASS: tb_event_encoder on=2 off=2",
+      "log_sha256": "9045501595e0304ba75b67b4ccc20e7b90393aaf6c541730847e395a589d943e"
+    },
+    {
+      "test": "tb_voice_allocator",
+      "marker": "# PASS: tb_voice_allocator_32 voices=31 max=32 steal=1",
+      "log_sha256": "2fae7d7625d7f631ba4ffb264f877f56dc65a5aacc8c1ac65700410bfb338ed5"
+    },
+    {
+      "test": "tb_allocator_trigger",
+      "marker": "# PASS tb_allocator_trigger: four notes, steal, same-note retrigger, release feedback, reset",
+      "log_sha256": "96934cac29a3a5a15bde7a1fb05f72bcabea45a88aa945bf2ef6924f5f20625e"
+    },
+    {
+      "test": "tb_allocator_age",
+      "marker": "# PASS tb_allocator_age: rollover, retrigger, free slots, 400 ordered allocations, reset",
+      "log_sha256": "7a161ea5582c5f292ddd56dd2e5d6d2d2a25c0b7a4a25b55811ad378c2917c9d"
+    },
+    {
+      "test": "tb_allocator_owner",
+      "marker": "# PASS tb_allocator_owner: stale note-off cannot stop a new owner, reset",
+      "log_sha256": "7b95c82ceb26626eb275d40d869dc45bf3f252d3cfdbffb4e779fb6dcb4fcb74"
+    },
+    {
+      "test": "tb_allocator_expression_owner",
+      "marker": "# PASS tb_allocator_expression_owner: stale expression cannot change a new owner, reset",
+      "log_sha256": "16a7dd0ebbb8ccf155e5e7086d631f8c3e13672b4e828d37ece99c74e9c71411"
+    },
+    {
+      "test": "tb_allocator_expression_reset",
+      "marker": "# PASS tb_allocator_expression_reset: new owner clears old expression, same source preserves it",
+      "log_sha256": "aef934d0115011eafe18ec29823458b51245f05e78d32ab0489ff9d96102e507"
+    },
+    {
+      "test": "tb_performance_bank",
+      "marker": "# PASS tb_performance_bank: 16 audible voices; crossings=53/59/47/53; actual volume/bend/tails/generation/reset",
+      "log_sha256": "acf1f7cfe075c84c1858db4c461dbf315b6a4c2ffe2cc40a5642260cfb04e429"
+    },
+    {
+      "test": "tb_performance_system",
+      "marker": "# PASS tb_performance_system: 13keys+UART/16 sounding voices/steal/sources/octave/sustain/volume/bend/DAC; digital_onset=52380ns",
+      "log_sha256": "e20ccc3c90905fca5dc1e560bb37192d62dae1d5c346a8614cdd2d6b97abb110"
+    },
+    {
+      "test": "tb_performance_adc",
+      "marker": "# PASS tb_performance_adc: bit-level I2C/actual audio mute/bend/fault hold/recovery/reset; accelerated ADC settings",
+      "log_sha256": "339ca3089dddc6fee4fd8d1d1bf935ab442a4dea9341e80acc5480f0278c7e46"
+    },
+    {
+      "test": "tb_performance_control",
+      "marker": "# PASS tb_performance_control: held retrigger/generation/sustain/source cleanup/octave snapshot/backpressure/overflow/reset",
+      "log_sha256": "3c1c2df35a8d80cec6155608f9ed6511159e0f6375b7b203beff9bb2f8988a32"
+    },
+    {
+      "test": "tb_performance_latency",
+      "marker": "# PASS tb_performance_latency: 13 production onsets; maximum_observed_ns=2030640; analog/contact bounce excluded",
+      "log_sha256": "66f8ba4fb7b1c20eca6bfaaef4567b27cc6fb488d44cae9530c6bef7484c17d5"
+    },
+    {
+      "test": "tb_review_knob_latency",
+      "marker": "# PASS tb_review_knob_latency: 9 phase/boundary cases, timed ADC, fault/reset/recovery",
+      "log_sha256": "fdb94cd8f0f1df7b70b7eaec4e5acda4e406a4e14059b84a4212697faca286f1"
+    }
+  ],
+  "negative_control": "Native white-key width 120->119 rejected by boundary pixel checker",
+  "audio_negative_controls": [
+    {
+      "mutation": "Volume",
+      "test": "tb_performance_system",
+      "rejected": true
+    },
+    {
+      "mutation": "Bend",
+      "test": "tb_performance_adc",
+      "rejected": true
+    }
+  ],
+  "knob_response": {
+    "cases": 9,
+    "maximum_observed_ns": 8221789,
+    "maximum_pair_period_ns": 3502960,
+    "minimum_scl_low_ns": 1440,
+    "minimum_scl_high_ns": 1440,
+    "endpoint": "audio-domain gain/bend ramp settled, not analog audio output",
+    "adc_model": "1.35ms conversion, input captured at conversion start; steady-state phase sweep",
+    "negative_control": "10ms-per-channel wait rejected by 10ms parameter deadline",
+    "hardware_measured": false
+  },
+  "frame": {
+    "path": "build/regression/hdmi/hdmi_frame.hex",
+    "sha256": "76fc2edc9e08f9b3afa2fa62621e3fc758ec7fc259104316235b28ecdc62f339",
+    "size": [
+      1024,
+      600
+    ],
+    "waveform": "test sawtooth, not recorded piano"
+  },
+  "changes": [
+    "31005 confirmed: 13 keys + ADC SDA/SCL moved to J13; J8/J9 supply 3.3V/GND only",
+    "RTL, teammate TB, SDC and process unchanged in pin migration; new physical implementation required",
+    "Prior native quiet piano/guitar UI and shared 16-voice synthesis preserved",
+    "Dual audio R0..R7 alignment; display P0/P1/P2 unchanged",
+    "Prior local two-stage reset FF/LUT placement retained without timing exceptions"
+  ],
+  "uart_capacity": {
+    "production_voices": 16,
+    "default_voices": 4,
+    "tested_capacities": [
+      1,
+      4,
+      9,
+      10,
+      16,
+      32
+    ],
+    "tone_variants": 3,
+    "negative_control": "Disconnected VOICES parameter rejected by exact production UART byte checker"
+  },
+  "prior_audio_regression": "J13 migration reran performance5 + HDMI4 + reset1; remaining 49 FPGA checks and host53+4 retained with exact unchanged dependency hashes, not claimed rerun. Other older piano/PA results are not claimed current here",
+  "dual_instruments": {
+    "mode_key": "KEY2",
+    "reset_mode": "piano",
+    "shared_voices": 16,
+    "physical_keys": 13,
+    "old_voice_timbre_preserved": true,
+    "sample_cache_cycle": "R7",
+    "guitar_frame_path": "build/regression/hdmi/hdmi_guitar_frame.hex",
+    "guitar_frame_sha256": "f23134b818f7e35492eb03621f63c34cb5d41e01756efd15e45856ead982e25e",
+    "before_shift_optimization": {
+      "Logic": {
+        "used": 24147,
+        "available": 59904
+      },
+      "Register": {
+        "used": 7844,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 54,
+        "available": 118
+      },
+      "DSP": {
+        "used": 99,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 1,
+        "available": 8
+      }
+    },
+    "host_tests": 57,
+    "host_source_manifest_sha256": "e3934f650dc2becf6434b03eb358678c98d1c445958709676eb38fcfe219090e"
+  },
+  "hdmi_reset_recovery": {
+    "epochs": 17,
+    "words_checked_per_epoch_min": 128,
+    "serial_bit_phases": 10,
+    "cases": [
+      "power-on",
+      "HPD reconnect/bounce",
+      "PLL unlock",
+      "serial/both clocks paused",
+      "system/PLL reset"
+    ],
+    "vendor_model": "installed Gowin GW5A PLLA/OSER10, not analog metastability or electrical timing",
+    "negative_control": "Initial startup passed, red lane corrupted only after first recovery rejected",
+    "before": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 2.219,
+        "3.1.2 Hold Paths Table": 0.188,
+        "3.1.3 Recovery Paths Table": 1.301,
+        "3.1.4 Removal Paths Table": 0.008,
+        "3.2 Minimum Pulse Width Table": 5.803
+      },
+      "ports": 34,
+      "active_constraints": 17,
+      "resources": {
+        "Logic": {
+          "used": 24453,
+          "available": 59904
+        },
+        "Register": {
+          "used": 7844,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 54,
+          "available": 118
+        },
+        "DSP": {
+          "used": 83,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 1,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "7f55c2f85c0d089c9c700efeac53b6335538af62d486e67d528d43782d36b518",
+      "inputs": [
+        {
+          "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\build.ps1",
+          "sha256": "158394de19ff19df1d9edb8c8dc4e93dcb6cc55cb4b187babe69423e8783687b"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\build.tcl",
+          "sha256": "87bf41279b2e4a1b4e28c73618537f3b9d29445055ec629ff69e7abc9c52d460"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\piano_hdmi.gprj",
+          "sha256": "7517e9efdd98d7a4cbcd16541ee2cf1c09ab81d71f43378776a62da05abdec3f"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\verification\\scripts\\check_hdmi_implementation.py",
+          "sha256": "35e06724fe08faf62374c08498f2018e0e056046bc2e0ef606fd577d4c55ba50"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\process_config.json",
+          "sha256": "cb99d34da13786a0f910794a794b247080bf927cd3a537fdc9e229b5be18f1cd"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\rom\\piano_1024.mem",
+          "sha256": "b3abcc11a9302601c994afce9161258da1a80ef247e2d4f745275ecaf4826f1b"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\rom\\guitar_1024.mem",
+          "sha256": "e5c79a48664801c669aad792883aaa0cd65b196652593f3f77f44b795973f1a0"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\rom\\sine_1024.mem",
+          "sha256": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\piano.cst",
+          "sha256": "027c19cf060dbd19409b733eaceb76ed177d41485ae3db90ec4419c533c6893a"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\piano.sdc",
+          "sha256": "752d3a99f506a906786d5a23b8e6a974913489b578210a4a4801b189549b7955"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\hdmi.cst",
+          "sha256": "ad0da49dfe3c4d82ea7cdc01e82c8cefbd20add201dfd981e8e568a9d8671d08"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\hdmi.sdc",
+          "sha256": "3dad6fc44cf15465dd46e12d08cfa0f11eea31cf694318450f7e8c4405378333"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\input_sync_debounce.v",
+          "sha256": "4aa0f80f9166f3ce3e18b6619ea29e4a4641893dae2bbd0c28ccfa8e874584cc"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\touch_or_key_if.v",
+          "sha256": "6e9c09fb9fcd6c893910f7719672e11c3158802bcb14496e66e1489d296ac4d7"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\event_encoder.v",
+          "sha256": "354770510e25e4297cb91768bc29487414c86a96f36e9e02aefb338e62be2975"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\piano_controls.v",
+          "sha256": "9c9c07f3631e4b1be211f393e2f7039f052191e41ed0cc7eb423f7d30cce1097"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\i2c_master.v",
+          "sha256": "405d0390c13c52c12d1af96e523d7de890075ecf8a4cedb31c6626f47baff994"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\ads1115_if.v",
+          "sha256": "9a6dd08dd84cb4c0cfc672634ef9c4adee43875967d7313a2b34d9013a6023a3"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\ads1115_knob_if.v",
+          "sha256": "96d8c13cab8e2c5a1775145f53c38cbd93d68a82e612ea4dd9c36b49c5877c5f"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\adc_knob_if.v",
+          "sha256": "c0ea01643fbb4e56247158f7275bc94f99f9e8aac0a255d1a31ec0f439b58a8c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\voice_allocator.v",
+          "sha256": "65389aad361bcabf7c3fb511827e36437b4ac4009dacb52d58d509de3b8dd58c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_rx.v",
+          "sha256": "1477963cfe450eed516052e25085936683592ac9edefe5bc33dc7dd2df8123b9"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_tx.v",
+          "sha256": "009d15dd6a6fa5fbbc7626f4771224b815554ac4a731d4407ebd01a1185f1033"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_fifo.v",
+          "sha256": "d29abed64b9b72a5e8565470e4c37bbf34a0a6e6c89699ec120902057200f333"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_line_rx.v",
+          "sha256": "de156235bb876225a027317ef6d7b97f9f923603fda81105ff37a5da0181a2dd"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_reply_tx.v",
+          "sha256": "4fc6676a434161dde4b6edcf46717b0524a850901918e0215c47c126ca0898da"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_synth_protocol.v",
+          "sha256": "c086b3a6125bc65f4aa708ce27d0d2a97f64c552e1114f035737ca881c998aed"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_event_arbiter.v",
+          "sha256": "f4d46548bc0c3499673cef4810fc7e3491178aa7f6871005d4c6ab044207d972"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\top\\instrument_uart_top.v",
+          "sha256": "26de5ffe17045db6d951c26f261c9a9cd57e9a62988364b0d3bf22b370058fcd"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\top\\instrument_uart_piano_top.v",
+          "sha256": "e2604e570942dc56c63aff2de81d01216e948ee72ba082bb6087ee01776e1705"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\top\\piano_13key_top.v",
+          "sha256": "280cf9cfa708ee62fbe0d32b8c21f578f780851e8c4f4b1cfcd0dab87c2428a7"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\top\\piano_performance_top.v",
+          "sha256": "85d96d72dd604070bb8ccd9ed9b58afc14a362a90df8c7fb8c29a5b21390f3c5"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\phase_acc.v",
+          "sha256": "c3ea7b922199dfebae6b982c65f7fa1e7efcc18caebce6b4b1f7ffb9bccbc96d"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\wave_lut.v",
+          "sha256": "f476407c6bfb4853b547f1f3ad88d718878f8520fd48915bea664f2b03ff5cbc"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_dds.v",
+          "sha256": "a5af8f0dcd732bb3f5b2a73f7dd9040fc6d13bef79cc7e0933e8bf014cd7fea2"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\control\\note_phase_lut.v",
+          "sha256": "71c1a6b7d797da5a34a091cd1aeb304f8df794f8c962fafa3aae6a886b36d029"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\adsr_env.v",
+          "sha256": "33107d2ce68cb5a00c1d96c9fddeca1a276e56c94a0712d90f4c2390457d2c51"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\sample_gain.v",
+          "sha256": "123f61f75037c68740bcc5c51d55d0ceaced35f91914a2b0acadbcd5c73d6dd1"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_adsr.v",
+          "sha256": "10980327f13d7d9d0d301da8924cad689cdda6a28d3cda7ba493fffdb474a19f"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\sample_mixer4.v",
+          "sha256": "27d1e0c5854cd86748475afaad372b71825c6d19a8ccea36b13d42326f94519c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_bank_adsr.v",
+          "sha256": "11a97053338ffc763e612c62e1511141c78de1734aa04c79b4545f26da0e5038"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\wave_lut_timbre.v",
+          "sha256": "562653ae5c8945ee55266545c9cef8ccd554fa068932c8136b58d41abbd0d4dd"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_timbre_adsr.v",
+          "sha256": "12ca3d22b45ffcbc073c78fe68d4d0a9ace2deebf3c748cde0efa5e1304bf288"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_instrument.v",
+          "sha256": "e26752a0e853ca2dd6b9668f7fd117b3030cded14dbe4b9258688e638d279abf"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\instrument_env.v",
+          "sha256": "b633a34e6a0b8bd81f2638630b52fc4a55034a44187be3516b93b89ff27234b2"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\synth\\instrument_wave.v",
+          "sha256": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\audio\\i2s_tx.v",
+          "sha256": "35f7b26132f9a08651d061c236f020aee21aab1f61683e9c192e82aa4ec5ae25"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\audio\\sample_tick.v",
+          "sha256": "cd84ec1405fabe9896c33d0a17b55d7a1c71f7d11ab3b9b5efaeb5bcbb54a922"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\audio\\synth_top.v",
+          "sha256": "903cc00a0a0996019dfb65e1744c3a31598318fa5264a232288bcb7412cb48aa"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_cdc_latest.v",
+          "sha256": "c79288111cded83c271b09973324003e649ad0a557cb328be9e62a411a91fd47"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\lcd_rgb_timing.v",
+          "sha256": "439f779ffd44d54f459f182438009a40c78379002d86d3eea1e0a7c1e96b5d9d"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_wave_buffer.v",
+          "sha256": "d1168885f767d017ab988503a0d280c5732874c8f4a9eaefe493fc326ecc2030"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_font24.v",
+          "sha256": "213f2cce302d1a9567b5248712dff98ae66401fe6de614ea4b7503d606e3e107"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\piano_display_renderer.v",
+          "sha256": "b10b7f7c271338f000c5954b408d44b6e46e6871edafb1d73f3b42873cec0acc"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\instrument_display.v",
+          "sha256": "20b1c3a46a178584172c632f09038bf5d71fab8d439096aec6e224be45b60357"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_bend_map.v",
+          "sha256": "7cec7c74f4eb02acb53112095bb0a946fe01cbb9ead28bc6bb138442ce97501b"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\tmds_encoder.v",
+          "sha256": "b5cf6a9a8289b3cc3df51eecbb9914fd4b5f43315cdbc3f44b362f2844b381fe"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\dvi_tx_gowin.v",
+          "sha256": "710bbc167bca5e982a1a1f18aebe5ff3cf1200af37166579d196ea0bea519583"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\hdmi_clock_60k.v",
+          "sha256": "8e281b78cc4b19f00ad23e629e5bbbcccab09444e4d60a0262e4d84ba43ca446"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\display\\hdmi_reset_guard.v",
+          "sha256": "e71364364004eedbf7a01c406c5a819ee558da4fb8212e9616beefe65dd49ec8"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\rtl\\top\\piano_hdmi_top.v",
+          "sha256": "64b2228093e66097698529e2db89319d7e6891388cd39e7de6dbc24107dd1617"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\hdmi\\piano_hdmi.cst",
+          "sha256": "f808e4a0044f7adfe543cc95c092941f64484dd97bed5f1ce33c3ad8cdec724c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\hdmi\\piano_hdmi.sdc",
+          "sha256": "b1389eb732e44b40da376a2709fcd286b0a339af95beeb027a8f4d0b8385b805"
+        }
+      ],
+      "limitations": [
+        "PR1014 system clock generic routing remains",
+        "DAC external timing incomplete",
+        "HDMI electrical eye/cable/receiver not measured",
+        "USB touch not implemented",
+        "Not programmed; screen compatibility and end-to-end latency unverified"
+      ]
+    },
+    "protected_files": 131,
+    "baseline_protected_files": 132,
+    "authorised_pin_constraint_changes": [
+      "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\piano.cst"
+    ],
+    "constraints_relaxed": false,
+    "optimization_status": "IMPROVED_LOCAL_IO_PLACEMENT",
+    "netlist_sha256": "9a8668a399b426e1b694c37147f0e6e63cd342ba25600bc57815d87b4effa768",
+    "display_startup_extra_pixel_cycles": 1,
+    "audio_cache_cycle": "R7 unchanged",
+    "placement_constraint": "boards/tang_mega_60k_31004/hdmi_reset_placement.cst",
+    "placement_cells": {
+      "u_tx/g_lane[1].serializer_release_0_s0": [
+        "R22C134[0][A]"
+      ],
+      "u_tx/g_lane[1].u_reset_combine": [
+        "R22C134[0][A]"
+      ],
+      "u_tx/g_lane[2].serializer_release_0_s0": [
+        "R39C134[0][A]"
+      ],
+      "u_tx/g_lane[2].u_reset_combine": [
+        "R39C134[0][A]"
+      ],
+      "u_tx/g_lane[3].serializer_release_1_s0": [
+        "R24C134[0][B]"
+      ],
+      "u_tx/g_lane[3].u_reset_combine": [
+        "R24C134[0][A]"
+      ],
+      "u_tx/g_lane[0].serializer_release_1_s0": [
+        "R26C134[0][B]"
+      ],
+      "u_tx/g_lane[0].u_reset_combine": [
+        "R26C134[0][A]"
+      ],
+      "u_tx/g_lane[3].serializer_release_0_s0": [
+        "R24C134[0][A]"
+      ],
+      "u_tx/g_lane[2].serializer_release_1_s0": [
+        "R39C134[0][B]"
+      ],
+      "u_tx/g_lane[1].serializer_release_1_s0": [
+        "R22C134[0][B]"
+      ],
+      "u_tx/g_lane[0].serializer_release_0_s0": [
+        "R26C134[0][A]"
+      ]
+    },
+    "minimum_reset_margin_gate_ns": 0.1,
+    "repeat_build": {
+      "count": 2,
+      "identical_input_manifest": true,
+      "identical_resources_slacks_placement": true,
+      "identical_bitstream_except_created_time": true,
+      "first_bitstream_sha256": "db154a9a3de6573cae7e0fceb08914a393638dc743c413a037fafbd8a1fcb9e9",
+      "second_bitstream_sha256": "a573aa00de44220fcc60c0164218fc40534e456b48ce3ba6486bc8ae029aa7ed",
+      "first_build_log_sha256": "370d357fce457facc4a2b00932c6708e19a1864fc82a2087268ae67e37eb97e2",
+      "second_build_log_sha256": "cc549783d9dafbf4f31f54e3e0202d7cc253c115e0778dcabd63f30e81e0d19e"
+    },
+    "implementation_negative_controls": [
+      "misplaced reset cell",
+      "positive but 0.008ns thin removal margin"
+    ],
+    "rejected_serial_domain_trial": {
+      "status": "FAIL",
+      "errors": [
+        "Negative slack -2.582ns: 3.1.3 Recovery Paths Table",
+        "Negative slack -1.685ns: 3.2 Minimum Pulse Width Table",
+        "Clock summary failed: hdmi_serial Setup"
+      ],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 2.55,
+        "3.1.2 Hold Paths Table": 0.13,
+        "3.1.3 Recovery Paths Table": -2.582,
+        "3.1.4 Removal Paths Table": 0.363,
+        "3.2 Minimum Pulse Width Table": -1.685
+      },
+      "bitstream_sha256": "e1819eb637da74c9f9b32c0637d8a35cc5af63cb1f1cbe1db2eadcf7a7d7b804"
+    },
+    "polarity_only_trial": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 2.219,
+        "3.1.2 Hold Paths Table": 0.188,
+        "3.1.3 Recovery Paths Table": 1.301,
+        "3.1.4 Removal Paths Table": 0.008,
+        "3.2 Minimum Pulse Width Table": 5.803
+      },
+      "bitstream_sha256": "2c9e736e8ccdc2691504a77d0e6b5d6ad4a0018ae86444c9d565cc0b2c407cff"
+    },
+    "rejected_combined_state_trial": {
+      "status": "FAIL",
+      "errors": [
+        "Negative slack -2.176ns: 3.1.3 Recovery Paths Table"
+      ],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 2.55,
+        "3.1.2 Hold Paths Table": 0.13,
+        "3.1.3 Recovery Paths Table": -2.176,
+        "3.1.4 Removal Paths Table": 0.363,
+        "3.2 Minimum Pulse Width Table": 5.803
+      },
+      "bitstream_sha256": "52ea2855de144a744028a7ba4b47ee9c73d129d3e53f535e0d03f6183608123e"
+    }
+  },
+  "existing_teammate_tests_modified": false,
+  "hardware_programmed": false,
+  "github_pushed_this_round": false,
+  "no_screen_implementation": {
+    "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+    "resources": {
+      "Logic": {
+        "used": 22903,
+        "available": 59904
+      },
+      "Register": {
+        "used": 7401,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 51,
+        "available": 118
+      },
+      "DSP": {
+        "used": 83,
+        "available": 118
+      }
+    },
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 3.766,
+      "3.1.2 Hold Paths Table": 0.201,
+      "3.1.3 Recovery Paths Table": 15.281,
+      "3.1.4 Removal Paths Table": 1.047,
+      "3.2 Minimum Pulse Width Table": 6.814
+    },
+    "bitstream_sha256": "b0ab98455628e19810b2ba889fbf9d9a7919fbc0dd6935b4b58172df5a0ccf4e",
+    "build_manifest_sha256": "67f9f2a0d61a377b32cc6ff711086d9cc4a90be3d47c803f3af6f6f9ea868a75",
+    "hardware_programmed": false
+  },
+  "summarizer_sha256": "55a11d0b541f0bf50e1941c560a34c98b7de0843b87cde79593209948d7019d2"
+}
