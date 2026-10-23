@@ -5,6 +5,8 @@
 module voice_bank_modal_adapter #(
     parameter integer VOICES=16,
     parameter MODE_ROM_FILE="rtl/rom/piano_v3_modes.mem",
+    parameter MODE_EVEN_FILE="rtl/rom/modes_even.mem",
+    parameter MODE_ODD_FILE="rtl/rom/modes_odd.mem",
     parameter SHAPER_ROM_FILE="rtl/rom/rock_v2_shaper.mem",
     parameter SINE_ROM_FILE="rtl/rom/sine_1024.mem"
 )(
@@ -38,7 +40,7 @@ module voice_bank_modal_adapter #(
     end
     // 外部0钢琴/1吉他；A内部0吉他/1钢琴。增益和弯音在A内各应用一次。
     voice_bank_music_pipe #(.VOICES(VOICES),.MIX_SHIFT(3),
-        .MODE_ROM_FILE(MODE_ROM_FILE),.SHAPER_ROM_FILE(SHAPER_ROM_FILE),
+        .MODE_ROM_FILE(MODE_ROM_FILE),.MODE_EVEN_FILE(MODE_EVEN_FILE),.MODE_ODD_FILE(MODE_ODD_FILE),.SHAPER_ROM_FILE(SHAPER_ROM_FILE),
         .SINE_ROM_FILE(SINE_ROM_FILE)) u_modal(
         .clk(clk),.rst_n(rst_n),.sample_request(sample_request),
         .global_gain_q16(master_gain),.pitch_ratio_q16(bend_ratio),

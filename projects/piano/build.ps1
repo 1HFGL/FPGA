@@ -27,7 +27,7 @@ $inputs=@($projectPath,$PSCommandPath,$processConfigPath,(Join-Path $PSScriptRoo
 foreach($node in $project.Project.FileList.File){
     $inputs+=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot $node.path))
 }
-$lines=@('top=piano_performance_top voices=16 target=GW5AT-LV60PG484AC1/I0/B clock=50MHz')
+$lines=@('top=piano_performance_top voices=32 target=GW5AT-LV60PG484AC1/I0/B clock=50MHz')
 foreach($file in ($inputs | Select-Object -Unique)){
     $lines+="$((Get-FileHash -LiteralPath $file).Hash)  $file"
 }

@@ -1,5 +1,15 @@
 # 项目协作规范：高云 FPGA 电子乐器
 
+## 32 声部分支核验交付（2026-10-23）
+
+用户已授权将本轮 32 声部源码、上位机、验证证据和两份烧录文件发布到 `cleanup/expression-brightness`，供队友核验；本次不合入 master。下文及发布包中的“未推送”／`published:false`保留为构建时快照，不改变原有固件与证据哈希。HDMI 的建立时间余量为 0.000 ns、RAM 占用 117/118，仍需上板核验稳定性。
+
+
+## 最新操作覆盖：2026-10-23 用户要求 32 声部
+
+当前两个正式入口默认 VOICES=32。用户明确撤回上轮未提交的运行诊断／效果切换，恢复 f314bc0 固定三效果后扩展；撤回内容已归档 build/rollback_runtime_20261023。PAIRED=(VOICES>16) 时两分量／拍，重叠前音包络与下一音读表，核心 R(24*VOICES+35)=R803，HDMI／无屏缓存 R833/R830。16声部兼容核心仍R923。原参数ROM及三个效果算法、旧TB、约束和process不改；modes_even/odd.mem由model/pack_modal_rom.py无损重排，改母表必须同步生成并校验银行。上位机正式NOTES/STATUS固件支持32音测试，不恢复FX/DIAG。证据及本地烧录包见docs/polyphony32.md；当前未推送，不擅自合master。旧16声部合同须显式--voices16，禁止改旧TB迎合32。本轮用户要求覆盖下面历史“32声部暂缓”。
+
+
 ## 当前发布范围：用户分支核验
 
 用户授权将本地混响、Delay、Chorus 源码、证据与试听包推到 `cleanup/expression-brightness`，明确暂不推 master；本提交不创建或合并PR。以下“未推送”及摘要 `published:false` 是保留的构建时快照，分支发布不改变既有固件字节或测试结论。后续合入 master 需要用户另行授权。

@@ -1,12 +1,16 @@
 `timescale 1ns/1ps
 // Shared piano v3 / classic-rock synthesis. 0=rock, 1=piano, latched on note-on.
-// One modal component per clock; 56 clocks/voice plus 27 clocks of shared FX.
-// R(56*VOICES+27) valid: R923 for 16 voices; next edge caches the sample.
+// Serial compatibility: R(56*VOICES+27). Paired pipeline: R(24*VOICES+35).
+// Paired mode overlaps the next voice reads with the previous voice envelope/mix.
+// Both paths keep the same 48 components, fixed-point arithmetic and shared guitar FX.
 // Guitar-only bus feeds distortion/cabinet; piano bypasses those effects.
 module voice_bank_music_pipe #(
  parameter integer VOICES=16, MIX_SHIFT=3,
+ parameter integer PAIRED=(VOICES>16),
  parameter [31:0] P_RELEASE=4096, G_RELEASE=2048,
  parameter MODE_ROM_FILE="rtl/rom/piano_v3_modes.mem",
+ parameter MODE_EVEN_FILE="rtl/rom/modes_even.mem",
+ parameter MODE_ODD_FILE="rtl/rom/modes_odd.mem",
  parameter SHAPER_ROM_FILE="rtl/rom/rock_v2_shaper.mem",
  parameter SINE_ROM_FILE="rtl/rom/sine_1024.mem"
 )(
@@ -26,20 +30,18 @@ module voice_bank_music_pipe #(
  begin t=n-1;bits_for=0;while(t>0)begin bits_for=bits_for+1;t=t>>1;end
  if(bits_for==0)bits_for=1;end
  endfunction
- localparam IW=bits_for(VOICES), SW=IW+6;
+ localparam IW=bits_for(VOICES), SW=IW+(PAIRED?5:6);
  localparam IDLE=0,RUN=1,ENV_GAIN=2,VELOCITY_GAIN=3,RAW=4,CROSS=5,VOICE_OUT=6,FX_START=7,FX_INTERP=8,FX_READ=9,FX_MUL1=10,FX_ADD1=11,FX_MUL2=12,FX_ADD2=13,MASTER_GAIN=14,MIX=15;
  reg [3:0] state;
- reg [IW-1:0] voice_index;
+ reg [IW-1:0] voice_index, output_voice_index, result_voice2;
+ wire [IW-1:0] finish_voice=PAIRED?output_voice_index:voice_index;
  reg [5:0] issue_index;
  reg issued_all;
- // 75 payload bits plus one zero padding bit for 19 hex digits per ROM word.
- reg [75:0] mode_rom[0:16383];
  reg signed [15:0] sine_rom[0:1023];
  reg [15:0] shaper_rom[0:1023];
- reg [31:0] phases[0:VOICES*64-1];
- reg [23:0] amplitudes[0:VOICES*64-1];
+ reg [31:0] phases[0:VOICES*(PAIRED?32:64)-1];
+ reg [23:0] amplitudes[0:VOICES*(PAIRED?32:64)-1];
  initial begin
-  $readmemh(MODE_ROM_FILE,mode_rom);
   $readmemh(SINE_ROM_FILE,sine_rom);
   $readmemh(SHAPER_ROM_FILE,shaper_rom);
  end
@@ -68,9 +70,10 @@ module voice_bank_music_pipe #(
  end endgenerate
  assign busy=(state!=IDLE);
 
- // Three registered stage-valid bits; a voice boundary drains all stages.
+ // Tags follow RAM reads across voice boundaries. Each voice still sums in 22 bits.
  reg valid0,valid1,valid2,last0,last1,last2;
  reg [SW-1:0] slot0,slot1;
+ wire [IW-1:0] read_voice=slot0[SW-1:(PAIRED?5:6)];
  reg [75:0] cfg0;
  reg [31:0] phase0,phase_next1;
  reg [23:0] amp0,amp1;
@@ -83,25 +86,25 @@ module voice_bank_music_pipe #(
  reg signed [39:0] master_product;
  wire signed [21:0] gained_mix=master_product[37:16];
  reg signed [32:0] product2;
- wire [31:0] phase_use0=starts[voice_index]?{cfg0[9:0],22'd0}:
-                        (initialized[voice_index]?phase0:32'd0);
- wire [23:0] amp_use0=starts[voice_index]?{cfg0[41:26],8'd0}:
-          ((initialized[voice_index] && envelope_active[voice_index])?amp0:24'd0);
+ wire [31:0] phase_use0=starts[read_voice]?{cfg0[9:0],22'd0}:
+                        (initialized[read_voice]?phase0:32'd0);
+ wire [23:0] amp_use0=starts[read_voice]?{cfg0[41:26],8'd0}:
+          ((initialized[read_voice] && envelope_active[read_voice])?amp0:24'd0);
  wire [16:0] decrement1={1'b0,loss1[39:24]}+(|loss1[23:0]);
  wire signed [17:0] modal_sample=product2[32:15];
  reg signed [21:0] mode_sum;
  reg signed [39:0] env_product;
  wire signed [15:0] enveloped=env_product[31:16];
- wire [6:0] velocity=velocities[voice_index*7 +:7];
+ wire [6:0] velocity=velocities[finish_voice*7 +:7];
  wire signed [8:0] velocity_scale=(velocity==127)?9'sd128:$signed({2'b0,velocity});
  reg signed [24:0] velocity_product;
  reg signed [15:0] raw_sample;
  reg signed [23:0] cross_product;
  wire signed [24:0] blended=$signed(raw_sample)+($signed(cross_product)>>>6);
- wire signed [15:0] voice_result=!envelope_active[voice_index]?16'sd0:
-  starts[voice_index]?last_voice[voice_index]:
+ wire signed [15:0] voice_result=!envelope_active[finish_voice]?16'sd0:
+  starts[finish_voice]?last_voice[finish_voice]:
   (blended>32767?16'sh7fff:(blended < -32768?16'sh8000:blended[15:0]));
- // 16 signed 16-bit voices need 20 signed bits. Keep 22 then saturate explicitly.
+ // Up to 32 signed 16-bit voices fit 21 signed bits; keep 22 before saturation.
      reg signed [21:0] guitar_sum, piano_sum, piano_hold;
     reg signed [21:0] previous_input, guitar_target, interp_q, interp_step;
     reg [1:0] substep;
@@ -119,7 +122,7 @@ module voice_bank_music_pipe #(
     wire signed [43:0] next_a=$signed(cabinet_a)+($signed(filter_product)>>>16);
     wire signed [43:0] next_b=$signed(cabinet_b)+($signed(filter_product)>>>16);
 
- // At most 16 signed 16-bit dry voices plus a +/-16100 cabinet output,
+ // At most 32 signed 16-bit dry voices plus a +/-16100 cabinet output,
  // even at MIX_SHIFT=0, fit 22 bits. Narrow explicitly after the 25-bit add.
  wire signed [24:0] mix_wide=$signed(piano_hold)+(cabinet_b >>> (8+MIX_SHIFT));
  wire signed [21:0] scaled_mix=mix_wide[21:0];
@@ -128,14 +131,66 @@ module voice_bank_music_pipe #(
  input integer index;reg [31:0] seed_product;
  begin seed_product=index*32'h1234;noise_seed=16'h1ace^seed_product[15:0];end
  endfunction
+
+ wire issuing=(PAIRED?(state!=IDLE):(state==RUN)) && !issued_all;
+ wire [SW-1:0] issue_slot=PAIRED?{voice_index,issue_index[5:1]}:{voice_index,issue_index};
+ wire signed [18:0] modal_pair=$signed(modal_sample)+$signed(PAIRED?modal_sample_b:18'sd0);
+ reg [75:0] cfg0_b;
+ wire signed [17:0] modal_sample_b;
+ generate if(PAIRED)begin:g_odd
+  reg [31:0] phases_b[0:VOICES*32-1];
+  reg [23:0] amplitudes_b[0:VOICES*32-1];
+  reg [31:0] phase0_b,phase_next1_b;
+  reg [23:0] amp0_b,amp1_b;
+  reg signed [15:0] sine1_b;
+  reg [39:0] loss1_b;
+  reg [48:0] pitch1_b;
+  reg flag1_b,muted1_b;
+  reg signed [32:0] product2_b;
+  wire [31:0] use_phase=starts[read_voice]?{cfg0_b[9:0],22'd0}:(initialized[read_voice]?phase0_b:32'd0);
+  wire [23:0] use_amp=starts[read_voice]?{cfg0_b[41:26],8'd0}:
+   ((initialized[read_voice] && envelope_active[read_voice])?amp0_b:24'd0);
+  wire [16:0] decrement={1'b0,loss1_b[39:24]}+(|loss1_b[23:0]);
+  assign modal_sample_b=product2_b[32:15];
+  // No state-RAM reset: initialized/starts protect reads after every reset.
+  always @(posedge clk)begin
+   if(issuing)begin phase0_b<=phases_b[issue_slot];amp0_b<=amplitudes_b[issue_slot];end
+   if(valid0)begin
+    sine1_b<=sine_rom[use_phase[31:22]];
+    pitch1_b<=cfg0_b[73:42]*voice_ratio_product[32:16];
+    loss1_b<=use_amp*cfg0_b[25:10];amp1_b<=use_amp;phase_next1_b<=use_phase;
+    flag1_b<=cfg0_b[74];muted1_b<=(cfg0_b[41:26]==0);
+   end
+   if(valid1)begin
+    product2_b<=muted1_b?33'sd0:(flag1_b?noise1:sine1_b)*$signed({1'b0,amp1_b[23:8]});
+    phases_b[slot1]<=phase_next1_b+pitch1_b[47:16];
+    amplitudes_b[slot1]<=(amp1_b<256 || amp1_b<=decrement)?24'd0:amp1_b-decrement;
+   end
+  end
+ end else begin:g_no_odd
+  assign modal_sample_b=18'sd0;
+ end endgenerate
+ // 75 payload bits plus one zero padding bit for 19 hex digits per ROM word.
+ // Compact paired banks omit only the 16 unused slots per preset/note.
+ // 256 records * 24 pairs; coefficient bytes and mode order are unchanged.
+ wire [12:0] pair_address={instrument_active[voice_index],notes[voice_index*7+:7]}*13'd24+{8'd0,issue_index[5:1]};
+ generate if(PAIRED)begin:g_pair_rom
+  reg [75:0] even_rom[0:6143],odd_rom[0:6143];
+  initial begin $readmemh(MODE_EVEN_FILE,even_rom);$readmemh(MODE_ODD_FILE,odd_rom);end
+  always @(posedge clk)if(issuing)begin cfg0<=even_rom[pair_address];cfg0_b<=odd_rom[pair_address];end
+ end else begin:g_serial_rom
+  reg [75:0] mode_rom[0:16383];
+  initial $readmemh(MODE_ROM_FILE,mode_rom);
+  always @(posedge clk)if(issuing)cfg0<=mode_rom[{instrument_active[voice_index],notes[voice_index*7+:7],issue_index}];
+ end endgenerate
  integer k;
  always @(posedge clk) begin
   if(!rst_n) begin
-   state<=IDLE;voice_index<=0;issue_index<=0;issued_all<=0;
+   state<=IDLE;voice_index<=0;output_voice_index<=0;result_voice2<=0;issue_index<=0;issued_all<=0;
    gate_previous<=0;pending<=0;pending_preset<=0;instrument_active<=0;starts<=0;initialized<=0;notes<=0;velocities<=0;
    sample_data<=0;sample_valid<=0;sample_clipped<=0;overrun<=0;
    valid0<=0;valid1<=0;valid2<=0;last0<=0;last1<=0;last2<=0;
-   slot0<=0;slot1<=0;cfg0<=0;phase0<=0;amp0<=0;phase_next1<=0;amp1<=0;
+   slot0<=0;slot1<=0;phase0<=0;amp0<=0;phase_next1<=0;amp1<=0;
    gain_latched<=65536;ratio_latched<=65536;voice_ratio_product<=0;master_product<=0;
    sine1<=0;noise1<=0;noise_flag1<=0;muted1<=0;loss1<=0;pitch1<=0;product2<=0;
    mode_sum<=0;guitar_sum<=0;piano_sum<=0;piano_hold<=0;
@@ -165,48 +220,53 @@ module voice_bank_music_pipe #(
    end
 
    valid0<=0;valid1<=valid0;valid2<=valid1;
-   if(state==RUN && !issued_all)begin
+   if(issuing)begin
     // Compute one combined frequency ratio per voice, overlapping the first ROM read.
     // Center ratio reproduces inc + floor(inc*pluck_bend/65536) exactly.
     if(issue_index==0)voice_ratio_product<=ratio_latched*(17'd65536+{1'b0,bend[voice_index]});
-    cfg0<=mode_rom[{instrument_active[voice_index],notes[voice_index*7 +:7],issue_index}];
-    phase0<=phases[{voice_index,issue_index}];amp0<=amplitudes[{voice_index,issue_index}];
-    slot0<={voice_index,issue_index};valid0<=1;last0<=(issue_index==47);
-    if(issue_index==47)issued_all<=1;else issue_index<=issue_index+1'b1;
+    phase0<=phases[issue_slot];amp0<=amplitudes[issue_slot];
+    slot0<=issue_slot;valid0<=1;last0<=(issue_index==(PAIRED?46:47));
+    if(issue_index==(PAIRED?46:47))begin
+     if(PAIRED && voice_index!=VOICES-1)begin voice_index<=voice_index+1'b1;issue_index<=0;end
+     else issued_all<=1;
+    end else issue_index<=issue_index+(PAIRED?6'd2:6'd1);
    end
    if(valid0)begin
     sine1<=sine_rom[phase_use0[31:22]];
     pitch1<=cfg0[73:42]*voice_ratio_product[32:16];
     loss1<=amp_use0*cfg0[25:10];amp1<=amp_use0;
     phase_next1<=phase_use0;slot1<=slot0;last1<=last0;
-    noise1<=noise_sample[voice_index];noise_flag1<=cfg0[74];muted1<=(cfg0[41:26]==0);
+    noise1<=noise_sample[read_voice];noise_flag1<=cfg0[74];muted1<=(cfg0[41:26]==0);
    end
    if(valid1)begin
     product2<=muted1?33'sd0:(noise_flag1?noise1:sine1)*$signed({1'b0,amp1[23:8]});
     phases[slot1]<=phase_next1+pitch1[47:16];
     amplitudes[slot1]<=(amp1<256 || amp1<=decrement1)?24'd0:amp1-decrement1;
-    last2<=last1;
+    last2<=last1;result_voice2<=slot1[SW-1:(PAIRED?5:6)];
    end
    if(valid2)begin
-    mode_sum<=mode_sum+modal_sample;
-    if(last2)state<=ENV_GAIN;
+    mode_sum<=mode_sum+modal_pair;
+    if(last2)begin state<=ENV_GAIN;output_voice_index<=result_voice2;end
    end
    case(state)
     IDLE:if(accept)begin voice_index<=0;issue_index<=0;issued_all<=0;mode_sum<=0;guitar_sum<=0;piano_sum<=0;state<=RUN;end
     RUN:begin end
-    ENV_GAIN:begin env_product<=mode_sum*$signed({1'b0,env_level_flat[voice_index*17 +:17]});state<=VELOCITY_GAIN;end
+    ENV_GAIN:begin env_product<=mode_sum*$signed({1'b0,env_level_flat[finish_voice*17 +:17]});
+     if(PAIRED)mode_sum<=valid2?modal_pair:19'sd0; // first pair of the next voice arrives this cycle
+     state<=VELOCITY_GAIN;end
     VELOCITY_GAIN:begin velocity_product<=enveloped*velocity_scale;state<=RAW;end
     RAW:begin raw_sample<=velocity_product[22:7];state<=CROSS;end
-    CROSS:begin cross_product<=correction[voice_index]*$signed({1'b0,fade_left[voice_index]});state<=VOICE_OUT;end
+    CROSS:begin cross_product<=correction[finish_voice]*$signed({1'b0,fade_left[finish_voice]});state<=VOICE_OUT;end
     VOICE_OUT:begin
-     if(starts[voice_index])begin
-      correction[voice_index]<=$signed({last_voice[voice_index][15],last_voice[voice_index]})-$signed({raw_sample[15],raw_sample});
-      fade_left[voice_index]<=63;
-     end else if(fade_left[voice_index]!=0)fade_left[voice_index]<=fade_left[voice_index]-1'b1;
-     last_voice[voice_index]<=voice_result;
-     if(instrument_active[voice_index])piano_sum<=piano_sum+voice_result;
+     if(starts[finish_voice])begin
+      correction[finish_voice]<=$signed({last_voice[finish_voice][15],last_voice[finish_voice]})-$signed({raw_sample[15],raw_sample});
+      fade_left[finish_voice]<=63;
+     end else if(fade_left[finish_voice]!=0)fade_left[finish_voice]<=fade_left[finish_voice]-1'b1;
+     last_voice[finish_voice]<=voice_result;
+     if(instrument_active[finish_voice])piano_sum<=piano_sum+voice_result;
      else guitar_sum<=guitar_sum+voice_result;
-     if(voice_index==VOICES-1)state<=FX_START;
+     if(finish_voice==VOICES-1)state<=FX_START;
+     else if(PAIRED)state<=RUN;
      else begin voice_index<=voice_index+1'b1;issue_index<=0;issued_all<=0;mode_sum<=0;state<=RUN;end
     end
                 FX_START: begin
