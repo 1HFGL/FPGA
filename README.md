@@ -4,7 +4,9 @@
 
 基于下方 USB 检查点 `df0e894`，正式 HDMI 默认采用双级、对数截止频率的明亮度滤波，AIN2 的0／64／127区分更清楚，127保留原音。音频缓存改为R958；双16并行32声部、音色ROM、当前接线和三效果保持。详见 [修改、验证及试听方法](docs/brightness-response.md)。
 
-239份严格Verilog-2001编译、34816组新滤波参考、6903组正式带屏逐级音频参考及13803个DAC串行字通过；已有单级滤波14992组和显式R955兼容测试通过。实物听感尚未验收，本轮未烧录、未推送。构建结果以 `verification/evidence/brightness_response/summary.json` 为准；下方旧记录中的R955和旧fs不能作为本轮新配置身份。
+239份严格Verilog-2001编译、34816组新滤波参考、6903组正式带屏逐级音频参考及13803个DAC串行字通过；已有单级滤波14992组和显式R955兼容测试通过。[功能证据](verification/evidence/brightness_response/functional_summary.json)已保存。实物听感尚未验收，本轮未烧录、未推送。
+
+**2026-10-25交接：本机Gowin 1.9.12.03综合、布局完成，完整工程仍在Routing Phase 0之后的布线阶段；没有最终时序/资源报告，没有发布新fs。** 不把功能证据当作实现签核，下方旧记录中的R955和旧fs也不能作为本轮配置身份。接续先检查`build/hdmi/build.log`及构建进程；结束后检查`build/hdmi/implementation_check.json`，只有通过才能运行`verification/scripts/check_brightness_response.py`生成完整`summary.json`并发布位流。若需要重建，命令见明亮度说明。禁止烧录仍有效。
 
 ## 最新交接：USB触摸源码先上传，未完成事项（2026-10-24）
 

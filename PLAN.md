@@ -2,7 +2,7 @@
 
 ## 2026-10-24 明亮度响应增强（本地）
 
-在master `df0e894`上增加双级对数明亮度滤波；正式HDMI默认启用，127保留原音，0档约4kHz抑制由24.25增至39.88dB，约258Hz衰减仍约3dB。32声部、当前接线、音色ROM和三效果不变，缓存R958、准备窗剩18拍。239份严格编译、34816新滤波样本、6903正式HDMI逐级参考和13803个串行字通过；291份既有保护文件保持。实际PNR身份见`verification/evidence/brightness_response/summary.json`，复跑与试听见`docs/brightness-response.md`。未烧录／推送／实物试听，USB检查点的实物待办仍有效。
+在master `df0e894`上增加双级对数明亮度滤波；正式HDMI默认启用，127保留原音，0档约4kHz抑制由24.25增至39.88dB，约258Hz衰减仍约3dB。32声部、当前接线、音色ROM和三效果不变，缓存R958、准备窗剩18拍。239份严格编译、34816新滤波样本、6903正式HDMI逐级参考和13803个串行字通过；291份既有保护文件保持。功能证据见`verification/evidence/brightness_response/functional_summary.json`，复跑与试听见`docs/brightness-response.md`。完整Gowin综合、布局已完成，但截至10月25日交接仍在布线，尚无最终时序／资源／新fs签核；接续步骤见README。未烧录／推送／实物试听，USB检查点的实物待办仍有效。
 
 ## 2026-10-24 用户要求先上传的检查点
 
