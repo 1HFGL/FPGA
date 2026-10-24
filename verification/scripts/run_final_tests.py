@@ -8,6 +8,7 @@ p.add_argument('tops', nargs='+')
 p.add_argument('--bin', default='C:/Library/modelsim/win64')
 p.add_argument('--gowin-simlib', default='D:/Gowin/Gowin_V1.9.12.04_x64/IDE/simlib/gw5a/prim_sim.v')
 p.add_argument('--voices16', action='store_true', help='Explicit historical 16-voice formal-top contract')
+p.add_argument('--legacy-brightness', action='store_true', help='Explicit original one-pole/R955 compatibility; never current formal HDMI evidence')
 p.add_argument('--dry', action='store_true', help='Disable all effects explicitly for unchanged dry contract tests')
 p.add_argument('--reverb-only', action='store_true', help='Disable chorus and delay for unchanged room-only contract tests')
 p.add_argument('--legacy', action='store_true', help='Run an unchanged historical contract test with explicit compatibility parameters')
@@ -25,6 +26,7 @@ for top in a.tops:
     if top=='tb_dual16_hdmi':(ROOT/'build/regression/dual16').mkdir(parents=True,exist_ok=True)
     if top=='tb_poly32_hdmi':(ROOT/'build/regression/poly32').mkdir(parents=True,exist_ok=True)
     tag=top+('_voices16' if a.voices16 else '')+('_dry' if a.dry else '')+('_legacy' if a.legacy else '')+('_reverb_only' if a.reverb_only else '')+('_'+a.mutation if a.mutation!='None' else '')
+    tag += '_legacy_brightness' if a.legacy_brightness else ''
     lib = (OUT / (tag + '_work')).relative_to(ROOT).as_posix()
     test_sources=list(sources)
     if top in ('tb_poly32_core','tb_dual16_core','tb_dual16_snapshot'):
@@ -72,7 +74,8 @@ for top in a.tops:
             print(body[-5000:]); raise SystemExit('Failed: ' + str(log))
         return body
     support = [ROOT/'verification/tb/integration/performance_adc_model.v'] if top in ('tb_final_performance','tb_performance_adc','tb_performance_octaves') else []
-    if top=='tb_slider_guide_hdmi':support.append(ROOT/'verification/tb/integration/tb_slider_controls.v')
+    if top in ('tb_slider_guide_hdmi','tb_controls_meter_hdmi','tb_brightness_hdmi'):
+        support.append(ROOT/'verification/tb/integration/tb_slider_controls.v')
     if top=='tb_review_knob_latency':support.append(ROOT/'verification/tb/review/ads1115_timed_model.v')
     sim_top=top
     if a.legacy:
@@ -115,12 +118,22 @@ for top in a.tops:
         wrapper.write_text('module '+sim_top+';\n'+parent+' original();\n'+
             '\n'.join('defparam '+prefix+inst+'.VOICES=16;' for inst in instances[top])+'\nendmodule\n')
         support.append(wrapper)
+    if a.legacy_brightness:
+        if top!='tb_controls_meter_hdmi' or sim_top!=top:
+            raise SystemExit('Legacy brightness override requires only tb_controls_meter_hdmi')
+        sim_top='legacy_brightness_'+top
+        wrapper=OUT/(sim_top+'.v')
+        wrapper.write_text('module '+sim_top+';\n'+top+' original();\n'
+                           'defparam original.dut.ENHANCED_BRIGHTNESS=0;\nendmodule\n')
+        support.append(wrapper)
     vendor=Path(a.gowin_simlib) if top in (
+        'tb_brightness_hdmi','tb_controls_meter_hdmi',
         'tb_review_hdmi_reset_recovery','tb_slider_guide_hdmi','tb_dual16_snapshot','tb_dual16_uart','tb_dual16_core','tb_dual16_rom','tb_dual16_hdmi','tb_poly32_hdmi','tb_effects_hdmi','tb_reverb_hdmi','tb_touch_hdmi_audio','tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
     inputs = [*test_sources, *support, tb, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem')]+([vendor] if vendor else [])
     (OUT / (tag + '_inputs.json')).write_text(json.dumps({
         'flags': '-vlog01compat -pedanticerrors',
         'voices16':a.voices16,
+        'legacy_brightness':a.legacy_brightness,
         'mode':'explicit dry compatibility' if a.dry else ('explicit legacy compatibility' if a.legacy else ('explicit reverb-only compatibility' if a.reverb_only else 'current integration')),
         'mutation':a.mutation,
         'sha256': {(str(f.relative_to(ROOT)) if f.is_relative_to(ROOT) else str(f)): hashlib.sha256(f.read_bytes()).hexdigest() for f in inputs}}, indent=2))
