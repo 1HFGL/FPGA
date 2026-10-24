@@ -22,16 +22,22 @@ for top in a.tops:
     if len(candidates) != 1:
         raise SystemExit('Expected one current test: ' + top)
     tb = candidates[0]
+    if top=='tb_dual16_hdmi':(ROOT/'build/regression/dual16').mkdir(parents=True,exist_ok=True)
     if top=='tb_poly32_hdmi':(ROOT/'build/regression/poly32').mkdir(parents=True,exist_ok=True)
     tag=top+('_voices16' if a.voices16 else '')+('_dry' if a.dry else '')+('_legacy' if a.legacy else '')+('_reverb_only' if a.reverb_only else '')+('_'+a.mutation if a.mutation!='None' else '')
     lib = (OUT / (tag + '_work')).relative_to(ROOT).as_posix()
     test_sources=list(sources)
-    if top=='tb_poly32_core':
+    if top in ('tb_poly32_core','tb_dual16_core','tb_dual16_snapshot'):
         # Compare against the exact pre-optimization algorithm, never against a
         # second instance of the rewritten pipeline.
         original=subprocess.check_output(['git','show','f314bc066a428b7f43b19c0c8fa1586e6a98dc24:rtl/synth/voice_bank_music_pipe.v'],cwd=ROOT)
         frozen=OUT/'voice_bank_music_serial_reference.v'
         frozen.write_bytes(original.replace(b'module voice_bank_music_pipe #(',b'module voice_bank_music_serial_reference #('))
+        test_sources.append(frozen)
+    if top=='tb_event_encoder_equivalence':
+        original=subprocess.check_output(['git','show','36b81ab2983ef04823784c95a345e4383c2b2724:rtl/control/event_encoder.v'],cwd=ROOT)
+        frozen=OUT/'event_encoder_reference.v'
+        frozen.write_bytes(original.replace(b'module event_encoder #(',b'module event_encoder_reference #('))
         test_sources.append(frozen)
     if a.mutation!='None':
         options={
@@ -98,7 +104,7 @@ for top in a.tops:
             '\n'.join('defparam '+prefix+inst+'.VOICES=16;' for inst in instances[top])+'\nendmodule\n')
         support.append(wrapper)
     vendor=Path(a.gowin_simlib) if top in (
-        'tb_poly32_hdmi','tb_effects_hdmi','tb_reverb_hdmi','tb_touch_hdmi_audio','tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
+        'tb_dual16_snapshot','tb_dual16_uart','tb_dual16_core','tb_dual16_rom','tb_dual16_hdmi','tb_poly32_hdmi','tb_effects_hdmi','tb_reverb_hdmi','tb_touch_hdmi_audio','tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
     inputs = [*test_sources, *support, tb, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem')]+([vendor] if vendor else [])
     (OUT / (tag + '_inputs.json')).write_text(json.dumps({
         'flags': '-vlog01compat -pedanticerrors',
@@ -127,6 +133,6 @@ for top in a.tops:
         '-wlf', str(OUT / (tag + '.wlf')), '-do', 'do {' + macro.as_posix() + '}'],
         OUT / (tag + '_console.log'))
     marker='PASS: tb_voice_allocator_32' if top=='tb_voice_allocator' else 'PASS '+top
-    lines = [line for line in body.splitlines() if marker in line]
+    lines = [line for line in body.splitlines() if marker in line or ('PASS: '+top) in line]
     if not lines: raise SystemExit('Missing completion marker: ' + top)
     print('\n'.join(lines), flush=True)

@@ -5,6 +5,8 @@ param([string]$Gowin='D:\Gowin\Gowin_V1.9.12.04_x64\IDE\bin\gw_sh.exe',
       [switch]$CheckOnly)
 $ErrorActionPreference='Stop'
 $root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
+& $Python (Join-Path $root "model/pack_dual16_rom.py") --check
+if($LASTEXITCODE){throw "Dual-port coefficient ROM is stale or invalid"}
 $evidence=if([IO.Path]::IsPathRooted($EvidenceDirectory)){
     [IO.Path]::GetFullPath($EvidenceDirectory)
 }else{[IO.Path]::GetFullPath((Join-Path $root $EvidenceDirectory))}

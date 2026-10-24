@@ -4,6 +4,8 @@ param([string]$Gowin='D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe',
       [switch]$PrepareOnly)
 $ErrorActionPreference='Stop'
 $root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
+& $Python (Join-Path $root "model/pack_dual16_rom.py") --check
+if($LASTEXITCODE){throw "Dual-port coefficient ROM is stale or invalid"}
 $out=Join-Path $root 'build/hdmi'
 if(-not(Test-Path -LiteralPath $Gowin)){throw "Missing Gowin: $Gowin"}
 New-Item -ItemType Directory -Force $out | Out-Null

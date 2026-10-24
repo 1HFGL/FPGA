@@ -1,5 +1,5 @@
 // A模态合成器与C代次接口之间的薄适配层；全部信号同步于50MHz。
-// 请求只在!busy时接受，R(56*VOICES+27)给样本，下一拍由B缓存。
+// 32声部双16核心R925给样本；<=16兼容核心R(56*VOICES+27)。
 // C的触发代次只在该批结果返回后确认。忙时屏蔽上一批release_done，
 // 防止新音尚未计算就因上一批的“空闲”被回收；不改变A的音色公式。
 module voice_bank_modal_adapter #(
@@ -39,7 +39,7 @@ module voice_bank_modal_adapter #(
         end
     end
     // 外部0钢琴/1吉他；A内部0吉他/1钢琴。增益和弯音在A内各应用一次。
-    voice_bank_music_pipe #(.VOICES(VOICES),.MIX_SHIFT(3),
+    voice_bank_modal_dispatch #(.VOICES(VOICES),.MIX_SHIFT(3),
         .MODE_ROM_FILE(MODE_ROM_FILE),.MODE_EVEN_FILE(MODE_EVEN_FILE),.MODE_ODD_FILE(MODE_ODD_FILE),.SHAPER_ROM_FILE(SHAPER_ROM_FILE),
         .SINE_ROM_FILE(SINE_ROM_FILE)) u_modal(
         .clk(clk),.rst_n(rst_n),.sample_request(sample_request),

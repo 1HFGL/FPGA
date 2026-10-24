@@ -29,7 +29,8 @@ module event_encoder #(
     reg [EVENT_WIDTH-1:0] fifo_mem [0:MAX_EVENTS-1];
     reg [PTR_WIDTH-1:0] wr_ptr, rd_ptr;
     reg [PTR_WIDTH:0] fifo_count;
-    integer i, offset, candidate, selected;
+    integer i, scan, selected, first_any, first_after;
+    reg found_any, found_after;
     reg found;
     reg [SOURCE_WIDTH-1:0] selected_source;
     wire do_read=event_valid && event_ready;
@@ -65,13 +66,18 @@ module event_encoder #(
             else key_to_note=value[6:0];
         end
     endfunction
+    // Two constant-index priority selections implement the same round-robin
+    // order without thirteen variable-index pending_count multiplexers.
     always @* begin
-        found=0; selected=0; candidate=0; selected_source=0;
-        for(offset=0;offset<KEY_COUNT;offset=offset+1) begin
-            candidate=rr_key+offset;
-            if(candidate>=KEY_COUNT) candidate=candidate-KEY_COUNT;
-            if(!found && pending_count[candidate]!=0) begin found=1; selected=candidate; end
+        found_any=0; found_after=0; first_any=0; first_after=0;
+        for(scan=KEY_COUNT-1;scan>=0;scan=scan-1) begin
+            if(pending_count[scan]!=0) begin
+                found_any=1; first_any=scan;
+                if(scan>=rr_key) begin found_after=1; first_after=scan; end
+            end
         end
+        found=found_any;
+        selected=found_after?first_after:first_any;
         selected_source=selected[SOURCE_WIDTH-1:0];
     end
     always @(posedge clk or negedge rst_n) begin

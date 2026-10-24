@@ -1,5 +1,14 @@
 # 高云 FPGA 双音色电子乐器
 
+## 当前分支交付：带屏双16并行／32声部（2026-10-24）
+
+本次仅交付带屏版：两组16声部并行，共32声部。HDMI Setup +2.358 ns、BSRAM 93/118，剩余25块RAM。
+
+用户要求改用两组16声部并行。正式32声部入口现通过 `voice_bank_modal_dispatch` 进入 `voice_bank_dual16`，两组共享45块双端口参数ROM，在22位总线上合并后，只运行一套吉他失真／箱体／总增益和固定Chorus→Delay→Reverb。原始音色系数、48kHz与控制接线保持现有合同；运行诊断和效果切换保持撤回状态。
+
+用户授权直接发布到 `cleanup/expression-brightness`，不合入 master。本次包仅保留 [带屏烧录文件](build/audition/dual16x2_j13_20261024/hdmi_dual16x2_j13.fs)，不再发布新生成的无屏交付文件；公共音频代码和兼容验证继续保留。说明见 [32声部说明](docs/polyphony32.md)，证据见 `verification/evidence/dual16/summary.json`。清单中的 `published:false` 是打包时快照，不代表 GitHub 实时状态。未代为烧录或实物验收；下方10月23日等内容及旧包均为历史记录，不是当前下载入口。
+
+
 ## 32 声部分支核验交付（2026-10-23）
 
 用户已授权将本轮 32 声部源码、上位机、验证证据和两份烧录文件发布到 `cleanup/expression-brightness`，供队友核验；本次不合入 master。下文及发布包中的“未推送”／`published:false`保留为构建时快照，不改变原有固件与证据哈希。HDMI 的建立时间余量为 0.000 ns、RAM 占用 117/118，仍需上板核验稳定性。

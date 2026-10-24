@@ -1,0 +1,27 @@
+Reading D:/modelsim1/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/regression/final/tb_event_encoder_equivalence_work tb_event_encoder_equivalence -l C:\Users\Nanji\Documents\GitHub\FPGA\build\regression\final\tb_event_encoder_equivalence.log -wlf C:\Users\Nanji\Documents\GitHub\FPGA\build\regression\final\tb_event_encoder_equivalence.wlf -do "do {C:/Users/Nanji/Documents/GitHub/FPGA/build/regression/final/tb_event_encoder_equivalence.do}" 
+# Start time: 15:52:53 on Oct 24,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_event_encoder_equivalence(fast)
+# do {C:/Users/Nanji/Documents/GitHub/FPGA/build/regression/final/tb_event_encoder_equivalence.do}
+# PASS tb_event_encoder_equivalence: 30349 cycle-exact checks, 3234 events, simultaneous keys, wraparound, backpressure, overflow/reset
+# ** Note: $finish    : C:/Users/Nanji/Documents/GitHub/FPGA/verification/tb/control/tb_event_encoder_equivalence.v(63)
+#    Time: 303490 ns  Iteration: 1  Instance: /tb_event_encoder_equivalence
+# End time: 15:52:54 on Oct 24,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
