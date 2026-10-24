@@ -94,7 +94,7 @@ result={'status':'PASS_OFFLINE_CURRENT_CONSTRAINTS_ONLY','base_commit':BASE,
         'source_inputs':implementation['inputs'],'artifacts':artifacts,
         'limitations':implementation['limitations']+['Brightness hardware listening has not been tested.',
              'No claim of reproducing the reported hardware symptom; the change improves verified digital response.',
-             'No programming or GitHub push performed in this task.']}
+             'Offline evidence does not certify hardware programming or physical listening.']}
 OUT.mkdir(parents=True,exist_ok=True)
 (OUT/'summary.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print('PASS brightness evidence:',len(cases),'tests;',len(protected),'preserved files; current PNR checked')
