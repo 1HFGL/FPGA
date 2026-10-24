@@ -18,7 +18,9 @@ module instrument_display #(
     parameter integer HS_ACTIVE=0, VS_ACTIVE=0,
     parameter integer WAVE_GAIN_SHIFT=3, // 通用入口固定倍率
     parameter integer ENHANCED=0, // 正式1024x600：双乐器主体、16位峰值波形
-    parameter integer UI=0 // 1：2bit覆盖度字模新版界面；0：保留旧逐像素测试路径
+    parameter integer TOUCH_PANEL=0, // prepared normalized touch brightness UI
+    parameter integer UI=0, // 1：2bit覆盖度字模新版界面；0：保留旧逐像素测试路径
+    parameter integer ENABLE_GUIDE=0
 ) (
     input wire sys_clk, pixel_clk, rst_n,
     input wire [12:0] key_down, // 当前档位的C,C#,D,...,B,C
@@ -27,12 +29,16 @@ module instrument_display #(
     input wire signed [15:0] pitch_bend, // 显示归一化码：-32768..32767 对应 -2..+2半音
     input wire [1:0] octave, // 0低/1中/2高；3显示为中档
     input wire sustain, instrument_guitar, // 音色状态：0钢琴，1吉他；不是切换命令
+    input wire [6:0] brightness,
+    input wire touch_available,
     input wire audio_valid,
     input wire signed [15:0] audio_sample, // 最终混音后的样本副本，每次valid代表一个样本
     output reg [23:0] lcd_rgb,
     output reg lcd_de, lcd_hsync, lcd_vsync,
     output reg frame_start, // 与输出RGB/DE同拍，像素域单周期脉冲
-    output wire display_sample_drop // sys_clk域，信箱忙时丢失显示样本；绝不反压音频
+    output wire display_sample_drop, // sys_clk域，信箱忙时丢失显示样本；绝不反压音频
+    input wire guide_valid,
+    input wire [3:0] guide_index,guide_progress
 );
     reg [1:0] sys_release, pixel_release;
     always @(posedge sys_clk or negedge rst_n)
@@ -42,14 +48,16 @@ module instrument_display #(
         if (!rst_n) pixel_release<=0;
         else pixel_release<={pixel_release[0],1'b1};
     wire sys_rst_n=sys_release[1], pixel_rst_n=pixel_release[1];
-    wire [65:0] state_latest;
-    reg [65:0] state_frame;
+    wire [82:0] state_latest;
+    reg [82:0] state_frame;
     wire [15:0] sample_pixel;
     wire sample_pixel_valid, sample_ready;
     // 状态与音频副本各走一条单格信箱；显示等待绝不反馈到音频域。
-    display_cdc_latest #(.WIDTH(66)) u_status (
+    display_cdc_latest #(.WIDTH(83)) u_status (
         .src_clk(sys_clk),.src_rst_n(sys_rst_n),.src_valid(1'b1),
-        .src_data({(ENHANCED?guitar_keys:13'd0),(ENHANCED?piano_keys:13'd0),
+        .src_data({(ENABLE_GUIDE?guide_valid:1'b0),(ENABLE_GUIDE?guide_index:4'd0),(ENABLE_GUIDE?guide_progress:4'd0),
+                   (TOUCH_PANEL?touch_available:1'b0),(TOUCH_PANEL?brightness:7'd127),
+                   (ENHANCED?guitar_keys:13'd0),(ENHANCED?piano_keys:13'd0),
                    instrument_guitar,sustain,octave,pitch_bend,volume,key_down}),.src_ready(),
         .dst_clk(pixel_clk),.dst_rst_n(pixel_rst_n),.dst_valid(),.dst_data(state_latest));
     display_cdc_latest #(.WIDTH(16)) u_sample (
@@ -119,13 +127,26 @@ module instrument_display #(
     wire title_enable;
     wire [2:0] title_glyph;
     wire [5:0] title_column,title_row;
+    wire [38:0] activity;
+    wire [15:0] meter_level,meter_peak;
+    generate if(ENHANCED && UI)begin:g_feedback
+        display_feedback u_feedback(.pixel_clk(pixel_clk),.rst_n(pixel_rst_n),.frame_commit(commit),
+            .held(state_latest[39]?state_latest[65:53]:state_latest[52:40]),
+            .instrument_guitar(state_latest[39]),.raw_peak(envelope_peak),
+            .activity(activity),.meter_level(meter_level),.meter_peak(meter_peak));
+    end else begin:g_no_feedback
+        assign activity=0;assign meter_level=0;assign meter_peak=0;
+    end endgenerate
     generate if(ENHANCED && UI)begin:g_panel
-        instrument_panel_ui u_renderer(
+        instrument_panel_ui #(.TOUCH_PANEL(TOUCH_PANEL),.ENABLE_GUIDE(ENABLE_GUIDE)) u_renderer(
+            .guide_valid(state_frame[82]),.guide_index(state_frame[81:78]),.guide_progress(state_frame[77:74]),
+            .brightness(state_frame[72:66]),.touch_available(state_frame[73]),
             .x(x_d),.y(y_d),.key_down(state_frame[39]?state_frame[65:53]:state_frame[52:40]),
             .volume(state_frame[19:13]),.pitch_bend(state_frame[35:20]),.octave(state_frame[37:36]),
             .sustain(state_frame[38]),.instrument_guitar(state_frame[39]),
             .wave_min(envelope_min),.wave_max(envelope_max),.peak_level(envelope_peak),
             .gain_shift(envelope_gain),.wave_ready(wave_ready_d),
+            .activity(activity),.meter_level(meter_level),.meter_peak(meter_peak),
             .text_enable(text_enable),.text_glyph(text_glyph),
             .text_column(text_column),.text_row(text_row),.text_color(text_color),
             .title_enable(title_enable),.title_glyph(title_glyph),
@@ -219,7 +240,7 @@ module instrument_display #(
 
     always @(posedge pixel_clk or negedge pixel_rst_n) begin
         if (!pixel_rst_n) begin
-            state_frame<=0;
+            state_frame<={9'd0,1'b0,7'd127,66'd0};
             x_d<=0; y_d<=0; de_d<=0; start_d<=0; wave_ready_d<=0; ui_d<=0;
             hs_d<=(HS_ACTIVE==0); vs_d<=(VS_ACTIVE==0);
             base_l1<=0;color_l1<=0;

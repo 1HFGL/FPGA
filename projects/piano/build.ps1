@@ -27,6 +27,8 @@ $inputs=@($projectPath,$PSCommandPath,$processConfigPath,(Join-Path $PSScriptRoo
 foreach($node in $project.Project.FileList.File){
     $inputs+=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot $node.path))
 }
+$inputs+=Join-Path $root 'projects/check_modal_rom.tcl'
+$inputs+=Get-ChildItem -LiteralPath "$root/rtl/rom" -Filter 'piano_v3_modes.mem.bank*.mem' | ForEach-Object {$_.FullName}
 $lines=@('top=piano_performance_top voices=16 target=GW5AT-LV60PG484AC1/I0/B clock=50MHz')
 foreach($file in ($inputs | Select-Object -Unique)){
     $lines+="$((Get-FileHash -LiteralPath $file).Hash)  $file"
@@ -63,9 +65,10 @@ $netlist=Get-Content (Join-Path $PSScriptRoot 'impl/gwsynthesis/piano_performanc
 # 模态参数ROM与相位/幅度状态映射片内RAM，共享运算器取代每声部复制乘法器。
 $dsp=[regex]::Match($rpt,'DSP\s*\|\s*(\d+(?:\.\d+)?)/118')
 $bsram=[regex]::Match($rpt,'BSRAM\s*\|\s*(\d+)/118')
-if(-not $bsram.Success -or [int]$bsram.Groups[1].Value -lt 64 -or
+if(-not $bsram.Success -or [int]$bsram.Groups[1].Value -lt 1 -or
     -not $dsp.Success -or [double]$dsp.Groups[1].Value -lt 1 -or [double]$dsp.Groups[1].Value -gt 32 -or
-    $netlist -notmatch 'u_modal'){
+    $netlist -notmatch 'u_modal' -or $netlist -notmatch 'u_mode_rom' -or
+    $netlist -notmatch 'bank0' -or $netlist -notmatch 'bank1' -or $netlist -notmatch 'bank2'){
     throw 'Modal RAM/DSP inference mismatch or legacy synthesis path still active'
 }
 if(([regex]::Matches($rpt,'(?m)^\w+(?:\[\d+\])?\s*\|\s*-\s*\|\s*\w+/\d+\s*\|\s*Y\s*\|')).Count -ne 25){

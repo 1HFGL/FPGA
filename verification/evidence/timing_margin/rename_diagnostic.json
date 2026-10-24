@@ -1,0 +1,739 @@
+{
+  "old_lines": 351280,
+  "new_lines": 351280,
+  "identifier_changes": [
+    {
+      "module": "uart_reply_tx",
+      "before": "steal_count",
+      "after": "steal_count_Z",
+      "count": 34
+    },
+    {
+      "module": "uart_synth_protocol",
+      "before": "steal_count",
+      "after": "steal_count_Z",
+      "count": 4
+    },
+    {
+      "module": "uart_reply_tx_0",
+      "before": "steal_count",
+      "after": "steal_count_Z",
+      "count": 34
+    },
+    {
+      "module": "uart_synth_protocol_0",
+      "before": "steal_count",
+      "after": "steal_count_Z",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "steal_count",
+      "after": "steal_count_Z",
+      "count": 67
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 66
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down",
+      "after": "voice_key_down_Z",
+      "count": 50
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_15_8",
+      "after": "voice_key_down_15_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_14_8",
+      "after": "voice_key_down_14_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_13_8",
+      "after": "voice_key_down_13_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_12_8",
+      "after": "voice_key_down_12_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_11_8",
+      "after": "voice_key_down_11_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_10_8",
+      "after": "voice_key_down_10_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_9_8",
+      "after": "voice_key_down_9_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_8_8",
+      "after": "voice_key_down_8_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_7_8",
+      "after": "voice_key_down_7_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_6_8",
+      "after": "voice_key_down_6_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_5_8",
+      "after": "voice_key_down_5_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_4_8",
+      "after": "voice_key_down_4_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_3_8",
+      "after": "voice_key_down_3_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_2_8",
+      "after": "voice_key_down_2_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_1_8",
+      "after": "voice_key_down_1_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_0_8",
+      "after": "voice_key_down_0_5",
+      "count": 4
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_15_9",
+      "after": "voice_key_down_15_6",
+      "count": 18
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_15_10",
+      "after": "voice_key_down_15_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_14_9",
+      "after": "voice_key_down_14_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_13_9",
+      "after": "voice_key_down_13_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_12_9",
+      "after": "voice_key_down_12_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_11_9",
+      "after": "voice_key_down_11_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_10_9",
+      "after": "voice_key_down_10_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_9_9",
+      "after": "voice_key_down_9_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_8_9",
+      "after": "voice_key_down_8_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_7_9",
+      "after": "voice_key_down_7_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_6_9",
+      "after": "voice_key_down_6_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_5_9",
+      "after": "voice_key_down_5_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_4_9",
+      "after": "voice_key_down_4_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_3_9",
+      "after": "voice_key_down_3_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_2_9",
+      "after": "voice_key_down_2_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_1_9",
+      "after": "voice_key_down_1_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_0_9",
+      "after": "voice_key_down_0_6",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_0_10",
+      "after": "voice_key_down_0_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_15_12",
+      "after": "voice_key_down_15_9",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_15_13",
+      "after": "voice_key_down_15_10",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_14_10",
+      "after": "voice_key_down_14_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_14_11",
+      "after": "voice_key_down_14_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_13_10",
+      "after": "voice_key_down_13_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_13_11",
+      "after": "voice_key_down_13_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_12_10",
+      "after": "voice_key_down_12_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_12_11",
+      "after": "voice_key_down_12_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_11_10",
+      "after": "voice_key_down_11_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_11_11",
+      "after": "voice_key_down_11_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_10_10",
+      "after": "voice_key_down_10_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_10_11",
+      "after": "voice_key_down_10_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_9_10",
+      "after": "voice_key_down_9_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_9_11",
+      "after": "voice_key_down_9_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_8_10",
+      "after": "voice_key_down_8_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_8_11",
+      "after": "voice_key_down_8_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_7_10",
+      "after": "voice_key_down_7_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_7_11",
+      "after": "voice_key_down_7_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_6_10",
+      "after": "voice_key_down_6_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_6_11",
+      "after": "voice_key_down_6_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_5_10",
+      "after": "voice_key_down_5_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_5_11",
+      "after": "voice_key_down_5_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_4_10",
+      "after": "voice_key_down_4_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_4_11",
+      "after": "voice_key_down_4_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_3_10",
+      "after": "voice_key_down_3_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_3_11",
+      "after": "voice_key_down_3_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_2_10",
+      "after": "voice_key_down_2_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_2_11",
+      "after": "voice_key_down_2_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_1_10",
+      "after": "voice_key_down_1_7",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_1_11",
+      "after": "voice_key_down_1_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_0_11",
+      "after": "voice_key_down_0_8",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_0_12",
+      "after": "voice_key_down_0_9",
+      "count": 3
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_key_down_15_15",
+      "after": "voice_key_down_15_12",
+      "count": 17
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_active",
+      "after": "voice_active_Z",
+      "count": 91
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_0_s27",
+      "after": "voice_count_0_s28",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_1_s28",
+      "after": "voice_count_1_s29",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_2_s30",
+      "after": "voice_count_2_s31",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_3_s31",
+      "after": "voice_count_3_s32",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_4_s31",
+      "after": "voice_count_4_s32",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_0_s28",
+      "after": "voice_count_0_s29",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_2_s31",
+      "after": "voice_count_2_s32",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_3_s32",
+      "after": "voice_count_3_s33",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_4_s32",
+      "after": "voice_count_4_s33",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_0_s29",
+      "after": "voice_count_0_s30",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_0_s30",
+      "after": "voice_count_0_s31",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_1_s30",
+      "after": "voice_count_1_s31",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_1_s31",
+      "after": "voice_count_1_s32",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_3_s33",
+      "after": "voice_count_3_s34",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_3_s34",
+      "after": "voice_count_3_s35",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_4_s33",
+      "after": "voice_count_4_s34",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_4_s34",
+      "after": "voice_count_4_s35",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_4_s35",
+      "after": "voice_count_4_s36",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_0_s31",
+      "after": "voice_count_0_s32",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_0_s32",
+      "after": "voice_count_0_s33",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_1_s33",
+      "after": "voice_count_1_s34",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_1_s34",
+      "after": "voice_count_1_s35",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_2_s34",
+      "after": "voice_count_2_s35",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_1_s35",
+      "after": "voice_count_1_s36",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_2_s35",
+      "after": "voice_count_2_s36",
+      "count": 2
+    },
+    {
+      "module": "voice_allocator",
+      "before": "voice_count_1_s36",
+      "after": "voice_count_1_s37",
+      "count": 2
+    },
+    {
+      "module": "instrument_env",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_0",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 9
+    },
+    {
+      "module": "instrument_env_1",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 9
+    },
+    {
+      "module": "instrument_env_2",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 9
+    },
+    {
+      "module": "instrument_env_3",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_4",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_5",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_6",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_7",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_8",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_9",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_10",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_11",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_12",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 9
+    },
+    {
+      "module": "instrument_env_13",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "instrument_env_14",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 8
+    },
+    {
+      "module": "voice_bank_music_pipe",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 102
+    },
+    {
+      "module": "voice_bank_modal_adapter",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 4
+    },
+    {
+      "module": "instrument_uart_top",
+      "before": "steal_count",
+      "after": "steal_count_Z",
+      "count": 7
+    },
+    {
+      "module": "instrument_uart_top",
+      "before": "voice_gate",
+      "after": "voice_gate_Z",
+      "count": 5
+    },
+    {
+      "module": "instrument_uart_top",
+      "before": "voice_key_down",
+      "after": "voice_key_down_Z",
+      "count": 72
+    }
+  ],
+  "non_identifier_changes": []
+}

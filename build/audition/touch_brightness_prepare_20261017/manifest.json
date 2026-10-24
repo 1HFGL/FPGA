@@ -1,0 +1,20 @@
+{
+  "files": {
+    "hdmi_touch_brightness_preview.fs": {
+      "bytes": 20633639,
+      "sha256": "93eae4d1294394a11e1ca9f599ff4ff9b9850b2f3941b47848078748d3614658"
+    },
+    "implementation_check.json": {
+      "bytes": 16420,
+      "sha256": "4df24fbb6d872d89f34b526b171ffc5f127b254553b8675debbd8ee34a9c5d5c"
+    },
+    "README.md": {
+      "bytes": 1037,
+      "sha256": "51fb48195fa43cea433d9a8f1f7a27bf17bdf6eaa08200efd2612250a7c9513b"
+    },
+    "summary.json": {
+      "bytes": 3379,
+      "sha256": "b5c0bfe5a7c05c19ad222f6ef674ff7004c1a911ea511ec27ca9b74cf7e86dc7"
+    }
+  }
+}

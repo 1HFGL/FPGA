@@ -1,0 +1,451 @@
+{
+  "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+  "errors": [],
+  "worst_reported_slack_ns": {
+    "3.1.1 Setup Paths Table": 0.902,
+    "3.1.2 Hold Paths Table": 0.195,
+    "3.1.3 Recovery Paths Table": 0.95,
+    "3.1.4 Removal Paths Table": 0.147,
+    "3.2 Minimum Pulse Width Table": 5.803
+  },
+  "ports": 37,
+  "active_constraints": 21,
+  "resources": {
+    "Logic": {
+      "used": 26339,
+      "available": 59904
+    },
+    "Register": {
+      "used": 12038,
+      "available": 60780
+    },
+    "BSRAM": {
+      "used": 90,
+      "available": 118
+    },
+    "DSP": {
+      "used": 25.5,
+      "available": 118
+    },
+    "PLLA": {
+      "used": 1,
+      "available": 8
+    }
+  },
+  "bitstream_sha256": "ae62b27a14a42d36c6047c18b5d159ea7005b0890850d0264e98c6baa2f84ff0",
+  "inputs": [
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\boards\\tang_mega_60k_31004\\ble.cst",
+      "sha256": "dcb5dde7bd1de16bd230eb614bd8fc9db8dc572d13a53912f1734390490d8e06"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\boards\\tang_mega_60k_31004\\ble.sdc",
+      "sha256": "92d9cb238fce80693bd5f1dacc65ef21997964872ce465f326b72790456e170c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\boards\\tang_mega_60k_31004\\hdmi.cst",
+      "sha256": "ad0da49dfe3c4d82ea7cdc01e82c8cefbd20add201dfd981e8e568a9d8671d08"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\boards\\tang_mega_60k_31004\\hdmi.sdc",
+      "sha256": "3dad6fc44cf15465dd46e12d08cfa0f11eea31cf694318450f7e8c4405378333"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\boards\\tang_mega_60k_31004\\hdmi_reset_placement.cst",
+      "sha256": "76f81c917c7165fcf3ff9c97ad1dcc51567758e62706641b0f8551e2d6b3af34"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\boards\\tang_mega_60k_31004\\piano.cst",
+      "sha256": "e8d9c5e30b17c50f1ca770c39c925d09c29714f10a7e6002f8d207e2da175ef9"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\boards\\tang_mega_60k_31004\\piano.sdc",
+      "sha256": "752d3a99f506a906786d5a23b8e6a974913489b578210a4a4801b189549b7955"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\build\\hdmi\\piano_hdmi.cst",
+      "sha256": "f6752e2f9cc0c5d748a9fb4cc8cfc2a6b5cfe8cd79b4e0088d73a2e456cec999"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\build\\hdmi\\piano_hdmi.sdc",
+      "sha256": "ea29ecc7f990aa033a5947e0d2084272d7eb17ffdef4e8ea9ba458db5f0f5097"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\projects\\check_modal_rom.tcl",
+      "sha256": "5b744b24e9f512b03b1a15556e4debc7dc1fad6adbb754586bb813308f7fcc81"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\projects\\hdmi\\build.ps1",
+      "sha256": "a462bbf737be35f3b0799e9617a0589d89cd4c1a1479f3b4496142f9d93701b7"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\projects\\hdmi\\build.tcl",
+      "sha256": "b2d02a272b2afab25dd87df0a3a4086ab5e7a814947ab9116a609814831a3235"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\projects\\hdmi\\build_inputs.py",
+      "sha256": "d387314445e3891ead349b97e23db2ebd9919966a4b0c16abb225b8fc9c90aa2"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\projects\\hdmi\\impl\\gwsynthesis\\piano_hdmi.vg",
+      "sha256": "122678a062f1e8b7d4a8bcaf2a3957f4a0bb3315fd569f8de7ecd4b01a95a2a9"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\projects\\hdmi\\piano_hdmi.gprj",
+      "sha256": "daf0ecb1680e32a4530fdf08796165fbd61d131fe879f8c0519d55efa429f5c6"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\projects\\hdmi\\pnr_trial.tcl",
+      "sha256": "6fb9267e68a5aab10c923e127b5a18c217ab58c7df8cbcb6cbd32ea05ae29c11"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\projects\\hdmi\\process_config.json",
+      "sha256": "f9a421513c8adc8030298734830031a10a31c548bec5898d2beebb6917aa7f94"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\projects\\hdmi\\sweep_pnr.ps1",
+      "sha256": "7050bde3045e21dfdf7c5036ced5d68c9b9b4331e3021b58c2060ccecdce1fea"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\projects\\piano\\read_timing_html.py",
+      "sha256": "e3de4171a8b1aa5c0f82326605c4933c0229477ed919d68335e09184d5806c51"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\audio\\chorus_effect.v",
+      "sha256": "edb6b95dd4fdf8a7a86688a8ed6abf9cb48d3d35cea438184cbd14c67482e4bf"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\audio\\echo_delay.v",
+      "sha256": "e3fe2eaa4813e3c1ea3ba8d2c0d79262487e2e53b597925ce3aaa9436ee3b89c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\audio\\i2s_tx.v",
+      "sha256": "f0ce837c5864c32b55952bdb99225a3dbff0516b29a2a1e29a8f2c9973a477db"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\audio\\room_reverb.v",
+      "sha256": "14932be8f8f18b22445a4d971866f93b4550cff4ba18310323632b1c7ac34af9"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\audio\\sample_tick.v",
+      "sha256": "78bc8ce92d35bc4439b5805efffc4e663fe868bfd974418d37500b61af9a30c7"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\audio\\synth_top.v",
+      "sha256": "903cc00a0a0996019dfb65e1744c3a31598318fa5264a232288bcb7412cb48aa"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\audio\\tone_filter.v",
+      "sha256": "b99f27a8a646c63c4dcd1109c7c01b46ef522d0ac800582eeefd0bf3be25cfa9"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\adc_knob_if.v",
+      "sha256": "c0ea01643fbb4e56247158f7275bc94f99f9e8aac0a255d1a31ec0f439b58a8c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\ads1115_if.v",
+      "sha256": "67c3ca695122fe17de11fb85c686779cafbb82c7ee08b79c002c64d3260062a1"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\ads1115_knob_if.v",
+      "sha256": "b6483831f58a14c2f33d0aeb97b31013ce1561c2721049de6aa1a065cfe5a0e3"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\brightness_keys.v",
+      "sha256": "05e3f3e42f5852a5a8309c5669202ea348aa21d393ab5f5bc97cf406ae9db4de"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\event_encoder.v",
+      "sha256": "861adecc4c767b1f115abb94d8150340eb6d5d7ea4f2726202d2d7c23ed5212d"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\i2c_master.v",
+      "sha256": "405d0390c13c52c12d1af96e523d7de890075ecf8a4cedb31c6626f47baff994"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\input_sync_debounce.v",
+      "sha256": "4aa0f80f9166f3ce3e18b6619ea29e4a4641893dae2bbd0c28ccfa8e874584cc"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\note_phase_lut.v",
+      "sha256": "71c1a6b7d797da5a34a091cd1aeb304f8df794f8c962fafa3aae6a886b36d029"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\piano_controls.v",
+      "sha256": "822a2cff20183dc6636d75ddeaa2bdf5d2a71982ebbe7a4c60faca94e41953f8"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\practice_guide.v",
+      "sha256": "b2f57d902caf28aeb66e02e41a0ca707eb7f59435bdc957bb8b60b60771381cb"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\touch_brightness_control.v",
+      "sha256": "748bdd30ad5a1dfd994e680632cb35e347de083729bc7b838edd0c7caa0bea5a"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\touch_or_key_if.v",
+      "sha256": "6e9c09fb9fcd6c893910f7719672e11c3158802bcb14496e66e1489d296ac4d7"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\uart_event_arbiter.v",
+      "sha256": "771d533d08ebcaa57a371c2b01e0dfaaa3db1b4c2f5fbf7b60f4e10fcbf339b4"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\uart_fifo.v",
+      "sha256": "d29abed64b9b72a5e8565470e4c37bbf34a0a6e6c89699ec120902057200f333"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\uart_line_rx.v",
+      "sha256": "de156235bb876225a027317ef6d7b97f9f923603fda81105ff37a5da0181a2dd"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\uart_reply_tx.v",
+      "sha256": "4fc6676a434161dde4b6edcf46717b0524a850901918e0215c47c126ca0898da"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\uart_rx.v",
+      "sha256": "1477963cfe450eed516052e25085936683592ac9edefe5bc33dc7dd2df8123b9"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\uart_synth_protocol.v",
+      "sha256": "c086b3a6125bc65f4aa708ce27d0d2a97f64c552e1114f035737ca881c998aed"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\uart_tx.v",
+      "sha256": "009d15dd6a6fa5fbbc7626f4771224b815554ac4a731d4407ebd01a1185f1033"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\control\\voice_allocator.v",
+      "sha256": "65389aad361bcabf7c3fb511827e36437b4ac4009dacb52d58d509de3b8dd58c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\display_bend_map.v",
+      "sha256": "7cec7c74f4eb02acb53112095bb0a946fe01cbb9ead28bc6bb138442ce97501b"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\display_cdc_latest.v",
+      "sha256": "c79288111cded83c271b09973324003e649ad0a557cb328be9e62a411a91fd47"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\display_feedback.v",
+      "sha256": "5a217c2ffaba62d5070361268b176c949b4bb3006e0009b70857499963d2b692"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\display_font24.v",
+      "sha256": "16c2ec0ba45d163c29192fbf803dba6a2b10d1696d18279f840eec580ad3bf95"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\display_font_ui.v",
+      "sha256": "9b950fe607fe4abc1525ea30a389684f2749d91f345347d0d1636b594f066018"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\display_wave_buffer.v",
+      "sha256": "d1168885f767d017ab988503a0d280c5732874c8f4a9eaefe493fc326ecc2030"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\display_wave_envelope.v",
+      "sha256": "6b2e5a716800d29b84490868d097dd53a1259779d3cd65ae78903508862136ef"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\dvi_tx_gowin.v",
+      "sha256": "6c0a13a8d10dd9cd781380192369ba05b06aabe904c4a58dd405c6c00ee797a4"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\hdmi_clock_60k.v",
+      "sha256": "8e281b78cc4b19f00ad23e629e5bbbcccab09444e4d60a0262e4d84ba43ca446"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\hdmi_reset_guard.v",
+      "sha256": "e71364364004eedbf7a01c406c5a819ee558da4fb8212e9616beefe65dd49ec8"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\instrument_display.v",
+      "sha256": "e049757a7dad493d8c6531c0b9f00a905c791ebba00548981211d8af01827b3b"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\instrument_panel_renderer.v",
+      "sha256": "6d99c1e54f0cec625c702780fc4dda597ec2c48360cfbe1b7756d79701385e9d"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\instrument_panel_ui.v",
+      "sha256": "a5b63bba6624a1303c1346aab68b0b1c59c361f34bc2d2e899e53a9c4deb8a38"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\instrument_ui_map.v",
+      "sha256": "fd0ba01b20b1d21d1575cc8de49c32217ebd8c750367691c15a2525ae64de76c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\lcd_rgb_timing.v",
+      "sha256": "439f779ffd44d54f459f182438009a40c78379002d86d3eea1e0a7c1e96b5d9d"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\piano_display_renderer.v",
+      "sha256": "b10b7f7c271338f000c5954b408d44b6e46e6871edafb1d73f3b42873cec0acc"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\display\\tmds_encoder.v",
+      "sha256": "b5cf6a9a8289b3cc3df51eecbb9914fd4b5f43315cdbc3f44b362f2844b381fe"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\bright_1024.mem",
+      "sha256": "dd28109da4c80da45cb6975a1496eb23df93bb26fb09e6cf35478d1c818ad6a4"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\guitar_1024.mem",
+      "sha256": "e5c79a48664801c669aad792883aaa0cd65b196652593f3f77f44b795973f1a0"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\piano_1024.mem",
+      "sha256": "b3abcc11a9302601c994afce9161258da1a80ef247e2d4f745275ecaf4826f1b"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\piano_v3_modes.mem",
+      "sha256": "cac05bc7e087e1f495e47f11e5c1c26cd28c3cb7976ace26af04c29a56bb5999"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\piano_v3_modes.mem.bank0.mem",
+      "sha256": "2d53f242a747492a8c88521bc6ae97834e33ccfd50133796fcd6201693b2125e"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\piano_v3_modes.mem.bank1.mem",
+      "sha256": "a720369a4fb467c0b34cf05123226b6da76760f867945c5495d544eee185af81"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\piano_v3_modes.mem.bank2.mem",
+      "sha256": "eff90121cfe138d4a9cf64016cd929b4ffd9c67b699f37a1aad7a7bae1294dda"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\pitch_bend_1025.mem",
+      "sha256": "236f2d8eb6a2a026284f60f371cd9159ad3c421ec961f6aa57cdf4e0c59f1e2d"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\rock_v2_shaper.mem",
+      "sha256": "6923505492a20340e9744aee917265439521f00bd5de3854388c790031c81345"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\sine_1024.mem",
+      "sha256": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\rom\\strings_1024.mem",
+      "sha256": "f07ef598d4aae186c5729d89669dc888a186f74414d9cf597be5f94f894b09b3"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\adsr_env.v",
+      "sha256": "33107d2ce68cb5a00c1d96c9fddeca1a276e56c94a0712d90f4c2390457d2c51"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\instrument_env.v",
+      "sha256": "a0899f9dc25fc6fe1b67ec53b9dd2976fbf60ecf5ec7b90336f5d9ed92d3d4e4"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\instrument_wave.v",
+      "sha256": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\modal_parameter_rom.v",
+      "sha256": "494e2ed50a138887aea02baec0d7b4db7b442c4358de2b4c8612e9e084199463"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\phase_acc.v",
+      "sha256": "c3ea7b922199dfebae6b982c65f7fa1e7efcc18caebce6b4b1f7ffb9bccbc96d"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\sample_gain.v",
+      "sha256": "123f61f75037c68740bcc5c51d55d0ceaced35f91914a2b0acadbcd5c73d6dd1"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\sample_mixer4.v",
+      "sha256": "27d1e0c5854cd86748475afaad372b71825c6d19a8ccea36b13d42326f94519c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\voice_bank_adsr.v",
+      "sha256": "11a97053338ffc763e612c62e1511141c78de1734aa04c79b4545f26da0e5038"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\voice_bank_modal_adapter.v",
+      "sha256": "9e3f3dc21ee6c8994e9852f2bff9b73e17da24056c61c0b801822e99f2e45e38"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\voice_bank_music_pipe.v",
+      "sha256": "460a713b045a9a0a61aa0db9c9baf2d74b4f68f530ab52a985c3373d7fd6c46b"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\voice_instrument.v",
+      "sha256": "e26752a0e853ca2dd6b9668f7fd117b3030cded14dbe4b9258688e638d279abf"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\voice_timbre_adsr.v",
+      "sha256": "12ca3d22b45ffcbc073c78fe68d4d0a9ace2deebf3c748cde0efa5e1304bf288"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\wave_lut.v",
+      "sha256": "f476407c6bfb4853b547f1f3ad88d718878f8520fd48915bea664f2b03ff5cbc"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\synth\\wave_lut_timbre.v",
+      "sha256": "562653ae5c8945ee55266545c9cef8ccd554fa068932c8136b58d41abbd0d4dd"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\top\\instrument_uart_top.v",
+      "sha256": "d6d71ff1464db5bf24d076c5d4bbb8211b396c6396971c26f0c1f13ce29a508f"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\rtl\\top\\piano_hdmi_top.v",
+      "sha256": "8ab2ffa635d8e5c6445681e90f29c9d29b3378864799b146c2a9d65495a420fe"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\verification\\scripts\\check_hdmi_implementation.py",
+      "sha256": "74cf81eb293bb3f71f4801a70c9b2f51666a77bfa922acedeaf0b3148dfcaf1a"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi_reset_margin_20261023\\local_col133\\verification\\scripts\\pnr_sweep.py",
+      "sha256": "2231a6a68d0d66111319124fa680fb395a8b7e08b335c98957ff5caffbb075e3"
+    }
+  ],
+  "reset_placement": {
+    "u_tx/g_lane[1].serializer_release_1_s0": [
+      "R22C133[0][B]"
+    ],
+    "u_tx/g_lane[1].u_reset_combine": [
+      "R22C133[0][A]"
+    ],
+    "u_tx/g_lane[3].serializer_release_1_s0": [
+      "R24C133[0][B]"
+    ],
+    "u_tx/g_lane[3].u_reset_combine": [
+      "R24C133[0][A]"
+    ],
+    "u_tx/g_lane[2].serializer_release_1_s0": [
+      "R39C133[0][B]"
+    ],
+    "u_tx/g_lane[2].u_reset_combine": [
+      "R39C133[0][A]"
+    ],
+    "u_tx/g_lane[0].serializer_release_1_s0": [
+      "R26C133[0][B]"
+    ],
+    "u_tx/g_lane[0].u_reset_combine": [
+      "R26C133[0][A]"
+    ],
+    "u_tx/g_lane[3].serializer_release_0_s0": [
+      "R24C133[0][A]"
+    ],
+    "u_tx/g_lane[2].serializer_release_0_s0": [
+      "R39C133[0][A]"
+    ],
+    "u_tx/g_lane[1].serializer_release_0_s0": [
+      "R22C133[0][A]"
+    ],
+    "u_tx/g_lane[0].serializer_release_0_s0": [
+      "R26C133[0][A]"
+    ]
+  },
+  "limitations": [
+    "PR1014 system clock generic routing remains",
+    "DAC external timing incomplete",
+    "HDMI electrical eye/cable/receiver not measured",
+    "USB touch not implemented",
+    "Not programmed; screen compatibility and end-to-end latency unverified"
+  ]
+}

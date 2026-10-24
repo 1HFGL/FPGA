@@ -28,20 +28,21 @@ IO_PORT "knob_sda" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
 IO_LOC "knob_scl" A21;
 IO_PORT "knob_scl" IO_TYPE=LVCMOS33 BANK_VCCIO=3.3;
 
-// 八白键连续接J13-1..8，五黑键接9/10/13/14/15；内部仍按半音编号。
+// 2026-10-22：八白键仍接J13-1..8；五黑键按C#/D#/F#/G#/A#接C18/E19/D20/F15/F16。
+// 对应J13-40/38/36/34/32；原9/10/13脚预留蓝牙，尚未连接UART RTL。
 // 避开11=5V和12=GND；必须配套本轮新位流，不能沿用旧半音排列接线。
 // 这些线为外部SDRAM0扩展线，不可同时连接SDRAM0外设；不涉及核心板DDR3。
 IO_LOC "piano_key_n[0]" E14;
-IO_LOC "piano_key_n[1]" B16;
+IO_LOC "piano_key_n[1]" C18;
 IO_LOC "piano_key_n[2]" E13;
-IO_LOC "piano_key_n[3]" B15;
+IO_LOC "piano_key_n[3]" E19;
 IO_LOC "piano_key_n[4]" C15;
 IO_LOC "piano_key_n[5]" C14;
-IO_LOC "piano_key_n[6]" A16;
+IO_LOC "piano_key_n[6]" D20;
 IO_LOC "piano_key_n[7]" B13;
-IO_LOC "piano_key_n[8]" A15;
+IO_LOC "piano_key_n[8]" F15;
 IO_LOC "piano_key_n[9]" C13;
-IO_LOC "piano_key_n[10]" A20;
+IO_LOC "piano_key_n[10]" F16;
 IO_LOC "piano_key_n[11]" A14;
 IO_LOC "piano_key_n[12]" A13;
 IO_PORT "piano_key_n[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;

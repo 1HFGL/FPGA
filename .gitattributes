@@ -4,3 +4,17 @@
 /build/audition/octave3_j13_20261017/* -text
 /build/audition/octave3_j13_20261017/*.fs binary
 /verification/evidence/octaves/* -text
+/verification/evidence/ui_touch/* -text
+
+# Preserve the touch-preparation preview and reproducible evidence bytes.
+/build/audition/touch_brightness_prepare_20261017/* -text
+/build/audition/touch_brightness_prepare_20261017/*.fs binary
+/verification/evidence/touch/* -text
+
+/build/audition/room_reverb_j13_20261017/* -text
+/build/audition/room_reverb_j13_20261017/*.fs binary
+/verification/evidence/reverb/* -text
+
+/build/audition/delay_chorus_j13_20261017/* -text
+/build/audition/delay_chorus_j13_20261017/*.fs binary
+/verification/evidence/effects/* -text

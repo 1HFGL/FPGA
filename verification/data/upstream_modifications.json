@@ -1,0 +1,9 @@
+[
+  {
+    "path": "rtl/synth/voice_bank_music_pipe.v",
+    "upstream_sha256": "ab080ef2bd4f60d377537abdab51e0655248bb7dd269073f868aec976ac029b4",
+    "current_sha256": "460a713b045a9a0a61aa0db9c9baf2d74b4f68f530ab52a985c3373d7fd6c46b",
+    "reason": "2026-10-17 user-approved lossless three-bank ROM organization; arithmetic, state scheduling and R923 remain unchanged",
+    "evidence": "verification/evidence/architecture/summary.json"
+  }
+]

@@ -1,0 +1,6 @@
+# PASS tb_simple_ui_map: 1228800 pixels, black precedence, 13 guitar pads, exact control edges, invalid coordinates
+# PASS tb_simple_ui_states: three ranges, both-mode octave labels, 3042 independent fret checks, every note visible, high frets
+# PASS tb_practice_display: two full actual RGB frames; guide borders/ordinary held highlight/progress; atomic 83bit CDC
+# PASS tb_touch_contact_tracker: 28 exact events, five contacts/IDs/reorder/same-note/glissando/octave/mode, controls, full16 allocator isolation, disconnect/duplicate/backpressure/pending reset
+# PASS tb_slider_guide_hdmi: actual I2C/slider/filter; correct/wrong/held/repeated keys; guitar/octave; HDMI loss/reset; exact DAC/PA/UART audio isolation samples=2298
+# PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)

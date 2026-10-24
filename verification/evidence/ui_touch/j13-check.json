@@ -1,0 +1,14 @@
+{
+  "board": "NEO Dock 31005 + Tang Mega 60K SOM",
+  "ports": 25,
+  "migrated_signals": 15,
+  "cst_sha256": "5bc231cf88da45e8d8c6c7bc987885327ad1ffc79b96499992539c91d3655ed7",
+  "contract_sha256": "ae1bf90ddc5acbdd086785fe7639c5997ca0bc6c5576c4e4568fa6d89824afc9",
+  "checker_sha256": "991b7a196747d6e7fb4ffa3dbb6d746d092639e1fb3a8358ee73feb451379833",
+  "previous_cst_sha256": "027c19cf060dbd19409b733eaceb76ed177d41485ae3db90ec4419c533c6893a",
+  "hardware_measured": false,
+  "reports": {
+    "projects\\hdmi\\impl\\pnr\\piano_hdmi.rpt.txt": "8746c29e3167f689ac411467d141eced1328c85b84353c979e5bef93806a5478"
+  },
+  "status": "PASS_PIN_CONTRACT_ONLY"
+}

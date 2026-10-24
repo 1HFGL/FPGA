@@ -1,8 +1,62 @@
 # 项目协作规范：高云 FPGA 电子乐器
 
+## 最新核验：2026-10-23 琴键映射并行化未晋升
+
+用户批准仅将`instrument_ui_map.v`的矩形命中改为并行判断/独热汇总，保留黑键优先及纯组合接口。候选只在`build/ui_map_parallel_20261023/candidate/`，正式RTL/ROM/队友TB/CST/SDC/process与位流均未改。完整12位坐标×两种乐器共33554432组与原版及独立模型一致，2种边界/优先级故障被拒；两帧实际RGB共1228800像素哈希一致，6项既有显示/触点/音频隔离/17轮恢复回归通过。
+
+相同P3/R1/C0的基线全量重建复现旧余量；候选Logic26264/FF12034/BSRAM90/DSP25.5（少76 Logic/4 FF），但五类余量为0.433/0.191/0.976/0.144/5.803ns，Setup低于原1.193ns，不满足预设采用门槛，未独立复跑或替换正式版本。新最差Setup在系统复位释放经采样使能/预设选择到包络幅度的组合链，说明仅改显示也会改变全局布局；不据此擅改A或放宽约束。只新增独立穷举TB及证据，195文件严格编译通过；原756份文件除AGENTS/PLAN/验证说明外保持。正式SHA256仍`2702c933ebde3678f69bd7b61894a2c5f99923bacbb133ab49a5681e5efaba40`。证据`verification/evidence/ui_map_parallel/summary.json`，未推送/烧录，外部时序缺口不变。
+
+## 最新核验：2026-10-23 HDMI复位定向布局未晋升
+
+用户同意继续检查薄余量后，以同一综合网表、Place3/Route1/ClockOrder0比较基线及3种局部复位位置。移动合并LUT虽将Removal提高到276ps，却令Setup降到3ps；整体移一列为Setup902ps/Removal147ps；仅移第一级FF后最短路径转到第二级，Removal141ps。均未达到本轮预先记录的整体采用门槛，正式RTL/ROM/TB/CST/SDC/process和位流完全不变，仍使用下节SHA256及1.193/0.184/0.879/0.144/5.803ns，不能把候选当新发布包。
+
+本轮重跑194份严格Verilog、17轮HDMI恢复及恢复后位序故障注入、DAC发射正/负测试、14项PNR流程与6项引脚故障检查。737份原有文件中仅本条/PLAN/验证文档更新，其余734份哈希保持；未新增正式RTL或修改队友TB。PR1014仍在：报告显示sys_clk_d已使用PRIMARY，不能误称整条时钟走普通布线；接入路线仍待闭合。DAC数字窗口320ns不是完整板外余量，接收器建立/保持、板级偏斜及实测边沿仍缺。证据`verification/evidence/hdmi_reset_margin/summary.json`，分析见验证文档末节。按系统化排查停止继续盲试局部位置；后续先评审复位相位结构/像素预解码，不擅自放宽约束或改系统时钟。本轮无正式重建、推送、烧录或实物验收。
+
+## 当前覆盖：2026-10-23 最薄余量优先
+
+用户看到取舍后明确选择“优先改善最薄余量，复跑一致后采用Place=3”。正式配置本轮仅Place由4改3；Route=1、ClockOrder=0和资源复制保持，明确覆盖下文旧Place=4记录。9组同网表对照后，P3/R1/C0独立复跑及正式全量重建的资源、五类余量一致：Logic26340/FF12038/BSRAM90/DSP25.5；Setup/Hold/Recovery/Removal/Pulse为1.193/0.184/0.879/0.144/5.803ns。最薄64→144ps，不称各类全面改善；Setup由2.302降至1.193ns是用户确认的取舍，不是放宽SDC。
+
+本轮194份严格Verilog编译、4项既有导奏/BLE/滑条音频隔离/17轮HDMI恢复回归、14项PNR流程和6项引脚负向检查通过；699份保护文件逐字节未变，全部RTL/ROM/既有TB/CST/SDC保持。综合网表重跑有自动命名差异，84模块1900912对token经接口/本地双射核对，7类反例被拒，不能称原始VG字节相同。音频R923/R953、16声部、48kHz和接线不变。当前正式位流SHA256 `2702c933ebde3678f69bd7b61894a2c5f99923bacbb133ab49a5681e5efaba40`；证据`verification/evidence/timing_margin/summary.json`，详情见验证文档末节。未提交/推送/烧录，PR1014、完整DAC外部时序、USB触摸和实物总延迟仍待验收。
+
+## 当前追加：2026-10-23 滑条、蓝牙与屏幕导奏
+
+用户批准B10K裸滑条接ADS1115 AIN2作为第三维明亮度；裸件多焊脚的具体脚序尚未确认，不套用通用三针位置图。正式HDMI ENABLE_SLIDER_BRIGHTNESS=1，原14位双旋钮总线不改，第三路独立7位、48kHz平滑，未就绪/ADC故障回127。AIN2未接时须固定3.3V，不能悬空。KEY1音区、KEY2乐器、A核心/ROM、16声部、三效果、R923/R953不变。
+
+正式HDMI启用独立BLE UART：ble_tx=B16→模块RXD，ble_rx=B15←TXD，ble_state=A16←STATE（必须接，高=连接）；默认9600/8N1，PC V14/U15仍115200。原约束字节保持，新ble.cst/ble.sdc只补3个引脚和4项时序合同。正式事件源改9位：实体0..12，PC 0x100|note，BLE 0x180|note；单路断连/HELLO/PANIC/超时不能清其他来源。兼容配置ENABLE_BLE=0保留原8位，C独立工程/全部既有TB不改。
+
+用户明确不用LED，改屏幕预置曲谱导奏。新增practice_guide仅观察已接受新起音，内置《小星星》14音，按对推进、长按不连跳、重复音需重新起音，完成后KEY0复位重练；KEY1映射当前音区，KEY2不清进度。屏幕青绿框是目标、黄底是实际按住，83位原子显示副本；不新增字库/帧缓存。USB主机/触摸演奏仍未完成，屏幕指引不等于LED条目自动达标。
+
+当前194份严格编译、13项新旧功能回归、3项故障注入、14项PNR流程测试、6项引脚故障检查通过，670份既有保护文件字节不变。首个导奏候选Setup=-0.935ns已隔离为不可下载；仅寄存导奏观察副本（显示+20ns、音频不变）并缩短显示局部组合路径，未动A或放宽约束。最终正式HDMI Logic26342/FF12038/BSRAM90/DSP25.5，五类余量2.302/0.064/0.976/0.144/6.072ns；Hold仅64ps，仍偏紧。位流SHA256 `0407a18f4f95c2120149d3051e465839285d4e71261e76e5a377f3f529351bc0`，证据`verification/evidence/slider_ble/summary.json`。本条取代下文旧位流身份，旧记录仅历史。未推送、未烧录，B10K脚序/BLE实机/USB触摸及完整外部时序/模拟总延迟均待验收。
+
+## 当前覆盖：2026-10-23 时序优化
+
+用户批准按“约束→RTL→综合→实现”执行。正式HDMI仅将process的资源复制开启、Place改4、Route改1，ClockOrder仍0；这是本轮对下文“process不动”的明确覆盖。正式RTL/ROM、所有既有TB、CST/SDC保持原字节，包络改写仅作build内实验。隔离候选与正式重建均为Logic23317/FF9443/BSRAM92/DSP24.5，五类余量1.966/0.170/0.976/0.144/6.072ns；R923/R953不变。当前位流SHA256 `b24d6796ed6b89164b48a985eda61b24a0b45fc97dedb7062b91aad37cc2b87e`，证据`verification/evidence/timing_order/summary.json`，详情见PLAN第4节和docs/verification末节。未推送/烧录，PR1014和完整外部时序仍待闭合。
+
+## 当前发布范围：用户分支核验
+
+用户授权将本地混响、Delay、Chorus 源码、证据与试听包推到 `cleanup/expression-brightness`，明确暂不推 master；本提交不创建或合并PR。以下“未推送”及摘要 `published:false` 是保留的构建时快照，分支发布不改变既有固件字节或测试结论。后续合入 master 需要用户另行授权。
+
+## 最新操作覆盖：2026-10-17 补齐Delay与Chorus
+
+用户明确追加两种效果，无需新按键/触摸/上位机控制。正式顶层ENABLE_CHORUS/ENABLE_DELAY/ENABLE_REVERB均1，兼容核心均0；链路为可选明亮度→chorus_effect→echo_delay→原room_reverb→B。共用混音总线、单声道复制双通道，不计新增可演奏声部或表情维度。KEY1音区、KEY2乐器不改，USB触摸仍待接入。Chorus占1块RAM、Delay占9块；新增17拍，HDMI R953、无屏R950，976拍准备窗仍保留。
+
+171文件严格Verilog-2001、9项测试、851000输入×6种配置通过；三效果正式链路13571样本逐级匹配独立整数参考，其中5031样本为Chorus输出零但Delay仍有回声。256份已有受保护文件逐字节不变。HDMI Logic23097/FF9210/BSRAM114/DSP25；无屏 Logic18719/FF8502/BSRAM100/DSP22，带屏余4块RAM。三效果PA完整尾声测试通过，原合成/ROM/混响、旧TB、引脚/SDC/process不改。旧合同须显式--dry（三效果全关）、--reverb-only（只留混响）或--legacy，不能改旧TB。新包build/audition/delay_chorus_j13_20261017含新三效果和原混响对照；旧包/证据保留且校验原哈希。新证据见verification/evidence/effects/summary.json。尚未烧录、实物试听、推送；保留PR1014/完整DAC外部时序与模拟延迟待验收项。
+
+## 历史操作覆盖：2026-10-17 默认房间混响
+
+用户确认先做混响，默认开启并提供干声对照；本条覆盖旧“混响暂缓”。两个正式顶层ENABLE_REVERB=1，共享room_reverb位于原A输出/可选明亮度之后，原A模型/ROM保持，16复音/48kHz、KEY1三音区、KEY2乐器不变。混响为固定预设，不计新增可控表情维度；触摸物理链路仍未实现。新增9拍，HDMI R936/无屏R933，原976拍准备窗和60半边沿提前量不变。PA必须等待湿声内部状态归零及原DAC帧排空。关闭混响的旧测试必须显式使用--dry或--legacy，不能改写既有TB降低断言。
+
+已验证166文件、7项测试、505192输入×3比例、5971集成样本；两入口现有约束检查通过，HDMI BSRAM104/118、DSP20；无屏BSRAM90、DSP17，Hold最小49ps。250份受保护既有文件未改，只给无屏未用明亮度输入显式接127中性值。新包build/audition/room_reverb_j13_20261017包含新湿声与上轮干声基准，来源不可混称。见docs/reverb.md和verification/evidence/reverb/summary.json。未烧录/实物试听/推送此轮改动，不称完整外部时序签核。
+
 本文件面向在当前目录工作的后续AI助手；详细学习与开发安排见 [PLAN.md](./PLAN.md)。本文件不能替代用户当次要求或更高优先级指令。
 
+## 最新操作覆盖：2026-10-17 触摸明亮度准备
+
+用户确认最终独立运行，只有明亮度改用触摸；KEY1三音区、KEY2乐器保留。当前触摸线未接，HDMI默认ENABLE_TOUCH_BRIGHTNESS=1仅接规范化报告边界常量零，显示“触摸关”。不要宣称USB主机／HID已实现，不要猜接线或刷控制器。共用核心EXTERNAL_BRIGHTNESS=1允许音区键与外部明亮度并用，48kHz逐级平滑，tone_filter不变，HDMI R927／无屏R924。原A模型／ROM／约束／上游TB不动。板卡侧合同见docs/touch-brightness.md，结果见verification/evidence/touch/summary.json。下文历史“明亮度停用”仅适用于旧音区包；新预览包不表示物理触摸已通。
+
 ## 项目与人员事实
+
+- 2026-10-22最新覆盖：用户批准本地合并master e06e344和效果器分支f314bc0，默认开启轻Chorus／Delay／Room，不推送／烧录；实际合并a36a780、301da9d，原未提交优化仍在工作区，不能只凭HEAD复现当前构建。唯一正式HDMI入口、浅色UI、ROM重排及C18/E19/D20/F15/F16五黑键保持，原约束/process和队友TB不动。当前音频R923原始有效／R953缓存，60半边沿提前量、48kHz、16声部不变。触摸明亮度准备接口保留但USB未接入，不叠加旧深色滑条。187份严格编译、16项功能测试（含3项显式dry兼容）、独立参考、17次HDMI恢复与故障注入、引脚检查通过；226份合并前保护文件字节不变。当前Logic23321/FF9250/BSRAM92/DSP24.5，五类余量0.121/0.070/0.834/0.143/5.803ns，仍偏紧且外部时序未闭合；最新位流SHA256 a27aa8b48599f62dd1001825f52afd0b80de3130c5871b583ffd9489d4e9fc0b。证据verification/evidence/merge_effects/summary.json。此条取代下文“只fetch不合并”和“混响暂缓／当前R924”；队友历史试听包是旧接线，不用于当前线束。实物尚未验收。
 
 - 2026-10-17审查与修复：Opus缓存包络步长会在R0换预设或连续sample_tick时读取旧结果，已改为当前幅度的双预设候选并行计算后选择，不增加音频延迟。新增独立整数参考139069次对照和Env负向检查；正式UI=1保留2bit覆盖度字模/原生48px标题，审计改用`*_ui_frame.hex`并与UI=0转储分开。149个发布文件严格编译、8项正式/7项A原版/Python定点对照、HDMI17次恢复与负向检查、57项PC测试通过。145份受保护文件及34份导入文件不变，固定清单在verification/data。两入口重建：HDMI Logic19835/FF7716/BSRAM94/DSP13.5，五类余量+1.021/+0.203/+0.834/+0.143/+5.803ns；无屏Logic16127/FF7110/BSRAM80/DSP13，+0.744/+0.146/+14.893/+1.220/+6.809ns。R923/R924和原约束/process/接线不变。详见docs/verification及final摘要；仍未代为下载或实物验收，不称全面签核。
 
@@ -111,3 +165,25 @@
 ## 当前操作覆盖：2026-10-17 三音区
 
 用户已确认此前音色异常是音响问题。最新用户要求优先KEY1切换音区，暂不做明亮度：两个正式入口ENABLE_OCTAVE_KEY=1、ENABLE_BRIGHTNESS=0；复位钢琴/中音区，KEY1中→高→低→中（每次按下一个档位，不长按连跳），KEY2切乐器并保留音区。低C3～C4/中C4～C5/高C5～C6，每区13音，两乐器相同。旧音按原音高松键、PC绝对MIDI独立；音区和高亮共同寄存送HDMI。高音吉他显示12～24品。当前音频合同恢复R923有效/R924缓存，原60半边沿提前量不变。旧明亮度代码仅保留可选兼容，不与音区功能同时启用；八度不计第三表情维度。当前下载包build/audition/octave3_j13_20261017，证据verification/evidence/octaves/summary.json。新位流实物验收仍待用户进行。
+
+## 当前覆盖：2026-10-17 简洁界面与触点阶段
+
+用户选择暖白/浅灰＋淡黄“静奏·简洁版”，随后要求完成计划。expression已合到本地master；新界面已修改唯一`instrument_panel_ui`，新增共享`instrument_ui_map`及帧域`display_feedback`，正式HDMI已PNR。当前位流是`projects/hdmi/impl/pnr/piano_hdmi.fs`，SHA256 `23b8d73c5ae0049b9f55db50dc75144a82c7b2fab65e02652ae2a5fe537063f8`；旧octave3包不能验收新界面。Logic20704/寄存器8059/BSRAM94/DSP13.5，五类最差余量1.303/0.124/0.834/0.143/5.803ns，仍有既有外部时序缺口。166份严格编译、10项常规及1项松键故障注入通过，既有TB未改。
+
+用户同时要求FPGA独立USB触摸，不用电脑/MCU运行时转发。已写`touch_contact_tracker`并独立与满16声部分配器测试/综合，只接收完整已解码的五触点快照；该模块尚未进入正式顶层。USB主机、HID适配/组包、跨域及正式三路/延音汇合未完成。用户回复新线尚未接电脑，实际USB描述符/报告缺失；不得据界面按钮或独立触点仿真宣称屏幕触摸已通。执行剩余T3～T6见PLAN第7.1节，证据`verification/evidence/ui_touch/summary.json`。本轮未推送、未烧录、未做实物延迟；继续保留用户`.vscode/config.json`修改和未跟踪HDMI证据。
+
+## 当前覆盖：2026-10-18 单一正式工程
+
+用户明确不再维护无屏幕项目。唯一正式构建/布局布线/下载入口为`projects/hdmi/piano_hdmi.gprj`及`piano_hdmi_top`；未接屏幕也使用同一固件，并通过显示失锁/拔屏不干扰音频的回归验证。`piano_performance_top`只保留为既有仿真的无显示对照，不再单独维护和发布无屏产品。`projects/piano/`包含HDMI仍使用的`read_timing_html.py`且有原先未提交改动，本轮不整目录删除。A试听工程、C独立工程和队友TB不变。以上取代旧文档中的“双正式入口”维护要求；早期无屏资源/位流记录仅是历史证据。
+
+本轮在已有ROM重排基础上，仅简化`sample_tick`、`i2s_tx`、`event_encoder`和`instrument_panel_ui`。173份严格Verilog、169份受保护文件哈希、360万音频周期/48万事件周期/139264像素请求差分、正式集成与A/C/复位回归通过；音频R923/R924和原约束不变。HDMI验证候选`build/pnr_sweep/20261018_182819_559cb1/best/piano_hdmi.fs`，SHA256 `93a99df1b30383ac7b60c2129952cdf41aad8c4cf9d256501a2188d5501c3c5a`，Logic20512/寄存器8030/BSRAM72/DSP13；五类余量2.990/0.116/0.834/0.143/5.803ns，独立复跑一致。相对上轮候选少145逻辑/29寄存器/0.5DSP，但Setup/Hold较低，不称时序全面改善。默认impl为另一布局（Setup0.063ns），不得混用报告。详情和中间实验见docs/verification最新节及verification/evidence/datapath/summary.json；未烧录、未推送，外部时序与实物仍待验收。
+
+## 当前覆盖：2026-10-19 手机App独立迁移
+
+用户确认仅将手机BLE控制App从`host/harmony/`迁至`D:/Project/jingzou_harmony`，FPGA仓库不动。专属说明和预览图也已迁出，当前入口见`docs/mobile-app.md`和独立工程README；不要在本仓库重建第二份手机源码。C盘library中的DevEco Studio 26.0.0.851已可用。最新0.1.1通过25项手机检查/严格类型、原生构建及签名核验，并按用户要求命令行更新安装、启动。初次0.1.0的Profile/手机授权与进程/FOREGROUND证据在独立工程`build/install/summary.json`；0.1.1修复无过滤扫描参数后，用户明确确认能扫描或显示设备、401消失，证据在`build/ble-fix/summary.json`。完整GATT/FPGA联调、内外屏全面适配及整机延迟未验收。用户要求的个人流程技能已保存到`C:/Users/YUAN/.codex/skills/harmony-hap-deploy/SKILL.md`，未来部署按实际会话授权及当前包身份核对。
+
+## 当前覆盖：2026-10-22 五黑键迁移与Git只拉取
+
+用户最终确认五按钮为C#/D#/F#/G#/A#，迁至下方已焊40针排针丝印C18/E19/D20/F15/F16（J13-40/38/36/34/32），F13不用；八白键1..8及ADC16/17不动，取代上文黑键9/10/13/14/15。蓝牙RXD/TXD/STATE另预留B16/B15/A16，仅文档预留，尚未接入顶层；VCC/GND仍走已确认电源接口，不用GPIO供电。174文件严格编译、4项原样功能测试、4项引脚故障检查和正式PNR通过；220份RTL/TB/ROM/既有受保护约束配置不变。新HDMI位流`projects/hdmi/impl/pnr/piano_hdmi.fs`，SHA256 `c21fd1b86a3a80293a2307d27a2f6b9db9c46a86a6ec2fe2299c8ede7cc4c6ae`，Logic20513/FF8030/BSRAM72/DSP13，五类余量0.063/0.179/0.832/0.143/5.803ns；余量偏紧，仍未下载/实测/完整外部签核。不得交付旧引脚位流。
+
+Git已fetch至origin/master e06e344及origin/cleanup/expression-brightness f314bc0。用户明确“先只拉取，暂不提交或合并”，因此本地仍922e059并保留既有未提交优化，不擅自提交、合并或推送。队友分支已有混响/延迟/合唱及R953缓存合同，当前正式工程仍R924、尚未集成效果器。官方规模拓展不只32复音，还可每音≥32加法分量或多个并行物理建模单元；48模态槽不自动证明有效可闻数量，须补独立状态和频谱证据。详见PLAN第4节和docs/verification末节。

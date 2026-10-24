@@ -1,8 +1,8 @@
 {
     "FPGA_Tree_TOP": {
         "filePaths": [
-            "D:\\Project\\fpga_contest\\rtl\\top\\instrument_uart_piano_top.v"
+            "D:\\Project\\fpga_contest\\rtl\\top\\piano_hdmi_top.v"
         ],
-        "fileName": "instrument_uart_piano_top.v"
+        "fileName": "piano_hdmi_top.v"
     }
 }

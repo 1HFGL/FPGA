@@ -1,0 +1,8 @@
+{
+  "status": "PASS_MUTATION_REJECTED",
+  "exit_code": 3,
+  "kind": "right_boundary",
+  "flags": "-vlog01compat -pedanticerrors",
+  "sample_domain": "4096 x 4096 coordinates x 2 instrument values",
+  "log_sha256": "a9cbf417e8fa6a7a5243febe7a8e1b791de0f683d6f377e8d16b1b58b1923a38"
+}

@@ -30,16 +30,37 @@ module sample_tick #(
     localparam integer REQUEST_EDGE_INDEX = (REQUEST_LEAD_HALF_EDGES==0) ?
         0 : HALF_EDGES_PER_FRAME-REQUEST_LEAD_HALF_EDGES;
 
-    reg [31:0] phase_acc;
-    reg [15:0] half_edge_index;
-    wire [32:0] phase_sum = {1'b0, phase_acc} + {1'b0, HALF_EDGE_RATE_HZ};
+    // Verilog-2001常量函数：能表示0..count-1的最小位宽，至少保留1位。
+    function integer counter_bits;
+        input integer count;
+        integer value;
+        begin
+            value=count-1;
+            counter_bits=0;
+            while(value>0)begin
+                counter_bits=counter_bits+1;
+                value=value>>1;
+            end
+            if(counter_bits<1)counter_bits=1;
+        end
+    endfunction
+    localparam integer PHASE_BITS=counter_bits(AUDIO_CLK_HZ);
+    localparam integer EDGE_BITS=counter_bits(HALF_EDGES_PER_FRAME);
+    localparam [PHASE_BITS-1:0] PHASE_THRESHOLD=SOURCE_RATE_HZ-HALF_EDGE_RATE_HZ;
+    reg [PHASE_BITS-1:0] phase_acc;
+    reg [EDGE_BITS-1:0] half_edge_index;
+    wire [PHASE_BITS:0] phase_sum = {1'b0, phase_acc} + HALF_EDGE_RATE_HZ;
 
     // 每拍往“进度桶”加HALF_EDGE_RATE_HZ，达到SOURCE_RATE_HZ就发一次使能，
-    // 并只减去阈值、保留余数。33位中间和保留进位，避免先溢出再比较。
+    // 并保留余数。状态始终满足0<=phase_acc<SOURCE_RATE_HZ，因此
+    // phase_acc+RATE>=SOURCE 等价于 phase_acc>=SOURCE-RATE。
+    // 直接比较阈值可让高扇出使能绕过加法器；发脉冲时也只需一次减法。
+    // 不增加寄存器级数，第一拍和之后所有请求时刻与原累加器一致。
+    // 扩展一位保存加法结果；RATE==SOURCE时阈值为0，每拍触发，不走加法支路。
     // 合法参数：0 < HALF_EDGE_RATE_HZ <= AUDIO_CLK_HZ，
     // AUDIO_CLK_HZ < 2^31，且 4*SLOT_BITS <= 65536。
-    assign bclk_half_ce = rst_n && (phase_sum >= {1'b0, SOURCE_RATE_HZ});
-    assign frame_start = bclk_half_ce && (half_edge_index == 16'd0);
+    assign bclk_half_ce = rst_n && (phase_acc >= PHASE_THRESHOLD);
+    assign frame_start = bclk_half_ce && (half_edge_index == {EDGE_BITS{1'b0}});
     assign sample_prepare = bclk_half_ce && (half_edge_index == REQUEST_EDGE_INDEX);
 
     // 仅供验证入口拒绝非法配置；不综合运行期检查硬件。
@@ -56,17 +77,18 @@ module sample_tick #(
 
     always @(posedge clk_audio or negedge rst_n) begin
         if (!rst_n) begin
-            phase_acc       <= 32'd0;
-            half_edge_index <= 16'd0;
+            phase_acc       <= {PHASE_BITS{1'b0}};
+            half_edge_index <= {EDGE_BITS{1'b0}};
         end else begin
             if (bclk_half_ce) begin
-                phase_acc <= phase_sum[31:0] - SOURCE_RATE_HZ;
+                phase_acc <= phase_acc - PHASE_THRESHOLD;
                 if (half_edge_index == HALF_EDGES_PER_FRAME - 1)
-                    half_edge_index <= 16'd0;
+                    half_edge_index <= {EDGE_BITS{1'b0}};
                 else
-                    half_edge_index <= half_edge_index + 16'd1;
+                    half_edge_index <= half_edge_index + 1'b1;
             end else begin
-                phase_acc <= phase_sum[31:0];
+                // 未触发时相加仍小于SOURCE_RATE_HZ，丢弃最高扩展位不会丢数据。
+                phase_acc <= phase_sum[PHASE_BITS-1:0];
             end
         end
     end

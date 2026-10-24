@@ -29,6 +29,8 @@ $inputs=@($projectPath,$PSCommandPath,$processConfigPath,(Join-Path $PSScriptRoo
 foreach($node in $project.Project.FileList.File){
     $inputs+=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot $node.path))
 }
+$inputs+=Join-Path $root 'projects/check_modal_rom.tcl'
+$inputs+=Get-ChildItem -LiteralPath "$root/rtl/rom" -Filter 'piano_v3_modes.mem.bank*.mem' | ForEach-Object {$_.FullName}
 $lines=@('top=music_uart_top target=GW5AT-LV60PG484AC1/I0/B clock=50MHz')
 foreach($file in ($inputs | Select-Object -Unique)){
     $lines+="$((Get-FileHash -LiteralPath $file).Hash)  $file"
@@ -56,8 +58,13 @@ if($log -match 'ERROR|EX3988|EX3791|EX3073'){throw 'Unresolved error/ROM/width/i
 $base=Join-Path $PSScriptRoot 'impl/pnr/music_uart16'
 $rpt=Get-Content "$base.rpt.txt" -Raw
 $timing=Get-Content "$base.tr" -Raw
-# Measured control revision: +2 BSRAM for ratio ROM, +2 DSP for pitch/gain arithmetic.
-if($rpt -notmatch 'BSRAM\s*\|\s*79/118' -or $rpt -notmatch 'DSP\s*\|\s*11/118'){
+# 音色ROM已改为三bank；检查实际映射结构，不把旧79块总数写成资源下限。
+$netlist=Get-Content (Join-Path $PSScriptRoot 'impl/gwsynthesis/music_uart16.vg') -Raw
+$mappedBanks=0
+foreach($bank in 0..2){
+    if($netlist -match "(?m)^\s*pROM\s+bank${bank}_bank${bank}_"){$mappedBanks++}
+}
+if($mappedBanks -ne 3 -or $rpt -notmatch 'BSRAM\s*\|\s*\d+/118' -or $rpt -notmatch 'DSP\s*\|\s*11/118'){
     throw 'Audio ROM/DSP inference mismatch'
 }
 if(([regex]::Matches($rpt,'(?m)^\w+(?:\[\d+\])?\s*\|\s*-\s*\|\s*\w+/\d+\s*\|\s*Y\s*\|')).Count -ne 10){

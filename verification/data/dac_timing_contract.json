@@ -1,0 +1,30 @@
+{
+  "board": "Tang Mega NEO Dock 31005 + 60K",
+  "receiver": "PT8211-S",
+  "source": "https://www.princeton.com.tw/Portals/0/activeforums_Attach/PT8211%20V1.7_E.pdf?ver=I8v0SNPIQri_LxlOI2sp7w%3D%3D",
+  "source_revision": "V1.7, August 2022, pages 4-5",
+  "scope": "50MHz / 48kHz / 16-bit LSBJ; no Philips-I2S compliance claim",
+  "published": {
+    "bck_max_mhz": 18.4,
+    "ws_max_khz": 384,
+    "bck_high_min_ns": 25,
+    "rise_max_ns": 20,
+    "fall_max_ns": 20
+  },
+  "unknown_ns": {
+    "din_setup": null,
+    "din_hold": null,
+    "ws_setup": null,
+    "ws_hold": null,
+    "board_skew_din": null,
+    "board_skew_ws": null,
+    "clock_uncertainty": null
+  },
+  "unresolved_evidence": [
+    "Manufacturer DIN/WS setup and hold limits; tH=25ns is clock high duration, NOT data hold",
+    "31005 board delay/skew, oscillator tolerance/jitter and receiver operating conditions",
+    "All output rise/fall min/max paths and corners, not just paths printed in the default report",
+    "DAC-pin rise/fall time, load and voltage; no scope measurement supplied",
+    "Reset truncates clocks asynchronously; startup/analogue mute transient is not signed off"
+  ]
+}

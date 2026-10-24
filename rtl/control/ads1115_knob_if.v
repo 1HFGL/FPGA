@@ -24,7 +24,10 @@ module ads1115_knob_if #(
     parameter integer RAW_MAX_1     = 26400,
     parameter integer FILTER_SHIFT  = 0,
     parameter integer SLEW_STEP     = 127,
-    parameter integer RETRY_WAIT    = CLK_HZ / 100
+    parameter integer RETRY_WAIT    = CLK_HZ / 100,
+    parameter integer ENABLE_BRIGHTNESS = 0,
+    parameter integer RAW_MIN_2     = 0,
+    parameter integer RAW_MAX_2     = 26400
 ) (
     input  wire clk,
     input  wire rst_n,
@@ -33,7 +36,10 @@ module ads1115_knob_if #(
     output wire [13:0] knob_value_flat,   // {knob1[6:0], knob0[6:0]}
     output wire knob_sample_valid,
     output wire param_ready,
-    output wire param_fault
+    output wire param_fault,
+    output wire [6:0] brightness_value,
+    output wire brightness_valid,
+    output wire brightness_ready
 );
 
     wire [31:0] raw_flat;      // {chn1[15:0], chn0[15:0]}
@@ -41,6 +47,8 @@ module ads1115_knob_if #(
     wire ads_fault;
     wire knob_fault;
     wire knob_ready;
+    wire [15:0] raw_ch2;
+    wire ch2_valid;
     // Constant reciprocal multiplication avoids a large combinational divider.
     localparam integer SPAN_0 = (RAW_MAX_0 > RAW_MIN_0) ? RAW_MAX_0 - RAW_MIN_0 : 1;
     localparam integer SPAN_1 = (RAW_MAX_1 > RAW_MIN_1) ? RAW_MAX_1 - RAW_MIN_1 : 1;
@@ -90,6 +98,7 @@ module ads1115_knob_if #(
         .DR           (DR),
         .CH0_MUX      (CH0_MUX),
         .CH1_MUX      (CH1_MUX),
+        .ENABLE_CH2   (ENABLE_BRIGHTNESS),
         .CONV_WAIT    (CONV_WAIT),
         .RETRY_WAIT   (RETRY_WAIT),
         // FPGA复位不等于ADC掉电：先让可能尚在进行的单次转换结束。
@@ -101,7 +110,8 @@ module ads1115_knob_if #(
         .sample_valid (sample_valid),
         .fault        (ads_fault),
         .sda          (sda),
-        .scl          (scl)
+        .scl          (scl),
+        .raw_ch2      (raw_ch2),.ch2_valid(ch2_valid)
     );
 
     adc_knob_if #(
@@ -125,5 +135,35 @@ module ads1115_knob_if #(
 
     assign param_fault = ads_fault | knob_fault;
     assign param_ready = knob_ready && !param_fault;
+
+    // 仍保留原14位旋钮总线，滑条使用独立7位通道；音频域按原规则平滑。
+    // 未就绪/总线故障输出127（中性旁路），不把上电零值误当成调暗指令。
+    generate if(ENABLE_BRIGHTNESS) begin:g_brightness
+        localparam integer SPAN_2=(RAW_MAX_2>RAW_MIN_2)?RAW_MAX_2-RAW_MIN_2:1;
+        localparam [31:0] GAIN_2=(2147418112+SPAN_2/2)/SPAN_2;
+        reg [14:0] normalized;
+        reg valid;
+        wire ready,fault;
+        wire [6:0] value;
+        always @(posedge clk or negedge rst_n) begin
+            if(!rst_n)begin normalized<=0;valid<=0;end
+            else begin
+                valid<=ch2_valid && !ads_fault;
+                if(ch2_valid && !ads_fault)
+                    normalized<=normalize_code(raw_ch2,RAW_MIN_2,RAW_MAX_2,GAIN_2);
+            end
+        end
+        adc_knob_if #(.ADC_WIDTH(15),.KNOB_COUNT(1),.VALUE_WIDTH(7),
+            .READY_SAMPLES(READY_SAMPLES),.FAULT_TIMEOUT(FAULT_TIMEOUT),
+            .FILTER_SHIFT(FILTER_SHIFT),.SLEW_STEP(SLEW_STEP)) u_slider(
+            .clk(clk),.rst_n(rst_n),.sample_valid(valid && !ads_fault),.raw_flat(normalized),
+            .value_flat(value),.param_valid(brightness_valid),.ready(ready),.fault(fault));
+        assign brightness_ready=ready && !fault && !ads_fault;
+        assign brightness_value=brightness_ready ? value : 7'd127;
+    end else begin:g_no_brightness
+        assign brightness_value=7'd127;
+        assign brightness_valid=1'b0;
+        assign brightness_ready=1'b0;
+    end endgenerate
 
 endmodule

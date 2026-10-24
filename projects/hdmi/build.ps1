@@ -13,19 +13,9 @@ try {
     & $Gowin build.tcl prepare *> "$out/prepare.log"
     if($LASTEXITCODE){throw 'Cannot prepare combined constraints'}
     if($PrepareOnly){Write-Output 'PASS prepared piano_hdmi.gprj (no compilation)';return}
-    [xml]$project=Get-Content piano_hdmi.gprj -Raw
-    $inputs=@($PSCommandPath,"$PSScriptRoot/build.tcl","$PSScriptRoot/piano_hdmi.gprj",
-        "$root/verification/scripts/check_hdmi_implementation.py",
-        "$PSScriptRoot/process_config.json","$root/rtl/rom/piano_1024.mem",
-        "$root/rtl/rom/guitar_1024.mem","$root/rtl/rom/sine_1024.mem",
-        "$root/rtl/rom/piano_v3_modes.mem","$root/rtl/rom/rock_v2_shaper.mem")
-    $inputs+=@('piano.cst','piano.sdc','hdmi.cst','hdmi.sdc','hdmi_reset_placement.cst') | ForEach-Object {"$root/boards/tang_mega_60k_31004/$_"}
-    foreach($node in $project.Project.FileList.File){$inputs+=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot $node.path))}
-    $manifest=@('top=piano_hdmi_top; sys=50MHz; pixel=49MHz; serial=245MHz; 1024x600 CVT candidate')
-    foreach($file in ($inputs | Select-Object -Unique)){
-        $manifest+="$((Get-FileHash -LiteralPath $file).Hash)  $file"
-    }
-    $manifest | Set-Content "$out/build_inputs.txt" -Encoding utf8
+    # 与隔离PNR共用清单；解析器、ROM、原约束、生成约束均记录身份。
+    & $Python "$PSScriptRoot/build_inputs.py" --root $root
+    if($LASTEXITCODE){throw 'Cannot enumerate HDMI build inputs'}
     # Gowin 的 gw_sh 会派生综合/布局布线子进程；PowerShell 的 *> 有时只捕获父进程，
     # 于是日志停留在旧内容而退出码仍为 0。改由 cmd 层重定向，确保子进程输出完整落盘。
     # cmd 重定向写 UTF-16LE，随后再转成 UTF-8 供校验脚本读取。
@@ -37,11 +27,8 @@ try {
     $log=Get-Content "$out/build.log" -Raw
     Set-Content "$out/build.log" -Value $log -Encoding utf8
     if($log -match 'ERROR|EX3988|EX3791|EX3073|TA2003'){throw 'Build has unresolved error, ROM, width, interface or constraint warning'}
-    foreach($line in $manifest){
-        if($line -match '^([A-F0-9]{64})  (.+)$'){
-            if((Get-FileHash -LiteralPath $Matches[2]).Hash -ne $Matches[1]){throw "Input changed: $($Matches[2])"}
-        }
-    }
+    & $Python "$PSScriptRoot/build_inputs.py" --verify "$out/build_inputs.txt"
+    if($LASTEXITCODE){throw 'HDMI input changed during build'}
     $expected=(Get-FileHash process_config.json).Hash
     $effective=(Get-FileHash impl/piano_hdmi_process_config.json).Hash
     if($expected -ne $effective){throw 'Effective process options differ from controlled options'}

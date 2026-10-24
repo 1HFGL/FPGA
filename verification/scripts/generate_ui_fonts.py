@@ -46,6 +46,7 @@ TEXT_CHARACTERS = (
     "CDEFGAB"           # 40-46
     "x"                 # 47
     "0123456789"        # 48-57
+    "明亮度原触摸"      # 58-63
 )
 # 48px 标题层：1 起编号；绘制器按音色选“电子钢琴/电子吉他”。
 TITLE_CHARACTERS = "电子钢琴吉他"
@@ -54,6 +55,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("font", type=Path)
 parser.add_argument("output", type=Path)
 parser.add_argument("--digits-font", type=Path, help="等宽数字字体（可选）")
+parser.add_argument("--append-touch-only", action="store_true", help="仅填充58..63槽，保留已发布数字和标题")
 args = parser.parse_args()
 
 assert len(TEXT_CHARACTERS) <= 63, "文本层最多 63 个字形（0 号空白）"
@@ -121,6 +123,26 @@ def rows_for(chars, size, font, digits_font):
 
 
 font_path = args.font
+if args.append_touch_only:
+    import re
+    body=args.output.read_text(encoding='utf-8')
+    sha=hashlib.sha256(font_path.read_bytes()).hexdigest()
+    assert f'text_font_sha256={sha}' in body, 'Use the original Chinese font'
+    old=body
+    body=re.sub(r"        text_rom\[(\d+)\] = 48'h[0-9a-f]+;[^\n]*\n",
+                lambda m:'' if int(m[1])>=58*32 else m[0],body)
+    rows=rows_for(TEXT_CHARACTERS[57:],24,ImageFont.truetype(str(font_path),24),None)
+    lines=[f"        text_rom[{((slot+57)<<5)|row}] = 48'h{value:012x}; // {char} 第{row}行" for slot,row,value,char in rows]
+    anchor='    end\n    // 一拍同步读'
+    assert body.count(anchor)==1
+    body=body.replace(anchor,'\n'.join(lines)+'\n'+anchor)
+    # Reproducible append; neither the original 57 glyphs nor title rows can change.
+    protected=lambda s:[l for l in s.splitlines() if 'title_rom[' in l or
+        (re.search(r'text_rom\[(\d+)\] =',l) and int(re.search(r'text_rom\[(\d+)\]',l)[1])<58*32)]
+    assert protected(body)==protected(old)
+    args.output.write_text(body,encoding='utf-8',newline='\n')
+    print('PASS appended six touch glyphs; original text/title rows unchanged')
+    raise SystemExit(0)
 text_rows = rows_for(TEXT_CHARACTERS, 24, ImageFont.truetype(str(font_path), 24),
                      ImageFont.truetype(str(args.digits_font), 24) if args.digits_font else None)
 title_rows = rows_for(TITLE_CHARACTERS, 48, ImageFont.truetype(str(font_path), 48), None)

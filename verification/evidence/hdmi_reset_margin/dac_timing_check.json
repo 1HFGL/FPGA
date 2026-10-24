@@ -1,0 +1,105 @@
+{
+  "status": "INCOMPLETE_EXTERNAL_EVIDENCE",
+  "signoff": false,
+  "new_pnr_run": false,
+  "hardware_measured": false,
+  "rtl_test": "PASS",
+  "sim_inputs_verified": 90,
+  "build_inputs_verified": 91,
+  "negative_controls": {
+    "DIN": {
+      "result": "EXPECTED_FAULT_REJECTED",
+      "sha256": "76452f1200b9577f8852dd359c52432f17602105e7e18fcb75143a99c438baba"
+    },
+    "WS": {
+      "result": "EXPECTED_FAULT_REJECTED",
+      "sha256": "b6fb86d1d6e935a21d75ae630e430f4f6490fba1614cd4472b6f9be64d5def4d"
+    }
+  },
+  "nominal_digital_window_ns": 320,
+  "provisional_port_window_ns": 300,
+  "provisional_window_assumption": "All BCK/WS/DIN launch-to-pad delays in existing 0..20ns window; no board/jitter/edge allowance yet",
+  "conditional_slack_ns": {
+    "din_setup": null,
+    "din_hold": null,
+    "ws_setup": null,
+    "ws_hold": null
+  },
+  "unknown_ns": {
+    "din_setup": null,
+    "din_hold": null,
+    "ws_setup": null,
+    "ws_hold": null,
+    "board_skew_din": null,
+    "board_skew_ws": null,
+    "clock_uncertainty": null
+  },
+  "unresolved_evidence": [
+    "Manufacturer DIN/WS setup and hold limits; tH=25ns is clock high duration, NOT data hold",
+    "31005 board delay/skew, oscillator tolerance/jitter and receiver operating conditions",
+    "All output rise/fall min/max paths and corners, not just paths printed in the default report",
+    "DAC-pin rise/fall time, load and voltage; no scope measurement supplied",
+    "Reset truncates clocks asynchronously; startup/analogue mute transient is not signed off"
+  ],
+  "printed_paths_only": {
+    "HP_BCK": {
+      "max": [
+        {
+          "arrival_ns": 7.511,
+          "slack_ns": 12.489,
+          "transition": "RR"
+        }
+      ],
+      "min": [
+        {
+          "arrival_ns": 4.036,
+          "slack_ns": 4.036,
+          "transition": "RR"
+        }
+      ]
+    },
+    "HP_WS": {
+      "max": [
+        {
+          "arrival_ns": 7.965,
+          "slack_ns": 12.035,
+          "transition": "RR"
+        }
+      ],
+      "min": [
+        {
+          "arrival_ns": 4.251,
+          "slack_ns": 4.251,
+          "transition": "RR"
+        }
+      ]
+    },
+    "HP_DIN": {
+      "max": [
+        {
+          "arrival_ns": 6.155,
+          "slack_ns": 13.845,
+          "transition": "RR"
+        }
+      ],
+      "min": [
+        {
+          "arrival_ns": 3.425,
+          "slack_ns": 3.425,
+          "transition": "FF"
+        }
+      ]
+    }
+  },
+  "bitstream_sha256": "2702c933ebde3678f69bd7b61894a2c5f99923bacbb133ab49a5681e5efaba40",
+  "report_sha256": "f8b950997cd4794ac0c92daa76f1de3e77f716785198e7c815e8a7e383998f3f",
+  "sha256": {
+    "verification\\data\\dac_timing_contract.json": "0951724f0abab82e165ea65286b8b321d6a6dc683b5ac6110c87992b5c513cd8",
+    "verification\\scripts\\check_dac_timing.py": "858cc98a705c08c694d698e0ca2a79d5465da0a949a922d3a9a28c7616243f0d",
+    "verification\\tb\\audio\\tb_dac_launch_timing.v": "8e81e7c253865517d05004cf8ff88c020a5f16d5b26a5a42df9d2603c061c8eb",
+    "build\\hdmi\\build_inputs.txt": "a636fac3144d4315b7e1a251bd6ba4b763f7b09d85d70df9c07ad397fd8fe6b5",
+    "build\\hdmi\\implementation_check.json": "eb027e9dec7514d9d0b57fad2ca4f2c9c22185e08ccaa673ca996f4c0c709a4d",
+    "build\\regression\\final\\tb_dac_launch_timing_console.log": "df8c579f2282c08d39b72ee2ee6f698ae487f5f9ad003be783aec7c02c33520c",
+    "build\\regression\\final\\tb_dac_launch_timing_inputs.json": "8433a8b688b1e9a13b5ceb33bbfd5205f5da3d7b91553d61184605cba1ae15d8"
+  }
+}

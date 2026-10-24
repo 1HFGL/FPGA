@@ -11,7 +11,7 @@ for path in sorted((ROOT/'rtl').rglob('*.v')):
     for rom in re.findall(r'"(rtl/rom/[^"\n]+\.mem)"',body):
         assert (ROOT/rom).is_file(), f'Missing ROM: {rom}'
 projects={}
-for project in [ROOT/'projects/piano/uart_piano.gprj',ROOT/'projects/display/display_rgb.gprj',ROOT/'projects/music/uart_music.gprj']:
+for project in [ROOT/'projects/piano/uart_piano.gprj',ROOT/'projects/display/display_rgb.gprj',ROOT/'projects/music/uart_music.gprj',ROOT/'projects/hdmi/piano_hdmi.gprj']:
     files=[]
     for node in ET.parse(project).findall('.//File'):
         source=(project.parent/node.attrib['path']).resolve()
@@ -29,4 +29,4 @@ assert set(p.name for p in (ROOT/'rtl/rom').glob('*.mem'))>={'sine_1024.mem','pi
 report=dict(active_modules=len(modules),synthesis_modules=len(list((ROOT/"rtl/synth").glob("*.v"))),rom_tables=len(list((ROOT/"rtl/rom").glob("*.mem"))),projects=projects)
 out=ROOT/'build/cleanup_a';out.mkdir(parents=True,exist_ok=True)
 (out/'source_layout.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
-print(f'PASS source layout: {len(modules)} active modules; unique shared modules; current ROMs; 3 valid GPRJs')
+print(f'PASS source layout: {len(modules)} active modules; unique shared modules; current ROMs; {len(projects)} valid GPRJs')

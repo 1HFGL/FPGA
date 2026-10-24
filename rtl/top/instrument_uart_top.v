@@ -20,7 +20,13 @@ module instrument_uart_top #(
     parameter SHAPER_ROM_FILE="",
     parameter integer ENABLE_BRIGHTNESS=0,
     parameter integer BRIGHTNESS_REPEAT_CYCLES=25000000,
-    parameter integer ENABLE_OCTAVE_KEY=0
+    parameter integer ENABLE_OCTAVE_KEY=0,
+    parameter integer EXTERNAL_BRIGHTNESS=0,
+    parameter integer ENABLE_REVERB=0,
+    parameter integer ENABLE_CHORUS=0,
+    parameter integer ENABLE_DELAY=0,
+    parameter integer ENABLE_BLE=0,
+    parameter integer BLE_CLKS_PER_BIT=5208
 )(
     input wire sys_clk,sys_rst_n,input wire [1:0] Key_in,
     input wire [12:0] piano_key_n,
@@ -36,13 +42,20 @@ module instrument_uart_top #(
     output reg [12:0] monitor_key_down,
     output wire monitor_instrument_guitar,
     output reg [12:0] monitor_piano_keys,monitor_guitar_keys,
-    output reg [1:0] monitor_octave
+    output reg [1:0] monitor_octave,
+    input wire [6:0] control_brightness, // synchronous to sys_clk; used only with EXTERNAL_BRIGHTNESS
+    output wire [6:0] monitor_brightness,
+    input wire ble_rx,ble_state,
+    output wire ble_tx,
+    output reg monitor_note_on,
+    output reg [6:0] monitor_event_note
 );
     wire audio_ready,sample_request,sample_underrun;
     assign control_ready=audio_ready;
     localparam integer PHYSICAL_KEYS=EXTERNAL_PIANO_KEYS ? 13 : 2;
-    // KEY1 has a single role. Octave mode bypasses the optional brightness path.
-    localparam integer USE_BRIGHTNESS=ENABLE_BRIGHTNESS && !ENABLE_OCTAVE_KEY;
+    localparam integer SOURCE_WIDTH=ENABLE_BLE ? 9 : 8;
+    // External brightness coexists with KEY1 octave; the old key mode stays exclusive.
+    localparam integer USE_BRIGHTNESS=ENABLE_BRIGHTNESS && (EXTERNAL_BRIGHTNESS || !ENABLE_OCTAVE_KEY);
     reg [1:0] selected_octave;
     wire octave_press;
     wire [1:0] next_octave=(selected_octave==2)?2'd0:selected_octave+2'd1;
@@ -109,12 +122,15 @@ module instrument_uart_top #(
         assign physical_key_n={ENABLE_GUITAR?1'b1:Key_in[1],ENABLE_OCTAVE_KEY?1'b1:Key_in[0]};
     end endgenerate
     wire pv,pr,pt,cv,cr,ct,av,ar,at,cancel,cancel_ready,ac,acr,session_ready;
-    wire [7:0] ps,asrc;
+    wire [7:0] ps;
+    wire [SOURCE_WIDTH-1:0] asrc,cancel_mask,cancel_value;
+    wire bv,br,bt,bc,bcr;
+    wire [6:0] bn,bvel;
     wire [6:0] pn,pvel,cn,cvel,an,avel;
     wire [VOICES-1:0] voice_gate,voice_active,voice_trigger,release_done;
     wire [VOICES-1:0] voice_key_down;
     wire [VOICES*7-1:0] voice_note_flat,voice_velocity_flat;
-    wire [VOICES*8-1:0] voice_source_flat;
+    wire [VOICES*SOURCE_WIDTH-1:0] voice_source_flat;
     wire [VOICES*4-1:0] voice_timbre_flat;
     wire [VOICES-1:0] bank_timbre;
     genvar instrument_voice;
@@ -127,9 +143,14 @@ module instrument_uart_top #(
     wire signed [15:0] sample_data;
     wire sample_valid,sounding,sample_clipped;
     wire signed [15:0] output_sample_data;
+    wire signed [15:0] tone_sample_data;
+    wire tone_sample_valid,reverb_tail,reverb_overrun;
+    wire signed [15:0] chorus_sample_data,delay_sample_data;
+    wire chorus_sample_valid,delay_sample_valid,chorus_tail,delay_tail,chorus_overrun,delay_overrun;
     wire output_sample_valid,tone_tail,tone_overrun;
     wire [6:0] brightness_target,brightness_current;
-    wire output_sounding=sounding || tone_tail;
+    assign monitor_brightness=brightness_current;
+    wire output_sounding=sounding || tone_tail || chorus_tail || delay_tail || reverb_tail;
     assign monitor_audio_valid=output_sample_valid;
     assign monitor_audio_sample=output_sample_data;
     // 只观察已接受的声部状态：PC与实体同音作OR，尾音不显示成仍按住。
@@ -165,6 +186,15 @@ module instrument_uart_top #(
     wire input_fault,allocator_cancel_ready;
     reg local_clear_sent;
     wire local_clear_pending=input_fault && !local_clear_sent;
+    // 显示副本单独寄存，隔断“串口取消判定→仲裁→导奏比较/使能”的长路径。
+    // 只多20ns显示观察延迟；不改变原事件接收或任何音频流水级。
+    always @(posedge sys_clk)begin
+        if(!audio_ready)begin monitor_note_on<=0;monitor_event_note<=0;end
+        else begin
+            monitor_note_on<=av && ar && !local_clear_pending && at;
+            if(av && ar && !local_clear_pending && at)monitor_event_note<=an;
+        end
+    end
     always @(posedge sys_clk) begin
         if(!audio_ready) local_clear_sent<=0;
         else if(local_clear_pending && allocator_cancel_ready) local_clear_sent<=1;
@@ -204,21 +234,55 @@ module instrument_uart_top #(
         .event_valid(cv),.event_ready(cr),.event_type(ct),.event_note(cn),.event_velocity(cvel),
         .cancel_valid(cancel),.cancel_ready(cancel_ready),.session_ready(session_ready),
         .voice_count(voice_count),.max_voice_count(max_voice_count),.steal_count(steal_count));
-    uart_event_arbiter u_arbiter(.clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),
+    generate if(ENABLE_BLE)begin:g_ble
+        // STATE必须连接：原始异步信号仅进入meta；断连独立清BLE，不重置音频。
+        // link_live在系统时钟边沿释放协议复位，接收器/解析器从干净会话开始。
+        reg state_meta,state_sync,link_live,disconnect_pending;
+        wire protocol_cancel;
+        wire link_reset_n=audio_ready && link_live;
+        always @(posedge sys_clk or negedge audio_ready)begin
+            if(!audio_ready)begin state_meta<=0;state_sync<=0;end
+            else begin state_meta<=ble_state;state_sync<=state_meta;end
+        end
+        always @(posedge sys_clk)begin
+            if(!audio_ready)begin link_live<=0;disconnect_pending<=0;end
+            else begin
+                if(state_sync)link_live<=1;else link_live<=0;
+                if(bcr)disconnect_pending<=0;
+                if(link_live && !state_sync)disconnect_pending<=1;
+            end
+        end
+        uart_synth_protocol #(.CLKS_PER_BIT(BLE_CLKS_PER_BIT),.WATCHDOG_CYCLES(WATCHDOG_CYCLES),
+            .ENABLE_GUITAR(ENABLE_GUITAR),.FIXED_PIANO(FIXED_PIANO),.VOICES(VOICES)) u_protocol(
+            .clk(sys_clk),.rst_n(link_reset_n),.rx(ble_rx),.tx(ble_tx),
+            .event_valid(bv),.event_ready(br),.event_type(bt),.event_note(bn),.event_velocity(bvel),
+            .cancel_valid(protocol_cancel),.cancel_ready(bcr),.session_ready(),
+            .voice_count(voice_count),.max_voice_count(max_voice_count),.steal_count(steal_count));
+        assign bc=protocol_cancel || disconnect_pending;
+    end else begin:g_no_ble
+        assign bv=1'b0;assign bt=1'b0;assign bn=7'd0;assign bvel=7'd0;
+        assign bc=1'b0;assign ble_tx=1'b1;
+    end endgenerate
+    uart_event_arbiter #(.ENABLE_BLE(ENABLE_BLE),.SOURCE_WIDTH(SOURCE_WIDTH)) u_arbiter(
+        .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),
         .physical_valid(pv),.physical_ready(pr),.physical_type(pt),.physical_source(ps),
         .physical_note(pn),.physical_velocity(pvel),.pc_valid(cv),.pc_ready(cr),
         .pc_type(ct),.pc_note(cn),.pc_velocity(cvel),.cancel_valid(cancel),.cancel_ready(cancel_ready),
         .allocator_cancel(ac),.allocator_cancel_ready(acr),.event_valid(av),.event_ready(ar),
-        .event_type(at),.event_source(asrc),.event_note(an),.event_velocity(avel));
-    voice_allocator #(.VOICES(VOICES),.IDX_WIDTH((VOICES>1)?$clog2(VOICES):1),.COUNT_WIDTH(6),.SOURCE_WIDTH(8),
+        .event_type(at),.event_source(asrc),.event_note(an),.event_velocity(avel),
+        .ble_valid(bv),.ble_ready(br),.ble_type(bt),.ble_note(bn),.ble_velocity(bvel),
+        .ble_cancel_valid(bc),.ble_cancel_ready(bcr),
+        .allocator_cancel_mask(cancel_mask),.allocator_cancel_value(cancel_value));
+    voice_allocator #(.VOICES(VOICES),.IDX_WIDTH((VOICES>1)?$clog2(VOICES):1),.COUNT_WIDTH(6),.SOURCE_WIDTH(SOURCE_WIDTH),
         .MERGE_SAME_NOTE(0),.ENABLE_CANCEL(1),.ENABLE_PLAY_CONTROL(ENABLE_CONTROLS),
         .CHECK_RELEASE_ID(ENABLE_CONTROLS)) u_allocator(
         .clk(sys_clk),.rst_n(audio_ready),.event_valid(av && !local_clear_pending),.event_ready(ar),.event_type(at),
         .event_source_id(asrc),.event_note(an),.event_velocity(avel),.event_timbre({3'd0,note_guitar}),
-        .expr_valid(1'b0),.expr_ready(),.expr_source_id(8'd0),.expr_note(7'd0),
+        .expr_valid(1'b0),.expr_ready(),.expr_source_id({SOURCE_WIDTH{1'b0}}),.expr_note(7'd0),
         .expr_pitch_bend(16'd0),.expr_aftertouch(8'd0),.expr_vibrato_depth(8'd0),.expr_vibrato_rate(8'd0),
         .release_done(release_done),.cancel_valid(local_clear_pending || ac),.cancel_ready(allocator_cancel_ready),
-        .cancel_mask(local_clear_pending ? 8'hf0 : 8'h80),.cancel_value(local_clear_pending ? 8'h00 : 8'h80),
+        .cancel_mask(local_clear_pending ? {{(SOURCE_WIDTH-4){1'b1}},4'b0} : cancel_mask),
+        .cancel_value(local_clear_pending ? {SOURCE_WIDTH{1'b0}} : cancel_value),
         .sustain_on(ENABLE_CONTROLS ? control_sustain : 1'b0),
         .release_trigger_id_flat(release_trigger_id_flat),.voice_trigger_id_flat(voice_trigger_id_flat),.voice_key_down(voice_key_down),
         .voice_active(voice_active),.voice_gate(voice_gate),.voice_trigger(voice_trigger),
@@ -276,23 +340,63 @@ module instrument_uart_top #(
         assign release_done=legacy_release_done;assign release_trigger_id_flat=legacy_release_ids;
     end endgenerate
     // Three-clock tone pipeline follows either bank. It never blocks audio requests.
-    // Optional legacy brightness mode is disabled while KEY1 controls octave.
+    // External control slews once per audio request, independently of pixel refresh.
     generate if(USE_BRIGHTNESS) begin:g_brightness
-        brightness_keys #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),.REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES),
-            .SINGLE_KEY(ENABLE_GUITAR)) u_keys(
-            .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),.key_n(Key_in),
-            .target(brightness_target),.current(brightness_current));
+        if(EXTERNAL_BRIGHTNESS)begin:g_external
+            reg [6:0] current;
+            assign brightness_target=control_brightness;
+            assign brightness_current=current;
+            always @(posedge sys_clk)begin
+                if(!audio_ready)current<=127;
+                else if(sample_request)begin
+                    if(current<brightness_target)current<=current+1'b1;
+                    else if(current>brightness_target)current<=current-1'b1;
+                end
+            end
+        end else begin:g_keys
+            brightness_keys #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),.REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES),
+                .SINGLE_KEY(ENABLE_GUITAR)) u_keys(
+                .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),.key_n(Key_in),
+                .target(brightness_target),.current(brightness_current));
+        end
         tone_filter u_tone(.clk(sys_clk),.rst_n(audio_ready),.in_valid(sample_valid),
-            .sample_in(sample_data),.brightness(brightness_current),.sample_out(output_sample_data),
-            .out_valid(output_sample_valid),.tail_active(tone_tail),.overrun(tone_overrun));
+            .sample_in(sample_data),.brightness(brightness_current),.sample_out(tone_sample_data),
+            .out_valid(tone_sample_valid),.tail_active(tone_tail),.overrun(tone_overrun));
     end else begin:g_no_brightness
         assign brightness_target=127;assign brightness_current=127;
-        assign output_sample_data=sample_data;assign output_sample_valid=sample_valid;
+        assign tone_sample_data=sample_data;assign tone_sample_valid=sample_valid;
         assign tone_tail=0;assign tone_overrun=0;
+    end endgenerate
+    // Shared post-mix effects: chorus -> echo -> room; each direct path remains immediate.
+    // None of these copies is an independently playable voice.
+    generate if(ENABLE_CHORUS)begin:g_chorus
+        chorus_effect u_chorus(.clk(sys_clk),.rst_n(audio_ready),.in_valid(tone_sample_valid),
+            .sample_in(tone_sample_data),.sample_out(chorus_sample_data),.out_valid(chorus_sample_valid),
+            .tail_active(chorus_tail),.busy(),.overrun(chorus_overrun));
+    end else begin:g_no_chorus
+        assign chorus_sample_data=tone_sample_data;assign chorus_sample_valid=tone_sample_valid;
+        assign chorus_tail=0;assign chorus_overrun=0;
+    end endgenerate
+    generate if(ENABLE_DELAY)begin:g_delay
+        echo_delay u_delay(.clk(sys_clk),.rst_n(audio_ready),.in_valid(chorus_sample_valid),
+            .sample_in(chorus_sample_data),.sample_out(delay_sample_data),.out_valid(delay_sample_valid),
+            .tail_active(delay_tail),.busy(),.overrun(delay_overrun));
+    end else begin:g_no_delay
+        assign delay_sample_data=chorus_sample_data;assign delay_sample_valid=chorus_sample_valid;
+        assign delay_tail=0;assign delay_overrun=0;
+    end endgenerate
+    // The existing room algorithm and preset are unchanged.
+    generate if(ENABLE_REVERB)begin:g_reverb
+        room_reverb u_room(.clk(sys_clk),.rst_n(audio_ready),.in_valid(delay_sample_valid),
+            .sample_in(delay_sample_data),.sample_out(output_sample_data),.out_valid(output_sample_valid),
+            .tail_active(reverb_tail),.busy(),.overrun(reverb_overrun));
+    end else begin:g_dry
+        assign output_sample_data=delay_sample_data;assign output_sample_valid=delay_sample_valid;
+        assign reverb_tail=0;assign reverb_overrun=0;
     end endgenerate
     synth_top #(.AUDIO_CLK_HZ(50000000),.SAMPLE_RATE_HZ(48000),
         .REQUEST_LEAD_HALF_EDGES(REQUEST_LEAD_HALF_EDGES),
-        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?(56*VOICES+28):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(USE_BRIGHTNESS?3:0))) u_b(
+        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?(56*VOICES+28):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(USE_BRIGHTNESS?3:0)+(ENABLE_CHORUS?12:0)+(ENABLE_DELAY?5:0)+(ENABLE_REVERB?9:0))) u_b(
         .clk_in(sys_clk),.rst_n(sys_rst_n),.audio_enable(pa_audio_enable),.sample_data(output_sample_data),.sample_valid(output_sample_valid),
         .audio_ready(audio_ready),.sample_request(sample_request),.sample_underrun(sample_underrun),
         .i2s_bclk(HP_BCK),.i2s_lrclk(HP_WS),.i2s_sdata(HP_DIN),.pa_en(PA_EN),

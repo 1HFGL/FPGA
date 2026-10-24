@@ -1,0 +1,516 @@
+{
+  "status": "PASS_TIMING_IMPROVEMENT_CURRENT_CONSTRAINTS_ONLY",
+  "date": "2026-10-23",
+  "project": "projects/hdmi/piano_hdmi.gprj",
+  "head": "301da9d185678d17b02fa650d281ecc19395cac5",
+  "worktree_is_dirty": true,
+  "protected_files_byte_identical": 686,
+  "allowed_existing_changes": [
+    "AGENTS.md",
+    "PLAN.md",
+    "docs/verification.md",
+    "projects/hdmi/build.tcl",
+    "projects/hdmi/process_config.json",
+    "verification/scripts/pnr_sweep.py",
+    "verification/scripts/test_pnr_sweep.py"
+  ],
+  "all_existing_rtl_tb_rom_constraints_byte_identical": true,
+  "rtl_candidate_promoted": false,
+  "process_changes": {
+    "Place_Option": [
+      "0",
+      "4"
+    ],
+    "Replicate_Resources": [
+      false,
+      true
+    ],
+    "Route_Option": [
+      "0",
+      "1"
+    ]
+  },
+  "effective_options": {
+    "replicate_resources": 1,
+    "place_option": 4,
+    "route_option": 1,
+    "clock_route_order": 0,
+    "retiming_resource": "None"
+  },
+  "baseline_resources": {
+    "Logic": {
+      "used": 23321,
+      "available": 59904
+    },
+    "Register": {
+      "used": 9250,
+      "available": 60780
+    },
+    "BSRAM": {
+      "used": 92,
+      "available": 118
+    },
+    "DSP": {
+      "used": 24.5,
+      "available": 118
+    },
+    "PLLA": {
+      "used": 1,
+      "available": 8
+    }
+  },
+  "baseline_slack_ns": {
+    "3.1.1 Setup Paths Table": 0.121,
+    "3.1.2 Hold Paths Table": 0.07,
+    "3.1.3 Recovery Paths Table": 0.834,
+    "3.1.4 Removal Paths Table": 0.143,
+    "3.2 Minimum Pulse Width Table": 5.803
+  },
+  "final_resources": {
+    "Logic": {
+      "used": 23317,
+      "available": 59904
+    },
+    "Register": {
+      "used": 9443,
+      "available": 60780
+    },
+    "BSRAM": {
+      "used": 92,
+      "available": 118
+    },
+    "DSP": {
+      "used": 24.5,
+      "available": 118
+    },
+    "PLLA": {
+      "used": 1,
+      "available": 8
+    }
+  },
+  "final_slack_ns": {
+    "3.1.1 Setup Paths Table": 1.966,
+    "3.1.2 Hold Paths Table": 0.17,
+    "3.1.3 Recovery Paths Table": 0.976,
+    "3.1.4 Removal Paths Table": 0.144,
+    "3.2 Minimum Pulse Width Table": 6.072
+  },
+  "independent_candidate_matches_formal_resources_and_slacks": true,
+  "trials": [
+    {
+      "name": "reference",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "replicate": false,
+      "retime": null,
+      "slack": {
+        "3.1.1 Setup Paths Table": 0.121,
+        "3.1.2 Hold Paths Table": 0.07,
+        "3.1.3 Recovery Paths Table": 0.834,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.803
+      },
+      "resources": {
+        "Logic": {
+          "used": 23321,
+          "available": 59904
+        },
+        "Register": {
+          "used": 9250,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 92,
+          "available": 118
+        },
+        "DSP": {
+          "used": 24.5,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 1,
+          "available": 8
+        }
+      },
+      "fs_sha256": "13101ebfd5f182cb61241aa308d31362a72e25246449abfd29381a3c4ec799bb",
+      "seconds": 186.78
+    },
+    {
+      "name": "replicate",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "replicate": true,
+      "retime": null,
+      "slack": {
+        "3.1.1 Setup Paths Table": 2.326,
+        "3.1.2 Hold Paths Table": 0.047,
+        "3.1.3 Recovery Paths Table": 0.834,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.803
+      },
+      "resources": {
+        "Logic": {
+          "used": 23318,
+          "available": 59904
+        },
+        "Register": {
+          "used": 9443,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 92,
+          "available": 118
+        },
+        "DSP": {
+          "used": 24.5,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 1,
+          "available": 8
+        }
+      },
+      "fs_sha256": "0f0fa2dab8b28c9c14e3821695bfc25a50eb2b3043dd6c0b70b4a12c079ab89e",
+      "seconds": 168.78
+    },
+    {
+      "name": "env_parallel",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "replicate": false,
+      "retime": null,
+      "slack": {
+        "3.1.1 Setup Paths Table": 0.026,
+        "3.1.2 Hold Paths Table": 0.188,
+        "3.1.3 Recovery Paths Table": 0.834,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.803
+      },
+      "resources": {
+        "Logic": {
+          "used": 23067,
+          "available": 59904
+        },
+        "Register": {
+          "used": 9250,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 92,
+          "available": 118
+        },
+        "DSP": {
+          "used": 24.5,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 1,
+          "available": 8
+        }
+      },
+      "fs_sha256": "0cd808f1dc5a9b1bb06cc7461c620e3d912ecc115a8fec6df346e8bf1b5c41b4",
+      "seconds": 206.34
+    },
+    {
+      "name": "replicate_p2r1",
+      "strategy": {
+        "place": 2,
+        "route": 1,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\timing_order_20261023\\replicate_p2r1",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "seconds": 151.016,
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 5.077,
+        "3.1.2 Hold Paths Table": 0.048,
+        "3.1.3 Recovery Paths Table": 0.976,
+        "3.1.4 Removal Paths Table": 0.144,
+        "3.2 Minimum Pulse Width Table": 5.803
+      },
+      "resources": {
+        "Logic": {
+          "used": 23317,
+          "available": 59904
+        },
+        "Register": {
+          "used": 9443,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 92,
+          "available": 118
+        },
+        "DSP": {
+          "used": 24.5,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 1,
+          "available": 8
+        }
+      },
+      "fs_sha256": "89b46404f9a81d0a77b0ea87437b6f1dea65e51b0fed17ab95c3277c410854e9",
+      "note": "Reassessed without rerouting: exact VG hash + disabled RTL + actual read-netlist log; missing Skip synthesis marker was a checker error"
+    },
+    {
+      "name": "replicate_p4r1",
+      "strategy": {
+        "place": 4,
+        "route": 1,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\timing_order_20261023\\replicate_p4r1",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "seconds": 220.438,
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.966,
+        "3.1.2 Hold Paths Table": 0.17,
+        "3.1.3 Recovery Paths Table": 0.976,
+        "3.1.4 Removal Paths Table": 0.144,
+        "3.2 Minimum Pulse Width Table": 6.072
+      },
+      "resources": {
+        "Logic": {
+          "used": 23317,
+          "available": 59904
+        },
+        "Register": {
+          "used": 9443,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 92,
+          "available": 118
+        },
+        "DSP": {
+          "used": 24.5,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 1,
+          "available": 8
+        }
+      },
+      "fs_sha256": "2ed1ac87336c9adb8980199173ac780f30cf72eb83170caf4be315fdba3a8f72",
+      "note": "Reassessed without rerouting: exact VG hash + disabled RTL + actual read-netlist log; missing Skip synthesis marker was a checker error"
+    },
+    {
+      "name": "env_p2r1",
+      "strategy": {
+        "place": 2,
+        "route": 1,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\timing_order_20261023\\env_p2r1",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "seconds": 149.188,
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 3.247,
+        "3.1.2 Hold Paths Table": 0.049,
+        "3.1.3 Recovery Paths Table": 0.976,
+        "3.1.4 Removal Paths Table": 0.144,
+        "3.2 Minimum Pulse Width Table": 5.803
+      },
+      "resources": {
+        "Logic": {
+          "used": 23069,
+          "available": 59904
+        },
+        "Register": {
+          "used": 9250,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 92,
+          "available": 118
+        },
+        "DSP": {
+          "used": 24.5,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 1,
+          "available": 8
+        }
+      },
+      "fs_sha256": "a6a8e5d73ee5b2837276ced3d4306f6b0768476ff78225884a30e5c890d99c8f",
+      "note": "Reassessed without rerouting: exact VG hash + disabled RTL + actual read-netlist log; missing Skip synthesis marker was a checker error"
+    },
+    {
+      "name": "env_replicate",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "replicate": true,
+      "retime": null,
+      "slack": {
+        "3.1.1 Setup Paths Table": 0.216,
+        "3.1.2 Hold Paths Table": 0.115,
+        "3.1.3 Recovery Paths Table": 0.834,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.803
+      },
+      "resources": {
+        "Logic": {
+          "used": 23070,
+          "available": 59904
+        },
+        "Register": {
+          "used": 9444,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 92,
+          "available": 118
+        },
+        "DSP": {
+          "used": 24.5,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 1,
+          "available": 8
+        }
+      },
+      "fs_sha256": "470ad5f08f7badafc50103bcf3f6c1781bdfad3f9a19cbd6c25ac2e9701eaf89",
+      "seconds": 180.03
+    },
+    {
+      "name": "env_p4r1",
+      "strategy": {
+        "place": 4,
+        "route": 1,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\timing_order_20261023\\env_p4r1",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.765,
+        "3.1.2 Hold Paths Table": 0.083,
+        "3.1.3 Recovery Paths Table": 0.976,
+        "3.1.4 Removal Paths Table": 0.144,
+        "3.2 Minimum Pulse Width Table": 6.072
+      },
+      "resources": {
+        "Logic": {
+          "used": 23063,
+          "available": 59904
+        },
+        "Register": {
+          "used": 9250,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 92,
+          "available": 118
+        },
+        "DSP": {
+          "used": 24.5,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 1,
+          "available": 8
+        }
+      },
+      "fs": "D:\\Project\\fpga_contest\\build\\timing_order_20261023\\env_p4r1\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "fs_sha256": "b83adf64d942252b4a638f81991e3c65efc1d6822d8319d0f60a061e9cc976c7",
+      "seconds": 197.922
+    },
+    {
+      "name": "env_replicate_p4r1",
+      "strategy": {
+        "place": 4,
+        "route": 1,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\timing_order_20261023\\env_replicate_p4r1",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.731,
+        "3.1.2 Hold Paths Table": 0.05,
+        "3.1.3 Recovery Paths Table": 0.976,
+        "3.1.4 Removal Paths Table": 0.144,
+        "3.2 Minimum Pulse Width Table": 6.072
+      },
+      "resources": {
+        "Logic": {
+          "used": 23061,
+          "available": 59904
+        },
+        "Register": {
+          "used": 9444,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 92,
+          "available": 118
+        },
+        "DSP": {
+          "used": 24.5,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 1,
+          "available": 8
+        }
+      },
+      "fs": "D:\\Project\\fpga_contest\\build\\timing_order_20261023\\env_replicate_p4r1\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "fs_sha256": "27a6fb01755ef7ac573c96980e21b7f8ae367f70bf26f08d572568c50751b868",
+      "seconds": 199.265
+    }
+  ],
+  "strict_verilog_files": 187,
+  "functional_tests_rerun": {
+    "tb_effects_hdmi": "# PASS tb_effects_hdmi: R953/R950, full16=13413, serial words=27180, wet-only=8812, both presets/ranges/knobs, video isolation and dirty reset",
+    "tb_effects_pa": "# PASS tb_effects_pa: active=92160 silent-gap=83620 late=8534; PA held through delay gaps, then zero and muted after real DAC drain",
+    "tb_final_modal_adapter": "# PASS tb_final_modal_adapter: samples=4436 nonzero=4308 R923 golden, generations, tails, control, recovery",
+    "tb_final_env_alignment": "# PASS tb_final_env_alignment: 139069 independent integer checks; current preset, consecutive ticks, odd/zero/long durations, reset"
+  },
+  "hdmi_reset_epochs": 17,
+  "hdmi_words": 2189,
+  "pnr_flow_tests": 14,
+  "pin_negative_controls": 4,
+  "experimental_env_integer_checks": 139069,
+  "experimental_env_full_state_comparisons": 750000,
+  "experimental_env_fault_rejected": true,
+  "bitstream": "projects/hdmi/impl/pnr/piano_hdmi.fs",
+  "bitstream_sha256": "b24d6796ed6b89164b48a985eda61b24a0b45fc97dedb7062b91aad37cc2b87e",
+  "previous_bitstream_sha256": "50022382ce0d5f53a4f4e7a03829e760428b68ffa27c8f4f6d7640774ea46ce1",
+  "interfaces": "R923 raw / R953 cache; 48kHz; 16 voices; piano/guitar; Chorus/Delay/Room",
+  "artifacts_sha256": {
+    "build/regression/final/tb_effects_hdmi_console.log": "0a3730ce8434dc9b130a48dbfe51a01e436579963fd0be8de79942a307cea30c",
+    "build/regression/final/tb_effects_hdmi_inputs.json": "41b055f3e4fc0dabc69f7a209d6ed2e5526efb1d60ce87f394bc3117f17ef338",
+    "build/regression/final/tb_effects_pa_console.log": "6e7d541c35f10d390f68f9257bf9202462edfde91ddeb1e658623700349a2648",
+    "build/regression/final/tb_effects_pa_inputs.json": "6968df24aa355d4c49c59d581b81facee4c59cd2aeb8b0051a559b557d93b2b2",
+    "build/regression/final/tb_final_modal_adapter_console.log": "324c86fe572dfcd2dbbd5f2977c49e69610d71b0da5bd0fadc5c9d3356b1311e",
+    "build/regression/final/tb_final_modal_adapter_inputs.json": "d976ac50ca7cd15a76cca819646f554bc07529127ac31c62b4c83b4766604e19",
+    "build/regression/final/tb_final_env_alignment_console.log": "b7314ff9800a7f3ea00d6ca35a85380607ed5beae36bf633edda536106825875",
+    "build/regression/final/tb_final_env_alignment_inputs.json": "0d691e8e023cf697c5b9ec1af76ec16e8d90c1565830a03ff0abf532ee1fb3d8",
+    "build/timing_order_20261023/reset_normal_console.log": "866707a713e7d30ebea947543342a150760c6578c1bc1e1f9cf2a8b5d3cf5fb2",
+    "build/timing_order_20261023/reset_negative_console.log": "4db322d7ec8d4fdb4d4413e1817e21e5046555a9dfa8bb2c2ccbb259af0ce670",
+    "build/timing_order_20261023/before.json": "41339a487cbe693471eaf994bb52578188d6efe1218bd7e99b50cf166aea6a5d",
+    "build/timing_order_20261023/experiments.py": "ba169d4a3afeaefe9d4d11e98fe4aed30cc985fbac8871dedd51987f8117204c",
+    "build/timing_order_20261023/verify.py": "84344fc466430b50fbdd432d261adb3efccfca04cf41d1d920345e9f2dc28921",
+    "build/timing_order_20261023/finish.py": "e8eddb54ad610a5e08ef10c56be2f597d53fb5e182a9fe48454ba2eeba88f5a5",
+    "build/timing_order_20261023/pins.json": "e27bdc39e7ec142964b63e9682d709ab2f4bbfe22305ed101c1c036ab2c7bd52",
+    "build/timing_order_20261023/instrument_env_parallel.v": "f5d53ac8863a2f7694aa89af0bf30b70cd3bb16bee6dba1d2eb83fcd81689d80",
+    "build/timing_order_20261023/tb_env_timing_equivalence.v": "da54d776d0abb1b987b27aec81ffd6485e37fcfa28dfabefaed1a8ccadc6e35a",
+    "build/timing_order_20261023/run_env_timing_review.py": "26bc239ef16c2235e299faf312e4de32eaeada6f7014df6a8b80f7b193a465fc",
+    "build/timing_order_20261023/pnr_tests.log": "4d6a85aa552e7b41086085c51ad85a9bff79497de2dce739589d572aea06308d",
+    "build/timing_order_20261023/layout.log": "8b2a68fa7f38c3296531349ed43a89241fb02f243b6e7e9931aada1f23e3a9aa",
+    "build/hdmi/effective_options.tcl": "a296cfc7f14aedad7ce21599c607d1e0569bc08c1a6ff491ce2d163a808c38b9",
+    "build/hdmi/implementation_check.json": "25b85ae481092ffae50fc6365d3d1ba26019394fc8e819f840550a0184ef94da",
+    "build/hdmi/build_inputs.txt": "4424acdfe5092b21cac9beb01a4167c78bf6dce946e8ff6b18bb1646e7982537",
+    "build/regression/strict/strict_compile.log": "127ed88e9e79a9a3ca54af2fa28169daaf063076571c8b7b90167aa549f13750",
+    "build/regression/strict/strict_inputs.txt": "1f6bbacd493c5e4b221a7fc0f0d4fa376bc2ad2d1415d41c566ca7662ada141b",
+    "build/regression/env_timing/normal/summary.json": "f457ba48742334b0db2553b4c17adcf1038b1083f27bd3736e29bccac0313846",
+    "build/regression/env_timing/negative/summary.json": "adcf1b96b57ebf81a740c0e0316f7b61998203cd7cfe945ffd4d09f790bc40d6"
+  },
+  "limitations": [
+    "PR1014 system clock generic routing remains",
+    "DAC external timing incomplete",
+    "HDMI electrical eye/cable/receiver not measured",
+    "USB touch not implemented",
+    "Not programmed; screen compatibility and end-to-end latency unverified"
+  ],
+  "committed": false,
+  "pushed": false,
+  "programmed": false
+}

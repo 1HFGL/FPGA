@@ -1,0 +1,95 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 12:14:45 on Oct 23,2026
+vlog -vlog01compat -pedanticerrors -work build/regression/final/tb_ble_link_work D:\Project\fpga_contest\rtl\audio\chorus_effect.v D:\Project\fpga_contest\rtl\audio\echo_delay.v D:\Project\fpga_contest\rtl\audio\i2s_tx.v D:\Project\fpga_contest\rtl\audio\room_reverb.v D:\Project\fpga_contest\rtl\audio\sample_tick.v D:\Project\fpga_contest\rtl\audio\synth_top.v D:\Project\fpga_contest\rtl\audio\tone_filter.v D:\Project\fpga_contest\rtl\control\adc_knob_if.v D:\Project\fpga_contest\rtl\control\ads1115_if.v D:\Project\fpga_contest\rtl\control\ads1115_knob_if.v D:\Project\fpga_contest\rtl\control\brightness_keys.v D:\Project\fpga_contest\rtl\control\event_encoder.v D:\Project\fpga_contest\rtl\control\i2c_master.v D:\Project\fpga_contest\rtl\control\input_sync_debounce.v D:\Project\fpga_contest\rtl\control\music_controls.v D:\Project\fpga_contest\rtl\control\music_event_encoder.v D:\Project\fpga_contest\rtl\control\music_uart_event_arbiter.v D:\Project\fpga_contest\rtl\control\music_uart_line_rx.v D:\Project\fpga_contest\rtl\control\music_uart_protocol.v D:\Project\fpga_contest\rtl\control\music_uart_reply_tx.v D:\Project\fpga_contest\rtl\control\note_phase_lut.v D:\Project\fpga_contest\rtl\control\piano_controls.v D:\Project\fpga_contest\rtl\control\practice_guide.v D:\Project\fpga_contest\rtl\control\touch_brightness_control.v D:\Project\fpga_contest\rtl\control\touch_contact_tracker.v D:\Project\fpga_contest\rtl\control\touch_or_key_if.v D:\Project\fpga_contest\rtl\control\uart_event_arbiter.v D:\Project\fpga_contest\rtl\control\uart_fifo.v D:\Project\fpga_contest\rtl\control\uart_line_rx.v D:\Project\fpga_contest\rtl\control\uart_reply_tx.v D:\Project\fpga_contest\rtl\control\uart_rx.v D:\Project\fpga_contest\rtl\control\uart_synth_protocol.v D:\Project\fpga_contest\rtl\control\uart_tx.v D:\Project\fpga_contest\rtl\control\voice_allocator.v D:\Project\fpga_contest\rtl\display\display_bend_map.v D:\Project\fpga_contest\rtl\display\display_cdc_latest.v D:\Project\fpga_contest\rtl\display\display_feedback.v D:\Project\fpga_contest\rtl\display\display_font24.v D:\Project\fpga_contest\rtl\display\display_font_ui.v D:\Project\fpga_contest\rtl\display\display_wave_buffer.v D:\Project\fpga_contest\rtl\display\display_wave_envelope.v D:\Project\fpga_contest\rtl\display\dvi_tx_gowin.v D:\Project\fpga_contest\rtl\display\hdmi_clock_60k.v D:\Project\fpga_contest\rtl\display\hdmi_reset_guard.v D:\Project\fpga_contest\rtl\display\instrument_display.v D:\Project\fpga_contest\rtl\display\instrument_panel_renderer.v D:\Project\fpga_contest\rtl\display\instrument_panel_ui.v D:\Project\fpga_contest\rtl\display\instrument_ui_map.v D:\Project\fpga_contest\rtl\display\lcd_rgb_timing.v D:\Project\fpga_contest\rtl\display\piano_display_renderer.v D:\Project\fpga_contest\rtl\display\tmds_encoder.v D:\Project\fpga_contest\rtl\synth\adsr_env.v D:\Project\fpga_contest\rtl\synth\instrument_env.v D:\Project\fpga_contest\rtl\synth\instrument_wave.v D:\Project\fpga_contest\rtl\synth\modal_parameter_rom.v D:\Project\fpga_contest\rtl\synth\phase_acc.v D:\Project\fpga_contest\rtl\synth\sample_gain.v D:\Project\fpga_contest\rtl\synth\sample_mixer4.v D:\Project\fpga_contest\rtl\synth\voice_adsr.v D:\Project\fpga_contest\rtl\synth\voice_bank_adsr.v D:\Project\fpga_contest\rtl\synth\voice_bank_instruments.v D:\Project\fpga_contest\rtl\synth\voice_bank_modal_adapter.v D:\Project\fpga_contest\rtl\synth\voice_bank_music_pipe.v D:\Project\fpga_contest\rtl\synth\voice_dds.v D:\Project\fpga_contest\rtl\synth\voice_instrument.v D:\Project\fpga_contest\rtl\synth\voice_timbre_adsr.v D:\Project\fpga_contest\rtl\synth\wave_lut.v D:\Project\fpga_contest\rtl\synth\wave_lut_timbre.v D:\Project\fpga_contest\rtl\top\instrument_presets_top.v D:\Project\fpga_contest\rtl\top\instrument_uart_piano_top.v D:\Project\fpga_contest\rtl\top\instrument_uart_top.v D:\Project\fpga_contest\rtl\top\music_display_top.v D:\Project\fpga_contest\rtl\top\music_performance_core.v D:\Project\fpga_contest\rtl\top\music_uart_top.v D:\Project\fpga_contest\rtl\top\piano_13key_top.v D:\Project\fpga_contest\rtl\top\piano_hdmi_top.v D:\Project\fpga_contest\rtl\top\piano_performance_top.v D:\Project\fpga_contest\verification\tb\integration\tb_ble_link.v 
+-- Compiling module chorus_effect
+-- Compiling module echo_delay
+-- Compiling module i2s_tx
+-- Compiling module room_reverb
+-- Compiling module sample_tick
+-- Compiling module synth_top
+-- Compiling module tone_filter
+-- Compiling module adc_knob_if
+-- Compiling module ads1115_if
+-- Compiling module ads1115_knob_if
+-- Compiling module brightness_keys
+-- Compiling module event_encoder
+-- Compiling module i2c_master
+-- Compiling module input_sync_debounce
+-- Compiling module music_controls
+-- Compiling module music_event_encoder
+-- Compiling module music_uart_event_arbiter
+-- Compiling module music_uart_line_rx
+-- Compiling module music_uart_protocol
+-- Compiling module music_uart_reply_tx
+-- Compiling module note_phase_lut
+-- Compiling module piano_controls
+-- Compiling module practice_guide
+-- Compiling module touch_brightness_control
+-- Compiling module touch_contact_tracker
+-- Compiling module touch_or_key_if
+-- Compiling module uart_event_arbiter
+-- Compiling module uart_fifo
+-- Compiling module uart_line_rx
+-- Compiling module uart_reply_tx
+-- Compiling module uart_rx
+-- Compiling module uart_synth_protocol
+-- Compiling module uart_tx
+-- Compiling module voice_allocator
+-- Compiling module display_bend_map
+-- Compiling module display_cdc_latest
+-- Compiling module display_feedback
+-- Compiling module display_font24
+-- Compiling module display_font_ui
+-- Compiling module display_wave_buffer
+-- Compiling module display_wave_envelope
+-- Compiling module dvi_tx_gowin
+-- Compiling module hdmi_clock_60k
+-- Compiling module hdmi_reset_guard
+-- Compiling module instrument_display
+-- Compiling module instrument_panel_renderer
+-- Compiling module instrument_panel_ui
+-- Compiling module instrument_ui_map
+-- Compiling module lcd_rgb_timing
+-- Compiling module piano_display_renderer
+-- Compiling module tmds_encoder
+-- Compiling module adsr_env
+-- Compiling module instrument_env
+-- Compiling module instrument_wave
+-- Compiling module modal_parameter_rom
+-- Compiling module phase_acc
+-- Compiling module sample_gain
+-- Compiling module sample_mixer4
+-- Compiling module voice_adsr
+-- Compiling module voice_bank_adsr
+-- Compiling module voice_bank_instruments
+-- Compiling module voice_bank_modal_adapter
+-- Compiling module voice_bank_music_pipe
+-- Compiling module voice_dds
+-- Compiling module voice_instrument
+-- Compiling module voice_timbre_adsr
+-- Compiling module wave_lut
+-- Compiling module wave_lut_timbre
+-- Compiling module instrument_presets_top
+-- Compiling module instrument_uart_piano_top
+-- Compiling module instrument_uart_top
+-- Compiling module music_display_top
+-- Compiling module music_performance_core
+-- Compiling module music_uart_top
+-- Compiling module piano_13key_top
+-- Compiling module piano_hdmi_top
+-- Compiling module piano_performance_top
+-- Compiling module tb_ble_link
+
+Top level modules:
+	touch_contact_tracker
+	voice_adsr
+	instrument_presets_top
+	instrument_uart_piano_top
+	music_display_top
+	music_uart_top
+	piano_13key_top
+	piano_hdmi_top
+	piano_performance_top
+	tb_ble_link
+End time: 12:14:45 on Oct 23,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

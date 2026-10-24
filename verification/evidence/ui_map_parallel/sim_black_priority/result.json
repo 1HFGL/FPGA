@@ -1,0 +1,8 @@
+{
+  "status": "PASS_MUTATION_REJECTED",
+  "exit_code": 3,
+  "kind": "black_priority",
+  "flags": "-vlog01compat -pedanticerrors",
+  "sample_domain": "4096 x 4096 coordinates x 2 instrument values",
+  "log_sha256": "aaad5173b452b44d4c62eb4c8a8487c58f7f12b45fe6aa533210a485d2ec0a26"
+}

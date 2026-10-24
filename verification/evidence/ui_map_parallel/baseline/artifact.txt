@@ -1,0 +1,5 @@
+file=D:\Project\fpga_contest\build\ui_map_parallel_20261023\baseline\projects\hdmi\impl\pnr\piano_hdmi.fs
+sha256=A95EF1BB12D2731330E282E5D0BFA9F229DF89680C003BB7C9BC23FC5CCAC1B0
+process_sha256=F91C6507C0F34628958FE47E77C94D84C11AD77F3BF38452010F1B25262DC9DD
+Synthesis/PNR executed. Inspect all timing tables and constraint coverage.
+NOT programmed; no screen, touch, signal-integrity or end-to-end latency signoff.

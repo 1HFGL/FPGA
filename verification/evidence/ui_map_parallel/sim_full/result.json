@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "exit_code": 0,
+  "kind": "full",
+  "flags": "-vlog01compat -pedanticerrors",
+  "sample_domain": "4096 x 4096 coordinates x 2 instrument values",
+  "log_sha256": "1d97f364cc7e364cac4f47fe14801fa67a6528e4adb3e82a967bd17984125079"
+}
