@@ -1,0 +1,11 @@
+{
+  "real_reports": 1825,
+  "total_vectors": 2031,
+  "status": "PASS",
+  "inputs": {
+    "rtl\\usb\\touch_report_decode.v": "02ea28553add8dc298e453df89195a3ab65d7a08e2ec06240a3588854a65cb92",
+    "verification\\tb\\control\\tb_touch_report_decode.v": "a29e0bf0a0f875ba75eb25adbebf96b15225bf4c0ad29f14391e70264dcdee5c",
+    "verification\\data\\touch_wch_1a86_e5e3_reports.hex": "3b182f355b15024dc15b4402be63ad0c6688c9d8c4793f19cfd609128a26d573",
+    "verification\\scripts\\check_touch_reports.py": "211db77413ae6448cccc54e3023716f6704a86d0b9a3e52d07c7ddc1a8a043f7"
+  }
+}

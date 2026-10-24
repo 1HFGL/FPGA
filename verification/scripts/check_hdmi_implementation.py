@@ -29,6 +29,9 @@ for line in manifest.splitlines():
         check(path.is_file() and digest(path) == match[1].lower(), f"Input changed: {path}")
         inputs.append({"path": str(path), "sha256": match[1].lower()})
 check(len(inputs) >= 40, "Incomplete build manifest")
+usb_touch=any(Path(item['path']).name=='usb.cst' for item in inputs)
+expected_ports=39 if usb_touch else 37
+expected_constraints=28 if usb_touch else 21
 log = (out / "build.log").read_text(encoding="utf-8-sig")
 check(not re.search(r"ERROR|EX3988|EX3791|EX3073|TA2003", log), "Unresolved build warning/error")
 check("Bitstream generation completed" in log, "Bitstream generation missing")
@@ -42,26 +45,32 @@ for section in ("3.1.1 Setup Paths Table", "3.1.2 Hold Paths Table",
     if values:
         slacks[section] = min(values)
         check(min(values) >= 0, f"Negative slack {min(values)}ns: {section}")
-for clock in ("sys_clk", "hdmi_pixel", "hdmi_serial"):
+for clock in (("sys_clk", "hdmi_pixel", "hdmi_serial", "usb_clk") if usb_touch else ("sys_clk", "hdmi_pixel", "hdmi_serial")):
     for kind in ("Setup", "Hold"):
         check(re.search(rf"(?m)^{clock} {kind} 0\.000 0$", timing), f"Clock summary failed: {clock} {kind}")
 active_constraints = len(re.findall(r"(?m)^TC_\w+ Actived ", timing))
-check(active_constraints == 21, f"Expected 21 active constraints (17 existing + 4 BLE), got {active_constraints}")
+check(active_constraints == expected_constraints, f"Expected {expected_constraints} active constraints, got {active_constraints}")
 report = (out / "piano_hdmi.rpt.txt").read_text(encoding="utf-8-sig")
 ports = {}
 for line in report.splitlines():
     cells = [x.strip() for x in line.split("|")]
     if len(cells) > 5 and re.fullmatch(r"\w+(?:\[\d+\])?", cells[0]) and re.fullmatch(r"[A-Z]+\d+/\d+", cells[2]):
         ports[cells[0]] = (cells[2].split("/")[0], cells[3])
-check(len(ports) == 37, f"Expected 37 pin-constrained ports (34 existing + 3 BLE), got {len(ports)}")
+check(len(ports) == expected_ports, f"Expected {expected_ports} pin-constrained ports, got {len(ports)}")
 expected_pins = {}
-for name in ("piano", "hdmi", "ble"):
+for name in (("piano", "hdmi", "ble", "usb") if usb_touch else ("piano", "hdmi", "ble")):
     cst = (root / f"boards/tang_mega_60k_31004/{name}.cst").read_text(encoding="utf-8-sig")
     expected_pins.update(re.findall(r'IO_LOC\s+"([^"]+)"\s+([A-Z]+\d+)', cst))
 expected_pins.update({"tmds_data_n[0]": "H14", "tmds_data_n[1]": "H15", "tmds_data_n[2]": "J17", "tmds_clk_n": "G16"})
-check(len(expected_pins) == 37, "CST/negative pair coverage mismatch")
+check(len(expected_pins) == expected_ports, "CST/negative pair coverage mismatch")
 for name, pin in expected_pins.items():
     check(ports.get(name) == (pin, "Y"), f"Pin missing/moved/unconstrained: {name}")
+if usb_touch:
+    for name,ball in (('usb_touch_dp','H13/4'),('usb_touch_dm','G13/4')):
+        row=next((line for line in report.splitlines() if line.startswith(name+' ')), '')
+        cells=[cell.strip() for cell in row.split('|')]
+        check(len(cells)>17 and cells[2]==ball and cells[4]=='io' and cells[7]=='LVCMOS33'
+              and cells[9]=='NONE' and cells[17]=='3.3', 'USB pin direction/bank/bias mismatch: '+name)
 resources = {}
 for name in ("Logic", "Register", "BSRAM", "DSP", "PLLA"):
     # Gowin DSP可按半块计数（例如13.5），不能把合法报告误判为缺失。
@@ -102,10 +111,10 @@ summary = {"status": "FAIL" if errors else "PASS_CURRENT_CONSTRAINTS_ONLY", "err
            "worst_reported_slack_ns": slacks, "ports": len(ports), "active_constraints": active_constraints,
            "resources": resources, "bitstream_sha256": digest(fs), "inputs": inputs,
            "reset_placement": {name: sorted(locations) for name, locations in actual_placement.items()},
-           "limitations": ["PR1014 system clock generic routing remains", "DAC external timing incomplete",
-                           "HDMI electrical eye/cable/receiver not measured", "USB touch not implemented",
+           "limitations": ["PR1014 system clock input routing remains to be closed", "DAC external timing incomplete",
+                           "HDMI electrical eye/cable/receiver not measured", "USB touch hardware unverified" if usb_touch else "USB touch not implemented",
                            "Not programmed; screen compatibility and end-to-end latency unverified"]}
 (out / "implementation_check.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 if errors:
     raise SystemExit("FAIL HDMI implementation: " + "; ".join(errors))
-print("PASS HDMI current constraints: 37 pins, 21 constraints, five timing tables, input/bitstream identity")
+print(f"PASS HDMI current constraints: {expected_ports} pins, {expected_constraints} constraints, five timing tables, input/bitstream identity")

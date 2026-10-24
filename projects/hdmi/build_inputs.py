@@ -15,7 +15,7 @@ SUPPORT_FILES = (
     'verification/scripts/check_hdmi_implementation.py',
 )
 CONSTRAINT_FILES = tuple('boards/tang_mega_60k_31004/' + n for n in
-    ('piano.cst', 'piano.sdc', 'hdmi.cst', 'hdmi.sdc', 'ble.cst', 'ble.sdc', 'hdmi_reset_placement.cst'))
+    ('piano.cst', 'piano.sdc', 'hdmi.cst', 'hdmi.sdc', 'ble.cst', 'ble.sdc', 'usb.cst', 'usb.sdc', 'hdmi_reset_placement.cst'))
 
 
 def digest(path):

@@ -10,6 +10,8 @@ module instrument_panel_ui #(
     // USB主机尚未接通，不能把不可用的控件画成已经能操作。
     parameter integer TOUCH_PANEL=0,
     parameter integer ENABLE_GUIDE=0,
+    parameter integer LOG_METER=0,
+    parameter integer SHOW_BRIGHTNESS=0,
     parameter [23:0] C_BG      = 24'hecebe7,
     parameter [23:0] C_PANEL   = 24'hf8f7f3,
     parameter [23:0] C_GRID    = 24'hd7d6d0,
@@ -33,6 +35,7 @@ module instrument_panel_ui #(
     input wire [3:0] gain_shift,
     input wire [38:0] activity,
     input wire [15:0] meter_level,meter_peak,
+    input wire [7:0] meter_height,meter_peak_height,
     // 24px 正文请求
     output reg text_enable,
     output reg [5:0] text_glyph,
@@ -84,7 +87,8 @@ module instrument_panel_ui #(
                                    (high_amp < -32768) ? -18'sd63 : high_shifted[17:0];
     wire [11:0] wave_top    = 12'sd264 - high_step[11:0];
     wire [11:0] wave_bottom = 12'sd264 - low_step[11:0];
-    wire [7:0]  level_height = peak_level[15:8]; // 0..128，未经显示放大的数字峰值
+    wire [7:0] level_height=LOG_METER?meter_height:meter_level[15:8];
+    wire [7:0] held_peak_height=LOG_METER?meter_peak_height:meter_peak[15:8];
 
     // ---- 数值格式化：每帧由上层更新一次，这里只做 BCD 选择 ----
     function [11:0] decimal_digits;
@@ -115,6 +119,9 @@ module instrument_panel_ui #(
     wire [7:0]  bend_cents = bend_scaled[22:15];
 
     wire [11:0] volume_digits = decimal_digits({2'd0, volume});
+    wire [11:0] brightness_digits=decimal_digits({2'd0,brightness});
+    // 0..127 occupies 0..318 pixels; shifts/addition only, no per-pixel divider.
+    wire [11:0] brightness_position=12'd360+{4'd0,brightness,1'b0}+{6'd0,brightness[6:1]};
     wire [11:0] guide_digits=decimal_digits({5'd0,guide_progress});
     wire [8:0] guide_width={1'b0,guide_progress,4'd0}+{2'b0,guide_progress,3'd0};
     wire [11:0] guide_x=x-12'd360;
@@ -332,15 +339,15 @@ module instrument_panel_ui #(
                 if(y+1>=wave_top && y<=wave_bottom+1)base_rgb=accent;
             end
         end
-        // 电平和白色峰值标记都使用未放大的原始峰值，显示倍率不影响它们。
+        // 正式电平条用固定对数刻度；原始峰值决定削波提示，波形倍率不影响它。
         if(x==856 && y>=176 && y<332)base_rgb=24'h596060;
         if(x>=904 && x<936 && y>=208 && y<336)begin
             base_rgb=24'h424a4c;
-            if(y>=336-{4'd0,meter_level[15:8]})
+            if(y>=336-{4'd0,level_height})
                 base_rgb=(peak_level>16'd30000)?24'he18b77:accent;
             if(y[2:0]==0)base_rgb=24'h293033;
-            if(y>=334-{4'd0,meter_peak[15:8]} &&
-               y<337-{4'd0,meter_peak[15:8]})base_rgb=24'hf7f7ed;
+            if((!LOG_METER || held_peak_height!=0) && y>=334-{4'd0,held_peak_height} &&
+               y<337-{4'd0,held_peak_height})base_rgb=24'hf7f7ed;
         end
 
         // 键体高亮；短残影仅是显示反馈，key_down依然唯一表示正在持键。
@@ -444,6 +451,18 @@ module instrument_panel_ui #(
                 base_rgb=grid;
                 if(guide_x<{3'd0,guide_width})base_rgb=24'h397e75;
             end
+        end
+        // Physical AIN2 fader readout. This does not imply USB dragging is connected.
+        if(SHOW_BRIGHTNESS && x>=352 && x<704 && y>=24 && y<76)begin
+            text4(360,28,3,{6'd58,6'd59,6'd60,6'd0},C_MUTED);
+            num4(620,28,3,{(brightness<100?6'd0:dg(brightness_digits[11:8])),
+                (brightness<10?6'd0:dg(brightness_digits[7:4])),dg(brightness_digits[3:0]),6'd0},C_TEXT);
+            if(x>=360 && x<679 && y>=64 && y<68)begin
+                base_rgb=grid;
+                if(x<=brightness_position)base_rgb=accent;
+            end
+            if(x+4>=brightness_position && x<brightness_position+4 && y>=58 && y<74)
+                base_rgb=C_TEXT;
         end
     end
 endmodule

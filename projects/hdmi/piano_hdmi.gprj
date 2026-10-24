@@ -5,6 +5,20 @@
     <Version>5</Version>
     <Device name="GW5AT-60B" pn="GW5AT-LV60PG484AC1/I0">gw5at60b-002</Device>
     <FileList>
+        <File path="../../rtl/control/touch_contact_tracker.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/touch_report_cdc.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/touch_report_decode.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/touch_usb_control.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/touch_usb_host.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/touch_usb_link.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/touch_usb_port.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/touch_usb_system.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/usb_clock_60k.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/vendor/usb_fs_phy.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/vendor/usbh_crc16.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/vendor/usbh_crc5.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/usb/vendor/usbh_sie.v" type="file.verilog" enable="1"/>
+
         <File path="../../rtl/rom/modal_coeff_rom_dual.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/modal_voice_group16.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/modal_shared_output.v" type="file.verilog" enable="1"/>

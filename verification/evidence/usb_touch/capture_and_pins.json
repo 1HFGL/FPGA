@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-24",
+  "device": "1A86:E5E3 USB2IIC_CTP_CONTROL",
+  "reports": 1825,
+  "fixture": "verification/data/touch_wch_1a86_e5e3_reports.hex",
+  "fixture_sha256": "3b182f355b15024dc15b4402be63ad0c6688c9d8c4793f19cfd609128a26d573",
+  "original_capture_sha256": "a4e432743e6cdadad117749cace2a1fca1e9c3339e7b4bba7da444225b548bc5",
+  "capture_method": "Windows RawInput; digitizer only",
+  "user_actions": "Hold three fingers; move one; release individually; tap TL/TR/BR/BL",
+  "report_layout": "ID1;52bytes;6x8byte slots; Tip bit0; 8bit ID;16bit LE X/Y;scan-time49..50;count51",
+  "coordinate_range": [
+    0,
+    4096
+  ],
+  "full_snapshot_evidence": "Stationary IDs0/1 retain X/Y1472/1454 and2028/1433 while ID2 moves. Count may remain3/2/1 after Tip clears.",
+  "observed_corners": [
+    [
+      32,
+      47
+    ],
+    [
+      4068,
+      40
+    ],
+    [
+      4068,
+      4048
+    ],
+    [
+      60,
+      4048
+    ]
+  ],
+  "pin_probe": {
+    "mode": "inputs only; no USB data driven",
+    "connected": "USB1=00 USB2=10",
+    "unplugged": "USB1=00 USB2=00",
+    "reconnected_after_serial_buffer_discard": "USB1=00 USB2=10",
+    "USB1": [
+      "M15",
+      "M16"
+    ],
+    "USB2": [
+      "H13",
+      "G13"
+    ],
+    "selected_dp": "H13",
+    "selected_dm": "G13",
+    "bank": 4,
+    "voltage": 3.3
+  },
+  "programming_after_user_stop": false,
+  "touch_on_fpga_hardware_verified": false
+}

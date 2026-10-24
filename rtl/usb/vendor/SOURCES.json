@@ -1,0 +1,13 @@
+{
+  "sie_repository": "https://github.com/ultraembedded/core_usb_host",
+  "sie_revision": "81eb9f131dbb434a9047ae074fea5c31ef46ce5d",
+  "phy_repository": "https://github.com/nand2mario/usb_host_example",
+  "phy_revision": "4e4eee36b45b5260ef463167750eb087fb9b2b38",
+  "original_sha256": {
+    "usbh_sie.v": "243e107d8240447699c4510edeb0a5884b05d1d566ba8e76eedf74a568bd368d",
+    "usbh_crc16.v": "1497ee5ddb0f3ab36ca822e004125bfcfa803b481fcd6aeb069930f238949c19",
+    "usbh_crc5.v": "d3f6d98f47b70293f1d84dacb0ca487de9e9acbe3d8a40c5b0eb44d3394a1ebc",
+    "usb_fs_phy.v": "e22c64f2178c844e6155c01111e8f77518edc79f12e6947dce133996eb21ba61"
+  },
+  "local_change": "usbh_sie adds utmi_rxerror_i and a receive-error latch, suppresses ACK/acceptance for PHY errors or packets over 64 bytes, and sizes the tx_ifs decrement to 1'b1; other vendor modules unchanged"
+}

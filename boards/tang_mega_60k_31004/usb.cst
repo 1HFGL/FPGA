@@ -1,0 +1,7 @@
+// Dock31005 + 60K: input-only probe confirmed 2026-10-24:
+// screen removed -> H13/G13=00; attached ->10. M15/M16 stayed00.
+// The physical single USB-A uses the USB2 pair, despite the schematic note.
+IO_LOC "usb_touch_dp" H13;
+IO_LOC "usb_touch_dm" G13;
+IO_PORT "usb_touch_dp" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+IO_PORT "usb_touch_dm" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;

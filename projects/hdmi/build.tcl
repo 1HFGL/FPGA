@@ -6,7 +6,7 @@ set generated [file normalize ../../build/hdmi]
 file mkdir $generated
 foreach ext {cst sdc} {
     set output [open [file join $generated piano_hdmi.$ext] w]
-    foreach part {piano hdmi ble} {
+    foreach part {piano hdmi ble usb} {
         set input [open ../../boards/tang_mega_60k_31004/$part.$ext r]
         puts $output [read $input]
         close $input

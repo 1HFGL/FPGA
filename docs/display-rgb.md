@@ -184,3 +184,11 @@ KEY1选择的实际音区经74位状态信箱（保留原字段位置，追加�
 尚待：原始455字节报告描述符、四角/屏幕方向校准、六指和异常释放/拔插行为、真实USB枚举控制请求序列、31005 USB路径/60K引脚/VBUS核查、FPGA主机接入和整机延迟。现有抽象触点跟踪器按五点设计，六点槽如何取舍须在适配时明确，不能静默把设备声明的六点写成现有RTL已支持。
 
 API依据：[Microsoft HID能力结构](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/hidpi/ns-hidpi-_hidp_caps)、[最大触点功能报告](https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/touchscreen-required-hid-top-level-collections)、[USB描述符查询限制](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/usbioctl/ns-usbioctl-_usb_descriptor_request)。Windows集线器查询强制设备接收者，不能把配置描述符中的455长度当成已读到报告描述符；本轮没有为了读取它替换驱动。
+
+## 2026-10-24 本机触摸只读复核
+
+用户再次把触摸USB接到电脑。限定查询`1A86:E5E3`，实读`wch.cn / USB2IIC_CTP_CONTROL`、Digitizer/Touch Screen、接口0；Feature ID2返回`02 06`。通过HIDAPI 0.15.0取得676字节的Windows重建描述符，复核Report ID1为52字节、六个8字节触点槽，Tip/ID/X/Y偏移与上节一致，X/Y逻辑范围0～4096。
+
+这是Windows预解析数据的重建结果，**不是原始USB报告描述符**；不能把676字节当成旧配置声明的455字节原文已获取。[HIDAPI Windows源码](https://raw.githubusercontent.com/libusb/hidapi/hidapi-0.15.0/windows/hid.c)明确调用`hid_winapi_descriptor_reconstruct_pp_data`。本次没有采集新触摸操作序列、没有更换驱动或写设备配置。脚本`verification/scripts/probe_touch_hid.py`，数据`build/touch_probe_20261024/`；旧`build/touch_probe/`在本机不存在，旧1424报告仅为文档历史记录，不冒充本次实测。
+
+已读取官方Dock31005原理图p9：USB-A第一路D+/D-连接FPGA，当前HDL没有USB主机，不会因为USB插上就产生触点。尚需原始USB枚举/报告证据、方向校准、60K核心板球位/电气复核、USB主机与六槽适配及事件汇合。当前32声部fs不包含独立触摸功能；本次查询未修改固件。

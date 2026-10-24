@@ -1,0 +1,2 @@
+PASS tb_touch_usb_wire: full D+/D- enumeration/455-byte EP0, SOF, address/config, SET_IDLE STALL, NAK, bad CRC, duplicate ACK, six whole six-contact reports, backpressure, detach/reconnect/reset
+D:\BaiduNetdiskDownload\project\fpga_contest-migration-20261002\fpga_contest\verification\tb\control\tb_touch_usb_wire.v:203: $finish called at 37064836032 (1ps)

@@ -23,6 +23,7 @@ module ads1115_knob_if #(
     parameter integer RAW_MIN_1     = 0,
     parameter integer RAW_MAX_1     = 26400,
     parameter integer FILTER_SHIFT  = 0,
+    parameter integer HYSTERESIS_COUNTS = 0,
     parameter integer SLEW_STEP     = 127,
     parameter integer RETRY_WAIT    = CLK_HZ / 100,
     parameter integer ENABLE_BRIGHTNESS = 0,
@@ -121,7 +122,8 @@ module ads1115_knob_if #(
         .FAULT_TIMEOUT (FAULT_TIMEOUT),
         .VALUE_WIDTH   (7),
         .SLEW_STEP     (SLEW_STEP),
-        .FILTER_SHIFT  (FILTER_SHIFT)
+        .FILTER_SHIFT  (FILTER_SHIFT),
+        .HYSTERESIS_COUNTS(HYSTERESIS_COUNTS),.CENTER_CHANNEL(1)
     ) u_knob (
         .clk          (clk),
         .rst_n        (rst_n),

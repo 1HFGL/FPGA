@@ -1,12 +1,62 @@
 # 高云 FPGA 双音色电子乐器
 
-## 最新：滑条明亮度、独立蓝牙与屏幕导奏（2026-10-23）
+## 最新交接：USB触摸源码先上传，未完成事项（2026-10-24）
 
-正式HDMI入口新增 **AIN2 B10K明亮度、独立HC-08串口、14音脱机导奏**，保留原两旋钮、13键、16声部、音区/乐器切换及三效果。蓝牙RXD→B16、TXD→B15、STATE→A16，默认9600；电脑USB口仍为115200。裸滑条脚序未确认，先看[识别方法与接线](docs/keyboard-wiring.md#b10k裸滑条先认脚再接ain2)，未接时AIN2须固定3.3V，不能悬空。未烧录、未推送，新增实物功能待验收。
+**本次按用户要求先上传 master，是源码检查点，不是已验收的触摸固件发布。用户正在收设备，禁止继续烧录；再次上板必须等用户重新授权。** 保留当前实物引脚和双16并行32声部，已写入独立USB主机、这块屏的HID报告适配、六触点与实体/PC/BLE共享声部池的接入代码。
+
+- 当前接线：白键 `C19 D19 C20 F19 E17 F14 D16 D15`；黑键 `C18 E19 D20 F15 F16`；ADC `B20/A21`；蓝牙模块 RXD→`C13`、TXD→`C14`、STATE→`C15`。USB新增 D+→`H13`、D−→`G13`，Bank4/3.3V，已用纯输入探测确认插拔电平；**未在板上运行新USB驱动**。
+- 屏幕为 `1A86:E5E3`，52字节、六触点完整快照。已离线验证完整 D+/D− 枚举、455字节描述符多包读取、CRC/重复包/NAK/STALL、断线重连；修复主机SOF干扰拔线计时的问题。1825份真实报告＋206组边界向量、9类非法设备/重试故障、1000次跨时钟报告、四来源仲裁、触摸与实体/电脑填满32槽及第33音抢占通过。
+- 已完成的32声部集成测试保持音频缓存 **R955**，HDMI 17轮恢复及BLE隔离回归通过。长音频仿真使用经过实际双口RAM逐地址等价检查的仿真ROM，正式Gowin使用实际RAM。ModelSim缺失，本机是Icarus `-g2001`，不称严格ModelSim检查通过。
+- 完整带屏工程本轮已综合出网表，**上传时仍在布局布线，完整HDMI集成回归也尚未给出结果**。39引脚/28约束和五类时序尚未签核；没有发布本轮USB新fs。已有fs、旧试听包及`build/hdmi/latest_build.json`可能仍对应前一版，不能据文件存在认定USB版已完成。
+
+### 下次继续做什么
+
+1. 先读 `docs/usb-touch-driver.md` 和 `verification/evidence/usb_touch/summary.json`。核实本地尚在运行的构建/仿真是否完成；若进程已退出或输入改变，重跑下面命令。不要沿用旧报告冒充新构建结果。
+2. 完成唯一正式工程 `projects/hdmi/piano_hdmi.gprj` 的综合、布局布线，检查全部时钟、USB同步器/CDC、实际H13/G13与原37引脚、28条约束和五类余量；失败先定位原因，不能放宽原SDC或改动音色核心凑通过。
+3. 跑完当前完整HDMI集成回归、USB引脚/时序负向检查及旧接线合同，整理构建输入哈希和新fs身份，更新本交接及验证文档。确认通过后再发布新fs，本检查点没有可宣称已验收的USB触摸下载包。
+4. 用户重新允许上板后，才测试屏幕USB直接接开发板的单指/六指、滑奏、逐个松开、拔插恢复、触摸与实体混弹；分别实测实体键及触摸键到模拟音频的总延迟。USB1ms轮询不是总延迟≤10ms的证据。
+5. 仍待实测：偶发三个实体键触发一团和弦（仿真未复现）；绿联蓝牙首次起音恢复（用户已确认有线耳机首键正常）；旋钮滤波力度与输出条观感。当前触摸只负责虚拟琴键/吉他音垫，音区/音色仍用KEY1/KEY2，明亮度仍用AIN2实体滑条，未接触摸参数控件。
+
+本机离线续跑命令（换电脑需替换工具路径）：
+
+```powershell
+$pythonExe = 'C:/Users/32215/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
+./projects/hdmi/build.ps1 -Gowin 'D:/Library/gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe' -Python $pythonExe
+& $pythonExe verification/scripts/check_touch_reports.py
+& $pythonExe verification/scripts/check_usb_host_faults.py
+& $pythonExe verification/scripts/run_controls_meter.py --out build/touch_driver_20261024/wire --timeout 300 tb_touch_usb_wire
+& $pythonExe verification/scripts/run_controls_meter.py --out build/touch_driver_20261024/final_regression --functional-rom --timeout 1800 tb_touch32_audio tb_controls_meter_hdmi tb_review_hdmi_reset_recovery tb_ble_link tb_four_source_arbiter tb_touch_report_cdc tb_touch_usb_link
+# 仅在正式构建的 implementation_check.json 通过后运行：
+& $pythonExe verification/scripts/check_usb_implementation_faults.py
+& $pythonExe verification/scripts/check_j13_wiring.py --report projects/hdmi/impl/pnr/piano_hdmi.rpt.txt --negative-control
+```
+
+第三方USB传输层的来源、版本及GPL/LGPL/Apache版权声明保留在 `rtl/usb/vendor/`，不是本项目原创算法。下文的fs、资源和“尚无USB主机”等描述为之前版本的历史记录，以本交接和新验证证据为准。
+
+
+## 本机最新：32声部、滤波与界面（2026-10-24）
+
+已合入`737f0f4`双16并行32声部，保留当前实物接线。音量/弯音已加小幅抖动抑制，导奏关闭，明亮度实体滑条有屏幕读数，输出条改为固定对数刻度。USB触摸仍未接通，蓝牙首音和偶发实体键串音仍待实物排查。
+
+下载文件：`projects/hdmi/impl/pnr/piano_hdmi.fs`；SHA256 `861aa1557070410a34b7f04caf3c54008c57e9043739a62ec6b680bda29479ba`。当前约束和16项定向仿真通过，BSRAM93/118；尚未烧录。详情见[本轮验证](docs/verification.md#2026-10-24-当前覆盖32声部与操作界面修复)与`build/hdmi/latest_build.json`。下方旧版本包和数据仅作历史证据。
+
+当前界面像素预览（确定性测试信号，不是实物录屏或合成音色试听）：
+
+![钢琴界面](build/controls_meter_20261024/piano_frame.png)
+![吉他界面](build/controls_meter_20261024/guitar_frame.png)
+
+
+## 上一轮：实物琴键与蓝牙引脚（2026-10-24）
+
+本机已按用户实物恢复八白键C19/D19/C20/F19/E17/F14/D16/D15，黑键和ADC保持；蓝牙模块RXD→C13、TXD→C14、STATE→C15。新的HDMI位流为`projects/hdmi/impl/pnr/piano_hdmi.fs`，SHA256 `0ce25e1894eafd3e93225ad50ecb91405e9f3d8a1c61b712847052fc2d3953c9`。37引脚/21约束/五类时序及7项引脚故障检查通过，Setup余量仅0.077ns。身份见`build/hdmi/latest_build.json`及[本次验证](docs/verification.md#2026-10-24-实物琴键与蓝牙引脚同步)。未烧录或实物验收；下方10月23日位流数据属于旧接线。
+
+## 上轮：滑条明亮度、独立蓝牙与屏幕导奏（2026-10-23）
+
+正式HDMI入口新增 **AIN2 B10K明亮度、独立HC-08串口、14音脱机导奏**，保留原两旋钮、13键、16声部、音区/乐器切换及三效果。蓝牙RXD→C13、TXD→C14、STATE→C15，默认9600；电脑USB口仍为115200。裸滑条脚序未确认，先看[识别方法与接线](docs/keyboard-wiring.md#b10k裸滑条先认脚再接ain2)，未接时AIN2须固定3.3V，不能悬空。未烧录、未推送，新增实物功能待验收。
 
 屏幕青绿框提示下一音，按对新的起音才推进；黄底仍是实际持键。内置《小星星》前14音，完成后KEY0复位重练；KEY1仍切音区，KEY2仍切乐器。**这是屏幕显示指引，不是USB触摸已经可用**，也不擅自等同于官方点名的LED指引条目。最终资源、时序和测试身份见[最新验证](docs/verification.md#2026-10-23-滑条蓝牙与屏幕导奏)。
 
-后续已按用户确认改为Place=3、Route=1：最薄余量64→144ps（Hold为184ps），Setup从2.302降至1.193ns；不是各类全面改善。Logic约44%、BSRAM90/118不变。本轮194份严格编译、4项回归与正式重建通过，原13项功能/3项故障证据保留；RTL、ROM、原TB和CST/SDC未改。当前位流SHA256 `2702c933ebde3678f69bd7b61894a2c5f99923bacbb133ab49a5681e5efaba40`，详见[时序取舍与验证](docs/verification.md#2026-10-23-最薄余量优先的正式实现)。这不是实物/全部外部时序已验收的声明。
+后续已按用户确认改为Place=3、Route=1：最薄余量64→144ps（Hold为184ps），Setup从2.302降至1.193ns；不是各类全面改善。Logic约44%、BSRAM90/118不变。本轮194份严格编译、4项回归与正式重建通过，原13项功能/3项故障证据保留；RTL、ROM、原TB和CST/SDC未改。10月23日旧引脚位流SHA256 `2702c933ebde3678f69bd7b61894a2c5f99923bacbb133ab49a5681e5efaba40`，详见[时序取舍与验证](docs/verification.md#2026-10-23-最薄余量优先的正式实现)。这不是实物/全部外部时序已验收的声明。
 
 ### 上轮：队友代码合并（2026-10-22）
 
@@ -14,13 +64,13 @@
 
 本页只列当前入口。队友分支随历史提交带入的 `build/audition/*20261017/` 是**旧接线／旧界面证据，不能用于当前线束下载**；其资源和通过项不代表本次复验。当前验证见[合并记录](docs/verification.md#2026-10-22-队友master与三效果合并)。
 
-当前正式版本：**钢琴v3＋经典摇滚电吉他，13实体键、电脑和BLE共享16声部，两旋钮控制总音量及全局±2半音弯音，AIN2滑条控制明亮度，7寸1024×600 HDMI中文显示与导奏**。
+当前正式版本：**钢琴v3＋经典摇滚电吉他，13实体键、电脑和BLE共享32声部，两旋钮控制总音量及全局±2半音弯音，AIN2滑条控制明亮度，7寸1024×600 HDMI中文显示、明亮度条和输出电平条（导奏关闭）**。
 
 找代码先看[架构与代码定位](#架构与代码定位)：包含模块连接图、目录用途和“修改某项功能该找哪个文件”。打开EDA只用[HDMI主工程](#唯一正式下载入口)，接线用[唯一接线表](docs/keyboard-wiring.md)。手机应用已独立迁至[`D:/Project/jingzou_harmony`](../jingzou_harmony/)，与FPGA屏幕界面分开。
 
 经常改接线？直接打开根目录 **[WIRING.md：接线快速修改](WIRING.md)**，包含外设接线跳转、约束/合同/检查器入口及改线后的最短验证步骤。
 
-2026-10-16已接入队友master `e18160e` 的模态核心与配套ROM；钢琴显示琴键，吉他显示六弦指板。KEY2切换新音的预设，旧音/尾音保留原音色；KEY1按次切换中→高→低→中音区，KEY0复位回钢琴和中音区。2026-10-22五黑键迁至下方40针接口丝印 **C18、E19、D20、F15、F16**，依次为C#、D#、F#、G#、A#；八白键1～8及ADC16/17不动。蓝牙独立使用B16/B15/A16，必须配本轮新位流。具体见[唯一接线表](docs/keyboard-wiring.md)。
+2026-10-16已接入队友master `e18160e` 的模态核心与配套ROM；钢琴显示琴键，吉他显示六弦指板。KEY2切换新音的预设，旧音/尾音保留原音色；KEY1按次切换中→高→低→中音区，KEY0复位回钢琴和中音区。2026-10-22五黑键迁至下方40针接口丝印 **C18、E19、D20、F15、F16**，依次为C#、D#、F#、G#、A#；2026-10-24用户确认八白键为 **C19、D19、C20、F19、E17、F14、D16、D15**（对应J13第39/37/35/33/31/29/27/25脚），ADC16/17不动。蓝牙独立使用C13/C14/C15，必须重新构建并下载匹配引脚的新位流。具体见[唯一接线表](docs/keyboard-wiring.md)。
 
 实物是 **NEO Dock31005＋Tang Mega60K核心板**。约束目录保留历史名称31004，内容按31005底板与60K核心板核对。J8/J9仅取3.3V/GND，下方接口11脚为5V，不能接3.3V信号或模块电源。
 
@@ -50,9 +100,9 @@ USB触摸尚未接入正式顶层。已完成五触点快照到音符/控件的�
 
 | 工程 | 顶层 | 位流 |
 |---|---|---|
-| [带屏主工程](projects/hdmi/piano_hdmi.gprj)，2026-10-22五黑键新接线版 | `piano_hdmi_top` | `projects/hdmi/impl/pnr/piano_hdmi.fs` |
+| [带屏主工程](projects/hdmi/piano_hdmi.gprj)，2026-10-24实物琴键/蓝牙接线版 | `piano_hdmi_top` | `projects/hdmi/impl/pnr/piano_hdmi.fs` |
 
-当前位流和资源／时序见[最新验证](docs/verification.md#2026-10-23-滑条蓝牙与屏幕导奏)。正式文件仍为 `projects/hdmi/impl/pnr/piano_hdmi.fs`；不要使用随队友历史提交带入的旧接线试听包。
+当前位流和资源／时序见[最新验证](docs/verification.md#2026-10-24-实物琴键与蓝牙引脚同步)。正式文件仍为 `projects/hdmi/impl/pnr/piano_hdmi.fs`；不要使用随队友历史提交带入的旧接线试听包。
 
 首次打开EDA前运行PrepareOnly，生成合并约束；最终下载文件和SHA256见[验证记录](docs/verification.md)。先用SRAM Program低音量试板，本轮不自动操作硬件。
 
@@ -70,7 +120,7 @@ USB触摸尚未接入正式顶层。已完成五触点快照到音符/控件的�
 
 ![吉他模式：真实RTL像素](docs/display-guitar.png)
 
-两图是本轮简洁版的完整RTL输出帧，音频来自实际模态核心。暖白/浅灰配淡黄高亮；钢琴8白键/5黑键，吉他六弦指板加13个半音垫。界面复用2bit覆盖度字模及原生48px标题。波形显示512样本/约10.67ms，自动倍率×1～×256；电平增加峰值保持/回落，继续使用原始PCM峰值。松键可有7帧淡色残影，只有持键使用明亮色条；旧钢琴音不会被画到吉他指板上。
+下方两图是历史简洁版的完整RTL输出帧，音频来自实际模态核心。暖白/浅灰配淡黄高亮；钢琴8白键/5黑键，吉他六弦指板加13个半音垫。界面复用2bit覆盖度字模及原生48px标题。波形显示512样本/约10.67ms，自动倍率×1～×256；电平增加峰值保持/回落，继续使用原始PCM峰值。松键可有7帧淡色残影，只有持键使用明亮色条；旧钢琴音不会被画到吉他指板上。
 
 钢琴含48个模态槽，吉他含31个分量、拨弦噪声、失真和箱体处理；ROM是合成参数/单周期正弦/传递曲线，不是整音PCM录音。A核心保持队友原输出，试听仍需按相同音高和接近响度与实物对照。钢琴松键释放约85.33ms，吉他约42.67ms再加箱体收尾；按住时分量自然衰减，没有旧版固定1.2秒清零。
 

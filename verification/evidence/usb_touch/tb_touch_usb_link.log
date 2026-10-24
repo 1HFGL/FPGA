@@ -1,0 +1,2 @@
+PASS tb_touch_usb_link: 8 physical D+/D- transactions, token/data CRC, stuffing, valid52/ACK, corrupt CRC no ACK, malformed PHY, NAK/STALL/timeout, SOF increment
+D:\BaiduNetdiskDownload\project\fpga_contest-migration-20261002\fpga_contest\verification\tb\control\tb_touch_usb_link.v:171: $finish called at 2003017632 (1ps)

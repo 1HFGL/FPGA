@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "test": "tb_merge32_rom_equivalence",
+  "result": "24580 cycles; all 24576 coefficient reads; both DPB ports, metadata, hold/enables",
+  "inputs": {
+    "rtl/rom/modal_coeff_rom_dual.v": "00ee1ebd405b7994a9f11a80ab19d691613ed550c30687b41a478aea75b9b758",
+    "verification/scripts/functional_dual_rom.py": "f24c22d1a494c209d268a5e28c6cad7efe1509ccefbd1c381e5a0c1f9f9fd960",
+    "rtl/rom/piano_v3_modes.mem": "cac05bc7e087e1f495e47f11e5c1c26cd28c3cb7976ace26af04c29a56bb5999",
+    "verification/tb/music/tb_merge32_rom_equivalence.v": "cfb1767e4e08e2f68393535a54f290d5d929e9137f65d37123648ad28eeb63c5"
+  },
+  "original_evidence_sha256": "8231082d4f7e4b17929e3bc64e59fc39c458ef6d2d79996a6e539b7ff0a8c854",
+  "original_result": [
+    "PASS tb_merge32_rom_equivalence: 24580 cycles; all 12288 addresses on both physical DPB ports, independent holds and metadata"
+  ],
+  "note": "Physical vendor DPBs compared to simulation-only ROM. Gowin always uses physical DPBs."
+}

@@ -20,7 +20,8 @@ module instrument_display #(
     parameter integer ENHANCED=0, // 正式1024x600：双乐器主体、16位峰值波形
     parameter integer TOUCH_PANEL=0, // prepared normalized touch brightness UI
     parameter integer UI=0, // 1：2bit覆盖度字模新版界面；0：保留旧逐像素测试路径
-    parameter integer ENABLE_GUIDE=0
+    parameter integer ENABLE_GUIDE=0,
+    parameter integer BRIGHTNESS_PANEL=0
 ) (
     input wire sys_clk, pixel_clk, rst_n,
     input wire [12:0] key_down, // 当前档位的C,C#,D,...,B,C
@@ -129,16 +130,20 @@ module instrument_display #(
     wire [5:0] title_column,title_row;
     wire [38:0] activity;
     wire [15:0] meter_level,meter_peak;
+    wire [7:0] meter_height,meter_peak_height;
     generate if(ENHANCED && UI)begin:g_feedback
         display_feedback u_feedback(.pixel_clk(pixel_clk),.rst_n(pixel_rst_n),.frame_commit(commit),
             .held(state_latest[39]?state_latest[65:53]:state_latest[52:40]),
             .instrument_guitar(state_latest[39]),.raw_peak(envelope_peak),
-            .activity(activity),.meter_level(meter_level),.meter_peak(meter_peak));
+            .activity(activity),.meter_level(meter_level),.meter_peak(meter_peak),
+            .meter_height(meter_height),.meter_peak_height(meter_peak_height));
     end else begin:g_no_feedback
         assign activity=0;assign meter_level=0;assign meter_peak=0;
+        assign meter_height=0;assign meter_peak_height=0;
     end endgenerate
     generate if(ENHANCED && UI)begin:g_panel
-        instrument_panel_ui #(.TOUCH_PANEL(TOUCH_PANEL),.ENABLE_GUIDE(ENABLE_GUIDE)) u_renderer(
+        instrument_panel_ui #(.TOUCH_PANEL(TOUCH_PANEL),.ENABLE_GUIDE(ENABLE_GUIDE),
+            .LOG_METER(1),.SHOW_BRIGHTNESS(BRIGHTNESS_PANEL)) u_renderer(
             .guide_valid(state_frame[82]),.guide_index(state_frame[81:78]),.guide_progress(state_frame[77:74]),
             .brightness(state_frame[72:66]),.touch_available(state_frame[73]),
             .x(x_d),.y(y_d),.key_down(state_frame[39]?state_frame[65:53]:state_frame[52:40]),
@@ -147,6 +152,7 @@ module instrument_display #(
             .wave_min(envelope_min),.wave_max(envelope_max),.peak_level(envelope_peak),
             .gain_shift(envelope_gain),.wave_ready(wave_ready_d),
             .activity(activity),.meter_level(meter_level),.meter_peak(meter_peak),
+            .meter_height(meter_height),.meter_peak_height(meter_peak_height),
             .text_enable(text_enable),.text_glyph(text_glyph),
             .text_column(text_column),.text_row(text_row),.text_color(text_color),
             .title_enable(title_enable),.title_glyph(title_glyph),

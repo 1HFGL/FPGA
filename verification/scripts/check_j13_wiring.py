@@ -30,11 +30,22 @@ def validate_cst(path=None):
         raise ValueError("Unchanged I/O electrical attributes changed")
     if len(contract["signals"]) != 15 or len({s["j13_pin"] for s in contract["signals"]}) != 15:
         raise ValueError("J13 signal inventory mismatch")
-    # 外部模块K编号属于装配合同，不能退回半音顺序后还称八白键连续。
+    # 用户2026-10-24确认的实物白键；独立核对球位、Bank、排针及BTB链路。
     by_port={s['port']:s for s in contract['signals']}
-    for pin,bit in zip(range(1,9),(0,2,4,5,7,9,11,12)):
-        if by_port[f'piano_key_n[{bit}]']['j13_pin']!=pin:
-            raise ValueError('Eight white keys are not consecutive at J13-1..8')
+    white_keys = ((0,39,'C19',2,16,'SDRAM0_A2','C2399'),
+                  (2,37,'D19',2,10,'SDRAM0_A0','C2399'),
+                  (4,35,'C20',2,4,'SDRAM0_BA1','C2399'),
+                  (5,33,'F19',2,68,'SDRAM0_CS','BTB8900'),
+                  (7,31,'E17',1,22,'SDRAM0_CAS','C2399'),
+                  (9,29,'F14',1,42,'SDRAM0_DM0','C2399'),
+                  (11,27,'D16',1,28,'SDRAM0_WE','C2399'),
+                  (12,25,'D15',1,34,'SDRAM0_A5','C2399'))
+    for bit,pin,ball,bank,btb,net,connector in white_keys:
+        signal=by_port[f'piano_key_n[{bit}]']
+        if tuple(signal[k] for k in ('j13_pin','ball','bank','btb_pin','net','core_connector')) != (pin,ball,bank,btb,net,connector):
+            raise ValueError('Eight white keys mapping mismatch')
+    if by_port['piano_key_n[9]'].get('series_resistor') != 'R68':
+        raise ValueError('F14 to J13-29 requires dock R68 route')
     # 2026-10-22用户确认的五黑键；独立检查整条底板→BTB→60K链路。
     black_keys = ((1,40,'C18',2,18,'SDRAM0_A3'), (3,38,'E19',2,12,'SDRAM0_A1'),
                   (6,36,'D20',2,6,'SDRAM0_A10'), (8,34,'F15',1,40,'SDRAM0_BA0'),
@@ -44,7 +55,10 @@ def validate_cst(path=None):
         if tuple(signal[k] for k in ('j13_pin','ball','bank','btb_pin','net')) != (pin,ball,bank,btb,net):
             raise ValueError('Five black keys mapping mismatch')
     reserved=contract.get('bluetooth',[])
-    if [(s['module_pin'],s['ball'],s['j13_pin']) for s in reserved] != [('RXD','B16',9),('TXD','B15',10),('STATE','A16',13)]:
+    ble_routes = [('RXD','ble_tx','C13',6,55,'SDRAM0_D5'),
+                  ('TXD','ble_rx','C14',4,61,'SDRAM0_D3'),
+                  ('STATE','ble_state','C15',3,59,'SDRAM0_D2')]
+    if [tuple(s[k] for k in ('module_pin','port','ball','j13_pin','btb_pin','net')) for s in reserved] != ble_routes or any(s['bank']!=1 or s['core_connector']!='C2399' for s in reserved):
         raise ValueError('Bluetooth mapping mismatch')
     if any(s['ball'] in expected.values() or s['j13_pin'] in {v['j13_pin'] for v in contract['signals']} for s in reserved):
         raise ValueError('Bluetooth conflicts with a key/ADC port')
@@ -104,13 +118,16 @@ def main():
     parser.add_argument("--report", action="append", type=Path, default=[])
     parser.add_argument("--device-json", type=Path)
     parser.add_argument("--output", type=Path)
-    parser.add_argument("--negative-control", action="store_true", help="Reject four generated faults under build/")
+    parser.add_argument("--negative-control", action="store_true", help="Reject pin, voltage and report faults under build/")
     args = parser.parse_args()
     contract, result = validate_cst(args.cst)
     doc = (ROOT / "docs/keyboard-wiring.md").read_text(encoding="utf-8")
     for signal in contract["signals"]:
         if not re.search(rf"\|[^\n]*{re.escape(signal['port'])}[^\n]*\| J13 第{signal['j13_pin']}脚[^\n]*\| {signal['ball']} \| {signal['bank']} \|", doc):
             raise ValueError("Wiring document mismatch: " + signal["port"])
+    for signal in contract['bluetooth']:
+        if not re.search(rf"\| {re.escape(signal['module_pin'])} \| {signal['ball']}（J13第{signal['j13_pin']}脚） \|",doc):
+            raise ValueError('BLE wiring document mismatch: '+signal['module_pin'])
     if args.device_json:
         device = {p["INDEX"]: p for p in json.loads(args.device_json.read_text())["PIN_DATA"]}
         for signal in contract["signals"] + contract['bluetooth']:
@@ -121,10 +138,11 @@ def main():
     result["reports"] = {str(p): validate_report(p, contract) for p in args.report}
     if args.negative_control:
         if not args.report:raise ValueError('Negative report check requires --report')
-        faults=ROOT/'build/pin_migration_20261022/negative'
+        faults=ROOT/'build/pin_migration_20261024/negative'
         faults.mkdir(parents=True,exist_ok=True)
         cst=ROOT/contract['cst'];body=cst.read_text(encoding='utf-8-sig')
-        cases=[('pin',body.replace('IO_LOC "piano_key_n[0]" E14;','IO_LOC "piano_key_n[0]" E13;',1)),
+        cases=[('pin',body.replace('IO_LOC "piano_key_n[0]" C19;','IO_LOC "piano_key_n[0]" D19;',1)),
+            ('old_white_pin',body.replace('IO_LOC "piano_key_n[0]" C19;','IO_LOC "piano_key_n[0]" E14;',1)),
             ('old_black_pin',body.replace('IO_LOC "piano_key_n[1]" C18;','IO_LOC "piano_key_n[1]" B16;',1)),
             ('voltage',body.replace('IO_PORT "knob_scl" IO_TYPE=LVCMOS33','IO_PORT "knob_scl" IO_TYPE=LVCMOS18',1))]
         rejected=[]
@@ -135,15 +153,16 @@ def main():
             except ValueError as error:rejected.append({'case':name,'rejected':str(error)})
             else:raise ValueError('Pin fault survived: '+name)
         report=args.report[0].read_text(encoding='utf-8-sig')
-        changed=re.sub(r'(?m)^(piano_key_n\[0\].*)E14/1',r'\1E13/1',report,count=1)
+        changed=re.sub(r'(?m)^(piano_key_n\[0\].*)C19/2',r'\1D19/2',report,count=1)
         if changed==report:raise ValueError('Missing implementation mutation target')
         fault=faults/'report.rpt.txt';fault.write_text(changed,encoding='utf-8')
         try:validate_report(fault,contract)
         except ValueError as error:rejected.append({'case':'report','rejected':str(error)})
         else:raise ValueError('Wrong actual pin report survived')
         ble=ROOT/contract['bluetooth_cst'];ble_body=ble.read_text(encoding='utf-8-sig')
-        for name,changed in [('ble_pin',ble_body.replace('"ble_tx" B16','"ble_tx" C18')),
+        for name,changed in [('ble_pin',ble_body.replace('"ble_tx" C13','"ble_tx" C19')),
                              ('ble_voltage',ble_body.replace('BANK_VCCIO=3.3','BANK_VCCIO=1.8',1))]:
+            if changed==ble_body:raise ValueError('Missing BLE mutation target')
             fault=faults/(name+'.cst');fault.write_text(changed,encoding='utf-8')
             try:validate_ble_cst(fault,contract)
             except ValueError as error:rejected.append({'case':name,'rejected':str(error)})

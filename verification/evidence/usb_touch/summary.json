@@ -1,0 +1,84 @@
+{
+  "status": "SOURCE_CHECKPOINT_NOT_RELEASE_FIRMWARE",
+  "date": "2026-10-24",
+  "reason": "User requested immediate master upload before leaving; document unfinished work",
+  "completed_tests": [
+    {
+      "top": "tb_ble_link",
+      "results": [
+        "PASS tb_ble_link: independent HELLO/replies; same-pitch polyphony; NOTE_OFF/PANIC/source cleanup; partial-line disconnect/reconnect; BLE watchdog; mode/audio R953 samples=674"
+      ],
+      "functional_rom": true
+    },
+    {
+      "top": "tb_four_source_arbiter",
+      "results": [
+        "PASS tb_four_source_arbiter: 800 events, equal four-source service, stable stalls, three cancellations, exhaustive touch mask isolation"
+      ],
+      "functional_rom": true
+    },
+    {
+      "top": "tb_review_hdmi_reset_recovery",
+      "results": [
+        "PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)"
+      ],
+      "functional_rom": true
+    },
+    {
+      "top": "tb_touch32_audio",
+      "results": [
+        "PASS tb_touch32_audio: six contacts+13 physical+13 PC full32, BLE 33rd steal, per-source cancels, slide/timbre/octave/reconnect/reset, nonzero audio R955 samples=129"
+      ],
+      "functional_rom": true
+    },
+    {
+      "top": "tb_touch_report_cdc",
+      "results": [
+        "PASS tb_touch_report_cdc: 1000 full-width 48/50MHz reports, stalls, reset with pending report, no torn/phantom data"
+      ],
+      "functional_rom": true
+    },
+    {
+      "top": "tb_touch_usb_link",
+      "results": [
+        "PASS tb_touch_usb_link: 8 physical D+/D- transactions, token/data CRC, stuffing, valid52/ACK, corrupt CRC no ACK, malformed PHY, NAK/STALL/timeout, SOF increment"
+      ],
+      "functional_rom": true
+    },
+    {
+      "top": "tb_touch_usb_host",
+      "results": [
+        "PASS tb_touch_usb_host: EP0 multi-packet, address, config parsing, NAK/CRC/duplicate retries, SET_IDLE STALL, short packet recovery, backpressure, detach/re-enumeration/reset reports=14"
+      ],
+      "functional_rom": false
+    },
+    {
+      "top": "tb_touch_usb_wire",
+      "results": [
+        "PASS tb_touch_usb_wire: full D+/D- enumeration/455-byte EP0, SOF, address/config, SET_IDLE STALL, NAK, bad CRC, duplicate ACK, six whole six-contact reports, backpressure, detach/reconnect/reset"
+      ],
+      "functional_rom": false
+    }
+  ],
+  "report_replay": {
+    "real": 1825,
+    "total": 2031,
+    "invalid_rejected": 4
+  },
+  "host_fault_cases_passed": 9,
+  "complete_synthesis": "PASS_GOWIN_NETLIST_GENERATED",
+  "place_route": "IN_PROGRESS_AT_CHECKPOINT_NO_FINAL_RESULT",
+  "formal_hdmi_regression": "IN_PROGRESS_AT_CHECKPOINT_NO_RESULT",
+  "new_fs_published": false,
+  "programmed_after_user_stop": false,
+  "hardware_usb_touch_verified": false,
+  "pending": [
+    "Full PNR/five timing classes/39 pins/28 constraints/USB CDC coverage",
+    "Full current HDMI regression and negative implementation checks",
+    "Package only the verified newly built FS with input hashes",
+    "Fresh user permission before any further programming",
+    "Physical touch single/multiple contacts/slides/release/reconnect and separate touch latency",
+    "Physical ghost-chord investigation and Bluetooth first-note recovery remain unresolved"
+  ],
+  "known_modelsim": "Missing; Icarus -g2001 checks are not strict ModelSim"
+}

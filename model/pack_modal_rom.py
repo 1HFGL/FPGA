@@ -24,7 +24,7 @@ def packed_tables(source):
 def check(source=SOURCE):
     tables = packed_tables(source)
     for path, body in tables:
-        if not path.is_file() or path.read_bytes() != body.encode('ascii'):
+        if not path.is_file() or path.read_text(encoding='ascii').splitlines() != body.splitlines():
             raise ValueError('Missing/stale packed modal ROM: ' + str(path))
     return {'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
             'words': 12288, 'banks': {p.name: hashlib.sha256(p.read_bytes()).hexdigest()

@@ -1,8 +1,8 @@
 // NEO Dock31005 J13，经BTB1转60K核心板；不占五黑键，USB调试串口不改。
 // 3.3V数字信号，模块VCC/GND另外接电源接口，KEY悬空。
-IO_LOC "ble_tx" B16;
+IO_LOC "ble_tx" C13;
 IO_PORT "ble_tx" IO_TYPE=LVCMOS33 DRIVE=8 BANK_VCCIO=3.3;
-IO_LOC "ble_rx" B15;
+IO_LOC "ble_rx" C14;
 IO_PORT "ble_rx" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;
-IO_LOC "ble_state" A16;
+IO_LOC "ble_state" C15;
 IO_PORT "ble_state" IO_TYPE=LVCMOS33 PULL_MODE=DOWN BANK_VCCIO=3.3;

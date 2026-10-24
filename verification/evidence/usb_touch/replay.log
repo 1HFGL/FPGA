@@ -1,0 +1,2 @@
+PASS tb_touch_report_decode: 2027 valid snapshots, 4 rejected malformed reports, all six slots, mapping, held output, disconnect/reset
+D:\BaiduNetdiskDownload\project\fpga_contest-migration-20261002\fpga_contest\verification\tb\control\tb_touch_report_decode.v:35: $finish called at 487500000 (1ps)

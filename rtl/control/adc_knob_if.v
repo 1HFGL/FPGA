@@ -11,7 +11,11 @@ module adc_knob_if #(
     parameter integer FAULT_TIMEOUT  = 5000000,
     parameter integer VALUE_WIDTH    = 7,
     parameter integer SLEW_STEP      = 1,
-    parameter integer FILTER_SHIFT   = 3
+    parameter integer FILTER_SHIFT   = 3,
+    // Raw-code hysteresis: held reference rejects noise without waiting for more samples.
+    // Zero preserves the original interface behavior for independent/legacy projects.
+    parameter integer HYSTERESIS_COUNTS = 0,
+    parameter integer CENTER_CHANNEL = -1
 ) (
     input  wire clk,
     input  wire rst_n,
@@ -29,11 +33,34 @@ module adc_knob_if #(
     localparam [VALUE_WIDTH:0] SLEW = SLEW_STEP[VALUE_WIDTH:0];
 
     reg [ADC_WIDTH-1:0]  filtered  [0:KNOB_COUNT-1];
+    reg [ADC_WIDTH-1:0] accepted [0:KNOB_COUNT-1];
+    reg history_valid;
     reg [VALUE_WIDTH-1:0] value_mem [0:KNOB_COUNT-1];
     reg [31:0] ready_count;
     reg [31:0] timeout_count;
 
     integer i;
+
+    function [ADC_WIDTH-1:0] stable_raw;
+        input [ADC_WIDTH-1:0] previous,incoming;
+        input initialized,center;
+        reg [ADC_WIDTH:0] distance;
+        reg [ADC_WIDTH:0] midpoint,quantum;
+        begin
+            midpoint=({{ADC_WIDTH{1'b0}},1'b1} << (ADC_WIDTH-1));
+            quantum=({{ADC_WIDTH{1'b0}},1'b1} << SHIFT);
+            distance=(incoming>=previous)?{1'b0,incoming}-{1'b0,previous}:
+                                           {1'b0,previous}-{1'b0,incoming};
+            if(HYSTERESIS_COUNTS==0)stable_raw=incoming;
+            // The existing bend-neutral bins are 63/64. Always reach neutral on return.
+            else if(center && {1'b0,incoming}>=midpoint-quantum &&
+                             {1'b0,incoming}<midpoint+quantum)
+                stable_raw=midpoint[ADC_WIDTH-1:0];
+            else if(!initialized || incoming==0 || (&incoming) || distance>HYSTERESIS_COUNTS)
+                stable_raw=incoming;
+            else stable_raw=previous;
+        end
+    endfunction
 
     // Round the correction away from zero so constant inputs reach both endpoints.
     function [ADC_WIDTH-1:0] filter_next;
@@ -86,7 +113,9 @@ module adc_knob_if #(
             param_valid  <= 1'b0;
             ready        <= 1'b0;
             fault        <= 1'b0;
+            history_valid <= 1'b0;
             for (i = 0; i < KNOB_COUNT; i = i + 1) begin
+                accepted[i] <= {ADC_WIDTH{1'b0}};
                 filtered[i]  <= {ADC_WIDTH{1'b0}};
                 value_mem[i] <= {VALUE_WIDTH{1'b0}};
             end
@@ -97,6 +126,7 @@ module adc_knob_if #(
                 timeout_count <= 32'd0;
                 param_valid   <= 1'b1;
                 fault         <= 1'b0;
+                history_valid <= 1'b1;
 
                 if (ready_count < READY_SAMPLES) begin
                     ready_count <= ready_count + 1'b1;
@@ -106,9 +136,10 @@ module adc_knob_if #(
                 end
 
                 for (i = 0; i < KNOB_COUNT; i = i + 1) begin
-                    filtered[i] <= filter_next(filtered[i], raw_flat[i*ADC_WIDTH +: ADC_WIDTH]);
+                    accepted[i] <= stable_raw(accepted[i],raw_flat[i*ADC_WIDTH +: ADC_WIDTH],history_valid,i==CENTER_CHANNEL);
+                    filtered[i] <= filter_next(filtered[i],stable_raw(accepted[i],raw_flat[i*ADC_WIDTH +: ADC_WIDTH],history_valid,i==CENTER_CHANNEL));
                     value_mem[i] <= slew_next(value_mem[i],
-                        filter_next(filtered[i], raw_flat[i*ADC_WIDTH +: ADC_WIDTH]) >> SHIFT);
+                        filter_next(filtered[i],stable_raw(accepted[i],raw_flat[i*ADC_WIDTH +: ADC_WIDTH],history_valid,i==CENTER_CHANNEL)) >> SHIFT);
                 end
             end else begin
                 // Watch from reset too: an ADC that never sends a sample is faulty.
@@ -116,6 +147,7 @@ module adc_knob_if #(
                     fault <= 1'b1;
                     ready <= 1'b0;
                     ready_count <= 32'd0;
+                    history_valid <= 1'b0;
                 end else begin
                     timeout_count <= timeout_count + 1'b1;
                 end

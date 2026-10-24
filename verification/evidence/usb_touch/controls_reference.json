@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "knob_vectors": 20000,
+  "meter_values": 65536,
+  "seed": 20261024,
+  "inputs": {
+    "rtl\\control\\adc_knob_if.v": "97491c2b12b5a4f4e67452693ef6d279c16c83bf6c27b35d117eba99d1234a12",
+    "rtl\\display\\display_feedback.v": "89dc5d7ad1f15f8f2778a30191bb329770266b387aad925821cc2c646525070f",
+    "verification\\tb\\control\\tb_controls_reference.v": "c9a7d3b4d4cea911f011bf99c6a49d2abead090b9e7a3501a02b0f80db941859"
+  }
+}

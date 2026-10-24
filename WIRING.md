@@ -10,7 +10,7 @@
 |---|---|---|
 | 八白键、五黑键的丝印／音符／端口 | [琴键接线表](docs/keyboard-wiring.md#按模块k编号接不按半音编号数) | 八键、五键模块各自从K1编号，不按按钮颜色判断音符 |
 | 下方40针接口方向、3.3V和GND | [接口定位与电源](docs/keyboard-wiring.md#先定位接口和电源) | 先断电；按丝印核对，J13第11脚是5V |
-| 蓝牙RXD／TXD／STATE | [蓝牙接线](docs/keyboard-wiring.md#蓝牙接线新增独立串口需使用本轮固件) | B16/B15/A16，STATE必须接；默认9600，电脑口115200不变 |
+| 蓝牙RXD／TXD／STATE | [蓝牙接线](docs/keyboard-wiring.md#蓝牙接线新增独立串口需使用本轮固件) | C13/C14/C15，STATE必须接；默认9600，电脑口115200不变 |
 | ADS1115、音量／弯音旋钮 | [ADC与其他外设](docs/keyboard-wiring.md#adc与其他外设) | 旋钮模拟SIG接ADC，不直接接FPGA数字引脚 |
 | B10K多焊脚裸滑条 | [先认脚再接AIN2](docs/keyboard-wiring.md#b10k裸滑条先认脚再接ain2) | 具体脚序待照片/测量；W→AIN2，两端3.3V/GND；未接时AIN2固定3.3V |
 | HDMI屏、USB触摸、耳机／音箱 | [显示与音频接法](docs/keyboard-wiring.md#adc与其他外设) | HDMI负责画面；FPGA独立USB触摸尚未接通 |
@@ -21,10 +21,10 @@
 | 文件 | 用途与修改位置 |
 |---|---|
 | [piano.cst](boards/tang_mega_60k_31004/piano.cst) | **实际引脚分配入口**。搜索信号名，核对对应`IO_LOC`及`IO_PORT`；不是改J13针号，而是填FPGA球位。 |
-| [ble.cst](boards/tang_mega_60k_31004/ble.cst) | 蓝牙独立约束：`ble_tx=B16 / ble_rx=B15 / ble_state=A16`；只加入HDMI正式工程。 |
+| [ble.cst](boards/tang_mega_60k_31004/ble.cst) | 蓝牙独立约束：`ble_tx=C13 / ble_rx=C14 / ble_state=C15`；只加入HDMI正式工程。 |
 | [board_31005_j13.json](verification/data/board_31005_j13.json) | **接线合同**。琴键/ADC在`signals`，蓝牙在`bluetooth`；核对`port / j13_pin / ball / bank / net / btb_pin`整条映射。 |
 | [keyboard-wiring.md](docs/keyboard-wiring.md) | **给人看的当前接线表**。同步模块K编号、音符、丝印、位置；相应说明也要一致。 |
-| [check_j13_wiring.py](verification/scripts/check_j13_wiring.py) | **防接错检查**。含白键连续布局、`black_keys`、蓝牙预留位置及负向故障样例；换针经原理图确认后才更新独立预期，不删除断言或放宽电压检查。 |
+| [check_j13_wiring.py](verification/scripts/check_j13_wiring.py) | **防接错检查**。含用户确认的白键球位、`black_keys`、蓝牙位置及负向故障样例；换针经原理图确认后才更新独立预期，不删除断言或放宽电压检查。 |
 
 只移动已存在的琴键信号、音符功能不变，通常不需要改合成RTL或队友TB。若要新增蓝牙、改变按钮功能或交换ADC通道用途，则不只是换针，还需修改并验证相关RTL。
 
@@ -38,7 +38,7 @@
 
    ```powershell
    # 本机Python路径；换电脑时改成实际安装位置。
-   $pinPython = 'C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
+   $pinPython = 'C:/Users/32215/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
    & $pinPython verification/scripts/check_j13_wiring.py
    # 上一步PASS后，重新综合/布局布线；脚本同时检查原约束下的时序。
    ./projects/hdmi/build.ps1

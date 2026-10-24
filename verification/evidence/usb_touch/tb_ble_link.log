@@ -1,0 +1,2 @@
+PASS tb_ble_link: independent HELLO/replies; same-pitch polyphony; NOTE_OFF/PANIC/source cleanup; partial-line disconnect/reconnect; BLE watchdog; mode/audio R953 samples=674
+D:\BaiduNetdiskDownload\project\fpga_contest-migration-20261002\fpga_contest\verification\tb\integration\tb_ble_link.v:127: $finish called at 14042200000 (1ps)

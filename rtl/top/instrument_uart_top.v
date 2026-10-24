@@ -26,6 +26,7 @@ module instrument_uart_top #(
     parameter integer ENABLE_CHORUS=0,
     parameter integer ENABLE_DELAY=0,
     parameter integer ENABLE_BLE=0,
+    parameter integer ENABLE_TOUCH=0,
     parameter integer BLE_CLKS_PER_BIT=5208
 )(
     input wire sys_clk,sys_rst_n,input wire [1:0] Key_in,
@@ -48,7 +49,12 @@ module instrument_uart_top #(
     input wire ble_rx,ble_state,
     output wire ble_tx,
     output reg monitor_note_on,
-    output reg [6:0] monitor_event_note
+    output reg [6:0] monitor_event_note,
+    input wire touch_event_valid,output wire touch_event_ready,
+    input wire touch_event_on,touch_event_guitar,
+    input wire [7:0] touch_event_source,
+    input wire [6:0] touch_event_note,touch_event_velocity,
+    input wire touch_cancel_valid,output wire touch_cancel_ready
 );
     wire audio_ready,sample_request,sample_underrun;
     assign control_ready=audio_ready;
@@ -126,6 +132,7 @@ module instrument_uart_top #(
     wire pv,pr,pt,cv,cr,ct,av,ar,at,cancel,cancel_ready,ac,acr,session_ready;
     wire [7:0] ps;
     wire [SOURCE_WIDTH-1:0] asrc,cancel_mask,cancel_value;
+    wire accepted_touch;
     wire bv,br,bt,bc,bcr;
     wire [6:0] bn,bvel;
     wire [6:0] pn,pvel,cn,cvel,an,avel;
@@ -265,7 +272,7 @@ module instrument_uart_top #(
         assign bv=1'b0;assign bt=1'b0;assign bn=7'd0;assign bvel=7'd0;
         assign bc=1'b0;assign ble_tx=1'b1;
     end endgenerate
-    uart_event_arbiter #(.ENABLE_BLE(ENABLE_BLE),.SOURCE_WIDTH(SOURCE_WIDTH)) u_arbiter(
+    uart_event_arbiter #(.ENABLE_BLE(ENABLE_BLE),.ENABLE_TOUCH(ENABLE_TOUCH),.SOURCE_WIDTH(SOURCE_WIDTH)) u_arbiter(
         .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),
         .physical_valid(pv),.physical_ready(pr),.physical_type(pt),.physical_source(ps),
         .physical_note(pn),.physical_velocity(pvel),.pc_valid(cv),.pc_ready(cr),
@@ -274,12 +281,15 @@ module instrument_uart_top #(
         .event_type(at),.event_source(asrc),.event_note(an),.event_velocity(avel),
         .ble_valid(bv),.ble_ready(br),.ble_type(bt),.ble_note(bn),.ble_velocity(bvel),
         .ble_cancel_valid(bc),.ble_cancel_ready(bcr),
-        .allocator_cancel_mask(cancel_mask),.allocator_cancel_value(cancel_value));
+        .allocator_cancel_mask(cancel_mask),.allocator_cancel_value(cancel_value),
+        .touch_valid(touch_event_valid),.touch_ready(touch_event_ready),.touch_type(touch_event_on),
+        .touch_source(touch_event_source),.touch_note(touch_event_note),.touch_velocity(touch_event_velocity),
+        .touch_cancel_valid(touch_cancel_valid),.touch_cancel_ready(touch_cancel_ready),.event_touch(accepted_touch));
     voice_allocator #(.VOICES(VOICES),.IDX_WIDTH((VOICES>1)?$clog2(VOICES):1),.COUNT_WIDTH(6),.SOURCE_WIDTH(SOURCE_WIDTH),
         .MERGE_SAME_NOTE(0),.ENABLE_CANCEL(1),.ENABLE_PLAY_CONTROL(ENABLE_CONTROLS),
         .CHECK_RELEASE_ID(ENABLE_CONTROLS)) u_allocator(
         .clk(sys_clk),.rst_n(audio_ready),.event_valid(av && !local_clear_pending),.event_ready(ar),.event_type(at),
-        .event_source_id(asrc),.event_note(an),.event_velocity(avel),.event_timbre({3'd0,note_guitar}),
+        .event_source_id(asrc),.event_note(an),.event_velocity(avel),.event_timbre({3'd0,accepted_touch?touch_event_guitar:note_guitar}),
         .expr_valid(1'b0),.expr_ready(),.expr_source_id({SOURCE_WIDTH{1'b0}}),.expr_note(7'd0),
         .expr_pitch_bend(16'd0),.expr_aftertouch(8'd0),.expr_vibrato_depth(8'd0),.expr_vibrato_rate(8'd0),
         .release_done(release_done),.cancel_valid(local_clear_pending || ac),.cancel_ready(allocator_cancel_ready),

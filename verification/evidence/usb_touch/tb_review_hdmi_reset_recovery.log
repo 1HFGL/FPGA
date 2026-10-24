@@ -1,0 +1,19 @@
+CASE HDMI reset recovery epoch=0 checked_words=128
+CASE HDMI reset recovery epoch=1 checked_words=128
+CASE HDMI reset recovery epoch=2 checked_words=128
+CASE HDMI reset recovery epoch=3 checked_words=128
+CASE HDMI reset recovery epoch=4 checked_words=128
+CASE HDMI reset recovery epoch=5 checked_words=128
+CASE HDMI reset recovery epoch=6 checked_words=128
+CASE HDMI reset recovery epoch=7 checked_words=128
+CASE HDMI reset recovery epoch=8 checked_words=128
+CASE HDMI reset recovery epoch=9 checked_words=128
+CASE HDMI reset recovery epoch=10 checked_words=128
+CASE HDMI reset recovery epoch=11 checked_words=128
+CASE HDMI reset recovery epoch=12 checked_words=128
+CASE HDMI reset recovery epoch=13 checked_words=128
+CASE HDMI reset recovery epoch=14 checked_words=128
+CASE HDMI reset recovery epoch=15 checked_words=128
+CASE HDMI reset recovery epoch=16 checked_words=128
+PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)
+D:\BaiduNetdiskDownload\project\fpga_contest-migration-20261002\fpga_contest\verification\tb\review\tb_review_hdmi_reset_recovery.v:131: $finish called at 252240000 (1ps)

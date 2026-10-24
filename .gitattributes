@@ -28,3 +28,11 @@
 /build/audition/dual16x2_j13_20261024/* -text
 /build/audition/dual16x2_j13_20261024/*.fs binary
 /verification/evidence/dual16/* -text
+
+# Current USB-touch offline verification package; preserve evidence/FS identities.
+/verification/evidence/usb_touch/** -text
+/verification/data/touch_wch_1a86_e5e3_reports.hex -text
+/build/audition/usb_touch32_20261024/* -text
+/build/audition/usb_touch32_20261024/*.fs binary
+/verification/scripts/functional_dual_rom.py -text
+/verification/tb/music/tb_merge32_rom_equivalence.v -text

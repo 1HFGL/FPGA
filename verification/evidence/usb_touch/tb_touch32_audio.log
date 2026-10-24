@@ -1,0 +1,2 @@
+PASS tb_touch32_audio: six contacts+13 physical+13 PC full32, BLE 33rd steal, per-source cancels, slide/timbre/octave/reconnect/reset, nonzero audio R955 samples=129
+D:\BaiduNetdiskDownload\project\fpga_contest-migration-20261002\fpga_contest\verification\tb\integration\tb_touch32_audio.v:114: $finish called at 2687760000 (1ps)

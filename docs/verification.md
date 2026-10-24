@@ -867,3 +867,25 @@ DAC仍缺DIN/WS接收建立与保持参数、31005板上相对延迟、时钟误
 - 195份当前源码/测试严格Verilog-2001编译通过；候选RTL也在穷举及6项集成编译中使用相同严格选项。全部既有TB、正式RTL/ROM/CST/SDC/process及用户配置未改；756份原文件中只有AGENTS/PLAN/本说明更新，其余753份保持原哈希。
 
 本轮机器证据：`verification/evidence/ui_map_parallel/summary.json`。当前正式位流仍是`projects/hdmi/impl/pnr/piano_hdmi.fs`，SHA256 **`2702c933ebde3678f69bd7b61894a2c5f99923bacbb133ab49a5681e5efaba40`**。隔离基线重建资源/余量一致，但其FS哈希不同，不能称与正式FS逐字节相同。未推送、未烧录、未做实物测量；PR1014、完整DAC板外时序、USB触摸及整机模拟延迟缺口均不因本轮测试消失。
+
+
+## 2026-10-24 实物琴键与蓝牙引脚同步
+
+用户再次确认实物白键C19/D19/C20/F19/E17/F14/D16/D15，明确覆盖刚同步master e578e65的J13-1..8映射；蓝牙RXD→C13、TXD→C14、STATE→C15。五黑键、ADC、原RTL/ROM/队友TB、SDC与Place3/Route1/ClockOrder0保持。更新公共/蓝牙CST、接线合同与独立检查预期及当前接线说明；Sipeed官方31005底板p6/p7/p19与60K核心板p1/p4/p6已重新读取，PDF哈希与合同原来源一致。F14到J13-29经R68，实物连通仍待核对。
+
+Gowin1.9.12.04综合/布局布线及生成位流成功；37实际引脚、21活跃约束、五类时序、输入/位流哈希核验通过；13键/ADC/3路BLE实际Bank、电压和方向与合同一致，7项引脚/电压/报告故障均被拒绝。Logic26338/59904、FF12038/60780、BSRAM90/118、DSP25.5/118、PLL1/8；Setup/Hold/Recovery/Removal/Pulse余量0.077/0.183/0.976/0.144/5.803ns。Setup只有77ps，PR1014仍在，不能表述为时序宽裕或完整板外签核。
+
+新文件`projects/hdmi/impl/pnr/piano_hdmi.fs`，SHA256 `0ce25e1894eafd3e93225ad50ecb91405e9f3d8a1c61b712847052fc2d3953c9`；本机身份`build/hdmi/latest_build.json`，汇总`build/pin_migration_20261024/summary.json`、引脚检查`build/pin_migration_20261024/pin_check.json`。281份RTL/ROM/既有TB/SDC/process等保护文件逐字节不变。已尝试`check_verilog.ps1`，因本机缺少指定ModelSim工具未运行；本轮未重跑RTL功能回归，不借用上游旧结果冒称重测。未提交/推送/烧录，BLE实机、R68/线束、实屏及整机模拟延迟仍待验收。
+
+
+## 2026-10-24 当前覆盖：32声部与操作界面修复
+
+按用户要求，本地master合入`cleanup/expression-brightness`最新`737f0f4`（合并提交`e8d1ba7`）。正式HDMI采用两组16并行，共32声部；48kHz、原音色系数和固定三效果保留，音频缓存R955，976拍准备窗余21拍。仍以HDMI为唯一发布入口，分支随带旧接线试听包不能用于当前线束。
+
+白键C19/D19/C20/F19/E17/F14/D16/D15、五黑键C18/E19/D20/F15/F16、ADC B20/A21、BLE C13/C14/C15保持。正式导奏关闭；显示AIN2明亮度0～127条和数值；输出条改固定分段对数刻度，音频幅度不变。音量/弯音新增384原码迟滞和弯音中心吸附，保留原音频斜坡及端点/故障恢复，不新增ADC等待。触摸仍没有USB主机/HID驱动，滑条画面不代表支持触摸拖动。
+
+最新`projects/hdmi/impl/pnr/piano_hdmi.fs`，SHA256 `861aa1557070410a34b7f04caf3c54008c57e9043739a62ec6b680bda29479ba`。Logic39370/FF15859/BSRAM93/118/DSP35.5；Setup/Hold/Recovery/Removal/Pulse=0.562/0.186/0.976/0.144/6.072ns。37引脚、21约束、7项引脚负向检查通过；余量仍有限，PR1014及完整板外时序未闭合。身份见`build/hdmi/latest_build.json`，证据`build/merge32_20261024/summary.json`。
+
+本机16项定向Icarus `-g2001`检查通过，包括实际DPB的24576次读取、ROM替身与原语24580拍等价、新核心1600组PCM/32声部对照和5200个实时周期、256组输入快照对照、正式顶层13实体+19UART填满32槽/第33音抢占、R955及DAC/PA/UART隔离、572组三键及100次重叠换键、17轮HDMI恢复、BLE来源隔离和包络/旋钮/显示检查。长逻辑测试使用单独证明等价的仿真ROM，Gowin仍使用厂商原语；直接原语长回归主动停止，不能说全套原语仿真跑完。ModelSim缺失未做严格检查，PySide6缺失未重跑电脑端测试。已有队友TB、母表ROM、引脚、SDC/process保持；当前工作区还包含未提交的引脚/界面修复，不能只凭HEAD复现位流。
+
+用户确认有线耳机首键正常，蓝牙首音问题暂定位在无线输出链路，未证实具体端点或实现修复。用户确认屏幕只在接电脑时触摸正常。三键误触发在软件测试中未复现，不宣称实物故障已修好；复测仍出现时需抓未按键输入与公共地的波形。未推送、未烧录、未做整机实物验收。

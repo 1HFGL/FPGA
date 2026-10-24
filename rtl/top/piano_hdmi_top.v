@@ -1,6 +1,6 @@
 // 7寸1024x600 HDMI屏候选板级顶层；复用唯一钢琴内核，无CPU/DDR/帧缓存。
 // 手册hdmi_cvt 1024 600 60 6 0 0 0推导普通CVT，具体驱动板仍须实屏验证。
-// HDMI只发DVI兼容视频；耳机/音箱仍接板载DAC。USB触摸主机未实现。
+// HDMI只发DVI兼容视频；音频仍接板载DAC。USB为1A86:E5E3专用触摸主机。
 module piano_hdmi_top #(
     parameter ROM_FILE="../../rtl/rom/piano_1024.mem",
     parameter integer VOICES=32,
@@ -18,7 +18,8 @@ module piano_hdmi_top #(
     parameter integer ENABLE_SLIDER_BRIGHTNESS=1,
     parameter integer ENABLE_BLE=1,
     parameter integer BLE_CLKS_PER_BIT=5208,
-    parameter integer ENABLE_GUIDE=1
+    parameter integer ENABLE_GUIDE=0,
+    parameter integer ENABLE_USB_TOUCH=1
 )(
     input wire sys_clk,sys_rst_n,
     input wire [1:0] Key_in,
@@ -30,7 +31,8 @@ module piano_hdmi_top #(
     output wire [2:0] tmds_data_p,tmds_data_n,
     output wire tmds_clk_p,tmds_clk_n,
     input wire ble_rx,ble_state,
-    output wire ble_tx
+    output wire ble_tx,
+    inout wire usb_touch_dp,usb_touch_dm
 );
     wire pixel_clk,serial_clk,pll_locked,display_reset;
     hdmi_clock_60k u_video_clock(.sys_clk(sys_clk),.rst_n(sys_rst_n),
@@ -41,6 +43,23 @@ module piano_hdmi_top #(
     wire instrument_guitar;
     wire [1:0] current_octave;
     wire core_ready;
+    wire touch_event_valid,touch_event_ready,touch_event_on,touch_event_guitar;
+    wire [7:0] touch_event_source;
+    wire [6:0] touch_event_note,touch_event_velocity;
+    wire touch_cancel_valid,touch_cancel_ready,usb_touch_available;
+    generate if(ENABLE_USB_TOUCH)begin:g_usb_touch
+        touch_usb_system u_usb(.sys_clk(sys_clk),.sys_rst_n(sys_rst_n),.core_ready(core_ready),
+            .usb_dp(usb_touch_dp),.usb_dm(usb_touch_dm),.instrument_guitar(instrument_guitar),.octave(current_octave),
+            .available(usb_touch_available),.event_valid(touch_event_valid),.event_ready(touch_event_ready),
+            .event_on(touch_event_on),.event_guitar(touch_event_guitar),.event_source(touch_event_source),
+            .event_note(touch_event_note),.event_velocity(touch_event_velocity),
+            .cancel_valid(touch_cancel_valid),.cancel_ready(touch_cancel_ready));
+    end else begin:g_no_usb_touch
+        assign usb_touch_dp=1'bz;assign usb_touch_dm=1'bz;
+        assign usb_touch_available=0;assign touch_event_valid=0;assign touch_event_on=0;
+        assign touch_event_guitar=0;assign touch_event_source=0;assign touch_event_note=0;
+        assign touch_event_velocity=0;assign touch_cancel_valid=0;
+    end endgenerate
     wire guide_note_on,guide_valid;
     wire [6:0] guide_played_note;
     wire [3:0] guide_index,guide_progress;
@@ -67,10 +86,12 @@ module piano_hdmi_top #(
     assign brightness_target=(ENABLE_SLIDER_BRIGHTNESS && slider_ready) ?
         slider_brightness : touch_brightness_target;
     wire touch_available;
+    wire touch_brightness_available;
+    assign touch_available=touch_brightness_available || usb_touch_available;
     touch_brightness_control u_touch(.clk(sys_clk),.rst_n(core_ready),
         .connected(touch_connected),.report_valid(touch_report_valid),.contact_down(touch_down),
         .contact_x(touch_x),.contact_y(touch_y),.target(touch_brightness_target),
-        .available(touch_available),.dragging());
+        .available(touch_brightness_available),.dragging());
     reg [6:0] volume;
     reg signed [15:0] bend;
     wire signed [15:0] audio_sample;
@@ -80,6 +101,9 @@ module piano_hdmi_top #(
     // 与无屏入口显式使用同一主配置，避免依赖ADC模块未来的默认值。
     ads1115_knob_if #(.I2C_HZ(350000),.CONV_WAIT(75000),.DR(3'b111),
         .READY_SAMPLES(2),.FILTER_SHIFT(0),.SLEW_STEP(127),
+        // 15-bit normalized input: 384 codes = 1.5 of the 7-bit display steps.
+        // Actual motion crosses the held reference immediately; no extra ADC wait.
+        .HYSTERESIS_COUNTS(384),
         .ENABLE_BRIGHTNESS(ENABLE_SLIDER_BRIGHTNESS)) u_adc(
         .clk(sys_clk),.rst_n(core_ready),.sda(knob_sda),.scl(knob_scl),
         .knob_value_flat(knob_value_flat),.knob_sample_valid(knob_valid),
@@ -103,7 +127,7 @@ module piano_hdmi_top #(
         .ENABLE_CHORUS(ENABLE_CHORUS),.ENABLE_DELAY(ENABLE_DELAY),
         .ENABLE_BRIGHTNESS(ENABLE_BRIGHTNESS || ENABLE_TOUCH_BRIGHTNESS || ENABLE_SLIDER_BRIGHTNESS),
         .EXTERNAL_BRIGHTNESS(ENABLE_TOUCH_BRIGHTNESS || ENABLE_SLIDER_BRIGHTNESS),.ENABLE_OCTAVE_KEY(ENABLE_OCTAVE_KEY),
-        .ENABLE_BLE(ENABLE_BLE),.BLE_CLKS_PER_BIT(BLE_CLKS_PER_BIT),
+        .ENABLE_BLE(ENABLE_BLE),.ENABLE_TOUCH(ENABLE_USB_TOUCH),.BLE_CLKS_PER_BIT(BLE_CLKS_PER_BIT),
         .BRIGHTNESS_REPEAT_CYCLES(BRIGHTNESS_REPEAT_CYCLES)) u_core(
         .sys_clk(sys_clk),.sys_rst_n(sys_rst_n),.Key_in(Key_in),.piano_key_n(piano_key_n),
         .uart_rx(uart_rx),.uart_tx(uart_tx),.HP_BCK(HP_BCK),.HP_WS(HP_WS),.HP_DIN(HP_DIN),.PA_EN(PA_EN),
@@ -113,12 +137,17 @@ module piano_hdmi_top #(
         .monitor_piano_keys(piano_held_keys),.monitor_guitar_keys(guitar_held_keys),.monitor_octave(current_octave),
         .control_brightness(brightness_target),.monitor_brightness(brightness_current),
         .ble_rx(ble_rx),.ble_tx(ble_tx),.ble_state(ble_state),
-        .monitor_note_on(guide_note_on),.monitor_event_note(guide_played_note));
+        .monitor_note_on(guide_note_on),.monitor_event_note(guide_played_note),
+        .touch_event_valid(touch_event_valid),.touch_event_ready(touch_event_ready),
+        .touch_event_on(touch_event_on),.touch_event_guitar(touch_event_guitar),.touch_event_source(touch_event_source),
+        .touch_event_note(touch_event_note),.touch_event_velocity(touch_event_velocity),
+        .touch_cancel_valid(touch_cancel_valid),.touch_cancel_ready(touch_cancel_ready));
     wire [23:0] rgb;
     wire de,hs,vs;
     // UI=1：正式 2bit 覆盖度界面；旧逐像素帧测试仍用 UI=0 的兼容绘制器。
     instrument_display #(.H_ACTIVE(1024),.V_ACTIVE(600),.WIDE(1),.ENHANCED(1),.UI(1),
         .TOUCH_PANEL(ENABLE_TOUCH_BRIGHTNESS),.ENABLE_GUIDE(ENABLE_GUIDE),
+        .BRIGHTNESS_PANEL(ENABLE_SLIDER_BRIGHTNESS),
         .H_FRONT(40),.H_SYNC(104),.H_BACK(144),.V_FRONT(3),.V_SYNC(7),.V_BACK(14),
         .HS_ACTIVE(0),.VS_ACTIVE(1)) u_display(
         .sys_clk(sys_clk),.pixel_clk(pixel_clk),.rst_n(display_reset),.key_down(held_keys),
