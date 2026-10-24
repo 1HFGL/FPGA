@@ -18,3 +18,13 @@
 /build/audition/delay_chorus_j13_20261017/* -text
 /build/audition/delay_chorus_j13_20261017/*.fs binary
 /verification/evidence/effects/* -text
+
+# 32-voice local verification artifacts.
+/build/audition/poly32_j13_20261023/* -text
+/build/audition/poly32_j13_20261023/*.fs binary
+/verification/evidence/poly32/* -text
+
+# Dual 16-voice parallel verification artifacts (32 voices total).
+/build/audition/dual16x2_j13_20261024/* -text
+/build/audition/dual16x2_j13_20261024/*.fs binary
+/verification/evidence/dual16/* -text

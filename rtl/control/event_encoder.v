@@ -29,8 +29,9 @@ module event_encoder #(
     reg [EVENT_WIDTH-1:0] fifo_mem [0:MAX_EVENTS-1];
     reg [PTR_WIDTH-1:0] wr_ptr, rd_ptr;
     reg [PTR_WIDTH:0] fifo_count;
-    integer i, offset, selected, first_any, first_after;
-    reg found, found_any, found_after;
+    integer i, scan, selected, first_any, first_after;
+    reg found_any, found_after;
+    reg found;
     reg [SOURCE_WIDTH-1:0] selected_source;
     wire do_read=event_valid && event_ready;
     wire do_write=found && !input_overflow && ((fifo_count<MAX_EVENTS) || do_read);
@@ -65,19 +66,18 @@ module event_encoder #(
             else key_to_note=value[6:0];
         end
     endfunction
+    // Two constant-index priority selections implement the same round-robin
+    // order without thirteen variable-index pending_count multiplexers.
     always @* begin
         found_any=0; found_after=0; first_any=0; first_after=0;
-        for(offset=0;offset<KEY_COUNT;offset=offset+1) begin
-            // 固定下标读取可在综合时展开，不再让rr_key先做加法/回绕再选数组。
-            // 两组优先选择：全局第一个非空键，以及rr_key起到末尾的第一个非空键。
-            if(pending_count[offset]!=0) begin
-                if(!found_any) begin found_any=1; first_any=offset; end
-                if(offset>=rr_key && !found_after) begin found_after=1; first_after=offset; end
+        for(scan=KEY_COUNT-1;scan>=0;scan=scan-1) begin
+            if(pending_count[scan]!=0) begin
+                found_any=1; first_any=scan;
+                if(scan>=rr_key) begin found_after=1; first_after=scan; end
             end
         end
-        // 后半段为空才回绕，与原循环的逐键轮询顺序相同；没有增加事件等待拍。
         found=found_any;
-        selected=found_after ? first_after : first_any;
+        selected=found_after?first_after:first_any;
         selected_source=selected[SOURCE_WIDTH-1:0];
     end
     always @(posedge clk or negedge rst_n) begin

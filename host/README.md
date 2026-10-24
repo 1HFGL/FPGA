@@ -1,5 +1,9 @@
 # 声场：FPGA钢琴上位机
 
+## 2026-10-24：32音测试
+
+电脑端按真实握手容量显示16/32音测试；新固件可发送MIDI 48～79共32音并全部释放。模拟设备不证明实物复音。手机工程仍在独立目录，蓝牙与USB触摸边界不变。
+
 2026-10-19按用户要求，手机端已独立迁至[`D:/Project/jingzou_harmony`](../../jingzou_harmony/)，不再放在本目录。DevEco Studio 26.0.0.851原生编译及23项独立测试通过；已生成签名调试HAP，官方签名/Profile及当前手机授权核验通过，安装和BLE联调仍待完成。当前使用与命令行打包说明见[独立工程README](../../jingzou_harmony/README.md)。下文是现有电脑端说明。
 
 电脑端唯一入口是 `run_tone_studio.bat`；旧综合控制台已删除，历史在Git提交 `f513622`。`studio.py` 负责交互，`studio_ui.py` 绘制界面，`studio_transport.py` 串口/模拟设备，`studio_model.py` 保存配置并生成单周期波表。

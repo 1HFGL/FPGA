@@ -759,7 +759,7 @@ class StudioViewMixin:
         content.addLayout(auditions)
         self.voice_hint = label("设备报告当前声部：—", "subtitle", True)
         content.addWidget(self.voice_hint)
-        self.audition_hint = label("使用当前总音量；16音为压力测试。切换页面或窗口会停止自动试听。", "subtitle", True)
+        self.audition_hint = label("使用当前总音量；满声部测试前先调低实体音量。切换页面或窗口会停止自动试听。", "subtitle", True)
         content.addWidget(self.audition_hint)
         layout.addWidget(frame)
         self.notes_label = label("电脑按住的音符  —", "noteStrip")

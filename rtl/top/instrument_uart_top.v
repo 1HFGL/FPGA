@@ -96,6 +96,8 @@ module instrument_uart_top #(
     localparam [2047:0] GUITAR_FILE=(GUITAR_ROM_FILE=="")?sibling_rom(ROM_FILE,"guitar_1024.mem",15):GUITAR_ROM_FILE;
     localparam [2047:0] SINE_FILE=(SINE_ROM_FILE=="")?sibling_rom(ROM_FILE,"sine_1024.mem",13):SINE_ROM_FILE;
     localparam [2047:0] MODE_FILE=(MODE_ROM_FILE=="")?sibling_rom(ROM_FILE,"piano_v3_modes.mem",18):MODE_ROM_FILE;
+    localparam [2047:0] MODE_EVEN_FILE=sibling_rom(ROM_FILE,"modes_even.mem",14);
+    localparam [2047:0] MODE_ODD_FILE=sibling_rom(ROM_FILE,"modes_odd.mem",13);
     localparam [2047:0] SHAPER_FILE=(SHAPER_ROM_FILE=="")?sibling_rom(ROM_FILE,"rock_v2_shaper.mem",18):SHAPER_ROM_FILE;
     reg selected_guitar;
     wire mode_press;
@@ -326,6 +328,7 @@ module instrument_uart_top #(
     generate if(USE_MODAL)begin:g_modal
         wire core_busy,core_overrun;
         voice_bank_modal_adapter #(.VOICES(VOICES),.MODE_ROM_FILE(MODE_FILE),
+            .MODE_EVEN_FILE(MODE_EVEN_FILE),.MODE_ODD_FILE(MODE_ODD_FILE),
             .SHAPER_ROM_FILE(SHAPER_FILE),.SINE_ROM_FILE(SINE_FILE)) u_bank(
             .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),
             .master_gain(master_gain),.bend_ratio(bend_ratio[16:0]),
@@ -396,7 +399,7 @@ module instrument_uart_top #(
     end endgenerate
     synth_top #(.AUDIO_CLK_HZ(50000000),.SAMPLE_RATE_HZ(48000),
         .REQUEST_LEAD_HALF_EDGES(REQUEST_LEAD_HALF_EDGES),
-        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?(56*VOICES+28):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(USE_BRIGHTNESS?3:0)+(ENABLE_CHORUS?12:0)+(ENABLE_DELAY?5:0)+(ENABLE_REVERB?9:0))) u_b(
+        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?((VOICES==32)?926:((VOICES>16)?(24*VOICES+36):(56*VOICES+28))):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(USE_BRIGHTNESS?3:0)+(ENABLE_CHORUS?12:0)+(ENABLE_DELAY?5:0)+(ENABLE_REVERB?9:0))) u_b(
         .clk_in(sys_clk),.rst_n(sys_rst_n),.audio_enable(pa_audio_enable),.sample_data(output_sample_data),.sample_valid(output_sample_valid),
         .audio_ready(audio_ready),.sample_request(sample_request),.sample_underrun(sample_underrun),
         .i2s_bclk(HP_BCK),.i2s_lrclk(HP_WS),.i2s_sdata(HP_DIN),.pa_en(PA_EN),

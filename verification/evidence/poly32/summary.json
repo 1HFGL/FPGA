@@ -1,0 +1,133 @@
+{
+  "date": "2026-10-23",
+  "base_commit": "f314bc066a428b7f43b19c0c8fa1586e6a98dc24",
+  "branch": "cleanup/expression-brightness",
+  "published": false,
+  "programmed": false,
+  "physical_acceptance": false,
+  "voices": 32,
+  "sample_rate": 48000,
+  "core_cycles": 803,
+  "fixed_effects": [
+    "chorus",
+    "delay",
+    "reverb"
+  ],
+  "runtime_fx_and_diagnostics": false,
+  "rollback_archive": {
+    "path": "build/rollback_runtime_20261023/working_files.zip",
+    "sha256": "d510eb2fb50d048481cd5d28ad89516e401650a600a8bcfe3b5d72e53752448e"
+  },
+  "builds": {
+    "hdmi": {
+      "file": "build/audition/poly32_j13_20261023/hdmi_poly32_j13.fs",
+      "sha256": "f9d3aef7d10a69177dcb8b1108071d40198900cd722dd22bb723a245d66c3d29",
+      "resources": {
+        "Logic": {
+          "used": 35048.0,
+          "available": 59904
+        },
+        "Register": {
+          "used": 13291.0,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 117.0,
+          "available": 118
+        },
+        "DSP": {
+          "used": 29.5,
+          "available": 118
+        }
+      },
+      "slacks_ns": {
+        "3.1.1 Setup Paths Table": 0.0,
+        "3.1.2 Hold Paths Table": 0.204,
+        "3.1.3 Recovery Paths Table": 0.832,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.803
+      },
+      "active_constraints": 17,
+      "sample_cache_cycles": 833
+    },
+    "piano": {
+      "file": "build/audition/poly32_j13_20261023/piano_poly32_j13.fs",
+      "sha256": "4503796519767231e639404e4d3c0c874aaf9fe08625affa5ffd19c9c69aabd3",
+      "resources": {
+        "Logic": {
+          "used": 30219.0,
+          "available": 59904
+        },
+        "Register": {
+          "used": 12583.0,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103.0,
+          "available": 118
+        },
+        "DSP": {
+          "used": 26.5,
+          "available": 118
+        }
+      },
+      "slacks_ns": {
+        "3.1.1 Setup Paths Table": 0.662,
+        "3.1.2 Hold Paths Table": 0.079,
+        "3.1.3 Recovery Paths Table": 11.998,
+        "3.1.4 Removal Paths Table": 1.443,
+        "3.2 Minimum Pulse Width Table": 6.809
+      },
+      "active_constraints": 10,
+      "sample_cache_cycles": 830
+    }
+  },
+  "tests": {
+    "tb_poly32_core": [
+      "PASS tb_poly32_core: 1600 exact PCM/32 voice comparisons, 5200 real-time frames, R803, all 32 audible, reset/tails/overrun"
+    ],
+    "tb_poly32_hdmi": [
+      "PASS tb_poly32_hdmi: R833/R830, full32=13417, serial words=27274, wet-only=8923, both presets/ranges/knobs, video isolation and dirty reset"
+    ],
+    "tb_poly32_uart": [
+      "PASS tb_poly32_uart: production 32 voices, 115200, exact 92 bytes, reset and re-handshake"
+    ],
+    "tb_final_modal_adapter": [
+      "PASS tb_final_modal_adapter: samples=4436 nonzero=4308 R923 golden, generations, tails, control, recovery"
+    ],
+    "tb_voice_allocator": [
+      "PASS: tb_voice_allocator_32 voices=31 max=32 steal=1"
+    ],
+    "tb_final_env_alignment": [
+      "PASS tb_final_env_alignment: 139069 independent integer checks; current preset, consecutive ticks, odd/zero/long durations, reset"
+    ],
+    "tb_effects_pa": [
+      "PASS tb_effects_pa: active=92160 silent-gap=83620 late=8534; PA held through delay gaps, then zero and muted after real DAC drain"
+    ],
+    "tb_review_uart_capacity_top_voices16": [
+      "PASS tb_review_uart_capacity_top: production 16 voices, 115200, exact 92 bytes, reset and re-handshake"
+    ]
+  },
+  "strict_verilog_2001_files": 174,
+  "packed_rom_used_coefficients": 12288,
+  "host_tests": {
+    "passed": 23,
+    "seconds": 9.893,
+    "command": "../.venv-studio/Scripts/python.exe -m unittest test_studio_poly32 test_studio_audition test_studio_uart_music test_studio_uart_piano",
+    "cwd": "host",
+    "evidence": "Observed successful tool execution (exit code 0); raw stdout was not redirected to disk."
+  },
+  "effect_reference": {
+    "samples": 13618,
+    "chorus_changed": 5297,
+    "delay_changed": 10300,
+    "echo_only": 5106,
+    "wet_only": 8923
+  },
+  "limits": [
+    "USB touch input not connected",
+    "PR1014 and complete external DAC timing remain open",
+    "No physical audio/keyboard/analog latency acceptance",
+    "PnR passes current constraints only; no claim of full board signoff"
+  ]
+}

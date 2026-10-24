@@ -334,10 +334,11 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         maximum = int(self.session.device.get("MAX_VOICES", "0"))
         self.chord_button.setEnabled(playable and maximum >= 4)
         self.power_button.setEnabled(playable and maximum >= 3)
-        can_audition = playable and self.session.factory_presets and not self.audition_active
+        can_audition = playable and (self.session.factory_presets or self.session.fixed_tone) and not self.audition_active
         self.anchor_button.setEnabled(can_audition)
         self.scale_button.setEnabled(can_audition)
         self.polyphony_button.setEnabled(can_audition and maximum >= 16)
+        self.polyphony_button.setText("32音测试" if maximum >= 32 else "16音测试")
         voices = self.session.status.get("VOICE_COUNT", "—")
         self.voice_hint.setText(f"设备报告当前声部：{voices} / {maximum or '—'}（含释放尾音）")
         self.panic_button.setEnabled(self.session.ready and "NOTES" in self.session.capabilities)
@@ -499,7 +500,7 @@ class StudioWindow(StudioViewMixin, QMainWindow):
             self.connection_changed()
 
     def start_audition(self, kind):
-        if not self.session.playable or not self.session.factory_presets:
+        if not self.session.playable or not (self.session.factory_presets or self.session.fixed_tone):
             return
         maximum = int(self.session.device.get("MAX_VOICES", "0"))
         if kind == "polyphony" and maximum < 16:
@@ -508,7 +509,7 @@ class StudioWindow(StudioViewMixin, QMainWindow):
             raise ValueError("Unknown audition")
         self.stop_notes()
         if kind == "polyphony":
-            groups = [(tuple(range(48, 80, 2)), "16音压力测试", 2000)]
+            groups = [(tuple(range(48, 80)), "32音压力测试", 2000)] if maximum >= 32 else [(tuple(range(48, 80, 2)), "16音压力测试", 2000)]
         elif kind == "anchors":
             groups = [((n,), name, 1200) for n, name in ((48, "C3"), (60, "C4"), (72, "C5"), (84, "C6"))]
         else:

@@ -1,0 +1,423 @@
+{
+  "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+  "errors": [],
+  "worst_reported_slack_ns": {
+    "3.1.1 Setup Paths Table": 2.358,
+    "3.1.2 Hold Paths Table": 0.046,
+    "3.1.3 Recovery Paths Table": 0.832,
+    "3.1.4 Removal Paths Table": 0.143,
+    "3.2 Minimum Pulse Width Table": 5.803
+  },
+  "ports": 34,
+  "active_constraints": 17,
+  "resources": {
+    "Logic": {
+      "used": 34636,
+      "available": 59904
+    },
+    "Register": {
+      "used": 13563,
+      "available": 60780
+    },
+    "BSRAM": {
+      "used": 93,
+      "available": 118
+    },
+    "DSP": {
+      "used": 35,
+      "available": 118
+    },
+    "PLLA": {
+      "used": 1,
+      "available": 8
+    }
+  },
+  "bitstream_sha256": "18db8350c3e4f067c8523a4356d777fb299d2cc5289905ce2c7d03c91ce541ec",
+  "inputs": [
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\projects\\hdmi\\build.ps1",
+      "sha256": "3102361ef9214a274b9b3e4c0f0a9629a70b4fd97a8edda69c969dc28df14b03"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\projects\\hdmi\\build.tcl",
+      "sha256": "42cc98323514e0bfdeee4eae9df98357049bee43a062ca8713ff4eba5e603cc3"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\projects\\hdmi\\piano_hdmi.gprj",
+      "sha256": "2bdacc95410f9098b634b438acb14a1008dbc80a8c1d011179421ccd3d8a66bc"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\verification\\scripts\\check_hdmi_implementation.py",
+      "sha256": "f2cc96f3a1eaaff97b8b665a59974502c3de4e4ef3923aa104f07240b97a510d"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\projects\\hdmi\\process_config.json",
+      "sha256": "86afdddb8677d00cec63a4abcc6ab2ab29b4a72b02a8940aa7b41b62cef0c753"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\rom\\piano_1024.mem",
+      "sha256": "b3abcc11a9302601c994afce9161258da1a80ef247e2d4f745275ecaf4826f1b"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\rom\\guitar_1024.mem",
+      "sha256": "e5c79a48664801c669aad792883aaa0cd65b196652593f3f77f44b795973f1a0"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\rom\\sine_1024.mem",
+      "sha256": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\rom\\piano_v3_modes.mem",
+      "sha256": "cac05bc7e087e1f495e47f11e5c1c26cd28c3cb7976ace26af04c29a56bb5999"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\rom\\rock_v2_shaper.mem",
+      "sha256": "6923505492a20340e9744aee917265439521f00bd5de3854388c790031c81345"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\boards\\tang_mega_60k_31004\\piano.cst",
+      "sha256": "5bc231cf88da45e8d8c6c7bc987885327ad1ffc79b96499992539c91d3655ed7"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\boards\\tang_mega_60k_31004\\piano.sdc",
+      "sha256": "752d3a99f506a906786d5a23b8e6a974913489b578210a4a4801b189549b7955"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\boards\\tang_mega_60k_31004\\hdmi.cst",
+      "sha256": "81dfd76ca1f88360b326ecd7046c998dd6dad694662e69925667bd3324d08fa2"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\boards\\tang_mega_60k_31004\\hdmi.sdc",
+      "sha256": "fb1af0f0e015f714bbe21d416b3f0c3b22fe823b2fa269ec2ddb1baf088190ca"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\boards\\tang_mega_60k_31004\\hdmi_reset_placement.cst",
+      "sha256": "d3e23965432e43874ebebd5070035613874bff519c9984172d7f757eb846d179"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\rom\\modal_coeff_rom_dual.v",
+      "sha256": "a5ed7d25c47067f18f1c3141fa4af779fb63f7b676bea919e1a098dcc2f6c931"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\modal_voice_group16.v",
+      "sha256": "7faf09bb1f3736719582cbc5215a55bc10a2e94a4d71b65fcb8842be825315f9"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\modal_shared_output.v",
+      "sha256": "449bd6db9b45dcd463b49b366b1a4e9852343ebec90e3ddd5a8190bc0380e02c"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\voice_bank_dual16.v",
+      "sha256": "eb0c58ef1121a8f71335c20b90791de5ee8904bc31e21abbc6d3aafeea11310c"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\voice_bank_modal_dispatch.v",
+      "sha256": "a04fb1ba90c84a3cf512484f0de4a95472388acd0bcc417094e14ac9c25fe9f5"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\rom\\modes_even.mem",
+      "sha256": "8e580592cf031f1a19ca20dfad08563a9e0553d85bae9bf3b8c86cf840442c56"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\rom\\modes_odd.mem",
+      "sha256": "689f2af6e42615238cfe850cbc4868606dd2b0e189b05f35777fc9c9964e1474"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\audio\\chorus_effect.v",
+      "sha256": "a07e1b97babca7349ca379db275da68b5dfc1f42070a1e0a19dca19517279e4f"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\audio\\echo_delay.v",
+      "sha256": "3dd91f1a084dce05426b670d70356636483ba63afada21d740d733776b04f00a"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\audio\\room_reverb.v",
+      "sha256": "85b1b995bf808ca9dc6afc900e1a7cdba3889357dca3cbd38064dc5d55ec457f"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\touch_brightness_control.v",
+      "sha256": "a43a6da7beb89981532571e87366ce7c3993a686aea8c3d5f504050d1e356bf3"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\brightness_keys.v",
+      "sha256": "877060181ab61c6cc9945df2183afc7cba67a225695f544394e4553835edf7b7"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\audio\\tone_filter.v",
+      "sha256": "b99f27a8a646c63c4dcd1109c7c01b46ef522d0ac800582eeefd0bf3be25cfa9"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\input_sync_debounce.v",
+      "sha256": "234a87000da9e399437641566813ce23c9f5aac14aa16069aeb9fb0eb7529aec"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\touch_or_key_if.v",
+      "sha256": "f9cbe4cd7357ff64b9cecdffff146774e57c3ec3fd2b1a3650ad3aa23000941f"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\event_encoder.v",
+      "sha256": "2d590caf3c5ec59da3f7b54cd4bbcabc83431403f132ced8ccbe07a8dd3aa38a"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\piano_controls.v",
+      "sha256": "02e07ac73176e12bb111be5fa7f1fd4385a3d8eaacae60e3ac38c8a977bf1010"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\i2c_master.v",
+      "sha256": "58e120674b8d75ea659e20cf6413fccefbd21d9e02aec35a65bf17b070c1037e"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\ads1115_if.v",
+      "sha256": "b238a4809f0d0c8217db5b0dc4f7d01ab80cf57a7dedf086d862561892ac4dc0"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\ads1115_knob_if.v",
+      "sha256": "ca577176df937432b5ae6ed0ec1874573008634011d1f33ed7757cd9aad42113"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\adc_knob_if.v",
+      "sha256": "f5e07a9639223f9deb3cd28eb27b78a662ae0d7de1288c00f8c8e2b7eee5e4e0"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\voice_allocator.v",
+      "sha256": "65389aad361bcabf7c3fb511827e36437b4ac4009dacb52d58d509de3b8dd58c"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\uart_rx.v",
+      "sha256": "1477963cfe450eed516052e25085936683592ac9edefe5bc33dc7dd2df8123b9"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\uart_tx.v",
+      "sha256": "009d15dd6a6fa5fbbc7626f4771224b815554ac4a731d4407ebd01a1185f1033"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\uart_fifo.v",
+      "sha256": "d29abed64b9b72a5e8565470e4c37bbf34a0a6e6c89699ec120902057200f333"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\uart_line_rx.v",
+      "sha256": "6113096ab27f4d3de8d257772229c939fd814922a54105db0c319269e3877789"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\uart_reply_tx.v",
+      "sha256": "90f1bcc0239a971276627eca56ed87862744abef1c2741a0f59e942e019b1cf2"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\uart_synth_protocol.v",
+      "sha256": "9d7f2256b43f88ee6fd29872853675ba4e1785afd4772b5afa8b751a60d63f76"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\uart_event_arbiter.v",
+      "sha256": "f4d46548bc0c3499673cef4810fc7e3491178aa7f6871005d4c6ab044207d972"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\top\\instrument_uart_top.v",
+      "sha256": "0faf51584d3bed244079195892fd336b98b7beb9d6dd8ec63b0e6a44aa6cb46f"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\top\\instrument_uart_piano_top.v",
+      "sha256": "e2604e570942dc56c63aff2de81d01216e948ee72ba082bb6087ee01776e1705"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\top\\piano_13key_top.v",
+      "sha256": "280cf9cfa708ee62fbe0d32b8c21f578f780851e8c4f4b1cfcd0dab87c2428a7"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\top\\piano_performance_top.v",
+      "sha256": "ba1399976b7ac8eb49f554b23663d426fe828a7a37682f32a7c1e8e54cf5d420"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\phase_acc.v",
+      "sha256": "a56b4bffb078c540b3b78d4de0709affc34c01f95d7d5db45188820c0131d34e"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\wave_lut.v",
+      "sha256": "5526a960c307e010f8472e756863ab7240b877624193277dfd2d840366c207ad"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\voice_dds.v",
+      "sha256": "6bc1eeffe4579218a57bcc5e93c8946b8e85a8abdf4def7f8540081932ecd1b3"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\control\\note_phase_lut.v",
+      "sha256": "71c1a6b7d797da5a34a091cd1aeb304f8df794f8c962fafa3aae6a886b36d029"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\adsr_env.v",
+      "sha256": "4ae8ada60ab391ec2a1615da5a8af3eca5fd607a2dee2f97d231819a1bf621f9"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\sample_gain.v",
+      "sha256": "3205283a9633d01c699a18fc3892f5d3589f5761322e3d491db014d6ba5c7b9d"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\voice_adsr.v",
+      "sha256": "24c570b73f5e3b6f02116feeec64a65d8a9d2980e30c726a58858f46ec2eabbc"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\sample_mixer4.v",
+      "sha256": "27d1e0c5854cd86748475afaad372b71825c6d19a8ccea36b13d42326f94519c"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\voice_bank_adsr.v",
+      "sha256": "11a97053338ffc763e612c62e1511141c78de1734aa04c79b4545f26da0e5038"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\wave_lut_timbre.v",
+      "sha256": "6814ba3c79b5d10de342893c3179e16ad702ae699292d53ac994ac02d1408e54"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\voice_timbre_adsr.v",
+      "sha256": "12ca3d22b45ffcbc073c78fe68d4d0a9ace2deebf3c748cde0efa5e1304bf288"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\voice_instrument.v",
+      "sha256": "e26752a0e853ca2dd6b9668f7fd117b3030cded14dbe4b9258688e638d279abf"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\instrument_env.v",
+      "sha256": "a0899f9dc25fc6fe1b67ec53b9dd2976fbf60ecf5ec7b90336f5d9ed92d3d4e4"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\voice_bank_music_pipe.v",
+      "sha256": "dfb6d3d57d8398aa1688679c664b91846597f6363c20c535d34815adae0904ad"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\voice_bank_modal_adapter.v",
+      "sha256": "48b520762159afd7b52f682da42f0453d77fecf093275ac83ac4e5217c745f51"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\synth\\instrument_wave.v",
+      "sha256": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\audio\\i2s_tx.v",
+      "sha256": "8b06588204147bd6869c8be108e2071b554f4d52d9e7740f8f42d908a93abc7f"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\audio\\sample_tick.v",
+      "sha256": "e2be6ca0023267c8218c5b229fadbde329fc045c845a51e1b3797ba05e66e96e"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\audio\\synth_top.v",
+      "sha256": "14db7f6cf97e635a5227f9b20b40c1f122dd0b46c9e9987a957290526b050ae2"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\display_cdc_latest.v",
+      "sha256": "3ab623d3bcc832165516bd2002b79c4e16f191a8c891b38e455a65bc0965a11e"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\lcd_rgb_timing.v",
+      "sha256": "cf4f150d45b42b766fa3b258aec6239ff67dca768c0319f6266a6881683377c1"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\display_wave_buffer.v",
+      "sha256": "abc0395d34ee63847384e817e565c53412657d52b9c1c15c376c4125006fc837"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\display_wave_envelope.v",
+      "sha256": "a2ab1366ee1175968282085f8aff0fe630f613010b1a08f7a2cd8c8aca4b4a80"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\instrument_panel_renderer.v",
+      "sha256": "6d99c1e54f0cec625c702780fc4dda597ec2c48360cfbe1b7756d79701385e9d"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\instrument_panel_ui.v",
+      "sha256": "6fb06eda6dfc5379c1ab694c3e81a755127b6dc67aeff8f38b6eaf182c27f211"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\display_font24.v",
+      "sha256": "16c2ec0ba45d163c29192fbf803dba6a2b10d1696d18279f840eec580ad3bf95"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\display_font_ui.v",
+      "sha256": "3ab612f7892532aa0b4b2b3586281fc88c2b918a6fd6266dc63ea62ef5c7ac3c"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\piano_display_renderer.v",
+      "sha256": "7209c1414cd52f0696c3ae79a24f6df24933beef3c84b78e9bcd60225cd87b06"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\instrument_display.v",
+      "sha256": "b3a9baeec7d13796a0cf7526350dcb8627536183f8a80079a4ec71fbbec01166"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\display_bend_map.v",
+      "sha256": "21eb5d9cff7755a9c8e7457f302cbab1c5316e4f32668d159a2004d8fcc29af9"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\tmds_encoder.v",
+      "sha256": "7172a330df97e13265339eb94421024256d707f4aa643c0ee7121002a88dea1a"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\dvi_tx_gowin.v",
+      "sha256": "0d8afc522b2ed901a67a7c3157c0450964795cf8d43ea515281e43492f0257ee"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\hdmi_clock_60k.v",
+      "sha256": "e73679de57c0e21c75bc981acc6f98cb8b2f821d567b5eeb29111c6a85d8b00d"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\display\\hdmi_reset_guard.v",
+      "sha256": "7c68f9999d9ce022dd1d69063e724e8925d7b993e5252e10f5b7ab7e5e04a349"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\rtl\\top\\piano_hdmi_top.v",
+      "sha256": "30479c8da643c9506484ae1812a0060fde6444ae3f8b29012e0d45381b34a1a0"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\build\\hdmi\\piano_hdmi.cst",
+      "sha256": "5862c525d136fcad57f48615b8be5aac4cc537687716c99c920d7a7a783558d2"
+    },
+    {
+      "path": "C:\\Users\\Nanji\\Documents\\GitHub\\FPGA\\build\\hdmi\\piano_hdmi.sdc",
+      "sha256": "b1389eb732e44b40da376a2709fcd286b0a339af95beeb027a8f4d0b8385b805"
+    }
+  ],
+  "reset_placement": {
+    "u_tx/g_lane[3].serializer_release_0_s0": [
+      "R24C134[0][A]"
+    ],
+    "u_tx/g_lane[3].u_reset_combine": [
+      "R24C134[0][A]"
+    ],
+    "u_tx/g_lane[1].serializer_release_0_s0": [
+      "R22C134[0][A]"
+    ],
+    "u_tx/g_lane[1].u_reset_combine": [
+      "R22C134[0][A]"
+    ],
+    "u_tx/g_lane[0].serializer_release_0_s0": [
+      "R26C134[0][A]"
+    ],
+    "u_tx/g_lane[0].u_reset_combine": [
+      "R26C134[0][A]"
+    ],
+    "u_tx/g_lane[2].serializer_release_1_s0": [
+      "R39C134[0][B]"
+    ],
+    "u_tx/g_lane[2].u_reset_combine": [
+      "R39C134[0][A]"
+    ],
+    "u_tx/g_lane[0].serializer_release_1_s0": [
+      "R26C134[0][B]"
+    ],
+    "u_tx/g_lane[3].serializer_release_1_s0": [
+      "R24C134[0][B]"
+    ],
+    "u_tx/g_lane[2].serializer_release_0_s0": [
+      "R39C134[0][A]"
+    ],
+    "u_tx/g_lane[1].serializer_release_1_s0": [
+      "R22C134[0][B]"
+    ]
+  },
+  "limitations": [
+    "PR1014 system clock generic routing remains",
+    "DAC external timing incomplete",
+    "HDMI electrical eye/cable/receiver not measured",
+    "USB touch not implemented",
+    "Not programmed; screen compatibility and end-to-end latency unverified"
+  ]
+}

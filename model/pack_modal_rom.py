@@ -34,9 +34,21 @@ def check(source=SOURCE):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', type=Path, default=SOURCE)
+    parser.add_argument('--check', action='store_true', help='Read-only validation, including paired compatibility banks')
     parser.add_argument('--write', action='store_true', help='Explicitly regenerate the derived banks')
     args = parser.parse_args()
+    if args.check and args.write:
+        parser.error('--check and --write are mutually exclusive')
     if args.write:
         for path, body in packed_tables(args.source):
             path.write_bytes(body.encode('ascii'))
+    words = args.source.read_text(encoding='ascii').split()
+    for lane, name in enumerate(('even', 'odd')):
+        expected = [words[record*64+pair*2+lane] for record in range(256) for pair in range(24)]
+        path = args.source.parent / ('modes_' + name + '.mem')
+        if args.write:
+            path.write_bytes(('\n'.join(expected)+'\n').encode('ascii'))
+        elif args.check:
+            if path.read_text(encoding='ascii').split() != expected:
+                raise ValueError('Missing/stale paired ROM: '+str(path))
     print('PASS modal ROM packing: ' + json.dumps(check(args.source)))
