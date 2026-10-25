@@ -19,6 +19,7 @@ module instrument_uart_top #(
     parameter MODE_ROM_FILE="",
     parameter SHAPER_ROM_FILE="",
     parameter integer ENABLE_BRIGHTNESS=0,
+    parameter integer ENHANCED_BRIGHTNESS=0,
     parameter integer BRIGHTNESS_REPEAT_CYCLES=25000000,
     parameter integer ENABLE_OCTAVE_KEY=0,
     parameter integer EXTERNAL_BRIGHTNESS=0,
@@ -372,9 +373,15 @@ module instrument_uart_top #(
                 .clk(sys_clk),.rst_n(audio_ready),.sample_request(sample_request),.key_n(Key_in),
                 .target(brightness_target),.current(brightness_current));
         end
+        if(ENHANCED_BRIGHTNESS)begin:g_expressive
+        tone_filter_expressive u_tone(.clk(sys_clk),.rst_n(audio_ready),.in_valid(sample_valid),
+            .sample_in(sample_data),.brightness(brightness_current),.sample_out(tone_sample_data),
+            .out_valid(tone_sample_valid),.tail_active(tone_tail),.overrun(tone_overrun));
+        end else begin:g_legacy_tone
         tone_filter u_tone(.clk(sys_clk),.rst_n(audio_ready),.in_valid(sample_valid),
             .sample_in(sample_data),.brightness(brightness_current),.sample_out(tone_sample_data),
             .out_valid(tone_sample_valid),.tail_active(tone_tail),.overrun(tone_overrun));
+        end
     end else begin:g_no_brightness
         assign brightness_target=127;assign brightness_current=127;
         assign tone_sample_data=sample_data;assign tone_sample_valid=sample_valid;
@@ -409,7 +416,7 @@ module instrument_uart_top #(
     end endgenerate
     synth_top #(.AUDIO_CLK_HZ(50000000),.SAMPLE_RATE_HZ(48000),
         .REQUEST_LEAD_HALF_EDGES(REQUEST_LEAD_HALF_EDGES),
-        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?((VOICES==32)?926:((VOICES>16)?(24*VOICES+36):(56*VOICES+28))):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(USE_BRIGHTNESS?3:0)+(ENABLE_CHORUS?12:0)+(ENABLE_DELAY?5:0)+(ENABLE_REVERB?9:0))) u_b(
+        .MAX_SAMPLE_LATENCY_CYCLES((USE_MODAL?((VOICES==32)?926:((VOICES>16)?(24*VOICES+36):(56*VOICES+28))):((ENABLE_CONTROLS?6:4)+(ENABLE_GUITAR?1:0)))+(USE_BRIGHTNESS?(ENHANCED_BRIGHTNESS?6:3):0)+(ENABLE_CHORUS?12:0)+(ENABLE_DELAY?5:0)+(ENABLE_REVERB?9:0))) u_b(
         .clk_in(sys_clk),.rst_n(sys_rst_n),.audio_enable(pa_audio_enable),.sample_data(output_sample_data),.sample_valid(output_sample_valid),
         .audio_ready(audio_ready),.sample_request(sample_request),.sample_underrun(sample_underrun),
         .i2s_bclk(HP_BCK),.i2s_lrclk(HP_WS),.i2s_sdata(HP_DIN),.pa_en(PA_EN),

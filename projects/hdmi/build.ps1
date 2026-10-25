@@ -6,6 +6,8 @@ $ErrorActionPreference='Stop'
 $root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 & $Python (Join-Path $root "model/pack_dual16_rom.py") --check
 if($LASTEXITCODE){throw "Dual-port coefficient ROM is stale or invalid"}
+& $Python (Join-Path $root "model/brightness_response.py") check
+if($LASTEXITCODE){throw "Brightness response coefficient table is stale or invalid"}
 $out=Join-Path $root 'build/hdmi'
 if(-not(Test-Path -LiteralPath $Gowin)){throw "Missing Gowin: $Gowin"}
 New-Item -ItemType Directory -Force $out | Out-Null

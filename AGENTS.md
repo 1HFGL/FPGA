@@ -1,5 +1,9 @@
 # 项目协作规范：高云 FPGA 电子乐器
 
+## 当前整合：2026-10-25 明亮度增强（验证中）
+
+用户确认先合入队友 `1bc0203` 的双级对数明亮度，再完成回归与完整布局布线后一起推送 master。已保留本轮帧弯音预计算、触点共用译码及 USB 修复；默认音频合同由 R955 改为 R958，976拍准备窗余18拍，32声部、音色、三效果及接线保持。下方1.111ns等数字是合并前的已验证历史对照，不代表此次整合结果。既有TB和约束不改，禁止烧录仍有效。
+
 ## 当前覆盖：2026-10-25 多方案时序优化
 
 用户明确授权修改、先备份且任务结束删除备份，并要求多方案比较。正式仅修改 `instrument_panel_ui.v`（帧提交时预计算弯音BCD）、`instrument_display.v`（与state_frame同沿读取state_latest）和 `touch_contact_tracker.v`（共用槽位译码、组合独热读取）。默认组合绘制接口兼容；原像素流水线、触点握手拍序、32声部/三效果/音色/接线及R955均保持。A核心/ROM、全部既有TB、CST/SDC/process未改。
@@ -21,6 +25,16 @@
 
 正式位流仅由构建生成于 `projects/hdmi/impl/pnr/piano_hdmi.fs`，SHA256 `6d9f9621418d95ee4b479ddae7dbab9ece65aa8dc206d169688986c0b0dbf58b`。未打下载包、未烧录、未做实物验收；USB六指/滑奏/方向校准、实体偶发串音、蓝牙首音、PR1014、完整DAC板外时序与实体/触摸整机延迟仍待验证。禁止继续烧录的用户要求仍有效。证据见 `verification/evidence/usb_touch/summary.json`。
 
+
+## 2026-10-25 用户分支发布
+
+用户明确要求把本轮明亮度修改推送到自己的`cleanup/expression-brightness`分支；本次只更新该分支，不合并master。发布包含下方已完成的源码/TB/功能证据，完整Gowin布线仍在运行，没有已签核的新fs。下文“未推送”保留为修改完成时的历史状态，不能据发布操作把时序或实物试听标为通过。
+
+## 2026-10-24 明亮度响应增强（本地）
+
+本轮从当前master `df0e894`隔离开发，确认其含AIN2实体滑块及双16并行32声部。不能沿用旧master的版本判断。正式HDMI新增`ENHANCED_BRIGHTNESS=1`，采用双级低通和对数系数，127原音逐样本一致，R958缓存／976拍准备窗余18拍；兼容核心默认0保留单级原算法，旧R955 TB必须显式`--legacy-brightness`。不改合成核心、ROM、原引脚、CST/SDC/process或已有TB。
+
+本轮239份严格编译、34816新滤波样本、6903正式HDMI样本逐级整数参考和13803个DAC串行字检查通过；旧14992组单级参考、32声部R955兼容通过。说明`docs/brightness-response.md`。布局布线仍在运行，未发布新fs；必须等完成后运行`verification/scripts/check_brightness_response.py`生成`verification/evidence/brightness_response/summary.json`。不要把下方旧版位流当新版。未烧录、未推送、未做听感验收；USB实物验收和既有外部时序缺口仍保留。
 
 ## 2026-10-24 用户要求先上传的检查点
 

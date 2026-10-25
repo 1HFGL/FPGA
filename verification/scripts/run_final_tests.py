@@ -13,12 +13,16 @@ p.add_argument('--functional-rom', action='store_true', help='Qualified simulati
 p.add_argument('--usb-fault', type=int, choices=range(10), help='Existing USB host fault parameter, without editing the TB')
 p.add_argument('--plusarg', action='append', default=[], help='Simulation plusarg, e.g. COUNT=2031')
 p.add_argument('--voices16', action='store_true', help='Explicit historical 16-voice formal-top contract')
+p.add_argument('--legacy-brightness', action='store_true', help='Explicit original one-pole/R955 compatibility; never current formal HDMI evidence')
+p.add_argument('--enhanced-brightness', action='store_true', help='Derived R958 touch integration harness; preserve the original R955 TB byte-for-byte')
 p.add_argument('--dry', action='store_true', help='Disable all effects explicitly for unchanged dry contract tests')
 p.add_argument('--reverb-only', action='store_true', help='Disable chorus and delay for unchanged room-only contract tests')
 p.add_argument('--legacy', action='store_true', help='Run an unchanged historical contract test with explicit compatibility parameters')
 p.add_argument('--mutation', choices=['None','Preset','Release','Wave','Env','TouchRelease','BleCancel','GuideAdvance','HdmiRecovery'], default='None')
 a = p.parse_args()
 if sum((a.dry,a.legacy,a.reverb_only))>1:raise SystemExit('Use separate dry, legacy and reverb-only runs')
+if a.enhanced_brightness and (a.legacy_brightness or a.dry or a.legacy or a.reverb_only or a.voices16):
+    raise SystemExit('Enhanced brightness requires the current 32-voice/effects configuration')
 OUT = ROOT / a.out
 OUT.mkdir(parents=True, exist_ok=True)
 sources = sorted(ROOT.glob('rtl/**/*.v'))
@@ -30,6 +34,8 @@ for top in a.tops:
     if top=='tb_dual16_hdmi':(ROOT/'build/regression/dual16').mkdir(parents=True,exist_ok=True)
     if top=='tb_poly32_hdmi':(ROOT/'build/regression/poly32').mkdir(parents=True,exist_ok=True)
     tag=top+('_voices16' if a.voices16 else '')+('_dry' if a.dry else '')+('_legacy' if a.legacy else '')+('_reverb_only' if a.reverb_only else '')+('_'+a.mutation if a.mutation!='None' else '')+('_fault'+str(a.usb_fault) if a.usb_fault is not None else '')
+    tag += '_legacy_brightness' if a.legacy_brightness else ''
+    tag += '_enhanced_brightness' if a.enhanced_brightness else ''
     lib = (OUT / (tag + '_work')).relative_to(ROOT).as_posix()
     test_sources=list(sources)
     rom_inputs=[]
@@ -96,7 +102,8 @@ for top in a.tops:
             print(body[-5000:]); raise SystemExit('Failed: ' + str(log))
         return body
     support = [ROOT/'verification/tb/integration/performance_adc_model.v'] if top in ('tb_final_performance','tb_performance_adc','tb_performance_octaves') else []
-    if top in ('tb_slider_guide_hdmi','tb_slider_controls_filtered','tb_controls_meter_hdmi'):support.append(ROOT/'verification/tb/integration/tb_slider_controls.v')
+    if top in ('tb_slider_guide_hdmi','tb_slider_controls_filtered','tb_controls_meter_hdmi','tb_brightness_hdmi'):
+        support.append(ROOT/'verification/tb/integration/tb_slider_controls.v')
     if top=='tb_review_knob_latency':support.append(ROOT/'verification/tb/review/ads1115_timed_model.v')
     sim_top=top
     if a.legacy:
@@ -139,13 +146,47 @@ for top in a.tops:
         wrapper.write_text('module '+sim_top+';\n'+parent+' original();\n'+
             '\n'.join('defparam '+prefix+inst+'.VOICES=16;' for inst in instances[top])+'\nendmodule\n')
         support.append(wrapper)
+    if a.legacy_brightness:
+        if top not in ('tb_controls_meter_hdmi','tb_dual16_hdmi') or sim_top!=top:
+            raise SystemExit('Legacy brightness requires an unchanged R955 HDMI contract test')
+        sim_top='legacy_brightness_'+top
+        wrapper=OUT/(sim_top+'.v')
+        wrapper.write_text('module '+sim_top+';\n'+top+' original();\n'
+                           'defparam original.dut.ENHANCED_BRIGHTNESS=0;\nendmodule\n')
+        support.append(wrapper)
+    harness_inputs=[]
+    if a.enhanced_brightness:
+        if top!='tb_touch32_audio' or sim_top!=top or a.mutation!='None':
+            raise SystemExit('Enhanced brightness harness requires tb_touch32_audio without mutation')
+        # Reuse the full six-touch/four-source stimulus without changing the
+        # teammate's R955 test. Only select the new filter and require R958;
+        # every voice, source-isolation, reset and deadline assertion remains.
+        original_tb=tb
+        body=tb.read_text(encoding='utf-8')
+        sim_top='enhanced_brightness_'+top
+        replacements=(
+            ('module tb_touch32_audio;', 'module '+sim_top+';'),
+            ('.ENABLE_BRIGHTNESS(1),.EXTERNAL_BRIGHTNESS(1),',
+             '.ENABLE_BRIGHTNESS(1),.EXTERNAL_BRIGHTNESS(1),.ENHANCED_BRIGHTNESS(1),'),
+            ('cycle-issued!=955','cycle-issued!=958'),
+            ('FAIL touch changed R955','FAIL touch changed R958'),
+            ('nonzero audio R955','nonzero audio R958'))
+        for before,after in replacements:
+            if body.count(before)!=1:raise SystemExit('Touch R958 harness anchor changed: '+before)
+            body=body.replace(before,after)
+        tb=OUT/(sim_top+'.v')
+        tb.write_text(body,encoding='utf-8')
+        harness_inputs.append(original_tb)
     vendor=Path(a.gowin_simlib) if top in (
+        'tb_brightness_hdmi','tb_controls_meter_hdmi',
         'tb_review_hdmi_reset_recovery','tb_slider_guide_hdmi','tb_dual16_snapshot','tb_dual16_uart','tb_dual16_core','tb_dual16_rom','tb_dual16_hdmi','tb_poly32_hdmi','tb_effects_hdmi','tb_reverb_hdmi','tb_touch_hdmi_audio','tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
     if 'hdmi' in top or top in ('tb_merge32_rom_equivalence','tb_three_key_chords','tb_usb_system_recovery'):vendor=Path(a.gowin_simlib)
-    inputs = [*test_sources, *support, tb, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem'), *rom_inputs]+([vendor] if vendor else [])
+    inputs = [*test_sources, *support, tb, *harness_inputs, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem'), *rom_inputs]+([vendor] if vendor else [])
     (OUT / (tag + '_inputs.json')).write_text(json.dumps({
         'flags': '-vlog01compat -pedanticerrors',
         'voices16':a.voices16,
+        'legacy_brightness':a.legacy_brightness,
+        'enhanced_brightness':a.enhanced_brightness,
         'mode':'explicit dry compatibility' if a.dry else ('explicit legacy compatibility' if a.legacy else ('explicit reverb-only compatibility' if a.reverb_only else 'current integration')),
         'mutation':a.mutation,
         'functional_rom':a.functional_rom, 'usb_fault':a.usb_fault, 'plusargs':a.plusarg,

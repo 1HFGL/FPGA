@@ -32,6 +32,7 @@
         <File path="../../rtl/control/touch_brightness_control.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/brightness_keys.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/audio/tone_filter.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/audio/tone_filter_expressive.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/input_sync_debounce.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/touch_or_key_if.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/control/event_encoder.v" type="file.verilog" enable="1"/>

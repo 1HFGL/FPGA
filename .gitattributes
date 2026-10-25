@@ -36,3 +36,8 @@
 /build/audition/usb_touch32_20261024/*.fs binary
 /verification/scripts/functional_dual_rom.py -text
 /verification/tb/music/tb_merge32_rom_equivalence.v -text
+
+# Preserve timing/brightness evidence hashes across Windows and Unix checkouts.
+/verification/evidence/timing_candidates/** -text
+/verification/evidence/brightness_response/summary.json -text
+/verification/evidence/brightness_response/merged_details.zip binary

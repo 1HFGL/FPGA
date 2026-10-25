@@ -1,0 +1,427 @@
+{
+  "status": "PASS_FUNCTIONAL_ONLY",
+  "base_commit": "df0e894009e613dbf34011e63bc05653eb92843e",
+  "strict_verilog_files": 239,
+  "preserved_original_files": 291,
+  "tests": {
+    "tb_brightness_response": {
+      "result": "PASS tb_brightness_response: 34816 samples, R5, live-control snapshot, pending reset and overrun",
+      "legacy_brightness": false
+    },
+    "tb_brightness_hdmi": {
+      "result": "PASS tb_brightness_hdmi: actual AIN2, 32 voices, both instruments, original 127 DAC exact, R958, serial=13803 samples=6903 full32=2291 dark=1252",
+      "legacy_brightness": false
+    },
+    "tb_tone_filter": {
+      "result": "PASS tb_tone_filter: 14992 outputs, R2 valid, reset cancellation, overrun",
+      "legacy_brightness": false
+    },
+    "tb_controls_meter_hdmi_legacy_brightness": {
+      "result": "PASS tb_controls_meter_hdmi: actual ADC/filter, brightness/no-guide, 13 keys+19 UART=32 audible voices, 33rd steal, release, exact DAC/PA/UART isolation, R955, HPD/reset samples=794",
+      "legacy_brightness": true
+    }
+  },
+  "response": {
+    "exact_samples": 34816,
+    "spectra": [
+      {
+        "brightness": 0,
+        "frequencies_hz": [
+          257.8125,
+          996.09375,
+          3996.09375
+        ],
+        "gain_db": {
+          "old": [
+            -3.283153316739491,
+            -12.51427871007575,
+            -24.253270026414636
+          ],
+          "new": [
+            -3.018722382533075,
+            -17.141342450857916,
+            -39.877216193439516
+          ]
+        }
+      },
+      {
+        "brightness": 32,
+        "frequencies_hz": [
+          257.8125,
+          996.09375,
+          3996.09375
+        ],
+        "gain_db": {
+          "old": [
+            -0.04701248309651869,
+            -0.6528418617813658,
+            -5.508672619735899
+          ],
+          "new": [
+            -0.6194934535327796,
+            -6.4528294975464595,
+            -25.277977906444523
+          ]
+        }
+      },
+      {
+        "brightness": 64,
+        "frequencies_hz": [
+          257.8125,
+          996.09375,
+          3996.09375
+        ],
+        "gain_db": {
+          "old": [
+            -0.008820833966015403,
+            -0.12929220526847832,
+            -1.6910349061452852
+          ],
+          "new": [
+            -0.11402620807486984,
+            -1.5618915713366113,
+            -12.262751903543297
+          ]
+        }
+      },
+      {
+        "brightness": 96,
+        "frequencies_hz": [
+          257.8125,
+          996.09375,
+          3996.09375
+        ],
+        "gain_db": {
+          "old": [
+            -0.001998171707577572,
+            -0.029763844249449244,
+            -0.44685622018452226
+          ],
+          "new": [
+            -0.02104624053385223,
+            -0.3088860313550422,
+            -3.919707727379879
+          ]
+        }
+      },
+      {
+        "brightness": 127,
+        "frequencies_hz": [
+          257.8125,
+          996.09375,
+          3996.09375
+        ],
+        "gain_db": {
+          "old": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "new": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      }
+    ],
+    "silence_exact": true,
+    "bypass_127_exact": true,
+    "hardware_listening_verified": false
+  },
+  "integration": {
+    "samples": 6903,
+    "phases": {
+      "0": {
+        "samples": 893,
+        "changed": 0,
+        "nonzero": 305
+      },
+      "1": {
+        "samples": 831,
+        "changed": 635,
+        "nonzero": 829
+      },
+      "2": {
+        "samples": 694,
+        "changed": 693,
+        "nonzero": 694
+      },
+      "3": {
+        "samples": 1103,
+        "changed": 243,
+        "nonzero": 510
+      },
+      "4": {
+        "samples": 512,
+        "changed": 0,
+        "nonzero": 510
+      },
+      "5": {
+        "samples": 879,
+        "changed": 634,
+        "nonzero": 877
+      },
+      "6": {
+        "samples": 686,
+        "changed": 672,
+        "nonzero": 686
+      },
+      "7": {
+        "samples": 1305,
+        "changed": 231,
+        "nonzero": 1295
+      }
+    },
+    "five_stages_exact": true,
+    "original_127_exact": true,
+    "hardware_listening_verified": false
+  },
+  "source_sha256": {
+    "projects\\checks\\instruments_check\\voice_bank_instruments_timing_top.v": "F22AAAD3616DC80C9A2E801FFC445C6E376A227876BEB6F7372A9DB7C2B6C780",
+    "projects\\checks\\poly_adsr_check\\voice_bank_adsr_timing_top.v": "D72B270276C367037EE533611EBF3327E60564FA2A495A81C01324E109CF4E56",
+    "rtl\\audio\\chorus_effect.v": "EDB6B95DD4FDF8A7A86688A8ED6ABF9CB48D3D35CEA438184CBD14C67482E4BF",
+    "rtl\\audio\\echo_delay.v": "E3FE2EAA4813E3C1EA3BA8D2C0D79262487E2E53B597925CE3AAA9436EE3B89C",
+    "rtl\\audio\\i2s_tx.v": "F0CE837C5864C32B55952BDB99225A3DBFF0516B29A2A1E29A8F2C9973A477DB",
+    "rtl\\audio\\room_reverb.v": "14932BE8F8F18B22445A4D971866F93B4550CFF4BA18310323632B1C7AC34AF9",
+    "rtl\\audio\\sample_tick.v": "78BC8CE92D35BC4439B5805EFFFC4E663FE868BFD974418D37500B61AF9A30C7",
+    "rtl\\audio\\synth_top.v": "C9490B0230C91A1A611A5E73D4A94A733F96442EC5F0CC33AEEFF334E44A9D64",
+    "rtl\\audio\\tone_filter_expressive.v": "06BAD0F2DD38716A763C7E73717D9CEB900D1CFFF958EB68EB49F87E7B03DB09",
+    "rtl\\audio\\tone_filter.v": "CCDF5590310B6854F8750E6B42109EE2750885FF3CB7E4DB2C3C0E24B27D3D69",
+    "rtl\\control\\adc_knob_if.v": "97491C2B12B5A4F4E67452693EF6D279C16C83BF6C27B35D117EBA99D1234A12",
+    "rtl\\control\\ads1115_if.v": "F405E49510112B03A9A4140CD2C86E005A66C9D4926BB6A7231920614F583D29",
+    "rtl\\control\\ads1115_knob_if.v": "17D84FD3E9B2208F5B85E0F0B3981362BD0783C67C3E4D504EB4C9E782DB8D30",
+    "rtl\\control\\brightness_keys.v": "05E3F3E42F5852A5A8309C5669202EA348AA21D393AB5F5BC97CF406AE9DB4DE",
+    "rtl\\control\\event_encoder.v": "2D590CAF3C5EC59DA3F7B54CD4BBCABC83431403F132CED8CCBE07A8DD3AA38A",
+    "rtl\\control\\i2c_master.v": "58E120674B8D75EA659E20CF6413FCCEFBD21D9E02AEC35A65BF17B070C1037E",
+    "rtl\\control\\input_sync_debounce.v": "4AA0F80F9166F3CE3E18B6619EA29E4A4641893DAE2BBD0C28CCFA8E874584CC",
+    "rtl\\control\\music_controls.v": "1D6DF5D55B6F8918ABC3360D97D3D66E421BEF49A3F1B9FBF8538A335CF0DFE2",
+    "rtl\\control\\music_event_encoder.v": "F8AAAB2A50D13972B0327F44DF9323130EE344BFAB30039EC1FC27ACB9980D5C",
+    "rtl\\control\\music_uart_event_arbiter.v": "85172C68A1A0E340281A3ECA515550590199882693E450DF656FA9B05C434C9A",
+    "rtl\\control\\music_uart_line_rx.v": "0A2757B1AD6323EA6E2F5B0FAA103BCEBFAE22C26C1D5F35CCA285E34FFC0B72",
+    "rtl\\control\\music_uart_protocol.v": "A7052A3CB7498E98CE86323524881510888F3D68E426E93D05FB765D2C96B695",
+    "rtl\\control\\music_uart_reply_tx.v": "35A4494EBFFA24C437966F65542C160406B7B939FBFF7E6F16DD7C92A7819067",
+    "rtl\\control\\note_phase_lut.v": "22D586BE60F11902EF04FAD70DC90FDFC8EC7FA8304D9F932B5E2B8FB0FD858D",
+    "rtl\\control\\piano_controls.v": "02E07AC73176E12BB111BE5FA7F1FD4385A3D8EAACAE60E3AC38C8A977BF1010",
+    "rtl\\control\\practice_guide.v": "923C576F72EE25DFD816630CFDFBD0536D6A37584938DF8066C362B5E8F50C32",
+    "rtl\\control\\touch_brightness_control.v": "748BDD30AD5A1DFD994E680632CB35E347DE083729BC7B838EDD0C7CAA0BEA5A",
+    "rtl\\control\\touch_contact_tracker.v": "C25EA8E35A679E0BB37DF0FAFC897AB5C4D657D55759910544272B110ADC5A4D",
+    "rtl\\control\\touch_or_key_if.v": "6E9C09FB9FCD6C893910F7719672E11C3158802BCB14496E66E1489D296AC4D7",
+    "rtl\\control\\uart_event_arbiter.v": "3440C5A2357E55D19744F7959A4E5B793BA613F4D172F8FBB413A07E112753EE",
+    "rtl\\control\\uart_fifo.v": "0469EE7F93798B60B35940CAD16C3A0CF50B4F8E5C94E7D2C8D6F24B9AD64886",
+    "rtl\\control\\uart_line_rx.v": "6113096AB27F4D3DE8D257772229C939FD814922A54105DB0C319269E3877789",
+    "rtl\\control\\uart_reply_tx.v": "90F1BCC0239A971276627ECA56ED87862744ABEF1C2741A0F59E942E019B1CF2",
+    "rtl\\control\\uart_rx.v": "881861BAE31430437B5E093B0C0D16FB443A755E8CB73ADF5042EC38B0BA57F2",
+    "rtl\\control\\uart_synth_protocol.v": "9D7F2256B43F88EE6FD29872853675BA4E1785AFD4772B5AFA8B751A60D63F76",
+    "rtl\\control\\uart_tx.v": "5E641F3B428723A597A471C4BA0B1DF7F5AD77CCC78285094CE525E21C217CDD",
+    "rtl\\control\\voice_allocator.v": "65389AAD361BCABF7C3FB511827E36437B4AC4009DACB52D58D509DE3B8DD58C",
+    "rtl\\display\\display_bend_map.v": "21EB5D9CFF7755A9C8E7457F302CBAB1C5316E4F32668D159A2004D8FCC29AF9",
+    "rtl\\display\\display_cdc_latest.v": "3AB623D3BCC832165516BD2002B79C4E16F191A8C891B38E455A65BC0965A11E",
+    "rtl\\display\\display_feedback.v": "89DC5D7AD1F15F8F2778A30191BB329770266B387AAD925821CC2C646525070F",
+    "rtl\\display\\display_font_ui.v": "9B950FE607FE4ABC1525EA30A389684F2749D91F345347D0D1636B594F066018",
+    "rtl\\display\\display_font24.v": "16C2EC0BA45D163C29192FBF803DBA6A2B10D1696D18279F840EEC580AD3BF95",
+    "rtl\\display\\display_wave_buffer.v": "ABC0395D34EE63847384E817E565C53412657D52B9C1C15C376C4125006FC837",
+    "rtl\\display\\display_wave_envelope.v": "A2AB1366EE1175968282085F8AFF0FE630F613010B1A08F7A2CD8C8ACA4B4A80",
+    "rtl\\display\\dvi_tx_gowin.v": "0D8AFC522B2ED901A67A7C3157C0450964795CF8D43EA515281E43492F0257EE",
+    "rtl\\display\\hdmi_clock_60k.v": "E73679DE57C0E21C75BC981ACC6F98CB8B2F821D567B5EEB29111C6A85D8B00D",
+    "rtl\\display\\hdmi_reset_guard.v": "7C68F9999D9CE022DD1D69063E724E8925D7B993E5252E10F5B7AB7E5E04A349",
+    "rtl\\display\\instrument_display.v": "66818B4204D7D63B1EA1B7A0599F9508DA3A1FBC6C3E21175450F103771CC25E",
+    "rtl\\display\\instrument_panel_renderer.v": "6D99C1E54F0CEC625C702780FC4DDA597EC2C48360CFBE1B7756D79701385E9D",
+    "rtl\\display\\instrument_panel_ui.v": "496679AD06788CFA255D167D0AB5FF49925B8F4F4CC9CDF3237CD3733B8B011D",
+    "rtl\\display\\instrument_ui_map.v": "D1BE0ABB591A3BD5A9289C5E5E3E342D5162448D4B898CA4FDAC82F6F3B02463",
+    "rtl\\display\\lcd_rgb_timing.v": "CF4F150D45B42B766FA3B258AEC6239FF67DCA768C0319F6266A6881683377C1",
+    "rtl\\display\\piano_display_renderer.v": "7209C1414CD52F0696C3AE79A24F6DF24933BEEF3C84B78E9BCD60225CD87B06",
+    "rtl\\display\\tmds_encoder.v": "7172A330DF97E13265339EB94421024256D707F4AA643C0EE7121002A88DEA1A",
+    "rtl\\rom\\modal_coeff_rom_dual.v": "00EE1EBD405B7994A9F11A80AB19D691613ED550C30687B41A478AEA75B9B758",
+    "rtl\\synth\\adsr_env.v": "33107D2CE68CB5A00C1D96C9FDDECA1A276E56C94A0712D90F4C2390457D2C51",
+    "rtl\\synth\\instrument_env.v": "A0899F9DC25FC6FE1B67EC53B9DD2976FBF60ECF5EC7B90336F5D9ED92D3D4E4",
+    "rtl\\synth\\instrument_wave.v": "8E443D0F8ED0206981776D359574C4CF1EFE935FE8F35A6E22A2E544943DCC27",
+    "rtl\\synth\\modal_parameter_rom.v": "005BE7F08B2D32D6DC8D439D9764DA8662562F3172A9B1B906C284615FEBD3A8",
+    "rtl\\synth\\modal_shared_output.v": "53EADC14C748217D3A16EA8912591DF86062161A7BD13182ECF6EB4F1B9D66C9",
+    "rtl\\synth\\modal_voice_group16.v": "4C5A0E68DDA9B6A93908010F16FA0F8020C913F0FAAE5F8526D0AB666A9D5D3E",
+    "rtl\\synth\\phase_acc.v": "C3EA7B922199DFEBAE6B982C65F7FA1E7EFCC18CAEBCE6B4B1F7FFB9BCCBC96D",
+    "rtl\\synth\\sample_gain.v": "123F61F75037C68740BCC5C51D55D0CEACED35F91914A2B0ACADBCD5C73D6DD1",
+    "rtl\\synth\\sample_mixer4.v": "27D1E0C5854CD86748475AFAAD372B71825C6D19A8CCEA36B13D42326F94519C",
+    "rtl\\synth\\voice_adsr.v": "10980327F13D7D9D0D301DA8924CAD689CDDA6A28D3CDA7BA493FFFDB474A19F",
+    "rtl\\synth\\voice_bank_adsr.v": "11A97053338FFC763E612C62E1511141C78DE1734AA04C79B4545F26DA0E5038",
+    "rtl\\synth\\voice_bank_dual16.v": "FFE44FA1B97BE88EA63A306E2284F359889B956E8215C39C3012F4C3737CCB38",
+    "rtl\\synth\\voice_bank_instruments.v": "14281C0A5E5AF3EF87E0104295ABD9670ABD87D29F5468915B4881A9E7C3CD40",
+    "rtl\\synth\\voice_bank_modal_adapter.v": "48B520762159AFD7B52F682DA42F0453D77FECF093275AC83AC4E5217C745F51",
+    "rtl\\synth\\voice_bank_modal_dispatch.v": "67E232B4B50FCCAE20168FA7E0DE2CDC8C3CC8DCA181E194221DA7A7B29F567C",
+    "rtl\\synth\\voice_bank_music_pipe.v": "DFB6D3D57D8398AA1688679C664B91846597F6363C20C535D34815ADAE0904AD",
+    "rtl\\synth\\voice_dds.v": "A5AF8F0DCD732BB3F5B2A73F7DD9040FC6D13BEF79CC7E0933E8BF014CD7FEA2",
+    "rtl\\synth\\voice_instrument.v": "E26752A0E853CA2DD6B9668F7FD117B3030CDED14DBE4B9258688E638D279ABF",
+    "rtl\\synth\\voice_timbre_adsr.v": "12CA3D22B45FFCBC073C78FE68D4D0A9ACE2DEEBF3C748CDE0EFA5E1304BF288",
+    "rtl\\synth\\wave_lut_timbre.v": "562653AE5C8945EE55266545C9CEF8CCD554FA068932C8136B58D41ABBD0D4DD",
+    "rtl\\synth\\wave_lut.v": "F476407C6BFB4853B547F1F3AD88D718878F8520FD48915BEA664F2B03FF5CBC",
+    "rtl\\top\\instrument_presets_top.v": "42802252928D86F807DD34CAE6FB72CB19F2545479A19279D39A2B96C538D1EF",
+    "rtl\\top\\instrument_uart_piano_top.v": "E2604E570942DC56C63AFF2DE81D01216E948EE72BA082BB6087EE01776E1705",
+    "rtl\\top\\instrument_uart_top.v": "EFDC8A58AC1CA6DBBB70AAB837623CE14EE2EEDF1882FE2BC7EE09584931B2E1",
+    "rtl\\top\\music_display_top.v": "84293DEC186399B7FE261B8E42BFEA0C48357699B5C0F459D6DF3E4D584C388C",
+    "rtl\\top\\music_performance_core.v": "95304C1E2EF30913A7C762E00B2BD7F4C2F5D6D430F3C557A9B49A660A7BC397",
+    "rtl\\top\\music_uart_top.v": "0B42842775E46C3088C48954326966F9CA7A0BFE1317D8DAD438ABF7F626598F",
+    "rtl\\top\\piano_13key_top.v": "280CF9CFA708EE62FBE0D32B8C21F578F780851E8C4F4B1CFCD0DAB87C2428A7",
+    "rtl\\top\\piano_hdmi_top.v": "B512DDADED7AAA0A2F5DAF64A10CE7D15ED73781DA0D1D91C0BCAA4C75F76246",
+    "rtl\\top\\piano_performance_top.v": "BA1399976B7AC8EB49F554B23663D426FE828A7A37682F32A7C1E8E54CF5D420",
+    "rtl\\usb\\touch_report_cdc.v": "AFDD9ABE1B4919AED4D3E6AEA515E9D8C0852947A2241C4D42BDC6C4F100EA88",
+    "rtl\\usb\\touch_report_decode.v": "3CE5138DE94126F44D9525ED61B974D680482B11F1C59F37C368C23281215896",
+    "rtl\\usb\\touch_usb_control.v": "FAD4815D1F23C2E5BA5DA11EA9B1864834A349BAC71A1FC5AB5D7FB5601A0932",
+    "rtl\\usb\\touch_usb_host.v": "289BE945920145C373E93674B59A5DD5874F0ECC6D1CD174052378473396B00E",
+    "rtl\\usb\\touch_usb_link.v": "6666E61A943A10E8F67CF586905CD838AC13D92E5BAF140BC536BA2551947F08",
+    "rtl\\usb\\touch_usb_port.v": "91C5739D99900B9C05C6845320216125E4FE6D3E0429B567CECBD8ED7EDE3BB9",
+    "rtl\\usb\\touch_usb_system.v": "C7443C8FCE0200684F668E63BF58E5A7058EA73226D758C26584457183E15749",
+    "rtl\\usb\\usb_clock_60k.v": "D8EC5CA62B85EEFCEC85DB5A2709B484643A180C5A599ACC81EC55E98CF41681",
+    "rtl\\usb\\vendor\\usb_fs_phy.v": "F77E02FC44FB1E9E24C0E7EA854BFF5BDB07DAF632E73E2BE719870D75B4B51C",
+    "rtl\\usb\\vendor\\usbh_crc16.v": "8F4D19A55DEBC503248E874DEBC2C2D30CDC8AD2E0E2DF672E145278469CB448",
+    "rtl\\usb\\vendor\\usbh_crc5.v": "09F0AA28D5EE06C42A813890B232788585B5001D042783B05BFF290E239FCA6A",
+    "rtl\\usb\\vendor\\usbh_sie.v": "1281A47C6B77B7D16A096A01C9702A1BB0AA51DCDA176E98C45DF2E932DE081D",
+    "verification\\tb\\audio\\sample_tick_tb.v": "F89F8ACED7459142DB0DEB3BBEF5C12DFE69D466B9793CB1EC3A8A4DC2DF2B73",
+    "verification\\tb\\audio\\synth_top_tb.v": "ED828768A5935568A72E53DDE318152FFC3E9B54F9995FB1FC3DC73342162C42",
+    "verification\\tb\\audio\\tb_audio_boundaries.v": "03E8B6B964FF0F4D63B7FB2CBC0AF0BBBA50DAB5016717AAE91856160357104B",
+    "verification\\tb\\audio\\tb_brightness_response.v": "D722A5DEC01A86086FE04855C51FED154920FF4D725AAE9352398C453FF15A9A",
+    "verification\\tb\\audio\\tb_dac_launch_timing.v": "CABA4E081D0828E8AAA2279F5E11520041287ACB150E818DCDBAE6961836BB43",
+    "verification\\tb\\audio\\tb_delay_chorus.v": "00F0D2C33C25F4FB6A5C41902EC2799A049BF18A0BD2795D44324285BB4B5499",
+    "verification\\tb\\audio\\tb_effects_pa.v": "B69C552CCEE94D9141375E36FEA1FD96BC8F3CC322C752734A36A61B62F54666",
+    "verification\\tb\\audio\\tb_reverb_pa.v": "E1D9189DC49554059DA9317EBD6F60F6EF518261B31F58DDAE699F4F4B988AD4",
+    "verification\\tb\\audio\\tb_room_reverb.v": "587F2B9912BA4D89846F355580044B7753B608DB7433BDFFD435543DAE5FB22C",
+    "verification\\tb\\audio\\tb_tone_filter.v": "22F0F7E1414FEC9A55C3FDD5F03E2F454C5890AC1EF6E7A7AE608018272F64AA",
+    "verification\\tb\\control\\tb_allocator_review.v": "D262815287FCA89CF0440ADD08E216BA05F0556DF29F42E383F1F900F1E90899",
+    "verification\\tb\\control\\tb_allocator_trigger.v": "316FCEF13B4EBBAF82C08BD10A00B502CFB13730D7D1736A474FFE856C6B7081",
+    "verification\\tb\\control\\tb_ble_event_arbiter.v": "F34C9083855E1FF28AB3C4CB097BED162D3B2974B501CA684C15B7FC368DE5FF",
+    "verification\\tb\\control\\tb_brightness_keys.v": "68224B86D740D17A5A571F1ECD73BEC3766A5A19878A4452A5A65B367D871A64",
+    "verification\\tb\\control\\tb_controls_reference.v": "29FC031468952E3D40E8D2DAE2626EA8A952004BF5B662F7BD27619EDDAB5C21",
+    "verification\\tb\\control\\tb_event_encoder_equivalence.v": "7159CCF23A0B91EF0A37BEBAD1203EA42EAE3C328563511BC1BA50CF97C9407E",
+    "verification\\tb\\control\\tb_event_encoder.v": "96050551F551DDDBAFA209B739BBA83E8D4E075186319325E207A853E46473A3",
+    "verification\\tb\\control\\tb_four_source_arbiter.v": "ED492F1A3CE805C4AFA7AAA5087A3B3F3138A17581B1F51D85BF9C39E23FD12B",
+    "verification\\tb\\control\\tb_input_sync_debounce.v": "A89B74CF35F0D8CE9CC2E612C2F512C12CF95CD4D78F73E1CEE2C750E92685CE",
+    "verification\\tb\\control\\tb_knob_antijitter.v": "6EA622B036F1BCD047094421D465C5221AAAED6F2217AAFF7153F18401C21092",
+    "verification\\tb\\control\\tb_practice_guide.v": "B8AEEF1E012DF8F9ED44FCB37FCDF615781AD62873FB63564B7442B69D327BC3",
+    "verification\\tb\\control\\tb_touch_brightness.v": "9CB3EAB95FD850B15B181B88E12EDE91324819A3045D0E2EC2E90BCD8B8F1D37",
+    "verification\\tb\\control\\tb_touch_contact_tracker.v": "AEB3FEC5AB8E590184F13260991CE739666A3343436EC620CD47B36B31F4C255",
+    "verification\\tb\\control\\tb_touch_report_cdc.v": "3A2046D652B677184326C5104C066C4CCF3F3B3C6EF49DB2A0D8105E3823F256",
+    "verification\\tb\\control\\tb_touch_report_decode.v": "C38F9756F91CA9DE8C2122E82CD8F550C13576D03F9E2BEDE656D24D96758262",
+    "verification\\tb\\control\\tb_touch_usb_host.v": "47EF31347F31254B4A1CA2A2D497A95029CF43963DE745236A6F30031FE7D849",
+    "verification\\tb\\control\\tb_touch_usb_link.v": "F2C6F3F068F64D9AEE64360CFF71D38BC30F120535DD84E14C74213BD1C9B43B",
+    "verification\\tb\\control\\tb_touch_usb_wire.v": "87FB7B54A06D2A7036B190C260D0DC36A5382412B25A49729EF8468D43D4E93C",
+    "verification\\tb\\control\\tb_uart_bytes.v": "BB7C549ED1B44A55358BE5D5943DE92678A1F0E34E30FD7107BC83841A6296DD",
+    "verification\\tb\\control\\tb_uart_flow.v": "BF91F87733404E942AC29E65574CC67D002FA2295F0A238A3638F940AFBFB1B0",
+    "verification\\tb\\control\\tb_uart_line.v": "7C415748AC8C704F4B7F4AF10D04B2AC6A694DEE8E2FF3B7A9D8C2833AA2B97A",
+    "verification\\tb\\control\\tb_uart_protocol.v": "A19A38363F0349D73F3D224F2470CCA844FD0B749EE72526D9655619958C7C98",
+    "verification\\tb\\control\\tb_uart_replies.v": "A3E9B667996B1C59F53F6A7A2D410088D65AB4319FA20F7EEADAAC8F00D21437",
+    "verification\\tb\\control\\tb_voice_allocator.v": "A5B16AFCE6B8F9ABF1B493CCCFE9F0F6457A52A967F150F3ADA020E5D3D4D499",
+    "verification\\tb\\display\\tb_controls_display_frame.v": "BDB943C3E14E1ED742B79D2010C188DFE4D695DD3BB13F6929147525D416F1D0",
+    "verification\\tb\\display\\tb_display_cdc.v": "C8D9E9437FF95E1324660EE6189D5F7C4A89FCF2F6E5775BE4CF90BC58D34213",
+    "verification\\tb\\display\\tb_display_feedback.v": "9F8A51EA207D9D17C3739191CA2A3BA7E2DE3B760BA8F005C1573256486D99D0",
+    "verification\\tb\\display\\tb_display_hdmi_frame.v": "F909205BF4BBECB99F1A96B4A7E1F50F16482ACCC6387E96909106874CBC6C25",
+    "verification\\tb\\display\\tb_display_renderer.v": "751F031A02F66DD38726CA11E52D3AE6269DAFB160D839BE5305063B43CB0738",
+    "verification\\tb\\display\\tb_display_reset_gain.v": "CF065148B138BC8FA271F7E36D66C9A10B211C1D6CA545774ADD7CA2798641E0",
+    "verification\\tb\\display\\tb_display_timing.v": "752C46F4314E714FE842A0AA8BCEC0D3F3C756115041092F0183567E33B05529",
+    "verification\\tb\\display\\tb_display_wave.v": "32A1A05E98993F57B68E4D3CAF0354B53F68870799645462EA0AD6FF3D7F6414",
+    "verification\\tb\\display\\tb_dual16_hdmi.v": "4FFE5796E848C20936AFAFDFCA1DEB2A7068F96B7B6241A669E6FD807B6D4718",
+    "verification\\tb\\display\\tb_effects_hdmi.v": "58CE1C86D0F469ED198FD7D94278DED9B000F675E96F853CC03F769069375058",
+    "verification\\tb\\display\\tb_final_display_frame.v": "59F34C74E3BE5C74D2F0E29EFCB18E7C587E641A3150EF7DFB5CA4C7EEA1A754",
+    "verification\\tb\\display\\tb_final_display_ui.v": "3219255AD0862FA9A7B564B0A8695635C8E3D78A9C1380DC4E944664F51B9E6A",
+    "verification\\tb\\display\\tb_final_hdmi_isolation.v": "2CF931795E1AEFDFA6904B3D5F66BD9687E919F5557A53797FC07163E9215D07",
+    "verification\\tb\\display\\tb_final_wave_envelope.v": "8B0653E22665995CED454596A798E1C353057031D71D162803AAC2CFEC31DBFB",
+    "verification\\tb\\display\\tb_hdmi_audio_isolation.v": "A15AC37C8E85BAA5A1B4FD16152BAC2C37BE8AC2CC7B88FD76EF62E9C24E67BA",
+    "verification\\tb\\display\\tb_hdmi_octaves.v": "2442B96171F0D27B9C6DCE6AA88BA6863925711F584B6B541D6A78F1B7C7BD94",
+    "verification\\tb\\display\\tb_hdmi_phy.v": "2FD331FAA8A0EC317ECAF900E451E784C9E00EF884F50541658A9E2B40196019",
+    "verification\\tb\\display\\tb_instrument_display.v": "32F7231161501B8CC11576E9E767EEBFE8D075CB32D2B680704F3B51406EEFC1",
+    "verification\\tb\\display\\tb_meter_scale.v": "787A6C9BAD52F23B412BEFC239C0A7034D6BF4E572E96CF8103E2254E1775F32",
+    "verification\\tb\\display\\tb_panel_octaves.v": "0F3D0B163DAC4FE807853CC01190904779E5C1FEB1929A82B75383CBF2957A85",
+    "verification\\tb\\display\\tb_poly32_hdmi.v": "FE3AE7F03787C9B182E87B5F59CA9DD90CCA100CEEA711133E574C1F133985B3",
+    "verification\\tb\\display\\tb_practice_display.v": "72ECB8768B1600C2B8744025E46450818B3AF024B570D7136EB7632FF69A0AE8",
+    "verification\\tb\\display\\tb_reverb_hdmi.v": "BC374BD2B1469F3544DA157ADD66347F9DAA4518CE5D7FDE4850DEACD1B40F9C",
+    "verification\\tb\\display\\tb_simple_display_frames.v": "367CCF7833437D27E2A8B65C949818ADCC8DADCDBD557A82A8B43E9AE486674D",
+    "verification\\tb\\display\\tb_simple_ui_map.v": "03FCF027C18A02501F295AF6A84907CEAA1DACF7A3FA3F4563CB6F98F934095F",
+    "verification\\tb\\display\\tb_simple_ui_states.v": "05599C021242C17928427AAA87695D11E46140CE580E8031984F26C900A68D3E",
+    "verification\\tb\\display\\tb_tmds_encoder.v": "D400A31080D19B6A093C5D261572BA4D5E6E2324096E257F488B869F711873CE",
+    "verification\\tb\\display\\tb_touch_display.v": "7DC13A8F77FE2CEECFD02D9EAE8312AEFA1AFE17125713E2843F622E77360749",
+    "verification\\tb\\display\\tb_ui_map_equivalence.v": "7723A33244DD538D9043014998ECF12B5479D72447F85378F90EFE512875703E",
+    "verification\\tb\\integration\\performance_adc_model.v": "589A5690F9C1F62054DF4AC92D4E1FC924276CEE651FD22816785265123EFED5",
+    "verification\\tb\\integration\\single_tone_demo_top.v": "0709CD8DD9CD2B1F587F5C62C28944E5EF1C2BAA1B1E8F409E43B8B5547C7C76",
+    "verification\\tb\\integration\\tb_architecture_equivalence.v": "15DAB964F1C97A34C7EAE91BD148171ACEF461D4B08ADF283E24C2BF241E830D",
+    "verification\\tb\\integration\\tb_architecture_startup.v": "DC9082B38C0A275FC2F2EED8118862897B0B93FFA61568E05F06DAA6BCBC39EA",
+    "verification\\tb\\integration\\tb_architecture_ui.v": "5C6BF8AD1085B93B9AC1E54219AB8B072C4488BF7A81A2A3531F20208CEA829B",
+    "verification\\tb\\integration\\tb_audio_display_isolation.v": "07BF16AFEC6492D0D581B25BF30816FE216FA13F2503B091F005D444957DAF9F",
+    "verification\\tb\\integration\\tb_audio_parameters.v": "3F7E834833463084368EDC0A7E388A59326A21DD6C9D7CEB8BCB74A336FAD9B6",
+    "verification\\tb\\integration\\tb_audio_timing_equivalence.v": "C49FE2B9667BCD102A916575E7BFA9E5F473084333EE06C7C279A0660CEC5E81",
+    "verification\\tb\\integration\\tb_ble_link.v": "946E466DFDE56B2C81DAC4E3F2C3A76AC37CE7095F9A20B92F458FAB81DFB887",
+    "verification\\tb\\integration\\tb_brightness_hdmi.v": "F805044C8A74CB63418D39AC80421898E1B389EAB7E60EB305DDA0CB431A0755",
+    "verification\\tb\\integration\\tb_controls_meter_hdmi.v": "81CC76DD13EDF5FEAD68B0A9CD3B1DEF496BFEDF4A3E5604BF1C13EA2E21740B",
+    "verification\\tb\\integration\\tb_event_selection_equivalence.v": "55844EFEF5A3FA7EC55CD27BD399ECF292FCB611786E95AF91115567F02D8817",
+    "verification\\tb\\integration\\tb_expression_modal.v": "A7B860FD9B9B5820EF5B8FE04C4D5E67ACC6A22AB6DBEBB26664C402A42860F9",
+    "verification\\tb\\integration\\tb_final_env_alignment.v": "78E76A8953A86B438296580B5CDE48ECE0C7839F23F84AFB0683AB7A86A8C315",
+    "verification\\tb\\integration\\tb_final_modal_adapter.v": "A9BBF203A00D32098142FA1AC7A53D87BE3CD82B0AEC2AA805DEDBE38ADA3063",
+    "verification\\tb\\integration\\tb_final_performance.v": "D709AE661D136C3CA9AB38BCF0DF8D80CF318770C98F3706B43C39A88332BA8B",
+    "verification\\tb\\integration\\tb_instrument_presets.v": "253F446CF4562A1AC67C3DF73E90FF04DC0A5A1DB24092FC35EA568F03A983BC",
+    "verification\\tb\\integration\\tb_modal_parameter_rom.v": "3F739179C50EE38B3E4AD62CA2213DAD2BC40817FBE1F7151556F8A3191E1979",
+    "verification\\tb\\integration\\tb_performance_adc.v": "47BE095F59007829264D9278A220321EE097702932D27DBD16F0007B14B8A2F8",
+    "verification\\tb\\integration\\tb_performance_bank.v": "D69C93482970693F1EB07573F034CC580B7E8D59853218DED06BD3AF42298C4E",
+    "verification\\tb\\integration\\tb_performance_brightness.v": "890D3E3149EB0111625A2674816B20878268F507220C2C9025C1CB97B8CE4079",
+    "verification\\tb\\integration\\tb_performance_control.v": "CB52649CA7F15D5B1031DE695DA0DACF5DA0734CAA9E4D8951D1884AA55C2C8C",
+    "verification\\tb\\integration\\tb_performance_latency.v": "E167058912F404DCAD08011553C7D0B1426CECFD9AE5FD3EDA9D98CBEF13F41D",
+    "verification\\tb\\integration\\tb_performance_octaves.v": "B996E9F2BAD7B2B5A08BF812D34AE91F46319C62BC8D9A3377F3C0CBA9B4E532",
+    "verification\\tb\\integration\\tb_performance_system.v": "9B12A4F8EA19CBC180BFF4AA6430A69AFD6027490AD440EE1A2503FA0AA4049B",
+    "verification\\tb\\integration\\tb_piano_13_debounce.v": "BD5A5D502A1A7320DB0BE6A28D7D274DB7D4F136786732134A4F8109E45EE6FF",
+    "verification\\tb\\integration\\tb_piano_13_keys.v": "5E703D0C82A5B96A25DA0CDEB2F1C3D23B77C77E9E27AEB83839EC425AA8AD40",
+    "verification\\tb\\integration\\tb_piano_latency.v": "2E399BE815411F3C871F041D0BF71F11F32E9E4F89C28241694760FED4A35A20",
+    "verification\\tb\\integration\\tb_single_tone_ab.v": "432CACF3CCFD98150AF52EDF069B99CFBFCF1F8A1C2A9677B001E59AAE6736A8",
+    "verification\\tb\\integration\\tb_slider_controls_filtered.v": "E65D2AB200E63024D9CFB182950BC89504DC5A857216FFCEF667574DE093E4DB",
+    "verification\\tb\\integration\\tb_slider_controls.v": "1788A2FF77EC403D5E98F5F17F3961DCFE130F83F84A76C1CEE5E3906EF367A8",
+    "verification\\tb\\integration\\tb_slider_guide_hdmi.v": "54B02E973C49A1E0D9D7BA8B0C162A73079428F563903D51C5E778D48AE3E551",
+    "verification\\tb\\integration\\tb_three_key_chords.v": "F6864D60578D41FCEF02C9DE9C0598CFE4A5ABE4C3FA1F22E2F63A817C58C81E",
+    "verification\\tb\\integration\\tb_touch_hdmi_audio.v": "E2DB160B9CACEAF8EA49EDD915918A3FD025F36065BB50B45412572D70EA2D09",
+    "verification\\tb\\integration\\tb_touch32_audio.v": "708726DD183D0B579E49D421810639631663FBBF025C71BBAF236A9353A195A6",
+    "verification\\tb\\integration\\tb_uart_instrument.v": "AC53B46103E75602B12441566D034503CCCC673F34E9E7B21253957B4B24F1DE",
+    "verification\\tb\\integration\\tb_uart_pa_drain.v": "DC15060EE74BA4EC7FC89A2C3C5537BA37D25150AF9ED321D1950EDA290E74DD",
+    "verification\\tb\\integration\\tb_uart_piano_board.v": "FE6DE7904D5CD991DDD0960C0DCB939A86561CFB9A06349CD4FBB7E5876FE1CF",
+    "verification\\tb\\music\\tb_dual16_core.v": "9B887DA70BA2AFDE5BAF6032D6757A5D8C2290EE2C20F605854C8E746C90417F",
+    "verification\\tb\\music\\tb_dual16_rom.v": "4DE47473E891019FC6366F56250B234713AE0AB12B5DE360CCDD9A6FA9622910",
+    "verification\\tb\\music\\tb_dual16_snapshot.v": "2897295402CA439963077B94764F6E5D376B093E024F347CC3ADDBBF0AFFA7BF",
+    "verification\\tb\\music\\tb_merge32_rom_equivalence.v": "CFB1767E4E08E2F68393535A54F290D5D929E9137F65D37123648AD28EEB63C5",
+    "verification\\tb\\music\\tb_music_controls.v": "BABCA489D55AD67EC40EEBD52954C4C09EBD449E08511E413A08A7B73F14B938",
+    "verification\\tb\\music\\tb_music_display_isolation.v": "CB09874665DD5325996597C5923161C7F052A66E853BD12FC642578F891C3C38",
+    "verification\\tb\\music\\tb_music_local_controls.v": "D597294B8D7DB575AEECFBD3B776A05372D7D7805D12A6F2272B0C84F3D36DA0",
+    "verification\\tb\\music\\tb_music_pipe.v": "F90A00045583E89343B9DBB52BC06A96CB510615BB2D1D6A074CB06C71122138",
+    "verification\\tb\\music\\tb_music_protocol.v": "587D281F79B8D7CBE647BE9E5096457CBB2B5F678E36EBD010AED77A28CFE1B3",
+    "verification\\tb\\music\\tb_music_recovery.v": "BAE44464E8A6BB150A0674DFF16A004D877678DB839972232E3289FAFAFC6414",
+    "verification\\tb\\music\\tb_music_uart16.v": "63EFDCE9A4FB642F2818BE1B5BE733B8E84FF16D35A175AE1869001D58435FC3",
+    "verification\\tb\\music\\tb_poly32_core.v": "94086CCA9E820682DF35F3D1E79218FA1AAECDB1DEA07F3EC2C8D0EA19C691B5",
+    "verification\\tb\\review\\ads1115_timed_model.v": "83C0FF104845B872737FC20325E685DD1E141DA56818C6A277C3693D99B5512A",
+    "verification\\tb\\review\\tb_dual16_uart.v": "E4084FA83F14F821F67C7CC74C47113F5D16EE9BBA050F73CFD6D8D838919B0E",
+    "verification\\tb\\review\\tb_poly32_uart.v": "C1444DBBBB3DF3692E7910231109EC5CB14E59725FBCACB62B887EC76B04BCE5",
+    "verification\\tb\\review\\tb_review_arithmetic.v": "79117F0D8CB51E613D51466BB2B1A0AF98FC40ABD6EF9912908E615BDDE53DBF",
+    "verification\\tb\\review\\tb_review_dual_math.v": "F1D640C68A9133FD4A785BDD9D6EB93B66FA115B25BF72EB6F9C0848EB9F189E",
+    "verification\\tb\\review\\tb_review_dual_system.v": "32235C7FE62356A3C939C859F331A55A43266123E11497ADE60F46D9FF651DB5",
+    "verification\\tb\\review\\tb_review_dual_voice.v": "1AB8700C317FACCBE33281096455D3EC669899F35C51033340EDFCEBD056267B",
+    "verification\\tb\\review\\tb_review_font.v": "C15892934D05FF0CE7699B15819355612D6D931B6D03C22B1C4171B41638B40C",
+    "verification\\tb\\review\\tb_review_hdmi_reset_recovery.v": "63AF68C8B0D39B70CD74C15D95C7B2ED6DA31DEA19CECF87BD26C51D9D878964",
+    "verification\\tb\\review\\tb_review_knob_latency.v": "7130EE062C9C731DD4CADBB366AE13A62C8FE4CB2F16138BD7C09CF82C5578F4",
+    "verification\\tb\\review\\tb_review_layout.v": "3899A91C5AC8CBDA8F9FC30241A35E09D7DAF864512E02A9976E3BB0BB7FB918",
+    "verification\\tb\\review\\tb_review_uart_capacity_top.v": "8C189D7CB1D88800A2F1F8E068A95C04CD3647373DEF3571750F6977AB23C309",
+    "verification\\tb\\review\\tb_review_uart_capacity.v": "CE07002706C9BAB768DDED1BB656439A1B2F5468437AB1C69B01EEE817BB53E7",
+    "verification\\tb\\synth\\tb_adsr_arithmetic.v": "F515BF410FA221EA598964CC4EEE0CA342E7CD547DC9124E82781237731BE005",
+    "verification\\tb\\synth\\tb_adsr_env.v": "553354B3FF5099432D353A977DB30CFB714FB5B00A9C8D207231271509FB8F9F",
+    "verification\\tb\\synth\\tb_instrument_bank.v": "5AC14F81885E6A7587B8F6D7CD192B7611A6E8A3F57F274E1C9392F3AED44BFC",
+    "verification\\tb\\synth\\tb_instrument_preview.v": "C243E46FCA41C5989C5291B59E4CB8EAB030191F368E2CA89121F87137B4B5AD",
+    "verification\\tb\\synth\\tb_instrument_wave.v": "B53D72E57B8CA799632CEB96C63C2FFC41723E9229CE1748C1FF8EC16C4B7C80",
+    "verification\\tb\\synth\\tb_phase_acc.v": "2757A6CF1894E48D179C60AADA92CB872793203DD2EC42922668048C6DB10A24",
+    "verification\\tb\\synth\\tb_piano_tone.v": "C98EB51D45821033C3081EAF5A02122D8D53B218D931534A458E1DF05FCF2C12",
+    "verification\\tb\\synth\\tb_sample_gain.v": "ACBD7DF9C51AC67D8E47ACF545D42A9135C3E00E7548620539FD9F07AF1DF34D",
+    "verification\\tb\\synth\\tb_sample_mixer4.v": "7BC58289DD6C0CAE4CD001EC79A852D5882022BE1BDB4551AC2B995EDC5218DA",
+    "verification\\tb\\synth\\tb_timbre_bank.v": "E3CBA8231C98FB00FCE9C06EA37479DC741389D8F37616D749219766B98A74CF",
+    "verification\\tb\\synth\\tb_timbre_preview.v": "3876923C337E26E52B2903001C2A51AAA1DC98A611A27B20C9584E626544CED8",
+    "verification\\tb\\synth\\tb_voice_adsr.v": "8ED3F2983C560F18EBF95B3B10D47371207253D60DF3ADE537D84A8D7DA10B40",
+    "verification\\tb\\synth\\tb_voice_bank_adsr.v": "7F8FDB64C87073A47D331D32E1C10F1FF2DC03BC5D034A7766D5BBA6F372E152",
+    "verification\\tb\\synth\\tb_voice_dds.v": "CA4608626F98CA4A837EE5A49360F7FE9A947B9284BFF6041FFBE2BDB9F3D393",
+    "verification\\tb\\synth\\tb_wave_lut_timbre.v": "148EF2EF84E28E6CF8C656648AA7937A23C2F7E13B38B0D0A2594962C9661869",
+    "verification\\tb\\synth\\tb_wave_lut.v": "733C884E36FE2E55775AEF9DFEE7035B612E8FE957CC010609647F545ADAC2D4"
+  },
+  "model_sha256": "2febda6b4c901920637d66275dfe2f75a0a698fce94f7b02eb085be5e4490c83",
+  "implementation_verified": false,
+  "hardware_listening_verified": false,
+  "limits": [
+    "This functional snapshot does not certify a bitstream or physical timing."
+  ]
+}
