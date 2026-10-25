@@ -1,0 +1,404 @@
+Model Technology ModelSim SE-64 vlog 10.6e Compiler 2018.06 Jun 23 2018
+Start time: 18:55:31 on Oct 24,2026
+vlog -vlog01compat -pedanticerrors -work build/regression/strict/strict_work D:\Project\fpga_contest\projects\checks\instruments_check\voice_bank_instruments_timing_top.v D:\Project\fpga_contest\projects\checks\poly_adsr_check\voice_bank_adsr_timing_top.v D:\Project\fpga_contest\rtl\audio\chorus_effect.v D:\Project\fpga_contest\rtl\audio\echo_delay.v D:\Project\fpga_contest\rtl\audio\i2s_tx.v D:\Project\fpga_contest\rtl\audio\room_reverb.v D:\Project\fpga_contest\rtl\audio\sample_tick.v D:\Project\fpga_contest\rtl\audio\synth_top.v D:\Project\fpga_contest\rtl\audio\tone_filter.v D:\Project\fpga_contest\rtl\control\adc_knob_if.v D:\Project\fpga_contest\rtl\control\ads1115_if.v D:\Project\fpga_contest\rtl\control\ads1115_knob_if.v D:\Project\fpga_contest\rtl\control\brightness_keys.v D:\Project\fpga_contest\rtl\control\event_encoder.v D:\Project\fpga_contest\rtl\control\i2c_master.v D:\Project\fpga_contest\rtl\control\input_sync_debounce.v D:\Project\fpga_contest\rtl\control\music_controls.v D:\Project\fpga_contest\rtl\control\music_event_encoder.v D:\Project\fpga_contest\rtl\control\music_uart_event_arbiter.v D:\Project\fpga_contest\rtl\control\music_uart_line_rx.v D:\Project\fpga_contest\rtl\control\music_uart_protocol.v D:\Project\fpga_contest\rtl\control\music_uart_reply_tx.v D:\Project\fpga_contest\rtl\control\note_phase_lut.v D:\Project\fpga_contest\rtl\control\piano_controls.v D:\Project\fpga_contest\rtl\control\practice_guide.v D:\Project\fpga_contest\rtl\control\touch_brightness_control.v D:\Project\fpga_contest\rtl\control\touch_contact_tracker.v D:\Project\fpga_contest\rtl\control\touch_or_key_if.v D:\Project\fpga_contest\rtl\control\uart_event_arbiter.v D:\Project\fpga_contest\rtl\control\uart_fifo.v D:\Project\fpga_contest\rtl\control\uart_line_rx.v D:\Project\fpga_contest\rtl\control\uart_reply_tx.v D:\Project\fpga_contest\rtl\control\uart_rx.v D:\Project\fpga_contest\rtl\control\uart_synth_protocol.v D:\Project\fpga_contest\rtl\control\uart_tx.v D:\Project\fpga_contest\rtl\control\voice_allocator.v D:\Project\fpga_contest\rtl\display\display_bend_map.v D:\Project\fpga_contest\rtl\display\display_cdc_latest.v D:\Project\fpga_contest\rtl\display\display_feedback.v D:\Project\fpga_contest\rtl\display\display_font_ui.v D:\Project\fpga_contest\rtl\display\display_font24.v D:\Project\fpga_contest\rtl\display\display_wave_buffer.v D:\Project\fpga_contest\rtl\display\display_wave_envelope.v D:\Project\fpga_contest\rtl\display\dvi_tx_gowin.v D:\Project\fpga_contest\rtl\display\hdmi_clock_60k.v D:\Project\fpga_contest\rtl\display\hdmi_reset_guard.v D:\Project\fpga_contest\rtl\display\instrument_display.v D:\Project\fpga_contest\rtl\display\instrument_panel_renderer.v D:\Project\fpga_contest\rtl\display\instrument_panel_ui.v D:\Project\fpga_contest\rtl\display\instrument_ui_map.v D:\Project\fpga_contest\rtl\display\lcd_rgb_timing.v D:\Project\fpga_contest\rtl\display\piano_display_renderer.v D:\Project\fpga_contest\rtl\display\tmds_encoder.v D:\Project\fpga_contest\rtl\rom\modal_coeff_rom_dual.v D:\Project\fpga_contest\rtl\synth\adsr_env.v D:\Project\fpga_contest\rtl\synth\instrument_env.v D:\Project\fpga_contest\rtl\synth\instrument_wave.v D:\Project\fpga_contest\rtl\synth\modal_parameter_rom.v D:\Project\fpga_contest\rtl\synth\modal_shared_output.v D:\Project\fpga_contest\rtl\synth\modal_voice_group16.v D:\Project\fpga_contest\rtl\synth\phase_acc.v D:\Project\fpga_contest\rtl\synth\sample_gain.v D:\Project\fpga_contest\rtl\synth\sample_mixer4.v D:\Project\fpga_contest\rtl\synth\voice_adsr.v D:\Project\fpga_contest\rtl\synth\voice_bank_adsr.v D:\Project\fpga_contest\rtl\synth\voice_bank_dual16.v D:\Project\fpga_contest\rtl\synth\voice_bank_instruments.v D:\Project\fpga_contest\rtl\synth\voice_bank_modal_adapter.v D:\Project\fpga_contest\rtl\synth\voice_bank_modal_dispatch.v D:\Project\fpga_contest\rtl\synth\voice_bank_music_pipe.v D:\Project\fpga_contest\rtl\synth\voice_dds.v D:\Project\fpga_contest\rtl\synth\voice_instrument.v D:\Project\fpga_contest\rtl\synth\voice_timbre_adsr.v D:\Project\fpga_contest\rtl\synth\wave_lut_timbre.v D:\Project\fpga_contest\rtl\synth\wave_lut.v D:\Project\fpga_contest\rtl\top\instrument_presets_top.v D:\Project\fpga_contest\rtl\top\instrument_uart_piano_top.v D:\Project\fpga_contest\rtl\top\instrument_uart_top.v D:\Project\fpga_contest\rtl\top\music_display_top.v D:\Project\fpga_contest\rtl\top\music_performance_core.v D:\Project\fpga_contest\rtl\top\music_uart_top.v D:\Project\fpga_contest\rtl\top\piano_13key_top.v D:\Project\fpga_contest\rtl\top\piano_hdmi_top.v D:\Project\fpga_contest\rtl\top\piano_performance_top.v D:\Project\fpga_contest\rtl\usb\touch_report_cdc.v D:\Project\fpga_contest\rtl\usb\touch_report_decode.v D:\Project\fpga_contest\rtl\usb\touch_usb_control.v D:\Project\fpga_contest\rtl\usb\touch_usb_host.v D:\Project\fpga_contest\rtl\usb\touch_usb_link.v D:\Project\fpga_contest\rtl\usb\touch_usb_port.v D:\Project\fpga_contest\rtl\usb\touch_usb_system.v D:\Project\fpga_contest\rtl\usb\usb_clock_60k.v D:\Project\fpga_contest\rtl\usb\vendor\usb_fs_phy.v D:\Project\fpga_contest\rtl\usb\vendor\usbh_crc16.v D:\Project\fpga_contest\rtl\usb\vendor\usbh_crc5.v D:\Project\fpga_contest\rtl\usb\vendor\usbh_sie.v D:\Project\fpga_contest\verification\tb\audio\sample_tick_tb.v D:\Project\fpga_contest\verification\tb\audio\synth_top_tb.v D:\Project\fpga_contest\verification\tb\audio\tb_audio_boundaries.v D:\Project\fpga_contest\verification\tb\audio\tb_dac_launch_timing.v D:\Project\fpga_contest\verification\tb\audio\tb_delay_chorus.v D:\Project\fpga_contest\verification\tb\audio\tb_effects_pa.v D:\Project\fpga_contest\verification\tb\audio\tb_reverb_pa.v D:\Project\fpga_contest\verification\tb\audio\tb_room_reverb.v D:\Project\fpga_contest\verification\tb\audio\tb_tone_filter.v D:\Project\fpga_contest\verification\tb\control\tb_allocator_review.v D:\Project\fpga_contest\verification\tb\control\tb_allocator_trigger.v D:\Project\fpga_contest\verification\tb\control\tb_ble_event_arbiter.v D:\Project\fpga_contest\verification\tb\control\tb_brightness_keys.v D:\Project\fpga_contest\verification\tb\control\tb_controls_reference.v D:\Project\fpga_contest\verification\tb\control\tb_event_encoder_equivalence.v D:\Project\fpga_contest\verification\tb\control\tb_event_encoder.v D:\Project\fpga_contest\verification\tb\control\tb_four_source_arbiter.v D:\Project\fpga_contest\verification\tb\control\tb_input_sync_debounce.v D:\Project\fpga_contest\verification\tb\control\tb_knob_antijitter.v D:\Project\fpga_contest\verification\tb\control\tb_practice_guide.v D:\Project\fpga_contest\verification\tb\control\tb_touch_brightness.v D:\Project\fpga_contest\verification\tb\control\tb_touch_contact_tracker.v D:\Project\fpga_contest\verification\tb\control\tb_touch_report_cdc.v D:\Project\fpga_contest\verification\tb\control\tb_touch_report_decode.v D:\Project\fpga_contest\verification\tb\control\tb_touch_usb_host.v D:\Project\fpga_contest\verification\tb\control\tb_touch_usb_link.v D:\Project\fpga_contest\verification\tb\control\tb_touch_usb_wire.v D:\Project\fpga_contest\verification\tb\control\tb_uart_bytes.v D:\Project\fpga_contest\verification\tb\control\tb_uart_flow.v D:\Project\fpga_contest\verification\tb\control\tb_uart_line.v D:\Project\fpga_contest\verification\tb\control\tb_uart_protocol.v D:\Project\fpga_contest\verification\tb\control\tb_uart_replies.v D:\Project\fpga_contest\verification\tb\control\tb_usb_system_recovery.v D:\Project\fpga_contest\verification\tb\control\tb_voice_allocator.v D:\Project\fpga_contest\verification\tb\display\tb_controls_display_frame.v D:\Project\fpga_contest\verification\tb\display\tb_display_cdc.v D:\Project\fpga_contest\verification\tb\display\tb_display_feedback.v D:\Project\fpga_contest\verification\tb\display\tb_display_hdmi_frame.v D:\Project\fpga_contest\verification\tb\display\tb_display_renderer.v D:\Project\fpga_contest\verification\tb\display\tb_display_reset_gain.v D:\Project\fpga_contest\verification\tb\display\tb_display_timing.v D:\Project\fpga_contest\verification\tb\display\tb_display_wave.v D:\Project\fpga_contest\verification\tb\display\tb_dual16_hdmi.v D:\Project\fpga_contest\verification\tb\display\tb_effects_hdmi.v D:\Project\fpga_contest\verification\tb\display\tb_final_display_frame.v D:\Project\fpga_contest\verification\tb\display\tb_final_display_ui.v D:\Project\fpga_contest\verification\tb\display\tb_final_hdmi_isolation.v D:\Project\fpga_contest\verification\tb\display\tb_final_wave_envelope.v D:\Project\fpga_contest\verification\tb\display\tb_hdmi_audio_isolation.v D:\Project\fpga_contest\verification\tb\display\tb_hdmi_octaves.v D:\Project\fpga_contest\verification\tb\display\tb_hdmi_phy.v D:\Project\fpga_contest\verification\tb\display\tb_instrument_display.v D:\Project\fpga_contest\verification\tb\display\tb_meter_scale.v D:\Project\fpga_contest\verification\tb\display\tb_panel_octaves.v D:\Project\fpga_contest\verification\tb\display\tb_poly32_hdmi.v D:\Project\fpga_contest\verification\tb\display\tb_practice_display.v D:\Project\fpga_contest\verification\tb\display\tb_reverb_hdmi.v D:\Project\fpga_contest\verification\tb\display\tb_simple_display_frames.v D:\Project\fpga_contest\verification\tb\display\tb_simple_ui_map.v D:\Project\fpga_contest\verification\tb\display\tb_simple_ui_states.v D:\Project\fpga_contest\verification\tb\display\tb_tmds_encoder.v D:\Project\fpga_contest\verification\tb\display\tb_touch_display.v D:\Project\fpga_contest\verification\tb\display\tb_ui_map_equivalence.v D:\Project\fpga_contest\verification\tb\integration\performance_adc_model.v D:\Project\fpga_contest\verification\tb\integration\single_tone_demo_top.v D:\Project\fpga_contest\verification\tb\integration\tb_architecture_equivalence.v D:\Project\fpga_contest\verification\tb\integration\tb_architecture_startup.v D:\Project\fpga_contest\verification\tb\integration\tb_architecture_ui.v D:\Project\fpga_contest\verification\tb\integration\tb_audio_display_isolation.v D:\Project\fpga_contest\verification\tb\integration\tb_audio_parameters.v D:\Project\fpga_contest\verification\tb\integration\tb_audio_timing_equivalence.v D:\Project\fpga_contest\verification\tb\integration\tb_ble_link.v D:\Project\fpga_contest\verification\tb\integration\tb_controls_meter_hdmi.v D:\Project\fpga_contest\verification\tb\integration\tb_event_selection_equivalence.v D:\Project\fpga_contest\verification\tb\integration\tb_expression_modal.v D:\Project\fpga_contest\verification\tb\integration\tb_final_env_alignment.v D:\Project\fpga_contest\verification\tb\integration\tb_final_modal_adapter.v D:\Project\fpga_contest\verification\tb\integration\tb_final_performance.v D:\Project\fpga_contest\verification\tb\integration\tb_instrument_presets.v D:\Project\fpga_contest\verification\tb\integration\tb_modal_parameter_rom.v D:\Project\fpga_contest\verification\tb\integration\tb_performance_adc.v D:\Project\fpga_contest\verification\tb\integration\tb_performance_bank.v D:\Project\fpga_contest\verification\tb\integration\tb_performance_brightness.v D:\Project\fpga_contest\verification\tb\integration\tb_performance_control.v D:\Project\fpga_contest\verification\tb\integration\tb_performance_latency.v D:\Project\fpga_contest\verification\tb\integration\tb_performance_octaves.v D:\Project\fpga_contest\verification\tb\integration\tb_performance_system.v D:\Project\fpga_contest\verification\tb\integration\tb_piano_13_debounce.v D:\Project\fpga_contest\verification\tb\integration\tb_piano_13_keys.v D:\Project\fpga_contest\verification\tb\integration\tb_piano_latency.v D:\Project\fpga_contest\verification\tb\integration\tb_single_tone_ab.v D:\Project\fpga_contest\verification\tb\integration\tb_slider_controls_filtered.v D:\Project\fpga_contest\verification\tb\integration\tb_slider_controls.v D:\Project\fpga_contest\verification\tb\integration\tb_slider_guide_hdmi.v D:\Project\fpga_contest\verification\tb\integration\tb_three_key_chords.v D:\Project\fpga_contest\verification\tb\integration\tb_touch_hdmi_audio.v D:\Project\fpga_contest\verification\tb\integration\tb_touch32_audio.v D:\Project\fpga_contest\verification\tb\integration\tb_uart_instrument.v D:\Project\fpga_contest\verification\tb\integration\tb_uart_pa_drain.v D:\Project\fpga_contest\verification\tb\integration\tb_uart_piano_board.v D:\Project\fpga_contest\verification\tb\music\tb_dual16_core.v D:\Project\fpga_contest\verification\tb\music\tb_dual16_rom.v D:\Project\fpga_contest\verification\tb\music\tb_dual16_snapshot.v D:\Project\fpga_contest\verification\tb\music\tb_merge32_rom_equivalence.v D:\Project\fpga_contest\verification\tb\music\tb_music_controls.v D:\Project\fpga_contest\verification\tb\music\tb_music_display_isolation.v D:\Project\fpga_contest\verification\tb\music\tb_music_local_controls.v D:\Project\fpga_contest\verification\tb\music\tb_music_pipe.v D:\Project\fpga_contest\verification\tb\music\tb_music_protocol.v D:\Project\fpga_contest\verification\tb\music\tb_music_recovery.v D:\Project\fpga_contest\verification\tb\music\tb_music_uart16.v D:\Project\fpga_contest\verification\tb\music\tb_poly32_core.v D:\Project\fpga_contest\verification\tb\review\ads1115_timed_model.v D:\Project\fpga_contest\verification\tb\review\tb_dual16_uart.v D:\Project\fpga_contest\verification\tb\review\tb_poly32_uart.v D:\Project\fpga_contest\verification\tb\review\tb_review_arithmetic.v D:\Project\fpga_contest\verification\tb\review\tb_review_dual_math.v D:\Project\fpga_contest\verification\tb\review\tb_review_dual_system.v D:\Project\fpga_contest\verification\tb\review\tb_review_dual_voice.v D:\Project\fpga_contest\verification\tb\review\tb_review_font.v D:\Project\fpga_contest\verification\tb\review\tb_review_hdmi_reset_recovery.v D:\Project\fpga_contest\verification\tb\review\tb_review_knob_latency.v D:\Project\fpga_contest\verification\tb\review\tb_review_layout.v D:\Project\fpga_contest\verification\tb\review\tb_review_uart_capacity_top.v D:\Project\fpga_contest\verification\tb\review\tb_review_uart_capacity.v D:\Project\fpga_contest\verification\tb\synth\tb_adsr_arithmetic.v D:\Project\fpga_contest\verification\tb\synth\tb_adsr_env.v D:\Project\fpga_contest\verification\tb\synth\tb_instrument_bank.v D:\Project\fpga_contest\verification\tb\synth\tb_instrument_preview.v D:\Project\fpga_contest\verification\tb\synth\tb_instrument_wave.v D:\Project\fpga_contest\verification\tb\synth\tb_phase_acc.v D:\Project\fpga_contest\verification\tb\synth\tb_piano_tone.v D:\Project\fpga_contest\verification\tb\synth\tb_sample_gain.v D:\Project\fpga_contest\verification\tb\synth\tb_sample_mixer4.v D:\Project\fpga_contest\verification\tb\synth\tb_timbre_bank.v D:\Project\fpga_contest\verification\tb\synth\tb_timbre_preview.v D:\Project\fpga_contest\verification\tb\synth\tb_voice_adsr.v D:\Project\fpga_contest\verification\tb\synth\tb_voice_bank_adsr.v D:\Project\fpga_contest\verification\tb\synth\tb_voice_dds.v D:\Project\fpga_contest\verification\tb\synth\tb_wave_lut_timbre.v D:\Project\fpga_contest\verification\tb\synth\tb_wave_lut.v 
+-- Compiling module voice_bank_instruments_timing_top
+-- Compiling module voice_bank_adsr_timing_top
+-- Compiling module chorus_effect
+-- Compiling module echo_delay
+-- Compiling module i2s_tx
+-- Compiling module room_reverb
+-- Compiling module sample_tick
+-- Compiling module synth_top
+-- Compiling module tone_filter
+-- Compiling module adc_knob_if
+-- Compiling module ads1115_if
+-- Compiling module ads1115_knob_if
+-- Compiling module brightness_keys
+-- Compiling module event_encoder
+-- Compiling module i2c_master
+-- Compiling module input_sync_debounce
+-- Compiling module music_controls
+-- Compiling module music_event_encoder
+-- Compiling module music_uart_event_arbiter
+-- Compiling module music_uart_line_rx
+-- Compiling module music_uart_protocol
+-- Compiling module music_uart_reply_tx
+-- Compiling module note_phase_lut
+-- Compiling module piano_controls
+-- Compiling module practice_guide
+-- Compiling module touch_brightness_control
+-- Compiling module touch_contact_tracker
+-- Compiling module touch_or_key_if
+-- Compiling module uart_event_arbiter
+-- Compiling module uart_fifo
+-- Compiling module uart_line_rx
+-- Compiling module uart_reply_tx
+-- Compiling module uart_rx
+-- Compiling module uart_synth_protocol
+-- Compiling module uart_tx
+-- Compiling module voice_allocator
+-- Compiling module display_bend_map
+-- Compiling module display_cdc_latest
+-- Compiling module display_feedback
+-- Compiling module display_font_ui
+-- Compiling module display_font24
+-- Compiling module display_wave_buffer
+-- Compiling module display_wave_envelope
+-- Compiling module dvi_tx_gowin
+-- Compiling module hdmi_clock_60k
+-- Compiling module hdmi_reset_guard
+-- Compiling module instrument_display
+-- Compiling module instrument_panel_renderer
+-- Compiling module instrument_panel_ui
+-- Compiling module instrument_ui_map
+-- Compiling module lcd_rgb_timing
+-- Compiling module piano_display_renderer
+-- Compiling module tmds_encoder
+-- Compiling module modal_coeff_rom_dual
+-- Compiling module adsr_env
+-- Compiling module instrument_env
+-- Compiling module instrument_wave
+-- Compiling module modal_parameter_rom
+-- Compiling module modal_shared_output
+-- Compiling module modal_voice_group16
+-- Compiling module phase_acc
+-- Compiling module sample_gain
+-- Compiling module sample_mixer4
+-- Compiling module voice_adsr
+-- Compiling module voice_bank_adsr
+-- Compiling module voice_bank_dual16
+-- Compiling module voice_bank_instruments
+-- Compiling module voice_bank_modal_adapter
+-- Compiling module voice_bank_modal_dispatch
+-- Compiling module voice_bank_music_pipe
+-- Compiling module voice_dds
+-- Compiling module voice_instrument
+-- Compiling module voice_timbre_adsr
+-- Compiling module wave_lut_timbre
+-- Compiling module wave_lut
+-- Compiling module instrument_presets_top
+-- Compiling module instrument_uart_piano_top
+-- Compiling module instrument_uart_top
+-- Compiling module music_display_top
+-- Compiling module music_performance_core
+-- Compiling module music_uart_top
+-- Compiling module piano_13key_top
+-- Compiling module piano_hdmi_top
+-- Compiling module piano_performance_top
+-- Compiling module touch_report_cdc
+-- Compiling module touch_report_decode
+-- Compiling module touch_usb_control
+-- Compiling module touch_usb_host
+-- Compiling module touch_usb_link
+-- Compiling module touch_usb_port
+-- Compiling module touch_usb_system
+-- Compiling module usb_clock_60k
+-- Compiling module usb_fs_phy
+-- Compiling module usbh_crc16
+-- Compiling module usbh_crc5
+-- Compiling module usbh_sie
+-- Compiling module sample_tick_tb
+-- Compiling module synth_top_tb
+-- Compiling module tb_audio_boundaries
+-- Compiling module audio_boundary_source
+-- Compiling module audio_boundary_words
+-- Compiling module tb_dac_launch_timing
+-- Compiling module tb_delay_chorus
+-- Compiling module tb_effects_pa
+-- Compiling module tb_reverb_pa
+-- Compiling module tb_room_reverb
+-- Compiling module tb_tone_filter
+-- Compiling module allocator_review_case
+-- Compiling module tb_allocator_age
+-- Compiling module tb_allocator_owner
+-- Compiling module tb_allocator_expression_owner
+-- Compiling module tb_allocator_expression_reset
+-- Compiling module tb_allocator_trigger
+-- Compiling module tb_ble_event_arbiter
+-- Compiling module tb_brightness_keys
+-- Compiling module tb_controls_reference
+-- Compiling module tb_event_encoder_equivalence
+-- Compiling module tb_event_encoder
+-- Compiling module tb_four_source_arbiter
+-- Compiling module tb_input_sync_debounce
+-- Compiling module tb_knob_antijitter
+-- Compiling module tb_practice_guide
+-- Compiling module tb_touch_brightness
+-- Compiling module tb_touch_contact_tracker
+-- Compiling module tb_touch_report_cdc
+-- Compiling module tb_touch_report_decode
+-- Compiling module tb_touch_usb_host
+-- Compiling module tb_touch_usb_link
+-- Compiling module tb_touch_usb_wire
+-- Compiling module tb_uart_bytes
+-- Compiling module tb_uart_flow
+-- Compiling module tb_uart_line
+-- Compiling module tb_uart_protocol
+-- Compiling module tb_uart_replies
+-- Compiling module tb_usb_system_recovery
+-- Compiling module tb_voice_allocator
+-- Compiling module tb_controls_display_frame
+-- Compiling module tb_display_cdc
+-- Compiling module tb_display_feedback
+-- Compiling module tb_display_hdmi_frame
+-- Compiling module tb_display_renderer
+-- Compiling module tb_display_reset_gain
+-- Compiling module tb_display_timing
+-- Compiling module tb_display_wave
+-- Compiling module tb_dual16_hdmi
+-- Compiling module tb_effects_hdmi
+-- Compiling module tb_final_display_frame
+-- Compiling module tb_final_display_ui
+-- Compiling module tb_final_hdmi_isolation
+-- Compiling module tb_final_wave_envelope
+-- Compiling module tb_hdmi_audio_isolation
+-- Compiling module tb_hdmi_octaves
+-- Compiling module tb_hdmi_phy
+-- Compiling module tb_instrument_display
+-- Compiling module tb_meter_scale
+-- Compiling module tb_panel_octaves
+-- Compiling module tb_poly32_hdmi
+-- Compiling module tb_practice_display
+-- Compiling module tb_reverb_hdmi
+-- Compiling module tb_simple_display_frames
+-- Compiling module tb_simple_ui_map
+-- Compiling module tb_simple_ui_states
+-- Compiling module tb_tmds_encoder
+-- Compiling module tb_touch_display
+-- Compiling module tb_ui_map_equivalence
+-- Compiling module performance_adc_model
+-- Compiling module single_tone_demo_top
+-- Compiling module tb_architecture_equivalence
+-- Compiling module tb_architecture_startup
+-- Compiling module tb_architecture_ui
+-- Compiling module tb_audio_display_isolation
+-- Compiling module tb_audio_parameters
+-- Compiling module tb_audio_timing_equivalence
+-- Compiling module audio_timing_case
+-- Compiling module tb_ble_link
+-- Compiling module tb_controls_meter_hdmi
+-- Compiling module tb_event_selection_equivalence
+-- Compiling module event_selection_case
+-- Compiling module tb_expression_modal
+-- Compiling module tb_final_env_alignment
+-- Compiling module env_alignment_case
+-- Compiling module tb_final_modal_adapter
+-- Compiling module tb_final_performance
+-- Compiling module tb_instrument_presets
+-- Compiling module tb_modal_parameter_rom
+-- Compiling module tb_performance_adc
+-- Compiling module tb_performance_bank
+-- Compiling module tb_performance_brightness
+-- Compiling module tb_performance_control
+-- Compiling module tb_performance_latency
+-- Compiling module tb_performance_octaves
+-- Compiling module tb_performance_system
+-- Compiling module tb_piano_13_debounce
+-- Compiling module tb_piano_13_keys
+-- Compiling module tb_piano_latency
+-- Compiling module tb_single_tone_ab
+-- Compiling module tb_slider_controls_filtered
+-- Compiling module tb_slider_controls
+-- Compiling module slider_adc_model
+-- Compiling module tb_slider_guide_hdmi
+-- Compiling module tb_three_key_chords
+-- Compiling module tb_touch_hdmi_audio
+-- Compiling module tb_touch32_audio
+-- Compiling module tb_uart_instrument
+-- Compiling module tb_uart_instrument_115200
+-- Compiling module tb_uart_pa_drain
+-- Compiling module tb_uart_piano_board
+-- Compiling module tb_dual16_core
+-- Compiling module tb_dual16_rom
+-- Compiling module tb_dual16_snapshot
+-- Compiling module tb_merge32_rom_equivalence
+-- Compiling module tb_music_controls
+-- Compiling module tb_music_display_isolation
+-- Compiling module tb_music_local_controls
+-- Compiling module tb_music_pipe
+-- Compiling module tb_music_protocol
+-- Compiling module tb_music_recovery
+-- Compiling module tb_music_uart16
+-- Compiling module tb_poly32_core
+-- Compiling module ads1115_timed_model
+-- Compiling module tb_dual16_uart
+-- Compiling module tb_poly32_uart
+-- Compiling module tb_review_arithmetic
+-- Compiling module tb_review_dual_math
+-- Compiling module tb_review_dual_system
+-- Compiling module tb_review_dual_voice
+-- Compiling module tb_review_font
+-- Compiling module tb_review_hdmi_reset_recovery
+-- Compiling module tb_review_knob_latency
+-- Compiling module tb_review_layout
+-- Compiling module tb_review_uart_capacity_top
+-- Compiling module uart_capacity_case
+-- Compiling module tb_review_uart_capacity
+-- Compiling module tb_adsr_arithmetic
+-- Compiling module tb_adsr_env
+-- Compiling module adsr_wide_case
+-- Compiling module adsr_duration_case
+-- Compiling module instrument_bank_case
+-- Compiling module tb_instrument_bank
+-- Compiling module tb_instrument_preview
+-- Compiling module tb_instrument_wave
+-- Compiling module tb_phase_acc
+-- Compiling module tb_piano_tone
+-- Compiling module tb_sample_gain
+-- Compiling module mixer4_case
+-- Compiling module tb_sample_mixer4
+-- Compiling module timbre_bank_case
+-- Compiling module tb_timbre_bank
+-- Compiling module tb_timbre_preview
+-- Compiling module tb_voice_adsr
+-- Compiling module poly_adsr_case
+-- Compiling module tb_voice_bank_adsr
+-- Compiling module tb_voice_dds
+-- Compiling module tb_wave_lut_timbre
+-- Compiling module tb_wave_lut
+
+Top level modules:
+	voice_bank_instruments_timing_top
+	voice_bank_adsr_timing_top
+	sample_tick_tb
+	synth_top_tb
+	tb_audio_boundaries
+	tb_dac_launch_timing
+	tb_delay_chorus
+	tb_effects_pa
+	tb_reverb_pa
+	tb_room_reverb
+	tb_tone_filter
+	tb_allocator_age
+	tb_allocator_owner
+	tb_allocator_expression_owner
+	tb_allocator_expression_reset
+	tb_allocator_trigger
+	tb_ble_event_arbiter
+	tb_brightness_keys
+	tb_controls_reference
+	tb_event_encoder_equivalence
+	tb_event_encoder
+	tb_four_source_arbiter
+	tb_input_sync_debounce
+	tb_knob_antijitter
+	tb_practice_guide
+	tb_touch_brightness
+	tb_touch_contact_tracker
+	tb_touch_report_cdc
+	tb_touch_report_decode
+	tb_touch_usb_host
+	tb_touch_usb_link
+	tb_touch_usb_wire
+	tb_uart_bytes
+	tb_uart_flow
+	tb_uart_line
+	tb_uart_protocol
+	tb_uart_replies
+	tb_usb_system_recovery
+	tb_voice_allocator
+	tb_controls_display_frame
+	tb_display_cdc
+	tb_display_feedback
+	tb_display_hdmi_frame
+	tb_display_renderer
+	tb_display_reset_gain
+	tb_display_timing
+	tb_display_wave
+	tb_dual16_hdmi
+	tb_effects_hdmi
+	tb_final_display_frame
+	tb_final_display_ui
+	tb_final_hdmi_isolation
+	tb_final_wave_envelope
+	tb_hdmi_audio_isolation
+	tb_hdmi_octaves
+	tb_hdmi_phy
+	tb_instrument_display
+	tb_meter_scale
+	tb_panel_octaves
+	tb_poly32_hdmi
+	tb_practice_display
+	tb_reverb_hdmi
+	tb_simple_display_frames
+	tb_simple_ui_map
+	tb_simple_ui_states
+	tb_tmds_encoder
+	tb_touch_display
+	tb_ui_map_equivalence
+	tb_architecture_equivalence
+	tb_architecture_startup
+	tb_architecture_ui
+	tb_audio_display_isolation
+	tb_audio_parameters
+	tb_audio_timing_equivalence
+	tb_ble_link
+	tb_controls_meter_hdmi
+	tb_event_selection_equivalence
+	tb_expression_modal
+	tb_final_env_alignment
+	tb_final_modal_adapter
+	tb_final_performance
+	tb_instrument_presets
+	tb_modal_parameter_rom
+	tb_performance_adc
+	tb_performance_bank
+	tb_performance_brightness
+	tb_performance_control
+	tb_performance_latency
+	tb_performance_octaves
+	tb_performance_system
+	tb_piano_13_debounce
+	tb_piano_13_keys
+	tb_piano_latency
+	tb_single_tone_ab
+	tb_slider_controls_filtered
+	tb_slider_guide_hdmi
+	tb_three_key_chords
+	tb_touch_hdmi_audio
+	tb_touch32_audio
+	tb_uart_instrument_115200
+	tb_uart_pa_drain
+	tb_uart_piano_board
+	tb_dual16_core
+	tb_dual16_rom
+	tb_dual16_snapshot
+	tb_merge32_rom_equivalence
+	tb_music_controls
+	tb_music_display_isolation
+	tb_music_local_controls
+	tb_music_pipe
+	tb_music_protocol
+	tb_music_recovery
+	tb_music_uart16
+	tb_poly32_core
+	tb_dual16_uart
+	tb_poly32_uart
+	tb_review_arithmetic
+	tb_review_dual_math
+	tb_review_dual_system
+	tb_review_dual_voice
+	tb_review_font
+	tb_review_hdmi_reset_recovery
+	tb_review_knob_latency
+	tb_review_layout
+	tb_review_uart_capacity_top
+	tb_review_uart_capacity
+	tb_adsr_arithmetic
+	tb_adsr_env
+	tb_instrument_bank
+	tb_instrument_preview
+	tb_instrument_wave
+	tb_phase_acc
+	tb_piano_tone
+	tb_sample_gain
+	tb_sample_mixer4
+	tb_timbre_bank
+	tb_timbre_preview
+	tb_voice_adsr
+	tb_voice_bank_adsr
+	tb_voice_dds
+	tb_wave_lut_timbre
+	tb_wave_lut
+End time: 18:55:32 on Oct 24,2026, Elapsed time: 0:00:01
+Errors: 0, Warnings: 0

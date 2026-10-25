@@ -53,6 +53,37 @@ module touch_contact_tracker #(
     // 7bit音符槽地址 = 槽号*7。明确写成移位减法，避免综合成乘法DSP。
     wire [6:0] note_offset={index,3'b000}-{3'd0,index};
     wire [6:0] free_note_offset={free_index,3'b000}-{3'd0,free_index};
+    // 同一槽号只解码一次；固定切片按独热掩码汇总，避免每个字段各自做动态移位。
+    // 仍为组合读取，不增加快照处理、事件或取消的拍数。
+    wire [CONTACTS-1:0] index_select;
+    genvar slot;
+    generate for(slot=0;slot<CONTACTS;slot=slot+1)begin:g_index
+        assign index_select[slot]=(index==slot);
+    end endgenerate
+    reg index_occupied,index_active,index_held,index_blocked,index_frozen,index_mode;
+    reg [7:0] index_old_id,index_new_id;
+    reg [6:0] index_note;
+    reg [3:0] index_key;
+    reg [11:0] index_x,index_y;
+    integer selected_slot;
+    always @(*)begin
+        index_occupied=0;index_active=0;index_held=0;index_blocked=0;index_frozen=0;index_mode=0;
+        index_old_id=0;index_new_id=0;index_note=0;index_key=0;index_x=0;index_y=0;
+        for(selected_slot=0;selected_slot<CONTACTS;selected_slot=selected_slot+1)begin
+            index_occupied=index_occupied | (index_select[selected_slot] & occupied[selected_slot]);
+            index_active=index_active | (index_select[selected_slot] & active_q[selected_slot]);
+            index_held=index_held | (index_select[selected_slot] & held[selected_slot]);
+            index_blocked=index_blocked | (index_select[selected_slot] & blocked[selected_slot]);
+            index_frozen=index_frozen | (index_select[selected_slot] & frozen[selected_slot]);
+            index_mode=index_mode | (index_select[selected_slot] & mode_mem[selected_slot]);
+            index_old_id=index_old_id | ({8{index_select[selected_slot]}} & id_mem[selected_slot*8+:8]);
+            index_new_id=index_new_id | ({8{index_select[selected_slot]}} & id_q[selected_slot*8+:8]);
+            index_note=index_note | ({7{index_select[selected_slot]}} & note_mem[selected_slot*7+:7]);
+            index_key=index_key | ({4{index_select[selected_slot]}} & key_mem[selected_slot*4+:4]);
+            index_x=index_x | ({12{index_select[selected_slot]}} & x_q[selected_slot*12+:12]);
+            index_y=index_y | ({12{index_select[selected_slot]}} & y_q[selected_slot*12+:12]);
+        end
+    end
     integer k,j;
     assign frame_ready=state==IDLE && connected && !stream_error && !abort_pending;
     assign event_valid=state==SEND;
@@ -70,9 +101,9 @@ module touch_contact_tracker #(
         match_found=0;match_index=0;exists=0;free_found=0;free_index=0;duplicate=0;
         map_x=12'hfff;map_y=12'hfff;
         for(k=0;k<CONTACTS;k=k+1)begin
-            if(index<CONTACTS && occupied[index] && active_q[k] &&
-               id_mem[index*8+:8]==id_q[k*8+:8])begin match_found=1;match_index=k;end
-            if(index<CONTACTS && occupied[k] && id_mem[k*8+:8]==id_q[index*8+:8])exists=1;
+            if(index<CONTACTS && index_occupied && active_q[k] &&
+               index_old_id==id_q[k*8+:8])begin match_found=1;match_index=k;end
+            if(index<CONTACTS && occupied[k] && id_mem[k*8+:8]==index_new_id)exists=1;
             if(!occupied[k] && !free_found)begin free_found=1;free_index=k;end
             for(j=k+1;j<CONTACTS;j=j+1)
                 if(active_q[k] && active_q[j] && id_q[k*8+:8]==id_q[j*8+:8])duplicate=1;
@@ -80,7 +111,7 @@ module touch_contact_tracker #(
         if((state==OLD || state==REON) && match_found)begin
             map_x=x_q[match_index*12+:12];map_y=y_q[match_index*12+:12];
         end else if(state==NEW && index<CONTACTS)begin
-            map_x=x_q[index*12+:12];map_y=y_q[index*12+:12];
+            map_x=index_x;map_y=index_y;
         end
     end
     always @(posedge clk or negedge rst_n)begin
@@ -109,23 +140,23 @@ module touch_contact_tracker #(
                 end
                 OLD:begin
                     if(index==CONTACTS)begin index<=0;state<=NEW;end
-                    else if(!occupied[index])index<=index+1'b1;
+                    else if(!index_occupied)index<=index+1'b1;
                     else if(!match_found)begin
                         occupied[index]<=0;held[index]<=0;
-                        if(held[index])begin
+                        if(index_held)begin
                             event_on<=0;event_source<=8'h40+{4'd0,index};
-                            event_note<=note_mem[note_offset+:7];event_guitar<=mode_mem[index];
+                            event_note<=index_note;event_guitar<=index_mode;
                             state<=SEND;resume_state<=OLD;
                         end
                         index<=index+1'b1;
-                    end else if(blocked[index] || frozen[index] || mode_mem[index]!=mode_q)begin
-                        if(mode_mem[index]!=mode_q)frozen[index]<=1;
+                    end else if(index_blocked || index_frozen || index_mode!=mode_q)begin
+                        if(index_mode!=mode_q)frozen[index]<=1;
                         index<=index+1'b1;
-                    end else if(held[index] && (!map_note || key_mem[index*4+:4]!=map_index))begin
+                    end else if(index_held && (!map_note || index_key!=map_index))begin
                         event_on<=0;event_source<=8'h40+{4'd0,index};
-                        event_note<=note_mem[note_offset+:7];event_guitar<=mode_mem[index];
+                        event_note<=index_note;event_guitar<=index_mode;
                         held[index]<=0;state<=SEND;resume_state<=REON;
-                    end else if(!held[index] && map_note)begin
+                    end else if(!index_held && map_note)begin
                         held[index]<=1;note_mem[note_offset+:7]<=target_note;key_mem[index*4+:4]<=map_index;
                         event_on<=1;event_source<=8'h40+{4'd0,index};
                         event_note<=target_note;event_guitar<=mode_q;
@@ -142,10 +173,10 @@ module touch_contact_tracker #(
                 end
                 NEW:begin
                     if(index==CONTACTS)state<=IDLE;
-                    else if(!active_q[index] || exists)index<=index+1'b1;
+                    else if(!index_active || exists)index<=index+1'b1;
                     else if(!free_found)begin state<=CANCEL;fault<=1;end
                     else begin
-                        occupied[free_index]<=1;id_mem[free_index*8+:8]<=id_q[index*8+:8];
+                        occupied[free_index]<=1;id_mem[free_index*8+:8]<=index_new_id;
                         mode_mem[free_index]<=mode_q;frozen[free_index]<=0;
                         blocked[free_index]<=map_control!=0;held[free_index]<=map_note;
                         note_mem[free_note_offset+:7]<=target_note;

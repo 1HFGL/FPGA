@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "case": "ball",
+      "rejected": [
+        "Pin missing/moved/unconstrained: usb_touch_dp",
+        "USB pin direction/bank/bias mismatch: usb_touch_dp"
+      ]
+    },
+    {
+      "case": "bank",
+      "rejected": [
+        "USB pin direction/bank/bias mismatch: usb_touch_dp"
+      ]
+    },
+    {
+      "case": "direction",
+      "rejected": [
+        "USB pin direction/bank/bias mismatch: usb_touch_dp"
+      ]
+    },
+    {
+      "case": "standard",
+      "rejected": [
+        "USB pin direction/bank/bias mismatch: usb_touch_dp"
+      ]
+    },
+    {
+      "case": "bias",
+      "rejected": [
+        "USB pin direction/bank/bias mismatch: usb_touch_dp"
+      ]
+    },
+    {
+      "case": "voltage",
+      "rejected": [
+        "USB pin direction/bank/bias mismatch: usb_touch_dp"
+      ]
+    },
+    {
+      "case": "usb_clock_missing",
+      "rejected": [
+        "Clock summary failed: usb_clk Setup"
+      ]
+    },
+    {
+      "case": "inactive_constraint",
+      "rejected": [
+        "Expected 28 active constraints, got 27"
+      ]
+    }
+  ],
+  "checker_sha256": "2feebc526a3f21284d1f78e51820cd5d8fc342aeb9c577139014c352df040d07",
+  "real_report_sha256": "31294930cb958b1db159a818cfba64bd242d9912b9d06f58d268bead4879f20f"
+}

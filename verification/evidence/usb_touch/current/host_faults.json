@@ -1,0 +1,62 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "case": "normal",
+      "status": "PASS",
+      "result": "# PASS tb_touch_usb_host: EP0 multi-packet, address, config parsing, NAK/CRC/duplicate retries, SET_IDLE STALL, short packet recovery, backpressure, detach/re-enumeration/reset reports=14"
+    },
+    {
+      "case": "wrong_vid",
+      "status": "PASS",
+      "result": "# PASS tb_touch_usb_host: rejected fault=1; bounded re-enumeration, no report publication"
+    },
+    {
+      "case": "zero_descriptor_length",
+      "status": "PASS",
+      "result": "# PASS tb_touch_usb_host: rejected fault=2; bounded re-enumeration, no report publication"
+    },
+    {
+      "case": "bulk_endpoint",
+      "status": "PASS",
+      "result": "# PASS tb_touch_usb_host: rejected fault=3; bounded re-enumeration, no report publication"
+    },
+    {
+      "case": "wrong_feature_count",
+      "status": "PASS",
+      "result": "# PASS tb_touch_usb_host: rejected fault=4; bounded re-enumeration, no report publication"
+    },
+    {
+      "case": "set_config_stall",
+      "status": "PASS",
+      "result": "# PASS tb_touch_usb_host: rejected fault=5; bounded re-enumeration, no report publication"
+    },
+    {
+      "case": "persistent_nak_deadline",
+      "status": "PASS",
+      "result": "# PASS tb_touch_usb_host: rejected fault=6; bounded re-enumeration, no report publication"
+    },
+    {
+      "case": "control_errors",
+      "status": "PASS",
+      "result": "# PASS tb_touch_usb_host: rejected fault=7; bounded re-enumeration, no report publication"
+    },
+    {
+      "case": "poll_error_budget",
+      "status": "PASS",
+      "result": "# PASS tb_touch_usb_host: rejected fault=8; bounded re-enumeration, no report publication"
+    },
+    {
+      "case": "poll_stall",
+      "status": "PASS",
+      "result": "# PASS tb_touch_usb_host: rejected fault=9; bounded re-enumeration, no report publication"
+    }
+  ],
+  "simulator": "ModelSim strict Verilog-2001",
+  "inputs": {
+    "rtl\\usb\\touch_usb_host.v": "289be945920145c373e93674b59a5dd5874f0ecc6d1cd174052378473396b00e",
+    "rtl\\usb\\touch_usb_control.v": "fad4815d1f23c2e5ba5da11ea9b1864834a349bac71a1fc5ab5d7fb5601a0932",
+    "verification\\tb\\control\\tb_touch_usb_host.v": "47ef31347f31254b4a1ca2a2d497a95029cf43963de745236a6f30031fe7d849",
+    "verification\\scripts\\check_usb_host_faults.py": "cc4c1e044c14217be39caf3e9b7e26688ed05bc3bdf25e592a51e334a8d21283"
+  }
+}

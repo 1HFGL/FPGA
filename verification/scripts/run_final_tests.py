@@ -7,6 +7,11 @@ p = argparse.ArgumentParser()
 p.add_argument('tops', nargs='+')
 p.add_argument('--bin', default='C:/Library/modelsim/win64')
 p.add_argument('--gowin-simlib', default='D:/Gowin/Gowin_V1.9.12.04_x64/IDE/simlib/gw5a/prim_sim.v')
+p.add_argument('--out', default='build/regression/final')
+p.add_argument('--timeout', type=int, default=1800)
+p.add_argument('--functional-rom', action='store_true', help='Qualified simulation-only ROM; never a synthesis input')
+p.add_argument('--usb-fault', type=int, choices=range(10), help='Existing USB host fault parameter, without editing the TB')
+p.add_argument('--plusarg', action='append', default=[], help='Simulation plusarg, e.g. COUNT=2031')
 p.add_argument('--voices16', action='store_true', help='Explicit historical 16-voice formal-top contract')
 p.add_argument('--dry', action='store_true', help='Disable all effects explicitly for unchanged dry contract tests')
 p.add_argument('--reverb-only', action='store_true', help='Disable chorus and delay for unchanged room-only contract tests')
@@ -14,7 +19,7 @@ p.add_argument('--legacy', action='store_true', help='Run an unchanged historica
 p.add_argument('--mutation', choices=['None','Preset','Release','Wave','Env','TouchRelease','BleCancel','GuideAdvance','HdmiRecovery'], default='None')
 a = p.parse_args()
 if sum((a.dry,a.legacy,a.reverb_only))>1:raise SystemExit('Use separate dry, legacy and reverb-only runs')
-OUT = ROOT / 'build/regression/final'
+OUT = ROOT / a.out
 OUT.mkdir(parents=True, exist_ok=True)
 sources = sorted(ROOT.glob('rtl/**/*.v'))
 for top in a.tops:
@@ -24,9 +29,28 @@ for top in a.tops:
     tb = candidates[0]
     if top=='tb_dual16_hdmi':(ROOT/'build/regression/dual16').mkdir(parents=True,exist_ok=True)
     if top=='tb_poly32_hdmi':(ROOT/'build/regression/poly32').mkdir(parents=True,exist_ok=True)
-    tag=top+('_voices16' if a.voices16 else '')+('_dry' if a.dry else '')+('_legacy' if a.legacy else '')+('_reverb_only' if a.reverb_only else '')+('_'+a.mutation if a.mutation!='None' else '')
+    tag=top+('_voices16' if a.voices16 else '')+('_dry' if a.dry else '')+('_legacy' if a.legacy else '')+('_reverb_only' if a.reverb_only else '')+('_'+a.mutation if a.mutation!='None' else '')+('_fault'+str(a.usb_fault) if a.usb_fault is not None else '')
     lib = (OUT / (tag + '_work')).relative_to(ROOT).as_posix()
     test_sources=list(sources)
+    rom_inputs=[]
+    if a.functional_rom or top=='tb_merge32_rom_equivalence':
+        if a.mutation!='None':raise SystemExit('Use separate ROM qualification and mutation runs')
+        from functional_dual_rom import generate
+        model,data=generate(ROOT,OUT/tag)
+        physical=ROOT/'rtl/rom/modal_coeff_rom_dual.v'
+        test_sources=[model if f==physical else f for f in test_sources]
+        rom_inputs=data+[physical,ROOT/'verification/scripts/functional_dual_rom.py',ROOT/'rtl/rom/piano_v3_modes.mem']
+        if top=='tb_merge32_rom_equivalence':
+            reference=OUT/'modal_coeff_rom_dual_vendor.v'
+            reference.write_bytes(physical.read_bytes().replace(b'module modal_coeff_rom_dual(',b'module modal_coeff_rom_dual_vendor('))
+            test_sources.append(reference)
+        else:
+            certificate=json.loads((ROOT/'verification/evidence/usb_touch/rom_qualification.json').read_text(encoding='utf-8'))
+            if certificate['status']!='PASS':raise SystemExit('ROM model is not qualified')
+            hashes={k.replace('\\','/'):v for k,v in certificate['inputs'].items()}
+            for f in rom_inputs[2:]:
+                key=f.relative_to(ROOT).as_posix()
+                if hashes.get(key)!=hashlib.sha256(f.read_bytes()).hexdigest():raise SystemExit('ROM qualification stale: '+key)
     if top in ('tb_poly32_core','tb_dual16_core','tb_dual16_snapshot'):
         # Compare against the exact pre-optimization algorithm, never against a
         # second instance of the rewritten pipeline.
@@ -66,13 +90,13 @@ for top in a.tops:
     def run(exe, args, log):
         with log.open('w', encoding='utf-8') as f:
             result = subprocess.run([str(Path(a.bin) / (exe + '.exe')), *args],
-                                    cwd=ROOT, stdout=f, stderr=subprocess.STDOUT)
+                                    cwd=ROOT, stdout=f, stderr=subprocess.STDOUT, timeout=a.timeout)
         body = log.read_text(errors='replace')
         if result.returncode or re.search(r'\bFAIL\b|\*\* (Error|Fatal):', body):
             print(body[-5000:]); raise SystemExit('Failed: ' + str(log))
         return body
     support = [ROOT/'verification/tb/integration/performance_adc_model.v'] if top in ('tb_final_performance','tb_performance_adc','tb_performance_octaves') else []
-    if top=='tb_slider_guide_hdmi':support.append(ROOT/'verification/tb/integration/tb_slider_controls.v')
+    if top in ('tb_slider_guide_hdmi','tb_slider_controls_filtered','tb_controls_meter_hdmi'):support.append(ROOT/'verification/tb/integration/tb_slider_controls.v')
     if top=='tb_review_knob_latency':support.append(ROOT/'verification/tb/review/ads1115_timed_model.v')
     sim_top=top
     if a.legacy:
@@ -117,12 +141,14 @@ for top in a.tops:
         support.append(wrapper)
     vendor=Path(a.gowin_simlib) if top in (
         'tb_review_hdmi_reset_recovery','tb_slider_guide_hdmi','tb_dual16_snapshot','tb_dual16_uart','tb_dual16_core','tb_dual16_rom','tb_dual16_hdmi','tb_poly32_hdmi','tb_effects_hdmi','tb_reverb_hdmi','tb_touch_hdmi_audio','tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
-    inputs = [*test_sources, *support, tb, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem')]+([vendor] if vendor else [])
+    if 'hdmi' in top or top in ('tb_merge32_rom_equivalence','tb_three_key_chords','tb_usb_system_recovery'):vendor=Path(a.gowin_simlib)
+    inputs = [*test_sources, *support, tb, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem'), *rom_inputs]+([vendor] if vendor else [])
     (OUT / (tag + '_inputs.json')).write_text(json.dumps({
         'flags': '-vlog01compat -pedanticerrors',
         'voices16':a.voices16,
         'mode':'explicit dry compatibility' if a.dry else ('explicit legacy compatibility' if a.legacy else ('explicit reverb-only compatibility' if a.reverb_only else 'current integration')),
         'mutation':a.mutation,
+        'functional_rom':a.functional_rom, 'usb_fault':a.usb_fault, 'plusargs':a.plusarg,
         'sha256': {(str(f.relative_to(ROOT)) if f.is_relative_to(ROOT) else str(f)): hashlib.sha256(f.read_bytes()).hexdigest() for f in inputs}}, indent=2))
     if not (ROOT / lib / '_info').exists():
         run('vlib', [lib], OUT / (tag + '_vlib.log'))
@@ -141,7 +167,12 @@ for top in a.tops:
         if failure not in body or 'PASS '+top in body:raise SystemExit('Fault not rejected by intended checker: '+tag)
         print('PASS negative '+a.mutation+': '+failure,flush=True)
         continue
-    body = run('vsim', ['-c', '-lib', lib, sim_top, '-l', str(OUT / (tag + '.log')),
+    sim_args=[]
+    if a.usb_fault is not None:
+        if top!='tb_touch_usb_host':raise SystemExit('--usb-fault requires tb_touch_usb_host')
+        sim_args.append('-gFAULT='+str(a.usb_fault))
+    sim_args.extend('+'+x for x in a.plusarg)
+    body = run('vsim', ['-c', '-lib', lib, sim_top, *sim_args, '-l', str(OUT / (tag + '.log')),
         '-wlf', str(OUT / (tag + '.wlf')), '-do', 'do {' + macro.as_posix() + '}'],
         OUT / (tag + '_console.log'))
     marker='PASS: tb_voice_allocator_32' if top=='tb_voice_allocator' else 'PASS '+top

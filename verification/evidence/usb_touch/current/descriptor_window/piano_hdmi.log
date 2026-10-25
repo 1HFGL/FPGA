@@ -1,0 +1,21 @@
+Reading netlist file: "D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\projects\hdmi\impl\gwsynthesis\piano_hdmi.vg"
+Parsing netlist file "D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\projects\hdmi\impl\gwsynthesis\piano_hdmi.vg" completed
+Processing netlist completed
+Reading constraint file: "D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\build\hdmi\piano_hdmi.cst"
+Physical Constraint parsed completed
+Running placement......
+[10%] Placement Phase 0 completed
+[20%] Placement Phase 1 completed
+[30%] Placement Phase 2 completed
+[50%] Placement Phase 3 completed
+Running routing......
+[60%] Routing Phase 0 completed
+[70%] Routing Phase 1 completed
+[80%] Routing Phase 2 completed
+[90%] Routing Phase 3 completed
+ERROR  (PR0004) : There are total 3440 unrouted nets
+Generate file "D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\projects\hdmi\impl\pnr\piano_hdmi.pin.html" completed
+Generate file "D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\projects\hdmi\impl\pnr\piano_hdmi.rpt.html" completed
+Generate file "D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\projects\hdmi\impl\pnr\piano_hdmi.rpt.txt" completed
+Sat Oct 24 19:52:17 2026
+

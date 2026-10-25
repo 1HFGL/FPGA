@@ -1,34 +1,42 @@
 # 高云 FPGA 双音色电子乐器
 
-## 最新交接：USB触摸源码先上传，未完成事项（2026-10-24）
+## 当前版本：2026-10-25 时序优化与功能审查
 
-**本次按用户要求先上传 master，是源码检查点，不是已验收的触摸固件发布。用户正在收设备，禁止继续烧录；再次上板必须等用户重新授权。** 保留当前实物引脚和双16并行32声部，已写入独立USB主机、这块屏的HID报告适配、六触点与实体/PC/BLE共享声部池的接入代码。
+唯一正式工程仍为 `projects/hdmi/piano_hdmi.gprj`。本轮比较八组方案后采用“帧内数字预计算＋触点槽位共用译码”，保留32声部钢琴/吉他、合唱/延迟/混响、三个实体表情控制及四来源音符。接线、音色系数和R955音频合同保持。
 
-- 当前接线：白键 `C19 D19 C20 F19 E17 F14 D16 D15`；黑键 `C18 E19 D20 F15 F16`；ADC `B20/A21`；蓝牙模块 RXD→`C13`、TXD→`C14`、STATE→`C15`。USB新增 D+→`H13`、D−→`G13`，Bank4/3.3V，已用纯输入探测确认插拔电平；**未在板上运行新USB驱动**。
-- 屏幕为 `1A86:E5E3`，52字节、六触点完整快照。已离线验证完整 D+/D− 枚举、455字节描述符多包读取、CRC/重复包/NAK/STALL、断线重连；修复主机SOF干扰拔线计时的问题。1825份真实报告＋206组边界向量、9类非法设备/重试故障、1000次跨时钟报告、四来源仲裁、触摸与实体/电脑填满32槽及第33音抢占通过。
-- 已完成的32声部集成测试保持音频缓存 **R955**，HDMI 17轮恢复及BLE隔离回归通过。长音频仿真使用经过实际双口RAM逐地址等价检查的仿真ROM，正式Gowin使用实际RAM。ModelSim缺失，本机是Icarus `-g2001`，不称严格ModelSim检查通过。
-- 完整带屏工程本轮已综合出网表，**上传时仍在布局布线，完整HDMI集成回归也尚未给出结果**。39引脚/28约束和五类时序尚未签核；没有发布本轮USB新fs。已有fs、旧试听包及`build/hdmi/latest_build.json`可能仍对应前一版，不能据文件存在认定USB版已完成。
+候选、独立确认及正式重建的资源/余量一致：**Setup 0.300→1.111ns，最薄0.143→0.162ns**；Logic增加120至44120，FF减少6至20376，BSRAM93、DSP35.5不变。这是空间换时序，未宣称所有资源/余量都改善。242份严格Verilog编译、11项当前功能检查及DAC数字正反测试通过；旧坐标TB的既有失败另行记录。[全部对照与复现命令](docs/verification.md#2026-10-25-多方案时序与资源对照)。
 
-### 下次继续做什么
+当前生成位流为 `projects/hdmi/impl/pnr/piano_hdmi.fs`，SHA256 `edb155011e52df4d7670275ca1e263f0bcf72248f1c0161000c5dc3e874d761c`；[身份与证据](verification/evidence/timing_candidates/summary.json)。本轮未推送、打下载包或烧录。本轮临时备份及候选完整工程已删除。
 
-1. 先读 `docs/usb-touch-driver.md` 和 `verification/evidence/usb_touch/summary.json`。核实本地尚在运行的构建/仿真是否完成；若进程已退出或输入改变，重跑下面命令。不要沿用旧报告冒充新构建结果。
-2. 完成唯一正式工程 `projects/hdmi/piano_hdmi.gprj` 的综合、布局布线，检查全部时钟、USB同步器/CDC、实际H13/G13与原37引脚、28条约束和五类余量；失败先定位原因，不能放宽原SDC或改动音色核心凑通过。
-3. 跑完当前完整HDMI集成回归、USB引脚/时序负向检查及旧接线合同，整理构建输入哈希和新fs身份，更新本交接及验证文档。确认通过后再发布新fs，本检查点没有可宣称已验收的USB触摸下载包。
-4. 用户重新允许上板后，才测试屏幕USB直接接开发板的单指/六指、滑奏、逐个松开、拔插恢复、触摸与实体混弹；分别实测实体键及触摸键到模拟音频的总延迟。USB1ms轮询不是总延迟≤10ms的证据。
-5. 仍待实测：偶发三个实体键触发一团和弦（仿真未复现）；绿联蓝牙首次起音恢复（用户已确认有线耳机首键正常）；旋钮滤波力度与输出条观感。当前触摸只负责虚拟琴键/吉他音垫，音区/音色仍用KEY1/KEY2，明亮度仍用AIN2实体滑条，未接触摸参数控件。
+**仍未完成**：屏幕延音及模式/音区触摸控件；USB触摸独立实物验收、实体/触摸到模拟输出的总延迟；PR1014和完整DAC板外时序。正式ADSR固定预设的D/S展示口径、PT8211右对齐与赛题I2S口径也要确认。PC/BLE可演奏和查状态，远程APPLY配置尚不支持。R955约19.1µs，只是内部缓存时刻，不能替代整机≤10ms实测。下方旧日期的资源、位流及16声部记录为历史。
+
+
+## 2026-10-24 master同步与USB离线收尾完成
+
+已快进同步远端 master 至 `df0e894`，在此基础上完成 USB 资源/输出时序修复。32声部采用两组16声部并行，钢琴/吉他、默认合唱/延迟/混响、AIN2明亮度及四来源演奏保留，音频缓存仍为 R955；导奏保持关闭。
+
+正式改动仅 USB 配置描述符共用逐字节读取口、USB D+/D−与输出使能一起寄存，及 Route 1→2（Place3/ClockOrder0不变）。描述符解析每项多9个48MHz周期，正常轮询不改；引脚发送统一延后一拍20.833ns，复位立即高阻。357份既有保护文件逐字节保持，含A音色/ROM、既有TB、引脚和SDC，未放宽约束。
+
+239份严格Verilog-2001、17项主回归、2031组触摸报告、9类USB故障及HDMI恢复故障注入通过。独立候选与正式全量重建通过原39引脚/28条约束检查；正式Logic 44000/59904、FF 20382/60780、BSRAM 93/118、DSP 35.5/118。Setup/Hold/Recovery/Removal/Pulse为 **0.300/0.191/0.642/0.143/5.799ns**，余量仍有限，不能称全面签核。
+
+正式位流仅由构建生成于 `projects/hdmi/impl/pnr/piano_hdmi.fs`，SHA256 `6d9f9621418d95ee4b479ddae7dbab9ece65aa8dc206d169688986c0b0dbf58b`。未打下载包、未烧录、未做实物验收；USB六指/滑奏/方向校准、实体偶发串音、蓝牙首音、PR1014、完整DAC板外时序与实体/触摸整机延迟仍待验证。禁止继续烧录的用户要求仍有效。证据见 `verification/evidence/usb_touch/summary.json`。
 
 本机离线续跑命令（换电脑需替换工具路径）：
 
 ```powershell
-$pythonExe = 'C:/Users/32215/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
-./projects/hdmi/build.ps1 -Gowin 'D:/Library/gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe' -Python $pythonExe
-& $pythonExe verification/scripts/check_touch_reports.py
-& $pythonExe verification/scripts/check_usb_host_faults.py
-& $pythonExe verification/scripts/run_controls_meter.py --out build/touch_driver_20261024/wire --timeout 300 tb_touch_usb_wire
-& $pythonExe verification/scripts/run_controls_meter.py --out build/touch_driver_20261024/final_regression --functional-rom --timeout 1800 tb_touch32_audio tb_controls_meter_hdmi tb_review_hdmi_reset_recovery tb_ble_link tb_four_source_arbiter tb_touch_report_cdc tb_touch_usb_link
+$pythonExe = 'C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
+./verification/scripts/check_verilog.ps1
+./projects/hdmi/build.ps1 -Gowin 'D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe' -Python $pythonExe
+& $pythonExe verification/scripts/check_touch_reports.py --modelsim-bin C:/Library/modelsim/win64
+& $pythonExe verification/scripts/check_usb_host_faults.py --modelsim-bin C:/Library/modelsim/win64
+& $pythonExe verification/scripts/run_final_tests.py --out build/usb_finish_20261024/regression tb_merge32_rom_equivalence tb_touch_usb_wire tb_touch_usb_host tb_touch_usb_link tb_touch_report_cdc tb_four_source_arbiter tb_review_hdmi_reset_recovery
+& $pythonExe verification/scripts/run_final_tests.py --out build/usb_finish_20261024/system tb_usb_system_recovery tb_usb_descriptor_serial tb_usb_port_outputs
+& $pythonExe verification/scripts/run_final_tests.py --out build/usb_finish_20261024/integration --functional-rom tb_touch32_audio tb_controls_meter_hdmi tb_ble_link tb_three_key_chords tb_dual16_core tb_dual16_snapshot tb_dual16_hdmi
 # 仅在正式构建的 implementation_check.json 通过后运行：
 & $pythonExe verification/scripts/check_usb_implementation_faults.py
 & $pythonExe verification/scripts/check_j13_wiring.py --report projects/hdmi/impl/pnr/piano_hdmi.rpt.txt --negative-control
+# 只收集DAC数字证据；allow-incomplete不代表板外签核通过。
+& $pythonExe verification/scripts/check_dac_timing.py --run --allow-incomplete
 ```
 
 第三方USB传输层的来源、版本及GPL/LGPL/Apache版权声明保留在 `rtl/usb/vendor/`，不是本项目原创算法。下文的fs、资源和“尚无USB主机”等描述为之前版本的历史记录，以本交接和新验证证据为准。

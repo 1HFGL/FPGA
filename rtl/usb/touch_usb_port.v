@@ -15,8 +15,16 @@ module touch_usb_port(
  wire [63:0] cb;wire [15:0] count;wire [511:0] payload;
  wire [1:0] phy_line;
  wire phy_rst_n=rst_n && !bus_reset;
- assign usb_dp=!rst_n?1'bz:bus_reset?1'b0:!oe?dp_out:1'bz;
- assign usb_dm=!rst_n?1'bz:bus_reset?1'b0:!oe?dm_out:1'bz;
+ // 数据与使能统一寄存到引脚边界，切断高扇出复位经组合逻辑直达IO的长路径。
+ // 三个信号一起延后一个48MHz周期，保持USB位宽/数据与使能的相对时刻。
+ // 异步复位仍立即释放总线，即使时钟停止也不会持续驱动D+/D-。
+ reg pin_drive,pin_dp,pin_dm;
+ always @(posedge clk or negedge rst_n)begin
+  if(!rst_n)begin pin_drive<=0;pin_dp<=0;pin_dm<=0;end
+  else begin pin_drive<=bus_reset || !oe;pin_dp<=bus_reset?1'b0:dp_out;pin_dm<=bus_reset?1'b0:dm_out;end
+ end
+ assign usb_dp=pin_drive?pin_dp:1'bz;
+ assign usb_dm=pin_drive?pin_dm:1'bz;
  // Observe the bus even while the PHY is held in reset; the controller suppresses
  // detach classification during its own reset interval.
  reg [1:0] line_meta,line_sync;

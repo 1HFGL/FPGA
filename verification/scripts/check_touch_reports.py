@@ -1,9 +1,11 @@
 """Replay actual WCH reports and independent six-slot boundary/fault vectors."""
 from pathlib import Path
-import argparse,json,random,subprocess,hashlib
+import argparse,json,random,subprocess,hashlib,sys
 ROOT=Path(__file__).resolve().parents[2];OUT=ROOT/'build/touch_driver_20261024'
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--capture',type=Path,help='Optional RawInput JSONL capture; default is the committed raw-report fixture')
+parser.add_argument('--modelsim-bin',type=Path,help='Use strict ModelSim instead of the Icarus fallback')
+parser.add_argument('--bin',type=Path,default=Path('D:/iverilog/bin'),help='Icarus executable directory')
 args=parser.parse_args()
 source=args.capture or ROOT/'verification/data/touch_wch_1a86_e5e3_reports.hex'
 lines=source.read_text(encoding='utf-8').splitlines()
@@ -46,10 +48,16 @@ def reference(b):
 (OUT/'replay_expected.mem').write_text(''.join(f'{reference(b):050x}\n' for b in vectors))
 sources=[ROOT/'rtl/usb/touch_report_decode.v',ROOT/'verification/tb/control/tb_touch_report_decode.v']
 inputs={str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources+[source,Path(__file__)]}
-cmd=['D:/iverilog/bin/iverilog.exe','-g2001','-s','tb_touch_report_decode','-o',str(OUT/'replay.vvp'),*map(str,sources)]
-subprocess.run(cmd,cwd=ROOT,check=True)
-result=subprocess.run(['D:/iverilog/bin/vvp.exe','-n',str(OUT/'replay.vvp'),f'+COUNT={len(vectors)}'],cwd=ROOT,capture_output=True,check=True)
+if args.modelsim_bin:
+    cmd=[sys.executable,str(ROOT/'verification/scripts/run_final_tests.py'),'--bin',str(args.modelsim_bin),
+         '--out','build/touch_driver_20261024/replay_modelsim','--plusarg',f'COUNT={len(vectors)}','tb_touch_report_decode']
+else:
+    cmd=[str(args.bin/'iverilog.exe'),'-g2001','-s','tb_touch_report_decode','-o',str(OUT/'replay.vvp'),*map(str,sources)]
+    subprocess.run(cmd,cwd=ROOT,check=True)
+    cmd=[str(args.bin/'vvp.exe'),'-n',str(OUT/'replay.vvp'),f'+COUNT={len(vectors)}']
+result=subprocess.run(cmd,cwd=ROOT,capture_output=True,check=True,timeout=1800)
 body=result.stdout.decode();(OUT/'replay.log').write_bytes(result.stdout+result.stderr)
 assert 'PASS tb_touch_report_decode' in body and 'FAIL' not in body,body
-(OUT/'replay.json').write_text(json.dumps({'real_reports':len(real),'total_vectors':len(vectors),'status':'PASS','inputs':inputs},indent=2)+'\n')
+(OUT/'replay.json').write_text(json.dumps({'real_reports':len(real),'total_vectors':len(vectors),'status':'PASS',
+    'simulator':'ModelSim strict Verilog-2001' if args.modelsim_bin else 'Icarus -g2001','inputs':inputs},indent=2)+'\n')
 print(body)

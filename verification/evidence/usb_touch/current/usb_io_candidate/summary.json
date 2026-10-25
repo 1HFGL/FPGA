@@ -1,0 +1,40 @@
+{
+  "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+  "candidate_only": true,
+  "formal_rebuild_pending": false,
+  "bitstream_sha256": "79a56360b0e031ae85468ad3247adec60ec22612753ddf1b652c5927010b9022",
+  "resources": {
+    "Logic": {
+      "used": 44000,
+      "available": 59904
+    },
+    "Register": {
+      "used": 20382,
+      "available": 60780
+    },
+    "BSRAM": {
+      "used": 93,
+      "available": 118
+    },
+    "DSP": {
+      "used": 35.5,
+      "available": 118
+    },
+    "PLLA": {
+      "used": 2,
+      "available": 8
+    }
+  },
+  "slacks_ns": {
+    "3.1.1 Setup Paths Table": 0.3,
+    "3.1.2 Hold Paths Table": 0.191,
+    "3.1.3 Recovery Paths Table": 0.642,
+    "3.1.4 Removal Paths Table": 0.143,
+    "3.2 Minimum Pulse Width Table": 5.799
+  },
+  "added_usb_output_cycles": 1,
+  "clock_hz": 48000000,
+  "audio_cache_cycles": 955,
+  "protected_constraints_unchanged": true,
+  "formal_rebuild_result": "PASS_IDENTICAL_RESOURCES_AND_TIMING"
+}

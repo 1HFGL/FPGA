@@ -1,0 +1,12 @@
+{
+  "name": "p3_r0_c0",
+  "strategy": {
+    "place": 3,
+    "route": 0,
+    "clock_order": 0
+  },
+  "directory": "D:\\Project\\fpga_contest\\build\\usb_finish_20261024\\route_compare\\p3_r0_c0",
+  "status": "FAILED",
+  "error": "Timeout: D:\\Project\\fpga_contest\\build\\usb_finish_20261024\\route_compare\\p3_r0_c0\\build\\hdmi\\build.log",
+  "seconds": 2232.703
+}

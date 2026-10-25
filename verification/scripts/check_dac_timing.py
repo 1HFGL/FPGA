@@ -111,7 +111,26 @@ def run_tests(bin_path):
         'cases': negatives}, indent=2)+'\n', encoding='utf-8')
 
 
+def matching_build_identity(build_manifest, implementation):
+    # 综合开始会先刷新build_inputs；旧PASS报告可能尚未被PNR覆盖。
+    # 必须把实现检查保存的输入集合与当前构建清单逐项关联，不能只校验各自存在。
+    def normalized(items):
+        return {str((ROOT / path).resolve()).casefold(): value.lower() for path, value in items}
+    recorded=implementation.get('inputs', [])
+    require(bool(recorded), 'Implementation has no recorded input identity')
+    require(normalized(build_manifest.items()) == normalized((x['path'],x['sha256']) for x in recorded),
+            'Implementation belongs to a different build manifest')
+
+
 class BudgetTests(unittest.TestCase):
+    def test_build_identity_rejects_old_pass(self):
+        current={'rtl/top/piano_hdmi_top.v':'a'*64,'boards/tang_mega_60k_31004/usb.sdc':'b'*64}
+        good={'inputs':[{'path':str(ROOT/path),'sha256':value} for path,value in current.items()]}
+        matching_build_identity(current,good)
+        for stale in ({'inputs':good['inputs'][:-1]},
+                      {'inputs':[dict(x,sha256='c'*64) for x in good['inputs']]},{}):
+            with self.assertRaises(ValueError):matching_build_identity(current,stale)
+
     def values(self):
         return dict.fromkeys(json.loads(read(CONTRACT))['unknown_ns'], 0.0)
 
@@ -185,6 +204,7 @@ def main():
         if match: build_manifest[match[2]] = match[1]
     require(len(build_manifest) > 20, 'Build manifest incomplete')
     build_count = verified_inputs(build_manifest)
+    matching_build_identity(build_manifest,impl)
     fs = ROOT / 'projects/hdmi/impl/pnr/piano_hdmi.fs'
     require(sha(fs) == impl['bitstream_sha256'], 'Wrong bitstream for implementation check')
     require(impl['status'] == 'PASS_CURRENT_CONSTRAINTS_ONLY', 'Implementation check not passed')

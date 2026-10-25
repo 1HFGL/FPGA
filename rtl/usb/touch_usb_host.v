@@ -74,7 +74,15 @@ module touch_usb_host #(
         input [9:0] offset;
         begin field=offset<128?buffer[offset*8+:8]:8'd0;end
     endfunction
-    wire [7:0] descriptor_length=field(control_data,parse_offset),descriptor_type=field(control_data,parse_offset+1);
+    // 枚举阶段逐字节收集9字节描述符头，共用一个128选1读口。
+    // 只给每个配置描述符增加9个48MHz周期；正常触摸轮询和音频节拍不变。
+    // 完整窗口就绪后才解析，断线/复位或新控制传输会重新开始收集。
+    reg [71:0] descriptor_fields;
+    reg [3:0] descriptor_index;
+    reg descriptor_ready;
+    wire [9:0] descriptor_address=parse_offset+{6'd0,descriptor_index};
+    wire [7:0] descriptor_byte=field(control_data,descriptor_address);
+    wire [7:0] descriptor_length=descriptor_fields[7:0],descriptor_type=descriptor_fields[15:8];
     wire detached_long=se0_clocks>=CLOCKS_PER_MS*3;
     always @(posedge clk or negedge rst_n)begin
         if(!rst_n)begin
@@ -95,6 +103,7 @@ module touch_usb_host #(
             state<=DETACHED;step<=0;delay_ms<=0;stable_ms<=0;poll_ms<=0;interval_ms<=1;
             failures<=0;endpoint<=0;toggle<=0;poll_due<=0;address<=0;mps<=8;configuration<=0;
             configuration_length<=0;parse_offset<=0;hid_length<=0;
+            descriptor_fields<=0;descriptor_index<=0;descriptor_ready<=0;
             selected_interface<=0;found_interface<=0;found_endpoint<=0;found_hid<=0;
             control_start<=0;setup<=0;connected<=0;report_valid<=0;report_data<=0;debug_state<=0;
         end else begin
@@ -159,6 +168,7 @@ module touch_usb_host #(
                                 if(control_length!=configuration_length)state<=RESTART;
                                 else begin
                                     parse_offset<=0;selected_interface<=0;found_interface<=0;
+                                    descriptor_index<=0;descriptor_ready<=0;
                                     found_endpoint<=0;found_hid<=0;state<=PARSE;
                                 end
                             end
@@ -176,25 +186,29 @@ module touch_usb_host #(
                     if(parse_offset==configuration_length)begin
                         if(found_interface && found_hid && found_endpoint)begin step<=5;state<=LAUNCH;end
                         else state<=RESTART;
+                    end else if(!descriptor_ready)begin
+                        descriptor_fields[descriptor_index*8+:8]<=descriptor_byte;
+                        if(descriptor_index==8)descriptor_ready<=1;
+                        else descriptor_index<=descriptor_index+1'b1;
                     end else if(descriptor_length<2 || parse_offset+descriptor_length>configuration_length)state<=RESTART;
                     else begin
                         parse_offset<=parse_offset+descriptor_length;
+                        descriptor_index<=0;descriptor_ready<=0;
                         if(descriptor_type==4)begin
-                            selected_interface<=descriptor_length>=9 && field(control_data,parse_offset+2)==0 &&
-                                field(control_data,parse_offset+3)==0 && field(control_data,parse_offset+5)==3;
-                            if(descriptor_length>=9 && field(control_data,parse_offset+2)==0 && field(control_data,parse_offset+3)==0 &&
-                               field(control_data,parse_offset+5)==3)found_interface<=1;
+                            selected_interface<=descriptor_length>=9 && descriptor_fields[16+:8]==0 &&
+                                descriptor_fields[24+:8]==0 && descriptor_fields[40+:8]==3;
+                            if(descriptor_length>=9 && descriptor_fields[16+:8]==0 && descriptor_fields[24+:8]==0 &&
+                               descriptor_fields[40+:8]==3)found_interface<=1;
                         end
-                        if(selected_interface && descriptor_type==8'h21 && descriptor_length>=9 && field(control_data,parse_offset+6)==8'h22)begin
-                            hid_length<={field(control_data,parse_offset+8),field(control_data,parse_offset+7)};
-                            found_hid<=({field(control_data,parse_offset+8),field(control_data,parse_offset+7)}>0 &&
-                                        {field(control_data,parse_offset+8),field(control_data,parse_offset+7)}<=512);
+                        if(selected_interface && descriptor_type==8'h21 && descriptor_length>=9 && descriptor_fields[48+:8]==8'h22)begin
+                            hid_length<=descriptor_fields[56+:16];
+                            found_hid<=(descriptor_fields[56+:16]>0 && descriptor_fields[56+:16]<=512);
                         end
                         if(selected_interface && descriptor_type==5 && descriptor_length>=7 &&
-                           field(control_data,parse_offset+2)>=8'h81 && field(control_data,parse_offset+2)<=8'h8f &&
-                           field(control_data,parse_offset+3)==3 && field(control_data,parse_offset+5)==0 &&
-                           field(control_data,parse_offset+4)>=52 && field(control_data,parse_offset+4)<=64 && field(control_data,parse_offset+6)!=0)begin
-                            endpoint<=control_data[(parse_offset+2)*8+:4];interval_ms<=field(control_data,parse_offset+6);found_endpoint<=1;
+                           descriptor_fields[16+:8]>=8'h81 && descriptor_fields[16+:8]<=8'h8f &&
+                           descriptor_fields[24+:8]==3 && descriptor_fields[40+:8]==0 &&
+                           descriptor_fields[32+:8]>=52 && descriptor_fields[32+:8]<=64 && descriptor_fields[48+:8]!=0)begin
+                            endpoint<=descriptor_fields[16+:4];interval_ms<=descriptor_fields[48+:8];found_endpoint<=1;
                         end
                     end
                 end

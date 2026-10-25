@@ -143,7 +143,10 @@ module instrument_display #(
     end endgenerate
     generate if(ENHANCED && UI)begin:g_panel
         instrument_panel_ui #(.TOUCH_PANEL(TOUCH_PANEL),.ENABLE_GUIDE(ENABLE_GUIDE),
-            .LOG_METER(1),.SHOW_BRIGHTNESS(BRIGHTNESS_PANEL)) u_renderer(
+            .LOG_METER(1),.SHOW_BRIGHTNESS(BRIGHTNESS_PANEL),.FRAME_BEND(1)) u_renderer(
+            // 与state_frame同沿读取state_latest，数字和符号不会错开一帧。
+            .pixel_clk(pixel_clk),.pixel_rst_n(pixel_rst_n),.frame_commit(commit),
+            .pitch_bend_latest(state_latest[35:20]),
             .guide_valid(state_frame[82]),.guide_index(state_frame[81:78]),.guide_progress(state_frame[77:74]),
             .brightness(state_frame[72:66]),.touch_available(state_frame[73]),
             .x(x_d),.y(y_d),.key_down(state_frame[39]?state_frame[65:53]:state_frame[52:40]),

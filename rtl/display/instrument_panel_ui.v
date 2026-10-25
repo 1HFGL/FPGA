@@ -3,7 +3,8 @@
 //   - 文本分两个层次：24px 正文与 48px 原生标题，不再把 24px 点阵整数放大；
 //   - 字形以覆盖度 0..3 表示，由上层与背景做一次线性混合，边缘平滑；
 //   - 钢琴键盘与吉他指板共用同一网格与配色体系，主体形态各自体现乐器。
-// 本模块只做组合绘制，坐标均为编译期常量；不含除法、开方或整屏帧缓存。
+// 默认组合绘制；正式入口仅在帧提交沿预存弯音数字，坐标仍为编译期常量。
+// 不含除法、开方或整屏帧缓存，像素请求流水线不增加拍数。
 // 文本接口：本模块在 P0 给出字形/行/列请求，字模 ROM 在 P1 返回整行覆盖度。
 module instrument_panel_ui #(
     // 保留队友触摸准备版的接口兼容；当前简洁布局不叠加旧版顶部滑条。
@@ -18,7 +19,8 @@ module instrument_panel_ui #(
     parameter [23:0] C_TEXT    = 24'h252c2e,
     parameter [23:0] C_MUTED   = 24'h686e70,
     parameter [23:0] C_ACCENT  = 24'hf0de6b,
-    parameter [23:0] C_WARM    = 24'hf0de6b
+    parameter [23:0] C_WARM    = 24'hf0de6b,
+    parameter integer FRAME_BEND=0
 ) (
     input wire [11:0] x, y,
     input wire [12:0] key_down,
@@ -46,7 +48,10 @@ module instrument_panel_ui #(
     output reg [2:0] title_glyph,
     output reg [5:0] title_column, title_row,
     // 该像素的底色
-    output reg [23:0] base_rgb
+    output reg [23:0] base_rgb,
+    // FRAME_BEND=1时与上层状态快照同沿提交；默认组合实例无需时钟。
+    input wire pixel_clk, pixel_rst_n, frame_commit,
+    input wire signed [15:0] pitch_bend_latest
 );
     // 配色随音色切换；两套界面共用同一布局网格。
     wire [23:0] accent = instrument_guitar ? C_WARM : C_ACCENT;
@@ -113,10 +118,13 @@ module instrument_panel_ui #(
     endfunction
 
     // 弯音显示：±2 半音，单位 0.01 半音。
-    wire [15:0] bend_abs = pitch_bend[15] ? (~pitch_bend + 16'd1) : pitch_bend;
-    wire [23:0] bend_wide = {8'd0, bend_abs};
-    wire [23:0] bend_scaled = (bend_wide << 7) + (bend_wide << 6) + (bend_wide << 3) + 24'd16384;
-    wire [7:0]  bend_cents = bend_scaled[22:15];
+    wire signed [15:0] bend_input = FRAME_BEND ? pitch_bend_latest : pitch_bend;
+    wire [15:0] bend_abs = bend_input[15] ? (~bend_input + 16'd1) : bend_input;
+    // (200*m+16384)>>15 等价于 (25*m+2048)>>12。
+    // m最大32768（含-32768取绝对值），中间值最大821248，20位足够。
+    wire [19:0] bend_scaled = {bend_abs,4'd0} + {1'b0,bend_abs,3'd0}
+                            + {4'd0,bend_abs} + 20'd2048;
+    wire [7:0] bend_cents = bend_scaled[19:12];
 
     wire [11:0] volume_digits = decimal_digits({2'd0, volume});
     wire [11:0] brightness_digits=decimal_digits({2'd0,brightness});
@@ -126,7 +134,18 @@ module instrument_panel_ui #(
     wire [8:0] guide_width={1'b0,guide_progress,4'd0}+{2'b0,guide_progress,3'd0};
     wire [11:0] guide_x=x-12'd360;
     wire [5:0] slash_sum={2'd0,x[3:0]}+{1'b0,y[4:0]};
-    wire [11:0] bend_digits   = decimal_digits({1'b0, bend_cents});
+    wire [11:0] bend_digits_next = decimal_digits({1'b0, bend_cents});
+    wire [11:0] bend_digits;
+    generate if(FRAME_BEND)begin:g_frame_bend
+        reg [11:0] digits_q;
+        always @(posedge pixel_clk or negedge pixel_rst_n)begin
+            if(!pixel_rst_n)digits_q<=12'd0;
+            else if(frame_commit)digits_q<=bend_digits_next;
+        end
+        assign bend_digits=digits_q;
+    end else begin:g_comb_bend
+        assign bend_digits=bend_digits_next;
+    end endgenerate
     // 倍率只选三个固定字槽，不再参与字框宽度/文本使能的优先链。
     // 字形0表示空白；有效倍率为x1..x256，高于8仍显示x0，保持原边界行为。
     // 这样gain_shift仅经过字形选择进入ROM地址，不经过乘字宽/比较/覆盖仲裁。

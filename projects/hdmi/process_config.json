@@ -35,8 +35,7 @@
     "I2C_SLAVE_ADDR": "00",
     "INCREMENTAL_PLACE_AND_ROUTING": "0",
     "INCREMENTAL_PLACE_ONLY": "0",
-    "IncludePath": [
-    ],
+    "IncludePath": [],
     "Incremental_Compile": "",
     "Initialize_Primitives": false,
     "JTAG": false,
@@ -75,7 +74,7 @@
     "Report_Auto-Placed_Io_Information": false,
     "Retiming_Resource": "None",
     "Route_Maxfan": "23",
-    "Route_Option": "1",
+    "Route_Option": "2",
     "Run_Timing_Driven": true,
     "SECURE_MODE": false,
     "SECURITY_BIT": true,

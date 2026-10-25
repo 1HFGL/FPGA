@@ -1,0 +1,43 @@
+{
+  "status": "REJECTED_USB_OUTPUT_MAX_DELAY",
+  "formal_promoted": false,
+  "equivalence_byte_checks": 1180800,
+  "host_fault_cases": 9,
+  "additional_cycles_per_configuration_descriptor": 9,
+  "usb_clock_hz": 48000000,
+  "steady_state_polling_changed": false,
+  "audio_R955_changed": false,
+  "synthesis": {
+    "name": "piano_hdmi_top",
+    "Register": "23",
+    "Lut": "2",
+    "T_Register": "19940(23)",
+    "T_Alu": "8358(0)",
+    "T_Lut": "35294(2)",
+    "T_MULTALU27X18": "27(0)",
+    "T_MULT12X12": "5(0)",
+    "T_MULT27X36": "3(0)",
+    "T_Bsram": "88(0)"
+  },
+  "source_sha256": "adb158c718f30607a15b51477588ad315c57aed9490ed22816ed4512eb9682c1",
+  "maximum_added_parser_compute_us": 12,
+  "enumeration_note": "Parser compute bound only; first-poll scheduling may cross an SOF guard. Not a total USB/analog latency bound.",
+  "complete_hdmi_regression": "PASS_R955_32VOICES_THREE_EFFECTS",
+  "implementation": {
+    "P3_R1_C0": "FAIL_PR0004_11_UNROUTED",
+    "P4_R1_C0": "TIMEOUT_1200_SECONDS",
+    "P3_R1_C1": "FAIL_PR0004_11_UNROUTED",
+    "P3_R2_C0": {
+      "routing": "COMPLETE",
+      "slack_ns": {
+        "setup": -7.342,
+        "hold": 0.102,
+        "recovery": 0.642,
+        "removal": 0.143,
+        "pulse": 5.799
+      },
+      "failure": "usb_release_1_s0/Q to USB IO output enable; original 10ns maximum delay exceeded",
+      "downloadable": false
+    }
+  }
+}

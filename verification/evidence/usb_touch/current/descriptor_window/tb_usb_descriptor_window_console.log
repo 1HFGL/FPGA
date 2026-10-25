@@ -1,0 +1,41 @@
+Reading C:/Library/modelsim/tcl/vsim/pref.tcl
+
+# 10.6e
+
+# vsim -c -lib build/window_check/tb_usb_descriptor_window_work tb_usb_descriptor_window -l D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\build\window_check\tb_usb_descriptor_window.log -wlf D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\build\window_check\tb_usb_descriptor_window.wlf -do "do {D:/Project/fpga_contest/build/usb_finish_20261024/descriptor_candidate/build/window_check/tb_usb_descriptor_window.do}" 
+# Start time: 19:32:05 on Oct 24,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2685) [TFMPC] - Too few port connections for 'dut'.  Expected 25, found 12.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'command_payload'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'command_length'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'command_toggle'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'command_endpoint'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'command_address'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'command_pid'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'command_valid'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'debug_state'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'report_data'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'report_valid'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'connected'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'link_enable'.
+# ** Warning: D:\Project\fpga_contest\build\usb_finish_20261024\descriptor_candidate\verification\tb\control\tb_usb_descriptor_window.v(8): (vopt-2718) [TFMPC] - Missing connection for port 'bus_reset'.
+# //  ModelSim SE-64 10.6e Jun 23 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading work.tb_usb_descriptor_window(fast)
+# do {D:/Project/fpga_contest/build/usb_finish_20261024/descriptor_candidate/build/window_check/tb_usb_descriptor_window.do}
+# PASS tb_usb_descriptor_window: 1190025 byte comparisons; all one-hot basis vectors and legal offsets, large-offset reject unchanged
+# ** Note: $finish    : D:/Project/fpga_contest/build/usb_finish_20261024/descriptor_candidate/verification/tb/control/tb_usb_descriptor_window.v(36)
+#    Time: 133120 ns  Iteration: 0  Instance: /tb_usb_descriptor_window
+# End time: 19:32:06 on Oct 24,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 14

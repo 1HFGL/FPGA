@@ -1,84 +1,453 @@
 {
-  "status": "SOURCE_CHECKPOINT_NOT_RELEASE_FIRMWARE",
+  "status": "OFFLINE_VERIFIED_HARDWARE_PENDING",
   "date": "2026-10-24",
-  "reason": "User requested immediate master upload before leaving; document unfinished work",
+  "source_commit": "df0e894009e613dbf34011e63bc05653eb92843e",
+  "protected_files_count": 357,
+  "protected_files_sha256": "5ea1f483b40737baa5257cdfe395144ed28569e3d97eb9b2c682e227554d3fe0",
+  "changed_formal_files": [
+    "projects/hdmi/process_config.json",
+    "rtl/usb/touch_usb_host.v",
+    "rtl/usb/touch_usb_port.v"
+  ],
+  "formal_implementation": "Independent full rebuild after isolated candidate validation",
+  "complete_synthesis": "PASS",
+  "place_route": "PASS_CURRENT_CONSTRAINTS_ONLY",
+  "formal_hdmi_regression": "PASS",
+  "strict_verilog_files": 239,
   "completed_tests": [
     {
-      "top": "tb_ble_link",
+      "top": "tb_merge32_rom_equivalence",
       "results": [
-        "PASS tb_ble_link: independent HELLO/replies; same-pitch polyphony; NOTE_OFF/PANIC/source cleanup; partial-line disconnect/reconnect; BLE watchdog; mode/audio R953 samples=674"
+        "PASS tb_merge32_rom_equivalence: 24580 cycles; all 12288 addresses on both physical DPB ports, independent holds and metadata"
       ],
-      "functional_rom": true
-    },
-    {
-      "top": "tb_four_source_arbiter",
-      "results": [
-        "PASS tb_four_source_arbiter: 800 events, equal four-source service, stable stalls, three cancellations, exhaustive touch mask isolation"
-      ],
-      "functional_rom": true
-    },
-    {
-      "top": "tb_review_hdmi_reset_recovery",
-      "results": [
-        "PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)"
-      ],
-      "functional_rom": true
-    },
-    {
-      "top": "tb_touch32_audio",
-      "results": [
-        "PASS tb_touch32_audio: six contacts+13 physical+13 PC full32, BLE 33rd steal, per-source cancels, slide/timbre/octave/reconnect/reset, nonzero audio R955 samples=129"
-      ],
-      "functional_rom": true
-    },
-    {
-      "top": "tb_touch_report_cdc",
-      "results": [
-        "PASS tb_touch_report_cdc: 1000 full-width 48/50MHz reports, stalls, reset with pending report, no torn/phantom data"
-      ],
-      "functional_rom": true
-    },
-    {
-      "top": "tb_touch_usb_link",
-      "results": [
-        "PASS tb_touch_usb_link: 8 physical D+/D- transactions, token/data CRC, stuffing, valid52/ACK, corrupt CRC no ACK, malformed PHY, NAK/STALL/timeout, SOF increment"
-      ],
-      "functional_rom": true
-    },
-    {
-      "top": "tb_touch_usb_host",
-      "results": [
-        "PASS tb_touch_usb_host: EP0 multi-packet, address, config parsing, NAK/CRC/duplicate retries, SET_IDLE STALL, short packet recovery, backpressure, detach/re-enumeration/reset reports=14"
-      ],
-      "functional_rom": false
+      "functional_rom": false,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "8f7b5906d099f7d1b3f9a6f9ac0eb7d6fe290512d736cf9ea27b29d2819826e7"
     },
     {
       "top": "tb_touch_usb_wire",
       "results": [
         "PASS tb_touch_usb_wire: full D+/D- enumeration/455-byte EP0, SOF, address/config, SET_IDLE STALL, NAK, bad CRC, duplicate ACK, six whole six-contact reports, backpressure, detach/reconnect/reset"
       ],
-      "functional_rom": false
+      "functional_rom": false,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "18a742ad80b7a121761d28fa3f8a526e1bb81dbb08cfb0ebd957a1ad07968642"
+    },
+    {
+      "top": "tb_touch_usb_host",
+      "results": [
+        "PASS tb_touch_usb_host: EP0 multi-packet, address, config parsing, NAK/CRC/duplicate retries, SET_IDLE STALL, short packet recovery, backpressure, detach/re-enumeration/reset reports=14"
+      ],
+      "functional_rom": false,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "adc1d08b6b4958c046c76ae2f7e0bc51e89840ea0215d8e53cd16e6cc293656f"
+    },
+    {
+      "top": "tb_touch_usb_link",
+      "results": [
+        "PASS tb_touch_usb_link: 8 physical D+/D- transactions, token/data CRC, stuffing, valid52/ACK, corrupt CRC no ACK, malformed PHY, NAK/STALL/timeout, SOF increment"
+      ],
+      "functional_rom": false,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "5393933a62bb8e2b78fa8a0919a01a2af934f636a79664a0770a39cdb8a6cbb7"
+    },
+    {
+      "top": "tb_touch_report_cdc",
+      "results": [
+        "PASS tb_touch_report_cdc: 1000 full-width 48/50MHz reports, stalls, reset with pending report, no torn/phantom data"
+      ],
+      "functional_rom": false,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "578a9f03e503003c068c33b4f028665cf5ee075db2b2a6c5229a76c990ff0f52"
+    },
+    {
+      "top": "tb_four_source_arbiter",
+      "results": [
+        "PASS tb_four_source_arbiter: 800 events, equal four-source service, stable stalls, three cancellations, exhaustive touch mask isolation"
+      ],
+      "functional_rom": false,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "00ab013a37a0deac799b126cc5e2765747782037f4c186980484fd3e2398dd37"
+    },
+    {
+      "top": "tb_review_hdmi_reset_recovery",
+      "results": [
+        "PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)"
+      ],
+      "functional_rom": false,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "622581042f7429d4f67959c40b8d06aa28c3dfd4aad2184a5a901bdb20edc7a8"
+    },
+    {
+      "top": "tb_touch32_audio",
+      "results": [
+        "PASS tb_touch32_audio: six contacts+13 physical+13 PC full32, BLE 33rd steal, per-source cancels, slide/timbre/octave/reconnect/reset, nonzero audio R955 samples=129"
+      ],
+      "functional_rom": true,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "ad8f097cb9db4046c2f2b95028422fdee48c5cca7863616087c665e8b550181c"
+    },
+    {
+      "top": "tb_controls_meter_hdmi",
+      "results": [
+        "PASS tb_controls_meter_hdmi: actual ADC/filter, brightness/no-guide, 13 keys+19 UART=32 audible voices, 33rd steal, release, exact DAC/PA/UART isolation, R955, HPD/reset samples=794"
+      ],
+      "functional_rom": true,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "9e7154a77fa4a88658dc06fbc1cff6ace5c1690d91fa9f40c5d263c2c7f44499"
+    },
+    {
+      "top": "tb_ble_link",
+      "results": [
+        "PASS tb_ble_link: independent HELLO/replies; same-pitch polyphony; NOTE_OFF/PANIC/source cleanup; partial-line disconnect/reconnect; BLE watchdog; mode/audio R953 samples=674"
+      ],
+      "functional_rom": true,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "224273c67011544d34b9de69268d90a38f0b566337143be540f795ac832527b0"
+    },
+    {
+      "top": "tb_three_key_chords",
+      "results": [
+        "PASS tb_three_key_chords: 572 chords/both timbres, short common glitches, partial release, 13-key chord, 100 overlaps, reset"
+      ],
+      "functional_rom": true,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "229de119fc7f0c9546c8293b69920850b176e919fa0f378675c2f1cc394aeea4"
+    },
+    {
+      "top": "tb_dual16_core",
+      "results": [
+        "PASS tb_dual16_core: 1600 exact PCM/32 voice comparisons, 5200 real-time frames, R925, all 32 audible, reset/tails/overrun"
+      ],
+      "functional_rom": true,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "797300efb58629748577b130de32ff0ef32de5d9a0915b6a9ecfedc26ed1bbc8"
+    },
+    {
+      "top": "tb_dual16_snapshot",
+      "results": [
+        "PASS tb_dual16_snapshot: 256 exact PCM/32 voice comparisons after R0 control changes and busy retriggers"
+      ],
+      "functional_rom": true,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "c0ae6abaaa68a99789a8c8166511bdf8708f09300343ea48d64d4a215863db05"
+    },
+    {
+      "top": "tb_dual16_hdmi",
+      "results": [
+        "PASS tb_dual16_hdmi: R955/R952, full32=13417, serial words=27274, wet-only=8904, both presets/ranges/knobs, video isolation and dirty reset"
+      ],
+      "functional_rom": true,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "ea1b6081c4adc1c88cfc61b1547464ab5ad6daba39f276ebe29bc7f613c8d816"
+    },
+    {
+      "top": "tb_usb_system_recovery",
+      "results": [
+        "PASS tb_usb_system_recovery: 4 disconnect/PLL-loss epochs, real asymmetric mailbox resets, held events then cancellation, no stale reconnect notes"
+      ],
+      "functional_rom": false,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "0447313e46efbb51ce6bb522fb2bff08844ef4ca7d34604c3a6a7871c9c4da0a"
+    },
+    {
+      "top": "tb_usb_descriptor_serial",
+      "results": [
+        "PASS tb_usb_descriptor_serial: 1180800 byte comparisons, all basis vectors/128 offsets, exact nine-cycle readiness and reset"
+      ],
+      "functional_rom": false,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "afc99b4bcdd4b037b224c2a958be264629e3da721267af4c49e065af91be8f2b"
+    },
+    {
+      "top": "tb_usb_port_outputs",
+      "results": [
+        "PASS tb_usb_port_outputs: 256 data/enable combinations, four reset phases, clock-stop high impedance"
+      ],
+      "functional_rom": false,
+      "flags": "-vlog01compat -pedanticerrors",
+      "inputs_sha256": "41609c011c8eb2e1eb92fe5d3707f95744be68eef5489d6b7726619ab44cd8db"
     }
   ],
   "report_replay": {
-    "real": 1825,
-    "total": 2031,
-    "invalid_rejected": 4
+    "real_reports": 1825,
+    "total_vectors": 2031,
+    "status": "PASS",
+    "simulator": "ModelSim strict Verilog-2001",
+    "inputs": {
+      "rtl\\usb\\touch_report_decode.v": "3ce5138de94126f44d9525ed61b974d680482b11f1c59f37c368c23281215896",
+      "verification\\tb\\control\\tb_touch_report_decode.v": "c38f9756f91ca9de8c2122e82cd8f550c13576d03f9e2bede656d24d96758262",
+      "verification\\data\\touch_wch_1a86_e5e3_reports.hex": "3b182f355b15024dc15b4402be63ad0c6688c9d8c4793f19cfd609128a26d573",
+      "verification\\scripts\\check_touch_reports.py": "60d9029369af8e0eaf84b77c089e0dba072a6840e39263a5b6bd6a7c03b00fd7"
+    }
   },
   "host_fault_cases_passed": 9,
-  "complete_synthesis": "PASS_GOWIN_NETLIST_GENERATED",
-  "place_route": "IN_PROGRESS_AT_CHECKPOINT_NO_FINAL_RESULT",
-  "formal_hdmi_regression": "IN_PROGRESS_AT_CHECKPOINT_NO_RESULT",
+  "implementation_negative_cases": 8,
+  "pin_negative_cases": 7,
+  "resources": {
+    "Logic": {
+      "used": 44000,
+      "available": 59904
+    },
+    "Register": {
+      "used": 20382,
+      "available": 60780
+    },
+    "BSRAM": {
+      "used": 93,
+      "available": 118
+    },
+    "DSP": {
+      "used": 35.5,
+      "available": 118
+    },
+    "PLLA": {
+      "used": 2,
+      "available": 8
+    }
+  },
+  "worst_reported_slack_ns": {
+    "3.1.1 Setup Paths Table": 0.3,
+    "3.1.2 Hold Paths Table": 0.191,
+    "3.1.3 Recovery Paths Table": 0.642,
+    "3.1.4 Removal Paths Table": 0.143,
+    "3.2 Minimum Pulse Width Table": 5.799
+  },
+  "ports": 39,
+  "active_constraints": 28,
+  "sample_cache_cycles": 955,
+  "bitstream_sha256": "6d9f9621418d95ee4b479ddae7dbab9ece65aa8dc206d169688986c0b0dbf58b",
+  "package": "projects/hdmi/impl/pnr",
+  "new_fs_packaged_locally": false,
   "new_fs_published": false,
   "programmed_after_user_stop": false,
   "hardware_usb_touch_verified": false,
+  "known_modelsim": "ModelSim 10.6e strict -vlog01compat -pedanticerrors",
+  "dac_external_signoff": false,
   "pending": [
-    "Full PNR/five timing classes/39 pins/28 constraints/USB CDC coverage",
-    "Full current HDMI regression and negative implementation checks",
-    "Package only the verified newly built FS with input hashes",
-    "Fresh user permission before any further programming",
-    "Physical touch single/multiple contacts/slides/release/reconnect and separate touch latency",
-    "Physical ghost-chord investigation and Bluetooth first-note recovery remain unresolved"
+    "PR1014 system clock input routing remains to be closed",
+    "DAC external timing incomplete",
+    "HDMI electrical eye/cable/receiver not measured",
+    "USB touch hardware unverified",
+    "Not programmed; screen compatibility and end-to-end latency unverified",
+    "Physical single/six-contact slides, release/reconnect, mixed keyboard input and coordinate calibration",
+    "Fresh explicit user authorization before programming",
+    "Physical ghost chords and Bluetooth first-note behavior"
   ],
-  "known_modelsim": "Missing; Icarus -g2001 checks are not strict ModelSim"
+  "evidence": [
+    {
+      "path": "verification/evidence/usb_touch/current/tb_merge32_rom_equivalence.log",
+      "sha256": "ad61e720fae450ec1a933611ecc530f5f612464e577b6439c6c38d8a25ad0cf1"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_merge32_rom_equivalence_inputs.json",
+      "sha256": "8f7b5906d099f7d1b3f9a6f9ac0eb7d6fe290512d736cf9ea27b29d2819826e7"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_touch_usb_wire.log",
+      "sha256": "f745b3163443da05c38d375737d169c17b2f881d5cfda3c61c0cb7c56dbf6f63"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_touch_usb_wire_inputs.json",
+      "sha256": "18a742ad80b7a121761d28fa3f8a526e1bb81dbb08cfb0ebd957a1ad07968642"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_touch_usb_host.log",
+      "sha256": "49e0087e6ae698fbef1052d7a3b1e87287eb3d8d30c466dcd339fbcfc690500f"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_touch_usb_host_inputs.json",
+      "sha256": "adc1d08b6b4958c046c76ae2f7e0bc51e89840ea0215d8e53cd16e6cc293656f"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_touch_usb_link.log",
+      "sha256": "aa6eb06827e9a094be08a54a783c53ec0e112ad798d8f95260412db08a3fa9da"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_touch_usb_link_inputs.json",
+      "sha256": "5393933a62bb8e2b78fa8a0919a01a2af934f636a79664a0770a39cdb8a6cbb7"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_touch_report_cdc.log",
+      "sha256": "33de09b5ce010637e38135a92021c43284636c957ec5e635f92f361490b236a7"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_touch_report_cdc_inputs.json",
+      "sha256": "578a9f03e503003c068c33b4f028665cf5ee075db2b2a6c5229a76c990ff0f52"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_four_source_arbiter.log",
+      "sha256": "69f764bb2093829c132133b2ec700bea859d011dbb0695aa7dfc7c41cd8b7a4f"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_four_source_arbiter_inputs.json",
+      "sha256": "00ab013a37a0deac799b126cc5e2765747782037f4c186980484fd3e2398dd37"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_review_hdmi_reset_recovery.log",
+      "sha256": "2f1f25a3ea8650b44152bebf29c31a7e079a94bca1edf8dc4fcd06d0e41c4788"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_review_hdmi_reset_recovery_inputs.json",
+      "sha256": "622581042f7429d4f67959c40b8d06aa28c3dfd4aad2184a5a901bdb20edc7a8"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_touch32_audio.log",
+      "sha256": "047817f461d909fb0383a078ecbef161f4cc76de14bc0f5c25045b4b19e08aa4"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_touch32_audio_inputs.json",
+      "sha256": "ad8f097cb9db4046c2f2b95028422fdee48c5cca7863616087c665e8b550181c"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_controls_meter_hdmi.log",
+      "sha256": "8105c3a5994f400041efdfbf0d470e6106b728bba493b32057cb6c05a20930d4"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_controls_meter_hdmi_inputs.json",
+      "sha256": "9e7154a77fa4a88658dc06fbc1cff6ace5c1690d91fa9f40c5d263c2c7f44499"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_ble_link.log",
+      "sha256": "aaff8782d0071a777ac51a972ad9edc48c6d505952a33681fd1558549ba6546d"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_ble_link_inputs.json",
+      "sha256": "224273c67011544d34b9de69268d90a38f0b566337143be540f795ac832527b0"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_three_key_chords.log",
+      "sha256": "1fbc4a33f36ef91b27cd703177636253370d072cb8cc8c413046573c537ac1d6"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_three_key_chords_inputs.json",
+      "sha256": "229de119fc7f0c9546c8293b69920850b176e919fa0f378675c2f1cc394aeea4"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_dual16_core.log",
+      "sha256": "e0e2cca072ca7fd206bcee8339d03506b066af860f0ffe01bf741e6f7c0c024f"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_dual16_core_inputs.json",
+      "sha256": "797300efb58629748577b130de32ff0ef32de5d9a0915b6a9ecfedc26ed1bbc8"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_dual16_snapshot.log",
+      "sha256": "3671f36391a322d1728362cd3cbffe1fb3ced019a74f53503964ec842c6a475a"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_dual16_snapshot_inputs.json",
+      "sha256": "c0ae6abaaa68a99789a8c8166511bdf8708f09300343ea48d64d4a215863db05"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_dual16_hdmi.log",
+      "sha256": "7e35c71156306e5c8ab475e1785d57be23575ce27c2e0e05fbec81c1a8f2748e"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_dual16_hdmi_inputs.json",
+      "sha256": "ea1b6081c4adc1c88cfc61b1547464ab5ad6daba39f276ebe29bc7f613c8d816"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_usb_system_recovery.log",
+      "sha256": "54a4257f42e19bfc5d204b677c9d06706c14d2232e88b77e9d8b9cb9e30edf50"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_usb_system_recovery_inputs.json",
+      "sha256": "0447313e46efbb51ce6bb522fb2bff08844ef4ca7d34604c3a6a7871c9c4da0a"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_usb_descriptor_serial.log",
+      "sha256": "1d03d35195eebf8b9118773da1e5ad4378b1126c5efdd617dc79fc172339a98f"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_usb_descriptor_serial_inputs.json",
+      "sha256": "afc99b4bcdd4b037b224c2a958be264629e3da721267af4c49e065af91be8f2b"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_usb_port_outputs.log",
+      "sha256": "884954fe5c111f0d979580e6e1d1133ad3e17484fc0456b33717439a25748b20"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/tb_usb_port_outputs_inputs.json",
+      "sha256": "41609c011c8eb2e1eb92fe5d3707f95744be68eef5489d6b7726619ab44cd8db"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_hdmi_implementation_check.json",
+      "sha256": "6490631f59811c8575fcbf369de6066b12a11f53e71dcd5ba35954c49e93aec4"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_hdmi_build_inputs.txt",
+      "sha256": "7c295aa94559c46903ce5e544520045d1105311ea25ba4aacd2e423076aabe57"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_hdmi_timing.txt",
+      "sha256": "70e629f794597e0d810cee196ed63c8ac0a9be3fe8521a06256f6b3fa4377caa"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_hdmi_piano_hdmi.rpt.txt",
+      "sha256": "31294930cb958b1db159a818cfba64bd242d9912b9d06f58d268bead4879f20f"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_hdmi_build.log",
+      "sha256": "788a7924ca047ee174a3687d1ec2a2ffe4f6b01b854c183190c4d4149ec2c7b6"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_hdmi_artifact.txt",
+      "sha256": "f2501ce26675cd3c74c6be22084071aed00e575fc3b2b0691bf943f236266730"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_touch_driver_20261024_replay.json",
+      "sha256": "4dd29761418f9eb4ab48936a65b157234784742c294ff74272f71a5a383e90cd"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_touch_driver_20261024_host_faults_summary.json",
+      "sha256": "c52549cf183dfb70295fadcda5de62dd4aaadcf1ec499bf0ac9ffa93863f6825"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_touch_driver_20261024_implementation_faults_summary.json",
+      "sha256": "c43848408c0e724b3ae9b45085e2d14c9aae439ec53b8e9ce5745271ce93b3f5"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_regression_dac_timing_summary.json",
+      "sha256": "cf696652cfa77f8ba9165ee3d118ea6f090486ec0dd0f9767b10aba5ecd7e808"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_regression_strict_strict_inputs.txt",
+      "sha256": "1114cedf856936123f0498462b41ea5110702f36a701d1ac325bf7273a147b3b"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/build_regression_strict_strict_compile.log",
+      "sha256": "60c60c1dfa481cf3e186b3df59a718fc0f59b6c8a256548f6475a94b6d89020e"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/pins.json",
+      "sha256": "633607bd822baeb56c1756f610d4db8f0d224b29960e63d5a5b9e1bf2803cee7"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/pnr_flow_tests.log",
+      "sha256": "8b374a00b6ed494b762294cc0598cf5c5ae1a5f14658c0832c5bc040ecf45f27"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/dac_audit_tests.log",
+      "sha256": "39fb6d9294734a3eac3039ce650f8cc95412fbe32e032351c0fb6752b2038a04"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/hdmi_recovery_fault.log",
+      "sha256": "7df50339d4f417916a667f661d03a707f10b46b9362b9c673ffecccfba2f10b8"
+    },
+    {
+      "path": "verification/evidence/usb_touch/current/protected_files.json",
+      "sha256": "5ea1f483b40737baa5257cdfe395144ed28569e3d97eb9b2c682e227554d3fe0"
+    }
+  ],
+  "source_identity_note": "source_commit is the synchronized base; changed_formal_files and recorded input hashes identify the verified working tree. Not committed or pushed in this turn.",
+  "candidate_vs_formal": {
+    "independent_full_builds": 2,
+    "resources_equal": true,
+    "timing_equal": true,
+    "bitstreams_byte_equal": false,
+    "candidate_bitstream_sha256": "79a56360b0e031ae85468ad3247adec60ec22612753ddf1b652c5927010b9022",
+    "formal_bitstream_sha256": "6d9f9621418d95ee4b479ddae7dbab9ece65aa8dc206d169688986c0b0dbf58b"
+  },
+  "pushed_this_turn": false
 }

@@ -1,0 +1,75 @@
+{
+  "status": "REJECTED_ROUTING_FAILED",
+  "formal_promoted": false,
+  "source_sha256": "2592d4f17ed4dc829075a1f78e1108871c451d1d6e10baa0a6e03d75f58c8b73",
+  "logic_change": "One shared 9-byte aligned descriptor read window; no pipeline cycle added",
+  "baseline": {
+    "total": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "19863(23)",
+      "T_Alu": "8287(0)",
+      "T_Lut": "42141(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "5(0)",
+      "T_MULT27X36": "3(0)",
+      "T_Bsram": "88(0)"
+    },
+    "usb": {
+      "name": "g_usb_touch.u_usb",
+      "Register": "4",
+      "Lut": "3",
+      "T_Register": "4222(4)",
+      "T_Alu": "517(0)",
+      "T_Lut": "10430(3)"
+    },
+    "host": {
+      "name": "u_host",
+      "Register": "440",
+      "Alu": "39",
+      "Lut": "7956",
+      "T_Register": "2067(440)",
+      "T_Alu": "107(39)",
+      "T_Lut": "8703(7956)"
+    }
+  },
+  "candidate": {
+    "total": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "19866(23)",
+      "T_Alu": "8348(0)",
+      "T_Lut": "37658(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "5(0)",
+      "T_MULT27X36": "3(0)",
+      "T_Bsram": "88(0)"
+    },
+    "usb": {
+      "name": "g_usb_touch.u_usb",
+      "Register": "4",
+      "Lut": "3",
+      "T_Register": "4225(4)",
+      "T_Alu": "517(0)",
+      "T_Lut": "6148(3)"
+    },
+    "host": {
+      "name": "u_host",
+      "Register": "443",
+      "Alu": "39",
+      "Lut": "3658",
+      "T_Register": "2070(443)",
+      "T_Alu": "107(39)",
+      "T_Lut": "4414(3658)"
+    }
+  },
+  "equivalence_byte_checks": 1190025,
+  "wire_regression": "PASS",
+  "host_fault_cases": 9,
+  "constraints_and_process_changed": false,
+  "audio_R955_changed": false,
+  "unrouted_nets": 3440,
+  "complete_hdmi_regression": "PASS_R955_32VOICES_THREE_EFFECTS"
+}

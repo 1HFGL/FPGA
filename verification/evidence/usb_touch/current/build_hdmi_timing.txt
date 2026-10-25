@@ -1,0 +1,162 @@
+Derived from D:\Project\fpga_contest\projects\hdmi\impl\pnr\piano_hdmi_tr_content.html; normalized HTML tables, not a native text report.
+sys_clk Setup 0.000 0
+sys_clk Hold 0.000 0
+hdmi_serial Setup 0.000 0
+hdmi_serial Hold 0.000 0
+hdmi_pixel Setup 0.000 0
+hdmi_pixel Hold 0.000 0
+usb_clk Setup 0.000 0
+usb_clk Hold 0.000 0
+
+3.1.1 Setup Paths Table
+1 0.300 u_display/state_frame_21_s0/Q u_display/g_ui_font.u_font/text_rom_text_rom_0_2_s/AD[8] hdmi_pixel:[R] hdmi_pixel:[R] 20.408 0.000 20.173
+2 0.321 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/state_1_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 19.474
+3 0.400 u_display/state_frame_21_s0/Q u_display/g_ui_font.u_font/text_rom_text_rom_0_3_s/AD[9] hdmi_pixel:[R] hdmi_pixel:[R] 20.408 0.000 20.073
+4 0.414 u_display/state_frame_21_s0/Q u_display/g_ui_font.u_font/text_rom_text_rom_0_3_s/AD[8] hdmi_pixel:[R] hdmi_pixel:[R] 20.408 0.000 20.060
+5 0.425 u_display/gowin_replicate_reg_x_d[5]_3/Q u_display/base_l1_5_s0/D hdmi_pixel:[R] hdmi_pixel:[R] 20.408 0.462 19.464
+6 0.434 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/gowin_replicate_reg_state[1]_1/D sys_clk:[R] sys_clk:[R] 20.000 -0.017 19.378
+7 0.636 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/held_5_s0/D sys_clk:[R] sys_clk:[R] 20.000 -0.008 19.315
+8 0.640 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/index_0_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 19.303
+9 0.659 u_display/state_frame_21_s0/Q u_display/g_ui_font.u_font/text_rom_text_rom_0_1_s/AD[8] hdmi_pixel:[R] hdmi_pixel:[R] 20.408 0.008 19.806
+10 0.679 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/gowin_replicate_reg_state[1]_2/D sys_clk:[R] sys_clk:[R] 20.000 0.000 19.059
+11 0.712 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/gowin_replicate_reg_state[2]_1/D sys_clk:[R] sys_clk:[R] 20.000 -0.017 19.100
+12 0.715 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/key_mem_1_s0/CE sys_clk:[R] sys_clk:[R] 20.000 0.000 19.005
+13 0.725 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/event_note_4_s0/CE sys_clk:[R] sys_clk:[R] 20.000 -0.017 19.011
+14 0.725 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/event_note_5_s0/CE sys_clk:[R] sys_clk:[R] 20.000 -0.017 19.011
+15 0.760 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/state_3_s0/D sys_clk:[R] sys_clk:[R] 20.000 0.000 19.182
+16 0.818 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/note_mem_21_s0/CE sys_clk:[R] sys_clk:[R] 20.000 -0.008 18.910
+17 0.818 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/note_mem_22_s0/CE sys_clk:[R] sys_clk:[R] 20.000 -0.008 18.910
+18 0.835 u_display/state_frame_21_s0/Q u_display/g_ui_font.u_font/text_rom_text_rom_0_5_s/AD[8] hdmi_pixel:[R] hdmi_pixel:[R] 20.408 0.000 19.638
+19 0.854 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/held_4_s0/D sys_clk:[R] sys_clk:[R] 20.000 -0.008 19.097
+20 0.857 u_display/gowin_replicate_reg_x_d[5]_3/Q u_display/base_l1_2_s0/D hdmi_pixel:[R] hdmi_pixel:[R] 20.408 0.462 19.032
+21 0.861 u_display/state_frame_21_s0/Q u_display/g_ui_font.u_font/text_rom_text_rom_0_2_s/AD[9] hdmi_pixel:[R] hdmi_pixel:[R] 20.408 0.000 19.612
+22 0.870 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/note_mem_10_s0/CE sys_clk:[R] sys_clk:[R] 20.000 -0.008 18.858
+23 0.882 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/held_1_s0/D sys_clk:[R] sys_clk:[R] 20.000 -0.008 19.069
+24 0.909 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/held_2_s0/D sys_clk:[R] sys_clk:[R] 20.000 -0.008 19.042
+25 0.927 g_usb_touch.u_usb/u_contacts/index_1_s0/Q g_usb_touch.u_usb/u_contacts/note_mem_7_s0/CE sys_clk:[R] sys_clk:[R] 20.000 -0.017 18.810
+
+
+3.1.2 Hold Paths Table
+1 0.191 u_core/g_ble.u_protocol/u_line/name_12_s0/Q u_core/g_ble.u_protocol/u_line/name_20_s0/D sys_clk:[R] sys_clk:[R] 0.000 -0.185 0.398
+2 0.193 u_display/envelope_address_1_s1/Q u_display/g_envelope.u_capture/gowin_add_SDPB_memory_memory_0_0_s/ADB[6] hdmi_pixel:[R] hdmi_pixel:[R] 0.000 0.004 0.220
+3 0.194 u_display/envelope_address_6_s1/Q u_display/g_envelope.u_capture/gowin_add_SDPB_memory_memory_0_0_s/ADB[11] hdmi_pixel:[R] hdmi_pixel:[R] 0.000 0.004 0.221
+4 0.194 u_display/g_envelope.u_capture/write_addr_0_s5/Q u_display/g_envelope.u_capture/memory_memory_0_0_s/ADA[5] hdmi_pixel:[R] hdmi_pixel:[R] 0.000 0.004 0.224
+5 0.196 u_core/g_ble.u_protocol/health_counter_7_s3/Q u_core/g_ble.u_protocol/health_counter_8_s3/D sys_clk:[R] sys_clk:[R] 0.000 -0.177 0.396
+6 0.211 u_adc/u_ads/rd_lsb_3_s0/Q u_adc/u_ads/ch1_data_3_s0/D sys_clk:[R] sys_clk:[R] 0.000 -0.177 0.341
+7 0.219 u_adc/u_ads/rd_msb_3_s0/Q u_adc/u_ads/raw_ch2_11_s0/D sys_clk:[R] sys_clk:[R] 0.000 -0.177 0.408
+8 0.221 u_core/g_modal.u_bank/u_modal/g_dual.u_engine/u_group0/slot1_5_s0/Q u_core/g_modal.u_bank/u_modal/g_dual.u_engine/u_group0/phases_phases_0_1_s/ADA[9] sys_clk:[R] sys_clk:[R] 0.000 0.000 0.255
+9 0.224 u_core/g_chorus.u_chorus/pointer_1_s0/Q u_core/g_chorus.u_chorus/memory_memory_0_0_s/ADA[5] sys_clk:[R] sys_clk:[R] 0.000 -0.174 0.431
+10 0.225 u_adc/u_ads/u_i2c/rd_data_5_s0/Q u_adc/u_ads/u_i2c/rd_data_6_s0/D sys_clk:[R] sys_clk:[R] 0.000 -0.177 0.355
+11 0.227 u_core/g_reverb.u_room/out_valid_s0/Q u_core/u_b/u_i2s_tx/pending_sample_10_s0/CE sys_clk:[R] sys_clk:[R] 0.000 -0.181 0.346
+12 0.227 u_core/g_reverb.u_room/out_valid_s0/Q u_core/u_b/u_i2s_tx/pending_sample_11_s0/CE sys_clk:[R] sys_clk:[R] 0.000 -0.181 0.346
+13 0.230 u_core/g_chorus.u_chorus/pointer_4_s0/Q u_core/g_chorus.u_chorus/memory_memory_0_0_s/ADA[8] sys_clk:[R] sys_clk:[R] 0.000 -0.174 0.436
+14 0.232 u_core/g_reverb.u_room/p5_4_s0/Q u_core/g_reverb.u_room/mem5_mem5_0_0_s/ADB[8] sys_clk:[R] sys_clk:[R] 0.000 -0.004 0.267
+15 0.234 u_core/g_modal.u_bank/u_modal/g_dual.u_engine/u_group0/issue_index_5_s0/Q u_core/g_modal.u_bank/u_modal/g_dual.u_engine/u_group0/phases_phases_0_1_s/ADB[9] sys_clk:[R] sys_clk:[R] 0.000 0.004 0.262
+16 0.234 u_core/g_reverb.u_room/p5_4_s0/Q u_core/g_reverb.u_room/mem5_mem5_0_0_s/ADA[8] sys_clk:[R] sys_clk:[R] 0.000 0.000 0.267
+17 0.238 u_adc/u_ads/rd_lsb_4_s0/Q u_adc/u_ads/ch1_data_4_s0/D sys_clk:[R] sys_clk:[R] 0.000 -0.174 0.364
+18 0.239 u_core/g_modal.u_bank/u_modal/g_dual.u_engine/u_group1/n5282_s/DOUT[19] u_core/g_modal.u_bank/u_modal/g_dual.u_engine/u_group1/raw_sample_12_s0/D sys_clk:[R] sys_clk:[R] 0.000 0.000 0.191
+19 0.243 u_core/g_ble.u_protocol/u_line/name_52_s0/Q u_core/g_ble.u_protocol/u_line/name_60_s0/D sys_clk:[R] sys_clk:[R] 0.000 -0.177 0.443
+20 0.247 u_display/lcd_hsync_s0/Q u_tx/u_blue/control_q_0_s0/D hdmi_pixel:[R] hdmi_pixel:[R] 0.000 0.000 0.200
+21 0.247 u_display/lcd_de_s0/Q u_tx/u_blue/de_q_s0/D hdmi_pixel:[R] hdmi_pixel:[R] 0.000 0.000 0.200
+22 0.247 u_display/g_feedback.u_feedback/peak_hold_0_s0/Q u_display/g_feedback.u_feedback/peak_hold_0_s0/D hdmi_pixel:[R] hdmi_pixel:[R] 0.000 0.000 0.270
+23 0.247 u_display/g_feedback.u_feedback/peak_hold_2_s0/Q u_display/g_feedback.u_feedback/peak_hold_2_s0/D hdmi_pixel:[R] hdmi_pixel:[R] 0.000 0.000 0.270
+24 0.247 u_display/g_feedback.u_feedback/activity_33_s0/Q u_display/g_feedback.u_feedback/activity_33_s0/D hdmi_pixel:[R] hdmi_pixel:[R] 0.000 0.000 0.270
+25 0.247 u_display/g_envelope.u_capture/quiet_pages_2_s0/Q u_display/g_envelope.u_capture/quiet_pages_2_s0/D hdmi_pixel:[R] hdmi_pixel:[R] 0.000 0.000 0.270
+
+
+3.1.3 Recovery Paths Table
+1 0.642 u_tx/g_lane[3].serializer_release_1_s0/Q u_tx/g_lane[3].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[R] 2.041 -0.793 2.019
+2 0.834 u_tx/g_lane[2].serializer_release_1_s0/Q u_tx/g_lane[2].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[R] 2.041 -0.793 1.827
+3 0.834 u_tx/g_lane[1].serializer_release_1_s0/Q u_tx/g_lane[1].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[R] 2.041 -0.793 1.827
+4 0.834 u_tx/g_lane[0].serializer_release_1_s0/Q u_tx/g_lane[0].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[R] 2.041 -0.793 1.827
+5 2.681 u_tx/g_lane[3].serializer_release_1_s0/Q u_tx/g_lane[3].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 4.082 -0.790 2.019
+6 2.873 u_tx/g_lane[0].serializer_release_1_s0/Q u_tx/g_lane[0].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 4.082 -0.790 1.827
+7 2.873 u_tx/g_lane[1].serializer_release_1_s0/Q u_tx/g_lane[1].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 4.082 -0.790 1.827
+8 2.873 u_tx/g_lane[2].serializer_release_1_s0/Q u_tx/g_lane[2].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 4.082 -0.790 1.827
+9 5.509 g_usb_touch.u_usb/usb_release_1_s0/Q g_usb_touch.u_usb/u_port/u_phy/send_eop_q_s1/CLEAR usb_clk:[R] usb_clk:[F] 10.417 0.003 4.641
+10 13.162 u_display/sys_release_1_s0/Q u_display/u_sample/ack_sync_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.437 6.963
+11 13.162 u_display/sys_release_1_s0/Q u_display/u_sample/hold_data_3_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.437 6.963
+12 13.162 u_display/sys_release_1_s0/Q u_display/u_sample/ack_meta_s0/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.437 6.963
+13 13.162 u_display/sys_release_1_s0/Q u_display/u_sample/request_toggle_s2/CLEAR sys_clk:[R] sys_clk:[R] 20.000 -0.437 6.963
+14 7.294 video_release_1_s0/Q u_tx/g_lane[0].serializer_release_1_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 2.643
+15 7.294 video_release_1_s0/Q u_tx/g_lane[3].serializer_release_0_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 2.643
+16 7.294 video_release_1_s0/Q u_tx/g_lane[3].serializer_release_1_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 2.643
+17 7.294 video_release_1_s0/Q u_tx/g_lane[2].serializer_release_0_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 2.643
+18 7.294 video_release_1_s0/Q u_tx/g_lane[2].serializer_release_1_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 2.643
+19 7.294 video_release_1_s0/Q u_tx/g_lane[1].serializer_release_0_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 2.643
+20 7.294 video_release_1_s0/Q u_tx/g_lane[1].serializer_release_1_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 2.643
+21 7.294 video_release_1_s0/Q u_tx/g_lane[0].serializer_release_0_s0/CLEAR hdmi_pixel:[R] hdmi_pixel:[F] 10.204 0.003 2.643
+22 8.042 u_tx/g_lane[3].serializer_release_1_s0/Q u_tx/g_lane[3].u_serializer/RESET hdmi_pixel:[F] hdmi_pixel:[R] 10.204 0.005 2.019
+23 8.234 u_tx/g_lane[0].serializer_release_1_s0/Q u_tx/g_lane[0].u_serializer/RESET hdmi_pixel:[F] hdmi_pixel:[R] 10.204 0.005 1.827
+24 8.234 u_tx/g_lane[1].serializer_release_1_s0/Q u_tx/g_lane[1].u_serializer/RESET hdmi_pixel:[F] hdmi_pixel:[R] 10.204 0.005 1.827
+25 8.234 u_tx/g_lane[2].serializer_release_1_s0/Q u_tx/g_lane[2].u_serializer/RESET hdmi_pixel:[F] hdmi_pixel:[R] 10.204 0.005 1.827
+
+
+3.1.4 Removal Paths Table
+1 0.143 u_tx/g_lane[2].serializer_release_0_s0/Q u_tx/g_lane[2].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 0.000 -0.324 0.638
+2 0.143 u_tx/g_lane[0].serializer_release_0_s0/Q u_tx/g_lane[0].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 0.000 -0.324 0.638
+3 0.210 u_tx/g_lane[1].serializer_release_0_s0/Q u_tx/g_lane[1].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 0.000 -0.324 0.706
+4 0.224 u_tx/g_lane[3].serializer_release_0_s0/Q u_tx/g_lane[3].u_serializer/RESET hdmi_pixel:[F] hdmi_serial:[F] 0.000 -0.324 0.719
+5 0.570 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_153_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.004 0.526
+6 0.570 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_308_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.004 0.526
+7 0.577 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_114_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.004 0.533
+8 0.577 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_115_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.004 0.533
+9 0.582 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_21_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 0.000 0.535
+10 0.582 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_49_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 0.000 0.535
+11 0.582 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_50_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 0.000 0.535
+12 0.613 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_19_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 0.000 0.565
+13 0.613 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_20_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 0.000 0.565
+14 0.672 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_118_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.007 0.632
+15 0.672 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_216_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.007 0.632
+16 0.672 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_217_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.007 0.632
+17 0.672 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_297_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.007 0.632
+18 0.672 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_302_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.007 0.632
+19 0.672 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_303_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.007 0.632
+20 0.674 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_2_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 0.000 0.626
+21 0.674 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_30_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 0.000 0.626
+22 0.674 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_35_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 0.000 0.626
+23 0.674 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_36_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 0.000 0.626
+24 0.674 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_37_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 0.000 0.626
+25 0.676 g_usb_touch.u_usb/u_port/u_host/connected_s1/Q g_usb_touch.u_usb/u_reports/hold_data_47_s0/CLEAR usb_clk:[R] usb_clk:[R] 0.000 -0.004 0.632
+
+
+3.2 Minimum Pulse Width Table
+1 5.799 6.699 0.900 Low Pulse Width hdmi_pixel u_display/g_ui_font.u_font/text_rom_text_rom_0_4_s
+2 5.800 6.700 0.900 High Pulse Width hdmi_pixel u_display/g_ui_font.u_font/text_rom_text_rom_0_4_s
+3 5.803 6.703 0.900 Low Pulse Width hdmi_pixel u_display/g_envelope.u_capture/memory_memory_0_0_s
+4 5.803 6.703 0.900 Low Pulse Width hdmi_pixel u_display/g_envelope.u_capture/gowin_add_SDPB_memory_memory_0_0_s
+5 5.804 6.704 0.900 High Pulse Width hdmi_pixel u_display/g_envelope.u_capture/memory_memory_0_0_s
+6 5.804 6.704 0.900 High Pulse Width hdmi_pixel u_display/g_envelope.u_capture/gowin_add_SDPB_memory_memory_0_0_s
+7 5.808 6.708 0.900 Low Pulse Width hdmi_pixel u_display/g_envelope.u_capture/memory_memory_0_0_s
+8 5.808 6.708 0.900 Low Pulse Width hdmi_pixel u_display/g_ui_font.u_font/text_rom_text_rom_0_0_s
+9 5.808 6.708 0.900 Low Pulse Width hdmi_pixel u_display/g_envelope.u_capture/gowin_add_SDPB_memory_memory_0_0_s
+10 5.809 6.709 0.900 High Pulse Width hdmi_pixel u_display/g_envelope.u_capture/gowin_add_SDPB_memory_memory_0_0_s
+
+TC_CLOCK Actived create_clock -name sys_clk -period 20.000 -waveform {0.000 10.000} [get_ports {sys_clk}]
+TC_GENERATED_CLOCK Actived create_generated_clock -name hdmi_serial -source [get_ports {sys_clk}] -master_clock sys_clk -multiply_by 49 -divide_by 10 [get_pins {u_video_clock/u_pll/CLKOUT0}]
+TC_GENERATED_CLOCK Actived create_generated_clock -name hdmi_pixel -source [get_ports {sys_clk}] -master_clock sys_clk -multiply_by 49 -divide_by 50 [get_pins {u_video_clock/u_pll/CLKOUT1}]
+TC_GENERATED_CLOCK Actived create_generated_clock -name usb_clk -source [get_ports {sys_clk}] -master_clock sys_clk -multiply_by 24 -divide_by 25 [get_pins {g_usb_touch.u_usb/u_clock/u_pll/CLKOUT0}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {uart_rx}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {Key_in[0] Key_in[1]}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {piano_key_n[0] piano_key_n[1] piano_key_n[2] piano_key_n[3] piano_key_n[4] piano_key_n[5] piano_key_n[6] piano_key_n[7] piano_key_n[8] piano_key_n[9] piano_key_n[10] piano_key_n[11] piano_key_n[12]}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {sys_rst_n}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {knob_sda}]
+TC_MAX_DELAY Actived set_max_delay -to [get_ports {knob_sda knob_scl}] 20.000
+TC_MIN_DELAY Actived set_min_delay -to [get_ports {knob_sda knob_scl}] 0.000
+TC_MAX_DELAY Actived set_max_delay -to [get_ports {HP_BCK HP_WS HP_DIN PA_EN uart_tx}] 20.000
+TC_MIN_DELAY Actived set_min_delay -to [get_ports {HP_BCK HP_WS HP_DIN PA_EN uart_tx}] 0.000
+TC_FALSE_PATH Actived set_false_path -from [get_ports {hdmi_hpd}]
+TC_FALSE_PATH Actived set_false_path -through [get_pins {u_display/u_status/req_meta_s0/D u_display/u_status/ack_meta_s0/D u_display/u_sample/req_meta_s0/D u_display/u_sample/ack_meta_s0/D}]
+TC_MAX_DELAY Actived set_max_delay -from [get_regs {u_display/u_status/hold_data* u_display/u_sample/hold_data*}] -to [get_regs {u_display/u_status/dst_data* u_display/u_sample/dst_data*}] 20.000
+TC_FALSE_PATH Actived set_false_path -hold -from [get_regs {u_display/u_status/hold_data* u_display/u_sample/hold_data*}] -to [get_regs {u_display/u_status/dst_data* u_display/u_sample/dst_data*}]
+TC_FALSE_PATH Actived set_false_path -through [get_pins {video_release_0_s0/CLEAR video_release_1_s0/CLEAR}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {ble_rx}]
+TC_FALSE_PATH Actived set_false_path -from [get_ports {ble_state}]
+TC_MAX_DELAY Actived set_max_delay -to [get_ports {ble_tx}] 20.000
+TC_MIN_DELAY Actived set_min_delay -to [get_ports {ble_tx}] 0.000
+TC_FALSE_PATH Actived set_false_path -from [get_ports {usb_touch_dp usb_touch_dm}] -to [get_pins {g_usb_touch.u_usb/u_port/u_phy/rx_dp_ms_s0/D g_usb_touch.u_usb/u_port/u_phy/rx_dn_ms_s0/D g_usb_touch.u_usb/u_port/u_phy/rxd_ms_s0/D g_usb_touch.u_usb/u_port/line_meta_0_s0/D g_usb_touch.u_usb/u_port/line_meta_1_s0/D}]
+TC_FALSE_PATH Actived set_false_path -through [get_pins {g_usb_touch.u_usb/u_reports/req_meta_s0/D g_usb_touch.u_usb/u_reports/ack_meta_s0/D g_usb_touch.u_usb/connected_meta_s0/D}]
+TC_MAX_DELAY Actived set_max_delay -from [get_regs {g_usb_touch.u_usb/u_reports/hold_data*}] -to [get_regs {g_usb_touch.u_usb/u_reports/dst_data*}] 20.000
+TC_FALSE_PATH Actived set_false_path -hold -from [get_regs {g_usb_touch.u_usb/u_reports/hold_data*}] -to [get_regs {g_usb_touch.u_usb/u_reports/dst_data*}]
+TC_FALSE_PATH Actived set_false_path -through [get_pins {g_usb_touch.u_usb/usb_release_0_s0/CLEAR g_usb_touch.u_usb/usb_release_1_s0/CLEAR}]
+TC_MAX_DELAY Actived set_max_delay -to [get_ports {usb_touch_dp usb_touch_dm}] 10.000

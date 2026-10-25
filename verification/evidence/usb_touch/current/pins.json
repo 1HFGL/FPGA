@@ -1,0 +1,46 @@
+{
+  "board": "NEO Dock 31005 + Tang Mega 60K SOM",
+  "ports": 25,
+  "migrated_signals": 15,
+  "bluetooth_ports": 3,
+  "bluetooth_cst_sha256": "296ec5d250a977c04cb1121e7317fe3a4679375fbf1646867fe7947859b3e018",
+  "cst_sha256": "739734376f3212c72e2d4d2e4c8372b5d41ba7a47324bdfa483eb7a33cbbfaa6",
+  "contract_sha256": "f17487d207c8a36d79ee28ba8c6317fdde7fff8b8fa14626b7dedeeb47f81826",
+  "checker_sha256": "905c7b9f0d069ed2a50d2d3fea7fccc4c94c188bdb26b83db45afbf683554736",
+  "previous_cst_sha256": "f9c325542fc972051d3d2df936dd9b2e1fca3c179bff37a8edd42d6c01af6b22",
+  "hardware_measured": false,
+  "reports": {
+    "projects\\hdmi\\impl\\pnr\\piano_hdmi.rpt.txt": "31294930cb958b1db159a818cfba64bd242d9912b9d06f58d268bead4879f20f"
+  },
+  "negative_controls": [
+    {
+      "case": "pin",
+      "rejected": "J13 CST pin mismatch, duplicate pin or unchanged port moved"
+    },
+    {
+      "case": "old_white_pin",
+      "rejected": "J13 CST pin mismatch, duplicate pin or unchanged port moved"
+    },
+    {
+      "case": "old_black_pin",
+      "rejected": "J13 CST pin mismatch, duplicate pin or unchanged port moved"
+    },
+    {
+      "case": "voltage",
+      "rejected": "J13 I/O voltage/pull mismatch: knob_scl"
+    },
+    {
+      "case": "report",
+      "rejected": "Implemented J13 pin/bank/voltage mismatch: piano_key_n[0]"
+    },
+    {
+      "case": "ble_pin",
+      "rejected": "BLE pin mismatch/duplicate"
+    },
+    {
+      "case": "ble_voltage",
+      "rejected": "BLE I/O voltage/pull/drive mismatch"
+    }
+  ],
+  "status": "PASS_PIN_CONTRACT_ONLY"
+}
