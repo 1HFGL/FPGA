@@ -2,7 +2,7 @@
 
 基于 master `df0e894009e613dbf34011e63bc05653eb92843e`。AIN2 实体滑块已在该版本接入，显示范围为 0～127。本轮针对“数值变化但听感区别小”改进滤波响应，没有证据证明之前的滑块连线或实际烧录版本存在错误。
 
-交付状态：功能仿真、整数参考、综合及布局完成；截至2026-10-25交接，完整工程仍在布线，未生成最终时序／资源签核，未发布新烧录文件。功能证据见`verification/evidence/brightness_response/functional_summary.json`。继续时读取`build/hdmi/build.log`并等待当前进程结束；只有构建检查通过后才能运行完整证据脚本并发布位流。不要把下文数字链路18拍余量当成已通过Setup检查。
+交付状态：本次与时序优化一起整合；功能回归、原约束完整布局布线已通过。当前P2/R2/C0，五类余量1.076/0.128/0.642/0.143/5.799ns。系数公式和R958不变，仅局部改用逻辑表，完整证据见`verification/evidence/brightness_response/summary.json`。本次源码随master提交，未烧录或实物试听；下面`functional_summary.json`是队友分支形成时的历史功能快照。
 
 ## 修改与兼容
 
@@ -33,17 +33,21 @@
 在仓库根目录执行；按本机安装位置设置 `$py`、`$ms` 和 `$vendor`。
 
 ```powershell
-$py='C:/Users/Nanji/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
-$ms='D:/modelsim1/win64'
-$vendor='C:/Gowin/Gowin_V1.9.12.03_x64/IDE/simlib/gw5a/prim_sim.v'
+$py='C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
+$ms='C:/Library/modelsim/win64'
+$vendor='D:/Gowin/Gowin_V1.9.12.04_x64/IDE/simlib/gw5a/prim_sim.v'
 & verification/scripts/check_verilog.ps1 -ModelSimBin $ms
+& $py model/check_tone_filter.py generate
+& $py verification/scripts/run_final_tests.py tb_tone_filter --bin $ms
 & $py model/brightness_response.py vectors
 & $py verification/scripts/run_final_tests.py tb_brightness_response --bin $ms
 & $py model/brightness_response.py analyze
-& $py verification/scripts/run_final_tests.py tb_brightness_hdmi --bin $ms --gowin-simlib $vendor
+& $py verification/scripts/run_final_tests.py tb_brightness_hdmi --functional-rom --bin $ms --gowin-simlib $vendor
 & $py model/brightness_response.py hdmi
-& $py verification/scripts/run_final_tests.py tb_controls_meter_hdmi --legacy-brightness --bin $ms --gowin-simlib $vendor
-& projects/hdmi/build.ps1 -Python $py -Gowin C:/Gowin/Gowin_V1.9.12.03_x64/IDE/bin/gw_sh.exe
+& $py verification/scripts/run_final_tests.py tb_controls_meter_hdmi --legacy-brightness --functional-rom --bin $ms --gowin-simlib $vendor
+& projects/hdmi/build.ps1 -Python $py -Gowin D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe
+& $py verification/scripts/check_brightness_response.py --baseline 284e7ba2558b34ebf1592a30bbe6c97687b0331e
+& $py verification/scripts/check_dac_timing.py --run --allow-incomplete
 ```
 
 新单元测试覆盖128档、正负满幅、随机输入、控制快照、复位中断、过快请求和有限静音尾声，34816个输出逐个对照独立整数参考。频谱断言要求0档和中间档确实加强高频抑制，而不只是“PCM不相同”。

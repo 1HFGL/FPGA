@@ -1,0 +1,1170 @@
+{
+  "status": "PASS_OFFLINE_CURRENT_CONSTRAINTS_ONLY",
+  "base_commit": "284e7ba2558b34ebf1592a30bbe6c97687b0331e",
+  "legacy_exact_samples": 14992,
+  "strict_verilog_files": 245,
+  "preserved_original_files": 253,
+  "tests": {
+    "tb_brightness_response": {
+      "result": "PASS tb_brightness_response: 34816 samples, R5, live-control snapshot, pending reset and overrun",
+      "legacy_brightness": false,
+      "functional_rom": false
+    },
+    "tb_brightness_hdmi": {
+      "result": "PASS tb_brightness_hdmi: actual AIN2, 32 voices, both instruments, original 127 DAC exact, R958, serial=13803 samples=6903 full32=2291 dark=1252",
+      "legacy_brightness": false,
+      "functional_rom": true
+    },
+    "tb_tone_filter": {
+      "result": "PASS tb_tone_filter: 14992 outputs, R2 valid, reset cancellation, overrun",
+      "legacy_brightness": false,
+      "functional_rom": false
+    },
+    "tb_controls_meter_hdmi_legacy_brightness": {
+      "result": "PASS tb_controls_meter_hdmi: actual ADC/filter, brightness/no-guide, 13 keys+19 UART=32 audible voices, 33rd steal, release, exact DAC/PA/UART isolation, R955, HPD/reset samples=794",
+      "legacy_brightness": true,
+      "functional_rom": true
+    }
+  },
+  "response": {
+    "exact_samples": 34816,
+    "spectra": [
+      {
+        "brightness": 0,
+        "frequencies_hz": [
+          257.8125,
+          996.09375,
+          3996.09375
+        ],
+        "gain_db": {
+          "old": [
+            -3.283153316739491,
+            -12.51427871007575,
+            -24.253270026414636
+          ],
+          "new": [
+            -3.018722382533075,
+            -17.141342450857916,
+            -39.877216193439516
+          ]
+        }
+      },
+      {
+        "brightness": 32,
+        "frequencies_hz": [
+          257.8125,
+          996.09375,
+          3996.09375
+        ],
+        "gain_db": {
+          "old": [
+            -0.04701248309651869,
+            -0.6528418617813658,
+            -5.508672619735899
+          ],
+          "new": [
+            -0.6194934535327796,
+            -6.4528294975464595,
+            -25.277977906444523
+          ]
+        }
+      },
+      {
+        "brightness": 64,
+        "frequencies_hz": [
+          257.8125,
+          996.09375,
+          3996.09375
+        ],
+        "gain_db": {
+          "old": [
+            -0.008820833966015403,
+            -0.12929220526847832,
+            -1.6910349061452852
+          ],
+          "new": [
+            -0.11402620807486984,
+            -1.5618915713366113,
+            -12.262751903543297
+          ]
+        }
+      },
+      {
+        "brightness": 96,
+        "frequencies_hz": [
+          257.8125,
+          996.09375,
+          3996.09375
+        ],
+        "gain_db": {
+          "old": [
+            -0.001998171707577572,
+            -0.029763844249449244,
+            -0.44685622018452226
+          ],
+          "new": [
+            -0.02104624053385223,
+            -0.3088860313550422,
+            -3.919707727379879
+          ]
+        }
+      },
+      {
+        "brightness": 127,
+        "frequencies_hz": [
+          257.8125,
+          996.09375,
+          3996.09375
+        ],
+        "gain_db": {
+          "old": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "new": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      }
+    ],
+    "silence_exact": true,
+    "bypass_127_exact": true,
+    "hardware_listening_verified": false
+  },
+  "integration": {
+    "samples": 6903,
+    "phases": {
+      "0": {
+        "samples": 893,
+        "changed": 0,
+        "nonzero": 305
+      },
+      "1": {
+        "samples": 831,
+        "changed": 635,
+        "nonzero": 829
+      },
+      "2": {
+        "samples": 694,
+        "changed": 693,
+        "nonzero": 694
+      },
+      "3": {
+        "samples": 1103,
+        "changed": 243,
+        "nonzero": 510
+      },
+      "4": {
+        "samples": 512,
+        "changed": 0,
+        "nonzero": 510
+      },
+      "5": {
+        "samples": 879,
+        "changed": 634,
+        "nonzero": 877
+      },
+      "6": {
+        "samples": 686,
+        "changed": 672,
+        "nonzero": 686
+      },
+      "7": {
+        "samples": 1305,
+        "changed": 231,
+        "nonzero": 1295
+      }
+    },
+    "five_stages_exact": true,
+    "original_127_exact": true,
+    "hardware_listening_verified": false
+  },
+  "audio_contract": {
+    "voices": 32,
+    "sample_rate_hz": 48000,
+    "cache_cycle": 958,
+    "prepare_cycles": 976,
+    "spare_cycles": 18
+  },
+  "resources": {
+    "Logic": {
+      "used": 44614,
+      "available": 59904
+    },
+    "Register": {
+      "used": 20486,
+      "available": 60780
+    },
+    "BSRAM": {
+      "used": 93,
+      "available": 118
+    },
+    "DSP": {
+      "used": 37,
+      "available": 118
+    },
+    "PLLA": {
+      "used": 2,
+      "available": 8
+    }
+  },
+  "worst_reported_slack_ns": {
+    "3.1.1 Setup Paths Table": 1.076,
+    "3.1.2 Hold Paths Table": 0.128,
+    "3.1.3 Recovery Paths Table": 0.642,
+    "3.1.4 Removal Paths Table": 0.143,
+    "3.2 Minimum Pulse Width Table": 5.799
+  },
+  "ports": 39,
+  "active_constraints": 28,
+  "bitstream": "projects/hdmi/impl/pnr/piano_hdmi.fs",
+  "bitstream_sha256": "604f12e3299b479ddbf6a9805ad73670186e884b6ed58a69ddf176035ac37295",
+  "source_inputs": [
+    {
+      "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\ble.cst",
+      "sha256": "296ec5d250a977c04cb1121e7317fe3a4679375fbf1646867fe7947859b3e018"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\ble.sdc",
+      "sha256": "92d9cb238fce80693bd5f1dacc65ef21997964872ce465f326b72790456e170c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\hdmi.cst",
+      "sha256": "ad0da49dfe3c4d82ea7cdc01e82c8cefbd20add201dfd981e8e568a9d8671d08"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\hdmi.sdc",
+      "sha256": "3dad6fc44cf15465dd46e12d08cfa0f11eea31cf694318450f7e8c4405378333"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\hdmi_reset_placement.cst",
+      "sha256": "dd5a7bb74e104d181839ebbfd9557b1718bf653213d743e5a673841d581a7ec9"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\piano.cst",
+      "sha256": "739734376f3212c72e2d4d2e4c8372b5d41ba7a47324bdfa483eb7a33cbbfaa6"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\piano.sdc",
+      "sha256": "752d3a99f506a906786d5a23b8e6a974913489b578210a4a4801b189549b7955"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\usb.cst",
+      "sha256": "1b45a019ef98bd4b4b1942a622a4c0f150e2f2f6058b52d66e6dc5d582dac3c7"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\boards\\tang_mega_60k_31004\\usb.sdc",
+      "sha256": "b126f5547a1dd03e10d8f98d9c8b470fe64a538a3c35cae2e68bd73118f452cd"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi\\piano_hdmi.cst",
+      "sha256": "9242f429ddc5de2587fcba4b3aac380f52cce0ba5ef869543ac005f23d4d0162"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\build\\hdmi\\piano_hdmi.sdc",
+      "sha256": "de67e058071eeaa8985b91454a580e4cc5b5e4ca259c86c18bcd66bd7e027b40"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\projects\\check_modal_rom.tcl",
+      "sha256": "5b744b24e9f512b03b1a15556e4debc7dc1fad6adbb754586bb813308f7fcc81"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\build.ps1",
+      "sha256": "11936ba04e013954ffa8237270bb320a039ef6a5e53886222f38fd94fe74f491"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\build.tcl",
+      "sha256": "d024b1dc6b701b6ab45fef3ee390bbdf0b97578fdd5b4634ca7a2d7410b7d385"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\build_inputs.py",
+      "sha256": "08bea40b95e7c8f51e8ef21f14030aa37467e3f62f08c0cb30af7c0b2751d20a"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\piano_hdmi.gprj",
+      "sha256": "e930f00dff57f2cfe68993bced9b748a27647468878ace30a4339ef511b99210"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\pnr_trial.tcl",
+      "sha256": "6fb9267e68a5aab10c923e127b5a18c217ab58c7df8cbcb6cbd32ea05ae29c11"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\process_config.json",
+      "sha256": "3befa96d2ee4623c19c5d42d4f8e7bb6ddcf6218262f39299572a779e408e610"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\projects\\hdmi\\sweep_pnr.ps1",
+      "sha256": "7050bde3045e21dfdf7c5036ced5d68c9b9b4331e3021b58c2060ccecdce1fea"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\projects\\piano\\read_timing_html.py",
+      "sha256": "e3de4171a8b1aa5c0f82326605c4933c0229477ed919d68335e09184d5806c51"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\audio\\chorus_effect.v",
+      "sha256": "edb6b95dd4fdf8a7a86688a8ed6abf9cb48d3d35cea438184cbd14c67482e4bf"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\audio\\echo_delay.v",
+      "sha256": "e3fe2eaa4813e3c1ea3ba8d2c0d79262487e2e53b597925ce3aaa9436ee3b89c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\audio\\i2s_tx.v",
+      "sha256": "f0ce837c5864c32b55952bdb99225a3dbff0516b29a2a1e29a8f2c9973a477db"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\audio\\room_reverb.v",
+      "sha256": "14932be8f8f18b22445a4d971866f93b4550cff4ba18310323632b1c7ac34af9"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\audio\\sample_tick.v",
+      "sha256": "78bc8ce92d35bc4439b5805efffc4e663fe868bfd974418d37500b61af9a30c7"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\audio\\synth_top.v",
+      "sha256": "903cc00a0a0996019dfb65e1744c3a31598318fa5264a232288bcb7412cb48aa"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\audio\\tone_filter.v",
+      "sha256": "623b8f3c697c58eeeea9465d57497dbb5e51461d5af688a24e1c015a088f9b5b"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\audio\\tone_filter_expressive.v",
+      "sha256": "1f5cc9fc610030439254df093a93a1aa83b2ee1d7ba173651396dd37e770874a"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\adc_knob_if.v",
+      "sha256": "97491c2b12b5a4f4e67452693ef6d279c16c83bf6c27b35d117eba99d1234a12"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\ads1115_if.v",
+      "sha256": "67c3ca695122fe17de11fb85c686779cafbb82c7ee08b79c002c64d3260062a1"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\ads1115_knob_if.v",
+      "sha256": "17d84fd3e9b2208f5b85e0f0b3981362bd0783c67c3e4d504eb4c9e782db8d30"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\brightness_keys.v",
+      "sha256": "05e3f3e42f5852a5a8309c5669202ea348aa21d393ab5f5bc97cf406ae9db4de"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\event_encoder.v",
+      "sha256": "2d590caf3c5ec59da3f7b54cd4bbcabc83431403f132ced8ccbe07a8dd3aa38a"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\i2c_master.v",
+      "sha256": "405d0390c13c52c12d1af96e523d7de890075ecf8a4cedb31c6626f47baff994"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\input_sync_debounce.v",
+      "sha256": "4aa0f80f9166f3ce3e18b6619ea29e4a4641893dae2bbd0c28ccfa8e874584cc"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\note_phase_lut.v",
+      "sha256": "71c1a6b7d797da5a34a091cd1aeb304f8df794f8c962fafa3aae6a886b36d029"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\piano_controls.v",
+      "sha256": "822a2cff20183dc6636d75ddeaa2bdf5d2a71982ebbe7a4c60faca94e41953f8"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\practice_guide.v",
+      "sha256": "b2f57d902caf28aeb66e02e41a0ca707eb7f59435bdc957bb8b60b60771381cb"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\touch_brightness_control.v",
+      "sha256": "748bdd30ad5a1dfd994e680632cb35e347de083729bc7b838edd0c7caa0bea5a"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\touch_contact_tracker.v",
+      "sha256": "1880e4f94a3610d85f200c8134efe85d040cf4202c66e308aa6173fb9be25a62"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\touch_or_key_if.v",
+      "sha256": "6e9c09fb9fcd6c893910f7719672e11c3158802bcb14496e66e1489d296ac4d7"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_event_arbiter.v",
+      "sha256": "3440c5a2357e55d19744f7959a4e5b793ba613f4d172f8fbb413a07e112753ee"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_fifo.v",
+      "sha256": "d29abed64b9b72a5e8565470e4c37bbf34a0a6e6c89699ec120902057200f333"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_line_rx.v",
+      "sha256": "de156235bb876225a027317ef6d7b97f9f923603fda81105ff37a5da0181a2dd"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_reply_tx.v",
+      "sha256": "4fc6676a434161dde4b6edcf46717b0524a850901918e0215c47c126ca0898da"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_rx.v",
+      "sha256": "1477963cfe450eed516052e25085936683592ac9edefe5bc33dc7dd2df8123b9"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_synth_protocol.v",
+      "sha256": "c086b3a6125bc65f4aa708ce27d0d2a97f64c552e1114f035737ca881c998aed"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\uart_tx.v",
+      "sha256": "009d15dd6a6fa5fbbc7626f4771224b815554ac4a731d4407ebd01a1185f1033"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\control\\voice_allocator.v",
+      "sha256": "65389aad361bcabf7c3fb511827e36437b4ac4009dacb52d58d509de3b8dd58c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_bend_map.v",
+      "sha256": "7cec7c74f4eb02acb53112095bb0a946fe01cbb9ead28bc6bb138442ce97501b"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_cdc_latest.v",
+      "sha256": "c79288111cded83c271b09973324003e649ad0a557cb328be9e62a411a91fd47"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_feedback.v",
+      "sha256": "89dc5d7ad1f15f8f2778a30191bb329770266b387aad925821cc2c646525070f"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_font24.v",
+      "sha256": "16c2ec0ba45d163c29192fbf803dba6a2b10d1696d18279f840eec580ad3bf95"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_font_ui.v",
+      "sha256": "9b950fe607fe4abc1525ea30a389684f2749d91f345347d0d1636b594f066018"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_wave_buffer.v",
+      "sha256": "d1168885f767d017ab988503a0d280c5732874c8f4a9eaefe493fc326ecc2030"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\display_wave_envelope.v",
+      "sha256": "6b2e5a716800d29b84490868d097dd53a1259779d3cd65ae78903508862136ef"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\dvi_tx_gowin.v",
+      "sha256": "6c0a13a8d10dd9cd781380192369ba05b06aabe904c4a58dd405c6c00ee797a4"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\hdmi_clock_60k.v",
+      "sha256": "8e281b78cc4b19f00ad23e629e5bbbcccab09444e4d60a0262e4d84ba43ca446"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\hdmi_reset_guard.v",
+      "sha256": "e71364364004eedbf7a01c406c5a819ee558da4fb8212e9616beefe65dd49ec8"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\instrument_display.v",
+      "sha256": "4746eb3db1f383d369a7fd6b1bef7fa7c85985630b765306921ee8300912a7a7"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\instrument_panel_renderer.v",
+      "sha256": "6d99c1e54f0cec625c702780fc4dda597ec2c48360cfbe1b7756d79701385e9d"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\instrument_panel_ui.v",
+      "sha256": "a6f45008577fe6df24987c8c0d7d58eca83ba0717bc33ecfa9472893234d2704"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\instrument_ui_map.v",
+      "sha256": "fd0ba01b20b1d21d1575cc8de49c32217ebd8c750367691c15a2525ae64de76c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\lcd_rgb_timing.v",
+      "sha256": "439f779ffd44d54f459f182438009a40c78379002d86d3eea1e0a7c1e96b5d9d"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\piano_display_renderer.v",
+      "sha256": "b10b7f7c271338f000c5954b408d44b6e46e6871edafb1d73f3b42873cec0acc"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\display\\tmds_encoder.v",
+      "sha256": "b5cf6a9a8289b3cc3df51eecbb9914fd4b5f43315cdbc3f44b362f2844b381fe"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\bright_1024.mem",
+      "sha256": "dd28109da4c80da45cb6975a1496eb23df93bb26fb09e6cf35478d1c818ad6a4"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\guitar_1024.mem",
+      "sha256": "e5c79a48664801c669aad792883aaa0cd65b196652593f3f77f44b795973f1a0"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\modal_coeff_rom_dual.v",
+      "sha256": "00ee1ebd405b7994a9f11a80ab19d691613ed550c30687b41a478aea75b9b758"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\modes_even.mem",
+      "sha256": "8e580592cf031f1a19ca20dfad08563a9e0553d85bae9bf3b8c86cf840442c56"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\modes_odd.mem",
+      "sha256": "689f2af6e42615238cfe850cbc4868606dd2b0e189b05f35777fc9c9964e1474"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\piano_1024.mem",
+      "sha256": "b3abcc11a9302601c994afce9161258da1a80ef247e2d4f745275ecaf4826f1b"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\piano_v3_modes.mem",
+      "sha256": "cac05bc7e087e1f495e47f11e5c1c26cd28c3cb7976ace26af04c29a56bb5999"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\piano_v3_modes.mem.bank0.mem",
+      "sha256": "2d53f242a747492a8c88521bc6ae97834e33ccfd50133796fcd6201693b2125e"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\piano_v3_modes.mem.bank1.mem",
+      "sha256": "a720369a4fb467c0b34cf05123226b6da76760f867945c5495d544eee185af81"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\piano_v3_modes.mem.bank2.mem",
+      "sha256": "eff90121cfe138d4a9cf64016cd929b4ffd9c67b699f37a1aad7a7bae1294dda"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\pitch_bend_1025.mem",
+      "sha256": "236f2d8eb6a2a026284f60f371cd9159ad3c421ec961f6aa57cdf4e0c59f1e2d"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\rock_v2_shaper.mem",
+      "sha256": "6923505492a20340e9744aee917265439521f00bd5de3854388c790031c81345"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\sine_1024.mem",
+      "sha256": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\rom\\strings_1024.mem",
+      "sha256": "f07ef598d4aae186c5729d89669dc888a186f74414d9cf597be5f94f894b09b3"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\adsr_env.v",
+      "sha256": "33107d2ce68cb5a00c1d96c9fddeca1a276e56c94a0712d90f4c2390457d2c51"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\instrument_env.v",
+      "sha256": "a0899f9dc25fc6fe1b67ec53b9dd2976fbf60ecf5ec7b90336f5d9ed92d3d4e4"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\instrument_wave.v",
+      "sha256": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\modal_parameter_rom.v",
+      "sha256": "494e2ed50a138887aea02baec0d7b4db7b442c4358de2b4c8612e9e084199463"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\modal_shared_output.v",
+      "sha256": "53eadc14c748217d3a16ea8912591df86062161a7bd13182ecf6eb4f1b9d66c9"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\modal_voice_group16.v",
+      "sha256": "4c5a0e68dda9b6a93908010f16fa0f8020c913f0faae5f8526d0ab666a9d5d3e"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\phase_acc.v",
+      "sha256": "c3ea7b922199dfebae6b982c65f7fa1e7efcc18caebce6b4b1f7ffb9bccbc96d"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\sample_gain.v",
+      "sha256": "123f61f75037c68740bcc5c51d55d0ceaced35f91914a2b0acadbcd5c73d6dd1"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\sample_mixer4.v",
+      "sha256": "27d1e0c5854cd86748475afaad372b71825c6d19a8ccea36b13d42326f94519c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_bank_adsr.v",
+      "sha256": "11a97053338ffc763e612c62e1511141c78de1734aa04c79b4545f26da0e5038"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_bank_dual16.v",
+      "sha256": "ffe44fa1b97be88ea63a306e2284f359889b956e8215c39c3012f4c3737ccb38"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_bank_modal_adapter.v",
+      "sha256": "48b520762159afd7b52f682da42f0453d77fecf093275ac83ac4e5217c745f51"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_bank_modal_dispatch.v",
+      "sha256": "67e232b4b50fccae20168fa7e0de2cdc8c3cc8dca181e194221da7a7b29f567c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_bank_music_pipe.v",
+      "sha256": "dfb6d3d57d8398aa1688679c664b91846597f6363c20c535d34815adae0904ad"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_instrument.v",
+      "sha256": "e26752a0e853ca2dd6b9668f7fd117b3030cded14dbe4b9258688e638d279abf"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\voice_timbre_adsr.v",
+      "sha256": "12ca3d22b45ffcbc073c78fe68d4d0a9ace2deebf3c748cde0efa5e1304bf288"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\wave_lut.v",
+      "sha256": "f476407c6bfb4853b547f1f3ad88d718878f8520fd48915bea664f2b03ff5cbc"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\synth\\wave_lut_timbre.v",
+      "sha256": "562653ae5c8945ee55266545c9cef8ccd554fa068932c8136b58d41abbd0d4dd"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\top\\instrument_uart_top.v",
+      "sha256": "efdc8a58ac1ca6dbbb70aab837623ce14ee2eedf1882fe2bc7ee09584931b2e1"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\top\\piano_hdmi_top.v",
+      "sha256": "b512ddaded7aaa0a2f5daf64a10ce7d15ed73781da0d1d91c0bcaa4c75f76246"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\touch_report_cdc.v",
+      "sha256": "afdd9abe1b4919aed4d3e6aea515e9d8c0852947a2241c4d42bdc6c4f100ea88"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\touch_report_decode.v",
+      "sha256": "3ce5138de94126f44d9525ed61b974d680482b11f1c59f37c368c23281215896"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\touch_usb_control.v",
+      "sha256": "fad4815d1f23c2e5ba5da11ea9b1864834a349bac71a1fc5ab5d7fb5601a0932"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\touch_usb_host.v",
+      "sha256": "adb158c718f30607a15b51477588ad315c57aed9490ed22816ed4512eb9682c1"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\touch_usb_link.v",
+      "sha256": "6666e61a943a10e8f67cf586905cd838ac13d92e5baf140bc536ba2551947f08"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\touch_usb_port.v",
+      "sha256": "c147d7cb766d241818d49eb73aecea7bfdfc3c256b74e8b2a094e53fbdb40782"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\touch_usb_system.v",
+      "sha256": "c7443c8fce0200684f668e63bf58e5a7058ea73226d758c26584457183e15749"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\usb_clock_60k.v",
+      "sha256": "d8ec5ca62b85eefcec85db5a2709b484643a180c5a599acc81ec55e98cf41681"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\vendor\\usb_fs_phy.v",
+      "sha256": "f77e02fc44fb1e9e24c0e7ea854bff5bdb07daf632e73e2be719870d75b4b51c"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\vendor\\usbh_crc16.v",
+      "sha256": "8f4d19a55debc503248e874debc2c2d30cdc8ad2e0e2df672e145278469cb448"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\vendor\\usbh_crc5.v",
+      "sha256": "09f0aa28d5ee06c42a813890b232788585b5001d042783b05bff290e239fca6a"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\rtl\\usb\\vendor\\usbh_sie.v",
+      "sha256": "1281a47c6b77b7d16a096a01c9702a1bb0aa51dcda176e98c45df2e932de081d"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\verification\\scripts\\check_hdmi_implementation.py",
+      "sha256": "2feebc526a3f21284d1f78e51820cd5d8fc342aeb9c577139014c352df040d07"
+    },
+    {
+      "path": "D:\\Project\\fpga_contest\\verification\\scripts\\pnr_sweep.py",
+      "sha256": "2231a6a68d0d66111319124fa680fb395a8b7e08b335c98957ff5caffbb075e3"
+    }
+  ],
+  "artifacts": {
+    "build/regression/final/tb_brightness_response_console.log": "b2aa042c9cfb84977a8e828274a5dcda2f676c6a834bbe57c71e44846ff94ef8",
+    "build/regression/final/tb_brightness_response_inputs.json": "2fabe54022272e74072341b4e1604892c3c21c0c7a3f2c1c05d08536f8cb2d74",
+    "build/regression/final/tb_brightness_hdmi_console.log": "ad741a8323eafeef6545095291217b60c7f7deaf070accba4d4391e6b66a762c",
+    "build/regression/final/tb_brightness_hdmi_inputs.json": "98517d36c29d6c8af0b14560fc89e41d2d53004b982110e607b38e4ef86c67c5",
+    "build/regression/final/tb_tone_filter_console.log": "4004204d567aadadae3a1a3c15f47e92cf7f271bd409434eaf8508eb6d2ac526",
+    "build/regression/final/tb_tone_filter_inputs.json": "7e54d062ecd4c2f90be1e67c66c6f95d987c39419780f30e675cab73273c94a2",
+    "build/regression/final/tb_controls_meter_hdmi_legacy_brightness_console.log": "866912c525a1546c17ca3081f9447060e2a57ca06359b1cd084a36c3db0e05ac",
+    "build/regression/final/tb_controls_meter_hdmi_legacy_brightness_inputs.json": "e7e231c1c14c5689c6d5c787fe308af6e1e3dcf4e86f64b14ab0d9276748f7b8",
+    "build/regression/strict/strict_inputs.txt": "9ccae91be8d1c62c00be7542e1a677afca0b50140254120a163c42575b409bf2",
+    "build/regression/strict/strict_compile.log": "1936edb430a374766781fa75bd5beba9a6efcd1d63473b6cd51e01e5f3035522",
+    "build/brightness_response/protected.json": "2a6e04744ab57cba095c91a8db2a2be566b1b396df612d13a272489af65c177c",
+    "build/brightness_response/vectors.txt": "795580ec30419d041eac76422addae9af81cc8607fd1bf7c79522ad511b6d0a8",
+    "build/brightness_response/actual.csv": "aaa306c1d9b0ae52035d07486c68383995f3a97d8af835d498597c433a338b05",
+    "build/brightness_response/response.json": "665d4806676047fe3e5e0e8af34657945ea2a8a48d74d4b4d04671af437d8d6b",
+    "build/brightness_response/hdmi.csv": "f357b9e58af134fcf0f1d35a26079ffe0374c4b8b12f782fc731f506c29b92c9",
+    "build/brightness_response/hdmi_reference.json": "3f6bec47cd649e3eae8f660359e2b135b0dc6ad0ad4c3f88ecfdbc2eb5cd4bcd",
+    "model/brightness_response.py": "44376b94d7c5cc9a263c00ee7af5c8061d67264e7a3e65b5ebb9b703758d8a75",
+    "model/check_delay_chorus.py": "95b6b51d938540bd23c78d1d0cca76617287824a5b4d5809843216f94b3d698e",
+    "model/check_room_reverb.py": "a034ea3e7501e4580f21b7106f4d14b0216b663a5dae0820eef538c41f1b9293",
+    "model/check_tone_filter.py": "8974a5a241c329a35e350a383af79f2f04fb90c37a9568a605b72ac8e205748b",
+    "build/expression/tone_vectors.txt": "1af280ddd22d53027dc0d5167809882bad281cbd3b15178f0bee8acd3de295d8",
+    "build/expression/tone_actual.csv": "3f748499b4592f55cab3b9b8dec223bf9e6bd67457dc269d3c0f6663bc01f0da",
+    "build/hdmi/implementation_check.json": "342ed8ffed027e4f90c678dc1bb9ec87dd3124c89cb78909c0d158aa2109683e",
+    "verification/scripts/check_brightness_response.py": "62a74e10bdbd9246923957a8b5fb5ace94072816a68d55ceb79ef5c672077f14"
+  },
+  "limitations": [
+    "PR1014 system clock input routing remains to be closed",
+    "DAC external timing incomplete",
+    "HDMI electrical eye/cable/receiver not measured",
+    "USB touch hardware unverified",
+    "Not programmed; screen compatibility and end-to-end latency unverified",
+    "Brightness hardware listening has not been tested.",
+    "No claim of reproducing the reported hardware symptom; the change improves verified digital response.",
+    "Offline evidence does not certify hardware programming or physical listening."
+  ],
+  "merged_timing_checkpoint": "579b06b2c4789b6e7784ea5bfd9aa678d420189c",
+  "merged_teammate_commit": "1bc0203af67b810abac5c6d51faa848043f4dcd3",
+  "regressions": [
+    {
+      "tag": "tb_brightness_response",
+      "result": "PASS tb_brightness_response: 34816 samples, R5, live-control snapshot, pending reset and overrun",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "2fabe54022272e74072341b4e1604892c3c21c0c7a3f2c1c05d08536f8cb2d74"
+    },
+    {
+      "tag": "tb_brightness_hdmi",
+      "result": "PASS tb_brightness_hdmi: actual AIN2, 32 voices, both instruments, original 127 DAC exact, R958, serial=13803 samples=6903 full32=2291 dark=1252",
+      "functional_rom": true,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "98517d36c29d6c8af0b14560fc89e41d2d53004b982110e607b38e4ef86c67c5"
+    },
+    {
+      "tag": "tb_tone_filter",
+      "result": "PASS tb_tone_filter: 14992 outputs, R2 valid, reset cancellation, overrun",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "7e54d062ecd4c2f90be1e67c66c6f95d987c39419780f30e675cab73273c94a2"
+    },
+    {
+      "tag": "tb_controls_meter_hdmi_legacy_brightness",
+      "result": "PASS tb_controls_meter_hdmi: actual ADC/filter, brightness/no-guide, 13 keys+19 UART=32 audible voices, 33rd steal, release, exact DAC/PA/UART isolation, R955, HPD/reset samples=794",
+      "functional_rom": true,
+      "legacy_brightness": true,
+      "enhanced_brightness": false,
+      "manifest_sha256": "e7e231c1c14c5689c6d5c787fe308af6e1e3dcf4e86f64b14ab0d9276748f7b8"
+    },
+    {
+      "tag": "tb_dac_launch_timing",
+      "result": "PASS tb_dac_launch_timing: epochs=5 rises=1536 frames=50 underrun_frames=13",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "664b4308d539e0776624e6fcf1a60cce83dd80adb34069b11260553f582a74be"
+    },
+    {
+      "tag": "tb_touch32_audio_enhanced_brightness",
+      "result": "PASS tb_touch32_audio: six contacts+13 physical+13 PC full32, BLE 33rd steal, per-source cancels, slide/timbre/octave/reconnect/reset, nonzero audio R958 samples=129",
+      "functional_rom": true,
+      "legacy_brightness": false,
+      "enhanced_brightness": true,
+      "manifest_sha256": "0e5a706f50e2029efe4d1080c21406a9bd04993c30d5072132fb0f16de98a6f2"
+    },
+    {
+      "tag": "tb_merge32_rom_equivalence",
+      "result": "PASS tb_merge32_rom_equivalence: 24580 cycles; all 12288 addresses on both physical DPB ports, independent holds and metadata",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "a25d623f766279f7d867e754445c0ab6bc65f82a5bd4ee620ba4e87fc487a658"
+    },
+    {
+      "tag": "tb_touch_usb_wire",
+      "result": "PASS tb_touch_usb_wire: full D+/D- enumeration/455-byte EP0, SOF, address/config, SET_IDLE STALL, NAK, bad CRC, duplicate ACK, six whole six-contact reports, backpressure, detach/reconnect/reset",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "7a61f09991e45de7d00a3de63ea153e4d5b5b2ea18250700f84bd09945dd84db"
+    },
+    {
+      "tag": "tb_usb_system_recovery",
+      "result": "PASS tb_usb_system_recovery: 4 disconnect/PLL-loss epochs, real asymmetric mailbox resets, held events then cancellation, no stale reconnect notes",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "1a2d75cbeb3465f77bd2585fefb1328c82bca1b6720ffc0a84152ff2fffa4c16"
+    },
+    {
+      "tag": "tb_usb_descriptor_serial",
+      "result": "PASS tb_usb_descriptor_serial: 1180800 byte comparisons, all basis vectors/128 offsets, exact nine-cycle readiness and reset",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "d48746f33df21942431622b388069b9962917e06621fa49687164b35849aeaec"
+    },
+    {
+      "tag": "tb_usb_port_outputs",
+      "result": "PASS tb_usb_port_outputs: 256 data/enable combinations, four reset phases, clock-stop high impedance",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "c5fb338788501ab89d097bd241d38c5ac3c3329e2723a41127f7871871b6915c"
+    },
+    {
+      "tag": "tb_four_source_arbiter",
+      "result": "PASS tb_four_source_arbiter: 800 events, equal four-source service, stable stalls, three cancellations, exhaustive touch mask isolation",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "791682d2df067c13e3218e0342e09a445613af0f09db44c121775cf1fdfd1796"
+    },
+    {
+      "tag": "tb_review_hdmi_reset_recovery",
+      "result": "PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "536d947903b7d5deb5f472dc6496ec665e1fa87eeb7cc23e8d41fd690315780e"
+    },
+    {
+      "tag": "tb_frame_bend_equivalence",
+      "result": "PASS tb_frame_bend_equivalence: inputs=65536 hold_checks=196608; old RTL/independent model, default compatibility, negative extreme, stopped-clock reset",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "eb13046a0c0c1ab452d5f4bea362e95d68e09d6f023b55a2c4c088c9bb19652b"
+    },
+    {
+      "tag": "tb_frame_display_equivalence",
+      "result": "PASS tb_frame_display_equivalence: cycles=2456173 piano_pixels=1228895 guitar_pixels=614406; RGB/sync/CDC/format frame-atomic, clock-stop reset/restart",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "cf1a134adc6a694e4cb548d008e7f7589936270438e7ddf824d5b4f2b8297e76"
+    },
+    {
+      "tag": "tb_touch_mux_equivalence",
+      "result": "PASS tb_touch_mux_equivalence: four parameter sets, 240000 cycles, exact event/control/cancel timing and reset",
+      "functional_rom": false,
+      "legacy_brightness": false,
+      "enhanced_brightness": false,
+      "manifest_sha256": "ab9f4db855331e57862ae8033ff5eb6d26eeb043c2804c2d18032ac5185f6d14"
+    }
+  ],
+  "filter_negative_controls": [
+    {
+      "case": "control_snapshot",
+      "result": "EXPECTED_PCM_FAULT_REJECTED",
+      "first_mismatch": "(0, {'index': '0', 'new': '1671', 'old': '1024'}, 85, 1024)",
+      "source_sha256": "1f5cc9fc610030439254df093a93a1aa83b2ee1d7ba173651396dd37e770874a",
+      "mutation_before": ".brightness(captured_brightness)",
+      "mutation_after": ".brightness(brightness)"
+    },
+    {
+      "case": "bypass_127",
+      "result": "EXPECTED_PCM_FAULT_REJECTED",
+      "first_mismatch": "(8128, {'index': '8128', 'new': '8192', 'old': '32767'}, 32767, 32767)",
+      "source_sha256": "623b8f3c697c58eeeea9465d57497dbb5e51461d5af688a24e1c015a088f9b5b",
+      "mutation_before": "7'd127: perceptual_alpha=17'd65536;",
+      "mutation_after": "7'd127: perceptual_alpha=17'd32768;"
+    }
+  ],
+  "timing_optimizations_retained": true,
+  "previous_r955_timing": {
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 1.111,
+      "3.1.2 Hold Paths Table": 0.162,
+      "3.1.3 Recovery Paths Table": 0.545,
+      "3.1.4 Removal Paths Table": 0.21,
+      "3.2 Minimum Pulse Width Table": 5.799
+    },
+    "resources": {
+      "Logic": {
+        "used": 44120,
+        "available": 59904
+      },
+      "Register": {
+        "used": 20376,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 93,
+        "available": 118
+      },
+      "DSP": {
+        "used": 35.5,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 2,
+        "available": 8
+      }
+    },
+    "bitstream_sha256": "edb155011e52df4d7670275ca1e263f0bcf72248f1c0161000c5dc3e874d761c"
+  },
+  "existing_protected_files_unchanged": 252,
+  "controlled_process_change": {
+    "Place_Option": {
+      "before": "3",
+      "after": "2"
+    },
+    "all_other_options_unchanged": true
+  },
+  "selected_candidate": {
+    "name": "p2_r2_c0",
+    "strategy": {
+      "place": 2,
+      "route": 2,
+      "clock_order": 0
+    },
+    "directory": "D:\\Project\\fpga_contest\\build\\brightness_merge_20261025\\placement_trials\\p2_r2_c0",
+    "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+    "slack_ns": {
+      "3.1.1 Setup Paths Table": 1.153,
+      "3.1.2 Hold Paths Table": 0.128,
+      "3.1.3 Recovery Paths Table": 0.642,
+      "3.1.4 Removal Paths Table": 0.143,
+      "3.2 Minimum Pulse Width Table": 5.799
+    },
+    "resources": {
+      "Logic": {
+        "used": 44614,
+        "available": 59904
+      },
+      "Register": {
+        "used": 20486,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 93,
+        "available": 118
+      },
+      "DSP": {
+        "used": 37,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 2,
+        "available": 8
+      }
+    },
+    "fs": "D:\\Project\\fpga_contest\\build\\brightness_merge_20261025\\placement_trials\\p2_r2_c0\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+    "fs_sha256": "e0d4d4b8872d781388fbb7baaec5fb06bcf4f68a478eac89fc49831eea24ea51",
+    "seconds": 578.609
+  },
+  "placement_comparison": [
+    {
+      "name": "p2_r2_c0",
+      "strategy": {
+        "place": 2,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\brightness_merge_20261025\\placement_trials\\p2_r2_c0",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.153,
+        "3.1.2 Hold Paths Table": 0.128,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 44614,
+          "available": 59904
+        },
+        "Register": {
+          "used": 20486,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "fs": "D:\\Project\\fpga_contest\\build\\brightness_merge_20261025\\placement_trials\\p2_r2_c0\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "fs_sha256": "e0d4d4b8872d781388fbb7baaec5fb06bcf4f68a478eac89fc49831eea24ea51",
+      "seconds": 578.609,
+      "implementation_errors": []
+    },
+    {
+      "name": "p4_r2_c0",
+      "strategy": {
+        "place": 4,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\brightness_merge_20261025\\placement_trials\\p4_r2_c0",
+      "status": "FAILED",
+      "error": "Exit 1: D:\\Project\\fpga_contest\\build\\brightness_merge_20261025\\placement_trials\\p4_r2_c0\\build\\hdmi\\check.log",
+      "seconds": 830.172,
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": -0.297,
+        "3.1.2 Hold Paths Table": 0.048,
+        "3.1.3 Recovery Paths Table": 0.561,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 6.067
+      },
+      "resources": {
+        "Logic": {
+          "used": 44595,
+          "available": 59904
+        },
+        "Register": {
+          "used": 20486,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "implementation_errors": [
+        "Negative slack -0.297ns: 3.1.1 Setup Paths Table",
+        "Clock summary failed: sys_clk Setup"
+      ]
+    }
+  ],
+  "candidate_formal_slack_matches": false,
+  "candidate_formal_resources_match": true,
+  "dac_external_status": "INCOMPLETE_EXTERNAL_EVIDENCE",
+  "dac_external_signoff": false,
+  "programmed": false,
+  "hardware_verified": false,
+  "download_package_created": false,
+  "published_at_build_time": false,
+  "coefficient_mapping": {
+    "syn_romstyle": "logic",
+    "coefficient_pROMX9_count": 0,
+    "failed_auto_mapping_unrouted_nets": 119,
+    "formula_coefficients_latency_unchanged": true,
+    "manual": "GowinSynthesis SUG550-2.4E section 5.17",
+    "reference": "https://cdn.gowinsemi.com.cn/SUG550E.pdf"
+  },
+  "evidence_archive": {
+    "path": "merged_details.zip",
+    "sha256": "f6b8c6d7ebe51457f22c5ed222935bfc11c2e47ce54980ecfe0ef750b21b2b8f",
+    "entries": 92
+  },
+  "archived_entry_sha256": {
+    "build/regression/final/tb_brightness_response_console.log": "b2aa042c9cfb84977a8e828274a5dcda2f676c6a834bbe57c71e44846ff94ef8",
+    "build/regression/final/tb_brightness_response_inputs.json": "2fabe54022272e74072341b4e1604892c3c21c0c7a3f2c1c05d08536f8cb2d74",
+    "build/regression/final/tb_brightness_hdmi_console.log": "ad741a8323eafeef6545095291217b60c7f7deaf070accba4d4391e6b66a762c",
+    "build/regression/final/tb_brightness_hdmi_inputs.json": "98517d36c29d6c8af0b14560fc89e41d2d53004b982110e607b38e4ef86c67c5",
+    "build/regression/final/tb_tone_filter_console.log": "4004204d567aadadae3a1a3c15f47e92cf7f271bd409434eaf8508eb6d2ac526",
+    "build/regression/final/tb_tone_filter_inputs.json": "7e54d062ecd4c2f90be1e67c66c6f95d987c39419780f30e675cab73273c94a2",
+    "build/regression/final/tb_controls_meter_hdmi_legacy_brightness_console.log": "866912c525a1546c17ca3081f9447060e2a57ca06359b1cd084a36c3db0e05ac",
+    "build/regression/final/tb_controls_meter_hdmi_legacy_brightness_inputs.json": "e7e231c1c14c5689c6d5c787fe308af6e1e3dcf4e86f64b14ab0d9276748f7b8",
+    "build/regression/final/tb_dac_launch_timing_console.log": "97c6bde7c7a80d967720d4845bb4547d20a84318d86f43d881fba8c4d06d67aa",
+    "build/regression/final/tb_dac_launch_timing_inputs.json": "664b4308d539e0776624e6fcf1a60cce83dd80adb34069b11260553f582a74be",
+    "build/brightness_merge_20261025/current_audio/tb_touch32_audio_enhanced_brightness_console.log": "e54deda183f69c0f86bb91c76aa3cfdd09dba9d3cd3f0780c70b22f9512df023",
+    "build/brightness_merge_20261025/current_audio/tb_touch32_audio_enhanced_brightness_inputs.json": "0e5a706f50e2029efe4d1080c21406a9bd04993c30d5072132fb0f16de98a6f2",
+    "build/brightness_merge_20261025/regression/tb_merge32_rom_equivalence_console.log": "1c142d6e6c16242ca726920d406fdaa59c50e7f071ccaa1568ab3e0d2bca1bf4",
+    "build/brightness_merge_20261025/regression/tb_merge32_rom_equivalence_inputs.json": "a25d623f766279f7d867e754445c0ab6bc65f82a5bd4ee620ba4e87fc487a658",
+    "build/brightness_merge_20261025/regression/tb_touch_usb_wire_console.log": "2866e93a8cb15a520852b2d0b0b5b413a49b931be3fc86b67941103ccdf7c82d",
+    "build/brightness_merge_20261025/regression/tb_touch_usb_wire_inputs.json": "7a61f09991e45de7d00a3de63ea153e4d5b5b2ea18250700f84bd09945dd84db",
+    "build/brightness_merge_20261025/regression/tb_usb_system_recovery_console.log": "6ec18641ec23f6029c699ad0864b968584c9be09d23e0e39e50791a4c88b8d48",
+    "build/brightness_merge_20261025/regression/tb_usb_system_recovery_inputs.json": "1a2d75cbeb3465f77bd2585fefb1328c82bca1b6720ffc0a84152ff2fffa4c16",
+    "build/brightness_merge_20261025/regression/tb_usb_descriptor_serial_console.log": "7d612ed1a96374a84559300cac580f40d7cac45c56a22a6494e302595f781a8f",
+    "build/brightness_merge_20261025/regression/tb_usb_descriptor_serial_inputs.json": "d48746f33df21942431622b388069b9962917e06621fa49687164b35849aeaec",
+    "build/brightness_merge_20261025/regression/tb_usb_port_outputs_console.log": "fa35739bb39e79eb0310612de5ed79114d4b4c9198288fefd33728513453135b",
+    "build/brightness_merge_20261025/regression/tb_usb_port_outputs_inputs.json": "c5fb338788501ab89d097bd241d38c5ac3c3329e2723a41127f7871871b6915c",
+    "build/brightness_merge_20261025/regression/tb_four_source_arbiter_console.log": "743deeb0863282dfb202ddf541c67e44cb1164dcb323d52ba64e6311981903fa",
+    "build/brightness_merge_20261025/regression/tb_four_source_arbiter_inputs.json": "791682d2df067c13e3218e0342e09a445613af0f09db44c121775cf1fdfd1796",
+    "build/brightness_merge_20261025/regression/tb_review_hdmi_reset_recovery_console.log": "932df60f1edd6153a6fa215c22d6b940c6ba7c17abf2c898578c9a9fe95b6df1",
+    "build/brightness_merge_20261025/regression/tb_review_hdmi_reset_recovery_inputs.json": "536d947903b7d5deb5f472dc6496ec665e1fa87eeb7cc23e8d41fd690315780e",
+    "build/brightness_merge_20261025/differential/tb_frame_bend_equivalence_console.log": "4b25926ade31b03d2e7d01e6ea40d20d0b9d6db2e8c0f8fdb8371bb8f9f5be36",
+    "build/brightness_merge_20261025/differential/tb_frame_bend_equivalence_inputs.json": "eb13046a0c0c1ab452d5f4bea362e95d68e09d6f023b55a2c4c088c9bb19652b",
+    "build/brightness_merge_20261025/differential/tb_frame_display_equivalence_console.log": "e52a7246848bd156cd52f1231221a1353558ded440f79d11ebcde629f15ce945",
+    "build/brightness_merge_20261025/differential/tb_frame_display_equivalence_inputs.json": "cf1a134adc6a694e4cb548d008e7f7589936270438e7ddf824d5b4f2b8297e76",
+    "build/brightness_merge_20261025/differential/tb_touch_mux_equivalence_console.log": "580f7095fbbd982ff5862b05774a0e522dbb88e4fe038459376b46befb6651de",
+    "build/brightness_merge_20261025/differential/tb_touch_mux_equivalence_inputs.json": "ab9f4db855331e57862ae8033ff5eb6d26eeb043c2804c2d18032ac5185f6d14",
+    "build/hdmi/implementation_check.json": "342ed8ffed027e4f90c678dc1bb9ec87dd3124c89cb78909c0d158aa2109683e",
+    "build/hdmi/build_inputs.txt": "670106f91e35d9616138a92dc22459f156d704d7822cab1c9a742bf9a399fb24",
+    "build/hdmi/build.log": "4e67cda9cc42803ecf40745953b1b1c6ac201b188de575f4e13f91e17456a67b",
+    "build/hdmi/timing.txt": "bce7cc388fa8445ef878f33047110903bdfc464d4dd6f06b159900e3d682140c",
+    "build/hdmi/piano_hdmi.rpt.txt": "2106606d843d9b6e3a4b60e9adb6288561f82d82604f562febdbad7b381d8457",
+    "build/hdmi/piano_hdmi.tr": "538460df96b1d8b3b57076591afc21220bb41e993b526ce3cb52de2d3e176522",
+    "build/hdmi/artifact.txt": "f52946e2c9bfbf9af2e45278de2e5877a3e550f9d44b49476ec7ab83bc80c6b7",
+    "build/regression/strict/strict_inputs.txt": "9ccae91be8d1c62c00be7542e1a677afca0b50140254120a163c42575b409bf2",
+    "build/regression/strict/strict_compile.log": "1936edb430a374766781fa75bd5beba9a6efcd1d63473b6cd51e01e5f3035522",
+    "build/brightness_response/vectors.txt": "795580ec30419d041eac76422addae9af81cc8607fd1bf7c79522ad511b6d0a8",
+    "build/brightness_response/actual.csv": "aaa306c1d9b0ae52035d07486c68383995f3a97d8af835d498597c433a338b05",
+    "build/brightness_response/response.json": "665d4806676047fe3e5e0e8af34657945ea2a8a48d74d4b4d04671af437d8d6b",
+    "build/brightness_response/hdmi.csv": "f357b9e58af134fcf0f1d35a26079ffe0374c4b8b12f782fc731f506c29b92c9",
+    "build/brightness_response/hdmi_reference.json": "3f6bec47cd649e3eae8f660359e2b135b0dc6ad0ad4c3f88ecfdbc2eb5cd4bcd",
+    "build/brightness_response/protected.json": "2a6e04744ab57cba095c91a8db2a2be566b1b396df612d13a272489af65c177c",
+    "build/expression/tone_vectors.txt": "1af280ddd22d53027dc0d5167809882bad281cbd3b15178f0bee8acd3de295d8",
+    "build/expression/tone_actual.csv": "3f748499b4592f55cab3b9b8dec223bf9e6bd67457dc269d3c0f6663bc01f0da",
+    "build/regression/dac_timing/summary.json": "29e118a4d6e79ddbefe322fb139e21b5e09ef5fd2d05a05327f09e9c1a242d6c",
+    "build/regression/dac_timing/negative_results.json": "e4ca8575473e1326dc82f78f62dfd3b1b907ee34ac89a5167da39531591c6aa9",
+    "build/regression/dac_timing/negative_DIN.log": "8b5163848b7a431536381507760c9b7f70d1e4a03f6b9f159b17e745dbc7a298",
+    "build/regression/dac_timing/negative_WS.log": "7814bfde8dbbd36f111b4b5ffd8a60d18bbd0dfb6247265686437fd5b7912e0a",
+    "build/brightness_merge_20261025/negative/summary.json": "db9d3acc9c7112c08daee0247c7b8c4379935267593f0144a5e3c3420d195100",
+    "build/brightness_merge_20261025/negative/control_snapshot/vlib.log": "ab46611f8811edd9f7cede0aab00d0dbecbf444fd4702603f6a9873f5a5ccdce",
+    "build/brightness_merge_20261025/negative/control_snapshot/vlog.log": "bd14f1dbb7ce91cf7cdb5adacb0dd341b9b0a5159e402ef0a57ae1169f7208f3",
+    "build/brightness_merge_20261025/negative/control_snapshot/vsim.log": "6ae05f810ecb5431469ba61d15c6dcff56758d718f5adae046443cf47b4ec5d1",
+    "build/brightness_merge_20261025/negative/bypass_127/vlib.log": "64f86d1d5080e57b7dfa7e4f1f3a81681743f48abeaea4f033d56fced15b4530",
+    "build/brightness_merge_20261025/negative/bypass_127/vlog.log": "019eeaca2afd881d39d2ea5e1085c43c4ae71f6c2e81e87cfc3e23e494cef033",
+    "build/brightness_merge_20261025/negative/bypass_127/vsim.log": "151bf09d6c57e3499f2e407b30fdb3a0b479a97ff453bfeba1f8df4b986fdbeb",
+    "build/brightness_merge_20261025/check_filter_faults.py": "71ff6b479bd04758d70e59f6c9925057714696fa1ca8b703dc3a6c5c9c5617e3",
+    "build/brightness_merge_20261025/collect_merge_evidence.py": "817ff2a4078015fad948c2455784c87cddf38efe53f566ceb0b5d393356fb599",
+    "build/brightness_merge_20261025/protected.json": "281b090280a1464c2966f438aeb15395e12b2c193ccc410c5b43b2af6bd50743",
+    "build/brightness_merge_20261025/pins.json": "ec2bbf64fbd9f4798743589a79e0e3df6e35e97e5701760935dc224f3a19bf99",
+    "verification/data/touch_wch_1a86_e5e3_reports.hex": "3b182f355b15024dc15b4402be63ad0c6688c9d8c4793f19cfd609128a26d573",
+    "verification/evidence/usb_touch/rom_qualification.json": "51e2bd31bc2a854a8968a060457c5c190604eaf3bc52c20517bdb4eae2bde3fa",
+    "build/touch_driver_20261024/implementation_faults/summary.json": "a23dca92e418a8dda2f919d9b400325ea20f6587f924cbc66fa631f01937e477",
+    "build/brightness_merge_20261025/failed_original/build.log": "aa79a2fb1335b9494c504e29e43bd6547f1488da68ae369fb1a06a075bee3d5b",
+    "build/brightness_merge_20261025/failed_logic_p3/build.log": "ea99239de3627c7e4a152db722a55f4ae89bf442ccdffaee8cc4cbed6d7323f9",
+    "build/brightness_merge_20261025/failed_original/build_inputs.txt": "74d7227ad11e48b20592cdae6b3970e209fb919930b85dce3f63c85c02ac193d",
+    "build/brightness_merge_20261025/failed_logic_p3/build_inputs.txt": "76bd9a49c7dc7fc9520d96a50819f88d7812ea7cad3c2144382a1328f108b395",
+    "build/brightness_merge_20261025/failed_original/piano_hdmi.rpt.txt": "96c2f805b9a6e872f536f2937f654e27b6b712ed6ab87f0243b29bfa07dddb58",
+    "build/brightness_merge_20261025/failed_logic_p3/piano_hdmi.rpt.txt": "339a10db5ce9830ccb545539f8df3ec23fc68c1d36c350816e7b3dfbdc2b6f40",
+    "build/brightness_merge_20261025/failed_original/summary.json": "7e86def85ee8c211321c6bfb12d3208422af9f3b641bc49efccf758d5e293d30",
+    "build/brightness_merge_20261025/failed_logic_p3/summary.json": "50812c89dd372196b41b99507a041722b535fa7dd69ab7ded39fc846ef9261fe",
+    "build/brightness_merge_20261025/placement_trials/identity.json": "b52203d4b793292823ac22b4e83bae1d6c02171209637119cf9a3b88952a85c8",
+    "build/brightness_merge_20261025/placement_trials/results.json": "ec2872dd197ec59091a67a48638e62bac4c9e56c96d4a2cb692c165909e98271",
+    "build/brightness_merge_20261025/placement_trials/selected.json": "f7c348e79f6dab011bcc2b4c4912e2f904b5f8f4863e4cd797c6aa47cccae015",
+    "build/brightness_merge_20261025/placement_trials/p4_r2_c0/result.json": "ca52421b06b45b60f587c938813157f42773237e6508ee6f546f7e7973ad72de",
+    "build/brightness_merge_20261025/placement_trials/p4_r2_c0/build/hdmi/build.log": "2930e98063c0c78afc8bd0f5fed34fcac4b44af79bc6a7aadb84f14e460c9bd5",
+    "build/brightness_merge_20261025/placement_trials/p4_r2_c0/build/hdmi/build_inputs.txt": "76ab8b4be9470ac057dad730d6ae9552086464c97e6d41e9a01911e4da34ea82",
+    "build/brightness_merge_20261025/placement_trials/p4_r2_c0/projects/hdmi/impl/pnr/piano_hdmi.rpt.txt": "1d7f73bd9e1c814f3a18e113dda668ff97b261e3ee22640cf1e81124b0c6e1da",
+    "build/brightness_merge_20261025/placement_trials/p4_r2_c0/build/hdmi/timing.txt": "9ee963b2c462f424d9a2ca6d0962bae79d8749768ed48e0291bb79ef003a296e",
+    "build/brightness_merge_20261025/placement_trials/p4_r2_c0/build/hdmi/implementation_check.json": "f7a9e9e16c924d086128c3bb941fc06a6d57a95a0fea78e3660f5a2da1707a66",
+    "build/brightness_merge_20261025/placement_trials/p2_r2_c0/result.json": "f7c348e79f6dab011bcc2b4c4912e2f904b5f8f4863e4cd797c6aa47cccae015",
+    "build/brightness_merge_20261025/placement_trials/p2_r2_c0/build/hdmi/build.log": "3900fcc9776f298f2d1609edd4c4854cfbfe9dcb30c87f1d0f21b6bd4fbb8276",
+    "build/brightness_merge_20261025/placement_trials/p2_r2_c0/build/hdmi/build_inputs.txt": "04fcc15d0d59f538db77eeb87478205dc2fa1b04eff7538d24c1bb85a11cc96d",
+    "build/brightness_merge_20261025/placement_trials/p2_r2_c0/projects/hdmi/impl/pnr/piano_hdmi.rpt.txt": "917fcbde4fc485e8586195b483eacfc1531b759ed406463851964cab79741618",
+    "build/brightness_merge_20261025/placement_trials/p2_r2_c0/build/hdmi/timing.txt": "64cd13d1f0c271814e2db62e0ba070cc98ec5228981b6e9574a4a7a522cf3d43",
+    "build/brightness_merge_20261025/placement_trials/p2_r2_c0/build/hdmi/implementation_check.json": "b0c9957a6a1bc5db6e8bb01d0bf3ed21a42e90a96c66eaa9c3a5b9727f68f830",
+    "build/brightness_merge_20261025/run_frozen_trials.py": "ef49c895017ec1ecfe10433cffd67dbd22f66b05c0b5bea86b110860ea20f03d",
+    "build/brightness_merge_20261025/mapping_fix.patch": "bfcff1a48e6d177de473f7b414e6a3065a8996d30805cb25d724b7845bb657d4"
+  },
+  "verification_limits": [
+    "Long audio regressions use the separately qualified functional simulation ROM; synthesis uses vendor primitives.",
+    "The R958 touch harness derives only configuration/latency from an unchanged R955 TB.",
+    "The historical tb_panel_octaves coordinate failure is unchanged, not counted as a pass.",
+    "Strict compilation has zero warnings; some elaboration logs contain unconnected observation-port and vendor PLL model warnings.",
+    "Positive current constraints do not close PR1014, board-level DAC timing or physical/touch end-to-end latency."
+  ],
+  "pin_contract_status": "PASS_PIN_CONTRACT_ONLY",
+  "temporary_backup_deleted": true,
+  "temporary_candidate_projects_deleted": true,
+  "cleanup_gate": "COMPLETE",
+  "cleanup_completed_utc": "2026-10-25T02:40:53.199393+00:00",
+  "temporary_paths_note": "Candidate/negative full source trees and premerge FS/docs backups removed after archived evidence verification; log paths are historical and archived."
+}
