@@ -1,3 +1,10 @@
+## 2026-10-25 手机端0.3.0（未安装）
+
+新增板端曲谱上传、13个实体键映射编辑、实际状态回读，以及音色/音区/延音/导奏控制。手机保存键位草稿；下发后由FPGA RAM保留，断电复位后须重新下发。下载曲用于固定节拍屏幕导奏，不自动发声；原手机实时自动演奏仍保留。旧固件无GUIDE/KEYMAP能力时禁止新操作。
+
+41项独立检查、严格类型/静态检查、原生ArkTS构建及签名核验通过。包：`D:/Project/jingzou_harmony/build/packaging/dist/jingzou-0.3.0-debug.hap`，SHA256 `30be0081de6ad49deab9e8723690a47b133675e6b3c8471c0901a6866c04e149`。证据：`D:/Project/jingzou_harmony/build/verification/summary.json`与`D:/Project/jingzou_harmony/build/packaging/summary.json`。尚未安装、未真机BLE联调、未验收实际折叠屏显示；FPGA功能已合并并完成离线实现，位流身份见verification/evidence/timing_targets/summary.json；手机与实物BLE联调仍待验收。下面旧0.2.0已安装记录仅为历史。
+
+
 # 手机 App 已迁出
 
 2026-10-19按用户确认，手机蓝牙App已独立迁至 `D:\Project\jingzou_harmony`，FPGA仓库仍在原位置。

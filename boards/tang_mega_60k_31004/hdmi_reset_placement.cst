@@ -1,17 +1,22 @@
-// 仅适用于GW5AT-60B/PBGA484A当前HDMI入口；不更改引脚、PLL、SDC或时序例外。
-// 依据SUG1018第2.3节INS_LOC语法和原稳定版STA的I/O相邻CFU坐标。
-// lane0/1/2/3分别对应IOR26/22/39/24。每路两级FF及合并LUT限定同一GRID，
-// CLS/A/B槽位留给工具合法打包，禁止用exclusive预留整块或任意锁定其他逻辑。
-// 这不是签核保证：build.ps1核对实际位置，并检查恢复/移除及其余三类时序。
-INS_LOC "u_tx/g_lane[0].serializer_release_0_s0" R26C134;
-INS_LOC "u_tx/g_lane[0].serializer_release_1_s0" R26C134;
-INS_LOC "u_tx/g_lane[0].u_reset_combine" R26C134;
-INS_LOC "u_tx/g_lane[1].serializer_release_0_s0" R22C134;
-INS_LOC "u_tx/g_lane[1].serializer_release_1_s0" R22C134;
-INS_LOC "u_tx/g_lane[1].u_reset_combine" R22C134;
-INS_LOC "u_tx/g_lane[2].serializer_release_0_s0" R39C134;
-INS_LOC "u_tx/g_lane[2].serializer_release_1_s0" R39C134;
-INS_LOC "u_tx/g_lane[2].u_reset_combine" R39C134;
-INS_LOC "u_tx/g_lane[3].serializer_release_0_s0" R24C134;
-INS_LOC "u_tx/g_lane[3].serializer_release_1_s0" R24C134;
-INS_LOC "u_tx/g_lane[3].u_reset_combine" R24C134;
+// Reset release stays on the original falling pixel edge.
+// Exact grids/slots are taken from independently checked routed paths.
+INS_LOC "u_tx/g_lane[0].serializer_release_0_s0" R26C145[0][A];
+INS_LOC "u_tx/g_lane[0].serializer_release_1_s0" R26C145[0][B];
+INS_LOC "u_tx/g_lane[0].u_reset_invert" R26C145[0][A];
+INS_LOC "u_tx/g_lane[0].u_reset_buffer" R26C145[0][B];
+INS_LOC "u_tx/g_lane[0].u_reset_combine" R26C145[1][A];
+INS_LOC "u_tx/g_lane[1].serializer_release_0_s0" R22C145[0][A];
+INS_LOC "u_tx/g_lane[1].serializer_release_1_s0" R22C145[0][B];
+INS_LOC "u_tx/g_lane[1].u_reset_invert" R22C145[0][A];
+INS_LOC "u_tx/g_lane[1].u_reset_buffer" R22C145[0][B];
+INS_LOC "u_tx/g_lane[1].u_reset_combine" R22C145[1][A];
+INS_LOC "u_tx/g_lane[2].serializer_release_0_s0" R39C145[0][A];
+INS_LOC "u_tx/g_lane[2].serializer_release_1_s0" R39C145[0][B];
+INS_LOC "u_tx/g_lane[2].u_reset_invert" R39C145[0][A];
+INS_LOC "u_tx/g_lane[2].u_reset_buffer" R39C145[0][B];
+INS_LOC "u_tx/g_lane[2].u_reset_combine" R39C145[1][A];
+INS_LOC "u_tx/g_lane[3].serializer_release_0_s0" R24C145[0][A];
+INS_LOC "u_tx/g_lane[3].serializer_release_1_s0" R24C145[0][B];
+INS_LOC "u_tx/g_lane[3].u_reset_invert" R24C145[0][A];
+INS_LOC "u_tx/g_lane[3].u_reset_buffer" R24C145[0][B];
+INS_LOC "u_tx/g_lane[3].u_reset_combine" R24C145[1][A];

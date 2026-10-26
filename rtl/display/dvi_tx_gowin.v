@@ -19,18 +19,24 @@ module dvi_tx_gowin(
     wire [3:0] serial_data,positive,negative;
     genvar lane;
     generate for(lane=0;lane<4;lane=lane+1) begin:g_lane
-        // 像素域下降沿两拍释放，不为复位引入245MHz普通逻辑负载。
-        // 两级都就绪才撤销复位，异步断言时两级同时清零；每通道局部保留。
-        // 双状态合并保留真实门级；hdmi_reset_placement.cst将FF/LUT限定在各自I/O旁。
-        // 不能只追求最短线：必须同时检查恢复(最大延迟)与移除(最小延迟)。
-        // 增加的20.408ns仅影响显示启动，不改变音频R7；仿真不替代布局布线STA。
+        // Keep the two falling-pixel-edge stages and asynchronous assertion.
+        // Only the final stage drives three preserved local LUTs: invert, buffer,
+        // buffer. Logical reset polarity and release cycle are unchanged.
+        // The last LUT is placed in CLS1A beside each serializer; check actual
+        // placement and all timing categories after routing, not only removal.
         reg [1:0] serializer_release /* synthesis syn_preserve=1 */;
         always @(negedge pixel_clk or negedge rst_n)
             if(!rst_n) serializer_release<=2'b00;
             else serializer_release<={serializer_release[0],1'b1};
         wire serializer_reset /* synthesis syn_keep=1 */;
-        LUT2 #(.INIT(4'b0111)) u_reset_combine(.I0(serializer_release[0]),
-            .I1(serializer_release[1]),.F(serializer_reset));
+        wire reset_inverted /* synthesis syn_keep=1 */;
+        LUT2 #(.INIT(4'b0011)) u_reset_invert(.I0(1'b0),
+            .I1(serializer_release[1]),.F(reset_inverted));
+        wire reset_buffered /* synthesis syn_keep=1 */;
+        LUT2 #(.INIT(4'b1100)) u_reset_buffer(.I0(1'b0),
+            .I1(reset_inverted),.F(reset_buffered));
+        LUT2 #(.INIT(4'b1100)) u_reset_combine(.I0(1'b0),
+            .I1(reset_buffered),.F(serializer_reset));
         OSER10 u_serializer(.D0(symbols[lane*10]),.D1(symbols[lane*10+1]),
             .D2(symbols[lane*10+2]),.D3(symbols[lane*10+3]),.D4(symbols[lane*10+4]),
             .D5(symbols[lane*10+5]),.D6(symbols[lane*10+6]),.D7(symbols[lane*10+7]),

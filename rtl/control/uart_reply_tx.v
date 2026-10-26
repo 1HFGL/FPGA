@@ -2,7 +2,7 @@
 // 整行串行化，不能在一行中插入新握手；拥塞诊断允许丢弃，不阻塞演奏。
 // 32拍移位加3转换BCD，避免32位组合除10拖累50MHz时序。
 module uart_reply_tx #(parameter integer FIXED_PIANO=0, parameter integer VOICES=4,
-                      parameter integer ENABLE_GUITAR=0)(
+                      parameter integer ENABLE_GUITAR=0,ENABLE_CONFIG=0)(
     input wire clk,rst_n,
     input wire hello_req,status_req,error_req,
     input wire [5:0] voice_count,max_voice_count,input wire [31:0] steal_count,
@@ -14,14 +14,20 @@ module uart_reply_tx #(parameter integer FIXED_PIANO=0, parameter integer VOICES
     // 十进制字符在编译期生成，不增加运行时除法器；一位容量不发送前导零。
     localparam [7:0] VOICE_TENS=8'd48+VOICES/10;
     localparam [7:0] VOICE_ONES=8'd48+VOICES%10;
-    localparam integer HELLO_LENGTH=((FIXED_PIANO || ENABLE_GUITAR) ? 91 : 90)+(VOICES>=10 ? 1 : 0);
-    localparam [8*92-1:0] HELLO_TEXT=ENABLE_GUITAR ?
+    localparam integer HELLO_LENGTH=((FIXED_PIANO || ENABLE_GUITAR) ? 91 : 90)+(VOICES>=10 ? 1 : 0)+(ENABLE_CONFIG?13:0);
+    localparam [8*105-1:0] HELLO_TEXT=ENABLE_CONFIG ? (ENABLE_GUITAR ?
+        (VOICES>=10 ? {"SYNTH/1 CAPS=NOTES,STATUS,GUIDE,KEYMAP MAX_VOICES=",VOICE_TENS,VOICE_ONES," SAMPLE_RATE=48000 FW=uart-dual-v1 TONE=PIANO_GUITAR\n"} :
+                      {"SYNTH/1 CAPS=NOTES,STATUS,GUIDE,KEYMAP MAX_VOICES=",VOICE_ONES," SAMPLE_RATE=48000 FW=uart-dual-v1 TONE=PIANO_GUITAR\n"}) : FIXED_PIANO ?
+        (VOICES>=10 ? {"SYNTH/1 CAPS=NOTES,STATUS,GUIDE,KEYMAP MAX_VOICES=",VOICE_TENS,VOICE_ONES," SAMPLE_RATE=48000 FW=uart-piano-v1 TONE=FIXED_PIANO\n"} :
+                      {"SYNTH/1 CAPS=NOTES,STATUS,GUIDE,KEYMAP MAX_VOICES=",VOICE_ONES," SAMPLE_RATE=48000 FW=uart-piano-v1 TONE=FIXED_PIANO\n"}) :
+        (VOICES>=10 ? {"SYNTH/1 CAPS=NOTES,STATUS,GUIDE,KEYMAP MAX_VOICES=",VOICE_TENS,VOICE_ONES," SAMPLE_RATE=48000 FW=uart-basic-v1 TONE=FIXED_SINE\n"} :
+                      {"SYNTH/1 CAPS=NOTES,STATUS,GUIDE,KEYMAP MAX_VOICES=",VOICE_ONES," SAMPLE_RATE=48000 FW=uart-basic-v1 TONE=FIXED_SINE\n"}) ) : (ENABLE_GUITAR ?
         (VOICES>=10 ? {"SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=",VOICE_TENS,VOICE_ONES," SAMPLE_RATE=48000 FW=uart-dual-v1 TONE=PIANO_GUITAR\n"} :
                       {"SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=",VOICE_ONES," SAMPLE_RATE=48000 FW=uart-dual-v1 TONE=PIANO_GUITAR\n"}) : FIXED_PIANO ?
         (VOICES>=10 ? {"SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=",VOICE_TENS,VOICE_ONES," SAMPLE_RATE=48000 FW=uart-piano-v1 TONE=FIXED_PIANO\n"} :
                       {"SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=",VOICE_ONES," SAMPLE_RATE=48000 FW=uart-piano-v1 TONE=FIXED_PIANO\n"}) :
         (VOICES>=10 ? {"SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=",VOICE_TENS,VOICE_ONES," SAMPLE_RATE=48000 FW=uart-basic-v1 TONE=FIXED_SINE\n"} :
-                      {"SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=",VOICE_ONES," SAMPLE_RATE=48000 FW=uart-basic-v1 TONE=FIXED_SINE\n"});
+                      {"SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=",VOICE_ONES," SAMPLE_RATE=48000 FW=uart-basic-v1 TONE=FIXED_SINE\n"}));
     reg hp,sp,e0,e1;
     reg [5:0] sc,sm;
     reg [31:0] ss,seq0,seq1;
@@ -43,7 +49,7 @@ module uart_reply_tx #(parameter integer FIXED_PIANO=0, parameter integer VOICES
     assign tx_valid=(state==2 || state==3) && !skip_zero;
     assign tx_data=number_state ? 8'd48+{4'd0,selected_bcd[digit_index*4 +: 4]} : character;
     function [7:0] text_char;
-        input [8*92-1:0] text;
+        input [8*105-1:0] text;
         input integer len,index;
         begin text_char=text[(len-1-index)*8 +: 8]; end
     endfunction

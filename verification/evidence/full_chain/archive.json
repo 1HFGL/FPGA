@@ -1,0 +1,8 @@
+{
+  "path": "verification/evidence/full_chain/details.zip",
+  "sha256": "12e5d65bd453ed0f5d2915430cd59f8ccb5765ee58e1f4b315daab62bb6ed788",
+  "bytes": 2686132,
+  "verified_entries": 414,
+  "all_entry_hashes_verified": true,
+  "candidate_bitstreams_archived": false
+}

@@ -1,13 +1,14 @@
 // One confirmed full-speed host port. External board pulldowns supply bus bias.
 // USB reset affects only this stack. Data outputs are disabled during FPGA reset.
-module touch_usb_port(
+module touch_usb_port #(parameter integer SEPARATE_PIN_CLOCK=0)(
  input wire clk,rst_n,
  inout wire usb_dp,usb_dm,
  output wire connected,report_valid,input wire report_ready,
  output wire [415:0] report_data,
  output wire [7:0] debug_state,
  output wire [1:0] debug_line,
- output wire [31:0] debug_detail
+ output wire [31:0] debug_detail,
+ input wire pin_clk
 );
  wire bus_reset,link_enable;
  wire cv,cr,ct,done,error,tick,txvalid,txready,rv,ra,re,oe,dp_out,dm_out;
@@ -19,7 +20,10 @@ module touch_usb_port(
  // 三个信号一起延后一个48MHz周期，保持USB位宽/数据与使能的相对时刻。
  // 异步复位仍立即释放总线，即使时钟停止也不会持续驱动D+/D-。
  reg pin_drive,pin_dp,pin_dm;
- always @(posedge clk or negedge rst_n)begin
+ // This is a static parameter choice, not a runtime clock mux.
+ // The selected pin clock is a related, equal-phase 48MHz PLL output.
+ wire output_clk = SEPARATE_PIN_CLOCK ? pin_clk : clk;
+ always @(posedge output_clk or negedge rst_n)begin
   if(!rst_n)begin pin_drive<=0;pin_dp<=0;pin_dm<=0;end
   else begin pin_drive<=bus_reset || !oe;pin_dp<=bus_reset?1'b0:dp_out;pin_dm<=bus_reset?1'b0:dm_out;end
  end

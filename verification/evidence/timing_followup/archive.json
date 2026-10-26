@@ -1,0 +1,46 @@
+{
+  "status": "PASS_FULL_CRC_SHA256_AND_FORMAL_SOURCE_MATCH",
+  "path": "verification/evidence/timing_followup/details.zip",
+  "sha256": "72b75666cb707bc0bf5ee0213639a3a18086d80f635ec787ef1ce87a72b58a0c",
+  "bytes": 107554834,
+  "entries": 7935,
+  "cases": [
+    "baseline",
+    "combined",
+    "hold_existing",
+    "hold_guard",
+    "hold_native",
+    "note_select",
+    "ram_write",
+    "reset_deep",
+    "reset_payload",
+    "reset_slot",
+    "tick",
+    "tick_repeat",
+    "wave",
+    "wave_headroom",
+    "wave_width",
+    "formal"
+  ],
+  "formal_source_files": 438,
+  "deduplicated_route_seed_aliases": {
+    "cases/hold_guard/projects/hdmi/impl/pnr/piano_hdmi.pr": {
+      "archive": "route_seeds/2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff.pr",
+      "sha256": "2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff"
+    },
+    "cases/hold_native/build/route_seed/piano_hdmi.pr": {
+      "archive": "route_seeds/2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff.pr",
+      "sha256": "2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff"
+    },
+    "cases/hold_existing/build/route_seed/piano_hdmi.pr": {
+      "archive": "route_seeds/2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff.pr",
+      "sha256": "2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff"
+    }
+  },
+  "excluded": [
+    "bitstreams",
+    "waveform databases",
+    "simulator work libraries",
+    "temporary backup zip"
+  ]
+}

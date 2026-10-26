@@ -1,0 +1,6 @@
+{
+  "score_crc": 1660715218,
+  "mapping_crc": 1068986874,
+  "word_order": "little endian",
+  "polynomial": "CRC-32/ISO-HDLC"
+}

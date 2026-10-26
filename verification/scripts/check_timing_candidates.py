@@ -59,6 +59,10 @@ if args.mutation != 'none':
     relative, before, after, expected_failure = spec
     original = source / relative
     body = original.read_text(encoding='utf-8')
+    # 组合译码与同拍更新的独热寄存候选均破坏槽0，沿用同一输出差分断言。
+    if args.mutation == 'touch_slot' and before not in body:
+        before = 'assign index_select[slot]=index_decode_q[slot];'
+        after = 'assign index_select[slot]=index_decode_q[slot] && slot!=0;'
     if body.count(before) != 1:
         raise SystemExit('Mutation anchor not unique: ' + relative)
     mutant = out / ('mutation_' + original.name)

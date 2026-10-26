@@ -5,6 +5,11 @@
     <Version>5</Version>
     <Device name="GW5AT-60B" pn="GW5AT-LV60PG484AC1/I0">gw5at60b-002</Device>
     <FileList>
+        <File path="../../rtl/control/performance_controls.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/performance_store.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/uart_config_reply.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/control/timed_practice_guide.v" type="file.verilog" enable="1"/>
+
         <File path="../../rtl/control/touch_contact_tracker.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/usb/touch_report_cdc.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/usb/touch_report_decode.v" type="file.verilog" enable="1"/>
@@ -62,6 +67,7 @@
         <File path="../../rtl/synth/voice_timbre_adsr.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_instrument.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/instrument_env.v" type="file.verilog" enable="1"/>
+        <File path="../../rtl/synth/instrument_env_bank16.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/modal_parameter_rom.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_bank_music_pipe.v" type="file.verilog" enable="1"/>
         <File path="../../rtl/synth/voice_bank_modal_adapter.v" type="file.verilog" enable="1"/>

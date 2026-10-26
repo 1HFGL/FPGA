@@ -21,6 +21,7 @@ module instrument_display #(
     parameter integer TOUCH_PANEL=0, // prepared normalized touch brightness UI
     parameter integer UI=0, // 1：2bit覆盖度字模新版界面；0：保留旧逐像素测试路径
     parameter integer ENABLE_GUIDE=0,
+    parameter integer CONTROL_FEATURES=0,
     parameter integer BRIGHTNESS_PANEL=0
 ) (
     input wire sys_clk, pixel_clk, rst_n,
@@ -38,6 +39,7 @@ module instrument_display #(
     output reg lcd_de, lcd_hsync, lcd_vsync,
     output reg frame_start, // 与输出RGB/DE同拍，像素域单周期脉冲
     output wire display_sample_drop, // sys_clk域，信箱忙时丢失显示样本；绝不反压音频
+    input wire [74:0] guide_status,
     input wire guide_valid,
     input wire [3:0] guide_index,guide_progress
 );
@@ -49,14 +51,14 @@ module instrument_display #(
         if (!rst_n) pixel_release<=0;
         else pixel_release<={pixel_release[0],1'b1};
     wire sys_rst_n=sys_release[1], pixel_rst_n=pixel_release[1];
-    wire [82:0] state_latest;
-    reg [82:0] state_frame;
+    wire [157:0] state_latest;
+    reg [157:0] state_frame;
     wire [15:0] sample_pixel;
     wire sample_pixel_valid, sample_ready;
     // 状态与音频副本各走一条单格信箱；显示等待绝不反馈到音频域。
-    display_cdc_latest #(.WIDTH(83)) u_status (
+    display_cdc_latest #(.WIDTH(158)) u_status (
         .src_clk(sys_clk),.src_rst_n(sys_rst_n),.src_valid(1'b1),
-        .src_data({(ENABLE_GUIDE?guide_valid:1'b0),(ENABLE_GUIDE?guide_index:4'd0),(ENABLE_GUIDE?guide_progress:4'd0),
+        .src_data({(CONTROL_FEATURES?guide_status:75'd0),(ENABLE_GUIDE?guide_valid:1'b0),(ENABLE_GUIDE?guide_index:4'd0),(ENABLE_GUIDE?guide_progress:4'd0),
                    (TOUCH_PANEL?touch_available:1'b0),(TOUCH_PANEL?brightness:7'd127),
                    (ENHANCED?guitar_keys:13'd0),(ENHANCED?piano_keys:13'd0),
                    instrument_guitar,sustain,octave,pitch_bend,volume,key_down}),.src_ready(),
@@ -122,7 +124,8 @@ module instrument_display #(
     reg [11:0] x_d,y_d;
     reg de_d,hs_d,vs_d,start_d,wave_ready_d,ui_d;
     wire [23:0] pixel_base,text_color;
-    wire [5:0] text_glyph;
+    wire [6:0] text_glyph;
+    wire [5:0] legacy_text_glyph;
     wire [4:0] text_column,text_row;
     wire text_enable;
     wire title_enable;
@@ -142,12 +145,15 @@ module instrument_display #(
         assign meter_height=0;assign meter_peak_height=0;
     end endgenerate
     generate if(ENHANCED && UI)begin:g_panel
-        instrument_panel_ui #(.TOUCH_PANEL(TOUCH_PANEL),.ENABLE_GUIDE(ENABLE_GUIDE),
-            .LOG_METER(1),.SHOW_BRIGHTNESS(BRIGHTNESS_PANEL),.FRAME_BEND(1)) u_renderer(
+        instrument_panel_ui #(.CONTROL_FEATURES(CONTROL_FEATURES),.TOUCH_PANEL(TOUCH_PANEL),.ENABLE_GUIDE(ENABLE_GUIDE),
+            .LOG_METER(1),.SHOW_BRIGHTNESS(BRIGHTNESS_PANEL),.FRAME_BEND(1),.PIPELINE_MAP(1)) u_renderer(
             // 与state_frame同沿读取state_latest，数字和符号不会错开一帧。
             .pixel_clk(pixel_clk),.pixel_rst_n(pixel_rst_n),.frame_commit(commit),
             .pitch_bend_latest(state_latest[35:20]),
-            .guide_valid(state_frame[82]),.guide_index(state_frame[81:78]),.guide_progress(state_frame[77:74]),
+            // This edge also captures x_d/y_d and commits state_frame.
+            .map_x_early(x),.map_y_early(y),
+            .map_guitar_early(commit?state_latest[39]:state_frame[39]),
+            .guide_status(state_frame[157:83]),.guide_valid(state_frame[82]),.guide_index(state_frame[81:78]),.guide_progress(state_frame[77:74]),
             .brightness(state_frame[72:66]),.touch_available(state_frame[73]),
             .x(x_d),.y(y_d),.key_down(state_frame[39]?state_frame[65:53]:state_frame[52:40]),
             .volume(state_frame[19:13]),.pitch_bend(state_frame[35:20]),.octave(state_frame[37:36]),
@@ -162,25 +168,27 @@ module instrument_display #(
             .title_column(title_column),.title_row(title_row),.base_rgb(pixel_base));
     end else if(ENHANCED)begin:g_enhanced_panel
         // 旧 1024x600 绘制器：保留给既有逐像素帧测试，布局与颜色常量不变。
+        assign text_glyph={1'b0,legacy_text_glyph};
         instrument_panel_renderer u_renderer_legacy(
             .x(x_d),.y(y_d),.key_down(state_frame[39]?state_frame[65:53]:state_frame[52:40]),
             .volume(state_frame[19:13]),.pitch_bend(state_frame[35:20]),.octave(state_frame[37:36]),
             .sustain(state_frame[38]),.instrument_guitar(state_frame[39]),
             .wave_min(envelope_min),.wave_max(envelope_max),.peak_level(envelope_peak),
             .gain_shift(envelope_gain),.wave_ready(wave_ready_d),.base_rgb(pixel_base),
-            .text_glyph(text_glyph),.text_column(text_column),.text_row(text_row),
+            .text_glyph(legacy_text_glyph),.text_column(text_column),.text_row(text_row),
             .text_enable(text_enable),.text_color(text_color));
         assign title_enable=1'b0;
         assign title_glyph=0;
         assign title_column=0;
         assign title_row=0;
     end else begin:g_simple_panel
+        assign text_glyph={1'b0,legacy_text_glyph};
         piano_display_renderer #(.WIDE(WIDE)) u_renderer (
             .x(x_d),.y(y_d),.key_down(state_frame[12:0]),.volume(state_frame[19:13]),
             .pitch_bend(state_frame[35:20]),.octave(state_frame[37:36]),
             .sustain(state_frame[38]),.instrument_guitar(state_frame[39]),
             .wave_data(wave_data),.wave_ready(wave_ready_d),.rgb(),.base_rgb(pixel_base),
-            .text_glyph(text_glyph),.text_column(text_column),.text_row(text_row),
+            .text_glyph(legacy_text_glyph),.text_column(text_column),.text_row(text_row),
             .text_enable(text_enable),.text_color(text_color));
         assign title_enable=1'b0;
         assign title_glyph=0;
@@ -205,7 +213,7 @@ module instrument_display #(
             .title_glyph(title_glyph),.title_row(title_row),.title_bits(title_bits));
     end else begin:g_legacy_font
         display_font24 #(.SYNCHRONOUS(1),.EXTENDED(0)) u_font(.pixel_clk(pixel_clk),
-            .glyph_id(text_glyph),.column(text_column),.row(text_row),.ink(font_ink));
+            .glyph_id(text_glyph[5:0]),.column(text_column),.row(text_row),.ink(font_ink));
     end endgenerate
 
     // 覆盖度选择：行数据与列号都在 S2 末尾有效。

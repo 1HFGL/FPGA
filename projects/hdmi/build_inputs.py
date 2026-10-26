@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 
 PROJECT = Path('projects/hdmi/piano_hdmi.gprj')
 SUPPORT_FILES = (
+    'projects/hdmi/route_objectives.sdc', 'verification/scripts/native_timing_report.py',
     'projects/hdmi/build_inputs.py', 'projects/hdmi/build.ps1',
     'projects/hdmi/build.tcl', 'projects/hdmi/process_config.json',
     'projects/hdmi/pnr_trial.tcl', 'projects/hdmi/sweep_pnr.ps1',
@@ -15,7 +16,7 @@ SUPPORT_FILES = (
     'verification/scripts/check_hdmi_implementation.py',
 )
 CONSTRAINT_FILES = tuple('boards/tang_mega_60k_31004/' + n for n in
-    ('piano.cst', 'piano.sdc', 'hdmi.cst', 'hdmi.sdc', 'ble.cst', 'ble.sdc', 'usb.cst', 'usb.sdc', 'hdmi_reset_placement.cst'))
+    ('piano.cst', 'piano.sdc', 'hdmi.cst', 'hdmi.sdc', 'ble.cst', 'ble.sdc', 'usb.cst', 'usb.sdc', 'functions.cst', 'functions.sdc', 'hdmi_reset_placement.cst'))
 
 
 def digest(path):

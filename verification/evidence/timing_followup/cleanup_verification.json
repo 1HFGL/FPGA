@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "verified_at_utc": "2026-10-25T13:25:10.545731+00:00",
+  "archive_sha256": "72b75666cb707bc0bf5ee0213639a3a18086d80f635ec787ef1ce87a72b58a0c",
+  "entries_verified": 7935,
+  "formal_source_files_verified": 438,
+  "formal_bitstream_sha256": "cee524f5fc6ad347c94e762ca64ead44986ecfd4d7d4a291a75940b767158d55",
+  "protected_original_files": 1078,
+  "changed_existing_files": [
+    "docs/fpga-optimization-plan.md",
+    "AGENTS.md",
+    "PLAN.md",
+    "README.md",
+    "docs/verification.md",
+    "rtl/audio/sample_tick.v"
+  ],
+  "owned_tree_absent": true,
+  "other_agent_tree_exists": true,
+  "prior_archive_preserved": true,
+  "after_cleanup": true
+}

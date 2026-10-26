@@ -1,12 +1,13 @@
 // 静奏界面唯一命中表。绘制器与触点转换器均实例化此模块。
 // 坐标已是1024x600有效区像素；矩形统一左闭右开，黑键覆盖白键。
-module instrument_ui_map(
+module instrument_ui_map #(parameter integer CONTROL_WIDTH=2, parameter integer EXTENDED=0)(
     input wire [11:0] x,y,
     input wire instrument_guitar,
     output reg note_valid, key_black,
     output reg [3:0] note_index,
     output reg [11:0] key_left,key_right,key_top,key_bottom,
-    output reg [1:0] control_kind,control_value
+    output reg [CONTROL_WIDTH-1:0] control_kind,
+    output reg [1:0] control_value
 );
     integer k;
     function [3:0] white_note;
@@ -61,6 +62,15 @@ module instrument_ui_map(
             if(x>=632 && x<696)begin control_kind=2;control_value=1;end
             if(x>=696 && x<760)begin control_kind=2;control_value=2;end
             if(x>=916 && x<992)begin control_kind=3;control_value=0;end
+        end
+        if(EXTENDED)begin
+            if(x>=864 && x<992 && y>=252 && y<292)control_kind=4;
+            if(x>=864 && x<992 && y>=300 && y<340)control_kind=5;
+            if(y>=164 && y<200)begin
+                if(x>=192 && x<320)control_kind=7;
+                if(x>=616 && x<656)begin control_kind=9;control_value=0;end
+                if(x>=664 && x<704)begin control_kind=9;control_value=1;end
+            end
         end
     end
 endmodule

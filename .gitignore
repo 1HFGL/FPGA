@@ -43,3 +43,14 @@ transcript
 /results/
 /deliveries/
 /fpga_project/
+
+# 大体积证据归档（本地保留、不入库）：单个 zip 可达 100 MB+，超过 GitHub 硬限制
+# 需要时用同目录的 restore_evidence.py / verify_archive.py 本地重新生成
+verification/evidence/timing_closure/details.zip
+verification/evidence/timing_followup/details.zip
+verification/evidence/timing_targets/details.zip
+verification/evidence/full_chain/details.zip
+verification/evidence/optimization_plan/details.zip
+verification/evidence/shared_envelope/details.zip
+verification/evidence/envelope_select/details.zip
+verification/evidence/readability/details.zip

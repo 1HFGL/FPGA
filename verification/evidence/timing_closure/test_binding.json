@@ -1,0 +1,415 @@
+{
+  "status": "PASS_SOURCE_BINDING",
+  "candidate": "hold_route",
+  "rtl": {
+    "rtl/audio/chorus_effect.v": "edb6b95dd4fdf8a7a86688a8ed6abf9cb48d3d35cea438184cbd14c67482e4bf",
+    "rtl/audio/echo_delay.v": "d29fb75bcc109defde6e263d8b13699c250a11ec85faca64eba9eb114efc8592",
+    "rtl/audio/i2s_tx.v": "f0ce837c5864c32b55952bdb99225a3dbff0516b29a2a1e29a8f2c9973a477db",
+    "rtl/audio/room_reverb.v": "14932be8f8f18b22445a4d971866f93b4550cff4ba18310323632b1c7ac34af9",
+    "rtl/audio/sample_tick.v": "c7daa4b1da8a09ffd8542348f90e9a8f1ef5d79c37c74d88740c66306b8c6859",
+    "rtl/audio/synth_top.v": "903cc00a0a0996019dfb65e1744c3a31598318fa5264a232288bcb7412cb48aa",
+    "rtl/audio/tone_filter.v": "623b8f3c697c58eeeea9465d57497dbb5e51461d5af688a24e1c015a088f9b5b",
+    "rtl/audio/tone_filter_expressive.v": "1f5cc9fc610030439254df093a93a1aa83b2ee1d7ba173651396dd37e770874a",
+    "rtl/control/adc_knob_if.v": "97491c2b12b5a4f4e67452693ef6d279c16c83bf6c27b35d117eba99d1234a12",
+    "rtl/control/ads1115_if.v": "67c3ca695122fe17de11fb85c686779cafbb82c7ee08b79c002c64d3260062a1",
+    "rtl/control/ads1115_knob_if.v": "17d84fd3e9b2208f5b85e0f0b3981362bd0783c67c3e4d504eb4c9e782db8d30",
+    "rtl/control/brightness_keys.v": "05e3f3e42f5852a5a8309c5669202ea348aa21d393ab5f5bc97cf406ae9db4de",
+    "rtl/control/event_encoder.v": "41359db7c9043399d1fce6729f7ed67c6dd6cad29420336954947fc143663ca7",
+    "rtl/control/i2c_master.v": "405d0390c13c52c12d1af96e523d7de890075ecf8a4cedb31c6626f47baff994",
+    "rtl/control/input_sync_debounce.v": "4aa0f80f9166f3ce3e18b6619ea29e4a4641893dae2bbd0c28ccfa8e874584cc",
+    "rtl/control/music_controls.v": "1d6df5d55b6f8918abc3360d97d3d66e421bef49a3f1b9fbf8538a335cf0dfe2",
+    "rtl/control/music_event_encoder.v": "f8aaab2a50d13972b0327f44df9323130ee344bfab30039ec1fc27acb9980d5c",
+    "rtl/control/music_uart_event_arbiter.v": "85172c68a1a0e340281a3eca515550590199882693e450df656fa9b05c434c9a",
+    "rtl/control/music_uart_line_rx.v": "0a2757b1ad6323ea6e2f5b0faa103bcebfae22c26c1d5f35cca285e34ffc0b72",
+    "rtl/control/music_uart_protocol.v": "a7052a3cb7498e98ce86323524881510888f3d68e426e93d05fb765d2c96b695",
+    "rtl/control/music_uart_reply_tx.v": "35a4494ebffa24c437966f65542c160406b7b939fbff7e6f16dd7c92a7819067",
+    "rtl/control/note_phase_lut.v": "71c1a6b7d797da5a34a091cd1aeb304f8df794f8c962fafa3aae6a886b36d029",
+    "rtl/control/performance_controls.v": "c4ff8d0a7095cad62e4dd688308dfbba1af3bdbdf436648190d00da8cbc3ff84",
+    "rtl/control/performance_store.v": "8f55bd075264d8ef66b9ae880ed4d43e1e532d5ffb48d5ac05a08ab100e28370",
+    "rtl/control/piano_controls.v": "822a2cff20183dc6636d75ddeaa2bdf5d2a71982ebbe7a4c60faca94e41953f8",
+    "rtl/control/practice_guide.v": "b2f57d902caf28aeb66e02e41a0ca707eb7f59435bdc957bb8b60b60771381cb",
+    "rtl/control/timed_practice_guide.v": "805b38fbe53284f2d569927f28520f2c7fd4ddef527a0d79a04a7fbd9c7036e5",
+    "rtl/control/touch_brightness_control.v": "748bdd30ad5a1dfd994e680632cb35e347de083729bc7b838edd0c7caa0bea5a",
+    "rtl/control/touch_contact_tracker.v": "7faf5de78c8cc7d4cfc1d05696523debdc9986124c9f809493a1a56be45f1557",
+    "rtl/control/touch_or_key_if.v": "6e9c09fb9fcd6c893910f7719672e11c3158802bcb14496e66e1489d296ac4d7",
+    "rtl/control/uart_config_reply.v": "93f412b7d9879da6362f93adabc492d11152ca5a3ef9e95ca3229beb15fbf15a",
+    "rtl/control/uart_event_arbiter.v": "3440c5a2357e55d19744f7959a4e5b793ba613f4d172f8fbb413a07e112753ee",
+    "rtl/control/uart_fifo.v": "d29abed64b9b72a5e8565470e4c37bbf34a0a6e6c89699ec120902057200f333",
+    "rtl/control/uart_line_rx.v": "7d96fde0218ddaef4d9d541ad9ea1ba34444ade4315ab7e50ffe0e0132dba0a2",
+    "rtl/control/uart_reply_tx.v": "48dddb09952e01c3c666295ab08e1b4a3b145b024828c4da56feee694cd1b631",
+    "rtl/control/uart_rx.v": "1477963cfe450eed516052e25085936683592ac9edefe5bc33dc7dd2df8123b9",
+    "rtl/control/uart_synth_protocol.v": "f34ec5683404f36fec1526e4728e11cbc8f4e4fa69c89a4047de7056de46e8c5",
+    "rtl/control/uart_tx.v": "009d15dd6a6fa5fbbc7626f4771224b815554ac4a731d4407ebd01a1185f1033",
+    "rtl/control/voice_allocator.v": "65389aad361bcabf7c3fb511827e36437b4ac4009dacb52d58d509de3b8dd58c",
+    "rtl/display/display_bend_map.v": "7cec7c74f4eb02acb53112095bb0a946fe01cbb9ead28bc6bb138442ce97501b",
+    "rtl/display/display_cdc_latest.v": "c79288111cded83c271b09973324003e649ad0a557cb328be9e62a411a91fd47",
+    "rtl/display/display_feedback.v": "89dc5d7ad1f15f8f2778a30191bb329770266b387aad925821cc2c646525070f",
+    "rtl/display/display_font24.v": "16c2ec0ba45d163c29192fbf803dba6a2b10d1696d18279f840eec580ad3bf95",
+    "rtl/display/display_font_ui.v": "ff483d6a64e594696f7acfa47550f32abb28b2dbffeac5e29004e647ea6a6a44",
+    "rtl/display/display_wave_buffer.v": "d1168885f767d017ab988503a0d280c5732874c8f4a9eaefe493fc326ecc2030",
+    "rtl/display/display_wave_envelope.v": "6b2e5a716800d29b84490868d097dd53a1259779d3cd65ae78903508862136ef",
+    "rtl/display/dvi_tx_gowin.v": "c288799534c294f8559ddfc296fb79bf0a5b11eb71b0268803a0c236fbad99ab",
+    "rtl/display/hdmi_clock_60k.v": "8e281b78cc4b19f00ad23e629e5bbbcccab09444e4d60a0262e4d84ba43ca446",
+    "rtl/display/hdmi_reset_guard.v": "e71364364004eedbf7a01c406c5a819ee558da4fb8212e9616beefe65dd49ec8",
+    "rtl/display/instrument_display.v": "326a84790889019321592a14356065e11ef23b47e64220284eeff2ffd700f794",
+    "rtl/display/instrument_panel_renderer.v": "6d99c1e54f0cec625c702780fc4dda597ec2c48360cfbe1b7756d79701385e9d",
+    "rtl/display/instrument_panel_ui.v": "30bebabdb822157b05429036f2dfb372349c720b9420649efa1da19d68e38fdc",
+    "rtl/display/instrument_ui_map.v": "2e7067ef52d89eac69830ae1dd0fd550eab8d94f21c0e37bee1f881234e04a8c",
+    "rtl/display/lcd_rgb_timing.v": "439f779ffd44d54f459f182438009a40c78379002d86d3eea1e0a7c1e96b5d9d",
+    "rtl/display/piano_display_renderer.v": "b10b7f7c271338f000c5954b408d44b6e46e6871edafb1d73f3b42873cec0acc",
+    "rtl/display/tmds_encoder.v": "b5cf6a9a8289b3cc3df51eecbb9914fd4b5f43315cdbc3f44b362f2844b381fe",
+    "rtl/rom/modal_coeff_rom_dual.v": "00ee1ebd405b7994a9f11a80ab19d691613ed550c30687b41a478aea75b9b758",
+    "rtl/synth/adsr_env.v": "33107d2ce68cb5a00c1d96c9fddeca1a276e56c94a0712d90f4c2390457d2c51",
+    "rtl/synth/instrument_env.v": "68367b02d5390762234a67cfbf0de859ae5f1a5e69590f9fe98c2c56d4c9d590",
+    "rtl/synth/instrument_env_bank16.v": "1a38635759efc5f41f5e6b025967645d873f1c281feb0d60b1649c3865d9f47c",
+    "rtl/synth/instrument_wave.v": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27",
+    "rtl/synth/modal_parameter_rom.v": "494e2ed50a138887aea02baec0d7b4db7b442c4358de2b4c8612e9e084199463",
+    "rtl/synth/modal_shared_output.v": "53eadc14c748217d3a16ea8912591df86062161a7bd13182ecf6eb4f1b9d66c9",
+    "rtl/synth/modal_voice_group16.v": "9e363ad64b097097f6f59502e41d41546431b9446b61e4d136e5734baeae9291",
+    "rtl/synth/phase_acc.v": "c3ea7b922199dfebae6b982c65f7fa1e7efcc18caebce6b4b1f7ffb9bccbc96d",
+    "rtl/synth/sample_gain.v": "123f61f75037c68740bcc5c51d55d0ceaced35f91914a2b0acadbcd5c73d6dd1",
+    "rtl/synth/sample_mixer4.v": "27d1e0c5854cd86748475afaad372b71825c6d19a8ccea36b13d42326f94519c",
+    "rtl/synth/voice_adsr.v": "10980327f13d7d9d0d301da8924cad689cdda6a28d3cda7ba493fffdb474a19f",
+    "rtl/synth/voice_bank_adsr.v": "11a97053338ffc763e612c62e1511141c78de1734aa04c79b4545f26da0e5038",
+    "rtl/synth/voice_bank_dual16.v": "521c0d3e34157602dcec2052dd79de8af13b0c7c7e0c27a3f01fa96c18ef587c",
+    "rtl/synth/voice_bank_instruments.v": "14281c0a5e5af3ef87e0104295abd9670abd87d29f5468915b4881a9e7c3cd40",
+    "rtl/synth/voice_bank_modal_adapter.v": "6238d0a11ad979acf53d1be13874b86b46103251e08ced1b8cd7c4b571828373",
+    "rtl/synth/voice_bank_modal_dispatch.v": "78bc9fc6ceebfd1c341e0b99ad029680e61cd64fa761d3d94f667527dcfcd19a",
+    "rtl/synth/voice_bank_music_pipe.v": "dfb6d3d57d8398aa1688679c664b91846597f6363c20c535d34815adae0904ad",
+    "rtl/synth/voice_dds.v": "a5af8f0dcd732bb3f5b2a73f7dd9040fc6d13bef79cc7e0933e8bf014cd7fea2",
+    "rtl/synth/voice_instrument.v": "e26752a0e853ca2dd6b9668f7fd117b3030cded14dbe4b9258688e638d279abf",
+    "rtl/synth/voice_timbre_adsr.v": "12ca3d22b45ffcbc073c78fe68d4d0a9ace2deebf3c748cde0efa5e1304bf288",
+    "rtl/synth/wave_lut.v": "f476407c6bfb4853b547f1f3ad88d718878f8520fd48915bea664f2b03ff5cbc",
+    "rtl/synth/wave_lut_timbre.v": "562653ae5c8945ee55266545c9cef8ccd554fa068932c8136b58d41abbd0d4dd",
+    "rtl/top/instrument_presets_top.v": "42802252928d86f807dd34cae6fb72cb19f2545479a19279d39a2b96c538d1ef",
+    "rtl/top/instrument_uart_piano_top.v": "e2604e570942dc56c63aff2de81d01216e948ee72ba082bb6087ee01776e1705",
+    "rtl/top/instrument_uart_top.v": "ec858851b0f9a80296989e911b1282cca3ce22c15a005c6f7d6f034d9dac5809",
+    "rtl/top/music_display_top.v": "84293dec186399b7fe261b8e42bfea0c48357699b5c0f459d6df3e4d584c388c",
+    "rtl/top/music_performance_core.v": "95304c1e2ef30913a7c762e00b2bd7f4c2f5d6d430f3c557a9b49a660a7bc397",
+    "rtl/top/music_uart_top.v": "0b42842775e46c3088c48954326966f9ca7a0bfe1317d8dad438abf7f626598f",
+    "rtl/top/piano_13key_top.v": "280cf9cfa708ee62fbe0d32b8c21f578f780851e8c4f4b1cfcd0dab87c2428a7",
+    "rtl/top/piano_hdmi_top.v": "fc421f91c5cb70a9d8d78d72e498e60168b915ccf743be6fea5b657d0be75735",
+    "rtl/top/piano_performance_top.v": "ba1399976b7ac8eb49f554b23663d426fe828a7a37682f32a7c1e8e54cf5d420",
+    "rtl/usb/touch_report_cdc.v": "afdd9abe1b4919aed4d3e6aea515e9d8c0852947a2241c4d42bdc6c4f100ea88",
+    "rtl/usb/touch_report_decode.v": "3ce5138de94126f44d9525ed61b974d680482b11f1c59f37c368c23281215896",
+    "rtl/usb/touch_usb_control.v": "fad4815d1f23c2e5ba5da11ea9b1864834a349bac71a1fc5ab5d7fb5601a0932",
+    "rtl/usb/touch_usb_host.v": "adb158c718f30607a15b51477588ad315c57aed9490ed22816ed4512eb9682c1",
+    "rtl/usb/touch_usb_link.v": "6666e61a943a10e8f67cf586905cd838ac13d92e5baf140bc536ba2551947f08",
+    "rtl/usb/touch_usb_port.v": "2b77f519463003213596105be2a79f35ae1a137c2371555cc74bc5c79b0a328d",
+    "rtl/usb/touch_usb_system.v": "2184ef65127232794be4e84a74944d15a01ba94e5cd13d814e39fd8985597957",
+    "rtl/usb/usb_clock_60k.v": "c8b3b7654c24aefbde2f650afdc8f72b56ff40150064ebc23e5c611ffb4e0369",
+    "rtl/usb/vendor/usb_fs_phy.v": "f77e02fc44fb1e9e24c0e7ea854bff5bdb07daf632e73e2be719870d75b4b51c",
+    "rtl/usb/vendor/usbh_crc16.v": "8f4d19a55debc503248e874debc2c2d30cdc8ad2e0e2df672e145278469cb448",
+    "rtl/usb/vendor/usbh_crc5.v": "09f0aa28d5ee06c42a813890b232788585b5001d042783b05bff290e239fca6a",
+    "rtl/usb/vendor/usbh_sie.v": "1281a47c6b77b7d16a096a01c9702a1bb0aa51dcda176e98c45df2e932de081d"
+  },
+  "tests": [
+    {
+      "manifest": "dual_models_full\\build\\closure_audio\\tb_brightness_hdmi_inputs.json",
+      "manifest_sha256": "a4a8a4b09c2223e7da569f0bdb81f7f03747521db96dbc1c68510e754ea2c576",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": true,
+      "mutation": "None",
+      "log_sha256": "30a7822fe3cd31287e4e7df474876fe0806ab4eae6e6a82ed6ce2053b9b94b2e",
+      "checks": [
+        "# PASS tb_brightness_hdmi: actual AIN2, 32 voices, both instruments, original 127 DAC exact, R958, serial=13803 samples=6903 full32=2291 dark=1252"
+      ]
+    },
+    {
+      "manifest": "dual_models_full\\build\\closure_audio\\tb_config32_audio_inputs.json",
+      "manifest_sha256": "b523a530d1ddaa8bf3b22421cfe33f05f16bfc785d23a90a1bc6bc26f18e4ccf",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": true,
+      "mutation": "None",
+      "log_sha256": "6699ee27fe617ff097765c6062cab9efe3efa5c12d73f170facc5051dd02bfa8",
+      "checks": [
+        "# PASS tb_config32_audio: BLE score/map commit, held identity, offline guide, uninterrupted R958 samples=532"
+      ]
+    },
+    {
+      "manifest": "dual_models_full\\build\\closure_audio\\tb_controls32_audio_inputs.json",
+      "manifest_sha256": "af71b78e737ee1c84eda376446a4a63c407f4ea0a8c87e80f90f81674f8c9a30",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": true,
+      "mutation": "None",
+      "log_sha256": "10b38afcd22de526de6420ec90130206798c4ed747a7bb1560b652c41e6afdff",
+      "checks": [
+        "# PASS tb_controls32_audio: real32/R958/three effects; physical+remote sustain, cancellation isolation, screen mode/octave, guide key/touch behavior samples=74"
+      ]
+    },
+    {
+      "manifest": "dual_models_full\\build\\closure_recovery\\tb_dac_launch_timing_inputs.json",
+      "manifest_sha256": "77f26d84ec5e2be7662549d02912cac6f0a1113d186b84c41337137e9a52bbc1",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "d34b6a4df23ecc234dddce1426a6bfe6c268d8e878133a16ccbcbb121819092f",
+      "checks": [
+        "# PASS tb_dac_launch_timing: epochs=5 rises=1536 frames=50 underrun_frames=13"
+      ]
+    },
+    {
+      "manifest": "dual_models_full\\build\\closure_recovery\\tb_review_hdmi_reset_recovery_inputs.json",
+      "manifest_sha256": "b5ef864b35826cdd8f16b1a1d3a0f24c4b00ea22eaa331e0b25b2c38395faf20",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "238afade8ee35eda868c89c4585f795298e3fae62d054e8afd9a7ac7e0ce589b",
+      "checks": [
+        "# PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)"
+      ]
+    },
+    {
+      "manifest": "dual_models_full\\build\\closure_recovery\\tb_usb_system_recovery_inputs.json",
+      "manifest_sha256": "483de3dcd1f3d33681bec8f8bdc7923a5c0228060b0a41009638fbe75435e2bc",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "7a5ca32742b26817f64a0283a308c416cf68e7afe2d6a5837a1b109bb24aaf18",
+      "checks": [
+        "# PASS tb_usb_system_recovery: 4 disconnect/PLL-loss epochs, real asymmetric mailbox resets, held events then cancellation, no stale reconnect notes"
+      ]
+    },
+    {
+      "manifest": "dual_clock_guard\\build\\dual_clock_verified\\tb_usb_dual_clock_inputs.json",
+      "manifest_sha256": "5265c2ff31cd2a603022dddfad417107cabb69844167cade2ebb5d73b51b2fc2",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "c8dc6b84dcfbbaebbcebcf02f98999a7298c450f007ee9bf8ae1403772b7ed1e",
+      "checks": [
+        "# PASS tb_usb_dual_clock: 16408 phase/period checks, 8192 pin values, 8 reset/clock-stop epochs"
+      ]
+    },
+    {
+      "manifest": "dual_clock_guard\\build\\dual_clock_verified\\tb_usb_dual_wire_inputs.json",
+      "manifest_sha256": "e1de44e317b5e22f19b533bb4d6c63c75114ef4393ecf251b90613003bdae40a",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "3e271e78e9d39a152c573e80aa2665185ca5dea275b37d237101002149eb22d9",
+      "checks": [
+        "# PASS tb_usb_dual_wire: full D+/D- enumeration/455-byte EP0, SOF, address/config, SET_IDLE STALL, NAK, bad CRC, duplicate ACK, six whole six-contact reports, backpressure, detach/reconnect/reset"
+      ]
+    },
+    {
+      "manifest": "dual_clock_guard\\build\\dual_clock_verified\\tb_usb_port_outputs_inputs.json",
+      "manifest_sha256": "8fef79a994587de5a26b4df326dbc0d215ea430813bf8e8644e3487fb1c5d8d8",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "7e0a33fb06524ed5c48acc068b3a31d9251d3b9785931f3c214a599dabd97b8a",
+      "checks": [
+        "# PASS tb_usb_port_outputs: 256 data/enable combinations, four reset phases, clock-stop high impedance"
+      ]
+    },
+    {
+      "manifest": "dual_clock_guard\\build\\dual_clock_verified\\tb_usb_system_recovery_inputs.json",
+      "manifest_sha256": "483de3dcd1f3d33681bec8f8bdc7923a5c0228060b0a41009638fbe75435e2bc",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "6aab6f910c5b460d5b68b64d3c3dbf6f1e21e79d69623654c664e137b31b45e4",
+      "checks": [
+        "# PASS tb_usb_system_recovery: 4 disconnect/PLL-loss epochs, real asymmetric mailbox resets, held events then cancellation, no stale reconnect notes"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_features\\tb_config_uart_inputs.json",
+      "manifest_sha256": "184a83661300fa2f9d7b128415cf4599034c8fdce1e730a067e8dc4c52b15202",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "57d9757a208a50db89d62b5935b97898e39124a2cb3bce3466164deebdcc2e78",
+      "checks": [
+        "# PASS tb_config_uart: actual UART HELLO caps, upload/CRC/commit, whole-line STATUS arbitration, CTRL idempotency, GETCFG, session reset"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_features\\tb_config_watchdog_inputs.json",
+      "manifest_sha256": "9d7db5e69b0dd824e66dc85141ae475ba766707f59d2e82f8b311a542624d458",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "38eb922bddf52f653e3be639e00944f3ccef6891036cfb2c8f839d629ab3ebe0",
+      "checks": [
+        "# PASS tb_config_watchdog: ready and BUSY deadline keepalive, malformed and idle expiry, checks=6"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_features\\tb_keymap_events_inputs.json",
+      "manifest_sha256": "bb52e6cbd906a820a81044646e820af741c200b5e44b30b8b073bfda274d110a",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "565de44c5e179fd5ed0415ea84455a72c8854532d872f5894a8cb6f07cec59b5",
+      "checks": [
+        "# PASS tb_keymap_events: held release keeps original pitch, disable, duplicate mapping/source identity, queue/same-edge commit exclusion"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_features\\tb_performance_controls_inputs.json",
+      "manifest_sha256": "22f2cb129c633b6cf1d20f414eeadad2afa93e495f082c319b93ef9814f5565e",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "365e61fad0b294ec5ce6e63cbfdbbcd532174fe2a0de8a248de24d9085bc8246",
+      "checks": [
+        "# PASS tb_performance_controls debounce, simultaneous keys, fair arbitration, stall/cancel"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_features\\tb_performance_store_inputs.json",
+      "manifest_sha256": "f88d731b82de6ddaee27c2fd7e9b016c353531ccd68a112e9fb5b37abba4f2f3",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "b475625a0aba24ec76b389eb51aba0f693b19514067166f3c73aba039b5a730f",
+      "checks": [
+        "# PASS tb_performance_store: 512 segments, independent CRC, duplicates/order/bounds, RAM banks, BUSY, atomic map, CTRL retry, query, timeout/disconnect"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_features\\tb_practice_boundaries_inputs.json",
+      "manifest_sha256": "5cf751ae5685ab142d59ad095440044b1dcd49c0ac354ec6c871ad43252d9876",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "8254decf0544ac817507270a717915cc1c3f49e207ab3506957c8e1534029960",
+      "checks": [
+        "# PASS tb_practice_boundaries: tempo accumulation, exact count-in/end tick pause"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_features\\tb_rx_drain_invariant_inputs.json",
+      "manifest_sha256": "323853f9de7c60c78ae03c0dbb11d4079e48f86e9e47415ee4fd687fd418b783",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "a868fb15ac88d041f26a9c1eca8c7f07bd1fb6d84bf5af900ae1f26b601007e4",
+      "checks": [
+        "# PASS tb_rx_drain_invariant: checks=20196 full_exchange=131"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_features\\tb_rx_fault_recovery_inputs.json",
+      "manifest_sha256": "86122bbf4c2ca341626950aed371a19fa0558b5400911d8b75100cb6076ba9c3",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "e762e84a10b750e00a4a7367eadeddbeb1fba0c92a6636db0e4ebc08a12f4cb2",
+      "checks": [
+        "# PASS tb_rx_fault_recovery: real bad stop bit, flush/cancel, no stale event, reset mid-byte and restart"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_features\\tb_timed_practice_inputs.json",
+      "manifest_sha256": "0c46c35c299a104172490ca4c06456447877f98b607f654cba8cb323602d1306",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "0aa158b495353e19846cb8befd47ecc0595d4cba5bbb3684b8add9ec58fe0642",
+      "checks": [
+        "# PASS tb_timed_practice: 3 tempos, complete 42-note score, chord/rest, selection/pause/reset"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_features\\tb_touch_controls_inputs.json",
+      "manifest_sha256": "cb0014209194dd186e3c3f0b62b2751558ab251071a9d21f7b20e523c2d9dff7",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "a45e6ba629470d1c9b0d5206f81c819a601ade1a5fe898aa23c7baa72de3d0ef",
+      "checks": [
+        "# PASS tb_touch_controls: six contacts, held/glissando, backpressure, disconnect/error cancellation, guide/song/tempo controls"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_display\\tb_pipeline_display_equivalence_inputs.json",
+      "manifest_sha256": "78c560da30f7cde16730a2af399c160026d7ac93e160ed2f53589397ac37de21",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "2c22c81e7ee3ebc12656fcd0461eafbdcd5f17402f14a5fc0c895e8902925e62",
+      "checks": [
+        "# PASS tb_pipeline_display_equivalence: cycles=2456173 piano_pixels=1228895 guitar_pixels=614406; RGB/sync/CDC/format frame-atomic, clock-stop reset/restart"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_negative\\tb_performance_store_ConfigCrc_inputs.json",
+      "manifest_sha256": "e9264ca259a068c67bf3b0a2bf36b19ca2ddc100bc689e4255adfd15b03af1a9",
+      "rtl_files_directly_matched": 99,
+      "substitutions": [
+        "rtl/control/performance_store.v"
+      ],
+      "functional_rom": false,
+      "mutation": "ConfigCrc",
+      "log_sha256": "0322a19a9bd0bf25610d595aab91d50fe724aaa96301103e70e035e5c2b622f3",
+      "checks": [
+        "# FAIL command  9 seq=         1 code=         0 expected=         5"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_negative\\tb_practice_boundaries_PracticePause_inputs.json",
+      "manifest_sha256": "1a5e2d7d705ec230bef8abc83400bb5b4556c45f9be1b9089ba223dba0aecfed",
+      "rtl_files_directly_matched": 99,
+      "substitutions": [
+        "rtl/control/timed_practice_guide.v"
+      ],
+      "functional_rom": false,
+      "mutation": "PracticePause",
+      "log_sha256": "29d53fb7db77f85a080ce2973df3207fc517bad79ef593e4438b6262426f9e31",
+      "checks": [
+        "# FAIL                            pause/count-in boundary consumes tick"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\closure_negative\\tb_review_hdmi_reset_recovery_HdmiRecovery_inputs.json",
+      "manifest_sha256": "80a23393dbf6aefcc3dd9c9d88064d70f3fa07c80167302974c5a73d6f13430e",
+      "rtl_files_directly_matched": 99,
+      "substitutions": [
+        "rtl/display/dvi_tx_gowin.v"
+      ],
+      "functional_rom": false,
+      "mutation": "HdmiRecovery",
+      "log_sha256": "050c2d887918c0a3244e4e9ca0f43c07bba9f74c6d131acfee0d2756ec018f66",
+      "checks": [
+        "# FAIL HDMI reset word alignment epoch=1"
+      ]
+    },
+    {
+      "manifest": "hold_unpack_v2\\build\\regression\\final\\tb_dac_launch_timing_inputs.json",
+      "manifest_sha256": "77f26d84ec5e2be7662549d02912cac6f0a1113d186b84c41337137e9a52bbc1",
+      "rtl_files_directly_matched": 100,
+      "substitutions": [],
+      "functional_rom": false,
+      "mutation": "None",
+      "log_sha256": "f21b7efb7c455963aa67238000b538beb1602defd5523fe3827a3a668d848ea4",
+      "checks": [
+        "# PASS tb_dac_launch_timing: epochs=5 rises=1536 frames=50 underrun_frames=13"
+      ]
+    }
+  ],
+  "rule": "Every original RTL hash present in every simulation manifest must match this candidate; simulation-only qualified ROM and explicit mutant substitution recorded separately."
+}

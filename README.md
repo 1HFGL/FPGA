@@ -1,6 +1,58 @@
+## 2026-10-26 四项原绝对时序目标达成（31005）
+
+当前硬件确认是 **NEO Dock 31005 + Tang Mega60K SOM**，器件 GW5AT-LV60PG484AC1/I0、Version B。`boards/tang_mega_60k_31004` 仅为历史目录名，接线仍按 31005 合同，42 个引脚不变。
+
+候选、独立全量重建、正式工程全量重建一致：Setup/Hold/Recovery/Removal/Pulse = **2.108/0.443/0.626/0.468/5.803 ns**，原目标 **2.0/0.4/0.6/0.4 ns** 全部达到。最薄余量由184增至443 ps；Recovery由0.669降至0.626 ns，仍达标。三份位流除生成时间注释外逐字节相同。不能据此宣称所有余量改善或整机实物验收完成。
+
+正式修改五份 RTL：Delay 固定系数移位加法、HDMI 末级复位局部 LUT 链、USB 同一 PLL 的两路同相48 MHz输出分担核心与三个引脚寄存器。原时钟频率、相位、板外数字预算及已有时序例外保留；增加相关引脚时钟声明及更严格的独立布线目标模型，直接检查原生时钟报告，没有把额外不确定度加回余量。P3/R2/C0保持，59条活动约束含13条报告指令。
+
+全部新增控制功能、32声部/48 kHz、双音色、三效果、R925/R958和976拍准备窗余18拍保持。270份严格Verilog-2001通过；25份候选测试输入清单与正式100份RTL逐项绑定，覆盖完整新功能、2456173拍显示差分、6903组音频整数参考和13803个DAC字；正式目录另复跑USB时钟/线级枚举、HDMI/USB恢复和DAC正反检查。Logic36872→36937（+65）、FF22679→22702（+23）、CLS25949→25900（−49）、DSP37→35，BSRAM103与PLLA2保持。
+
+正式fs SHA256 `4a2e6813e9d8eaa3461b187393b49789a8c6e51500e9d46673695bad1b941c64`，只由 `projects/hdmi/piano_hdmi.gprj` 全量构建生成。证据 `verification/evidence/timing_closure/summary.json`；归档与临时备份/候选清理以该摘要的archive/cleanup字段为准。未推送、打下载包或烧录。PR1014系统时钟接入、完整DAC板外预算、独立USB实物、蓝牙首音、两条整机延迟及固定ADSR D/S、PT8211赛题口径仍待验收；USB引脚时钟的LOCAL警告为三个输出寄存器的显式配置，实际路由偏斜已参与STA。以下日期较早的状态仅为历史快照。
+
+## 2026-10-25 采样请求优化完成（原时序目标仍部分未达）
+
+正式仅修改 `rtl/audio/sample_tick.v`：由相位状态预判下一拍的半位、帧起点和样本准备脉冲，再寄存高扇出输出，所有公开脉冲仍在原拍出现。全部新增控制功能保留；32声部、48kHz、双音色、三效果、R925/R958、976拍准备窗余18拍不变。原CST/SDC、P3/R2/C0、42引脚/31条约束及全部已有TB保持。
+
+候选、独立全量重建、正式全量重建一致：Setup/Hold/Recovery/Removal/Pulse = **1.111/0.184/0.669/0.299/5.799ns**。对比本轮前0.430/0.093/0.685/0.299/5.799ns，最薄93→184ps；Recovery减少16ps但仍≥0.6ns。原目标2/.4/.6/.4ns仍只有Recovery达到，不能称全部目标达成。用户已撤回按周期5%～10%的临时提议，继续使用原绝对门槛。
+
+Logic **37092→36872（−220）**、FF **22681→22679（−2）**、CLS **25886→25949（+63）**；BSRAM103、DSP37保持。不能称所有资源或所有余量都改善。波形、音区末级选择、RAM写事务、显示内部复位和局部位置候选均保留拒绝原因；严格Hold候选未能在原约束下可靠复用路由，没有晋升。
+
+268份严格Verilog-2001、10组参数/3080710次节拍对照与边界故障检查通过。18份候选功能/恢复测试清单与正式100份RTL逐项哈希相符，覆盖完整新控制功能、2456173拍显示差分、6903组音频整数参考、13803个DAC字、17轮HDMI和4轮USB恢复。正式目录另跑节拍正反检查、严格编译及DAC审计；DIN/WS和HDMI恢复位序故障被拒绝。长音频仍使用已独立核验的仿真ROM，综合使用原厂商ROM。
+
+正式fs SHA256 `cee524f5fc6ad347c94e762ca64ead44986ecfd4d7d4a291a75940b767158d55`。证据 `verification/evidence/timing_followup/summary.json`；归档与临时备份/候选清理以该摘要的archive/cleanup字段为准。未推送、打下载包或烧录。PR1014、完整DAC板外时序、独立USB实物、蓝牙首音、实体/触摸整机延迟及固定ADSR D/S、PT8211赛题口径仍待验收。下方记录仅是历史快照。
+
+## 2026-10-25 新控制功能已合并并完成离线实现
+
+三功能键、屏幕控制、42音固定节拍导奏、最多512段曲谱下载、13键映射、BLE控制/实际状态回读，以及界面、引脚、接线说明和测试已合入正式工程。保留并行任务的可读性改动。32声部、48kHz、双音色、三效果及R925/R958不变。
+
+合并后先修复串口配置看门狗组合反馈，保留真实帧错误并去除不可达FIFO溢出判断；该版本首次实现Setup仍为−3.292ns，已拒绝。随后把显示命中移到既有流水级、触摸命中在既有快照拍预计算。候选、独立全量重建和正式全量重建一致：Setup/Hold/Recovery/Removal/Pulse = **0.430/0.093/0.685/0.299/5.799ns**。目标2/.4/.6/.4ns仅Recovery达到，最薄仍93ps，不能称全部目标达成或全面宽裕。P3/R2/C0，原时钟及既有CST/SDC不变，新增三功能键后42引脚/31条约束通过。
+
+267份严格Verilog-2001、21份正式功能/故障测试证据、2456173拍实际画面对照、6903样本独立整数参考和13803个DAC字通过；HDMI/USB恢复、CRC/暂停/串口帧错及DAC故障控制通过。综合仍用原厂商ROM，长音频使用已核验等价的仿真ROM。Logic37092、FF22681、BSRAM103、DSP37；功能扩展有资源代价。
+
+当前fs SHA256 `2bbafb9d8d61e484a569d73fd7c2709ed98488c32aa88e6bfb5f0d5824984f1d`，只由正式 `projects/hdmi/piano_hdmi.gprj` 全量构建生成。证据见 `verification/evidence/timing_targets/summary.json` 和 `docs/fpga-optimization-plan.md`。K6/K7/K8接线以 `docs/keyboard-wiring.md` 为准。本轮未推送、打下载包或烧录；PR1014、完整DAC板外预算、实物USB/BLE及两条整机延迟仍待验收。以下旧状态为历史记录。
+
 # 高云 FPGA 双音色电子乐器
 
-## 当前版本：2026-10-25 明亮度与时序整合
+## 2026-10-25 可读性整理
+
+正式主链路11份RTL已统一排版、展开密集赋值和端口连接，补充事件来源、触点所有权与包络流水说明，并修正过时的USB/16声部注释。执行记号和综合指令保持；249份严格编译、9项定向回归、2项包络故障检查通过。见[验证说明](docs/verification.md)与[证据摘要](verification/evidence/readability/summary.json)。本轮未重建位流，以下fs保持原字节；旧构建输入的原始源码哈希与排版后的文件不同，不能混称重新全量验证。未改接线或新增功能。
+
+## 当前版本：2026-10-25 全链路审查与HDMI复位优化
+
+正式仅调整HDMI串行器的复位选择连接，三次全量构建一致：最薄余量 **143→203ps**，Removal **143→299ps**；Logic31879/FF21003/BSRAM93/DSP37保持，CLS少30。32声部、48kHz、R958、双音色/三效果与现有接线保持。249份严格Verilog、复位正反测试、完整音频整数参考及DAC数字审计通过。
+
+当前fs SHA256 `9b139e654d16dc0cacbc55973aeb2b2860b6a5bf6a0e64ca90b2be3ed2dcdfaa`。详见[全链路审查与比较](docs/fpga-optimization-plan.md)、[验证/复跑](docs/verification.md)和[证据摘要](verification/evidence/full_chain/summary.json)。未推送、制作下载包或烧录。PR1014、完整DAC板外时序、独立USB实物、蓝牙首音及实体/触摸整机延迟仍待验收；屏幕控件、远程APPLY、固定ADSR的D/S口径没有补齐。旧坐标TB未改或计作通过，未重跑整套历史测试。 下文位流和资源是历史快照。
+
+## 当前版本：2026-10-25 包络选择路径优化
+
+32声部、钢琴／吉他、三效果、四来源演奏和R958保持。本轮在共享包络基础上简化扫描选择路径：Setup由 **0.448ns提高到1.947ns**，Hold保持186ps，最薄仍143ps。
+
+Logic31879（比上一轮少47）、FF21003（多88）、CLS24634（少144）、BSRAM93、DSP37。候选与正式独立全量重建结果一致；248份严格Verilog、完整音频参考、复位恢复及正反检查通过。原约束、接线和队友TB未改。
+
+唯一工程 `projects/hdmi/piano_hdmi.gprj`；fs SHA256 `c0164836b37b524a0e1a6347beeb8bf7e047949a1c150629958ae83b8a6247b8`。[方案与取舍](docs/fpga-optimization-plan.md) · [验证摘要](verification/evidence/envelope_select/summary.json)。源码仍有未提交修改，不能仅凭HEAD复现。未推送、打包或烧录；PR1014、完整板外时序、USB独立实物和整机延迟仍待验证。下方资源/位流记录均为历史。
+
+## 历史记录：2026-10-25 明亮度与时序整合
 
 本次 master 提交合入队友 `1bc0203` 的双级对数明亮度，并保留帧弯音预计算、触点共用译码和 USB 修复。127档逐样本保留原音；R958（19.16µs）/976拍准备窗余18拍，32声部、48kHz、钢琴/吉他、三效果和接线保持。
 
@@ -12,7 +64,7 @@
 
 实物USB触摸/两条整机延迟、蓝牙首音、PR1014及完整DAC板外时序仍待验收；屏幕延音/模式/音区控件与远程APPLY仍未接通。固定ADSR预设D/S与PT8211右对齐的赛题口径未关闭。旧坐标TB在基线与新版均失败，未修改或计为通过。下方R955位流、旧资源及“未推送”均为形成时的历史快照，不能替代本节的整合结果。
 
-## 当前版本：2026-10-25 时序优化与功能审查
+## 历史记录：2026-10-25 时序优化与功能审查
 
 唯一正式工程仍为 `projects/hdmi/piano_hdmi.gprj`。本轮比较八组方案后采用“帧内数字预计算＋触点槽位共用译码”，保留32声部钢琴/吉他、合唱/延迟/混响、三个实体表情控制及四来源音符。接线、音色系数和R955音频合同保持。
 
@@ -154,9 +206,9 @@ USB触摸尚未接入正式顶层。已完成五触点快照到音符/控件的�
 
 钢琴含48个模态槽，吉他含31个分量、拨弦噪声、失真和箱体处理；ROM是合成参数/单周期正弦/传递曲线，不是整音PCM录音。A核心保持队友原输出，试听仍需按相同音高和接近响度与实物对照。钢琴松键释放约85.33ms，吉他约42.67ms再加箱体收尾；按住时分量自然衰减，没有旧版固定1.2秒清零。
 
-音频50MHz系统／48kHz采样／16位：16声部R923原始样本有效，经过明亮度准备路径3拍、合唱12拍、回声5拍、混响9拍，正式HDMI在R953缓存，提前60个半位边沿准备，最小976拍窗口余23拍（0.46µs）。160ms是回声间隔，不是直达声额外等待；计算延迟不能代替整机模拟延迟实测。PT8211-S使用LSBJ右对齐格式，赛题接口口径及完整外部时序仍须核对。
+音频50MHz系统／48kHz采样／16位：32声部R925原始样本有效，经过双级明亮度6拍、合唱12拍、回声5拍、混响9拍，正式HDMI在R958缓存，提前60个半位边沿准备，最小976拍窗口余18拍（0.36µs）。160ms是回声间隔，不是直达声额外等待；计算延迟不能代替整机模拟延迟实测。PT8211-S使用LSBJ右对齐格式，赛题接口口径及完整外部时序仍须核对。
 
-音量复位为满增益（既有集成测试合同），ADC就绪后平滑采用旋钮值；掉线保持最后有效参数。ADC为ADS1115，860SPS/每通道等待1.5ms/实际约347.22kHz I2C；AIN0音量、AIN1弯音。串口115200/8N1，保留NOTES/STATUS及`TONE=PIANO_GUITAR`识别，音色由KEY2选择。板级KEY1选择低C3～C4／中C4～C5／高C5～C6，各13音；延音关闭。电脑UART发送绝对MIDI音符，仍由上位机自己的音区选择控制。
+音量复位为满增益（既有集成测试合同），ADC就绪后平滑采用旋钮值；掉线保持最后有效参数。ADC为ADS1115，860SPS/每通道等待1.5ms/实际约347.22kHz I2C；AIN0音量、AIN1弯音、AIN2明亮度。电脑串口115200/8N1，BLE独立9600/8N1；保留NOTES/STATUS及`TONE=PIANO_GUITAR`识别，音色由KEY2选择。板级KEY1选择低C3～C4／中C4～C5／高C5～C6，各13音；延音关闭。电脑UART发送绝对MIDI音符，仍由上位机自己的音区选择控制。
 
 ## 验证入口
 
@@ -188,7 +240,7 @@ python verification/scripts/run_audio_timing_tests.py --mutation priority
 
 ## 架构与代码定位
 
-本节按2026-10-18工作区实际文件和正式顶层参数整理。`rtl/`里的Verilog是FPGA硬件源码；`projects/`主要保存EDA工程和构建配置；`host/`是电脑／手机软件。通常改功能去`rtl/`，打开EDA去`projects/`。
+本节按2026-10-25工作区实际文件和正式顶层参数整理。`rtl/`里的Verilog是FPGA硬件源码；`projects/`主要保存EDA工程和构建配置；`host/`是电脑／手机软件。通常改功能去`rtl/`，打开EDA去`projects/`。
 
 ### 1. 先认准工程入口
 
@@ -199,23 +251,28 @@ python verification/scripts/run_audio_timing_tests.py --mutation priority
 | A的独立音色试听／预设控制 | [`projects/music/uart_music.gprj`](projects/music/uart_music.gprj) | [`music_uart_top.v`](rtl/top/music_uart_top.v) → [`music_performance_core.v`](rtl/top/music_performance_core.v) |
 | 显示模块独立综合检查 | [`projects/display/display_rgb.gprj`](projects/display/display_rgb.gprj) | 按该目录脚本检查显示模块，不是当前HDMI整机入口 |
 
-正式HDMI入口直接实例化[`instrument_uart_top.v`](rtl/top/instrument_uart_top.v)，并接上显示时钟、显示模块和视频发送器；没有另复制一份合成器。当前正式参数为`USE_MODAL=1`、`VOICES=16`、`ENABLE_OCTAVE_KEY=1`、`ENABLE_BRIGHTNESS=0`；公共模块自己的默认参数用于兼容测试，不能据默认值判断整机配置。
+正式HDMI入口直接实例化[`instrument_uart_top.v`](rtl/top/instrument_uart_top.v)，并接上显示时钟、显示模块和视频发送器；没有另复制一份合成器。当前正式参数为`USE_MODAL=1`、`VOICES=32`、`ENABLE_OCTAVE_KEY=1`、`ENABLE_SLIDER_BRIGHTNESS=1`、`ENHANCED_BRIGHTNESS=1`、`ENABLE_BLE=1`、`ENABLE_USB_TOUCH=1`、`ENABLE_GUIDE=0`；公共模块自己的默认参数用于兼容测试，不能据默认值判断整机配置。
 
 ### 2. 声音和画面怎么连起来
 
 ```mermaid
 flowchart TD
     K[13实体键／KEY1音区／KEY2乐器] --> I[按键同步消抖与事件编码]
-    U[电脑UART音符] --> P[串口收发与协议解析]
+    U[电脑UART音符] --> P[独立串口收发与协议解析]
+    BLE[BLE UART音符] --> BP[独立BLE协议会话]
+    BP --> R
+    USB[USB触摸主机／六触点报告] --> T[触点跟踪与音符事件]
+    T --> R
     I --> R[事件仲裁 uart_event_arbiter]
     P --> R
     R --> V[声部分配 voice_allocator]
-    A[两个旋钮 → ADS1115] --> C[参数映射和平滑 piano_controls]
+    A[两个旋钮＋明亮度滑条 → ADS1115] --> C[参数映射和平滑 piano_controls]
     V --> M[代次适配 voice_bank_modal_adapter]
     C --> M
     M --> S[模态合成 voice_bank_music_pipe]
     ROM[参数ROM／包络] --> S
-    S --> O[采样节拍和串行输出 synth_top]
+    S --> FX[明亮度 → 合唱 → 回声 → 混响]
+    FX --> O[采样节拍和串行输出 synth_top]
     O --> D[板载PT8211-S → 耳机／有源音箱]
     O -. 提前请求下一样本 .-> M
     V -. 持键／乐器／音区 .-> F[显示集成 instrument_display]
@@ -226,7 +283,7 @@ flowchart TD
     H --> LCD[7寸HDMI屏]
 ```
 
-音频／控制使用50MHz系统时钟，采样率48kHz；视频另有49MHz像素时钟和245MHz串行时钟。显示通过`display_cdc_latest.v`接收跨时钟观察副本，不等待画面刷新才发音。16声部核心在请求R923给原始有效样本，经明亮度准备与三效果后R953缓存；详细有效时刻与接口见[音频合同](docs/design.md)。HDMI目前只传视频，声音走板载DAC。
+音频／控制使用50MHz系统时钟，采样率48kHz；视频另有49MHz像素时钟和245MHz串行时钟。显示通过`display_cdc_latest.v`接收跨时钟观察副本，不等待画面刷新才发音。32声部核心在请求R925给原始有效样本，经双级明亮度与三效果后R958缓存；详细有效时刻与接口见[音频合同](docs/design.md)。HDMI目前只传视频，声音走板载DAC。
 
 ### 3. 想改功能，直接找这些文件
 
@@ -238,9 +295,9 @@ flowchart TD
 | 看输入、合成、输出如何汇合；KEY1／KEY2逻辑 | [`instrument_uart_top.v`](rtl/top/instrument_uart_top.v) | 共享核心连接层，包含音区／模式、功放尾音排空 |
 | 按键消抖、按下／松开事件、音符映射 | [`touch_or_key_if.v`](rtl/control/touch_or_key_if.v)、[`input_sync_debounce.v`](rtl/control/input_sync_debounce.v)、[`event_encoder.v`](rtl/control/event_encoder.v) | 名字含touch不代表已接USB触摸；按下记录音高，松键释放原音 |
 | 串口握手、音符命令、状态与失联处理 | [`uart_synth_protocol.v`](rtl/control/uart_synth_protocol.v)、[`uart_event_arbiter.v`](rtl/control/uart_event_arbiter.v) | 底层收字节／组行／回复等在同目录`uart_*.v` |
-| 和弦、16声部占用、抢占与同音来源 | [`voice_allocator.v`](rtl/control/voice_allocator.v) | 各来源共享16个声部，尾音也占用 |
+| 和弦、32声部占用、抢占与同音来源 | [`voice_allocator.v`](rtl/control/voice_allocator.v) | 各来源共享32个声部，尾音也占用 |
 | 读取旋钮/滑条 | [`ads1115_knob_if.v`](rtl/control/ads1115_knob_if.v) → [`ads1115_if.v`](rtl/control/ads1115_if.v) → [`i2c_master.v`](rtl/control/i2c_master.v) | AIN0音量、AIN1弯音、AIN2明亮度 |
-| 屏幕下一键指引 | [`practice_guide.v`](rtl/control/practice_guide.v) → [`instrument_display.v`](rtl/display/instrument_display.v) → [`instrument_panel_ui.v`](rtl/display/instrument_panel_ui.v) | 14音曲谱、只观察新起音、显示副本，不改变音频 |
+| 屏幕下一键指引 | [`practice_guide.v`](rtl/control/practice_guide.v) → [`instrument_display.v`](rtl/display/instrument_display.v) → [`instrument_panel_ui.v`](rtl/display/instrument_panel_ui.v) | 14音曲谱、只观察新起音；正式ENABLE_GUIDE=0，保留兼容测试 |
 | 音量／±2半音映射与平滑 | [`piano_controls.v`](rtl/control/piano_controls.v) | 送入合成器的总增益和频率比 |
 | 输入声部与A核心之间的代次／释放问题 | [`voice_bank_modal_adapter.v`](rtl/synth/voice_bank_modal_adapter.v) | 防止旧结果错误回收新触发的声部，另转换乐器编号 |
 | 钢琴／吉他合成算法、混音、失真／箱体 | [`voice_bank_music_pipe.v`](rtl/synth/voice_bank_music_pipe.v)、[`instrument_env.v`](rtl/synth/instrument_env.v) | 当前实际发声核心；包络与各分量衰减一起决定听感 |
@@ -250,7 +307,7 @@ flowchart TD
 | 琴键／控件区域、中文字体、按键残影与电平动效 | [`instrument_ui_map.v`](rtl/display/instrument_ui_map.v)、[`display_font_ui.v`](rtl/display/display_font_ui.v)、[`display_feedback.v`](rtl/display/display_feedback.v) | 分别负责区域映射、字模、帧域反馈 |
 | 波形幅度、自动倍率、采集与跨时钟显示 | [`display_wave_envelope.v`](rtl/display/display_wave_envelope.v)、[`instrument_display.v`](rtl/display/instrument_display.v)、[`display_cdc_latest.v`](rtl/display/display_cdc_latest.v) | 画面里的音频观察与实际输出增益分开 |
 | HDMI时钟、复位恢复、串行发送 | [`hdmi_clock_60k.v`](rtl/display/hdmi_clock_60k.v)、[`hdmi_reset_guard.v`](rtl/display/hdmi_reset_guard.v)、[`dvi_tx_gowin.v`](rtl/display/dvi_tx_gowin.v)、[`tmds_encoder.v`](rtl/display/tmds_encoder.v) | 涉及时序和专用原语，配合板级约束检查 |
-| 屏幕USB触点跟踪 | [`touch_contact_tracker.v`](rtl/control/touch_contact_tracker.v) | 只处理已解码快照；尚未接入正式顶层，USB主机／HID仍待实现 |
+| 屏幕USB触点跟踪 | [`touch_contact_tracker.v`](rtl/control/touch_contact_tracker.v) | 处理已解码六触点快照，已接正式USB主机；独立实物验收待完成 |
 | 电脑端界面 | [`studio.py`](host/studio.py)、[`studio_ui.py`](host/studio_ui.py) | Python电脑应用；传输在`studio_transport.py` |
 | 鸿蒙手机端界面 | [独立手机工程](../jingzou_harmony/) | 手机App已迁出；入口为其`entry/src/main/ets/pages/Index.ets`，原生编译及使用见该工程README |
 
@@ -285,7 +342,7 @@ master同时保留队友A的 `projects/music/uart_music.gprj` 独立试听工程
 
 [PLAN](PLAN.md)维护目标/分工；[音频合同](docs/design.md)、[显示合同](docs/display-rgb.md)、[接线](docs/keyboard-wiring.md)、[装配](docs/keyboard-assembly.md)、[上位机](host/README.md)各维护一份说明。
 
-当前尚需实物验收新音色、逐键接线/K6、旋钮噪声/中心校准和模拟总延迟。USB触摸、混响、32声部不属于本轮；完整比赛目标仍在PLAN中。PR1014、DAC完整外部时序和其他板外预算未闭合，当前约束检查通过不等于全面签核。
+当前已集成USB触摸、三效果和32声部，仍需实物验收逐键接线、旋钮噪声／中心校准、USB六指滑奏及两条模拟总延迟。完整比赛目标仍在PLAN中。PR1014、DAC完整外部时序和其他板外预算未闭合，当前约束检查通过不等于全面签核。
 
 
 ## 历史记录：第三表情维度（已由当前 KEY1 音区方案取代）

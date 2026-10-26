@@ -1,0 +1,850 @@
+{
+  "status": "VERIFIED_OPTIMIZATION_WITH_UNMET_TARGETS",
+  "confirmed_at": "2026-10-25T21:20:54.042446+08:00",
+  "formal_rtl_changes": [
+    "rtl/audio/sample_tick.v"
+  ],
+  "method": "Predict and register the next-cycle carry/frame/request using the phase invariant; preserve every public pulse edge including reset and dense/equal rate cases.",
+  "kept_features": [
+    "K6 sustain/K7 source/K8 start-reset",
+    "screen timbre/octave/sustain/guide/tempo controls",
+    "42-note fixed-tempo Twinkle with four-beat count-in",
+    "512 chord/rest segments, atomic CRC commit, offline use",
+    "13 physical-key mappings/disable with held-note release identity",
+    "BLE control and actual state readback",
+    "UI, three new pin constraints, wiring docs and independent tests"
+  ],
+  "targets_ns": {
+    "Setup": 2,
+    "Hold": 0.4,
+    "Recovery": 0.6,
+    "Removal": 0.4
+  },
+  "targets_met": {
+    "Setup": false,
+    "Hold": false,
+    "Recovery": true,
+    "Removal": false
+  },
+  "all_requested_timing_targets_met": false,
+  "percentage_gate": "User explicitly withdrew 5%-10% cycle proposal; original absolute targets retained.",
+  "baseline_slack_ns": {
+    "Setup": 0.43,
+    "Hold": 0.093,
+    "Recovery": 0.685,
+    "Removal": 0.299,
+    "Pulse": 5.799
+  },
+  "native_slack_ns": {
+    "Setup": 1.111,
+    "Hold": 0.184,
+    "Recovery": 0.669,
+    "Removal": 0.299,
+    "Pulse": 5.799
+  },
+  "delta_slack_ns": {
+    "Setup": 0.681,
+    "Hold": 0.091,
+    "Recovery": -0.016,
+    "Removal": 0.0,
+    "Pulse": 0.0
+  },
+  "minimum_slack_ns": {
+    "before": 0.093,
+    "after": 0.184
+  },
+  "resources": {
+    "Logic": {
+      "used": 36872,
+      "available": 59904
+    },
+    "Register": {
+      "used": 22679,
+      "available": 60780
+    },
+    "BSRAM": {
+      "used": 103,
+      "available": 118
+    },
+    "DSP": {
+      "used": 37,
+      "available": 118
+    },
+    "PLLA": {
+      "used": 2,
+      "available": 8
+    }
+  },
+  "resource_delta": {
+    "Logic": -220,
+    "Register": -2,
+    "BSRAM": 0,
+    "DSP": 0,
+    "PLLA": 0
+  },
+  "placement_cells": {
+    "before": 25886,
+    "after": 25949,
+    "delta": 63
+  },
+  "all_three_builds_match_native_timing_and_resources": true,
+  "builds": {
+    "candidate": {
+      "bitstream_sha256": "8f518b7fd86228f2c1c281ee0931fb435b6870cf967f4d2292bd3710e236dbc3",
+      "implementation_report_sha256": "956ddc02c28723e0aeeb4458171b27d4cf1cd4c46d654a38ce93c03abf0ee152",
+      "build_input_manifest_sha256": "455dfb2069fd7c8fd2a1e5cd7b8cf719771efa78302e9feeb77ea387f98e6a16"
+    },
+    "independent": {
+      "bitstream_sha256": "9270c20ccdecf2df22eb05d53df42cd8c0d3387ea1f81280dc36fb6af563fcf6",
+      "implementation_report_sha256": "619f55131cf8ebb098e6a706bca1fbbe67dca999f0c51243a723dc6f1a93770d",
+      "build_input_manifest_sha256": "df36f23f7edbc2129b3abe04e36d874d5595bcbbc98f5ee5d7964a54db1d86e0"
+    },
+    "formal": {
+      "bitstream_sha256": "cee524f5fc6ad347c94e762ca64ead44986ecfd4d7d4a291a75940b767158d55",
+      "implementation_report_sha256": "44e2c9287581bc9b9f11b072badf273a11763289adabea4393f307bf51f0a48d",
+      "build_input_manifest_sha256": "bb6e70a36f3b38f7465297066768297c3ac9d4259fa93caaf14f446eb9845df8"
+    }
+  },
+  "formal_bitstream": "projects/hdmi/impl/pnr/piano_hdmi.fs",
+  "formal_bitstream_sha256": "cee524f5fc6ad347c94e762ca64ead44986ecfd4d7d4a291a75940b767158d55",
+  "formal_project": "projects/hdmi/piano_hdmi.gprj",
+  "formal_process": "P3/R2/C0",
+  "ports": 42,
+  "active_constraints": 31,
+  "original_clocks_cst_sdc_process_and_existing_tests_unchanged": true,
+  "audio_contract": {
+    "voices": 32,
+    "sample_rate_hz": 48000,
+    "raw_cycles": 925,
+    "cache_cycles": 958,
+    "prepare_window_cycles": 976,
+    "spare_cycles": 18,
+    "timbres": 2,
+    "effects": 3
+  },
+  "verification": {
+    "strict_verilog_files": 268,
+    "sample_tick_checks": 3080710,
+    "parameter_sets": 10,
+    "sample_tick_fault_rejected": true,
+    "source_binding": {
+      "status": "PASS_CANDIDATE_TO_FORMAL_RTL_IDENTITY",
+      "rtl_files": 100,
+      "tests": [
+        {
+          "manifest": "tick/build/followup_audio/tb_brightness_hdmi_inputs.json",
+          "sha256": "91215853bd2761da14ea99a8f840d47d68508956bcf1cd921ae533f9bd05cba6",
+          "log_sha256": "7bf5ed2a1469df130d180bfa2d1f7d5848751bf81f42b4e319a857b42ca81231",
+          "negative": false,
+          "markers": [
+            "# PASS tb_brightness_hdmi: actual AIN2, 32 voices, both instruments, original 127 DAC exact, R958, serial=13803 samples=6903 full32=2291 dark=1252"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_audio/tb_config32_audio_inputs.json",
+          "sha256": "031cc22cca36967bbac2b9feffdb3f0f5667e4c6ab1e086379015da21cca4144",
+          "log_sha256": "fd8418f7e11eb0ddcbb65d1208990a46dcad90afd1fb8c5ce98c506a41c77fd9",
+          "negative": false,
+          "markers": [
+            "# PASS tb_config32_audio: BLE score/map commit, held identity, offline guide, uninterrupted R958 samples=532"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_audio/tb_controls32_audio_inputs.json",
+          "sha256": "a18a24fa207771235f4d215b6343ed8c7bdef33ec47f19a3049856f5e65e4dcd",
+          "log_sha256": "4b6b1bebe3e43fe6f7d3f965ac28ad4f89382267acc92a9f2550b7ab908313c5",
+          "negative": false,
+          "markers": [
+            "# PASS tb_controls32_audio: real32/R958/three effects; physical+remote sustain, cancellation isolation, screen mode/octave, guide key/touch behavior samples=74"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_config_uart_inputs.json",
+          "sha256": "91ec80b46d071bad81ec8954451427154c7a96026eb5a90a4a1328fe06e07462",
+          "log_sha256": "882eb2062116c8aafa24145c889de3bacdcf9f0207bb4410bf7bed1ed7eff13f",
+          "negative": false,
+          "markers": [
+            "# PASS tb_config_uart: actual UART HELLO caps, upload/CRC/commit, whole-line STATUS arbitration, CTRL idempotency, GETCFG, session reset"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_config_watchdog_inputs.json",
+          "sha256": "775c89b99e0966a9d0d609cf3c34132cda34dc4aec5603909e30906a73c96f6f",
+          "log_sha256": "9db53fb4bf76f6c4cee195a8d59f9c1ea8c260ec012d5ca5d942213c34121e06",
+          "negative": false,
+          "markers": [
+            "# PASS tb_config_watchdog: ready and BUSY deadline keepalive, malformed and idle expiry, checks=6"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_dac_launch_timing_inputs.json",
+          "sha256": "f30955da771a6d4a6a38d11347c086d0ab237b540683b7e95d0ca23f196762ed",
+          "log_sha256": "4947b4a906121af529a08f78fc79abcfb876fb5a469a7fd3ceb156dfbac8a7f1",
+          "negative": false,
+          "markers": [
+            "# PASS tb_dac_launch_timing: epochs=5 rises=1536 frames=50 underrun_frames=13"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_keymap_events_inputs.json",
+          "sha256": "a66bf7df5b743ad50aee612900714897b59873413706cdb66665e3f0f47c8e23",
+          "log_sha256": "0c4ce50a4ed97d7f2d8f3e8df0ec9c029c341b7cee1bb9e70410592366b3e3e0",
+          "negative": false,
+          "markers": [
+            "# PASS tb_keymap_events: held release keeps original pitch, disable, duplicate mapping/source identity, queue/same-edge commit exclusion"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_performance_controls_inputs.json",
+          "sha256": "155980d47d116af4bc1fbcfb98f7733257a5cd2ce575e1cbb0040bef6093acdf",
+          "log_sha256": "46ab9975cb63e8af3518311b5cffac8a355211734f1e2d436674a2fd6fd570db",
+          "negative": false,
+          "markers": [
+            "# PASS tb_performance_controls debounce, simultaneous keys, fair arbitration, stall/cancel"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_performance_store_inputs.json",
+          "sha256": "32d5d88c7dfa12be3e5594a322e90c697282c9e8dad0c1e87b20a76222df8b69",
+          "log_sha256": "eba5dc16c12919330c47a0edbb72b2e771280cf79ee8e38800da0a6d76b79121",
+          "negative": false,
+          "markers": [
+            "# PASS tb_performance_store: 512 segments, independent CRC, duplicates/order/bounds, RAM banks, BUSY, atomic map, CTRL retry, query, timeout/disconnect"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_practice_boundaries_inputs.json",
+          "sha256": "72604bc9e858c1168cf656783c4b24adbaf16f7b10a70b1d3bdbcc8921877fb9",
+          "log_sha256": "bab1684572c8a1aa1a8d2f0673292b8681da87b31c4bf53bdfc22f26c728ca79",
+          "negative": false,
+          "markers": [
+            "# PASS tb_practice_boundaries: tempo accumulation, exact count-in/end tick pause"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_rx_drain_invariant_inputs.json",
+          "sha256": "9b49252d80b81848bb9141b0d60e2c283434743b022a53e20a4da6ab3d3e0473",
+          "log_sha256": "95ae5099315c651bd6724978c71ee1ff051b52cf1e3161568d655812fe507ad2",
+          "negative": false,
+          "markers": [
+            "# PASS tb_rx_drain_invariant: checks=20196 full_exchange=131"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_rx_fault_recovery_inputs.json",
+          "sha256": "0f3cdf3da9ef9e67e79a7057d548f4a4e1f01bc4a3dab5b5c9484bf29def1650",
+          "log_sha256": "04031077603de4beefb00ceb1de48f3fe4421f0747261ffd21bc3a7ebb19bd74",
+          "negative": false,
+          "markers": [
+            "# PASS tb_rx_fault_recovery: real bad stop bit, flush/cancel, no stale event, reset mid-byte and restart"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_timed_practice_inputs.json",
+          "sha256": "aa1cc8b0c44cac2a8c0ea7c46ca364e01c0139fa00c469269e31e53be3367f1d",
+          "log_sha256": "c2b8f402f77d8cbbc64c99f5149e4c3f92cfa3145394d6d5be767e0222d75ced",
+          "negative": false,
+          "markers": [
+            "# PASS tb_timed_practice: 3 tempos, complete 42-note score, chord/rest, selection/pause/reset"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_features/tb_touch_controls_inputs.json",
+          "sha256": "f59d8d523f292118d3103ca0d0e660cc440dc9f6a384972792a017b3521570e6",
+          "log_sha256": "b45687e7c2e6142fe30298543270490c7c74d4396cf83f4f5b7a0182d2a8b9fa",
+          "negative": false,
+          "markers": [
+            "# PASS tb_touch_controls: six contacts, held/glissando, backpressure, disconnect/error cancellation, guide/song/tempo controls"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_recovery/tb_pipeline_display_equivalence_inputs.json",
+          "sha256": "7359d332529c664beef823d36dcd019feb5e7b0016a60077fcdd4b2546d8316c",
+          "log_sha256": "0917c8f23aa3f30e576a166c922daf2c1885e6d9eb3c71bbd25a39c2ced85846",
+          "negative": false,
+          "markers": [
+            "# PASS tb_pipeline_display_equivalence: cycles=2456173 piano_pixels=1228895 guitar_pixels=614406; RGB/sync/CDC/format frame-atomic, clock-stop reset/restart"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_recovery/tb_review_hdmi_reset_recovery_inputs.json",
+          "sha256": "f7356bc97e9dccb2ee17c40dc680aae422717dbcee660cbf64ae706d75d72175",
+          "log_sha256": "c690f4f04e6490d47c6ba06392a7a0395bbf48eb7c6ce543b42ef673517a3e25",
+          "negative": false,
+          "markers": [
+            "# PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_recovery/tb_usb_system_recovery_inputs.json",
+          "sha256": "c4110ee75185acb6c0b74791810e7c98326ac8100657552af06f48b9427aa167",
+          "log_sha256": "9a0668249fe1e155375b6288ca7709754db3e10eddf816878e2c09f6a0cc128b",
+          "negative": false,
+          "markers": [
+            "# PASS tb_usb_system_recovery: 4 disconnect/PLL-loss epochs, real asymmetric mailbox resets, held events then cancellation, no stale reconnect notes"
+          ]
+        },
+        {
+          "manifest": "tick/build/followup_negative/tb_review_hdmi_reset_recovery_HdmiRecovery_inputs.json",
+          "sha256": "3d9a010ab941c178ce80e45134e182e47de0ad100f032b0c2f4ef2dc76269396",
+          "log_sha256": "3bc275760135f332ce5573956b39c6c0b670a3cc07c086e37a6dc52ed864cb24",
+          "negative": true,
+          "markers": [
+            "# FAIL HDMI reset word alignment epoch=1"
+          ]
+        }
+      ],
+      "scope": "Tests ran in tick candidate; all current formal RTL hashes match that candidate. Formal sample_tick positive/negative and strict compile rerun separately."
+    },
+    "audio_integer_samples": 6903,
+    "dac_words": 13803,
+    "frame_cycles": 2456173,
+    "hdmi_recovery_epochs": 17,
+    "usb_recovery_epochs": 4,
+    "formal_sample_tick_positive_and_negative_rerun": true,
+    "formal_dac_audit_rerun": true,
+    "dac_din_ws_faults_rejected": true,
+    "external_dac_signoff": false,
+    "audio_integer_reference_sha256": "3f6bec47cd649e3eae8f660359e2b135b0dc6ad0ad4c3f88ecfdbc2eb5cd4bcd",
+    "formal_dac_summary_sha256": "3fed4ee54ec43fc06b3065a846f8f81df9a89400f499f96efebe6a75a94a2ebf",
+    "formal_strict_manifest_sha256": "6f71253de2aa70a68b061fe35d2117ecc193a9f0dd03890246935ab818908541"
+  },
+  "trials": {
+    "baseline": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 0.43,
+        "3.1.2 Hold Paths Table": 0.093,
+        "3.1.3 Recovery Paths Table": 0.685,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "2bbafb9d8d61e484a569d73fd7c2709ed98488c32aa88e6bfb5f0d5824984f1d"
+    },
+    "combined": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 1.808,
+        "3.1.2 Hold Paths Table": 0.139,
+        "3.1.3 Recovery Paths Table": 0.669,
+        "3.1.4 Removal Paths Table": 0.197,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37149,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22683,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "92b2341becb4a3b59e25e9b4fdebdf9b8e18892f059f6e53e59bc55ffaa7201a"
+    },
+    "hold_existing": {
+      "status": "STOPPED_INELIGIBLE_EXPERIMENT",
+      "reason": "run pnr with RTL active implicitly re-ran synthesis; cannot preserve the supplied original VG identity",
+      "log_sha256": "98dad3bee7539cda591933153b72a57772d0948111f6632427f04e2292de4e24",
+      "programmed": false,
+      "intentionally_stopped": true
+    },
+    "hold_guard": {
+      "status": "FAIL",
+      "errors": [
+        "Negative slack -0.099ns: 3.1.2 Hold Paths Table",
+        "Negative slack -0.066ns: 3.1.4 Removal Paths Table",
+        "Clock summary failed: sys_clk Hold",
+        "Reset optimization margin below 0.100ns: 3.1.4 Removal Paths Table"
+      ],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 1.111,
+        "3.1.2 Hold Paths Table": -0.099,
+        "3.1.3 Recovery Paths Table": 0.669,
+        "3.1.4 Removal Paths Table": -0.066,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 36872,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22679,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "2c12225c9d58d65186b60192051cc362abf0b7e243e8445f9c467142fcd458f9"
+    },
+    "hold_native": {
+      "status": "FAILED_NATIVE_ROUTE_REUSE",
+      "reason": "PA2136 match 0.09% <80%; fallback cannot qualify route reuse. Final tool result retained in build.log.",
+      "log_sha256": "fc95306aef20297c8fe0019ccb8d04206ecb7caf9d94a88c086d426d1ca10f68",
+      "programmed": false,
+      "intentionally_stopped": false
+    },
+    "note_select": {
+      "status": "FAIL",
+      "errors": [
+        "Negative slack -0.028ns: 3.1.3 Recovery Paths Table",
+        "Reset optimization margin below 0.100ns: 3.1.3 Recovery Paths Table"
+      ],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 1.904,
+        "3.1.2 Hold Paths Table": 0.191,
+        "3.1.3 Recovery Paths Table": -0.028,
+        "3.1.4 Removal Paths Table": 0.283,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37561,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22677,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "dd8586dfe4125b90a4894b91fd8fbe1d9cacf943e1731800e90f5d21a8af02f3"
+    },
+    "ram_write": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 1.947,
+        "3.1.2 Hold Paths Table": 0.186,
+        "3.1.3 Recovery Paths Table": 0.476,
+        "3.1.4 Removal Paths Table": 0.358,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37114,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22707,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "d3a7f9a3740bcf97a3566a9d6b22e688848f17c698edf18f9700e2813bca8326"
+    },
+    "reset_deep": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 0.993,
+        "3.1.2 Hold Paths Table": 0.176,
+        "3.1.3 Recovery Paths Table": 0.725,
+        "3.1.4 Removal Paths Table": 0.235,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "13d95eefd926b28840498b66c20efe3d6d9588d24d9232ec3b8e61ae502cb499"
+    },
+    "reset_payload": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 0.005,
+        "3.1.2 Hold Paths Table": 0.081,
+        "3.1.3 Recovery Paths Table": 0.692,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37090,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "799553ee72dc92473729d76ddead27229a3993c53c0f55dd71ea4182583ca0d5"
+    },
+    "reset_slot": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 0.851,
+        "3.1.2 Hold Paths Table": 0.134,
+        "3.1.3 Recovery Paths Table": 0.753,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "00ec8b2e4e465c815e14af09e739467d0960ee3b873126deb62410565a8b7ce1"
+    },
+    "tick": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 1.111,
+        "3.1.2 Hold Paths Table": 0.184,
+        "3.1.3 Recovery Paths Table": 0.669,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 36872,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22679,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "8f518b7fd86228f2c1c281ee0931fb435b6870cf967f4d2292bd3710e236dbc3"
+    },
+    "tick_repeat": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 1.111,
+        "3.1.2 Hold Paths Table": 0.184,
+        "3.1.3 Recovery Paths Table": 0.669,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 36872,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22679,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "9270c20ccdecf2df22eb05d53df42cd8c0d3387ea1f81280dc36fb6af563fcf6"
+    },
+    "wave": {
+      "status": "REJECTED_EX3791_IMPLICIT_WIDTH",
+      "note": "PNR completed; original wide expression narrowed implicitly. Explicit-width successor reran from full sources."
+    },
+    "wave_headroom": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 1.062,
+        "3.1.2 Hold Paths Table": 0.046,
+        "3.1.3 Recovery Paths Table": 0.669,
+        "3.1.4 Removal Paths Table": 0.28,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37198,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22668,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "d934d9f374213e22bc8aec2e01b79a9bb76881847435f6b0241ec6de5e98b019"
+    },
+    "wave_width": {
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 0.921,
+        "3.1.2 Hold Paths Table": 0.189,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.197,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37275,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22660,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "690d01b1dee1793b096bcdd11c089aa4fdf16d3c8bbe750c197e5fc6bea01f00"
+    }
+  },
+  "rejection_reasons": {
+    "wave_width": "Hold +5ps vs tick, but Setup -.190ns, Removal -.102ns and Logic +403 vs tick; poorer balance.",
+    "combined": "Setup improved but Hold .139 and Removal .197 below selected tick.",
+    "note_select": "Negative Recovery -.028ns; unusable despite function equivalence.",
+    "wave_headroom": "Hold .046ns below original baseline .093ns; rejected.",
+    "ram_write": "Recovery .476ns below requested .600ns; no adoption.",
+    "reset_payload": "Setup .005ns and Hold .081ns; rejected.",
+    "reset_slot": "Global Removal unchanged .299ns; no reason to add precise placement dependencies.",
+    "reset_deep": "Global Removal worsened to .235ns; stop blind local placement trials.",
+    "hold_guard": "Experimental timing model, negative Hold/Removal. Cannot add artificial uncertainty to claim native slack.",
+    "hold_native": "Full RTL rerun still matched only .09% of incremental seed; fallback then vendor PR0004 (0 unrouted), no accepted native fs.",
+    "hold_existing": "Requested pnr still implicitly resynthesized active RTL; intentionally stopped after diagnosis."
+  },
+  "limitations": [
+    "Setup/Hold/Removal remain below requested targets; Recovery is16ps lower than baseline but remains above.6ns.",
+    "PR1014 clock access routing and complete DAC external timing remain open.",
+    "Independent USB hardware, BLE first sound and physical/touch end-to-end latencies remain unverified.",
+    "Fixed ADSR D/S and PT8211 versus competition I2S interpretation remain open."
+  ],
+  "pushed": false,
+  "programmed": false,
+  "hardware_verified": false,
+  "download_package_created": false,
+  "cleanup": {
+    "status": "COMPLETE_ARCHIVE_VERIFIED_AND_OWNED_TREE_REMOVED",
+    "owned_root": "build/timing_followup_20261025",
+    "other_agent_tree_preserved": "build/control_features_20261025",
+    "backup_removed": true,
+    "candidate_trees_removed": true,
+    "verification": "verification/evidence/timing_followup/cleanup_verification.json",
+    "finished_at_utc": "2026-10-25T13:25:10.545731+00:00"
+  },
+  "protected_files": {
+    "total": 1078,
+    "unchanged": 1072,
+    "authorized_changed_existing_files": [
+      "docs/fpga-optimization-plan.md",
+      "AGENTS.md",
+      "PLAN.md",
+      "README.md",
+      "docs/verification.md",
+      "rtl/audio/sample_tick.v"
+    ],
+    "all_existing_tb_unchanged": true
+  },
+  "formal_source_files": {
+    "rtl/audio/sample_tick.v": "c7daa4b1da8a09ffd8542348f90e9a8f1ef5d79c37c74d88740c66306b8c6859",
+    "AGENTS.md": "ff7edb6b740c41dfd7a4d7a47e0dae2838e7c463580db4652764bb60968e0ac0",
+    "README.md": "5f3b7897be3976b01514195fbcb8f601820f941aa1347ccafcf8df0f372c5550",
+    "PLAN.md": "492d34bf5dd057ff0b391990796a41277757b73444ac4f025d8328f25ec82fc7",
+    "docs/verification.md": "35fc1fd2bb5073b306cbdb2466b7bbccf6326c70847fc6b9ddec4033cb1c83aa",
+    "docs/fpga-optimization-plan.md": "dbd911a16003cec56081d2463bdaf326a9487ebf21ddd91414ee5b5459c4424e",
+    "verification/scripts/verify_sample_tick.py": "d3a1d18b3e7f0828ba5841ecada4a02fb9493261ff68b44334ee186188689110",
+    "verification/tb/audio/tb_tick_prediction.v": "1c4947dcdd8560fb0213869ac7721181f597b0549ec7800bfd3d33ae3799efd5",
+    "verification/data/timing_followup/sample_tick_baseline.v": "78bc8ce92d35bc4439b5805efffc4e663fe868bfd974418d37500b61af9a30c7"
+  },
+  "archive": {
+    "status": "PASS_FULL_CRC_SHA256_AND_FORMAL_SOURCE_MATCH",
+    "path": "verification/evidence/timing_followup/details.zip",
+    "sha256": "72b75666cb707bc0bf5ee0213639a3a18086d80f635ec787ef1ce87a72b58a0c",
+    "bytes": 107554834,
+    "entries": 7935,
+    "cases": [
+      "baseline",
+      "combined",
+      "hold_existing",
+      "hold_guard",
+      "hold_native",
+      "note_select",
+      "ram_write",
+      "reset_deep",
+      "reset_payload",
+      "reset_slot",
+      "tick",
+      "tick_repeat",
+      "wave",
+      "wave_headroom",
+      "wave_width",
+      "formal"
+    ],
+    "formal_source_files": 438,
+    "deduplicated_route_seed_aliases": {
+      "cases/hold_guard/projects/hdmi/impl/pnr/piano_hdmi.pr": {
+        "archive": "route_seeds/2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff.pr",
+        "sha256": "2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff"
+      },
+      "cases/hold_native/build/route_seed/piano_hdmi.pr": {
+        "archive": "route_seeds/2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff.pr",
+        "sha256": "2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff"
+      },
+      "cases/hold_existing/build/route_seed/piano_hdmi.pr": {
+        "archive": "route_seeds/2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff.pr",
+        "sha256": "2969579d5e8fdcd392778c633c7c20966dec78129acf34fb53333b02d2106eff"
+      }
+    },
+    "excluded": [
+      "bitstreams",
+      "waveform databases",
+      "simulator work libraries",
+      "temporary backup zip"
+    ]
+  }
+}

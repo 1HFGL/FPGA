@@ -18,7 +18,7 @@ p.add_argument('--enhanced-brightness', action='store_true', help='Derived R958 
 p.add_argument('--dry', action='store_true', help='Disable all effects explicitly for unchanged dry contract tests')
 p.add_argument('--reverb-only', action='store_true', help='Disable chorus and delay for unchanged room-only contract tests')
 p.add_argument('--legacy', action='store_true', help='Run an unchanged historical contract test with explicit compatibility parameters')
-p.add_argument('--mutation', choices=['None','Preset','Release','Wave','Env','TouchRelease','BleCancel','GuideAdvance','HdmiRecovery'], default='None')
+p.add_argument('--mutation', choices=['None','Preset','Release','Wave','Env','TouchRelease','BleCancel','GuideAdvance','HdmiRecovery','FifoExchange','EnvSlot','ConfigCrc','PracticePause'], default='None')
 a = p.parse_args()
 if sum((a.dry,a.legacy,a.reverb_only))>1:raise SystemExit('Use separate dry, legacy and reverb-only runs')
 if a.enhanced_brightness and (a.legacy_brightness or a.dry or a.legacy or a.reverb_only or a.voices16):
@@ -32,6 +32,7 @@ for top in a.tops:
         raise SystemExit('Expected one current test: ' + top)
     tb = candidates[0]
     if top=='tb_dual16_hdmi':(ROOT/'build/regression/dual16').mkdir(parents=True,exist_ok=True)
+    if top=='tb_brightness_hdmi':(ROOT/'build/brightness_response').mkdir(parents=True,exist_ok=True)
     if top=='tb_poly32_hdmi':(ROOT/'build/regression/poly32').mkdir(parents=True,exist_ok=True)
     tag=top+('_voices16' if a.voices16 else '')+('_dry' if a.dry else '')+('_legacy' if a.legacy else '')+('_reverb_only' if a.reverb_only else '')+('_'+a.mutation if a.mutation!='None' else '')+('_fault'+str(a.usb_fault) if a.usb_fault is not None else '')
     tag += '_legacy_brightness' if a.legacy_brightness else ''
@@ -69,8 +70,38 @@ for top in a.tops:
         frozen=OUT/'event_encoder_reference.v'
         frozen.write_bytes(original.replace(b'module event_encoder #(',b'module event_encoder_reference #('))
         test_sources.append(frozen)
+    if top=='tb_uart_fifo_equivalence':
+        original=subprocess.check_output(['git','show','e2355c4ea4bf055f641944d50fbce87360e57f1c:rtl/control/uart_fifo.v'],cwd=ROOT)
+        frozen=OUT/'uart_fifo_reference.v'
+        frozen.write_bytes(original.replace(b'module uart_fifo #',b'module uart_fifo_reference #'))
+        test_sources.append(frozen)
+    if top=='tb_env_bank_equivalence':
+        original=subprocess.check_output(['git','show','e2355c4ea4bf055f641944d50fbce87360e57f1c:rtl/synth/instrument_env.v'],cwd=ROOT)
+        frozen=OUT/'instrument_env_reference.v'
+        frozen.write_bytes(original.replace(b'module instrument_env #(',b'module instrument_env_reference #('))
+        test_sources.append(frozen)
+    if top == 'tb_touch_mux_equivalence':
+        # This differential TB needs the frozen pre-sharing tracker as well as
+        # the current DUT. Never compare two copies of today's implementation.
+        original = subprocess.check_output([
+            'git', 'show',
+            'e2355c4ea4bf055f641944d50fbce87360e57f1c:rtl/control/touch_contact_tracker.v',
+        ], cwd=ROOT)
+        frozen = OUT / 'touch_contact_tracker_reference.v'
+        frozen.write_bytes(original.replace(
+            b'module touch_contact_tracker #(',
+            b'module touch_contact_tracker_reference #(',
+        ))
+        test_sources.append(frozen)
     if a.mutation!='None':
         options={
+            'ConfigCrc':('tb_performance_store','rtl/control/performance_store.v',"else if(arg1!=(crc^32'hffffffff))", "else if(1'b0)",'FAIL command'),
+            'PracticePause':('tb_practice_boundaries','rtl/control/timed_practice_guide.v',
+                'wire advancing=running && !(command_valid && command_kind==4);','wire advancing=running;','pause/count-in boundary consumes tick'),
+            'EnvSlot':('tb_env_bank_equivalence','rtl/synth/instrument_env_bank16.v','step_slot<=slot;',"step_slot<=4'd0;",'FAIL bank equivalence'),
+            'FifoExchange':('tb_uart_fifo_equivalence','rtl/control/uart_fifo.v',
+                'wire pop=out_valid && out_ready;',
+                'wire pop=out_valid && out_ready && !in_valid;','FAIL fifo differential'),
             'Preset':('tb_final_modal_adapter','rtl/synth/voice_bank_modal_adapter.v','.voice_instrument(~voice_guitar)','.voice_instrument(voice_guitar)','FAIL modal golden mismatch'),
             'Release':('tb_final_modal_adapter','rtl/synth/voice_bank_modal_adapter.v','(!busy && !sample_valid && raw_release[v])','raw_release[v]','FAIL stale release'),
             'Wave':('tb_final_wave_envelope','rtl/display/display_wave_envelope.v','sample_data>first_sample','sample_data<first_sample','FAIL pair peak lost'),
@@ -89,10 +120,19 @@ for top in a.tops:
         if top!=required or a.legacy:raise SystemExit('Mutation requires '+required)
         original=ROOT/path
         body=original.read_text(encoding='utf-8')
-        if body.count(before)!=1:raise SystemExit('Mutation target ambiguous')
+        # Match executable fragments across harmless formatting changes. Keep the
+        # exactly-one guard so a stale or ambiguous target never produces a pass.
+        fragment_tokens = re.findall(
+            r'[A-Za-z_$][A-Za-z0-9_$]*|\d[\d_]*|<<<|>>>|===|!==|==|!=|<=|>=|&&|\|\||<<|>>|[^\s]',
+            before,
+        )
+        fragment_pattern = r'\s*'.join(re.escape(token) for token in fragment_tokens)
+        body, replacements = re.subn(fragment_pattern, lambda match: after, body)
+        if replacements != 1:
+            raise SystemExit('Mutation target ambiguous: expected one fragment, found ' + str(replacements))
         mutant=OUT/(tag+'_mutation.v')
-        mutant.write_text(body.replace(before,after),encoding='utf-8')
-        test_sources=[mutant if f==original else f for f in sources]
+        mutant.write_text(body,encoding='utf-8')
+        test_sources=[mutant if f==original else f for f in test_sources]
     def run(exe, args, log):
         with log.open('w', encoding='utf-8') as f:
             result = subprocess.run([str(Path(a.bin) / (exe + '.exe')), *args],
@@ -180,7 +220,7 @@ for top in a.tops:
     vendor=Path(a.gowin_simlib) if top in (
         'tb_brightness_hdmi','tb_controls_meter_hdmi',
         'tb_review_hdmi_reset_recovery','tb_slider_guide_hdmi','tb_dual16_snapshot','tb_dual16_uart','tb_dual16_core','tb_dual16_rom','tb_dual16_hdmi','tb_poly32_hdmi','tb_effects_hdmi','tb_reverb_hdmi','tb_touch_hdmi_audio','tb_final_hdmi_isolation','tb_hdmi_octaves','tb_hdmi_phy','tb_final_hdmi_reset','tb_hdmi_audio_isolation') else None
-    if 'hdmi' in top or top in ('tb_merge32_rom_equivalence','tb_three_key_chords','tb_usb_system_recovery'):vendor=Path(a.gowin_simlib)
+    if 'hdmi' in top or top in ('tb_merge32_rom_equivalence','tb_three_key_chords','tb_usb_system_recovery','tb_usb_dual_clock','tb_usb_dual_wire'):vendor=Path(a.gowin_simlib)
     inputs = [*test_sources, *support, tb, *harness_inputs, Path(__file__).resolve(), *ROOT.glob('rtl/rom/*.mem'), *rom_inputs]+([vendor] if vendor else [])
     (OUT / (tag + '_inputs.json')).write_text(json.dumps({
         'flags': '-vlog01compat -pedanticerrors',

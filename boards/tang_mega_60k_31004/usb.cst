@@ -5,3 +5,9 @@ IO_LOC "usb_touch_dp" H13;
 IO_LOC "usb_touch_dm" G13;
 IO_PORT "usb_touch_dp" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
 IO_PORT "usb_touch_dm" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+
+// Physical clock distribution only: retain PLL ratios/phase and original SDC.
+INS_LOC "g_usb_touch.u_usb/u_clock/u_pll" PLL_T[1];
+CLOCK_LOC "g_usb_touch.u_usb/usb_clk" BUFG = CLK;
+CLOCK_LOC "g_usb_touch.u_usb/usb_pin_clk" LOCAL_CLOCK;
+CLOCK_LOC "sys_clk_d" BUFG[5] = CLK;

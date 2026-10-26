@@ -1,0 +1,1155 @@
+{
+  "status": "PASS_FULL_FEATURE_IMPLEMENTATION_TARGETS_PARTIAL",
+  "confirmed_at": "2026-10-25T19:12:22.644962+08:00",
+  "user_order": "All seven requested feature groups merged before final timing optimization.",
+  "feature_merge_files": 43,
+  "formal_optimization_files": [
+    "rtl/control/uart_synth_protocol.v",
+    "rtl/control/touch_contact_tracker.v",
+    "rtl/display/instrument_panel_ui.v",
+    "rtl/display/instrument_display.v"
+  ],
+  "features": [
+    "K6 sustain / K7 builtin-downloaded selection / K8 start-reset",
+    "Touch timbre, octave, sustain, pause-resume, restart and tempo",
+    "42-note timed Twinkle, four count-in beats, targets/beat/progress, wrong notes do not stop",
+    "512 chord/rest score segments, validated atomic commit, retained after disconnect, reset defaults",
+    "13-key remapping/disable with held-note release identity",
+    "BLE controls and actual state query",
+    "UI, three pin constraints, wiring documentation and independent tests"
+  ],
+  "targets": {
+    "Setup": {
+      "target_ns": 2.0,
+      "actual_ns": 0.43,
+      "met": false,
+      "shortfall_ns": 1.57
+    },
+    "Hold": {
+      "target_ns": 0.4,
+      "actual_ns": 0.093,
+      "met": false,
+      "shortfall_ns": 0.307
+    },
+    "Recovery": {
+      "target_ns": 0.6,
+      "actual_ns": 0.685,
+      "met": true,
+      "shortfall_ns": 0
+    },
+    "Removal": {
+      "target_ns": 0.4,
+      "actual_ns": 0.299,
+      "met": false,
+      "shortfall_ns": 0.101
+    }
+  },
+  "all_requested_timing_targets_met": false,
+  "fallback": "Best balanced validated native-constraint candidate after bounded architecture/configuration comparisons; no clock/exception relaxation.",
+  "native_slack_ns": {
+    "Setup": 0.43,
+    "Hold": 0.093,
+    "Recovery": 0.685,
+    "Removal": 0.299,
+    "Pulse": 5.799
+  },
+  "resources": {
+    "Logic": {
+      "used": 37092,
+      "available": 59904
+    },
+    "Register": {
+      "used": 22681,
+      "available": 60780
+    },
+    "BSRAM": {
+      "used": 103,
+      "available": 118
+    },
+    "DSP": {
+      "used": 37,
+      "available": 118
+    },
+    "PLLA": {
+      "used": 2,
+      "available": 8
+    }
+  },
+  "resource_delta_vs_corrected_full_feature_baseline": {
+    "Logic": 779,
+    "Register": -26,
+    "BSRAM": 0,
+    "DSP": 0
+  },
+  "corrected_full_feature_baseline_slack_ns": {
+    "3.1.1 Setup Paths Table": -3.292,
+    "3.1.2 Hold Paths Table": 0.093,
+    "3.1.3 Recovery Paths Table": 0.642,
+    "3.1.4 Removal Paths Table": 0.336,
+    "3.2 Minimum Pulse Width Table": 5.799
+  },
+  "corrected_full_feature_baseline_status": "REJECTED_SETUP_MINUS_3_292_NS",
+  "candidate_independent_formal_timing_and_resources_equal": true,
+  "all_three_rtl_trees_identical_files": 117,
+  "builds": {
+    "candidate": {
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.43,
+        "3.1.2 Hold Paths Table": 0.093,
+        "3.1.3 Recovery Paths Table": 0.685,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "3f34d3323cceeb85bfdb40515de6d843e3b7e744218e16d7d1826972d30c4cbe"
+    },
+    "independent": {
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.43,
+        "3.1.2 Hold Paths Table": 0.093,
+        "3.1.3 Recovery Paths Table": 0.685,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "9224f73851abcb524c17b9f010abdfaa95dc0091fab334d5e0a211d1ed878e90"
+    },
+    "formal": {
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.43,
+        "3.1.2 Hold Paths Table": 0.093,
+        "3.1.3 Recovery Paths Table": 0.685,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "2bbafb9d8d61e484a569d73fd7c2709ed98488c32aa88e6bfb5f0d5824984f1d"
+    }
+  },
+  "formal_bitstream": "projects/hdmi/impl/pnr/piano_hdmi.fs",
+  "formal_bitstream_sha256": "2bbafb9d8d61e484a569d73fd7c2709ed98488c32aa88e6bfb5f0d5824984f1d",
+  "formal_project": "projects/hdmi/piano_hdmi.gprj",
+  "formal_process": "P3/R2/C0",
+  "ports": 42,
+  "active_constraints": 31,
+  "original_clocks_constraints_and_pins_unchanged": true,
+  "added_function_pins": {
+    "K6": "E16",
+    "K7": "D14",
+    "K8": "A18"
+  },
+  "audio_contract": {
+    "voices": 32,
+    "sample_rate_hz": 48000,
+    "raw_result_cycle": 925,
+    "cache_cycle": 958,
+    "preparation_cycles": 976,
+    "remaining_cycles": 18,
+    "timbres": 2,
+    "effects": 3
+  },
+  "verification": {
+    "status": "PASS_MERGED_FORMAL_FUNCTIONAL_IDENTITY",
+    "strict_verilog_files": 267,
+    "tests": [
+      {
+        "manifest": "build/regression/merged_features/tb_config_uart_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "f1ab1ff0f9682e78f0ad59b86a4b65f390e39138100a873b01ad40d01db7201f",
+        "log_sha256": "3c6b6af223cc5a8798c5d7f33d2acec4af43b510fd265a118518aab8cf869949",
+        "negative": false,
+        "markers": [
+          "# PASS tb_config_uart: actual UART HELLO caps, upload/CRC/commit, whole-line STATUS arbitration, CTRL idempotency, GETCFG, session reset"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_features/tb_config_watchdog_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "3e26fa352d438b08cbe9973fcc34eff7b706844e35b2650537ed2164b9ab439c",
+        "log_sha256": "a9a8115aed481488f9a2ad060fbd50f7af0c4681079dd82c4a5d2d5b4a2fcd4f",
+        "negative": false,
+        "markers": [
+          "# PASS tb_config_watchdog: ready and BUSY deadline keepalive, malformed and idle expiry, checks=6"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_features/tb_keymap_events_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "d9654bb5ab2d6df9375a74c98fb3a93f8bb18a262c3d2b216364b63d508a8122",
+        "log_sha256": "e493873f05e7f662c99920e65607f57dc6b4a25312bc4e695fca7537f10593e1",
+        "negative": false,
+        "markers": [
+          "# PASS tb_keymap_events: held release keeps original pitch, disable, duplicate mapping/source identity, queue/same-edge commit exclusion"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_features/tb_performance_controls_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "6748171d8ad22a9e9180d51740e93c9a584118561134f21fcfdd35faf1861e4f",
+        "log_sha256": "57820899b0e61a28a5722388b910169ef39baa7b6275f53ab3a2d80c9a67b4d7",
+        "negative": false,
+        "markers": [
+          "# PASS tb_performance_controls debounce, simultaneous keys, fair arbitration, stall/cancel"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_features/tb_performance_store_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "6a170b56bb0ff65d2d8cb78e538f27a861ca6672e585884468d59c0045186160",
+        "log_sha256": "f39ea393a5082c19f4ff3832637ad7637bf3a29ac8ca6de7a336185e41e1d18e",
+        "negative": false,
+        "markers": [
+          "# PASS tb_performance_store: 512 segments, independent CRC, duplicates/order/bounds, RAM banks, BUSY, atomic map, CTRL retry, query, timeout/disconnect"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_features/tb_practice_boundaries_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "2966ba8580350db429c3e11a755dff35ba3c0a34c28978ad91ab2380014088e2",
+        "log_sha256": "1e29ebfdc34ae5d5764b4da8eefeae5c7defb79e2e2959796b70eb84df5e6b56",
+        "negative": false,
+        "markers": [
+          "# PASS tb_practice_boundaries: tempo accumulation, exact count-in/end tick pause"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_features/tb_rx_drain_invariant_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "c8d7928709afbb942b1f25a722374c565c72d548911bf454398688cc8f917c94",
+        "log_sha256": "85baa66e12212fbbd2e9f72e21775b6791fd1a328d0ed52910ac43d723cad82c",
+        "negative": false,
+        "markers": [
+          "# PASS tb_rx_drain_invariant: checks=20196 full_exchange=131"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_features/tb_rx_fault_recovery_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "5fdd5e56b5205b4ba04ba59263a85fe00b1041e42eeec00dfdb8703b865270a7",
+        "log_sha256": "2945ee5e8c4700f7156a50b21486087ef0d049784ec689d410a78a4a8f86f376",
+        "negative": false,
+        "markers": [
+          "# PASS tb_rx_fault_recovery: real bad stop bit, flush/cancel, no stale event, reset mid-byte and restart"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_features/tb_timed_practice_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "7e6dd027c317dc99c2c1ed139710617a270b86a8647457b0066ed09e46c52594",
+        "log_sha256": "a2c5c8990b29047f1b9224b76a1309368455bf4a1bf0d3aa8ac4ff6533d757f0",
+        "negative": false,
+        "markers": [
+          "# PASS tb_timed_practice: 3 tempos, complete 42-note score, chord/rest, selection/pause/reset"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_features/tb_touch_controls_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "f93870cd1f4d36bf5b0aa5478dc29abe17d637378bdfb9b14cf6bdfe781eb71f",
+        "log_sha256": "c6132fc16f42729cab92838817177b7f3fb15bf9a495041ea3f33fbdb7fee001",
+        "negative": false,
+        "markers": [
+          "# PASS tb_touch_controls: six contacts, held/glissando, backpressure, disconnect/error cancellation, guide/song/tempo controls"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_feature_audio/tb_brightness_hdmi_inputs.json",
+        "input_count": 121,
+        "manifest_sha256": "911b222478bf0a1cc9ce19058fec3fd0b037aba1182e553fc0c04ea562985d50",
+        "log_sha256": "ceddd3468a4e9a6c9f636c7c2c66da1d6ba7f34a0dfc4328c075beb3aab05db0",
+        "negative": false,
+        "markers": [
+          "# PASS tb_brightness_hdmi: actual AIN2, 32 voices, both instruments, original 127 DAC exact, R958, serial=13803 samples=6903 full32=2291 dark=1252"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_feature_audio/tb_config32_audio_inputs.json",
+        "input_count": 119,
+        "manifest_sha256": "53fd0852632d1edea998a53a06a92cc2bbcdd5909d8d8a3b2dfafdf3e9634935",
+        "log_sha256": "b4485bc0da20e4299c0c951e6e646f20b6da16ef0d2e8a4b316acf4679dc5d4b",
+        "negative": false,
+        "markers": [
+          "# PASS tb_config32_audio: BLE score/map commit, held identity, offline guide, uninterrupted R958 samples=532"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_feature_audio/tb_controls32_audio_inputs.json",
+        "input_count": 119,
+        "manifest_sha256": "9ea1d896454eb426fa4824d9efac46d0fdb2645d5acd03a3e15aaef45ffd9d82",
+        "log_sha256": "7921843a56e8c5aee81b4a3452955619d523fe3f005573433b2e765a9e9d64a4",
+        "negative": false,
+        "markers": [
+          "# PASS tb_controls32_audio: real32/R958/three effects; physical+remote sustain, cancellation isolation, screen mode/octave, guide key/touch behavior samples=74"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_feature_recovery/tb_pipeline_display_equivalence_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "200ef088f0e8a39254b0ea24deb1c4b973fff1783f42c9be690276f12d651bab",
+        "log_sha256": "e67a1489eb08b8fe396648ae0b181e408e8935231c1e76857d7ee6ca938b6286",
+        "negative": false,
+        "markers": [
+          "# PASS tb_pipeline_display_equivalence: cycles=2456173 piano_pixels=1228895 guitar_pixels=614406; RGB/sync/CDC/format frame-atomic, clock-stop reset/restart"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_feature_recovery/tb_practice_frames_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "da907e500f9bd377f3932e72a6e3a33e1eeb891c480f254086bc1c34718b6f19",
+        "log_sha256": "dde1277e1dc51f3255105d7219bf1da1e62b235c31018d43b28c5dd91621f31a",
+        "negative": false,
+        "markers": [
+          "# PASS tb_practice_frames: six actual RGB frames / two instruments / three octaves"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_feature_recovery/tb_review_hdmi_reset_recovery_inputs.json",
+        "input_count": 116,
+        "manifest_sha256": "8415b1144c45b205e30c03962264e296f80311b37d8c9c4bab729d97300abdef",
+        "log_sha256": "a7a1d8992aaf47d9b4562923f9aa615abd0f6e5c022c20a50976bc37e834879b",
+        "negative": false,
+        "markers": [
+          "# PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_feature_recovery/tb_usb_system_recovery_inputs.json",
+        "input_count": 116,
+        "manifest_sha256": "b4d505d8520c409e102613aca15f75d1c03f425d12f8b12b4268cb3af9b275de",
+        "log_sha256": "a382cbe8a22927ccb33e49c295c9722e20e570c86f5273e7ee356d346efa93ff",
+        "negative": false,
+        "markers": [
+          "# PASS tb_usb_system_recovery: 4 disconnect/PLL-loss epochs, real asymmetric mailbox resets, held events then cancellation, no stale reconnect notes"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_feature_negative/tb_performance_store_ConfigCrc_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "9de295374623154846480c3be579affc59cdd520c11b95e2cf435f458610bcdc",
+        "log_sha256": "ae9917a506a956bddb80a393975a7e2fdada65304917225e9e8a1a5da1e8c666",
+        "negative": true,
+        "markers": [
+          "# FAIL command  9 seq=         1 code=         0 expected=         5"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_feature_negative/tb_practice_boundaries_PracticePause_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "294840b09f953385fe94d2b24b4a1ca5e8ace3a51e120994ad3b1d658d4b0e50",
+        "log_sha256": "479d9559f0e113d4a5f9fbd0468c185ff87fa79266295bcca4ddf287365cfb88",
+        "negative": true,
+        "markers": [
+          "# FAIL                            pause/count-in boundary consumes tick"
+        ]
+      },
+      {
+        "manifest": "build/regression/merged_feature_negative/tb_review_hdmi_reset_recovery_HdmiRecovery_inputs.json",
+        "input_count": 116,
+        "manifest_sha256": "d8ad16f3799b01e194a33e63904a64f8e013955b07bed234cf7b93097b3eade1",
+        "log_sha256": "d1c3f7411bf6c52f3c5d320c406f5784f04d5038943bcffa07996092bda50eb0",
+        "negative": true,
+        "markers": [
+          "# FAIL HDMI reset word alignment epoch=1"
+        ]
+      },
+      {
+        "manifest": "build/regression/final/tb_dac_launch_timing_inputs.json",
+        "input_count": 115,
+        "manifest_sha256": "6eb5171465f46691658bf93ea473af31a70f5a1810ec11977fcc4dc1af9b5339",
+        "log_sha256": "cd0d0d9791b131c07fedec02b11ba84404a766935453bc606ca4e097bbfa72b9",
+        "negative": false,
+        "markers": [
+          "# PASS tb_dac_launch_timing: epochs=5 rises=1536 frames=50 underrun_frames=13"
+        ]
+      }
+    ],
+    "integer_reference": {
+      "samples": 6903,
+      "phases": {
+        "0": {
+          "samples": 893,
+          "changed": 0,
+          "nonzero": 305
+        },
+        "1": {
+          "samples": 831,
+          "changed": 635,
+          "nonzero": 829
+        },
+        "2": {
+          "samples": 694,
+          "changed": 693,
+          "nonzero": 694
+        },
+        "3": {
+          "samples": 1103,
+          "changed": 243,
+          "nonzero": 510
+        },
+        "4": {
+          "samples": 512,
+          "changed": 0,
+          "nonzero": 510
+        },
+        "5": {
+          "samples": 879,
+          "changed": 634,
+          "nonzero": 877
+        },
+        "6": {
+          "samples": 686,
+          "changed": 672,
+          "nonzero": 686
+        },
+        "7": {
+          "samples": 1305,
+          "changed": 231,
+          "nonzero": 1295
+        }
+      },
+      "five_stages_exact": true,
+      "original_127_exact": true,
+      "hardware_listening_verified": false
+    },
+    "integer_reference_sha256": "3f6bec47cd649e3eae8f660359e2b135b0dc6ad0ad4c3f88ecfdbc2eb5cd4bcd",
+    "dac_negative_sha256": "2f1beaf6adb81ab286224ee9a721e547ece18eb9e59290bb7b89e7f89f7cd8bc",
+    "formal_feature_merge_sha256": "0ece599bdd1418f2e607efa72da98ecf63c410e59bc0c659370aead0959cac2a",
+    "protected_files_total": 1048,
+    "protected_files_unchanged": 1020,
+    "authorized_changed_existing_files": [
+      "docs/fpga-optimization-plan.md",
+      "AGENTS.md",
+      "PLAN.md",
+      "README.md",
+      "docs/design.md",
+      "docs/keyboard-wiring.md",
+      "docs/mobile-app.md",
+      "docs/verification.md",
+      "projects/hdmi/build.ps1",
+      "projects/hdmi/build.tcl",
+      "projects/hdmi/build_inputs.py",
+      "projects/hdmi/piano_hdmi.gprj",
+      "rtl/control/event_encoder.v",
+      "rtl/control/touch_contact_tracker.v",
+      "rtl/control/uart_line_rx.v",
+      "rtl/control/uart_reply_tx.v",
+      "rtl/control/uart_synth_protocol.v",
+      "rtl/display/display_font_ui.v",
+      "rtl/display/instrument_display.v",
+      "rtl/display/instrument_panel_ui.v",
+      "rtl/display/instrument_ui_map.v",
+      "rtl/top/instrument_uart_top.v",
+      "rtl/top/piano_hdmi_top.v",
+      "rtl/usb/touch_usb_system.v",
+      "verification/data/board_31005_j13.json",
+      "verification/scripts/check_hdmi_implementation.py",
+      "verification/scripts/generate_ui_fonts.py",
+      "verification/scripts/run_final_tests.py"
+    ],
+    "all_existing_tb_unchanged": true,
+    "hardware_programmed": false,
+    "published": false,
+    "pnr_scope": "Must bind a completed implementation of this exact source separately."
+  },
+  "framing_fault": {
+    "status": "EXPECTED_FAULT_REJECTED",
+    "command": [
+      "C:/Library/modelsim/win64/vsim.exe",
+      "-c",
+      "-lib",
+      "build/regression/merged_features/tb_rx_fault_recovery_work",
+      "-gFAULT=1",
+      "tb_rx_fault_recovery",
+      "-l",
+      "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\formal_framing_fault_transcript.log",
+      "-wlf",
+      "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\formal_framing_fault.wlf",
+      "-do",
+      "onerror {quit -code 1 -f}; run -all; quit -code 0 -f"
+    ],
+    "log_sha256": "d5ac0d99920fd965259fea7e177ef32fb371f7bf3a92bd900d09596e18604bb7",
+    "input_manifest_sha256": "5fdd5e56b5205b4ba04ba59263a85fe00b1041e42eeec00dfdb8703b865270a7"
+  },
+  "implementation_report_sha256": "0d8f68ff6a84391e0750bc0af9da333e9412124ca1fd3fe0592a902521a33126",
+  "build_input_manifest_sha256": "3a3aa3fcb8bb9f0c2716b77028a9b5ba7c8fb62f8f8f9e62f2d28582ac1c6d05",
+  "trial_results": {
+    "baseline": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\baseline",
+      "comb_loop_warning": true,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "FAIL",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": -1.238,
+        "3.1.2 Hold Paths Table": 0.109,
+        "3.1.3 Recovery Paths Table": 0.807,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 36296,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22718,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "b657d75e4a6c01ca16c373b17c6d13cc5e4c691edd399be8a16f86d62697ac64",
+      "report_sha256": "a3d0c0f19c623dddd788df1f7c70f9b4f7b2c73dd6db8befb8bfb54e0d06c404",
+      "promotion": "REJECTED_STRUCTURAL_COMBINATIONAL_LOOP"
+    },
+    "co_io": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\co_io",
+      "comb_loop_warning": true,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.044,
+        "3.1.2 Hold Paths Table": 0.185,
+        "3.1.3 Recovery Paths Table": 0.545,
+        "3.1.4 Removal Paths Table": 0.203,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 36294,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22718,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "557b2806821f9ce859d4ff2e934c79e7f7d0239fdc482313b52df95e0cf7110c",
+      "report_sha256": "78f3e8806ab5f50f600e4fb78fe9996bfe1e8231331198a298d04f9bac8ce9d4",
+      "promotion": "REJECTED_STRUCTURAL_COMBINATIONAL_LOOP"
+    },
+    "regions": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\regions",
+      "comb_loop_warning": true,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "FAIL",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": -0.208,
+        "3.1.2 Hold Paths Table": 0.183,
+        "3.1.3 Recovery Paths Table": 0.348,
+        "3.1.4 Removal Paths Table": 0.342,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 36369,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22713,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "b7f25e68b42e75c961025c8346a1b85d060306e5af8fa5f078217aba81355aed",
+      "report_sha256": "7ec7ab72ac026a7bea9932823f5360e38d3ed8708ba5a7997de883dabd49dd14",
+      "promotion": "REJECTED_STRUCTURAL_COMBINATIONAL_LOOP"
+    },
+    "touch_decode": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\touch_decode",
+      "comb_loop_warning": true,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.001,
+        "3.1.2 Hold Paths Table": 0.189,
+        "3.1.3 Recovery Paths Table": 0.542,
+        "3.1.4 Removal Paths Table": 0.282,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37007,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22643,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "a33f27edd900a5a099f854cdff0b33474d40e94c924faecbc27e1b5c815bbeb6",
+      "report_sha256": "48c208cca3705a416e76c32b00c3f740ddd83605ba5e8e2f66274cb8a427d531",
+      "promotion": "REJECTED_STRUCTURAL_COMBINATIONAL_LOOP"
+    },
+    "targeted": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\targeted",
+      "comb_loop_warning": true,
+      "completed_pnr": false,
+      "last_progress": [
+        "[70%] Routing Phase 1 completed"
+      ],
+      "status": "TERMINATED",
+      "promotion": "REJECTED_STRUCTURAL_COMBINATIONAL_LOOP"
+    },
+    "loop_fixed": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\loop_fixed",
+      "comb_loop_warning": false,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "FAIL",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.068,
+        "3.1.2 Hold Paths Table": 0.054,
+        "3.1.3 Recovery Paths Table": 0.086,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 36332,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22716,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "68ea91151352aa5e51bbe5792e19280fcc5f2fc2a4712206b0dcc098d95893f7",
+      "report_sha256": "c2b2c06b2b279658bcea6b7e3d95bca0c7f0e9d12949c4f4a361bcff46217b84",
+      "promotion": "REJECTED_CURRENT_IMPLEMENTATION_GATES"
+    },
+    "closure": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\closure",
+      "comb_loop_warning": false,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "FAIL",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": -4.831,
+        "3.1.2 Hold Paths Table": -0.305,
+        "3.1.3 Recovery Paths Table": 0.104,
+        "3.1.4 Removal Paths Table": -0.066,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 36949,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22647,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "e05f0dc50e9528ace4ca783b25231704dce50b302936ec8cbd2e8436b3291253",
+      "report_sha256": "f4a525311a3c2c3b3283d3b2041c1f415739ba3d43965e7d934d3bcbac780249",
+      "promotion": "REJECTED_CURRENT_IMPLEMENTATION_GATES"
+    },
+    "pipeline": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\pipeline",
+      "comb_loop_warning": false,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.43,
+        "3.1.2 Hold Paths Table": 0.093,
+        "3.1.3 Recovery Paths Table": 0.685,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "3f34d3323cceeb85bfdb40515de6d843e3b7e744218e16d7d1826972d30c4cbe",
+      "report_sha256": "d8e4862e4d9f55c7028671beb04911633a3cad8ce1865d583a887449b2571793",
+      "promotion": "SELECTED_VERIFIED_CANDIDATE"
+    },
+    "pipeline_guard": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\pipeline_guard",
+      "comb_loop_warning": false,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "FAIL",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": -0.583,
+        "3.1.2 Hold Paths Table": -0.242,
+        "3.1.3 Recovery Paths Table": 0.145,
+        "3.1.4 Removal Paths Table": -0.126,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "db217060a8ee2cac811e564a47ca81ec5a69782fd1e047fd94e7e36457fa5848",
+      "report_sha256": "0fb1fce06c3f0a71d75c7294ff20e101fff1a3552bb7364fa7fa1f626f841d18",
+      "promotion": "REJECTED_CURRENT_IMPLEMENTATION_GATES"
+    },
+    "pipeline_regions": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\pipeline_regions",
+      "comb_loop_warning": false,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.625,
+        "3.1.2 Hold Paths Table": 0.068,
+        "3.1.3 Recovery Paths Table": 0.422,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37082,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22668,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "2e3162646a177a3eb1503d0f87c346ca29fbb18b578fdb471f116de1af579f00",
+      "report_sha256": "e2d14f3090bec22ada4c2067af6bb3e23f143a693c62f642b6cfa0445b77f146",
+      "promotion": "NOT_SELECTED_LOWER_BALANCED_MARGIN_OR_NO_GAIN"
+    },
+    "pipeline_native": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\pipeline_native",
+      "comb_loop_warning": false,
+      "completed_pnr": false,
+      "last_progress": [
+        "[90%] Routing Phase 3 completed"
+      ],
+      "status": "FAILED_PNR",
+      "incremental_seed": "REJECTED_FELL_BACK_TO_NORMAL_PNR",
+      "promotion": "REJECTED_NO_VALID_IMPLEMENTATION"
+    },
+    "clock_order": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\clock_order",
+      "comb_loop_warning": false,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.43,
+        "3.1.2 Hold Paths Table": 0.093,
+        "3.1.3 Recovery Paths Table": 0.685,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "0d06b03df192843fb85b3862baa67f5abca66e2e0d6379c9f0c6a33ccb856ba2",
+      "report_sha256": "7b4f233b8dcba1391493a5f32dbb4661bdfa1fb97104210b3588ed5dcf4452ef",
+      "promotion": "NOT_SELECTED_LOWER_BALANCED_MARGIN_OR_NO_GAIN"
+    },
+    "formal_merged_baseline": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\formal_merged_baseline",
+      "comb_loop_warning": false,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "FAIL",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": -3.292,
+        "3.1.2 Hold Paths Table": 0.093,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.336,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 36313,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22707,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "fe334c81a109cecc10bbe214a8be173d8bda4d98c4167682119d3d8b1bac6092",
+      "report_sha256": "d15a4c8f7ebb53ff42037407fded245853b25aaa2200d8a31cf9a0a1e83b2187",
+      "promotion": "REJECTED_CURRENT_IMPLEMENTATION_GATES"
+    },
+    "confirm": {
+      "source_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025\\confirm",
+      "comb_loop_warning": false,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.43,
+        "3.1.2 Hold Paths Table": 0.093,
+        "3.1.3 Recovery Paths Table": 0.685,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "9224f73851abcb524c17b9f010abdfaa95dc0091fab334d5e0a211d1ed878e90",
+      "report_sha256": "351394ad8c638892de919a75fb11b5d4294e5e3e73346d4baa844f440dda718d",
+      "promotion": "INDEPENDENT_FULL_REBUILD_CONFIRMED"
+    },
+    "formal": {
+      "source_root": "D:\\Project\\fpga_contest",
+      "comb_loop_warning": false,
+      "completed_pnr": true,
+      "last_progress": [
+        "[100%] Power analysis completed"
+      ],
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.43,
+        "3.1.2 Hold Paths Table": 0.093,
+        "3.1.3 Recovery Paths Table": 0.685,
+        "3.1.4 Removal Paths Table": 0.299,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 37092,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22681,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "2bbafb9d8d61e484a569d73fd7c2709ed98488c32aa88e6bfb5f0d5824984f1d",
+      "report_sha256": "0d8f68ff6a84391e0750bc0af9da333e9412124ca1fd3fe0592a902521a33126",
+      "promotion": "ADOPTED_FORMAL_FULL_REBUILD"
+    }
+  },
+  "native_seed_failure": {
+    "status": "REJECTED_PNR_FAILED_NO_BITSTREAM",
+    "reason": "PA2136 seed matching 0.09% caused normal PNR fallback; then PR0004 ERROR despite text showing zero unrouted nets. Tool returned nonzero, no timing report or bitstream was generated.",
+    "log_sha256": "f80074445070a99e9c6e94f8a015451cfef61d105ca4381dfc71846586d73551",
+    "incremental_reuse_succeeded": false,
+    "promoted": false
+  },
+  "limitations": [
+    "Setup, Hold and Removal targets remain unmet; minimum native margin is 93ps.",
+    "PR1014 clock input access routing remains open; system clock is already PRIMARY.",
+    "DAC digital positive/negative tests pass, but complete receiver/board external timing is not signed off.",
+    "Independent physical USB, BLE first sound and physical/touch end-to-end latency remain unverified.",
+    "Fixed ADSR D/S and PT8211 alignment versus contest I2S wording remain open; generic APPLY is still unsupported."
+  ],
+  "pushed": false,
+  "programmed": false,
+  "hardware_verified": false,
+  "download_package_created": false,
+  "cleanup": {
+    "completed": true,
+    "removed": [
+      "D:\\Project\\fpga_contest\\build\\timing_targets_20261025"
+    ],
+    "temporary_backups_removed": true,
+    "other_agent_directory_preserved": true,
+    "verification": "verification/evidence/timing_targets/cleanup_verification.json"
+  },
+  "archive": {
+    "status": "PASS_ARCHIVE_REOPEN_CRC_AND_SHA256",
+    "archive": "verification\\evidence\\timing_targets\\details.zip",
+    "sha256": "1b599cf88ce383569009a1e66ba69d5972d3466bf44a5a278ec3e51b9f509324",
+    "bytes": 70926102,
+    "entries_verified": 1899,
+    "source_cases": {
+      "baseline": 422,
+      "co_io": 421,
+      "regions": 421,
+      "touch_decode": 421,
+      "targeted": 421,
+      "loop_fixed": 422,
+      "closure": 422,
+      "pipeline": 425,
+      "pipeline_guard": 422,
+      "pipeline_regions": 425,
+      "pipeline_native": 422,
+      "clock_order": 425,
+      "formal_merged_baseline": 431,
+      "confirm": 425,
+      "formal": 433
+    },
+    "bitstreams_included": false,
+    "cleanup": {
+      "completed": true,
+      "removed": [
+        "D:\\Project\\fpga_contest\\build\\timing_targets_20261025"
+      ],
+      "temporary_backups_removed": true,
+      "other_agent_directory_preserved": true,
+      "verification": "verification/evidence/timing_targets/cleanup_verification.json"
+    }
+  }
+}

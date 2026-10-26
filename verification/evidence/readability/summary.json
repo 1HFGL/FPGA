@@ -1,0 +1,447 @@
+{
+  "date": "2026-10-25",
+  "status": "COMPLETE_TOKEN_PRESERVING_READABILITY_REVIEW",
+  "scope": "Formal HDMI main chain; eleven handwritten RTL files plus test-runner usability fixes",
+  "review": {
+    "subjective_readability_score_out_of_10": 7,
+    "score_scope": "The eleven reviewed RTL files, not a whole-repository quality certification",
+    "findings": [
+      {
+        "severity": "Medium",
+        "issue": "Stale USB/voice-count comments contradicted the formal top",
+        "resolution": "Separate real USB note path, disconnected brightness boundary, and legacy defaults"
+      },
+      {
+        "severity": "Medium",
+        "issue": "Dense assignments and state transitions obscured temporal behavior",
+        "resolution": "Expand statements/connections and retain original order"
+      },
+      {
+        "severity": "Medium",
+        "issue": "Snapshot, ownership and per-slot envelope invariants were implicit",
+        "resolution": "Document event prefixes, source ownership, R0/R1..R16, Q1.16 and modal slots"
+      },
+      {
+        "severity": "Low",
+        "issue": "Very long latency/port expressions",
+        "resolution": "Wrap original expressions without new constants or hierarchy changes"
+      },
+      {
+        "severity": "Low",
+        "issue": "Whitespace-sensitive mutation anchors and missing frozen touch reference in general runner",
+        "resolution": "Whitespace-tolerant exactly-one matching and fixed Git reference source"
+      }
+    ]
+  },
+  "rtl_files": [
+    {
+      "path": "rtl/top/piano_hdmi_top.v",
+      "before_sha256": "b512ddaded7aaa0a2f5daf64a10ce7d15ed73781da0d1d91c0bcaa4c75f76246",
+      "after_sha256": "e3de923d6d08a40485c81c7e8bc09b7b750863c612020b609a9686a30260f6f6",
+      "executable_tokens": 1808,
+      "token_sha256": "f84ccb8226cd6639881fecb31d398ac21496d840f1021d8b0dc6f4ea747e0eae",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 170,
+        "max_columns": 142,
+        "lines_over_125_columns": 1,
+        "multiple_statement_lines_excluding_for": 6
+      },
+      "after": {
+        "lines": 339,
+        "max_columns": 110,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    },
+    {
+      "path": "rtl/top/instrument_uart_top.v",
+      "before_sha256": "efdc8a58ac1ca6dbbb70aab837623ce14ee2eedf1882fe2bc7ee09584931b2e1",
+      "after_sha256": "6719ba2c26e723f242aa5d1e556fb58c53c4c2d9f6b2cba38dd9989820d14b32",
+      "executable_tokens": 4570,
+      "token_sha256": "25a9152c29f60f4406004c42077ff207e9892bc30399a399814991db2457959a",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 424,
+        "max_columns": 265,
+        "lines_over_125_columns": 10,
+        "multiple_statement_lines_excluding_for": 27
+      },
+      "after": {
+        "lines": 790,
+        "max_columns": 124,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    },
+    {
+      "path": "rtl/control/touch_contact_tracker.v",
+      "before_sha256": "5d6bfa32d260dcd578fa306bef4f57947f37951337f91d9aa7b3b6d62a51a852",
+      "after_sha256": "29c84500e1b830884be5b4f1564593ada89b7331de76bb445efa7c58fc2f5c16",
+      "executable_tokens": 2452,
+      "token_sha256": "4c9400031ac1fef55be03640e9845fe95baf50e5b7552906cef79919567a39d3",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 244,
+        "max_columns": 126,
+        "lines_over_125_columns": 1,
+        "multiple_statement_lines_excluding_for": 43
+      },
+      "after": {
+        "lines": 366,
+        "max_columns": 110,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    },
+    {
+      "path": "rtl/control/uart_synth_protocol.v",
+      "before_sha256": "c086b3a6125bc65f4aa708ce27d0d2a97f64c552e1114f035737ca881c998aed",
+      "after_sha256": "d2801054204ed4348acd6d6b573bacc9c62e15725f0eb6a85d9d48d94dbe89af",
+      "executable_tokens": 1150,
+      "token_sha256": "287c27b8767b1b62ae38a251d44746b09f1e79fcb434330012ca07f42021ebd4",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 99,
+        "max_columns": 173,
+        "lines_over_125_columns": 2,
+        "multiple_statement_lines_excluding_for": 12
+      },
+      "after": {
+        "lines": 208,
+        "max_columns": 112,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    },
+    {
+      "path": "rtl/synth/instrument_env.v",
+      "before_sha256": "e548c22bc19f43f3d0a3a673c96c8f2b4f285d5c727e5faf8a795b16976fd820",
+      "after_sha256": "68367b02d5390762234a67cfbf0de859ae5f1a5e69590f9fe98c2c56d4c9d590",
+      "executable_tokens": 2003,
+      "token_sha256": "c60b7bc4c0ea7ee05c2b0e569bce9af2cd953737ccbf019b8a6c7dd7168b7e3c",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 247,
+        "max_columns": 216,
+        "lines_over_125_columns": 1,
+        "multiple_statement_lines_excluding_for": 6
+      },
+      "after": {
+        "lines": 287,
+        "max_columns": 107,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    },
+    {
+      "path": "rtl/synth/instrument_env_bank16.v",
+      "before_sha256": "bd71369ba89a89a8c3a1f9b5389e8a24861b41b464cb10d04b0dcbce9d5094a8",
+      "after_sha256": "1a38635759efc5f41f5e6b025967645d873f1c281feb0d60b1649c3865d9f47c",
+      "executable_tokens": 892,
+      "token_sha256": "6c6b54dd5a893ff95906ffdcb5ca74eda17d0a427651b1a9fbe4a57b68824836",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 85,
+        "max_columns": 112,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 14
+      },
+      "after": {
+        "lines": 149,
+        "max_columns": 84,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    },
+    {
+      "path": "rtl/synth/modal_voice_group16.v",
+      "before_sha256": "2142ea5c2278587287f17bc3ad57106c4eb2b6f837152b811f29e5927f2fef8b",
+      "after_sha256": "9e363ad64b097097f6f59502e41d41546431b9446b61e4d136e5734baeae9291",
+      "executable_tokens": 2348,
+      "token_sha256": "d30fd9684a48f980cc48c6ce9536c518475fe9f0a4748ed5fd9fb753ab8fa64d",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 212,
+        "max_columns": 134,
+        "lines_over_125_columns": 1,
+        "multiple_statement_lines_excluding_for": 30
+      },
+      "after": {
+        "lines": 317,
+        "max_columns": 121,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    },
+    {
+      "path": "rtl/synth/voice_bank_dual16.v",
+      "before_sha256": "ffe44fa1b97be88ea63a306e2284f359889b956e8215c39c3012f4c3737ccb38",
+      "after_sha256": "521c0d3e34157602dcec2052dd79de8af13b0c7c7e0c27a3f01fa96c18ef587c",
+      "executable_tokens": 922,
+      "token_sha256": "10e7536150cefe0a87baf5b9afc2189215f25dc9ddf93d78303d9341d5623b2d",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 70,
+        "max_columns": 128,
+        "lines_over_125_columns": 2,
+        "multiple_statement_lines_excluding_for": 4
+      },
+      "after": {
+        "lines": 143,
+        "max_columns": 111,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    },
+    {
+      "path": "rtl/synth/voice_bank_modal_adapter.v",
+      "before_sha256": "48b520762159afd7b52f682da42f0453d77fecf093275ac83ac4e5217c745f51",
+      "after_sha256": "6238d0a11ad979acf53d1be13874b86b46103251e08ced1b8cd7c4b571828373",
+      "executable_tokens": 461,
+      "token_sha256": "83483be115f32c88fcdd374faab9045171e5a3feea0d8ae5a4f5d6b2bc0fef4c",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 52,
+        "max_columns": 134,
+        "lines_over_125_columns": 1,
+        "multiple_statement_lines_excluding_for": 1
+      },
+      "after": {
+        "lines": 77,
+        "max_columns": 95,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    },
+    {
+      "path": "rtl/synth/voice_bank_modal_dispatch.v",
+      "before_sha256": "67e232b4b50fccae20168fa7e0de2cdc8c3cc8dca181e194221da7a7b29f567c",
+      "after_sha256": "78bc9fc6ceebfd1c341e0b99ad029680e61cd64fa761d3d94f667527dcfcd19a",
+      "executable_tokens": 756,
+      "token_sha256": "621927272e55f087d452b5efd6a42e880afa0651040f9c3dbf62c927dd94ae2d",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 66,
+        "max_columns": 161,
+        "lines_over_125_columns": 5,
+        "multiple_statement_lines_excluding_for": 0
+      },
+      "after": {
+        "lines": 117,
+        "max_columns": 92,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    },
+    {
+      "path": "rtl/usb/touch_usb_system.v",
+      "before_sha256": "c7443c8fce0200684f668e63bf58e5a7058ea73226d758c26584457183e15749",
+      "after_sha256": "402f686bce549ba888ee361af8741ef3911c25d5aabebeff5b27597895558005",
+      "executable_tokens": 726,
+      "token_sha256": "18baefb8bc39af4234bc1f0aa7386eecdb4caa546154d126bc75f97b1ab4c2ee",
+      "tokens_identical": true,
+      "preprocessor_and_synthesis_directives_identical": true,
+      "before": {
+        "lines": 60,
+        "max_columns": 116,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 3
+      },
+      "after": {
+        "lines": 130,
+        "max_columns": 82,
+        "lines_over_125_columns": 0,
+        "multiple_statement_lines_excluding_for": 0
+      }
+    }
+  ],
+  "executable_tokens_checked": 18088,
+  "all_rtl_token_sequences_identical": true,
+  "all_synthesis_and_preprocessor_directives_identical": true,
+  "protection": {
+    "files_checked": 283,
+    "changed_files": [
+      "rtl/control/touch_contact_tracker.v",
+      "rtl/control/uart_synth_protocol.v",
+      "rtl/synth/instrument_env.v",
+      "rtl/synth/instrument_env_bank16.v",
+      "rtl/synth/modal_voice_group16.v",
+      "rtl/synth/voice_bank_dual16.v",
+      "rtl/synth/voice_bank_modal_adapter.v",
+      "rtl/synth/voice_bank_modal_dispatch.v",
+      "rtl/top/instrument_uart_top.v",
+      "rtl/top/piano_hdmi_top.v",
+      "rtl/usb/touch_usb_system.v"
+    ],
+    "other_protected_files_unchanged": 272,
+    "existing_testbenches_modified": false,
+    "rom_or_constraints_modified": false
+  },
+  "test_runner": {
+    "path": "verification/scripts/run_final_tests.py",
+    "before_sha256": "56ae0a0b2aa307042c8b261e22a87a70db67817e8de4cc685818c2efe0d2f4a5",
+    "after_sha256": "f4406533fff178c668f74582c38bba3542a26f3a6fb7c772f3b5c9f003422039"
+  },
+  "verification": {
+    "strict_verilog_2001_files": 249,
+    "positive_tests_passed": 9,
+    "expected_faults_rejected": 2,
+    "tests": [
+      {
+        "name": "tb_env_bank_equivalence",
+        "status": "PASS",
+        "log": "build/regression/readability_20261025/control/tb_env_bank_equivalence_console.log",
+        "log_sha256": "e8d7a6cfbbaf246a57a0baf615c2c4ccff415fb434553f285557abec187c888c",
+        "rtl_and_tb_input_hashes_checked": 110,
+        "messages": [
+          "# PASS bank case P=65537 G=1 frames=6200 checks=1438189 resets=6",
+          "# PASS bank case P=13 G=7 frames=6200 checks=1438189 resets=6",
+          "# PASS bank case P=4096 G=2048 frames=6200 checks=1438189 resets=6",
+          "# PASS tb_env_bank_equivalence"
+        ]
+      },
+      {
+        "name": "tb_final_env_alignment",
+        "status": "PASS",
+        "log": "build/regression/readability_20261025/control/tb_final_env_alignment_console.log",
+        "log_sha256": "3fe383d6ea9545bb4399d17033f85441ae447a30e7898788925cbca4a8033fdd",
+        "rtl_and_tb_input_hashes_checked": 110,
+        "messages": [
+          "# PASS tb_final_env_alignment: 139069 independent integer checks; current preset, consecutive ticks, odd/zero/long durations, reset"
+        ]
+      },
+      {
+        "name": "tb_touch_mux_equivalence",
+        "status": "PASS",
+        "log": "build/regression/readability_20261025/control/tb_touch_mux_equivalence_console.log",
+        "log_sha256": "b89978501c6985904cf42d353d8d592ee3b9bfa0d78c978b4ec7aa968718bf31",
+        "rtl_and_tb_input_hashes_checked": 110,
+        "messages": [
+          "# PASS touch mux case N=1 cycles=60000 frames=7464 events=4461 controls=177 cancels=50",
+          "# PASS touch mux case N=5 cycles=60000 frames=3102 events=8978 controls=384 cancels=155",
+          "# PASS touch mux case N=6 cycles=60000 frames=2690 events=9320 controls=388 cancels=142",
+          "# PASS touch mux case N=15 cycles=60000 frames=1258 events=10782 controls=482 cancels=92",
+          "# PASS tb_touch_mux_equivalence: four parameter sets, 240000 cycles, exact event/control/cancel timing and reset"
+        ]
+      },
+      {
+        "name": "tb_review_hdmi_reset_recovery",
+        "status": "PASS",
+        "log": "build/regression/readability_20261025/control/tb_review_hdmi_reset_recovery_console.log",
+        "log_sha256": "912a931d61abf7ec84980200437c7808460a31b14a6a7f647552b17c314a6425",
+        "rtl_and_tb_input_hashes_checked": 110,
+        "messages": [
+          "# PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)"
+        ]
+      },
+      {
+        "name": "tb_usb_system_recovery",
+        "status": "PASS",
+        "log": "build/regression/readability_20261025/control/tb_usb_system_recovery_console.log",
+        "log_sha256": "75ee46feb9e8cd1763cb9e244069d087653911384269a29a081b48d0683d8404",
+        "rtl_and_tb_input_hashes_checked": 110,
+        "messages": [
+          "# PASS tb_usb_system_recovery: 4 disconnect/PLL-loss epochs, real asymmetric mailbox resets, held events then cancellation, no stale reconnect notes"
+        ]
+      },
+      {
+        "name": "tb_dual16_core",
+        "status": "PASS",
+        "log": "build/regression/readability_20261025/audio/tb_dual16_core_console.log",
+        "log_sha256": "8243df928ce9430757c257cd408ddce850a3f091ca0d3735d05acccdecc9f1bf",
+        "rtl_and_tb_input_hashes_checked": 110,
+        "messages": [
+          "# PASS tb_dual16_core: 1600 exact PCM/32 voice comparisons, 5200 real-time frames, R925, all 32 audible, reset/tails/overrun"
+        ]
+      },
+      {
+        "name": "tb_dual16_snapshot",
+        "status": "PASS",
+        "log": "build/regression/readability_20261025/audio/tb_dual16_snapshot_console.log",
+        "log_sha256": "f9de8015fcddbdd5647424a95dd6cc050127b9c0fc322ace94452c58d140352e",
+        "rtl_and_tb_input_hashes_checked": 110,
+        "messages": [
+          "# PASS tb_dual16_snapshot: 256 exact PCM/32 voice comparisons after R0 control changes and busy retriggers"
+        ]
+      },
+      {
+        "name": "tb_brightness_hdmi",
+        "status": "PASS",
+        "log": "build/regression/readability_20261025/audio/tb_brightness_hdmi_console.log",
+        "log_sha256": "24d4805db887c199715ac96d9ce3ec3eab48718e36ac7116f98cfcc6cb81c698",
+        "rtl_and_tb_input_hashes_checked": 111,
+        "messages": [
+          "# PASS tb_brightness_hdmi: actual AIN2, 32 voices, both instruments, original 127 DAC exact, R958, serial=13803 samples=6903 full32=2291 dark=1252"
+        ]
+      },
+      {
+        "name": "tb_touch32_audio_enhanced_brightness",
+        "status": "PASS",
+        "log": "build/regression/readability_20261025/touch_audio/tb_touch32_audio_enhanced_brightness_console.log",
+        "log_sha256": "fccfdd72612f9c58c236e08cb2e9d42a331337381f2a0de5123abb6fef8c9424",
+        "rtl_and_tb_input_hashes_checked": 110,
+        "messages": [
+          "# PASS tb_touch32_audio: six contacts+13 physical+13 PC full32, BLE 33rd steal, per-source cancels, slide/timbre/octave/reconnect/reset, nonzero audio R958 samples=129"
+        ]
+      },
+      {
+        "name": "tb_env_bank_equivalence_EnvSlot",
+        "status": "EXPECTED_FAULT_REJECTED",
+        "log": "build/regression/readability_20261025/negative_slot/tb_env_bank_equivalence_EnvSlot_console.log",
+        "log_sha256": "5a2555997b07d0bc9a8de49c0dcc7ea0dc2beb87ba626db3c87770f376fc3c0e",
+        "rtl_and_tb_input_hashes_checked": 109,
+        "messages": [
+          "# FAIL bank equivalence P=4096 G=2048 frame=0 phase=3 slot=0 got=4096 ref=0"
+        ]
+      },
+      {
+        "name": "tb_final_env_alignment_Env",
+        "status": "EXPECTED_FAULT_REJECTED",
+        "log": "build/regression/readability_20261025/negative_env/tb_final_env_alignment_Env_console.log",
+        "log_sha256": "76539b3005bd80b951012428a71564c9d57c8921f18c7c6bbeaeda23da879563",
+        "rtl_and_tb_input_hashes_checked": 109,
+        "messages": [
+          "# FAIL env current preset case=0 check=3 rst/tick/gate/on/preset=01110 expected=4096/1 actual=0/1"
+        ]
+      }
+    ],
+    "resolved_environment_or_harness_issues": [
+      "ModelSim requires unsandboxed execution on this host because of DLL relocation failures",
+      "General runner initially omitted touch_contact_tracker_reference; fixed using e2355c4 frozen Git source and unchanged TB passed"
+    ],
+    "qualified_simulation_rom": true,
+    "git_whitespace_check": "PASS (CRLF-aware Windows settings)"
+  },
+  "bitstream": {
+    "sha256": "9b139e654d16dc0cacbc55973aeb2b2860b6a5bf6a0e64ca90b2be3ed2dcdfaa",
+    "bytes_unchanged": true,
+    "rebuilt_this_review": false,
+    "programmed": false,
+    "binding_note": "Formatted source bytes differ from the old build manifest. Token identity is recorded separately; no new PNR or raw-source-hash build identity is claimed."
+  },
+  "limitations": [
+    "No new functionality; external function buttons and sustain remain future work",
+    "No new timing/physical hardware signoff; previous PR1014/DAC/USB/BLE/latency limitations remain",
+    "Some historical abbreviated signal names remain to preserve existing hierarchy/observability"
+  ],
+  "archive": {
+    "path": "verification/evidence/readability/details.zip",
+    "sha256": "a9180b0d8db0d511a553ca0cdf285934aa365a9206d9ee15c22a1d034557db66"
+  },
+  "cleanup": {
+    "temporary_directory": "D:\\Project\\fpga_contest\\build\\readability_20261025",
+    "removed": true,
+    "completed_at": "2026-10-25T17:00:48.925717+08:00"
+  }
+}

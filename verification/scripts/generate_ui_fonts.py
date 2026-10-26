@@ -55,6 +55,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("font", type=Path)
 parser.add_argument("output", type=Path)
 parser.add_argument("--digits-font", type=Path, help="等宽数字字体（可选）")
+parser.add_argument("--append-practice-only", action="store_true", help="补64..83练习字形，保护原正文和标题")
 parser.add_argument("--append-touch-only", action="store_true", help="仅填充58..63槽，保留已发布数字和标题")
 args = parser.parse_args()
 
@@ -123,25 +124,32 @@ def rows_for(chars, size, font, digits_font):
 
 
 font_path = args.font
-if args.append_touch_only:
+if args.append_practice_only or args.append_touch_only:
     import re
     body=args.output.read_text(encoding='utf-8')
     sha=hashlib.sha256(font_path.read_bytes()).hexdigest()
     assert f'text_font_sha256={sha}' in body, 'Use the original Chinese font'
     old=body
-    body=re.sub(r"        text_rom\[(\d+)\] = 48'h[0-9a-f]+;[^\n]*\n",
-                lambda m:'' if int(m[1])>=58*32 else m[0],body)
-    rows=rows_for(TEXT_CHARACTERS[57:],24,ImageFont.truetype(str(font_path),24),None)
-    lines=[f"        text_rom[{((slot+57)<<5)|row}] = 48'h{value:012x}; // {char} 第{row}行" for slot,row,value,char in rows]
+    body=re.sub(r"        text_rom\[(\d+)\]\s*=\s*48'h[0-9a-f]+;[^\n]*\n",
+                lambda m:'' if (int(m[1])>=64*32 if args.append_practice_only else 58*32<=int(m[1])<64*32) else m[0],body)
+    offset=63 if args.append_practice_only else 57
+    chars='内置曲下载未开始暂停继续重来拍速完成预备' if args.append_practice_only else TEXT_CHARACTERS[57:]
+    rows=rows_for(chars,24,ImageFont.truetype(str(font_path),24),None)
+    if args.append_practice_only:
+        body=body.replace('input wire [5:0] text_glyph','input wire [6:0] text_glyph').replace('text_rom [0:2047]','text_rom [0:4095]')
+        if not re.search(r'init_index\s*=\s*2048;',body):
+            anchor_zero='        for (init_index = 0; init_index < 512;'
+            body=body.replace(anchor_zero,"        for (init_index = 2048; init_index < 3072; init_index = init_index + 1) text_rom[init_index] = 48'd0;\n        for (init_index = 3072; init_index < 4096; init_index = init_index + 1) text_rom[init_index] = 48'd0;\n"+anchor_zero)
+    lines=[f"        text_rom[{((slot+offset)<<5)|row}] = 48'h{value:012x}; // {char} 第{row}行" for slot,row,value,char in rows]
     anchor='    end\n    // 一拍同步读'
     assert body.count(anchor)==1
     body=body.replace(anchor,'\n'.join(lines)+'\n'+anchor)
     # Reproducible append; neither the original 57 glyphs nor title rows can change.
     protected=lambda s:[l for l in s.splitlines() if 'title_rom[' in l or
-        (re.search(r'text_rom\[(\d+)\] =',l) and int(re.search(r'text_rom\[(\d+)\]',l)[1])<58*32)]
+        (re.search(r'text_rom\[(\d+)\] =',l) and int(re.search(r'text_rom\[(\d+)\]',l)[1])<(64*32 if args.append_practice_only else 58*32))]
     assert protected(body)==protected(old)
     args.output.write_text(body,encoding='utf-8',newline='\n')
-    print('PASS appended six touch glyphs; original text/title rows unchanged')
+    print('PASS appended glyphs; original text/title rows unchanged')
     raise SystemExit(0)
 text_rows = rows_for(TEXT_CHARACTERS, 24, ImageFont.truetype(str(font_path), 24),
                      ImageFont.truetype(str(args.digits_font), 24) if args.digits_font else None)

@@ -1,0 +1,13 @@
+{
+  "status": "PASS_CLEANUP_FINAL_SOURCE_AND_OTHER_AGENT_PRESERVED",
+  "checked_at": "2026-10-25T11:18:10.731889+00:00",
+  "archive_sha256": "1b599cf88ce383569009a1e66ba69d5972d3466bf44a5a278ec3e51b9f509324",
+  "archive_entries_verified": 1899,
+  "source_cases_verified": 15,
+  "formal_source_files_verified": 433,
+  "formal_fs_sha256": "2bbafb9d8d61e484a569d73fd7c2709ed98488c32aa88e6bfb5f0d5824984f1d",
+  "temporary_root": "D:\\Project\\fpga_contest\\build\\timing_targets_20261025",
+  "other_agent_root": "D:\\Project\\fpga_contest\\build\\control_features_20261025",
+  "other_agent_source_manifest_sha256": "b4f44452c0c1ddf402240578131fc8ff445d411610a4fed18fa8320ac2c0b007",
+  "verifier_sha256": "42f61120c5913719b3dcbe08b6c8ee4ba91267f794578e4d2295983fcfdbfd52"
+}

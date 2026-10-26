@@ -1,8 +1,30 @@
 [CmdletBinding()]
 param([string]$Gowin='D:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe',
       [string]$Python='C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe',
-      [switch]$PrepareOnly)
+      [switch]$PrepareOnly,
+      [switch]$SelfTestLog)
 $ErrorActionPreference='Stop'
+# 只把日志级别ERROR或既有禁用告警码视作失败；数组名errors不是工具报错。
+$buildFailurePattern='(?m)^\s*ERROR\b|EX3988|EX3791|EX3073|TA2003|AG0101'
+if($SelfTestLog){
+    $cases=@(
+        @{Log="Extracting RAM for identifier 'errors'";Reject=$false},
+        @{Log="Extracting RAM for identifier 'ERRORS'";Reject=$false},
+        @{Log='ERROR (EX0001) : invalid module';Reject=$true},
+        @{Log=('normal line'+[Environment]::NewLine+'  Error (PR0004) : unrouted nets');Reject=$true},
+        @{Log='WARN (EX3988) : ROM problem';Reject=$true},
+        @{Log='WARN (EX3791) : width problem';Reject=$true},
+        @{Log='WARN (EX3073) : port problem';Reject=$true},
+        @{Log='WARN (TA2003) : ignored constraint';Reject=$true},
+        @{Log='WARN (AG0101) : The netlist is not one directed acyclic graph';Reject=$true},
+        @{Log='WARN (PR1014) : clock access requires review';Reject=$false}
+    )
+    foreach($case in $cases){
+        if(($case.Log -match $buildFailurePattern) -ne $case.Reject){throw "Log classification failed: $($case.Log)"}
+    }
+    Write-Output "PASS Gowin log classification: $($cases.Count) cases; all prior prohibited warning codes rejected."
+    return
+}
 $root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 & $Python (Join-Path $root "model/pack_dual16_rom.py") --check
 if($LASTEXITCODE){throw "Dual-port coefficient ROM is stale or invalid"}
@@ -30,7 +52,7 @@ try {
     if($LASTEXITCODE){throw "Gowin failed: $out/build.log"}
     $log=Get-Content "$out/build.log" -Raw
     Set-Content "$out/build.log" -Value $log -Encoding utf8
-    if($log -match 'ERROR|EX3988|EX3791|EX3073|TA2003'){throw 'Build has unresolved error, ROM, width, interface or constraint warning'}
+    if($log -match $buildFailurePattern){throw 'Build has unresolved error, ROM, width, interface or constraint warning'}
     & $Python "$PSScriptRoot/build_inputs.py" --verify "$out/build_inputs.txt"
     if($LASTEXITCODE){throw 'HDMI input changed during build'}
     $expected=(Get-FileHash process_config.json).Hash

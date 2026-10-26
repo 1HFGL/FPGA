@@ -4,7 +4,7 @@
 // octave只在首次按下时取值；旧音松键沿用当时音高，防止切档后卡音。
 module event_encoder #(
     parameter integer KEY_COUNT=2, NOTE_BASE=60, MAX_EVENTS=64, PTR_WIDTH=6, SOURCE_WIDTH=5,
-    parameter integer CHROMATIC_KEYS=0, ENABLE_PLAY_CONTROL=0
+    parameter integer CHROMATIC_KEYS=0, ENABLE_PLAY_CONTROL=0, ENABLE_KEYMAP=0
 ) (
     input wire clk, rst_n,
     input wire [KEY_COUNT-1:0] key_press, key_release,
@@ -16,7 +16,8 @@ module event_encoder #(
     output wire [SOURCE_WIDTH-1:0] event_source_id,
     output wire [6:0] event_note, event_velocity,
     output wire [3:0] event_timbre,
-    input wire event_ready
+    input wire event_ready,
+    input wire [103:0] keymap,output wire mapping_idle
 );
     localparam integer EVENT_WIDTH=SOURCE_WIDTH+19;
     localparam integer KEY_PTR_WIDTH=(KEY_COUNT>1)?$clog2(KEY_COUNT):1;
@@ -33,6 +34,7 @@ module event_encoder #(
     reg found_any, found_after;
     reg found;
     reg [SOURCE_WIDTH-1:0] selected_source;
+    assign mapping_idle=!input_overflow && !found_any && fifo_count==0 && !(|key_press) && !(|key_release);
     wire do_read=event_valid && event_ready;
     wire do_write=found && !input_overflow && ((fifo_count<MAX_EVENTS) || do_read);
     wire [EVENT_WIDTH-1:0] rd_data=fifo_mem[rd_ptr];
@@ -45,12 +47,13 @@ module event_encoder #(
     function [6:0] key_to_note;
         input integer key_index;
         input [1:0] octave;
-        integer value;
+        integer value,offset;
         begin
+            offset=ENABLE_KEYMAP?keymap[key_index*8+:8]:key_index;
             case(ENABLE_PLAY_CONTROL ? octave : 2'd1)
-                2'd0: value=NOTE_BASE-12+key_index;
-                2'd2: value=NOTE_BASE+12+key_index;
-                default: value=NOTE_BASE+key_index;
+                2'd0: value=NOTE_BASE-12+offset;
+                2'd2: value=NOTE_BASE+12+offset;
+                default: value=NOTE_BASE+offset;
             endcase
             // 默认二键仍为C/E，13键采用半音排列；保持旧工程接口兼容。
             if(!CHROMATIC_KEYS) begin
@@ -94,7 +97,7 @@ module event_encoder #(
         end else begin
             for(i=0;i<KEY_COUNT;i=i+1) begin
                 if(key_press[i] && key_release[i]) input_overflow<=1;
-                if(key_press[i] || (key_release[i] && held_valid[i])) begin
+                if((key_press[i] && (!ENABLE_KEYMAP || keymap[i*8+:8]!=255 || held_valid[i])) || (key_release[i] && held_valid[i])) begin
                     if(pending_count[i]<4 || (do_write && selected==i)) begin
                         if(key_press[i]) begin
                             pending_mem[i*4+pending_wr[i]]<={1'b1,

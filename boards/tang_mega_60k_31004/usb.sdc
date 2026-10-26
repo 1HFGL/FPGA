@@ -10,3 +10,6 @@ set_false_path -hold -from [get_regs {g_usb_touch.u_usb/u_reports/hold_data*}] -
 set_false_path -through [get_pins {g_usb_touch.u_usb/usb_release_0_s0/CLEAR g_usb_touch.u_usb/usb_release_1_s0/CLEAR}]
 # Digital launch budget (<half a 48MHz cycle); not USB electrical certification.
 set_max_delay -to [get_ports {usb_touch_dp usb_touch_dm}] 10.000
+
+# Pin-only output of the same PLL: same 48MHz ratio and zero phase.
+create_generated_clock -name usb_pin_clk -source [get_ports {sys_clk}] -master_clock sys_clk -multiply_by 24 -divide_by 25 [get_pins {g_usb_touch.u_usb/u_clock/u_pll/CLKOUT1}]

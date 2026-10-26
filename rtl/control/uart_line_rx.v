@@ -32,6 +32,8 @@ module uart_line_rx #(parameter integer TIMEOUT_CYCLES=12500000)(
             "PANIC": decoded=PANIC;
             "STATUS?": decoded=STATUS;
             "APPLY": decoded=APPLY;
+            "XBEGIN":decoded=7;"XDATA":decoded=8;"XCOMMIT":decoded=9;
+            "XABORT":decoded=10;"CTRL":decoded=11;"GETCFG":decoded=12;
             default: decoded=0;
         endcase
         if(name_len>8) decoded=0;

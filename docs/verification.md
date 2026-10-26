@@ -1,5 +1,108 @@
 # 当前验证与验收边界
 
+## 2026-10-25 采样请求优化完成（原时序目标仍部分未达）
+
+正式仅修改 `rtl/audio/sample_tick.v`：由相位状态预判下一拍的半位、帧起点和样本准备脉冲，再寄存高扇出输出，所有公开脉冲仍在原拍出现。全部新增控制功能保留；32声部、48kHz、双音色、三效果、R925/R958、976拍准备窗余18拍不变。原CST/SDC、P3/R2/C0、42引脚/31条约束及全部已有TB保持。
+
+候选、独立全量重建、正式全量重建一致：Setup/Hold/Recovery/Removal/Pulse = **1.111/0.184/0.669/0.299/5.799ns**。对比本轮前0.430/0.093/0.685/0.299/5.799ns，最薄93→184ps；Recovery减少16ps但仍≥0.6ns。原目标2/.4/.6/.4ns仍只有Recovery达到，不能称全部目标达成。用户已撤回按周期5%～10%的临时提议，继续使用原绝对门槛。
+
+Logic **37092→36872（−220）**、FF **22681→22679（−2）**、CLS **25886→25949（+63）**；BSRAM103、DSP37保持。不能称所有资源或所有余量都改善。波形、音区末级选择、RAM写事务、显示内部复位和局部位置候选均保留拒绝原因；严格Hold候选未能在原约束下可靠复用路由，没有晋升。
+
+268份严格Verilog-2001、10组参数/3080710次节拍对照与边界故障检查通过。18份候选功能/恢复测试清单与正式100份RTL逐项哈希相符，覆盖完整新控制功能、2456173拍显示差分、6903组音频整数参考、13803个DAC字、17轮HDMI和4轮USB恢复。正式目录另跑节拍正反检查、严格编译及DAC审计；DIN/WS和HDMI恢复位序故障被拒绝。长音频仍使用已独立核验的仿真ROM，综合使用原厂商ROM。
+
+正式fs SHA256 `cee524f5fc6ad347c94e762ca64ead44986ecfd4d7d4a291a75940b767158d55`。证据 `verification/evidence/timing_followup/summary.json`；归档与临时备份/候选清理以该摘要的archive/cleanup字段为准。未推送、打下载包或烧录。PR1014、完整DAC板外时序、独立USB实物、蓝牙首音、实体/触摸整机延迟及固定ADSR D/S、PT8211赛题口径仍待验收。下方记录仅是历史快照。
+
+
+## 2026-10-25 全功能合并后的正式实现核验
+
+三功能键、屏幕控制、42音固定节拍导奏、最多512段曲谱下载、13键映射、BLE控制/实际状态回读，以及界面、引脚、接线说明和测试已合入正式工程。保留并行任务的可读性改动。32声部、48kHz、双音色、三效果及R925/R958不变。
+
+合并后先修复串口配置看门狗组合反馈，保留真实帧错误并去除不可达FIFO溢出判断；该版本首次实现Setup仍为−3.292ns，已拒绝。随后把显示命中移到既有流水级、触摸命中在既有快照拍预计算。候选、独立全量重建和正式全量重建一致：Setup/Hold/Recovery/Removal/Pulse = **0.430/0.093/0.685/0.299/5.799ns**。目标2/.4/.6/.4ns仅Recovery达到，最薄仍93ps，不能称全部目标达成或全面宽裕。P3/R2/C0，原时钟及既有CST/SDC不变，新增三功能键后42引脚/31条约束通过。
+
+267份严格Verilog-2001、21份正式功能/故障测试证据、2456173拍实际画面对照、6903样本独立整数参考和13803个DAC字通过；HDMI/USB恢复、CRC/暂停/串口帧错及DAC故障控制通过。综合仍用原厂商ROM，长音频使用已核验等价的仿真ROM。Logic37092、FF22681、BSRAM103、DSP37；功能扩展有资源代价。
+
+当前fs SHA256 `2bbafb9d8d61e484a569d73fd7c2709ed98488c32aa88e6bfb5f0d5824984f1d`，只由正式 `projects/hdmi/piano_hdmi.gprj` 全量构建生成。证据见 `verification/evidence/timing_targets/summary.json` 和 `docs/fpga-optimization-plan.md`。K6/K7/K8接线以 `docs/keyboard-wiring.md` 为准。本轮未推送、打下载包或烧录；PR1014、完整DAC板外预算、实物USB/BLE及两条整机延迟仍待验收。以下旧状态为历史记录。
+
+## 2026-10-25 可读性审查与整理
+
+本轮审查正式HDMI主链路的顶层、四来源接入、触点跟踪、模态调度及共享包络。11份RTL只调整排版和说明注释，逐文件18088个执行记号完全一致，标识符、常量、运算符、语句顺序、预处理指令及`synthesis translate_off/on`保持。既有TB、ROM和板级/项目约束字节未变。
+
+| 等级 | 阅读障碍 | 已完成的改进 |
+| --- | --- | --- |
+| Medium | 顶层仍称USB未实现、正式共16声部，容易误判当前接入范围 | 区分六触点USB音符通路与断开的单点明亮度边界，明确正式32声部与默认兼容配置 |
+| Medium | 状态机/复位中多条赋值挤在同一行，握手与状态变更难以追踪 | 按语句展开、统一缩进，保留全部状态、分支、非阻塞赋值顺序 |
+| Medium | 共享包络和模态流水的槽位、快照与定点含义需要反复追代码 | 补充R0/R1～R16、Q1.16、状态RAM槽号、触点所有权和事件缩写说明 |
+| Low | 参数/端口连接密集，完整音频周期预算过长 | 一连接一行，分行表达原有预算，正式R925/R958表达式不变 |
+| Low | 故障注入依赖无空格的源码片段；触点差分未接入通用测试入口 | 保留精确一次匹配保护，允许记号之间空白变化；自动加载固定Git参考模块 |
+
+验证通过：249份严格Verilog-2001编译；共享包络、139069项包络整数参考、240000拍触点差分、17轮HDMI恢复、4轮USB恢复、32声部1600组PCM/5200帧、256组快照、6903组完整音频/13803个DAC串行字及四来源满32/第33音抢占，共9项回归。槽位错误和包络幅度错误两项故障均由对应检查拒绝。长音频沿用既有证书核验的仿真ROM，综合ROM未变。触点差分首次缺参考模块的工具入口问题保留在摘要中，补齐入口后通过，既有TB未改。
+
+没有执行新的综合/布局布线或硬件操作，原fs `9b139e654d16dc0cacbc55973aeb2b2860b6a5bf6a0e64ca90b2be3ed2dcdfaa`字节保持。排版后的原始源码哈希不同于旧构建清单；本轮记录记号等价，不伪称新位流或原始哈希一致。可读性评分为本次11文件范围的主观7/10：主链路更易查阅，部分历史短名和其他兼容模块仍保留。证据与差分见[摘要](../verification/evidence/readability/summary.json)。临时备份在归档核验后删除。
+
+## 2026-10-25 全链路审查与HDMI复位优化
+
+本轮完成全项目清单和主链路审查，正式只改 `rtl/display/dvi_tx_gowin.v`：四路串行器复位仅由两级释放链的末级产生，LUT闲置输入接0，级数/相位/原12处布局位置保持。仅改真值表的对照没有时序收益，未采用；断开首级连接后，候选、独立复现和正式三次全量重建一致。
+
+Setup/Hold/Recovery/Removal/Pulse：**1.947/0.203/0.710/0.299/5.799ns**；最薄 **143→203ps**，Removal **143→299ps**。Logic31879、FF21003、BSRAM93、DSP37不变，CLS24634→24604；不是所有资源都减少。P3/R2/C0、原39引脚/28条约束、CST/SDC、时钟及全部既有TB保持。
+
+249份严格Verilog-2001、300轮复位/234847次精确对照、17轮HDMI恢复、4轮USB系统恢复、6903组音频逐级整数参考、13803个DAC串行字、四来源满32/第33音抢占均通过；提前释放、恢复后位序及DAC DIN/WS故障被拒。候选测试输入与正式源码逐项核对；长音频使用既有证书核验的仿真ROM，综合保持原厂商ROM。R925/R958、32声部/48kHz、双音色、三效果和接线保持。
+
+本轮还在变更前重跑2031组触摸报告、触点28个精确事件及3种FIFO参数各60000拍对照。触摸报告首次直接调用旧TB缺COUNT参数，于0ps失败；改用原`check_touch_reports.py`入口后通过，未改旧TB。ModelSim沙箱DLL初始化错误仅在允许的离线编译进程中绕过，没有修改系统配置。原17轮恢复TB的190条缺省端口/厂商模型告警与基线一致，不把它当成零告警或USB实物测试；新独立四路串行器测试补齐精确释放时刻检查。
+
+正式源只变1份构建输入；113份非生成构建输入已对固定Git版本加源码覆盖逐字节回放核对，完整115份实际构建输入及三次结果在[摘要](../verification/evidence/full_chain/summary.json)和同目录`details.zip`中。归档`run/reproduction/selected_sources`包含原有未提交工作，其中73份只用于保留本机换行字节，不能称本轮改了81份源码。候选音频/恢复测试及正式严格编译的源哈希均单独核验。
+
+复跑（离线，工具路径按本机调整）：
+
+```powershell
+./verification/scripts/check_verilog.ps1
+python verification/scripts/check_serializer_reset.py --out build/serializer_reset/check
+python verification/scripts/check_serializer_reset.py --out build/serializer_reset/early --mutation early_release
+python verification/scripts/run_final_tests.py tb_review_hdmi_reset_recovery tb_usb_system_recovery
+python verification/scripts/run_final_tests.py tb_review_hdmi_reset_recovery --mutation HdmiRecovery
+python verification/scripts/run_final_tests.py tb_brightness_hdmi --functional-rom
+python model/brightness_response.py hdmi
+python verification/scripts/run_final_tests.py tb_touch32_audio --enhanced-brightness --functional-rom
+./projects/hdmi/build.ps1
+python verification/scripts/check_j13_wiring.py --report projects/hdmi/impl/pnr/piano_hdmi.rpt.txt --negative-control
+python verification/scripts/check_dac_timing.py --run --allow-incomplete
+```
+
+`--allow-incomplete`仍输出`signoff=false`；数字320ns窗口不是完整板外余量。当前fs `9b139e654d16dc0cacbc55973aeb2b2860b6a5bf6a0e64ca90b2be3ed2dcdfaa`。未推送、制作下载包或烧录。PR1014、完整DAC板外时序、独立USB实物、蓝牙首音及实体/触摸整机延迟仍待验收；屏幕控件、远程APPLY、固定ADSR的D/S口径没有补齐。旧坐标TB未改或计作通过，未重跑整套历史测试。
+
+## 2026-10-25 包络选择路径优化
+
+本轮继续优化只修改 `rtl/synth/instrument_env_bank16.v`：空闲扫描槽固定为0，R0请求不再进入16选1地址选择；帧输入由局部扫描状态选择。R0快照、R1～R16更新、R925/R958、32声部、48kHz、双音色、三效果及全部接线保持。
+
+四组隔离RTL方案比较后采用槽位简化，候选和正式独立全量重建一致：Logic **31926→31879（−47）**，FF **20915→21003（+88）**，CLS **24778→24634（−144）**；BSRAM93、DSP37不变。Setup **0.448→1.947ns**，Hold **0.186ns保持**，Recovery **0.642→0.669ns**，Removal **0.143ns保持**，Pulse **5.799ns保持**。最薄仍143ps，不能称最薄余量或所有资源都改善。配置P3/R2/C0、CST/SDC、时钟及已有TB未变；334份保护文件仅包络bank这一份变化。
+
+248份严格Verilog-2001、3种包络参数逐槽对照、256组输入快照、1600组32声部PCM、5200个真实节拍帧、四来源满32/第33音抢占、6903组完整音频整数参考、13803个DAC串行字和17轮HDMI恢复通过；包络槽位、HDMI恢复后位序及DAC DIN/WS故障被拒绝。长音频用已单独核验等价的仿真ROM，综合仍用原厂商ROM。候选功能测试源哈希与正式源逐项相符，正式目录另重跑包络正反检查和DAC审计。
+
+当前fs SHA256 `c0164836b37b524a0e1a6347beeb8bf7e047949a1c150629958ae83b8a6247b8`；[本轮摘要](../verification/evidence/envelope_select/summary.json)与`docs/fpga-optimization-plan.md`保留对照/复现证据。临时备份与候选完整工程在归档核验后删除，以摘要cleanup字段为准。未推送、打包或烧录。PR1014、完整DAC板外预算、独立USB实物、蓝牙首音及两条整机延迟仍待验收；旧坐标TB未修改或计入通过。屏幕控件/远程APPLY/固定ADSR的D/S口径没有因此补齐。下文旧资源/位流记录只作历史。
+
+复跑入口（均离线；Python和Gowin路径按本机安装配置）：
+
+```powershell
+./verification/scripts/check_verilog.ps1
+python verification/scripts/run_final_tests.py tb_env_bank_equivalence
+python verification/scripts/run_final_tests.py tb_env_bank_equivalence --mutation EnvSlot
+python verification/scripts/run_final_tests.py tb_dual16_snapshot tb_dual16_core --functional-rom
+python verification/scripts/run_final_tests.py tb_touch32_audio --enhanced-brightness --functional-rom
+python verification/scripts/run_final_tests.py tb_brightness_hdmi --functional-rom
+python model/brightness_response.py hdmi
+python verification/scripts/run_final_tests.py tb_review_hdmi_reset_recovery
+python verification/scripts/run_final_tests.py tb_review_hdmi_reset_recovery --mutation HdmiRecovery
+./projects/hdmi/build.ps1
+python verification/scripts/check_dac_timing.py --run --allow-incomplete
+```
+
+`--allow-incomplete`只允许收集DAC数字证据，summary仍为`signoff=false`。当前相对Git的复现链：先应用`shared_envelope/details.zip`内`candidate_diffs/formal_selected.patch`，再应用`envelope_select/details.zip`内`patches/idle_slot.patch`；已从固定Git提交回放并核对11份源文件。完整源字节由实际构建输入清单绑定。
+
+## 2026-10-25 优化计划实施对照
+
+本轮没有晋升新正式RTL或配置：15组实现中，原网表P2R2C0/C1复现1.076/0.128/0.642/0.143/5.799ns；六组RTL完成布线但Hold为45～124ps，一组原网表Setup违例，另六组未布线。资源最佳候选少1406 Logic/1547 FF、多4块RAM，但Setup260ps/Hold119ps，未替换128ps正式基线。共享包络只做可行性评估。
+
+新增FIFO测试与固定Git原版、独立队列模型核对；正式三个参数各60000拍通过，FifoExchange故障被拒绝。当前246份严格Verilog通过。候选SDPB综合网表、触点、逐像素与R958音频回归边界、失败记录及复现说明见[实施报告](fpga-optimization-plan.md)，原始身份与对照见[证据摘要](../verification/evidence/optimization_plan/summary.json)。331份原保护文件、119份正式输入、正式fs与latest_build均保持。临时完整工程/备份已清理，未推送/烧录；未重跑的历史TB不计通过。
+
 ## 2026-10-25 明亮度合并与完整实现复核
 
 本次 master 提交合入队友 `1bc0203` 的双级对数明亮度，并保留帧弯音预计算、触点共用译码和 USB 修复。127档逐样本保留原音；R958（19.16µs）/976拍准备窗余18拍，32声部、48kHz、钢琴/吉他、三效果和接线保持。
@@ -986,3 +1089,35 @@ Gowin1.9.12.04综合/布局布线及生成位流成功；37实际引脚、21活�
 逐字节解析独立验证1180800字节比较；输出边界验证256组数据/使能、4种复位相位及停钟高阻；封装测试覆盖真实416位信箱及四轮断线/失锁。既有长HDMI测试覆盖13417个满32声部样本、27274个串行字、8904个湿声独存样本，音频R955不变。完整构建是独立重新综合/布局布线，不是把候选fs复制为正式结果。
 
 另外修复DAC证据审计：必须逐项匹配当前构建输入与实现记录，拒绝旧16声部PASS元数据和当前USB清单混用；6项自检通过。DAC数字边沿及故障检查通过，接收器参数/板级偏斜/实测仍缺，signoff=false。USB实现8项、引脚7项故障检查均拒绝预期错误。
+
+## 2026-10-26 四项原绝对时序目标达成（31005）
+
+当前硬件确认是 **NEO Dock 31005 + Tang Mega60K SOM**，器件 GW5AT-LV60PG484AC1/I0、Version B。`boards/tang_mega_60k_31004` 仅为历史目录名，接线仍按 31005 合同，42 个引脚不变。
+
+候选、独立全量重建、正式工程全量重建一致：Setup/Hold/Recovery/Removal/Pulse = **2.108/0.443/0.626/0.468/5.803 ns**，原目标 **2.0/0.4/0.6/0.4 ns** 全部达到。最薄余量由184增至443 ps；Recovery由0.669降至0.626 ns，仍达标。三份位流除生成时间注释外逐字节相同。不能据此宣称所有余量改善或整机实物验收完成。
+
+正式修改五份 RTL：Delay 固定系数移位加法、HDMI 末级复位局部 LUT 链、USB 同一 PLL 的两路同相48 MHz输出分担核心与三个引脚寄存器。原时钟频率、相位、板外数字预算及已有时序例外保留；增加相关引脚时钟声明及更严格的独立布线目标模型，直接检查原生时钟报告，没有把额外不确定度加回余量。P3/R2/C0保持，59条活动约束含13条报告指令。
+
+全部新增控制功能、32声部/48 kHz、双音色、三效果、R925/R958和976拍准备窗余18拍保持。270份严格Verilog-2001通过；25份候选测试输入清单与正式100份RTL逐项绑定，覆盖完整新功能、2456173拍显示差分、6903组音频整数参考和13803个DAC字；正式目录另复跑USB时钟/线级枚举、HDMI/USB恢复和DAC正反检查。Logic36872→36937（+65）、FF22679→22702（+23）、CLS25949→25900（−49）、DSP37→35，BSRAM103与PLLA2保持。
+
+正式fs SHA256 `4a2e6813e9d8eaa3461b187393b49789a8c6e51500e9d46673695bad1b941c64`，只由 `projects/hdmi/piano_hdmi.gprj` 全量构建生成。证据 `verification/evidence/timing_closure/summary.json`；归档与临时备份/候选清理以该摘要的archive/cleanup字段为准。未推送、打下载包或烧录。PR1014系统时钟接入、完整DAC板外预算、独立USB实物、蓝牙首音、两条整机延迟及固定ADSR D/S、PT8211赛题口径仍待验收；USB引脚时钟的LOCAL警告为三个输出寄存器的显式配置，实际路由偏斜已参与STA。以下日期较早的状态仅为历史快照。
+
+### 复现与证据边界
+
+完整实现只运行正式入口，继续禁止烧录。PowerShell示例：
+
+```powershell
+$py = 'C:/Users/YUAN/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
+./verification/scripts/check_verilog.ps1
+./projects/hdmi/build.ps1
+& $py verification/scripts/check_hdmi_implementation.py --directory build/hdmi
+& $py verification/scripts/run_final_tests.py tb_usb_dual_clock tb_usb_dual_wire tb_usb_system_recovery tb_review_hdmi_reset_recovery --out build/regression/closure
+& $py verification/scripts/check_dac_timing.py --run --allow-incomplete
+```
+
+DAC的 `--allow-incomplete` 仅允许保存尚缺板级参数的证据，**signoff仍为false**，不放宽数字检查。数字窗口320 ns不是完整板外余量。长音频测试使用已独立证明等价且检查证书哈希的仿真ROM，Gowin综合仍使用原厂商ROM。完整32声部音频与新增功能测试未因这轮改动降低断言，所有既有TB与202份核心/ROM/既有测试保护文件保持。
+
+`verification/evidence/timing_closure/summary.json`记录三次完整构建、正式fs身份、全部原生余量、资源变化、候选/正式测试清单和未验收项。相邻`details.zip`是按SHA256去重的源码、原始报告、日志及复现脚本证据；不含下载位流。`restore_evidence.py`只能恢复到新目录，并逐个校验内容哈希。省略的可重建工具数据库/模拟库和临时备份在归档manifest中列出；两份用于时序模型资格证明的小电路路由种子保留。历史脚本中的绝对路径需按实际环境核对，不能把旧结果当作刚复跑。
+
+正式源码与证据仍包含未提交工作，不能只凭Git HEAD复现。独立USB触摸实物、BLE首音、模拟输出、屏幕电气兼容以及实体键/触摸两条整机延迟仍需后续实测；四项STA达标不替代这些验收。
+

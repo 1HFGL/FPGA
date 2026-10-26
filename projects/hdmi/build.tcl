@@ -6,7 +6,7 @@ set generated [file normalize ../../build/hdmi]
 file mkdir $generated
 foreach ext {cst sdc} {
     set output [open [file join $generated piano_hdmi.$ext] w]
-    foreach part {piano hdmi ble usb} {
+    foreach part {piano hdmi ble usb functions} {
         set input [open ../../boards/tang_mega_60k_31004/$part.$ext r]
         puts $output [read $input]
         close $input
@@ -18,6 +18,13 @@ foreach ext {cst sdc} {
     }
     close $output
 }
+# Preserve all board constraints. Add identical-edge models for routing goals
+# and explicit native-clock reports from the same routed implementation.
+set margin_file [open [file join $generated piano_hdmi.sdc] a]
+set objective_input [open route_objectives.sdc r]
+puts $margin_file [read $objective_input]
+close $objective_input
+close $margin_file
 file mkdir impl
 file copy -force process_config.json impl/piano_hdmi_process_config.json
 if {[llength $argv] && [lindex $argv 0] eq "prepare"} {

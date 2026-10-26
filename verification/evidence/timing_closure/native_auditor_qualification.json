@@ -1,0 +1,82 @@
+{
+  "status": "PASS",
+  "native_slacks_ns": {
+    "Setup": 3.106,
+    "Hold": 0.502,
+    "Recovery": 0.626,
+    "Removal": 0.468,
+    "Pulse": 6.504
+  },
+  "faults": {
+    "native_period": {
+      "status": "EXPECTED_FAULT_REJECTED",
+      "errors": [
+        "Native clock period/phase differs: usb_clk",
+        "Native clock period/phase differs: usb_pin_clk"
+      ]
+    },
+    "native_pin_coverage": {
+      "status": "EXPECTED_FAULT_REJECTED",
+      "errors": [
+        "Active constraints do not exactly match original constraints plus documented objectives/reports",
+        "Native report coverage command set differs"
+      ]
+    },
+    "pll_propagation": {
+      "status": "EXPECTED_FAULT_REJECTED",
+      "errors": [
+        "Generated-clock path omits positive PLL propagation: {'Slack': '14.853', 'From': 'pattern_0_s0', 'To': 'u_tx/u_blue/balance_3_s0', 'Launch Clk': 'hdmi_pixel:[R]', 'Latch Clk': 'hdmi_pixel:[R]', 'equivalent_native_clocks': {'Launch Clk': 'hdmi_pixel', 'Latch Clk': 'hdmi_pixel'}, 'native_tool_uncertainty_ns': []}",
+        "Generated-clock path omits positive PLL propagation: {'Slack': '15.006', 'From': 'pattern_0_s0', 'To': 'u_tx/u_blue/balance_5_s0', 'Launch Clk': 'hdmi_pixel:[R]', 'Latch Clk': 'hdmi_pixel:[R]', 'equivalent_native_clocks': {'Launch Clk': 'hdmi_pixel', 'Latch Clk': 'hdmi_pixel'}, 'native_tool_uncertainty_ns': []}"
+      ]
+    },
+    "usb_budget": {
+      "status": "EXPECTED_FAULT_REJECTED",
+      "errors": [
+        "Active constraints do not exactly match original constraints plus documented objectives/reports"
+      ]
+    },
+    "hold_399ps": {
+      "status": "EXPECTED_FAULT_REJECTED",
+      "errors": [
+        "Native Hold below 0.400 ns: 0.399"
+      ]
+    },
+    "uncertainty": {
+      "status": "EXPECTED_FAULT_REJECTED",
+      "errors": [
+        "Native path unexpectedly contains routing uncertainty",
+        "Native path unexpectedly contains routing uncertainty"
+      ]
+    },
+    "alias_launch": {
+      "status": "EXPECTED_FAULT_REJECTED",
+      "errors": [
+        "Filtered report contains an omitted/alias clock: {'Slack': '3.106', 'From': 'pin_dm_s0', 'To': 'usb_touch_dm_s1', 'Launch Clk': 'route_pin:[R]', 'Latch Clk': 'N/A'}",
+        "Filtered report contains an omitted/alias clock: {'Slack': '3.106', 'From': 'pin_dp_s0', 'To': 'usb_touch_dp_s1', 'Launch Clk': 'route_pin:[R]', 'Latch Clk': 'N/A'}"
+      ]
+    },
+    "alias_latch": {
+      "status": "EXPECTED_FAULT_REJECTED",
+      "errors": [
+        "Filtered report contains an omitted/alias clock: {'Slack': '14.853', 'From': 'pattern_0_s0', 'To': 'u_tx/u_blue/balance_3_s0', 'Launch Clk': 'hdmi_pixel:[R]', 'Latch Clk': 'route_pixel:[R]'}",
+        "Filtered report contains an omitted/alias clock: {'Slack': '15.006', 'From': 'pattern_0_s0', 'To': 'u_tx/u_blue/balance_5_s0', 'Launch Clk': 'hdmi_pixel:[R]', 'Latch Clk': 'route_pixel:[R]'}"
+      ]
+    },
+    "missing_io": {
+      "status": "EXPECTED_FAULT_REJECTED",
+      "errors": [
+        "Active constraints do not exactly match original constraints plus documented objectives/reports",
+        "Native report coverage command set differs"
+      ]
+    },
+    "native_model_objective_scope": {
+      "status": "EXPECTED_FAULT_REJECTED",
+      "errors": [
+        "Additional min/max delay is not confined to routing alias launch clocks"
+      ]
+    }
+  },
+  "report_sha256": "1a8d29488fe75e68e1542b68350d8a88049daa265be4e9f40d694488540969bf",
+  "auditor_sha256": "8117ca377dea484fe8b1d45810ce68f8e3bd5c46b5e7215dee2e124c3c2ecf17",
+  "scope": "Audit the existing unmodified vendor report with the final checker; injected faults only in in-memory diagnostic copies."
+}

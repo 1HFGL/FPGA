@@ -1,0 +1,17 @@
+{
+  "confirmed_by_user": "2026-10-26: 板子型号是31005",
+  "board": "NEO Dock 31005 + Tang Mega 60K SOM",
+  "project_device": "GW5AT-60B",
+  "project_part": "GW5AT-LV60PG484AC1/I0",
+  "historical_constraint_directory": "boards/tang_mega_60k_31004",
+  "directory_is_not_board_identity": true,
+  "local_sources_checked": [
+    "README.md:145",
+    "boards/tang_mega_60k_31004/piano.cst:1",
+    "docs/keyboard-wiring.md:18",
+    "verification/data/board_31005_j13.json",
+    "projects/hdmi/piano_hdmi.gprj:6"
+  ],
+  "new_pin_assignment": false,
+  "programmed": false
+}

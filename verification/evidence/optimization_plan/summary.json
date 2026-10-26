@@ -1,0 +1,2192 @@
+{
+  "date": "2026-10-25",
+  "baseline_commit": "e2355c4ea4bf055f641944d50fbce87360e57f1c",
+  "status": "COMPLETE_OFFLINE_EXPERIMENTS",
+  "selection": {
+    "selected": "baseline_e2355c4_P2_R2_C0",
+    "promoted_files": [],
+    "formal_rebuild": false,
+    "reason": "No routed RTL candidate preserved the baseline minimum slack of 0.128ns. Preserve the existing formal image rather than adopt a resource/setup-only gain.",
+    "optimization_target_achieved": false,
+    "implementation_runs": 15,
+    "baseline_config_runs": 6,
+    "rtl_candidate_implementation_runs": 9,
+    "synthesis_only_rejections": [
+      "b3_key_decode",
+      "c1_count_tree"
+    ],
+    "strict_verilog_files": 246,
+    "formal_fifo_positive": "PASS: three parameter sets, 60000 cycles each",
+    "formal_fifo_negative": "PASS: FifoExchange rejected at cycle201",
+    "existing_testbenches_modified": false,
+    "production_source_inputs_unchanged": 119,
+    "scope": "Offline T0/T1/T2 experiments and T3 feasibility evaluation; no hardware acceptance",
+    "deferred": [
+      "Shared envelope engine requires a per-voice schedule and independent temporal equivalence proof; not implemented",
+      "No synthesis or timing gain claimed for the retained production design"
+    ]
+  },
+  "baseline": {
+    "resources": {
+      "Logic": {
+        "used": 44614,
+        "available": 59904
+      },
+      "Register": {
+        "used": 20486,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 93,
+        "available": 118
+      },
+      "DSP": {
+        "used": 37,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 2,
+        "available": 8
+      }
+    },
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 1.076,
+      "3.1.2 Hold Paths Table": 0.128,
+      "3.1.3 Recovery Paths Table": 0.642,
+      "3.1.4 Removal Paths Table": 0.143,
+      "3.2 Minimum Pulse Width Table": 5.799
+    },
+    "bitstream_sha256": "604f12e3299b479ddbf6a9805ad73670186e884b6ed58a69ddf176035ac37295",
+    "ports": 39,
+    "active_constraints": 28,
+    "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+    "source_commit": "284e7ba2558b34ebf1592a30bbe6c97687b0331e",
+    "working_tree_modified": true,
+    "current_bitstream_verified": true,
+    "formal_project": "projects/hdmi/piano_hdmi.gprj",
+    "bitstream": "projects/hdmi/impl/pnr/piano_hdmi.fs",
+    "sample_cache_cycles": 958,
+    "verification_summary": "verification/evidence/brightness_response/summary.json",
+    "programmed": false,
+    "hardware_verified": false,
+    "download_package_created": false,
+    "source_identity_note": "Production inputs built at 284e7ba; final release adds evidence/docs only. Unrelated user deletion/workspace file retained."
+  },
+  "implementation_metrics": [
+    {
+      "name": "baseline",
+      "Logic": {
+        "used": 44614.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 20486.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 26657.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 93.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R46C39[0][B]",
+            "g_usb_touch.u_usb/u_contacts/index_1_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.133",
+            "2.845",
+            "tNET",
+            "RR",
+            "1",
+            "R45C44[2][A]",
+            "g_usb_touch.u_usb/u_contacts/held_2_s0/CLK"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "b1_match",
+      "Logic": {
+        "used": 44456.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 20483.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 26599.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 93.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.133",
+            "2.845",
+            "tNET",
+            "RR",
+            "1",
+            "R53C44[1][B]",
+            "g_usb_touch.u_usb/u_contacts/index_0_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R49C39[0][A]",
+            "g_usb_touch.u_usb/u_contacts/held_5_s0/CLK"
+          ]
+        ]
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.254,
+        "3.1.2 Hold Paths Table": 0.124,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "PR1014": true
+    },
+    {
+      "name": "c2_fifo_ram_p2_r2_c0",
+      "Logic": {
+        "used": 43703.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 18945.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 25905.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 97.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R48C45[2][A]",
+            "g_usb_touch.u_usb/u_contacts/index_3_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R44C45[1][B]",
+            "g_usb_touch.u_usb/u_contacts/state_3_s0/CLK"
+          ]
+        ]
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.361,
+        "3.1.2 Hold Paths Table": 0.051,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "PR1014": true
+    },
+    {
+      "name": "c3_fret_p2_r2_c0",
+      "Logic": {
+        "used": 44135.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 20476.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 26397.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 93.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.133",
+            "2.845",
+            "tNET",
+            "RR",
+            "1",
+            "R48C44[1][B]",
+            "g_usb_touch.u_usb/u_contacts/index_2_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R49C43[0][A]",
+            "g_usb_touch.u_usb/u_contacts/gowin_replicate_reg_state[2]_1/CLK"
+          ]
+        ]
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.153,
+        "3.1.2 Hold Paths Table": 0.124,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "PR1014": true
+    },
+    {
+      "name": "combined_b1_p2_r2_c0",
+      "Logic": {
+        "used": 43208.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 18939.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 25840.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 97.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.596",
+            "3.307",
+            "tNET",
+            "RR",
+            "1",
+            "R35C26[0][A]",
+            "g_usb_touch.u_usb/u_contacts/index_0_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R39C39[1][A]",
+            "g_usb_touch.u_usb/u_contacts/gowin_replicate_reg_state[2]_1/CLK"
+          ]
+        ]
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.26,
+        "3.1.2 Hold Paths Table": 0.119,
+        "3.1.3 Recovery Paths Table": 0.476,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 6.067
+      },
+      "PR1014": true
+    },
+    {
+      "name": "combined_b1_p3_r2_c0",
+      "Logic": {
+        "used": 43220.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 18939.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 25913.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 97.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "PR1014": false,
+      "unrouted_nets": 106
+    },
+    {
+      "name": "combined_p2_r2_c0",
+      "Logic": {
+        "used": 43203.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 18952.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 26013.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 97.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "PR1014": false,
+      "unrouted_nets": 1
+    },
+    {
+      "name": "fifo_b1_p2_r2_c0",
+      "Logic": {
+        "used": 43578.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 18943.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 25923.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 97.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.150",
+            "2.862",
+            "tNET",
+            "RR",
+            "1",
+            "R48C38[2][A]",
+            "g_usb_touch.u_usb/u_contacts/index_2_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R49C41[3][A]",
+            "g_usb_touch.u_usb/u_contacts/state_1_s0/CLK"
+          ]
+        ]
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.625,
+        "3.1.2 Hold Paths Table": 0.045,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.21,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "PR1014": true
+    },
+    {
+      "name": "p2_r2_c0",
+      "Logic": {
+        "used": 44614.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 20486.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 26657.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 93.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R46C39[0][B]",
+            "g_usb_touch.u_usb/u_contacts/index_1_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.133",
+            "2.845",
+            "tNET",
+            "RR",
+            "1",
+            "R45C44[2][A]",
+            "g_usb_touch.u_usb/u_contacts/held_2_s0/CLK"
+          ]
+        ]
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.076,
+        "3.1.2 Hold Paths Table": 0.128,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "PR1014": true
+    },
+    {
+      "name": "p2_r2_c1",
+      "Logic": {
+        "used": 44614.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 20486.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 26657.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 93.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R46C39[0][B]",
+            "g_usb_touch.u_usb/u_contacts/index_1_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.133",
+            "2.845",
+            "tNET",
+            "RR",
+            "1",
+            "R45C44[2][A]",
+            "g_usb_touch.u_usb/u_contacts/held_2_s0/CLK"
+          ]
+        ]
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.076,
+        "3.1.2 Hold Paths Table": 0.128,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "PR1014": true
+    },
+    {
+      "name": "p3_r1_c0",
+      "Logic": {
+        "used": 44619.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 20486.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 26567.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 93.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R46C39[0][B]",
+            "g_usb_touch.u_usb/u_contacts/index_1_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.133",
+            "2.845",
+            "tNET",
+            "RR",
+            "1",
+            "R45C44[2][A]",
+            "g_usb_touch.u_usb/u_contacts/held_2_s0/CLK"
+          ]
+        ]
+      },
+      "PR1014": false,
+      "unrouted_nets": 808
+    },
+    {
+      "name": "p3_r1_c1",
+      "Logic": {
+        "used": 44619.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 20486.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 26567.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 93.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R46C39[0][B]",
+            "g_usb_touch.u_usb/u_contacts/index_1_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.133",
+            "2.845",
+            "tNET",
+            "RR",
+            "1",
+            "R45C44[2][A]",
+            "g_usb_touch.u_usb/u_contacts/held_2_s0/CLK"
+          ]
+        ]
+      },
+      "PR1014": false,
+      "unrouted_nets": 808
+    },
+    {
+      "name": "p4_r1_c0",
+      "Logic": {
+        "used": 44595.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 20486.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 27269.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 93.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R46C39[0][B]",
+            "g_usb_touch.u_usb/u_contacts/index_1_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.133",
+            "2.845",
+            "tNET",
+            "RR",
+            "1",
+            "R45C44[2][A]",
+            "g_usb_touch.u_usb/u_contacts/held_2_s0/CLK"
+          ]
+        ]
+      },
+      "PR1014": false,
+      "unrouted_nets": 969
+    },
+    {
+      "name": "p4_r2_c0",
+      "Logic": {
+        "used": 44595.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 20486.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 27269.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 93.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.150",
+            "2.862",
+            "tNET",
+            "RR",
+            "1",
+            "R31C119[0][B]",
+            "g_usb_touch.u_usb/u_contacts/index_1_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R40C110[0][A]",
+            "g_usb_touch.u_usb/u_contacts/gowin_replicate_reg_state[2]_1/CLK"
+          ]
+        ]
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": -0.297,
+        "3.1.2 Hold Paths Table": 0.048,
+        "3.1.3 Recovery Paths Table": 0.561,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 6.067
+      },
+      "PR1014": true
+    },
+    {
+      "name": "registered_index_only_p2_r2_c0",
+      "Logic": {
+        "used": 44638.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 20498.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 26609.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 93.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "first_setup_clocks": {
+        "Data Arrival Path:": [
+          [
+            "4.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R48C39[1][A]",
+            "g_usb_touch.u_usb/u_contacts/index_decode_q_0_s0/CLK"
+          ]
+        ],
+        "Data Required Path:": [
+          [
+            "24.142",
+            "2.854",
+            "tNET",
+            "RR",
+            "1",
+            "R52C39[1][A]",
+            "g_usb_touch.u_usb/u_contacts/gowin_replicate_reg_state[2]_1/CLK"
+          ]
+        ]
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.292,
+        "3.1.2 Hold Paths Table": 0.117,
+        "3.1.3 Recovery Paths Table": 0.807,
+        "3.1.4 Removal Paths Table": 0.18,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "PR1014": true
+    },
+    {
+      "name": "registered_index_p2_r2_c0",
+      "Logic": {
+        "used": 43686.0,
+        "available": 59904.0
+      },
+      "Register": {
+        "used": 18958.0,
+        "available": 60780.0
+      },
+      "CLS": {
+        "used": 25929.0,
+        "available": 29952.0
+      },
+      "BSRAM": {
+        "used": 97.0,
+        "available": 118.0
+      },
+      "DSP": {
+        "used": 37.0,
+        "available": 118.0
+      },
+      "PRIMARY": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "LW": {
+        "used": 8.0,
+        "available": 8.0
+      },
+      "PR1014": false,
+      "unrouted_nets": 83
+    }
+  ],
+  "trials": [
+    {
+      "name": "p2_r2_c0",
+      "strategy": {
+        "place": 2,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p2_r2_c0",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.076,
+        "3.1.2 Hold Paths Table": 0.128,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 44614,
+          "available": 59904
+        },
+        "Register": {
+          "used": 20486,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "fs": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p2_r2_c0\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "fs_sha256": "98c490d4f3fa7adedfc61b76a37062036282b3d4a741836f7f02a91d23f3b2f6",
+      "seconds": 549.625
+    },
+    {
+      "name": "p3_r1_c0",
+      "strategy": {
+        "place": 3,
+        "route": 1,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p3_r1_c0",
+      "status": "FAILED",
+      "error": "Exit 1: D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p3_r1_c0\\build\\hdmi\\build.log",
+      "seconds": 1283.031
+    },
+    {
+      "name": "p4_r2_c0",
+      "strategy": {
+        "place": 4,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p4_r2_c0",
+      "status": "FAILED",
+      "error": "Exit 1: D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p4_r2_c0\\build\\hdmi\\check.log",
+      "seconds": 920.844
+    },
+    {
+      "name": "p4_r1_c0",
+      "strategy": {
+        "place": 4,
+        "route": 1,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p4_r1_c0",
+      "status": "FAILED",
+      "error": "Exit 1: D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p4_r1_c0\\build\\hdmi\\build.log",
+      "seconds": 1752.078
+    },
+    {
+      "name": "p2_r2_c1",
+      "strategy": {
+        "place": 2,
+        "route": 2,
+        "clock_order": 1
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p2_r2_c1",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.076,
+        "3.1.2 Hold Paths Table": 0.128,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 44614,
+          "available": 59904
+        },
+        "Register": {
+          "used": 20486,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "fs": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p2_r2_c1\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "fs_sha256": "69ffa5d933cd7ebeee224fa61a52917471890bf33ced1a6e1d9cc5cdabd51c4e",
+      "seconds": 547.234
+    },
+    {
+      "name": "p3_r1_c1",
+      "strategy": {
+        "place": 3,
+        "route": 1,
+        "clock_order": 1
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p3_r1_c1",
+      "status": "FAILED",
+      "error": "Exit 1: D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\p3_r1_c1\\build\\hdmi\\build.log",
+      "seconds": 1411.89
+    },
+    {
+      "candidate": "b1_match",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "errors": [],
+      "worst_reported_slack_ns": {
+        "3.1.1 Setup Paths Table": 1.254,
+        "3.1.2 Hold Paths Table": 0.124,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "ports": 39,
+      "active_constraints": 28,
+      "resources": {
+        "Logic": {
+          "used": 44456,
+          "available": 59904
+        },
+        "Register": {
+          "used": 20483,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "bitstream_sha256": "6548b1cbe6a25c477a706014c36c90940dbe5904b6ded7de68747bd237232538",
+      "inputs": [
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\boards\\tang_mega_60k_31004\\ble.cst",
+          "sha256": "296ec5d250a977c04cb1121e7317fe3a4679375fbf1646867fe7947859b3e018"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\boards\\tang_mega_60k_31004\\ble.sdc",
+          "sha256": "92d9cb238fce80693bd5f1dacc65ef21997964872ce465f326b72790456e170c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\boards\\tang_mega_60k_31004\\hdmi.cst",
+          "sha256": "ad0da49dfe3c4d82ea7cdc01e82c8cefbd20add201dfd981e8e568a9d8671d08"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\boards\\tang_mega_60k_31004\\hdmi.sdc",
+          "sha256": "3dad6fc44cf15465dd46e12d08cfa0f11eea31cf694318450f7e8c4405378333"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\boards\\tang_mega_60k_31004\\hdmi_reset_placement.cst",
+          "sha256": "dd5a7bb74e104d181839ebbfd9557b1718bf653213d743e5a673841d581a7ec9"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\boards\\tang_mega_60k_31004\\piano.cst",
+          "sha256": "739734376f3212c72e2d4d2e4c8372b5d41ba7a47324bdfa483eb7a33cbbfaa6"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\boards\\tang_mega_60k_31004\\piano.sdc",
+          "sha256": "752d3a99f506a906786d5a23b8e6a974913489b578210a4a4801b189549b7955"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\boards\\tang_mega_60k_31004\\usb.cst",
+          "sha256": "1b45a019ef98bd4b4b1942a622a4c0f150e2f2f6058b52d66e6dc5d582dac3c7"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\boards\\tang_mega_60k_31004\\usb.sdc",
+          "sha256": "b126f5547a1dd03e10d8f98d9c8b470fe64a538a3c35cae2e68bd73118f452cd"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\build\\hdmi\\piano_hdmi.cst",
+          "sha256": "9242f429ddc5de2587fcba4b3aac380f52cce0ba5ef869543ac005f23d4d0162"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\build\\hdmi\\piano_hdmi.sdc",
+          "sha256": "de67e058071eeaa8985b91454a580e4cc5b5e4ca259c86c18bcd66bd7e027b40"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\projects\\check_modal_rom.tcl",
+          "sha256": "5b744b24e9f512b03b1a15556e4debc7dc1fad6adbb754586bb813308f7fcc81"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\projects\\hdmi\\build.ps1",
+          "sha256": "11936ba04e013954ffa8237270bb320a039ef6a5e53886222f38fd94fe74f491"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\projects\\hdmi\\build.tcl",
+          "sha256": "d024b1dc6b701b6ab45fef3ee390bbdf0b97578fdd5b4634ca7a2d7410b7d385"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\projects\\hdmi\\build_inputs.py",
+          "sha256": "08bea40b95e7c8f51e8ef21f14030aa37467e3f62f08c0cb30af7c0b2751d20a"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\projects\\hdmi\\piano_hdmi.gprj",
+          "sha256": "e930f00dff57f2cfe68993bced9b748a27647468878ace30a4339ef511b99210"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\projects\\hdmi\\pnr_trial.tcl",
+          "sha256": "6fb9267e68a5aab10c923e127b5a18c217ab58c7df8cbcb6cbd32ea05ae29c11"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\projects\\hdmi\\process_config.json",
+          "sha256": "3befa96d2ee4623c19c5d42d4f8e7bb6ddcf6218262f39299572a779e408e610"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\projects\\hdmi\\sweep_pnr.ps1",
+          "sha256": "7050bde3045e21dfdf7c5036ced5d68c9b9b4331e3021b58c2060ccecdce1fea"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\projects\\piano\\read_timing_html.py",
+          "sha256": "e3de4171a8b1aa5c0f82326605c4933c0229477ed919d68335e09184d5806c51"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\audio\\chorus_effect.v",
+          "sha256": "edb6b95dd4fdf8a7a86688a8ed6abf9cb48d3d35cea438184cbd14c67482e4bf"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\audio\\echo_delay.v",
+          "sha256": "e3fe2eaa4813e3c1ea3ba8d2c0d79262487e2e53b597925ce3aaa9436ee3b89c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\audio\\i2s_tx.v",
+          "sha256": "f0ce837c5864c32b55952bdb99225a3dbff0516b29a2a1e29a8f2c9973a477db"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\audio\\room_reverb.v",
+          "sha256": "14932be8f8f18b22445a4d971866f93b4550cff4ba18310323632b1c7ac34af9"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\audio\\sample_tick.v",
+          "sha256": "78bc8ce92d35bc4439b5805efffc4e663fe868bfd974418d37500b61af9a30c7"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\audio\\synth_top.v",
+          "sha256": "903cc00a0a0996019dfb65e1744c3a31598318fa5264a232288bcb7412cb48aa"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\audio\\tone_filter.v",
+          "sha256": "623b8f3c697c58eeeea9465d57497dbb5e51461d5af688a24e1c015a088f9b5b"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\audio\\tone_filter_expressive.v",
+          "sha256": "1f5cc9fc610030439254df093a93a1aa83b2ee1d7ba173651396dd37e770874a"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\adc_knob_if.v",
+          "sha256": "97491c2b12b5a4f4e67452693ef6d279c16c83bf6c27b35d117eba99d1234a12"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\ads1115_if.v",
+          "sha256": "67c3ca695122fe17de11fb85c686779cafbb82c7ee08b79c002c64d3260062a1"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\ads1115_knob_if.v",
+          "sha256": "17d84fd3e9b2208f5b85e0f0b3981362bd0783c67c3e4d504eb4c9e782db8d30"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\brightness_keys.v",
+          "sha256": "05e3f3e42f5852a5a8309c5669202ea348aa21d393ab5f5bc97cf406ae9db4de"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\event_encoder.v",
+          "sha256": "2d590caf3c5ec59da3f7b54cd4bbcabc83431403f132ced8ccbe07a8dd3aa38a"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\i2c_master.v",
+          "sha256": "405d0390c13c52c12d1af96e523d7de890075ecf8a4cedb31c6626f47baff994"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\input_sync_debounce.v",
+          "sha256": "4aa0f80f9166f3ce3e18b6619ea29e4a4641893dae2bbd0c28ccfa8e874584cc"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\note_phase_lut.v",
+          "sha256": "71c1a6b7d797da5a34a091cd1aeb304f8df794f8c962fafa3aae6a886b36d029"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\piano_controls.v",
+          "sha256": "822a2cff20183dc6636d75ddeaa2bdf5d2a71982ebbe7a4c60faca94e41953f8"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\practice_guide.v",
+          "sha256": "b2f57d902caf28aeb66e02e41a0ca707eb7f59435bdc957bb8b60b60771381cb"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\touch_brightness_control.v",
+          "sha256": "748bdd30ad5a1dfd994e680632cb35e347de083729bc7b838edd0c7caa0bea5a"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\touch_contact_tracker.v",
+          "sha256": "08c1e6fcd8498075f78e79ab1452558ee4851a30183eac97aa7302dc930cafa8"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\touch_or_key_if.v",
+          "sha256": "6e9c09fb9fcd6c893910f7719672e11c3158802bcb14496e66e1489d296ac4d7"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\uart_event_arbiter.v",
+          "sha256": "3440c5a2357e55d19744f7959a4e5b793ba613f4d172f8fbb413a07e112753ee"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\uart_fifo.v",
+          "sha256": "d29abed64b9b72a5e8565470e4c37bbf34a0a6e6c89699ec120902057200f333"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\uart_line_rx.v",
+          "sha256": "de156235bb876225a027317ef6d7b97f9f923603fda81105ff37a5da0181a2dd"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\uart_reply_tx.v",
+          "sha256": "4fc6676a434161dde4b6edcf46717b0524a850901918e0215c47c126ca0898da"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\uart_rx.v",
+          "sha256": "1477963cfe450eed516052e25085936683592ac9edefe5bc33dc7dd2df8123b9"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\uart_synth_protocol.v",
+          "sha256": "c086b3a6125bc65f4aa708ce27d0d2a97f64c552e1114f035737ca881c998aed"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\uart_tx.v",
+          "sha256": "009d15dd6a6fa5fbbc7626f4771224b815554ac4a731d4407ebd01a1185f1033"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\control\\voice_allocator.v",
+          "sha256": "65389aad361bcabf7c3fb511827e36437b4ac4009dacb52d58d509de3b8dd58c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\display_bend_map.v",
+          "sha256": "7cec7c74f4eb02acb53112095bb0a946fe01cbb9ead28bc6bb138442ce97501b"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\display_cdc_latest.v",
+          "sha256": "c79288111cded83c271b09973324003e649ad0a557cb328be9e62a411a91fd47"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\display_feedback.v",
+          "sha256": "89dc5d7ad1f15f8f2778a30191bb329770266b387aad925821cc2c646525070f"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\display_font24.v",
+          "sha256": "16c2ec0ba45d163c29192fbf803dba6a2b10d1696d18279f840eec580ad3bf95"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\display_font_ui.v",
+          "sha256": "9b950fe607fe4abc1525ea30a389684f2749d91f345347d0d1636b594f066018"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\display_wave_buffer.v",
+          "sha256": "d1168885f767d017ab988503a0d280c5732874c8f4a9eaefe493fc326ecc2030"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\display_wave_envelope.v",
+          "sha256": "6b2e5a716800d29b84490868d097dd53a1259779d3cd65ae78903508862136ef"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\dvi_tx_gowin.v",
+          "sha256": "6c0a13a8d10dd9cd781380192369ba05b06aabe904c4a58dd405c6c00ee797a4"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\hdmi_clock_60k.v",
+          "sha256": "8e281b78cc4b19f00ad23e629e5bbbcccab09444e4d60a0262e4d84ba43ca446"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\hdmi_reset_guard.v",
+          "sha256": "e71364364004eedbf7a01c406c5a819ee558da4fb8212e9616beefe65dd49ec8"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\instrument_display.v",
+          "sha256": "4746eb3db1f383d369a7fd6b1bef7fa7c85985630b765306921ee8300912a7a7"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\instrument_panel_renderer.v",
+          "sha256": "6d99c1e54f0cec625c702780fc4dda597ec2c48360cfbe1b7756d79701385e9d"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\instrument_panel_ui.v",
+          "sha256": "a6f45008577fe6df24987c8c0d7d58eca83ba0717bc33ecfa9472893234d2704"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\instrument_ui_map.v",
+          "sha256": "fd0ba01b20b1d21d1575cc8de49c32217ebd8c750367691c15a2525ae64de76c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\lcd_rgb_timing.v",
+          "sha256": "439f779ffd44d54f459f182438009a40c78379002d86d3eea1e0a7c1e96b5d9d"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\piano_display_renderer.v",
+          "sha256": "b10b7f7c271338f000c5954b408d44b6e46e6871edafb1d73f3b42873cec0acc"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\display\\tmds_encoder.v",
+          "sha256": "b5cf6a9a8289b3cc3df51eecbb9914fd4b5f43315cdbc3f44b362f2844b381fe"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\bright_1024.mem",
+          "sha256": "dd28109da4c80da45cb6975a1496eb23df93bb26fb09e6cf35478d1c818ad6a4"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\guitar_1024.mem",
+          "sha256": "e5c79a48664801c669aad792883aaa0cd65b196652593f3f77f44b795973f1a0"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\modal_coeff_rom_dual.v",
+          "sha256": "00ee1ebd405b7994a9f11a80ab19d691613ed550c30687b41a478aea75b9b758"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\modes_even.mem",
+          "sha256": "8e580592cf031f1a19ca20dfad08563a9e0553d85bae9bf3b8c86cf840442c56"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\modes_odd.mem",
+          "sha256": "689f2af6e42615238cfe850cbc4868606dd2b0e189b05f35777fc9c9964e1474"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\piano_1024.mem",
+          "sha256": "b3abcc11a9302601c994afce9161258da1a80ef247e2d4f745275ecaf4826f1b"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\piano_v3_modes.mem",
+          "sha256": "cac05bc7e087e1f495e47f11e5c1c26cd28c3cb7976ace26af04c29a56bb5999"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\piano_v3_modes.mem.bank0.mem",
+          "sha256": "2d53f242a747492a8c88521bc6ae97834e33ccfd50133796fcd6201693b2125e"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\piano_v3_modes.mem.bank1.mem",
+          "sha256": "a720369a4fb467c0b34cf05123226b6da76760f867945c5495d544eee185af81"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\piano_v3_modes.mem.bank2.mem",
+          "sha256": "eff90121cfe138d4a9cf64016cd929b4ffd9c67b699f37a1aad7a7bae1294dda"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\pitch_bend_1025.mem",
+          "sha256": "236f2d8eb6a2a026284f60f371cd9159ad3c421ec961f6aa57cdf4e0c59f1e2d"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\rock_v2_shaper.mem",
+          "sha256": "6923505492a20340e9744aee917265439521f00bd5de3854388c790031c81345"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\sine_1024.mem",
+          "sha256": "39d6e76e2dcf7f8337257c5948d6f525a94ffe09f5cf481e9e75a1300082b3c5"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\rom\\strings_1024.mem",
+          "sha256": "f07ef598d4aae186c5729d89669dc888a186f74414d9cf597be5f94f894b09b3"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\adsr_env.v",
+          "sha256": "33107d2ce68cb5a00c1d96c9fddeca1a276e56c94a0712d90f4c2390457d2c51"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\instrument_env.v",
+          "sha256": "a0899f9dc25fc6fe1b67ec53b9dd2976fbf60ecf5ec7b90336f5d9ed92d3d4e4"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\instrument_wave.v",
+          "sha256": "8e443d0f8ed0206981776d359574c4cf1efe935fe8f35a6e22a2e544943dcc27"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\modal_parameter_rom.v",
+          "sha256": "494e2ed50a138887aea02baec0d7b4db7b442c4358de2b4c8612e9e084199463"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\modal_shared_output.v",
+          "sha256": "53eadc14c748217d3a16ea8912591df86062161a7bd13182ecf6eb4f1b9d66c9"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\modal_voice_group16.v",
+          "sha256": "4c5a0e68dda9b6a93908010f16fa0f8020c913f0faae5f8526d0ab666a9d5d3e"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\phase_acc.v",
+          "sha256": "c3ea7b922199dfebae6b982c65f7fa1e7efcc18caebce6b4b1f7ffb9bccbc96d"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\sample_gain.v",
+          "sha256": "123f61f75037c68740bcc5c51d55d0ceaced35f91914a2b0acadbcd5c73d6dd1"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\sample_mixer4.v",
+          "sha256": "27d1e0c5854cd86748475afaad372b71825c6d19a8ccea36b13d42326f94519c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\voice_bank_adsr.v",
+          "sha256": "11a97053338ffc763e612c62e1511141c78de1734aa04c79b4545f26da0e5038"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\voice_bank_dual16.v",
+          "sha256": "ffe44fa1b97be88ea63a306e2284f359889b956e8215c39c3012f4c3737ccb38"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\voice_bank_modal_adapter.v",
+          "sha256": "48b520762159afd7b52f682da42f0453d77fecf093275ac83ac4e5217c745f51"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\voice_bank_modal_dispatch.v",
+          "sha256": "67e232b4b50fccae20168fa7e0de2cdc8c3cc8dca181e194221da7a7b29f567c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\voice_bank_music_pipe.v",
+          "sha256": "dfb6d3d57d8398aa1688679c664b91846597f6363c20c535d34815adae0904ad"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\voice_instrument.v",
+          "sha256": "e26752a0e853ca2dd6b9668f7fd117b3030cded14dbe4b9258688e638d279abf"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\voice_timbre_adsr.v",
+          "sha256": "12ca3d22b45ffcbc073c78fe68d4d0a9ace2deebf3c748cde0efa5e1304bf288"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\wave_lut.v",
+          "sha256": "f476407c6bfb4853b547f1f3ad88d718878f8520fd48915bea664f2b03ff5cbc"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\synth\\wave_lut_timbre.v",
+          "sha256": "562653ae5c8945ee55266545c9cef8ccd554fa068932c8136b58d41abbd0d4dd"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\top\\instrument_uart_top.v",
+          "sha256": "efdc8a58ac1ca6dbbb70aab837623ce14ee2eedf1882fe2bc7ee09584931b2e1"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\top\\piano_hdmi_top.v",
+          "sha256": "b512ddaded7aaa0a2f5daf64a10ce7d15ed73781da0d1d91c0bcaa4c75f76246"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\touch_report_cdc.v",
+          "sha256": "afdd9abe1b4919aed4d3e6aea515e9d8c0852947a2241c4d42bdc6c4f100ea88"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\touch_report_decode.v",
+          "sha256": "3ce5138de94126f44d9525ed61b974d680482b11f1c59f37c368c23281215896"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\touch_usb_control.v",
+          "sha256": "fad4815d1f23c2e5ba5da11ea9b1864834a349bac71a1fc5ab5d7fb5601a0932"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\touch_usb_host.v",
+          "sha256": "adb158c718f30607a15b51477588ad315c57aed9490ed22816ed4512eb9682c1"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\touch_usb_link.v",
+          "sha256": "6666e61a943a10e8f67cf586905cd838ac13d92e5baf140bc536ba2551947f08"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\touch_usb_port.v",
+          "sha256": "c147d7cb766d241818d49eb73aecea7bfdfc3c256b74e8b2a094e53fbdb40782"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\touch_usb_system.v",
+          "sha256": "c7443c8fce0200684f668e63bf58e5a7058ea73226d758c26584457183e15749"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\usb_clock_60k.v",
+          "sha256": "d8ec5ca62b85eefcec85db5a2709b484643a180c5a599acc81ec55e98cf41681"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\vendor\\usb_fs_phy.v",
+          "sha256": "f77e02fc44fb1e9e24c0e7ea854bff5bdb07daf632e73e2be719870d75b4b51c"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\vendor\\usbh_crc16.v",
+          "sha256": "8f4d19a55debc503248e874debc2c2d30cdc8ad2e0e2df672e145278469cb448"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\vendor\\usbh_crc5.v",
+          "sha256": "09f0aa28d5ee06c42a813890b232788585b5001d042783b05bff290e239fca6a"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\rtl\\usb\\vendor\\usbh_sie.v",
+          "sha256": "1281a47c6b77b7d16a096a01c9702a1bb0aa51dcda176e98c45df2e932de081d"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\verification\\scripts\\check_hdmi_implementation.py",
+          "sha256": "2feebc526a3f21284d1f78e51820cd5d8fc342aeb9c577139014c352df040d07"
+        },
+        {
+          "path": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b1_match\\verification\\scripts\\pnr_sweep.py",
+          "sha256": "2231a6a68d0d66111319124fa680fb395a8b7e08b335c98957ff5caffbb075e3"
+        }
+      ],
+      "reset_placement": {
+        "u_tx/g_lane[3].serializer_release_1_s0": [
+          "R24C134[0][B]"
+        ],
+        "u_tx/g_lane[3].u_reset_combine": [
+          "R24C134[0][A]"
+        ],
+        "u_tx/g_lane[0].serializer_release_1_s0": [
+          "R26C134[0][B]"
+        ],
+        "u_tx/g_lane[0].u_reset_combine": [
+          "R26C134[0][A]"
+        ],
+        "u_tx/g_lane[2].serializer_release_1_s0": [
+          "R39C134[0][B]"
+        ],
+        "u_tx/g_lane[2].u_reset_combine": [
+          "R39C134[0][A]"
+        ],
+        "u_tx/g_lane[1].serializer_release_1_s0": [
+          "R22C134[0][B]"
+        ],
+        "u_tx/g_lane[1].u_reset_combine": [
+          "R22C134[0][A]"
+        ],
+        "u_tx/g_lane[3].serializer_release_0_s0": [
+          "R24C134[0][A]"
+        ],
+        "u_tx/g_lane[2].serializer_release_0_s0": [
+          "R39C134[0][A]"
+        ],
+        "u_tx/g_lane[1].serializer_release_0_s0": [
+          "R22C134[0][A]"
+        ],
+        "u_tx/g_lane[0].serializer_release_0_s0": [
+          "R26C134[0][A]"
+        ]
+      },
+      "limitations": [
+        "PR1014 system clock input routing remains to be closed",
+        "DAC external timing incomplete",
+        "HDMI electrical eye/cable/receiver not measured",
+        "USB touch hardware unverified",
+        "Not programmed; screen compatibility and end-to-end latency unverified"
+      ]
+    },
+    {
+      "candidate": "b3_key_decode",
+      "status": "SYNTHESIS_ONLY",
+      "log": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\b3_key_decode\\build\\hdmi\\build.log"
+    },
+    {
+      "candidate": "c1_count_tree",
+      "status": "SYNTHESIS_ONLY",
+      "log": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\c1_count_tree\\build\\hdmi\\build.log"
+    },
+    {
+      "candidate": "c2_fifo_ram_p2_r2_c0",
+      "name": "c2_fifo_ram_p2_r2_c0",
+      "strategy": {
+        "place": 2,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\c2_fifo_ram_p2_r2_c0",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.361,
+        "3.1.2 Hold Paths Table": 0.051,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 43703,
+          "available": 59904
+        },
+        "Register": {
+          "used": 18945,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 97,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "fs": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\c2_fifo_ram_p2_r2_c0\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "fs_sha256": "4a3acc0d64f5fd2a4024633cb8809a4aacfcd6d6842d048f4fdc92c59ea43f97",
+      "seconds": 574.141
+    },
+    {
+      "candidate": "c2_fifo_ram",
+      "status": "SYNTHESIS_ONLY",
+      "log": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\c2_fifo_ram\\build\\hdmi\\build.log"
+    },
+    {
+      "candidate": "c3_fret_p2_r2_c0",
+      "name": "c3_fret_p2_r2_c0",
+      "strategy": {
+        "place": 2,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\c3_fret_p2_r2_c0",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.153,
+        "3.1.2 Hold Paths Table": 0.124,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 44135,
+          "available": 59904
+        },
+        "Register": {
+          "used": 20476,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "fs": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\c3_fret_p2_r2_c0\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "fs_sha256": "7024b299080c57db6f7177027d5e1545a765d79d61c85e19244a882fb083dd22",
+      "seconds": 552.359
+    },
+    {
+      "candidate": "c3_fret",
+      "status": "SYNTHESIS_ONLY",
+      "log": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\c3_fret\\build\\hdmi\\build.log"
+    },
+    {
+      "candidate": "combined_b1_p2_r2_c0",
+      "name": "combined_b1_p2_r2_c0",
+      "strategy": {
+        "place": 2,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\combined_b1_p2_r2_c0",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.26,
+        "3.1.2 Hold Paths Table": 0.119,
+        "3.1.3 Recovery Paths Table": 0.476,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 6.067
+      },
+      "resources": {
+        "Logic": {
+          "used": 43208,
+          "available": 59904
+        },
+        "Register": {
+          "used": 18939,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 97,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "fs": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\combined_b1_p2_r2_c0\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "fs_sha256": "839f8f0ddd2e9f1cd07f85fa40d144ea5ebebad1060a352e789239daa50a6c87",
+      "seconds": 494.953
+    },
+    {
+      "candidate": "combined_b1_p3_r2_c0",
+      "name": "combined_b1_p3_r2_c0",
+      "strategy": {
+        "place": 3,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\combined_b1_p3_r2_c0",
+      "status": "FAILED",
+      "error": "Exit 1: D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\combined_b1_p3_r2_c0\\build\\hdmi\\build.log",
+      "seconds": 603.485
+    },
+    {
+      "candidate": "combined_b1",
+      "status": "SYNTHESIS_ONLY",
+      "log": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\combined_b1\\build\\hdmi\\build.log"
+    },
+    {
+      "candidate": "combined_p2_r2_c0",
+      "name": "combined_p2_r2_c0",
+      "strategy": {
+        "place": 2,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\combined_p2_r2_c0",
+      "status": "FAILED",
+      "error": "Exit 1: D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\combined_p2_r2_c0\\build\\hdmi\\build.log",
+      "seconds": 470.563
+    },
+    {
+      "candidate": "combined",
+      "status": "SYNTHESIS_ONLY",
+      "log": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\combined\\build\\hdmi\\build.log"
+    },
+    {
+      "candidate": "fifo_b1_p2_r2_c0",
+      "name": "fifo_b1_p2_r2_c0",
+      "strategy": {
+        "place": 2,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\fifo_b1_p2_r2_c0",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.625,
+        "3.1.2 Hold Paths Table": 0.045,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.21,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 43578,
+          "available": 59904
+        },
+        "Register": {
+          "used": 18943,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 97,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "fs": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\fifo_b1_p2_r2_c0\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "fs_sha256": "9aaa057f192e1f1d8d61b1947c47e6c42ebcaf94a0377a328859461ce6142cb4",
+      "seconds": 588.391
+    },
+    {
+      "candidate": "fifo_b1",
+      "status": "SYNTHESIS_ONLY",
+      "log": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\fifo_b1\\build\\hdmi\\build.log"
+    },
+    {
+      "candidate": "registered_index_only_p2_r2_c0",
+      "name": "registered_index_only_p2_r2_c0",
+      "strategy": {
+        "place": 2,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\registered_index_only_p2_r2_c0",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.292,
+        "3.1.2 Hold Paths Table": 0.117,
+        "3.1.3 Recovery Paths Table": 0.807,
+        "3.1.4 Removal Paths Table": 0.18,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "resources": {
+        "Logic": {
+          "used": 44638,
+          "available": 59904
+        },
+        "Register": {
+          "used": 20498,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "fs": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\registered_index_only_p2_r2_c0\\projects\\hdmi\\impl\\pnr\\piano_hdmi.fs",
+      "fs_sha256": "d042749dfaf59776fd3edcac67f084d178731196f9b7e2aea435280dbede4bd1",
+      "seconds": 564.86
+    },
+    {
+      "candidate": "registered_index_only",
+      "status": "SYNTHESIS_ONLY",
+      "log": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\registered_index_only\\build\\hdmi\\build.log"
+    },
+    {
+      "candidate": "registered_index_p2_r2_c0",
+      "name": "registered_index_p2_r2_c0",
+      "strategy": {
+        "place": 2,
+        "route": 2,
+        "clock_order": 0
+      },
+      "directory": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\registered_index_p2_r2_c0",
+      "status": "FAILED",
+      "error": "Exit 1: D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\registered_index_p2_r2_c0\\build\\hdmi\\build.log",
+      "seconds": 554.468
+    },
+    {
+      "candidate": "registered_index",
+      "status": "SYNTHESIS_ONLY",
+      "log": "D:\\Project\\fpga_contest\\build\\optimization_plan_20261025\\registered_index\\build\\hdmi\\build.log"
+    }
+  ],
+  "synthesis_totals": {
+    "b1_match": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "20017(23)",
+      "T_Alu": "8442(0)",
+      "T_Lut": "35602(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "4(0)",
+      "T_MULT27X36": "4(0)",
+      "T_Bsram": "88(0)"
+    },
+    "b3_key_decode": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "20017(23)",
+      "T_Alu": "8440(0)",
+      "T_Lut": "35767(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "4(0)",
+      "T_MULT27X36": "4(0)",
+      "T_Bsram": "88(0)"
+    },
+    "c1_count_tree": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "20017(23)",
+      "T_Alu": "8457(0)",
+      "T_Lut": "35760(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "4(0)",
+      "T_MULT27X36": "4(0)",
+      "T_Bsram": "88(0)"
+    },
+    "c2_fifo_ram": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "18563(23)",
+      "T_Alu": "8442(0)",
+      "T_Lut": "34858(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "4(0)",
+      "T_MULT27X36": "4(0)",
+      "T_Bsram": "92(0)"
+    },
+    "c3_fret": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "20016(23)",
+      "T_Alu": "8490(0)",
+      "T_Lut": "35222(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "4(0)",
+      "T_MULT27X36": "4(0)",
+      "T_Bsram": "88(0)"
+    },
+    "combined": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "18562(23)",
+      "T_Alu": "8488(0)",
+      "T_Lut": "34296(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "4(0)",
+      "T_MULT27X36": "4(0)",
+      "T_Bsram": "92(0)"
+    },
+    "combined_b1": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "18562(23)",
+      "T_Alu": "8490(0)",
+      "T_Lut": "34314(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "4(0)",
+      "T_MULT27X36": "4(0)",
+      "T_Bsram": "92(0)"
+    },
+    "fifo_b1": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "18563(23)",
+      "T_Alu": "8442(0)",
+      "T_Lut": "34731(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "4(0)",
+      "T_MULT27X36": "4(0)",
+      "T_Bsram": "92(0)"
+    },
+    "registered_index": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "18569(23)",
+      "T_Alu": "8442(0)",
+      "T_Lut": "34843(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "4(0)",
+      "T_MULT27X36": "4(0)",
+      "T_Bsram": "92(0)"
+    },
+    "registered_index_only": {
+      "name": "piano_hdmi_top",
+      "Register": "23",
+      "Lut": "2",
+      "T_Register": "20023(23)",
+      "T_Alu": "8442(0)",
+      "T_Lut": "35786(2)",
+      "T_MULTALU27X18": "27(0)",
+      "T_MULT12X12": "4(0)",
+      "T_MULT27X36": "4(0)",
+      "T_Bsram": "88(0)"
+    }
+  },
+  "assumption_audit": {
+    "rom": {
+      "rows": 12288,
+      "amplitude_bit_or": "0x1fff",
+      "amplitude_stored_bits": 13,
+      "low8_state_counterexample": {
+        "record": 0,
+        "component": 0,
+        "initial": 255488,
+        "decay": 68,
+        "after_one_sample": 255486,
+        "low_8": 254
+      },
+      "decision": "Cannot truncate ROM amplitude or live amplitude state without changing PCM"
+    },
+    "echo": {
+      "memory_format": "signed Q16.2",
+      "example_dry": 1,
+      "previous_delay": 0,
+      "new_word": 2,
+      "decision": "18 to16 loses fractional feedback state; not a lossless optimization"
+    },
+    "B2": {
+      "constant_divmod_cases": 262148,
+      "formal_durations": [
+        16,
+        64,
+        1,
+        2048,
+        4096
+      ],
+      "elaborated_env_modules": 32,
+      "primitive_counts": {
+        "module": 32,
+        "LUT3": 1966,
+        "LUT2": 1556,
+        "LUT4": 5361,
+        "DFFRE": 2272,
+        "ALU": 3968,
+        "VCC": 32,
+        "GND": 32
+      },
+      "decision": "Power-of-two divisions; no runtime divisor or divider primitive in mapped envelopes. Preserve parameter-generic RTL."
+    },
+    "C1": {
+      "rank_bits_per_voice": 5,
+      "rank_total_bits": 160,
+      "decision": "Current ranks are a permutation, not per-cycle ages; replacing with32bit timestamps increases storage by864bits and introduces wrap ambiguity. Try balanced count only."
+    },
+    "C2": {
+      "decision": "Keep dual independent sessions/timeouts/reply contexts. Try RAM FIFO before shared parser arbiter."
+    },
+    "D1": {
+      "decision": "Evaluate only per approved plan. Formal modal_voice_group16 snapshots atR0 and updates all16 envelopes atR1; a shared engine needs a new per-voice schedule and explicit active/release visibility contract. A phased engine may preserve top-level PCM/R958 if every voice is ready before use, but this has not been implemented or proved. Retain current32 independent envelopes.",
+      "reviewed_files": [
+        "rtl/synth/modal_voice_group16.v",
+        "rtl/synth/voice_bank_dual16.v",
+        "rtl/synth/voice_bank_modal_adapter.v"
+      ],
+      "risk": "Do not equate18 spare final cycles with the entire internal rescheduling budget; do not claim sharing is impossible."
+    },
+    "D2": {
+      "decision": "No voice expansion or clock increase requested; keep32voices/50MHz/R958."
+    }
+  },
+  "fifo_primitive_verification": [
+    {
+      "width": 8,
+      "address_bits": 6,
+      "primitive": "SDPB",
+      "status": "PASS",
+      "coverage": [
+        "# PASS fifo case W=8 A=6 push=32540 pop=31275 full_replace=6280 single_replace=8721",
+        "# PASS tb_uart_fifo_equivalence"
+      ]
+    },
+    {
+      "width": 15,
+      "address_bits": 4,
+      "primitive": "SDPB",
+      "status": "PASS",
+      "coverage": [
+        "# PASS fifo case W=15 A=4 push=30475 pop=29945 full_replace=6680 single_replace=8721",
+        "# PASS tb_uart_fifo_equivalence"
+      ]
+    }
+  ],
+  "fret_geometry": {
+    "status": "PASS",
+    "symbolic_checks": 638976,
+    "domain": "all4096x,sixstrings,13frets; exact dot/vibration coverage and unchanged y predicates/priority"
+  },
+  "protected_files": 331,
+  "protected_changed": [],
+  "protected_unchanged": 331,
+  "formal_source_inputs_unchanged": 119,
+  "formal_build_identity_unchanged": true,
+  "verification": {
+    "strict_files": 246,
+    "strict_mode": "ModelSim -vlog01compat -pedanticerrors",
+    "formal_fifo": "PASS three parameter sets, 60000 cycles each; FifoExchange mutation rejected",
+    "candidate_fifo": "RTL three parameter sets and two actual Gowin SDPB mapped netlists passed; single-word bypass mutation rejected",
+    "candidate_touch": "CONTACTS 1/5/6/15, 240000 cycles; registered-index slot fault rejected",
+    "candidate_display": "638976 geometry comparisons and 2456173-cycle RGB/sync comparison",
+    "candidate_integration": "UART/BLE/17 HDMI recovery rounds and qualified-ROM R958 32-voice checks passed; 6903 audio samples matched integer reference with 13803 DAC words",
+    "existing_failures": "Old tb_panel_octaves coordinate mismatch retained; not counted passed; initial missing audio output directory rerun without RTL or existing TB changes",
+    "not_claimed": "No full vendor-ROM long regression, new formal full rebuild, physical or external timing acceptance"
+  },
+  "current_fs_sha256": "604f12e3299b479ddbf6a9805ad73670186e884b6ed58a69ddf176035ac37295",
+  "details_sha256": "00971c5ea55ff5aa10a84e5974672af4122a960f6c534704dfc685ac22cdbc27",
+  "temporary_backups_deleted": true,
+  "published": false,
+  "programmed": false,
+  "remaining": [
+    "PR1014",
+    "complete DAC board timing",
+    "independent physical USB acceptance",
+    "physical and touch end-to-end latency",
+    "screen controls and APPLY outside optimization scope"
+  ],
+  "sources": [
+    "https://cdn.gowinsemi.com.cn/SUG550E.pdf",
+    "https://cdn.gowinsemi.com.cn/SUG937E.pdf",
+    "https://github.com/alexforencich/verilog-axis/blob/master/rtl/priority_encoder.v",
+    "https://arxiv.org/abs/2601.20067",
+    "https://docs.amd.com/r/en-US/ug949-vivado-design-methodology/Timing-Closure"
+  ],
+  "cleanup_verified_directory": "build/optimization_plan_20261025"
+}

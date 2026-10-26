@@ -11,6 +11,7 @@ module instrument_panel_ui #(
     // USB主机尚未接通，不能把不可用的控件画成已经能操作。
     parameter integer TOUCH_PANEL=0,
     parameter integer ENABLE_GUIDE=0,
+    parameter integer CONTROL_FEATURES=0,
     parameter integer LOG_METER=0,
     parameter integer SHOW_BRIGHTNESS=0,
     parameter [23:0] C_BG      = 24'hecebe7,
@@ -20,7 +21,8 @@ module instrument_panel_ui #(
     parameter [23:0] C_MUTED   = 24'h686e70,
     parameter [23:0] C_ACCENT  = 24'hf0de6b,
     parameter [23:0] C_WARM    = 24'hf0de6b,
-    parameter integer FRAME_BEND=0
+    parameter integer FRAME_BEND=0,
+    parameter integer PIPELINE_MAP=0
 ) (
     input wire [11:0] x, y,
     input wire [12:0] key_down,
@@ -29,6 +31,7 @@ module instrument_panel_ui #(
     input wire signed [15:0] pitch_bend,
     input wire [1:0] octave,
     input wire sustain, instrument_guitar,
+    input wire [74:0] guide_status,
     input wire guide_valid,
     input wire [3:0] guide_index,guide_progress,
     input wire wave_ready,
@@ -40,7 +43,7 @@ module instrument_panel_ui #(
     input wire [7:0] meter_height,meter_peak_height,
     // 24px 正文请求
     output reg text_enable,
-    output reg [5:0] text_glyph,
+    output reg [6:0] text_glyph,
     output reg [4:0] text_column, text_row,
     output reg [23:0] text_color,
     // 48px 标题请求
@@ -51,7 +54,10 @@ module instrument_panel_ui #(
     output reg [23:0] base_rgb,
     // FRAME_BEND=1时与上层状态快照同沿提交；默认组合实例无需时钟。
     input wire pixel_clk, pixel_rst_n, frame_commit,
-    input wire signed [15:0] pitch_bend_latest
+    input wire signed [15:0] pitch_bend_latest,
+    // Optional S0 geometry inputs, one clock ahead of x/y. Default remains combinational.
+    input wire [11:0] map_x_early,map_y_early,
+    input wire map_guitar_early
 );
     // 配色随音色切换；两套界面共用同一布局网格。
     wire [23:0] accent = instrument_guitar ? C_WARM : C_ACCENT;
@@ -59,11 +65,27 @@ module instrument_panel_ui #(
     wire note_hit,key_black;
     wire [3:0] key_index;
     wire [11:0] key_left,key_right,key_top,key_bottom;
-    wire [1:0] control_kind,control_value;
-    instrument_ui_map u_map(.x(x),.y(y),.instrument_guitar(instrument_guitar),
-        .note_valid(note_hit),.note_index(key_index),.key_black(key_black),
-        .key_left(key_left),.key_right(key_right),.key_top(key_top),.key_bottom(key_bottom),
-        .control_kind(control_kind),.control_value(control_value));
+    wire [3:0] control_kind;
+    wire [1:0] control_value;
+    wire [59:0] map_raw,map_value;
+    instrument_ui_map #(.CONTROL_WIDTH(4),.EXTENDED(CONTROL_FEATURES)) u_map(
+        .x(PIPELINE_MAP?map_x_early:x),.y(PIPELINE_MAP?map_y_early:y),
+        .instrument_guitar(PIPELINE_MAP?map_guitar_early:instrument_guitar),
+        .note_valid(map_raw[59]),.key_black(map_raw[58]),.note_index(map_raw[57:54]),
+        .key_left(map_raw[53:42]),.key_right(map_raw[41:30]),
+        .key_top(map_raw[29:18]),.key_bottom(map_raw[17:6]),
+        .control_kind(map_raw[5:2]),.control_value(map_raw[1:0]));
+    generate if(PIPELINE_MAP)begin:g_map_pipeline
+        reg [59:0] geometry;
+        always @(posedge pixel_clk or negedge pixel_rst_n)
+            if(!pixel_rst_n)geometry<=60'd0;
+            else geometry<=map_raw;
+        assign map_value=geometry;
+    end else begin:g_map_comb
+        assign map_value=map_raw;
+    end endgenerate
+    assign {note_hit,key_black,key_index,key_left,key_right,key_top,key_bottom,
+            control_kind,control_value}=map_value;
 
     // Low range uses frets 0..12; high range scrolls to frets 12..24.
     // The high-range highlight layout equals middle shifted one octave.
@@ -97,12 +119,12 @@ module instrument_panel_ui #(
 
     // ---- 数值格式化：每帧由上层更新一次，这里只做 BCD 选择 ----
     function [11:0] decimal_digits;
-        input [8:0] value;
+        input [9:0] value;
         reg [11:0] digits;
         integer b;
         begin
             digits = 0;
-            for (b = 8; b >= 0; b = b - 1) begin
+            for (b = 9; b >= 0; b = b - 1) begin
                 if (digits[3:0]  >= 5) digits[3:0]  = digits[3:0]  + 4'd3;
                 if (digits[7:4]  >= 5) digits[7:4]  = digits[7:4]  + 4'd3;
                 if (digits[11:8] >= 5) digits[11:8] = digits[11:8] + 4'd3;
@@ -331,6 +353,38 @@ module instrument_panel_ui #(
             end else if(note>=60 && note<=72)note_activity=levels[(note-60)*3+:3];
         end
     endfunction
+    wire [2:0] practice_state=guide_status[57:55];
+    wire [7:0] practice_bpm=guide_status[54:47];
+    wire [9:0] practice_progress=guide_status[46:37];
+    wire [36:0] target_all=guide_status[36:0];
+    wire [12:0] targets=octave==0?target_all[12:0]:octave==2?target_all[36:24]:target_all[24:12];
+    reg [11:0] practice_bpm_digits,practice_progress_digits;
+    // 状态变化先格式化寄存，不在像素组合路径上计算十进制。
+    always @(posedge pixel_clk or negedge pixel_rst_n)begin
+        if(!pixel_rst_n)begin practice_bpm_digits<=0;practice_progress_digits<=0;end
+        else begin
+            practice_bpm_digits<=decimal_digits({1'b0,practice_bpm});
+            practice_progress_digits<=decimal_digits(practice_progress);
+        end
+    end
+    // 新字模7位编号；保持原text4/num4及旧字形位置不变。
+    task caption;
+        input [11:0] left,top;
+        input [27:0] ids;
+        reg [11:0] lx,ly;
+        begin
+            lx=x-left;ly=y-top;
+            if(x>=left && y>=top && lx<104 && ly<24)begin
+                if(lx>=78)begin text_glyph=ids[6:0];lx=lx-12'd78;end
+                else if(lx>=52)begin text_glyph=ids[13:7];lx=lx-12'd52;end
+                else if(lx>=26)begin text_glyph=ids[20:14];lx=lx-12'd26;end
+                else text_glyph=ids[27:21];
+                if(lx<24 && text_glyph!=0)begin
+                    text_enable=1;text_column=lx[4:0];text_row=ly[4:0];text_color=24'he9ebe3;
+                end
+            end
+        end
+    endtask
     integer k,s,f,ny;
     always @(*) begin
         base_rgb=bg;
@@ -360,7 +414,7 @@ module instrument_panel_ui #(
         end
         // 正式电平条用固定对数刻度；原始峰值决定削波提示，波形倍率不影响它。
         if(x==856 && y>=176 && y<332)base_rgb=24'h596060;
-        if(x>=904 && x<936 && y>=208 && y<336)begin
+        if(!CONTROL_FEATURES && x>=904 && x<936 && y>=208 && y<336)begin
             base_rgb=24'h424a4c;
             if(y>=336-{4'd0,level_height})
                 base_rgb=(peak_level>16'd30000)?24'he18b77:accent;
@@ -380,7 +434,7 @@ module instrument_panel_ui #(
             if(y+8>=key_bottom && key_down[key_index])base_rgb=accent;
             if(key_black && y<key_top+4)base_rgb=24'h565c5b;
             // 青绿空心边框表示下一目标；淡黄实心仍只表示实际按住。
-            if(ENABLE_GUIDE && guide_valid && key_index==guide_index &&
+            if(((CONTROL_FEATURES && targets[key_index]) || (ENABLE_GUIDE && guide_valid && key_index==guide_index)) &&
                (x<key_left+3 || x+3>=key_right || y<key_top+3 || y+3>=key_bottom))
                 base_rgb=24'h397e75;
         end
@@ -405,7 +459,7 @@ module instrument_panel_ui #(
             end
         end
 
-        // 正文字库与48px标题复用，字库尺寸不随此布局扩大。
+        // 标题沿用原字模；练习正文扩至7位编号，原字形不改。
         text4(32,36,2,{6'd7,6'd8,12'd0},C_MUTED); // 静奏
         if(!instrument_guitar)title4(128,24,2,{6'd3,6'd4,6'd0});
         else title4(128,24,3,{6'd1,6'd5,6'd6});
@@ -426,7 +480,7 @@ module instrument_panel_ui #(
         text4(716,108,1,{6'd15,18'd0},C_TEXT);
         text4(800,108,2,{6'd17,6'd9,12'd0},C_MUTED);
         text4(872,108,1,{(sustain?6'd18:6'd19),18'd0},C_TEXT);
-        // 简洁的开关指示；尚无USB控制器时只反映实际sustain状态。
+        // 开关只显示已经接受的真实延音状态。
         if(x>=930 && x<978 && y>=112 && y<128)base_rgb=sustain?accent:24'hb7bab6;
         if(y>=110 && y<130 &&
            ((sustain && x>=960 && x<980) || (!sustain && x>=928 && x<948)))base_rgb=24'hffffff;
@@ -482,6 +536,33 @@ module instrument_panel_ui #(
             end
             if(x+4>=brightness_position && x<brightness_position+4 && y>=58 && y<74)
                 base_rgb=C_TEXT;
+        end
+
+        if(CONTROL_FEATURES)begin
+            // 水平电平条与两个练习控件共用右侧区域，不覆盖真实波形。
+            if(x>=864 && x<992 && y>=208 && y<228)begin
+                base_rgb=24'h424a4c;
+                if(x-864<{4'd0,level_height})base_rgb=peak_level>30000?24'he18b77:accent;
+                if(held_peak_height!=0 && x-864=={4'd0,held_peak_height})base_rgb=24'hf7f7ed;
+            end
+            if(control_kind==4 || control_kind==5 || control_kind==7 || control_kind==9)
+                base_rgb=24'h424a4c;
+            // 目标所在音区以短线提示；边界C允许相邻两档，休止时全灭。
+            if(y>=138 && y<141 && ((x>=588 && x<612 && |target_all[12:0]) ||
+               (x>=652 && x<676 && |target_all[24:12]) || (x>=716 && x<740 && |target_all[36:24])))base_rgb=24'h397e75;
+            caption(880,228,practice_state==1?{7'd82,7'd83,14'd0}:practice_state==4?{7'd80,7'd81,14'd0}:28'd0);
+            caption(484,170,{7'd79,21'd0});
+            caption(200,170,guide_status[62]?{7'd69,7'd67,7'd68,7'd0}:guide_status[60]?{7'd67,7'd68,7'd66,7'd0}:{7'd64,7'd65,7'd66,7'd0});
+            caption(880,260,practice_state==3?{7'd74,7'd75,7'd0,7'd0}:(practice_state==1 || practice_state==2)?{7'd72,7'd73,7'd0,7'd0}:{7'd70,7'd71,7'd0,7'd0});
+            caption(880,308,{7'd76,7'd77,7'd0,7'd0});
+            num4(392,170,3,{dg(practice_progress_digits[11:8]),dg(practice_progress_digits[7:4]),dg(practice_progress_digits[3:0]),6'd0},24'he9ebe3);
+            num4(516,170,3,{dg(practice_bpm_digits[11:8]),dg(practice_bpm_digits[7:4]),dg(practice_bpm_digits[3:0]),6'd0},24'he9ebe3);
+            if(y>=179 && y<182 && ((x>=626 && x<646)||(x>=674 && x<694)))base_rgb=24'he9ebe3;
+            if(x>=682 && x<685 && y>=172 && y<189)base_rgb=24'he9ebe3;
+            // 四拍点；预备与演奏沿用相同拍相，目标框不代表实际持键。
+            for(k=0;k<4;k=k+1)
+                if(x>=336+k*12 && x<344+k*12 && y>=174 && y<182)
+                    base_rgb=(guide_status[59:58]==k && (practice_state==1 || practice_state==2))?accent:24'h626963;
         end
     end
 endmodule

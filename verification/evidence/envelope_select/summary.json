@@ -1,0 +1,418 @@
+{
+  "date": "2026-10-25",
+  "status": "COMPLETE_OFFLINE_OPTIMIZATION",
+  "baseline_commit": "e2355c4ea4bf055f641944d50fbce87360e57f1c",
+  "baseline": {
+    "resources": {
+      "Logic": {
+        "used": 31926,
+        "available": 59904
+      },
+      "Register": {
+        "used": 20915,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 93,
+        "available": 118
+      },
+      "DSP": {
+        "used": 37,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 2,
+        "available": 8
+      }
+    },
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 0.448,
+      "3.1.2 Hold Paths Table": 0.186,
+      "3.1.3 Recovery Paths Table": 0.642,
+      "3.1.4 Removal Paths Table": 0.143,
+      "3.2 Minimum Pulse Width Table": 5.799
+    },
+    "bitstream_sha256": "db7960564989192be4a66916352389f906d648cee64ef9a203ba727846cd192f",
+    "ports": 39,
+    "active_constraints": 28,
+    "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+    "source_commit": "e2355c4ea4bf055f641944d50fbce87360e57f1c",
+    "working_tree_modified": true,
+    "current_bitstream_verified": true,
+    "formal_project": "projects/hdmi/piano_hdmi.gprj",
+    "bitstream": "projects/hdmi/impl/pnr/piano_hdmi.fs",
+    "sample_cache_cycles": 958,
+    "verification_summary": "verification/evidence/shared_envelope/summary.json",
+    "programmed": false,
+    "hardware_verified": false,
+    "download_package_created": false,
+    "source_identity_note": "Independent full build of the current working tree on e2355c4; source inputs are bound by implementation_check.json. Includes shared envelope and touch restructuring, Place=3 and log-classifier repair. HEAD alone does not reproduce it.",
+    "placement_cells": {
+      "used": 24778,
+      "available": 29952
+    },
+    "confirmed_at": "2026-10-25T13:53:31.190901+08:00"
+  },
+  "contract": {
+    "scope": "Remove acceptance-path muxes from the existing envelope operand capture, then assess remaining control/resource bottlenecks in isolated candidates.",
+    "unchanged": "32 voices, two groups, independent state, R0 snapshot, per-slot R1..R16 updates, R925/R958, 48kHz, effects, sound/ROM, pins/CST/SDC and existing TB",
+    "selection": "All existing timing checks pass; minimum slack >=0.143ns; setup >=0.448ns; Logic <=31926; at least setup +0.200ns or Logic -1%; RAM <=100/118, DSP <=37/118; disclose FF/RAM and individual slack tradeoffs.",
+    "hardware": "No programming or hardware operation; no publishing.",
+    "cleanup": "After validation preserve only compact diffs/reports and delete all task backups/full candidate trees.",
+    "additional_candidates": [
+      "UART independent FIFOs: synchronous RAM with head bypass, preserves valid/ready/flush, previously qualified algorithm re-evaluated on current lower-area baseline.",
+      "Sample tick: registered one-cycle prediction, same external enable/frame/request at every cycle. Existing 12-parameter independent timing test and threshold mutation required."
+    ]
+  },
+  "comparison": [
+    {
+      "name": "baseline",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "resources": {
+        "Logic": {
+          "used": 31926,
+          "available": 59904
+        },
+        "Register": {
+          "used": 20915,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 0.448,
+        "3.1.2 Hold Paths Table": 0.186,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "fs_sha256": "db7960564989192be4a66916352389f906d648cee64ef9a203ba727846cd192f",
+      "cls": {
+        "used": 24778,
+        "available": 29952
+      }
+    },
+    {
+      "name": "idle_slot",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "resources": {
+        "Logic": {
+          "used": 31879,
+          "available": 59904
+        },
+        "Register": {
+          "used": 21003,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.947,
+        "3.1.2 Hold Paths Table": 0.186,
+        "3.1.3 Recovery Paths Table": 0.669,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "fs_sha256": "c80ccd65646af3946fb22a0a21937fdb70828bc2067813759a887fd47892acb6",
+      "cls": {
+        "used": 24634,
+        "available": 29952
+      },
+      "gates": {
+        "original_checks": true,
+        "min_slack": true,
+        "setup": true,
+        "logic": true,
+        "meaningful_gain": true,
+        "ram": true,
+        "dsp": true
+      },
+      "eligible": true
+    },
+    {
+      "name": "pre_read",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "resources": {
+        "Logic": {
+          "used": 31896,
+          "available": 59904
+        },
+        "Register": {
+          "used": 21016,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.947,
+        "3.1.2 Hold Paths Table": 0.183,
+        "3.1.3 Recovery Paths Table": 0.669,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "fs_sha256": "36ff08bd496583501f47453bcdbed70dd11f2a47782c2a7188611daf7c498ef4",
+      "cls": {
+        "used": 24751,
+        "available": 29952
+      },
+      "gates": {
+        "original_checks": true,
+        "min_slack": true,
+        "setup": true,
+        "logic": true,
+        "meaningful_gain": true,
+        "ram": true,
+        "dsp": true
+      },
+      "eligible": true
+    },
+    {
+      "name": "tick_predict",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "resources": {
+        "Logic": {
+          "used": 31940,
+          "available": 59904
+        },
+        "Register": {
+          "used": 20920,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 93,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.947,
+        "3.1.2 Hold Paths Table": 0.184,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 5.799
+      },
+      "fs_sha256": "5283d76fcf6e2325137e7ad0443fd9b3337c0d316e28e27e7a4a799e13e394b6",
+      "cls": {
+        "used": 24822,
+        "available": 29952
+      },
+      "gates": {
+        "original_checks": true,
+        "min_slack": true,
+        "setup": true,
+        "logic": false,
+        "meaningful_gain": true,
+        "ram": true,
+        "dsp": true
+      },
+      "eligible": false
+    },
+    {
+      "name": "fifo_ram",
+      "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+      "resources": {
+        "Logic": {
+          "used": 31091,
+          "available": 59904
+        },
+        "Register": {
+          "used": 19384,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 97,
+          "available": 118
+        },
+        "DSP": {
+          "used": 37,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "slack_ns": {
+        "3.1.1 Setup Paths Table": 1.156,
+        "3.1.2 Hold Paths Table": 0.048,
+        "3.1.3 Recovery Paths Table": 0.642,
+        "3.1.4 Removal Paths Table": 0.143,
+        "3.2 Minimum Pulse Width Table": 6.067
+      },
+      "fs_sha256": "f572c431b7c09854befb72ea623e68f0d349420058d066385729b71bd10a1977",
+      "cls": {
+        "used": 23444,
+        "available": 29952
+      },
+      "gates": {
+        "original_checks": true,
+        "min_slack": false,
+        "setup": true,
+        "logic": true,
+        "meaningful_gain": true,
+        "ram": true,
+        "dsp": true
+      },
+      "eligible": false
+    }
+  ],
+  "selected": "idle_slot",
+  "formal": {
+    "resources": {
+      "Logic": {
+        "used": 31879,
+        "available": 59904
+      },
+      "Register": {
+        "used": 21003,
+        "available": 60780
+      },
+      "BSRAM": {
+        "used": 93,
+        "available": 118
+      },
+      "DSP": {
+        "used": 37,
+        "available": 118
+      },
+      "PLLA": {
+        "used": 2,
+        "available": 8
+      }
+    },
+    "worst_reported_slack_ns": {
+      "3.1.1 Setup Paths Table": 1.947,
+      "3.1.2 Hold Paths Table": 0.186,
+      "3.1.3 Recovery Paths Table": 0.669,
+      "3.1.4 Removal Paths Table": 0.143,
+      "3.2 Minimum Pulse Width Table": 5.799
+    },
+    "bitstream_sha256": "c0164836b37b524a0e1a6347beeb8bf7e047949a1c150629958ae83b8a6247b8",
+    "ports": 39,
+    "active_constraints": 28,
+    "status": "PASS_CURRENT_CONSTRAINTS_ONLY",
+    "source_commit": "e2355c4ea4bf055f641944d50fbce87360e57f1c",
+    "working_tree_modified": true,
+    "current_bitstream_verified": true,
+    "formal_project": "projects/hdmi/piano_hdmi.gprj",
+    "bitstream": "projects/hdmi/impl/pnr/piano_hdmi.fs",
+    "sample_cache_cycles": 958,
+    "verification_summary": "verification/evidence/envelope_select/summary.json",
+    "programmed": false,
+    "hardware_verified": false,
+    "download_package_created": false,
+    "source_identity_note": "Independent full synthesis/PNR after idle envelope selector promotion. Prior shared envelope/touch changes remain uncommitted; HEAD alone does not reproduce this build.",
+    "placement_cells": {
+      "used": 24634,
+      "available": 29952
+    },
+    "confirmed_at": "2026-10-25T14:38:49.542961+08:00"
+  },
+  "changed_this_round": [
+    "rtl/synth/instrument_env_bank16.v"
+  ],
+  "reason": "Same Setup as pre_read/tick_predict; pre_read costs more Logic/FF/CLS and lowers Hold. tick_predict exceeds predeclared Logic gate. RAM FIFO lowers Hold to 48ps. Only local selector change promoted.",
+  "proof": {
+    "strict_verilog_2001_files": 248,
+    "existing_tb_modified": false,
+    "protected_files": 334,
+    "unchanged_protected_files": 333,
+    "candidate_and_independent_formal_metrics_equal": true,
+    "bank_cases": 3,
+    "frames_per_bank_case": 6200,
+    "checks_per_bank_case": 1438189,
+    "snapshot_comparisons": 256,
+    "pcm_32_voice_comparisons": 1600,
+    "realtime_frames": 5200,
+    "four_source_full32_and_33rd_steal": "PASS R958",
+    "brightness_effect_reference_samples": 6903,
+    "dac_serial_words": 13803,
+    "hdmi_recovery_epochs": 17,
+    "negative_controls": [
+      "EnvSlot",
+      "HdmiRecovery",
+      "DAC DIN",
+      "DAC WS"
+    ],
+    "candidate_functional_rom": "Previously independently qualified simulation replacement; synthesis retains original vendor ROM.",
+    "candidate_audio_sources_match_formal": true,
+    "tick_experiment": "12 parameter cases / 3600000 cycles; 1393984 mathematical states; threshold mutation rejected; not promoted.",
+    "fifo_experiment": "3 parameter cases / 60000 cycles each; FifoExchange mutation rejected; not promoted.",
+    "dac": {
+      "status": "INCOMPLETE_EXTERNAL_EVIDENCE",
+      "signoff": false,
+      "nominal_digital_window_ns": 320
+    },
+    "patch_replay": {
+      "status": "PASS",
+      "head": "e2355c4ea4bf055f641944d50fbce87360e57f1c",
+      "previous_archive": "verification/evidence/shared_envelope/details.zip",
+      "previous_archive_sha256": "445503dde683905c4fb5184457ba86883f7c2f0f7248cf3165cfc1d3c475557a",
+      "previous_patch": "candidate_diffs/formal_selected.patch",
+      "this_patch": "patches/idle_slot.patch",
+      "files_normalized_text_equal": 11,
+      "note": "Patch replay normalizes CRLF/LF; build inputs independently bind exact current bytes."
+    },
+    "invocation_note": "Initial formal strict command used unsupported OutDir and exited before compilation. Reissued documented command; 248 files and full implementation passed."
+  },
+  "limits": [
+    "Minimum slack remains 143ps; this round improves Setup, not the minimum margin.",
+    "PR1014, complete external DAC timing, independent physical USB, BLE first-note and physical/touch end-to-end delay remain unverified.",
+    "Old tb_panel_octaves coordinate assertion remains unchanged and is not counted as passed.",
+    "No screen control events, remote APPLY or adjustable ADSR claim added."
+  ],
+  "published": false,
+  "programmed": false,
+  "download_package_created": false,
+  "archive": {
+    "path": "verification/evidence/envelope_select/details.zip",
+    "sha256": "bdc6ee5e4f91ecb88a17938d52011e01e138c3cc81c7ee7916794ab5605957e8",
+    "bytes": 977247
+  },
+  "cleanup": {
+    "temporary_root": "D:\\Project\\fpga_contest\\build\\optimization_round3_20261025",
+    "removed": true,
+    "all_owned_build_and_test_sessions_finished": true,
+    "verified_at": "2026-10-25T14:39:29.008419+08:00"
+  }
+}

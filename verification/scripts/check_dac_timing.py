@@ -122,7 +122,35 @@ def matching_build_identity(build_manifest, implementation):
             'Implementation belongs to a different build manifest')
 
 
+def implementation_passed(implementation):
+    if implementation.get('errors'):
+        return False
+    if implementation.get('status') == 'PASS_CURRENT_CONSTRAINTS_ONLY':
+        return True
+    audit = implementation.get('native_timing_audit', {})
+    if implementation.get('status') != 'PASS_NATIVE_TARGETS' or audit.get('status') != 'PASS_NATIVE_TARGETS' or audit.get('errors'):
+        return False
+    slacks = audit.get('native_slacks_ns', {})
+    return all(type(slacks.get(name)) in (int, float) and math.isfinite(slacks[name]) and slacks[name] >= minimum
+               for name, minimum in {'Setup': 2.0, 'Hold': 0.4, 'Recovery': 0.6, 'Removal': 0.4, 'Pulse': 0.0}.items())
+
+
 class BudgetTests(unittest.TestCase):
+    def test_native_implementation_requires_complete_target_audit(self):
+        import copy
+        good = {'status': 'PASS_NATIVE_TARGETS', 'errors': [], 'native_timing_audit': {
+            'status': 'PASS_NATIVE_TARGETS', 'errors': [],
+            'native_slacks_ns': {'Setup': 2.0, 'Hold': .4, 'Recovery': .6, 'Removal': .4, 'Pulse': .1}}}
+        self.assertTrue(implementation_passed(good))
+        self.assertTrue(implementation_passed({'status': 'PASS_CURRENT_CONSTRAINTS_ONLY', 'errors': []}))
+        self.assertFalse(implementation_passed({'status': 'PASS_NATIVE_TARGETS'}))
+        for name in ('Setup', 'Hold', 'Recovery', 'Removal', 'Pulse'):
+            bad = copy.deepcopy(good)
+            bad['native_timing_audit']['native_slacks_ns'][name] = -.001
+            self.assertFalse(implementation_passed(bad))
+        bad = copy.deepcopy(good); bad['native_timing_audit']['errors'] = ['missing clock']
+        self.assertFalse(implementation_passed(bad))
+
     def test_build_identity_rejects_old_pass(self):
         current={'rtl/top/piano_hdmi_top.v':'a'*64,'boards/tang_mega_60k_31004/usb.sdc':'b'*64}
         good={'inputs':[{'path':str(ROOT/path),'sha256':value} for path,value in current.items()]}
@@ -207,7 +235,7 @@ def main():
     matching_build_identity(build_manifest,impl)
     fs = ROOT / 'projects/hdmi/impl/pnr/piano_hdmi.fs'
     require(sha(fs) == impl['bitstream_sha256'], 'Wrong bitstream for implementation check')
-    require(impl['status'] == 'PASS_CURRENT_CONSTRAINTS_ONLY', 'Implementation check not passed')
+    require(implementation_passed(impl), 'Implementation check not passed')
     report = ROOT / 'projects/hdmi/impl/pnr/piano_hdmi.tr'
     require(sha(report) == sha(ROOT / 'build/hdmi/piano_hdmi.tr'), 'Report differs from retained build copy')
     paths = printed_paths(read(report))

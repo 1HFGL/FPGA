@@ -28,7 +28,14 @@ module echo_delay #(
     reg [2:0] state;
     reg signed [15:0] dry;
     reg signed [17:0] rd,delayed,write_word;
-    reg signed [31:0] weighted,mixed;
+    reg signed [31:0] weighted;
+    reg signed [31:0] mixed;
+    // Exact 20*dry + 3*delayed, before the original truncation at state 3.
+    // Range [-1048576,1048553] fits 21 signed bits; retain the original 32-bit interface.
+    wire signed [31:0] dry_ext={{16{dry[15]}},dry};
+    wire signed [31:0] delayed_ext={{14{delayed[17]}},delayed};
+    wire signed [31:0] feedback_weighted /* synthesis syn_dspstyle="logic" */;
+    assign feedback_weighted=(dry_ext<<<4)+(dry_ext<<<2)+(delayed_ext<<<1)+delayed_ext;
     wire accept=in_valid && !busy;
     assign busy=(state!=0);
     assign tail_active=(nonzero!=0 || sample_out!=0 || (busy && dry!=0));
@@ -47,7 +54,7 @@ module echo_delay #(
                 0:if(in_valid)begin dry<=sample_in;state<=1;end
                 1:begin delayed<=(age==7680)?rd:18'sd0;state<=2;end
                 2:begin
-                    weighted<=$signed(dry)*32'sd20+$signed(delayed)*32'sd3;state<=3;
+                    weighted<=feedback_weighted;state<=3;
                 end
                 3:begin
                     write_word<=sat18(trunc0(weighted,3));

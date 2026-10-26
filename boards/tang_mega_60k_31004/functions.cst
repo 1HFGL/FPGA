@@ -1,0 +1,7 @@
+// 第二块八键模块K6/K7/K8；31005底板，3.3V低有效。
+IO_LOC "function_key_n[0]" E16;
+IO_PORT "function_key_n[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC "function_key_n[1]" D14;
+IO_PORT "function_key_n[1]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC "function_key_n[2]" A18;
+IO_PORT "function_key_n[2]" IO_TYPE=LVCMOS33 PULL_MODE=UP;

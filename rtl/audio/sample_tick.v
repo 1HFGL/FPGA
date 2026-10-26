@@ -59,9 +59,30 @@ module sample_tick #(
     // 扩展一位保存加法结果；RATE==SOURCE时阈值为0，每拍触发，不走加法支路。
     // 合法参数：0 < HALF_EDGE_RATE_HZ <= AUDIO_CLK_HZ，
     // AUDIO_CLK_HZ < 2^31，且 4*SLOT_BITS <= 65536。
-    assign bclk_half_ce = rst_n && (phase_acc >= PHASE_THRESHOLD);
-    assign frame_start = bclk_half_ce && (half_edge_index == {EDGE_BITS{1'b0}});
-    assign sample_prepare = bclk_half_ce && (half_edge_index == REQUEST_EDGE_INDEX);
+    // Predict the next state's pulses and register them. The public pulse
+    // still appears in exactly the original cycle; no delayed audio request.
+    // For R<=F-R: next carry iff F-2R <= phase < F-R.
+    // For R>F-R: next carry iff phase < F-R or phase >= 2(F-R).
+    reg half_ce_q, frame_q, prepare_q;
+    wire next_half_ce;
+    generate
+        if (HALF_EDGE_RATE_HZ <= PHASE_THRESHOLD) begin : g_sparse
+            assign next_half_ce = (phase_acc >= (PHASE_THRESHOLD-HALF_EDGE_RATE_HZ)) &&
+                                  (phase_acc < PHASE_THRESHOLD);
+        end else begin : g_dense
+            assign next_half_ce = (phase_acc < PHASE_THRESHOLD) ||
+                                  ({1'b0,phase_acc} >= ({1'b0,PHASE_THRESHOLD} << 1));
+        end
+    endgenerate
+    localparam integer PREVIOUS_REQUEST_INDEX = (REQUEST_EDGE_INDEX==0) ?
+        HALF_EDGES_PER_FRAME-1 : REQUEST_EDGE_INDEX-1;
+    wire next_frame = next_half_ce && (half_ce_q ?
+        (half_edge_index==HALF_EDGES_PER_FRAME-1) : (half_edge_index==0));
+    wire next_prepare = next_half_ce && (half_ce_q ?
+        (half_edge_index==PREVIOUS_REQUEST_INDEX) : (half_edge_index==REQUEST_EDGE_INDEX));
+    assign bclk_half_ce = rst_n && half_ce_q;
+    assign frame_start = rst_n && frame_q;
+    assign sample_prepare = rst_n && prepare_q;
 
     // 仅供验证入口拒绝非法配置；不综合运行期检查硬件。
     // 先以64位计算频率，不能让非法参数乘积先溢出32位再通过检查。
@@ -77,9 +98,15 @@ module sample_tick #(
 
     always @(posedge clk_audio or negedge rst_n) begin
         if (!rst_n) begin
+            half_ce_q <= (PHASE_THRESHOLD==0);
+            frame_q <= (PHASE_THRESHOLD==0);
+            prepare_q <= (PHASE_THRESHOLD==0 && REQUEST_EDGE_INDEX==0);
             phase_acc       <= {PHASE_BITS{1'b0}};
             half_edge_index <= {EDGE_BITS{1'b0}};
         end else begin
+            half_ce_q <= next_half_ce;
+            frame_q <= next_frame;
+            prepare_q <= next_prepare;
             if (bclk_half_ce) begin
                 phase_acc <= phase_acc - PHASE_THRESHOLD;
                 if (half_edge_index == HALF_EDGES_PER_FRAME - 1)
