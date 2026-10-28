@@ -10,11 +10,11 @@ if (-not (Test-Path -LiteralPath $studioPython)) {
     $studioBasePython = $null
     foreach ($studioCandidate in $studioCandidates) {
         if (Test-Path -LiteralPath $studioCandidate) {
-            & $studioCandidate -c 'import sys; assert sys.version_info >= (3, 10)' 2>$null
+            & $studioCandidate -c 'import sys; assert (3, 10) <= sys.version_info < (3, 14)' 2>$null
             if ($LASTEXITCODE -eq 0) { $studioBasePython = $studioCandidate; break }
         }
     }
-    if (-not $studioBasePython) { throw 'Python 3.10 or newer is required. Install Python and retry.' }
+    if (-not $studioBasePython) { throw 'Python 3.10 through 3.13 is required by the pinned Qt dependency.' }
     & $studioBasePython -m venv $studioEnvironment
     if ($LASTEXITCODE -ne 0) { throw 'Could not create the studio environment.' }
 }

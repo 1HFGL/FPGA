@@ -144,10 +144,11 @@ class MockTransport(QObject):
     closed = Signal()
     traffic = Signal(int, int)
 
-    def __init__(self, parent=None, piano=False):
+    def __init__(self, parent=None, piano=False, demo=False):
         super().__init__(parent)
+        self.demo = demo
         self.piano = piano
-        self.maximum = 16 if piano else 4
+        self.maximum = 32 if demo else 16 if piano else 4
         self.running = False
         self.tone = Tone()
         self.notes = []
@@ -164,6 +165,9 @@ class MockTransport(QObject):
 
     def reply(self, text):
         # A UART stream preserves order. Independent equal-delay QTimers don't.
+        if self.demo and text.startswith("STATUS "):
+            # Coalesce only diagnostic snapshots, never handshake/error replies.
+            self.replies = deque(p for p in self.replies if not p.startswith("STATUS "))
         self.replies.append(text)
         if not self.reply_timer.isActive():
             self.reply_timer.start(35)
@@ -183,10 +187,11 @@ class MockTransport(QObject):
         fields = text.split()
         if text == "HELLO":
             self.notes.clear()
-            self.reply("SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=16 SAMPLE_RATE=48000 FW=host-simulator TONE=FIXED_PIANO"
+            self.reply("SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=32 SAMPLE_RATE=48000 FW=desktop-test TONE=PIANO_GUITAR"
+                       if self.demo else "SYNTH/1 CAPS=NOTES,STATUS MAX_VOICES=16 SAMPLE_RATE=48000 FW=host-simulator TONE=FIXED_PIANO"
                        if self.piano else "SYNTH/1 CAPS=CONFIG,NOTES,STATUS MAX_VOICES=4 SAMPLE_RATE=48000 FW=simulator")
         elif text.startswith("APPLY "):
-            if self.piano:
+            if self.piano or self.demo:
                 self.reply(f"ERROR {fields[1]} UNSUPPORTED")
                 return
             try:
@@ -278,10 +283,10 @@ class StudioSession(QObject):
     def connect_device(self, port, baud=115200, transport=None):
         if self.transport is not None:
             raise RuntimeError("请先断开当前设备")
-        self.simulated = port in {"SIM", "SIM_PIANO"}
+        self.simulated = port in {"SIM", "SIM_PIANO", "SIM_TEST"}
         self.label = "正在连接…"
         self.tx_bytes = self.rx_bytes = 0
-        self.transport = transport or (MockTransport(self, piano=port == "SIM_PIANO") if self.simulated else
+        self.transport = transport or (MockTransport(self, piano=port == "SIM_PIANO", demo=port == "SIM_TEST") if self.simulated else
                                       SerialTransport(port, baud, self))
         self.transport.opened.connect(self._opened)
         self.transport.line.connect(self._line)
@@ -396,7 +401,7 @@ class StudioSession(QObject):
             self.last_response = time.monotonic()
             self.device = fields
             self.capabilities = caps
-            self.label = "模拟设备 · 不产生声音" if self.simulated else "设备已确认"
+            self.label = "测试模式 · 不发声" if self.demo_mode else "模拟设备 · 不产生声音" if self.simulated else "设备已确认"
             if "STATUS" in caps:
                 self.poll.start()
                 self.query_status()
@@ -589,6 +594,10 @@ class StudioSession(QObject):
             return
         if not self.pending_releases and not self.panic_pending:
             self.retry_timer.stop()
+
+    @property
+    def demo_mode(self):
+        return bool(self.simulated and self.transport is not None and getattr(self.transport, "demo", False))
 
     @property
     def fixed_sine(self):

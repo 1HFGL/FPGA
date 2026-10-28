@@ -418,6 +418,9 @@ class StudioViewMixin:
         head.addStretch()
         self.connection_label = label("未连接", "badge")
         head.addWidget(self.connection_label)
+        self.demo_button = button("测试模式", self.toggle_demo, "primary")
+        self.demo_button.setToolTip("不接FPGA，模拟琴键、32声部和状态；不产生声音")
+        head.addWidget(self.demo_button)
         head.addWidget(button("帮助", self.show_help, "ghost"))
         work.addWidget(header)
 
@@ -764,7 +767,7 @@ class StudioViewMixin:
         layout.addWidget(frame)
         self.notes_label = label("电脑按住的音符  —", "noteStrip")
         layout.addWidget(self.notes_label)
-        self.controls_info = label("实体旋钮：音量 / ±2半音弯音 · UART未上报数值\n延音与板级八度控制未开放；HDMI画面及USB触摸状态未上报。", "subtitle", True)
+        self.controls_info = label("实体旋钮：音量 / ±2半音弯音 · 当前PC串口未上报数值\n板级音区、延音及滑条由FPGA处理；本页不显示USB/BLE实物状态。", "subtitle", True)
         layout.addWidget(self.controls_info)
         layout.addStretch()
         return area
@@ -805,7 +808,7 @@ class StudioViewMixin:
             details.addWidget(label(title))
             details.addWidget(label(body, "subtitle", True))
             details.addSpacing(8)
-        details.addWidget(label("是否启用音色和参数控制以设备能力为准；草稿不会改变内置音色。", "accent", True))
+        details.addWidget(label("正式工程32声部，兼容16/4声部；控制以设备能力为准。电脑串口115200，BLE模块串口默认9600。", "accent", True))
         details.addWidget(label("状态回复连续超时会停止电脑演奏；重新握手后需重新按键，不重放旧音符。", "subtitle", True))
         self.device_warning = label("", "warning", True)
         details.addWidget(self.device_warning)

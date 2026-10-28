@@ -14,6 +14,7 @@ from serial.tools import list_ports
 
 from studio_model import Tone, export_hex, harmonic_preset, load_tone, save_tone
 from studio_transport import StudioSession
+from studio_runtime import VERSION, PRODUCT_NAME, fit_to_screen
 
 
 from studio_ui import STYLE, configure_fonts, StudioViewMixin
@@ -289,6 +290,7 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         current = self.port_combo.currentData()
         self.port_combo.clear()
         self.port_combo.addItem("模拟钢琴 · 16声部 / 不发声", "SIM_PIANO")
+        self.port_combo.addItem("测试模式 · 32声部 / 不发声", "SIM_TEST")
         self.port_combo.addItem("开发模拟器 · 配置试验", "SIM")
         for port in list_ports.comports():
             self.port_combo.addItem(f"{port.device} · {port.description}", port.device)
@@ -313,6 +315,26 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         except RuntimeError as exc:
             self.problem("无法重新握手", exc)
 
+    def start_demo(self):
+        """Explicit user action; never chooses or opens a physical COM port."""
+        self.stop_notes()
+        if self.session.transport is not None:
+            self.session.disconnect_device()
+        self.port_combo.setCurrentIndex(self.port_combo.findData("SIM_TEST"))
+        self.navigate(1)
+        self.session.connect_device("SIM_TEST")
+        self.log_message("测试", "仅模拟琴键、32声部占用/抢占和状态；不发声，不连接FPGA。")
+
+    def toggle_demo(self):
+        try:
+            if self.session.demo_mode:
+                self.stop_notes()
+                self.session.disconnect_device()
+            else:
+                self.start_demo()
+        except (RuntimeError, OSError) as exc:
+            self.problem("测试模式", exc)
+
     def connection_changed(self):
         connected = self.session.transport is not None
         self.connect_button.setText("断开" if connected else "连接")
@@ -320,6 +342,7 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         self.baud_combo.setEnabled(not connected)
         self.refresh_button.setEnabled(not connected)
         self.rehandshake_button.setEnabled(connected)
+        self.demo_button.setText("退出测试" if self.session.demo_mode else "测试模式")
         self.connection_label.setText(self.session.label)
         if self.connection_label.property("ready") != self.session.ready:
             self.connection_label.setProperty("ready", self.session.ready)
@@ -346,7 +369,8 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         self.device_preset_combo.setEnabled(self.session.factory_presets and self.session.preset_pending is None)
         preset = self.session.preset_pending if self.session.preset_pending is not None else self.session.selected_preset
         self.device_preset_combo.setCurrentIndex(self.device_preset_combo.findData(preset))
-        self.play_hint.setText("模拟设备只显示音符事件，不产生声音。" if playable and self.session.simulated else
+        self.play_hint.setText("测试模式：琴键、32声部及状态模拟；未连接FPGA，不发声。" if self.session.demo_mode else
+                               "模拟设备只显示音符事件，不产生声音。" if playable and self.session.simulated else
                                "正在等待设备确认音色；已按下的音符仍可松开。" if self.session.preset_pending is not None else
                                f"设备音色：{self.session.preset_name}。" if self.session.factory_presets else
                                f"按住琴键演奏；设备为固定{self.session.fixed_tone_name}，界面参数不改变声音。" if self.session.fixed_tone else
@@ -418,8 +442,8 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         self.occupancy_label.setText(f"{count if count is not None else '—'} / {maximum or '—'}")
         self.voice_rack.set_status(count, maximum)
         warning = ""
-        if self.session.ready and not self.session.simulated and maximum != 16:
-            warning = f"固件握手报告 {maximum} 声部；当前项目为16声部，报告信息尚未同步。此处保留设备原值。"
+        if self.session.ready and not self.session.simulated and maximum not in (16, 32):
+            warning = f"固件握手报告 {maximum} 声部；正式工程为32声部，也兼容16声部旧固件。此处保留设备原值。"
         if count is not None and maximum and count > maximum:
             warning = "设备状态占用超过握手容量；请核对固件的声部报告。" + warning
         self.capacity_warning.setText(warning)
@@ -427,7 +451,7 @@ class StudioWindow(StudioViewMixin, QMainWindow):
         self.device_warning.setText(warning)
         self.device_warning.setVisible(bool(warning))
         if self.session.simulated and self.session.ready:
-            tone = "模拟钢琴 · 不产生声音" if self.session.fixed_tone else "开发模拟器 · 配置试验"
+            tone = "32声部测试 · 无硬件 / 不发声" if self.session.demo_mode else "模拟钢琴 · 不产生声音" if self.session.fixed_tone else "开发模拟器 · 配置试验"
         elif self.session.fixed_tone:
             tone = f"{self.session.fixed_tone_name} · 固件预设"
         else:
@@ -568,9 +592,10 @@ class StudioWindow(StudioViewMixin, QMainWindow):
             "2. 正式钢琴／吉他固件无需应用草稿；PRESET试听固件等待设备确认音色。\n"
             "3. 电脑键 A W S E D F T G Y H U J K 对应13个半音；Esc停止电脑音符。\n"
             "4. 音域选择只改变以后新按下的电脑音符，不改变实体键。\n"
-            "5. 模拟钢琴有16声部但不发声；开发页草稿不改变固定固件。\n"
+            "5. 点顶部“测试模式”可不接FPGA模拟32声部；测试模式不发声。\n"
             "6. 串口当前不报告旋钮、HDMI或USB触摸状态。\n\n"
-            "详细说明：host/README.md")
+            f"{PRODUCT_NAME} {VERSION}\n"
+            "使用说明随安装包附带；开发页草稿不改变正式固件音色。")
 
     def closeEvent(self, event):
         self.stop_notes()
@@ -589,16 +614,30 @@ class StudioWindow(StudioViewMixin, QMainWindow):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--screenshot", type=Path)
-    parser.add_argument("--simulate", action="store_true")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--simulate", action="store_true", help="兼容16声部模拟器")
+    mode.add_argument("--demo", action="store_true", help="无硬件32声部测试模式，不发声")
+    parser.add_argument("--self-check", type=Path, help="离屏检查便携包并输出JSON，不打开真实串口")
+    parser.add_argument("--version", action="version", version=f"{PRODUCT_NAME} {VERSION}")
     args = parser.parse_args()
+    if args.self_check:
+        import os
+        os.environ["QT_QPA_PLATFORM"] = "offscreen"
     app = QApplication(sys.argv[:1])
     app.setApplicationName("FPGA Tone Studio")
     app.setStyle("Fusion")
+    app.setApplicationVersion(VERSION)
     configure_fonts()
     window = StudioWindow()
+    if args.self_check:
+        from studio_selfcheck import run_self_check
+        return run_self_check(window, args.self_check)
+    fit_to_screen(window)
     window.test_mode = bool(args.screenshot)
     window.show()
-    if args.simulate:
+    if args.demo:
+        window.start_demo()
+    elif args.simulate:
         window.toggle_connection()
     if args.screenshot:
         def capture():
