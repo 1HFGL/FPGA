@@ -41,3 +41,7 @@
 /verification/evidence/timing_candidates/** -text
 /verification/evidence/brightness_response/summary.json -text
 /verification/evidence/brightness_response/merged_details.zip binary
+
+# Preserve the selected piano B parameters and archived verification bytes.
+/model/piano_b_envelopes.json -text
+/verification/evidence/piano_b/** -text

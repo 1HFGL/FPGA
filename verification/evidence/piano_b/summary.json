@@ -1,0 +1,144 @@
+{
+  "status": "PASS_SELECTED_B_FORMAL_REBUILD",
+  "time": "2026-10-26T12:15:02.614048+08:00",
+  "scope": "Piano MIDI48..84 amplitude/loss constants only; 1776 modal words. No audio algorithm/ADSR changes.",
+  "voices": 32,
+  "modes_per_voice": 48,
+  "sample_rate": 48000,
+  "core_cycle": 925,
+  "output_cycle": 958,
+  "preparation_cycles": 976,
+  "selected_audition_sha256": "60c7b9525927c0957f23a32d88b188d697aa5a436b70bcce9f034c03b81d88c9",
+  "formal_table_sha256": "2bf4d8a6aa759a07e18c57100e77b0e1aa0bd453d7a178ce5b55f7965b32ee7d",
+  "newline_note": "Audition table CRLF; generated table LF; all 16384 words exactly identical.",
+  "immutable_fields_sha256": "1a51bbb87b81a19c40d2800736af14ccc69fc12b984802d1752511d14faceaf2",
+  "builds": {
+    "candidate": {
+      "status": "PASS_NATIVE_TARGETS",
+      "slacks_ns": {
+        "Setup": 2.108,
+        "Hold": 0.443,
+        "Recovery": 0.626,
+        "Removal": 0.468,
+        "Pulse": 5.803
+      },
+      "resources": {
+        "Logic": {
+          "used": 36937,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22702,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 35,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "fs_sha256": "e7448d23b9f233d7d5b36d3a1587de2ef2e8305dfa86be887d0d7b607276056d"
+    },
+    "formal": {
+      "status": "PASS_NATIVE_TARGETS",
+      "slacks_ns": {
+        "Setup": 2.108,
+        "Hold": 0.443,
+        "Recovery": 0.626,
+        "Removal": 0.468,
+        "Pulse": 5.803
+      },
+      "resources": {
+        "Logic": {
+          "used": 36937,
+          "available": 59904
+        },
+        "Register": {
+          "used": 22702,
+          "available": 60780
+        },
+        "BSRAM": {
+          "used": 103,
+          "available": 118
+        },
+        "DSP": {
+          "used": 35,
+          "available": 118
+        },
+        "PLLA": {
+          "used": 2,
+          "available": 8
+        }
+      },
+      "fs_sha256": "e6644e0cc3b1d3a22fe57723c99334109b9c25e9c4e140e25420f8bc170e7e73"
+    }
+  },
+  "candidate_formal_payload_equal": true,
+  "resources_and_slacks_match_previous_timing_closure": true,
+  "formal_tests": [
+    "PASS tb_brightness_hdmi: actual AIN2, 32 voices, both instruments, original 127 DAC exact, R958, serial=13803 samples=6903 full32=2291 dark=1253",
+    "PASS tb_config32_audio: BLE score/map commit, held identity, offline guide, uninterrupted R958 samples=532",
+    "PASS tb_controls32_audio: real32/R958/three effects; physical+remote sustain, cancellation isolation, screen mode/octave, guide key/touch behavior samples=74",
+    "PASS tb_dual16_core: 1600 exact PCM/32 voice comparisons, 5200 real-time frames, R925, all 32 audible, reset/tails/overrun",
+    "PASS tb_dual16_snapshot: 256 exact PCM/32 voice comparisons after R0 control changes and busy retriggers",
+    "PASS tb_review_hdmi_reset_recovery: 17 epochs, 10 bit phases, HPD bounce, lock/clock stop, PLL reset, four lanes (2189 words)",
+    "PASS tb_merge32_rom_equivalence: 24580 cycles; all 12288 addresses on both physical DPB ports, independent holds and metadata",
+    "PASS tb_touch32_audio: six contacts+13 physical+13 PC full32, BLE 33rd steal, per-source cancels, slide/timbre/octave/reconnect/reset, nonzero audio R958 samples=129"
+  ],
+  "strict_verilog_files": 268,
+  "test_input_manifests_verified": 9,
+  "independent_integer_samples": 6903,
+  "dac_serial_words": 13803,
+  "protected_tracked_before": 1135,
+  "unchanged_prior_tracked": 1123,
+  "existing_tbs_unchanged": true,
+  "guitar_curve_bytes_unchanged": true,
+  "physical_rom_structure_unchanged": true,
+  "constraint_clock_process_unchanged": true,
+  "baseline_revision": "57c15cf",
+  "sources": {
+    "model/gen_piano_v3_rom.py": "c2df2c94c42523889e1cf97ba776a59f49ac5bc39503bd05591730e3a26d3986",
+    "rtl/rom/modal_coeff_rom_dual.v": "39c6157cd58966a62bd4a785034b40b080d5c18a76b12ab09a0f50680795a4d3",
+    "rtl/rom/modes_even.mem": "4efe9f6c9b29d680cfbddb647db1ec1c2003dc76e1a5a906d36f93e58a5064a4",
+    "rtl/rom/modes_odd.mem": "d2f2403d25174dc62571d96783d687c784cfe6f40600d1d749da98fbe25e6878",
+    "rtl/rom/piano_v3_modes.mem": "2bf4d8a6aa759a07e18c57100e77b0e1aa0bd453d7a178ce5b55f7965b32ee7d",
+    "rtl/rom/piano_v3_modes.mem.bank0.mem": "41bcaa810dcdf66c48a0100787f16888f88fea986fecf7731a327c70ea9b4b6e",
+    "rtl/rom/piano_v3_modes.mem.bank1.mem": "17941fcbf2d0e00444fdcc1a06822d6f946dcdfd2897b84cc569315d3726c473",
+    "rtl/rom/piano_v3_modes.mem.bank2.mem": "e493db97d3e62d59dbdb98e181504f50704e635c71a3caaf8463dbae1417d63f",
+    "model/piano_b_envelopes.json": "5bb44eda5cb2e50315144aaca83e1c345c0f9d3c650bab5c52ff292cd1b3ff27",
+    "verification/scripts/check_piano_b_parameters.py": "44a17875b5a2c682633aabf63ff731226a0926c32b73143f0bafb3fed45f0624",
+    "verification/evidence/usb_touch/rom_qualification.json": "19672034433f39b97a7770a47178e77fbd4bbccb51a00972af666527d609c653"
+  },
+  "archive": {
+    "path": "verification/evidence/piano_b/details.zip",
+    "sha256": "1d18bfb40346495f3b896c33c0e361c36acd4e9f5a0e1f6ba3fbc08026560ce0",
+    "zip_integrity_verified": true
+  },
+  "cleanup": {
+    "temporary_backup_removed": true,
+    "candidate_tree_removed": true,
+    "temporary_test_libraries_removed": true,
+    "details_archived_and_verified": true
+  },
+  "hardware_listening_verified": false,
+  "programmed": false,
+  "pushed": false,
+  "limitations": [
+    "Listening choice was dry software rendering, not board recording; default three effects remain enabled.",
+    "Existing PR1014, complete DAC external timing, USB/BLE hardware and end-to-end latency remain pending.",
+    "Fixed ADSR D/S is unchanged; this is modal amplitude/decay tuning, not adjustable ADSR.",
+    "Targeted current regression only; historical old-tone golden tests were not redefined or claimed."
+  ],
+  "documentation_updated": {
+    "README.md": "906cb3b0e141e851e7b1ac75a7839b8e34b61919fc94cef530c666f23989d330",
+    "AGENTS.md": "b56b429ce09277fbcce260f833a8a77ab68b49c45710a61b31c4eaed2d2c99ba",
+    "docs/listening-acceptance.md": "6ee6326ab7ad2d5336dacd959530303d94a3f783ce66a781f05e1642576a63c9"
+  }
+}

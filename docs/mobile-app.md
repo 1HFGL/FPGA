@@ -1,19 +1,41 @@
-## 2026-10-25 手机端0.3.0（未安装）
+# 鸿蒙手机控制
 
-新增板端曲谱上传、13个实体键映射编辑、实际状态回读，以及音色/音区/延音/导奏控制。手机保存键位草稿；下发后由FPGA RAM保留，断电复位后须重新下发。下载曲用于固定节拍屏幕导奏，不自动发声；原手机实时自动演奏仍保留。旧固件无GUIDE/KEYMAP能力时禁止新操作。
+[返回文档导航](README.md) · [接线表](keyboard-wiring.md)
 
-41项独立检查、严格类型/静态检查、原生ArkTS构建及签名核验通过。包：`D:/Project/jingzou_harmony/build/packaging/dist/jingzou-0.3.0-debug.hap`，SHA256 `30be0081de6ad49deab9e8723690a47b133675e6b3c8471c0901a6866c04e149`。证据：`D:/Project/jingzou_harmony/build/verification/summary.json`与`D:/Project/jingzou_harmony/build/packaging/summary.json`。尚未安装、未真机BLE联调、未验收实际折叠屏显示；FPGA功能已合并并完成离线实现，位流身份见verification/evidence/timing_targets/summary.json；手机与实物BLE联调仍待验收。下面旧0.2.0已安装记录仅为历史。
+静奏手机 App 通过 HC-08 BLE 串口模块向 FPGA 发送音符与控制命令。手机选曲自动演奏时，由手机按时间发送音符，FPGA 使用钢琴 / 电吉他合成声音；这里不传输录音 PCM，也不经 HC-08 向蓝牙音箱发送音频。
 
+## 代码与版本
 
-# 手机 App 已迁出
+手机 App 按项目边界独立维护，本仓库仅保存 FPGA 端接口说明。开发机目录为 `D:\Project\jingzou_harmony`；该路径不是 GitHub 子目录，也不是公开下载链接。继续开发需进入独立工程的 `README.md` 和 `entry/src/main/ets/pages/Index.ets`，不要在本仓库再复制一份手机源码。
 
-2026-10-19按用户确认，手机蓝牙App已独立迁至 `D:\Project\jingzou_harmony`，FPGA仓库仍在原位置。
+截至 2026-10-28，手机端 **0.3.3 / 1000006** 已通过 56 项检查、ArkTS 构建及签名核验，并完成覆盖安装与前台启动确认。该版跳过过期未发送起音，在状态回复延迟时先查询、再进行有界协议恢复；恢复后清理旧触点、暂停曲目，不重放旧音符。**修复后的真实 BLE 长时间演奏仍待验收。**
 
-- [手机工程与构建说明](../../jingzou_harmony/README.md)
-- [完整手机端设计与使用说明](../../jingzou_harmony/docs/mobile-app.md)
+这些是独立手机工程的部署记录，相关证据位于该工程的 `build/ble_stability_20261028/summary.json` 和 `build/install_0.3.3_20261028/summary.json`；FPGA 仓库的发布不包含 HAP、手机标识或签名凭据。
 
-最新0.1.1通过原生ArkTS构建、25项独立检查及签名核验，已通过命令行更新安装并启动。初次部署的Profile/手机授权、进程及FOREGROUND证据在独立工程`build/install/summary.json`；0.1.1修复无过滤BLE扫描参数后，用户确认能扫描或显示设备、401消失，证据在`build/ble-fix/summary.json`。完整GATT连接和FPGA实物联调仍待验收。原位于本仓库`host/harmony/`的源码与手机预览图已迁出，继续开发只改独立工程。
+## 连接方式
 
-命令行流程已整理为个人技能：[harmony-hap-deploy](C:/Users/YUAN/.codex/skills/harmony-hap-deploy/SKILL.md)。
+| 模块端子 | FPGA 侧丝印 / 用途 |
+|---|---|
+| RXD | C13，`ble_tx` |
+| TXD | C14，`ble_rx` |
+| STATE | C15，连接状态输入，必须接 |
+| VCC / GND | 已确认的 3.3 V / 公共地，不用 GPIO 供电 |
+| KEY | 当前方案不接 |
 
-2026-10-23板卡侧新增独立BLE UART与来源隔离，接线和默认9600波特率见[当前接线表](keyboard-wiring.md#蓝牙接线新增独立串口需使用本轮固件)。已有App的HELLO／NOTE_ON／NOTE_OFF／PANIC／STATUS?报文可复用；App不需要改成音频播放器。服务FFE0/特征FFE1只是目前预设，须实物发现确认；手机连接时必须看到FPGA握手才算协议通，不能以“扫描到HC-08”代替。本文不宣称本轮已真机联调，也没有修改独立手机工程。
+板端使用独立 **9600 / 8N1** UART，电脑调试串口仍为 115200。完整针位和供电方向以[唯一接线表](keyboard-wiring.md)为准。FFE0 / FFE1 是 App 预设服务 / 特征，具体模块以实际发现结果为准。
+
+App 必须同时完成 BLE 连接与 FPGA `HELLO` / `STATUS` 协议确认。模块常亮只代表无线连接状态，不能证明 UART 接线、波特率或 FPGA 会话正常。
+
+## 当前功能边界
+
+| 功能 | 行为 |
+|---|---|
+| 虚拟琴键与曲目演奏 | 发送音符，FPGA 实时发声；断连 / 停止只清理该来源 |
+| 状态查看 | 读取真实设备能力、容量和支持的配置，旧固件未声明的操作禁用 |
+| 板端演奏控制 | 支持音色、音区、延音与导奏控制；不代表任意参数均可远程写入 |
+| 下载曲谱 | 最多 512 段，先校验后切换；用于板上固定节拍导奏，不自动发声 |
+| 自定义键位 | 13 键映射；只影响新起音，已有按键按原身份松开 |
+| 保存范围 | 曲谱与键位在 FPGA RAM 内，手机断开后仍可用；断电 / 复位恢复默认 |
+| 尚不支持 | 通用 APPLY、远程音量 / 明亮度、运行时可调 ADSR、真正音频录音回传 |
+
+数字协议和下载事务见 [design.md](design.md)，独立触摸与 BLE 实物验收、无线延迟不能用软件模拟结果代替。

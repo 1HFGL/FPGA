@@ -7,6 +7,15 @@ import json,math
 from gen_rock_v2_rom import guitar_modes,shaper,CAB_ALPHA
 ROOT=Path(__file__).resolve().parents[1];FS=48000
 FIT=json.loads((ROOT/'model/piano_reference_fit.json').read_text())
+# B版只保存已试听确认的幅度/损耗系数；频率、相位和噪声标记仍由原模型生成。
+TUNING=json.loads((ROOT/'model/piano_b_envelopes.json').read_text(encoding='utf-8'))
+if TUNING['version'] != 1 or set(TUNING['notes']) != {str(n) for n in range(48,85)}:
+ raise ValueError('Expected candidate B envelopes for MIDI 48..84')
+for pairs in TUNING['notes'].values():
+ if (len(pairs)!=48 or any(len(pair)!=2 or any(type(v) is not int for v in pair)
+     or not 0<=pair[0]<8192 or not 1<=pair[1]<=65535 for pair in pairs)
+     or sum(pair[0] for pair in pairs)>15048):
+  raise ValueError('Invalid candidate B amplitude/loss or amplitude budget')
 def profile(note):
  n=max(48,min(84,note));i=min(2,int((n-48)//12));t=(n-FIT[i]['note'])/12
  a,b=FIT[i],FIT[i+1]
@@ -38,6 +47,10 @@ def modes(preset,note):
   loss=min(65535,max(1,round((1-math.exp(-1/(FS*tau)))*2**24)))
   out.append((inc,amp,loss,phase,noise))
  assert len(out)==48 and sum(m[1] for m in out)<=15048
+ # 只替换钢琴C3～C6的两项常量，不改变48项调度、包络或输出拍序。
+ if str(note) in TUNING['notes']:
+  out=[(inc,pair[0],pair[1],phase,noise)
+       for (inc,amp,loss,phase,noise),pair in zip(out,TUNING['notes'][str(note)])]
  return out
 def generate():
  words=[]
@@ -46,6 +59,10 @@ def generate():
    for inc,amp,loss,phase,noise in modes(p,n)+[(0,0,1,0,0)]*16:
     words.append(f'{(noise<<74)|(inc<<42)|(amp<<26)|(loss<<10)|phase:019x}')
  (ROOT/'rtl/rom/piano_v3_modes.mem').write_text('\n'.join(words)+'\n',encoding='ascii',newline='\n')
- (ROOT/'rtl/rom/rock_v2_shaper.mem').write_text('\n'.join(f'{v:04x}' for v in shaper())+'\n',encoding='ascii',newline='\n')
+ # 吉他曲线数值未变时保留已有文件字节，避免仅换行格式引起无关改动。
+ guitar=ROOT/'rtl/rom/rock_v2_shaper.mem'
+ guitar_text='\n'.join(f'{v:04x}' for v in shaper())+'\n'
+ if not guitar.exists() or guitar.read_text(encoding='ascii')!=guitar_text:
+  guitar.write_text(guitar_text,encoding='ascii',newline='\n')
  print('Generated 16384 words; 48 active modal slots per voice; no PCM.')
 if __name__=='__main__':generate()

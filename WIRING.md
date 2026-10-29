@@ -8,12 +8,12 @@
 
 | 要查看或修改 | 直接打开 | 注意 |
 |---|---|---|
-| 八白键、五黑键的丝印／音符／端口 | [琴键接线表](docs/keyboard-wiring.md#按模块k编号接不按半音编号数) | 八键、五键模块各自从K1编号，不按按钮颜色判断音符 |
+| 八白键、五黑键和三功能键的丝印／音符／端口 | [琴键接线表](docs/keyboard-wiring.md#按模块k编号接不按半音编号数) | 两块八键模块各自从K1编号；第二块K6/K7/K8为延音、选曲、导奏开始/重置 |
 | 下方40针接口方向、3.3V和GND | [接口定位与电源](docs/keyboard-wiring.md#先定位接口和电源) | 先断电；按丝印核对，J13第11脚是5V |
 | 蓝牙RXD／TXD／STATE | [蓝牙接线](docs/keyboard-wiring.md#蓝牙接线新增独立串口需使用本轮固件) | C13/C14/C15，STATE必须接；默认9600，电脑口115200不变 |
 | ADS1115、音量／弯音旋钮 | [ADC与其他外设](docs/keyboard-wiring.md#adc与其他外设) | 旋钮模拟SIG接ADC，不直接接FPGA数字引脚 |
 | B10K多焊脚裸滑条 | [先认脚再接AIN2](docs/keyboard-wiring.md#b10k裸滑条先认脚再接ain2) | 具体脚序待照片/测量；W→AIN2，两端3.3V/GND；未接时AIN2固定3.3V |
-| HDMI屏、USB触摸、耳机／音箱 | [显示与音频接法](docs/keyboard-wiring.md#adc与其他外设) | HDMI负责画面；FPGA独立USB触摸尚未接通 |
+| HDMI屏、USB触摸、耳机／音箱 | [显示与音频接法](docs/keyboard-wiring.md#adc与其他外设) | HDMI负责画面，USB负责触摸；主机RTL已集成，独立实物验收仍待完成 |
 | 当前下载文件和验证结果 | [README下载入口](README.md#唯一正式下载入口) | 新接线必须配新位流，不沿用旧下载包 |
 
 ## 改一个信号，要同步哪里
