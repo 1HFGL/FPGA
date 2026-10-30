@@ -160,7 +160,7 @@ def run_trial(trial, strategy, args, netlist_hash, base_config):
             p = pnr / ('piano_hdmi' + suffix)
             if p.exists():
                 shutil.copy2(p, out / p.name)
-        command([sys.executable, trial / 'projects/piano/read_timing_html.py',
+        command([sys.executable, trial / 'verification/scripts/read_timing_html.py',
             pnr / 'piano_hdmi_tr_content.html', out / 'timing.txt'], trial, out / 'normalize.log', 60)
         fs = pnr / 'piano_hdmi.fs'
         (out / 'artifact.txt').write_text('file=' + str(fs) + '\nsha256=' + digest(fs) + '\n', encoding='utf-8')

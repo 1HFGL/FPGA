@@ -136,7 +136,7 @@ fpga_contest/
 └─ upstream/fpga_interaction/  C 的独立输入工程与原始 TB
 ```
 
-`projects/music/` 为 A 的独立试听入口，`projects/display/`、`checks/` 和 `examples/` 用于专项检查；它们不是整机下载入口。`projects/piano/` 中的报告解析工具仍被正式构建依赖。`build/` 和各工程的 `impl/` 是本地生成区，历史试听包不能代替当前接线固件。更多入口见[文档导航](docs/README.md)。
+`projects/` 只保留 `hdmi/`，其中唯一工程文件是 `piano_hdmi.gprj`。报告解析与 ROM 检查工具统一放在 `verification/scripts/`。旧无屏、独立试听、显示验证和演示工程已删除，历史版本可在 Git 提交 `493c913` 中追溯。`build/` 和 `projects/hdmi/impl/` 是本地生成区。更多入口见[文档导航](docs/README.md)。
 
 ## 快速上手
 

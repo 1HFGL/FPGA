@@ -59,7 +59,7 @@ try {
     $effective=(Get-FileHash impl/piano_hdmi_process_config.json).Hash
     if($expected -ne $effective){throw 'Effective process options differ from controlled options'}
     $base=Join-Path $PSScriptRoot 'impl/pnr/piano_hdmi'
-    & $Python "$root/projects/piano/read_timing_html.py" "${base}_tr_content.html" "$out/timing.txt"
+    & $Python "$root/verification/scripts/read_timing_html.py" "${base}_tr_content.html" "$out/timing.txt"
     if($LASTEXITCODE){throw 'Cannot extract timing tables'}
     Copy-Item -LiteralPath "$base.rpt.txt","${base}_tr_content.html" -Destination $out
     if(Test-Path "$base.tr"){Copy-Item -LiteralPath "$base.tr" -Destination $out}

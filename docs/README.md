@@ -50,7 +50,7 @@
 ## 工程边界
 
 - **整机唯一入口：**`projects/hdmi/`。`boards/tang_mega_60k_31004/` 是历史目录名，当前对应 31005 接线合同。
-- **专项开发：**`projects/music/` 为 A 独立试听；`upstream/fpga_interaction/` 为 C 独立输入工程，原 TB 保留。
-- **兼容检查：**`projects/display/`、`projects/checks/`、`projects/examples/` 与无屏包装供检查使用，不另发布无屏整机。
+- **项目目录：**`projects/`只保留`hdmi/`和其中一个`piano_hdmi.gprj`。旧无屏、A试听、显示、检查及演示工程已删除，本地生成输出一起清理；旧版本从Git提交`493c913`恢复。
+- **共享工具与测试：**ROM检查、时序报告解析统一在`verification/scripts/`。共享RTL、`verification/tb/`及`upstream/fpga_interaction/`中的队友源码/原TB保留；上游资料不作为整机入口。
 - **电脑与手机：**`host/` 只维护电脑程序；鸿蒙 App 是独立工程，本仓库不包含其签名材料或安装包。
-- **生成文件：**`build/`、`projects/*/impl/` 不作为源码入口。原资料在 `docs/sources/`，维护规则在根目录 `AGENTS.md`。
+- **生成文件：**`build/`、`projects/hdmi/impl/` 不作为源码入口。原资料在 `docs/sources/`，维护规则在根目录 `AGENTS.md`。

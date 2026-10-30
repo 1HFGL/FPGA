@@ -49,7 +49,9 @@ class SweepTests(unittest.TestCase):
     def run_worker_stub(self, directory, netlist, active_rtl=False):
         """真实Tcl解释器执行worker，只替换EDA命令，不启动综合/布局。"""
         project=directory/'projects/hdmi';project.mkdir(parents=True)
-        (project.parent/'check_modal_rom.tcl').write_text('')
+        rom_check=directory/'verification/scripts/check_modal_rom.tcl'
+        rom_check.parent.mkdir(parents=True)
+        rom_check.write_text('')
         (project/'process_config.json').write_text('{}')
         gprj='<Project><FileList><File type="file.verilog" path="a.v"/>'
         gprj+='<File path="b.v" enable="1" type="file.verilog"/>'
@@ -151,7 +153,7 @@ class SweepTests(unittest.TestCase):
                 '<File path="../../build/hdmi/piano_hdmi.cst" type="file.cst"/></FileList></Project>')
             hashes=snapshot(root,target)
             self.assertIn('rtl/rom/test.mem',hashes)
-            self.assertIn('projects/piano/read_timing_html.py',hashes)
+            self.assertIn('verification/scripts/read_timing_html.py',hashes)
             self.assertIn('projects/hdmi/build_inputs.py',hashes)
             self.assertEqual((target/'rtl/top.v').read_text(),'original')
             # 构建与快照必须使用同一份源清单；生成CST另行纳入build/PNR清单。
@@ -161,7 +163,7 @@ class SweepTests(unittest.TestCase):
             manifest=root/'build/hdmi/build_inputs.txt'
             write_manifest(root,manifest,'build')
             verify_manifest(manifest)
-            parser=root/'projects/piano/read_timing_html.py'
+            parser=root/'verification/scripts/read_timing_html.py'
             parser.write_text('changed parser')
             with self.assertRaisesRegex(ValueError,'Input changed'):
                 verify_manifest(manifest)

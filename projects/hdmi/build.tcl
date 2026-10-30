@@ -1,6 +1,6 @@
 set project_dir [file normalize [file dirname [info script]]]
 cd $project_dir
-source [file join $project_dir .. check_modal_rom.tcl]
+source [file join $project_dir .. .. verification scripts check_modal_rom.tcl]
 # Gowin每个工程只读取一个CST/SDC；生成合并文件，公共引脚只维护piano.cst一处。
 set generated [file normalize ../../build/hdmi]
 file mkdir $generated

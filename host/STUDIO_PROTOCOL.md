@@ -62,7 +62,7 @@ STATUS VOICE_COUNT=0 MAX_VOICE_COUNT=4 STEAL_COUNT=0 SAMPLE_RATE=48000
 
 ## A独立试听固件：PRESET／CONTROL
 
-以下仅适用于 `projects/music/uart_music.gprj` 报告的 `TONE=PIANO_ROCK`，不代表正式 `PIANO_GUITAR` 入口支持这些命令。上位机同时检查NOTES、STATUS、PRESET能力，不以设备名称猜测协议。
+以下仅适用于历史试听固件报告的 `TONE=PIANO_ROCK`，其Gowin工程已移除、可从Git提交`493c913`追溯；不代表正式 `PIANO_GUITAR` 入口支持这些命令。上位机同时检查NOTES、STATUS、PRESET能力，不以设备名称猜测协议。
 
 ```text
 PRESET 0

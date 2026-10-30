@@ -11,7 +11,7 @@ SUPPORT_FILES = (
     'projects/hdmi/build_inputs.py', 'projects/hdmi/build.ps1',
     'projects/hdmi/build.tcl', 'projects/hdmi/process_config.json',
     'projects/hdmi/pnr_trial.tcl', 'projects/hdmi/sweep_pnr.ps1',
-    'projects/check_modal_rom.tcl', 'projects/piano/read_timing_html.py',
+    'verification/scripts/check_modal_rom.tcl', 'verification/scripts/read_timing_html.py',
     'verification/scripts/pnr_sweep.py',
     'verification/scripts/check_hdmi_implementation.py',
 )

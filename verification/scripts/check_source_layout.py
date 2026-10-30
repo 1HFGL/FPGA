@@ -11,7 +11,11 @@ for path in sorted((ROOT/'rtl').rglob('*.v')):
     for rom in re.findall(r'"(rtl/rom/[^"\n]+\.mem)"',body):
         assert (ROOT/rom).is_file(), f'Missing ROM: {rom}'
 projects={}
-for project in [ROOT/'projects/piano/uart_piano.gprj',ROOT/'projects/display/display_rgb.gprj',ROOT/'projects/music/uart_music.gprj',ROOT/'projects/hdmi/piano_hdmi.gprj']:
+project_root=ROOT/'projects'
+assert {p.name for p in project_root.iterdir() if p.is_dir()}=={'hdmi'}, 'Only projects/hdmi is retained'
+project_paths=list(project_root.rglob('*.gprj'))
+assert project_paths==[ROOT/'projects/hdmi/piano_hdmi.gprj'], 'Expected exactly one main GPRJ'
+for project in project_paths:
     files=[]
     for node in ET.parse(project).findall('.//File'):
         source=(project.parent/node.attrib['path']).resolve()

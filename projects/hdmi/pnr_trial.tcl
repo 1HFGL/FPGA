@@ -3,7 +3,7 @@
 # 布局0..4，布线0..2，时钟布线顺序0/1；所有I/O/时序/物理约束保持。
 set project_dir [file normalize [file dirname [info script]]]
 cd $project_dir
-source [file join $project_dir .. check_modal_rom.tcl]
+source [file join $project_dir .. .. verification scripts check_modal_rom.tcl]
 if {[llength $argv] != 4} {
     puts stderr {Usage: gw_sh pnr_trial.tcl <syn|pnr|options> <place 0..4> <route 0..2> <clock-order 0|1>}
     exit 2

@@ -1,4 +1,4 @@
-> 本页主体保留2026-10-14 A阶段设计／验证记录；2026-10-16合并后的目录、测试及构建以 [合并验证](integration-a.md) 为准。
+> 本页保留A阶段验证历史。2026-10-30已删除独立试听工程，下方旧构建命令需要Git提交`493c913`，当前唯一入口为`projects/hdmi/piano_hdmi.gprj`。当前检查见[验证说明](verification.md)，合并历史见[合并验证](integration-a.md)。
 
 > 适用于 `projects/music/uart_music.gprj` 的双音色UART试听工程。13键／ADS1115主工程见原同级设计与验证文档；两条入口尚未合并成同一板级功能。
 

@@ -67,7 +67,7 @@
 
 ## A独立试听工程的兼容能力
 
-合并master后保留 `projects/music/uart_music.gprj`／`music_uart_top` 独立试听工程，但不将其当作带屏／无屏正式入口。该固件报告 `TONE=PIANO_ROCK` 以及 `PRESET`／`CONTROL` 时，上位机才启用设备预设、音量／弯音控制；预设与完整控制值须收到状态确认，不能把写串口当作已经应用。
+上位机继续兼容历史`music_uart_top`试听固件；其Gowin工程已随2026-10-30目录清理移除，可从Git提交`493c913`追溯。该固件报告`TONE=PIANO_ROCK`以及`PRESET`／`CONTROL`时，上位机才启用设备预设、音量／弯音控制；预设与完整控制值须收到状态确认，不能把写串口当作已经应用。当前唯一工程为`projects/hdmi/piano_hdmi.gprj`。
 
 保留队友的自动试听、五度和弦等功能。自动试听遇到人工演奏、离页、失焦、断连或换预设即取消，停止按钮保持紧凑窗口首屏可见。正式 `PIANO_GUITAR` 固件仍通过KEY2和实体旋钮控制，不因上位机新增按钮而虚构相应UART能力。
 

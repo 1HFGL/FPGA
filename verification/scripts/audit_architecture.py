@@ -158,7 +158,7 @@ def main():
         tests[path.stem]={'log_sha256':digest(log),'script_sha256':digest(path),'exit_code':result.returncode}
     # 当前RTL/ROM和工程输入的身份都进入摘要；文档改写不会伪造新实现证据。
     sources=[*ROOT.glob('rtl/**/*.v'),*ROOT.glob('rtl/rom/*.mem'),
-             *ROOT.glob('projects/*/*.gprj'),ROOT/'projects/check_modal_rom.tcl',
+             *ROOT.glob('projects/*/*.gprj'),ROOT/'verification/scripts/check_modal_rom.tcl',
              ROOT/'model/pack_modal_rom.py',Path(__file__).resolve(),
              ROOT/'verification/data/upstream_modifications.json']
     summary={'date':'2026-10-17','baseline_revision':baseline['revision'],

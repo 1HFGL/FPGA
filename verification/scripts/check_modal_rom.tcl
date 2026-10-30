@@ -1,5 +1,5 @@
 # GUI/命令行共用的输入门槛：派生bank必须与原始参数逐字一致；不自动重写ROM。
-set modal_root [file normalize [file join [file dirname [info script]] ..]]
+set modal_root [file normalize [file join [file dirname [info script]] .. ..]]
 set modal_source [file join $modal_root rtl rom piano_v3_modes.mem]
 proc modal_read_words {path} {
     if {![file isfile $path]} {error "Missing modal ROM: $path; run model/pack_modal_rom.py --write"}

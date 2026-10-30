@@ -14,9 +14,9 @@ try {
         & "$ModelSimBin/vlib.exe" $lib
         if($LASTEXITCODE -ne 0){throw 'vlib failed'}
     }
-    # 只取实际钢琴工程清单，避免与并行开发中的其他tb混编。
-    $projectDir=Join-Path $root 'projects/piano'
-    [xml]$project=Get-Content "$projectDir/uart_piano.gprj" -Raw
+    # 从唯一HDMI主工程取共享RTL，原PA测试仍实例化音频兼容核心。
+    $projectDir=Join-Path $root 'projects/hdmi'
+    [xml]$project=Get-Content "$projectDir/piano_hdmi.gprj" -Raw
     $sources=@($project.Project.FileList.File | Where-Object {$_.type -eq 'file.verilog'} |
         ForEach-Object {[IO.Path]::GetFullPath((Join-Path $projectDir $_.path))})
     $sources+=@('verification/tb/integration/tb_uart_pa_drain.v')
