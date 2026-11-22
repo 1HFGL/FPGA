@@ -6,13 +6,15 @@
 
 32 声部 · 钢琴 / 电吉他 · 48 kHz · 三维表情 · HDMI 中文界面
 
+**2026 年全国大学生嵌入式芯片与系统设计竞赛 FPGA 创新设计赛道全国三等奖**
+
 [快速上手](#快速上手) · [系统架构](#架构与代码定位) · [接线表](docs/keyboard-wiring.md) · [文档导航](docs/README.md) · [验证与待办](#验证与待办)
 
 </div>
 
 静奏在 FPGA 内实时合成钢琴和电吉他声音，将实体琴键、旋钮、滑条、USB 触摸与串口演奏汇入同一套声部系统。声音经板载 DAC 输出，7 寸 HDMI 屏同步显示琴键、吉他指板、波形、参数与曲目指引。电脑和手机负责交互与发送音符，发声运算由 Verilog 硬件完成。
 
-**当前发布内容（2026-10-29）：**32 声部主工程、试听选定的 B 版钢琴参数，以及 Windows 上位机源码和打包脚本。正式工程只有 [`projects/hdmi/piano_hdmi.gprj`](projects/hdmi/piano_hdmi.gprj)。源码发布与实物验收分开记录，尚未验收的项目见文末。
+参赛作品名为「静奏—物理建模电子乐器」。仓库提供 32 声部 FPGA 源码、B 版钢琴参数、板卡约束、验证代码和 Windows 上位机。用高云 EDA 打开 [`piano_hdmi.gprj`](projects/hdmi/piano_hdmi.gprj) 复现整机。比赛赛题见[高云半导体赛事页](https://www.gowinsemi.com.cn/university/match2026)。
 
 ## 作品展示
 
@@ -149,19 +151,23 @@ cd FPGA
 
 使用 NEO Dock **31005** + Tang Mega 60K，先按[接线表](docs/keyboard-wiring.md)连接外设。约束目录 `boards/tang_mega_60k_31004/` 沿用历史名字，当前接线合同实际对应 31005。经常修改接线时，从 [WIRING.md](WIRING.md) 进入。
 
-### 唯一正式下载入口
+### 2. 准备并构建 FPGA 工程
 
 安装 Gowin EDA 1.9.12.04 和 Python 后，从仓库根目录运行：
 
 ```powershell
-# 生成主工程引用的合并 CST / SDC，然后可以在 EDA 中打开工程。
-./projects/hdmi/build.ps1 -PrepareOnly
+# 按本机安装位置填写工具路径。
+$gowin = 'C:/Gowin/Gowin_V1.9.12.04_x64/IDE/bin/gw_sh.exe'
+$python = (Get-Command python -ErrorAction Stop).Source
 
-# 命令行全量综合、布局布线及实现检查。
-./projects/hdmi/build.ps1
+# 生成主工程引用的 CST 和 SDC，随后可用 EDA 打开工程。
+./projects/hdmi/build.ps1 -PrepareOnly -Gowin $gowin -Python $python
+
+# 命令行执行完整构建和实现检查。
+./projects/hdmi/build.ps1 -Gowin $gowin -Python $python
 ```
 
-脚本默认工具路径是开发机配置；其他电脑通过 `-Gowin` 指定 `gw_sh.exe`、`-Python` 指定 Python 可执行文件。GUI 打开 [`projects/hdmi/piano_hdmi.gprj`](projects/hdmi/piano_hdmi.gprj)，顶层为 `piano_hdmi_top`，输出为 `projects/hdmi/impl/pnr/piano_hdmi.fs`。下载前核对构建检查、器件、接线和位流身份；本仓库整理不执行硬件烧录。
+工程顶层为 `piano_hdmi_top`，位流输出到 `projects/hdmi/impl/pnr/piano_hdmi.fs`。烧录前核对器件、接线和实现检查结果。
 
 <details>
 <summary>2026-10-26 B 版构建身份与复验命令</summary>
@@ -178,7 +184,7 @@ python model/pack_dual16_rom.py --check
 
 </details>
 
-### 2. 运行电脑上位机
+### 3. 运行电脑上位机
 
 ```powershell
 ./host/setup_studio.ps1
@@ -210,4 +216,8 @@ python model/pack_dual16_rom.py --check
 
 公共接口、整机联调和验收由三人共同完成。板卡资料来自 [Sipeed Tang Mega 60K 文档](https://wiki.sipeed.com/hardware/zh/tang/tang-mega-60k/mega-60k.html)；首页组织参考 [Ultra-Vision](https://github.com/Floatkyun/Ultra-Vision) 的作品展示、指标与模块说明方式，未复制其代码、图片或性能结论。
 
-第三方字体许可见 [OFL](docs/display-font/OFL.txt)，电脑发行依赖许可见 [licenses](host/distribution/licenses/)。本仓库尚未声明统一源码开源许可证；可访问源码不等于获授任意再分发许可，第三方文件按各自许可处理。
+## 开源许可
+
+Copyright © 2026 静奏项目贡献者。
+
+团队原创源码与配套构建脚本按 [GNU GPL v3.0（GPL-3.0-only）](LICENSE) 发布。USB 模块、字模等第三方材料保留原有许可和版权声明，范围见[第三方材料与许可](THIRD_PARTY_NOTICES.md)。

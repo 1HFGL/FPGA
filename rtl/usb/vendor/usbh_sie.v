@@ -28,6 +28,10 @@
 // USA
 //-----------------------------------------------------------------
 
+// Modified for Jingzou on 2026-10-24. Record PHY receive errors and suppress
+// ACK and acceptance for errored packets or payloads longer than 64 bytes.
+// The transmit inter-frame spacing counter uses a one-bit decrement.
+
 //-----------------------------------------------------------------
 //                          Generated File
 //-----------------------------------------------------------------
